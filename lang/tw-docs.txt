@@ -1,0 +1,4450 @@
+{
+  "menu-0-0" : 
+  {
+    "label" : "系統儀錶板",
+    "tab" : "system_dashboard",
+    "description" : "使用此儀錶板可以查看系統資訊，例如CPU/記憶體使用率，VPN穿隧，系統記錄，連接埠設定和狀態數量。",
+    "tabs" :
+    {
+      "system_information" :
+      {
+        "label" : "系統資訊",
+        "tab" : "system_information",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "系統名稱",
+            "tab" : "system_name",
+            "description" : "顯示裝置名稱。"
+          },
+          {
+            "label" : "型號",
+            "tab" : "model",
+            "description" : "顯示裝置型號。"
+          },
+          {
+            "label" : "目前韌體版本",
+            "tab" : "primary_firmware",
+            "description" : "裝置目前使用的韌體版本。"
+          },
+          {
+            "label" : "前次韌體版本",
+            "tab" : "secondary_firmware",
+            "description" : ""裝置前次使用的韌體版本。"
+          },
+          {
+            "label" : "序號",
+            "tab" : "serial_number",
+            "description" : "顯示裝置序號。"
+          },
+          {
+            "label" : "系統更新時間",
+            "tab" : "system_uptime",
+            "description" : "裝置啟動執行的時間量。"
+          }
+        ]
+      },
+      "resource_utilization" : 
+      {
+        "label" : "系統資源使用量",
+        "tab" : "resource_utilization",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "CPU 使用率",
+            "tab" : "cpu_utilization",
+            "description" : "顯示CPU使用率。"
+          },
+          {
+            "label" : "記憶體使用率",
+            "tab" : "memory_utilization",
+            "description" : "顯示記憶體使用率。"
+          }
+        ]
+      },
+      "site_to_site_vpn" :
+      {
+        "label" : "Site to Site VPN",
+        "tab" : "site_to_site_vpn",
+        "description" : "",
+        "content" : 
+        [
+          {
+            "label" : "穿隧號碼", 
+            "tab" : "tunnel_number",
+            "description" : "用以建立TitanWall和遠端裝置之間點到點的VPN穿隧。"
+           }
+        ]
+      },
+      "recent_system_logs" :
+      {
+        "label" : "最近的系統記錄",
+        "tab" : "recent_system_logs",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "時間",
+            "tab" : "time",
+            "description" : "事件記錄的日期和時間。"
+          },
+          {
+            "label" : "等級",
+            "tab" : "level",
+            "description" : "事件的嚴重級別。"
+          },
+          {
+            "label" : "描述",
+            "tab" : "description",
+            "description" : "事件的描述。"
+          }
+        ]
+      },
+      "lan_interface" :
+      {
+        "label" : "LAN 連接介面",
+        "tab" : "lan_interface",
+        "description" : "",
+        "content" : 
+        [
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "LAN 連接介面的名稱。"
+          },
+          {
+            "label" : "DHCP 模式",
+            "tab" : "dhcp_mode",
+            "description" : "LAN 連接介面的DHCP 模式， \"DHCP 伺服器\" 或 \"停用\"."
+          },
+          {
+            "label" : "IP 位址",
+            "tab" : "ip_address",
+            "description" : "LAN 連接介面的Ip位址。"
+          }
+        ]
+      },
+      "wan_interface" :
+      {
+        "label" : "WAN 連接介面",
+        "tab" : "wan_interface",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "WAN 連接埠名稱"
+          },
+          {
+            "label" : "IP Address",
+            "tab" : "ip_address",
+            "description" : "WAN 連接介面的Ip位址。"
+          },
+          {
+            "label" : "接收 (KB/s)",
+            "tab" : "in_kbs",
+            "description" : "目前WAN連接埠所使用的接收流量。"
+          },
+          {
+            "label" : "傳送 (KB/s)",
+            "tab" : "out_kbs",
+            "description" : "目前WAN連接埠所使用的傳送流量。"
+          }
+        ]
+      },
+      "physical_ports" :
+      {
+        "label" : "實體連接埠",
+        "tab" : "physical_ports",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "實體連接埠在TitanWall上顯示的名稱。"
+          },
+          {
+            "label" : "連結",
+            "tab" : "link",
+            "description" : "連接埠的連線狀態， 表示此連結為 \"連線\" 或 \"中斷\"."
+          },
+          {
+            "label" : "速度",
+            "tab" : "speed",
+            "description" : "連接埠的傳輸速度，共分為1000Mbps、100Mbps 或自動。 設定自動表示裝置可根據它支援的連接裝置來自動調整速度。"
+          },
+          {
+            "label" : "雙工",
+            "tab" : "duplex",
+            "description" : "連接埠的雙工模式，共分為 \"全雙工\" 或 \"半雙工\"."
+          }
+        ]
+      }
+    }
+  },
+  "menu-0-1" : 
+  {
+    "label" : "網路功能儀錶板",
+    "tab" : "network_dashboard",
+    "description" : "Use this screen to view network traffic status",
+    "tabs" :
+    {
+      "top_traffic_direction" :
+      {
+        "label" : "主要流量指示",
+        "tab" : "top_traffic_direction",
+        "description" : "",
+        "content" : 
+        [
+          {
+            "label" : "來源區域",
+            "tab" : "fromZone",
+            "description" : "流量傳輸的來源區域。"
+          },
+          {
+            "label" : "傳送區域",
+            "tab" : "toZone",
+            "description" : "流量傳輸的目標區域。"
+          },
+          {
+            "label" : "傳輸量",
+            "tab" : "traffic_amount",
+            "description" : "通過此裝置進行的傳遞流量。"
+          },
+          {
+            "label" : "連線數",
+            "tab" : "sessions",
+            "description" : "建立在此傳遞方向的溝通連線數量。"
+          }
+        ]
+      },
+      "top_destination" :
+      {
+        "label" : "主要目標位址指示",
+        "tab" : "top_destination",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "IP",
+            "tab" : "ip",
+            "description" : "目標IP位址。"
+          },
+          {
+            "label" : "上傳串流",
+            "tab" : "upstream",
+            "description" : "裝置已上傳發送到指定IP地址的傳輸量。"
+          },
+          {
+            "label" : "下載串流",
+            "tab" : "downstream",
+            "description" : "裝置已下載接收到指定IP地址的傳輸量。"
+          },
+          {
+            "label" : "連線數",
+            "tab" : "sessions",
+            "description" : "透過裝置傳送到目的地IP位址的連線數。"
+          }
+        ]
+      },
+      "top_source" :
+      {
+        "label" : "主要來源位址指示",
+        "tab" : "top_source",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "IP",
+            "tab" : "ip",
+            "description" : "來源IP位址。"
+          },
+          {
+            "label" : "上傳串流",
+            "tab" : "upstream",
+            "description" : "裝置已上傳發送到指定IP地址的傳輸量。"
+          },
+          {
+            "label" : "下載串流",
+            "tab" : "downstream",
+            "description" : "裝置已下載接收到指定IP地址的傳輸量。"
+          },
+          {
+            "label" : "連線數",
+            "tab" : "sessions",
+            "description" : "透過裝置傳送到目的地IP位址的連線數。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-0-2" : 
+  {
+    "label" : "安全防護儀錶板",
+    "tab" : "security_dashboard",
+    "description" : "使用此儀表板可查看檔案類型的統計，最常偵測到的病毒、受影響主機和封鎖主機",
+    "tabs" :
+    {
+      "top_file_extension" :
+      {
+        "label" : "按副檔名排序",
+        "tab" : "top_file_extension",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "副檔名",
+            "tab" : "extension",
+            "description" : "檔案的副檔名稱。"
+          },
+          {
+            "label" : "存取數量",
+            "tab" : "access_count",
+            "description" : "有特定副檔名的檔案數量。"
+          }
+        ]
+      },
+      "top_virus_name" :
+      {
+        "label" : "按病毒名稱排序",
+        "tab" : "top_virus_name",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "病毒名稱",
+            "tab" : "virus_name",
+            "description" : "病毒名稱表示。"
+          },
+          {
+            "label" : "偵測數",
+            "tab" : "hit_count",
+            "description" : "TitanWall偵測到的病毒數量。"
+          }
+        ]
+      },
+      "top_affected_host" :
+      {
+        "label" : "按受感染的主機排序",
+        "tab" : "top_affected_host",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "主機 IP/使用者",
+            "tab" : "host_ip_user",
+            "description" : "受感染的主機IP位址"
+          },
+          {
+            "label" : "病毒偵測數",
+            "tab" : "virus_hit_count",
+            "description" : "TitanWall病毒防護偵測到的病毒傳遞數量。"
+          }
+        ]
+      },
+      "top_blocked_host" :
+      {
+        "label" : "按已封鎖的主機排序",
+        "tab" : "top_blocked_host",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "主機 IP/使用者",
+            "tab" : "host_ip_user",
+            "description" : "封鎖主機的IP位址或是使用者名稱。"
+          },
+          {
+            "label" : "封鎖數量",
+            "tab" : "block_count",
+            "description" : "裝置執行封鎖從主機或遠端防病毒軟體或防火牆功能發送的檔案或封包數量。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-1-0-0" :
+  {
+    "label" : "顯示 ARP 列表",
+    "tab" : "show_arp_table",
+    "description" : "使用此頁面可以查看您的TitanWALL ARP (位址解析通訊協定)列表。ARP列表中的IP位址可連線至硬體實體位址與Mac位址\n此列表中的資訊可在您的刷新頁面中指定時間間隔自動更新。或是點擊刷新按鈕立即更新列表中的資訊。",
+    "content" : 
+    [
+      {
+        "label" : "IP 位址",
+        "tab" : "address",
+        "description" : "此為連線裝置主機的IPv4位址。"
+      },
+      {
+        "label" : "旗標",
+        "tab" : "flag",
+        "description" : "此列會顯示連線主機的狀態。\n 成功 - 此主機可正常連線。 \n 等待 - TitanWall正在等待連線主機的回應。\n 失敗 - 此主機無法連線。\n 延遲 - TitanWall延遲發送請求以確認主機是否可正常連線。"
+      },
+      {
+        "label" : "MAC 位址",
+        "tab" : "mac_address",
+        "description" : "此主機的MAC位址。"
+      },
+      {
+        "label" : "裝置",
+        "tab" : "device",
+        "description" : "連線主機的裝置介面名稱。"
+      } 
+    ]
+  },
+  "menu-1-0-1" :
+  {
+    "label" : "顯示路由列表",
+    "tab" : "show_routing_table",
+    "description" : "使用此頁面可以查看您的TitanWALL路由列表， 其中包含預設路由和固定路由項目。 固定路由的優先層級高於預設路由。此列表中的資訊可在您的刷新頁面中指定時間間隔自動更新。或是點擊刷新按鈕立即更新列表中的資訊。",
+    "content" : 
+    [
+      {
+        "label" : "目標位址",
+        "tab" : "destination_address",
+        "description" : "此為最終目標的IPv4位址(主機或網路)。"
+      },
+      {
+        "label" : "子網路遮罩",
+        "tab" : "subnet_mask",
+        "description" : "此為最終目標的子網路遮罩。"
+      },
+      {
+        "label" : "閘道",
+        "tab" : "gateway",
+        "description" : "此為將封包由IP位址透過閘道轉譯傳送封包到目標位址。"
+      },
+      {
+        "label" : "旗標",
+        "tab" : "flags",
+        "description" : "此頁面將顯示您的路由狀態。\n U – 表示路由連線成功。\n H – 目的地為主機。\n G – 路由可使用閘道轉譯封包。"
+      },
+      {
+        "label" : "衡量標準",
+        "tab" : "metric",
+        "description" : "此為路由等價路徑計算。在多個最佳路徑併列時的首要路由權重計算來決定優先權。"
+      },
+      {
+        "label" : "介面",
+        "tab" : "interface",
+        "description" : "此為透過此路由傳遞的TitanWALL實體連接介面的名稱。"
+      }
+    ]
+  },
+  "menu-1-0-2" :
+  {
+    "label" : "DHCP 綁定",
+    "tab" : "dhcp_bindings",
+    "description" : "使用此頁面您可以查看目前透過DHCP服務派送給用戶端的IP位址。",
+    "content" :
+    [
+      {
+        "label" : "IP 位址",
+        "tab" : "ip_address",
+        "description" : "此為DHCP派送給用戶端的IPv4位址。"
+      },
+      {
+        "label" : "MAC 位址",
+        "tab" : "mac_address",
+        "description" : "此為DHCP用戶端的MAC位址。"
+      },
+      {
+        "label" : "租用開始時間",
+        "tab" : "lease_start_time",
+        "description" : "此為用戶端接受DHCP派送IP的啟用時間。"
+      },
+      {
+        "label" : "租用結束時間",
+        "tab" : "lease_end_time",
+        "description" : "此為DHCP派送IP給用戶端使用的到期時間。"
+      }
+    ]
+  },
+  "menu-1-0-3" :
+  {
+    "label" : "狀態摘要",
+    "tab" : "status_summary",
+    "description" : "此列表中的資訊可在您的刷新頁面中指定時間間隔自動更新。或是點擊刷新按鈕立即更新列表中的資訊。",
+    "tabs" :
+    {
+      "port" :
+      {
+        "label" : "連接埠列表",
+        "tab" : "port_table",
+        "description" : "使用此頁面您可以查看實體連接埠的目前狀態與詳細資訊。",
+        "content" :
+        [
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "這是在TitanWALL上每個實體連接埠的名稱。"
+          },
+          {
+            "label" : "LAN",
+            "tab" : "lan",
+            "description" : "此頁面顯示與LAN連接介面聯繫的網路連接埠名稱。 如果該連接埠不屬於LAN連接介面則此欄位將為空白。"
+          },
+          {
+            "label" : "DHCP 位址範圍",
+            "tab" : "dhcp_pool",
+            "description" : "此頁面將顯示DHCP位址範圍的工作名稱，此功能定義了TitanWALL派送IP位址的範圍。"
+          },
+          {
+            "label" : "位址",
+            "tab" : "address",
+            "description" : "顯示此連接埠目前的IP位址。"
+          },
+          {
+            "label" : "區域",
+            "tab" : "zone",
+            "description" : "顯示該連接埠所屬的區域名稱。 如果該連接埠不屬於此區域則此欄位將為空白。"
+          },
+          {
+            "label" : "連結狀態",
+            "tab" : "link_state",
+            "description" : "顯示連接埠的傳遞狀態。"
+          },
+          {
+            "label" : "連結設定",
+            "tab" : "link_settings",
+            "description" : "顯示連接埠的速度與雙工設定。"
+          }
+        ]
+      },
+      "vlan" : 
+      {
+        "label" :"VLAN 介面列表",
+        "tab" : "vlan_table",
+        "description" : 使用此頁面您可以查看VLAN 介面列表的詳細資訊。",
+        "content" :
+        [
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "此為VLAN介面名稱。"
+          },
+          {
+            "label" : "LAN",
+            "tab" : "lan",
+            "description" : "此頁面顯示與VLAN連接介面聯繫的網路連接埠名稱。 如果該連接埠不屬於VLAN連接介面則此欄位將為空白。"
+          },
+          {
+            "label" : "DHCP 位址範圍",
+            "tab" : "dhcp_pool",
+            "description" : "此頁面將顯示DHCP位址範圍的工作名稱，此功能定義了TitanWALL派送IP位址的範圍。"
+          },
+          {
+            "label" : "位址",
+            "tab" : "address",
+            "description" : "顯示此VLAN介面目前的IP位址。"
+          },
+          {
+            "label" : "區域",
+            "tab" : "zone",
+            "description" : "顯示該VLAN所屬的區域名稱。 如果該VLAN不屬於此區域則此欄位將為空白。"
+          },
+          {
+            "label" : "實體連接埠",
+            "tab" : "physical_port",
+            "description" : "顯示該VLAN介面聯繫的實體網路連接埠。"
+          },
+          {
+            "label" : "VID",
+            "tab" : "vid",
+            "description" : "顯示此VLAN ID。"
+          }
+        ]
+      },
+      "wan" :
+      {
+        "label" : "WAN 列表",
+        "tab" : "wan_table",
+        "description" : "使用此頁面您可以查看WAN連接埠的目前狀態與詳細資訊。",
+        "content" :
+        [
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "此為WAN介面名稱。"
+          },
+          {
+            "label" : "IP 分派方式",
+            "tab" : "ip_assignment_method",
+            "description" : "此頁面顯示WAN介面取得IP的方式，您可自行選用固定IP或是DHCP來分派IP。"
+          },
+          {
+            "label" : "連線時間",
+            "tab" : "connection_time",
+            "description" : "顯示WAN介面連線的時間長度。 "
+          },
+          {
+            "label" : "連線狀態",
+            "tab" : "connection_state",
+            "description" : "可顯示WAN介面以成功取得IP位址。"
+          },
+          {
+            "label" : "IP 位址",
+            "tab" : "ip_address",
+            "description" : "顯示WAN介面的IP位址。"
+          },
+          {
+            "label" : "子網路遮罩",
+            "tab" : "subnet_mask",
+            "description" : "此為WAN的子網路遮罩。"
+          },
+          {
+            "label" : "閘道",
+            "tab" : "gateway",
+            "description" : "顯示WAN的IP位址預設使用的網路閘道。"
+          },
+          {
+            "label" : "DNS 伺服器",
+            "tab" : "dns_server",
+            "description" : "顯示WAN的IP位址使用的DNS伺服器。"
+          },
+          {
+            "label" : "實體連接埠",
+            "tab" : "physical_port",
+            "description" : "顯示該WAN介面聯繫的實體網路連接埠。"
+          },
+          {
+            "label" : "連結狀態",
+            "tab" : "link_state",
+            "description" : "顯示連接埠的傳遞狀態。"
+          },
+          {
+            "label" : "DHCP 伺服器",
+            "tab" : "dhcp_server",
+            "description" : "顯示DHCP伺服器從WAN介面取得的IP位址。"
+          },
+          {
+            "label" : "取得租約",
+            "tab" : "lease_obtained",
+            "description" : "顯示WAN連接埠從DHCP伺服器取得IP位址的時間。"
+          },
+          {
+            "label" : "租約期限",
+            "tab" : "lease_duration",
+            "description" : "此為WAN連接埠可使用由DHCP伺服器分配的IP位址的有效時間。"
+          },
+          {
+            "label" : "MAC 位址",
+            "tab" : "mac_address",
+            "description" : "顯示WAN介面的MAC位址。"
+          },
+          {
+            "label" : "區域",
+            "tab" : "zone",
+            "description" : "顯示WAN連接埠所屬的區域名稱。"
+          }
+        ]
+      },
+      "lan" : 
+      {
+        "label" : "LAN列表",
+        "tab" : "lan_table",
+        "description" : "使用此頁面您可以查看LAN的目前狀態與詳細資訊。",
+        "content" :
+        [
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "此為LAN介面的名稱。"
+          },
+          {
+            "label" : "DHCP 位址範圍",
+            "tab" : "dhcp_pool",
+            "description" : "T此頁面將顯示DHCP位址範圍的工作名稱，此功能定義了TitanWALL派送IP位址的範圍。 "
+          },
+          {
+            "label" : "位址",
+            "tab" : "address",
+            "description" : "顯示LAN連接介面目前的IP位址。"
+          },
+          {
+            "label" : "區域",
+            "tab" : "zone",
+            "description" : "顯示該LAN所屬的區域名稱。 如果該LAN不屬於此區域則此欄位將為空白。"
+          },
+          {
+            "label" : "連接埠列表",
+            "tab" : "port_list",
+            "description" : "顯示與此網路連接埠聯繫的實體網路連接埠(s) 和/或 VLAN 連接介面(s)。"
+          },
+          {
+            "label" : "MAC 位址",
+            "tab" : "mac_address",
+            "description" : "顯示LAN介面的MAC位址。 如果該LAN介面沒有取得實體連接埠則此欄位將為空白。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-1-0-4" :
+  {
+    "label" : "流量統計",
+    "tab" : "traffic_statistics",
+    "description" : "此列表中的資訊可在您的刷新頁面中指定時間間隔自動更新。或是點擊刷新按鈕立即更新列表中的資訊。",
+    "tabs" :
+    {
+      "port" : 
+      {
+        "label" : "連接埠列表",
+        "tab" : "port_table",
+        "description" : "使用此頁面可以查看每個實體連接埠的流量統計。",
+        "content" :
+        [
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "實體連接埠在TitanWall上顯示的名稱。"
+          },
+          {
+            "label" : "連結狀態",
+            "tab" : "link_status",
+            "description" : "顯示連接埠的傳遞狀態。"
+          },
+          {
+            "label" : "Tx 封包數量",
+            "tab" : "tx_pkts",
+            "description" : "此連接埠傳送的封包數量。"
+          },
+          {
+            "label" : "Rx 封包數量",
+            "tab" : "rx_pkts",
+            "description" : "此連接埠接收的封包數量。"
+          },
+          {
+            "label" : "碰撞",
+            "tab" : "collisions",
+            "description" : "顯示在這個連接埠上發生訊號衝突的數量。碰撞發生情況通常是多個裝置試圖同時對同一網段發送封包所造成。"
+          },
+          {
+            "label" : "Tx B/s",
+            "tab" : "tx_b_s",
+            "description" : "顯示在這個連接埠上每秒發送的Byte數。"
+          },
+          {
+            "label" : "Rx B/s",
+            "tab" : "rx_b_s",
+            "description" : "顯示在這個連接埠上每秒接收的Byte數。"
+          },
+          {
+            "label" : "啟動時間",
+            "tab" : "up_time",
+            "description" : "顯示連接埠已啟動連線的時間總量。"
+          }
+        ]
+      },
+      "vlan" : 
+      {
+        "label" : "VLAN 介面列表",
+        "tab" : "vlan_table",
+        "description" : "使用此頁面可以查看VLAN介面的流量統計。",
+        "content" :
+        [
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "VLAN介面名稱"
+          },
+          {
+            "label" : "Tx 封包數量",
+            "tab" : "tx_pkts",
+            "description" : "顯示此介面發送封包的數量。"
+          },
+          {
+            "label" : "Rx 封包數量",
+            "tab" : "rx_pkts",
+            "description" : "顯示此介面接收封包的數量。"
+          },
+          {
+            "label" : "碰撞",
+            "tab" : "collisions",
+            "description" : "顯示在這個介面上發生訊號衝突的數量。碰撞發生情況通常是多個裝置試圖同時對同一網段發送封包所造成。"
+          },
+          {
+            "label" : "Tx B/s",
+            "tab" : "tx_b_s",
+            "description" : "顯示在這個介面上每秒發送的Byte數。"
+          },
+          {
+            "label" : "Rx B/s",
+            "tab" : "rx_b_s",
+            "description" : "顯示在這個介面上每秒接收的Byte數。"
+          },
+          {
+            "label" : "啟動時間",
+            "tab" : "up_time",
+            "description" : "顯示連接埠已啟動連線的時間總量。"
+          }
+        ]
+      },
+      "wan" : 
+      {
+        "label" : "WAN列表",
+        "tab" : "wan_table",
+        "description" : "使用此頁面可以查看WAN介面的流量統計。",
+        "content" :
+        [
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "WAN介面名稱"
+          },
+          {
+            "label" : "Tx 封包數量",
+            "tab" : "tx_pkts",
+            "description" : "顯示此介面發送封包的數量。"
+          },
+          {
+            "label" : "Rx 封包數量",
+            "tab" : "rx_pkts",
+            "description" : "顯示此介面接收封包的數量。"
+          },
+          {
+            "label" : "碰撞",
+            "tab" : "collisions",
+            "description" : "顯示在這個介面上發生訊號衝突的數量。碰撞發生情況通常是多個裝置試圖同時對同一網段發送封包所造成。"
+          },
+          {
+            "label" : "Tx B/s",
+            "tab" : "tx_b_s",
+            "description" : "顯示在這個介面上每秒發送的Byte數。"
+          },
+          {
+            "label" : "Rx B/s",
+            "tab" : "rx_b_s",
+            "description" : "顯示在這個介面上每秒接收的Byte數。"
+          },
+          {
+            "label" : "啟動時間",
+            "tab" : "up_time",
+            "description" : "顯示連接埠已啟動連線的時間總量。"
+          }
+        ]
+      },
+      "lan" : 
+      {
+        "label" : "LAN列表",
+        "tab" : "lan_table",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "LAN介面名稱"
+          },
+          {
+            "label" : "Tx 封包數量",
+            "tab" : "tx_pkts",
+            "description" : "顯示此介面發送封包的數量。"
+          },
+          {
+            "label" : "Rx 封包數量",
+            "tab" : "rx_pkts",
+            "description" : "顯示此介面接收封包的數量。"
+          },
+          {
+            "label" : "碰撞",
+            "tab" : "collisions",
+            "description" : "顯示在這個介面上發生訊號衝突的數量。碰撞發生情況通常是多個裝置試圖同時對同一網段發送封包所造成。"
+          },
+          {
+            "label" : "Tx B/s",
+            "tab" : "tx_b_s",
+            "description" : "顯示在這個介面上每秒發送的Byte數。"
+          },
+          {
+            "label" : "Rx B/s",
+            "tab" : "rx_b_s",
+            "description" : "顯示在這個介面上每秒接收的Byte數。"
+          },
+          {
+            "label" : "啟動時間",
+            "tab" : "up_time",
+            "description" : "顯示連接埠已啟動連線的時間總量。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-1-0-5" :
+  {
+    "label" : "WAN 頻寬報告",
+    "tab" : "wan_bandwidth report",
+    "description" : "使用此頁面可以查看過去24小時內的WAN頻寬使用狀態。 您還可以輸入開始\/結束日期和時間，然後點擊搜尋按鈕以顯示指定時間區段內的頻寬使用量。\n y-軸顯示WAN介面上已傳送或接收的byte數。\n x軸顯示頻寬使用的時間區段。\n 此列表中的資訊可在您的刷新頁面中指定時間間隔自動更新。或是點擊刷新按鈕立即更新列表中的資訊。"
+  },
+  "menu-1-1-0" :
+  {
+    "label" : "系統資源使用量",
+    "tab" : "resource_utilization",
+    "description" : "此列表中的資訊可在您的刷新頁面中指定時間間隔自動更新。或是點擊刷新按鈕立即更新列表中的資訊。",
+    "tabs" :
+    {
+      "cpu_utilization" :
+      {
+        "label" : "CPU 使用率",
+        "tab" : "cpu_utilization",
+        "description" : "使用此頁面可以查看過去24小時內的CPU使用狀態。 您還可以輸入開始\/結束日期和時間，然後點擊搜尋按鈕以顯示指定時間區段內的CPU使用量。\n y-軸顯示CPU使用量。\n x軸顯示指定的時間區段。\n 此列表中的資訊可在您的刷新頁面中指定時間間隔自動更新。或是點擊刷新按鈕立即更新列表中的資訊。"
+      },
+      "memory_utilization" :
+      {
+        "label" : "記憶體使用率",
+        "tab" : "memory_utilization",
+        "description" : "使用此頁面可以查看過去24小時內的記憶體使用狀態。 您還可以輸入開始\/結束日期和時間，然後點擊搜尋按鈕以顯示指定時間區段內的記憶體使用量。\n y-軸顯示記憶體使用量。\n x軸顯示指定的時間區段。\n 此列表中的資訊可在您的刷新頁面中指定時間間隔自動更新。或是點擊刷新按鈕立即更新列表中的資訊。"
+      }
+    }
+  },
+  "menu-1-2" :
+  {
+    "label" : "NAT 狀態",
+    "tab" : "nat_status",
+    "description" : "使用此頁面可以查看NAT(網路位址轉譯)規則清單。 此頁面上顯示的項目將依照您的設定而定。 此列表中的資訊可在您的刷新頁面中指定時間間隔自動更新。或是點擊刷新按鈕立即更新列表中的資訊。 您可以點擊右上角的按鈕來指定此頁面上的顯示項目。",
+    "content" :
+    [
+      {
+        "label" : "#",
+        "tab" : "index",
+        "description" : "這是列表中NAT規則的索引編號。"
+      },
+      {
+        "label" : "原始 Src 位址",
+        "tab" : "original_source_address",
+        "description" : "此為匹配該流量規則的原始IP位址。"
+      },
+      {
+        "label" : "原始 Dst 位址",
+        "tab" : "original_source_address",
+        "description" : "此為匹配該流量規則的目標IP位址。"
+      },
+      {
+        "label" : "Src 埠號",
+        "tab" : "source_port",
+        "description" : "此為匹配該流量規則的原始連接埠號。"
+      },
+      {
+        "label" : "Dst 埠號",
+        "tab" : "destination_port",
+        "description" : "此為匹配該流量規則的目標連接埠號。"
+      },
+      {
+        "label" : "轉譯 Src 位址",
+        "tab" : "translated_source_address",
+        "description" : "此為匹配該流量規則的新原始IP位址。"
+      },
+      {
+        "label" : "轉譯 Dst 位址",
+        "tab" : "translated_destination_address",
+        "description" : "此為匹配該流量規則的新目標IP位址。"
+      },
+      {
+        "label" : "轉譯 Src 埠號",
+        "tab" : "translated_source_port",
+        "description" : "此為匹配該流量規則的新原始連接埠號。"
+      },
+      {
+        "label" : "轉譯 Dst 埠號",
+        "tab" : "translated_destination_port",
+        "description" : "此為匹配該流量規則的新目標連接埠號。"
+      },
+      {
+        "label" : "TX Pkt Cnt",
+        "tab" : "tx_pkt_cnt",
+        "description" : "顯示傳送到目標位址的封包數量。"
+      },
+      {
+        "label" : "RX Pkt Cnt",
+        "tab" : "rx_pkt_cnt",
+        "description" : "顯示接收到來源位址的封包數量。"
+      },
+      {
+        "label" : "TX Byte",
+        "tab" : "tx_byte",
+        "description" : "顯示傳送到目標位址的Byte數量。"
+      },
+      {
+        "label" : "RX Byte",
+        "tab" : "rx_byte",
+        "description" : "顯示接收到來源位址的Byte數量。"
+      }
+    ]
+  },
+  "menu-1-3" :
+  {
+    "label" : "活躍使用者",
+    "tab" : "active_users",
+    "description" : "使用此頁面可以查看目前登入TitanWALL的使用者狀態。\n 此列表中的資訊可在您的刷新頁面中指定時間間隔自動更新。或是點擊刷新按鈕立即更新列表中的資訊。 您可以點擊右上角的按鈕來指定此頁面上的顯示項目。",
+    "content" :
+    [
+      {
+        "label" : "使用者名稱",
+        "tab" : "user_name",
+        "description" : "此為使用者帳號名稱。"
+      },
+      {
+        "label" : "位址資訊",
+        "tab" : "address_information",
+        "description" : "此為使用者IP位址。"
+      },
+      {
+        "label" : "登入方式",
+        "tab" : "login_method",
+        "description" : "顯示使用者登入方式。 使用者可以使用HTTPs或是Telnet來登入TitanWALL。"
+      },
+      {
+        "label" : "連線時間",
+        "tab" : "session_time",
+        "description" : "顯示使用者登入時間。"
+      },
+      {
+        "label" : "啟用",
+        "tab" : "action",
+        "description" : "選取一個帳號的複選框，然後點擊強制按鈕以停止指定帳號的連線。"
+      }
+    ]
+  },
+  "menu-1-4-0" :
+  {
+    "label" : "活躍連線",
+    "tab" : "active_sessions",
+    "description" : "使用此頁面可以查看VPN連線的活躍狀態。",
+    "content" :
+    [
+      {
+        "label" : "政策名稱",
+        "tab" : "policy_name",
+        "description" : "此為VPN連線設定的政策名稱。"
+      },
+      {
+        "label" : "WAN 連接介面",
+        "tab" : "wan_interface",
+        "description" : "顯示WAN連接介面使用的VPN連線設定。"
+      },
+      {
+        "label" : "遠端閘道",
+        "tab" : "remote_gateway",
+        "description" : "此為與遠端閘道建立VPN連線的IP位址。"
+      },
+      {
+        "label" : "本機網路",
+        "tab" : "local_network",
+        "description" : "顯示您TitanWALL後端網路的IP位址和子網路遮罩。"
+      },
+      {
+        "label" : "遠端網路",
+        "tab" : "remote_network",
+        "description" : "顯示您TitanWALL後端網路的遠端閘道。"
+      },
+      {
+        "label" : "啟用",
+        "tab" : "action",
+        "description" : "選擇一個項目的複選框，然後點擊斷線按鈕以停止活躍的VPN連線，或者點擊連線按鈕來建立VPN連線。"
+      }
+    ]
+  },
+  "menu-1-4-1" :
+  {
+    "label" : "IPSec VPN 統計",
+    "tab" : "ipsec_vpn_statistics",
+    "description" : "使用此頁面可以查看VPN連線的流量統計與詳細資訊。 ",
+    "content" :
+    [
+      {
+        "label" : "政策名稱",
+        "tab" : "policy_name",
+        "description" : "此為VPN連線設定的政策名稱。"
+      },
+      {
+        "label" : "WAN 連接介面",
+        "tab" : "wan_interface",
+        "description" : "顯示WAN連接介面使用的VPN連線設定。"
+      },
+      {
+        "label" : "遠端閘道",
+        "tab" : "remote_gateway",
+        "description" : "此為與遠端閘道建立VPN連線的IP位址。"
+      },
+      {
+        "label" : "本機網路",
+        "tab" : "local_network",
+        "description" : "顯示您TitanWALL後端網路的IP位址和子網路遮罩。"
+      },
+      {
+        "label" : "遠端網路",
+        "tab" : "remote_netowrk",
+        "description" : "顯示您TitanWALL後端網路的遠端閘道。"
+      },
+      {
+        "label" : "Tx Bytes",
+        "tab" : "tx_bytes",
+        "description" : "顯示透過VPN連線傳送的KB數量。"
+      },
+      {
+        "label" : "Rx Bytes",
+        "tab" : "rx_bytes",
+        "description" : "顯示透過VPN連線接收的KB數量。"
+      },
+      {
+        "label" : "Tx Pkts",
+        "tab" : "tx_pkts",
+        "description" : "顯示透過VPN連線傳送的封包數量。"
+      },
+      {
+        "label" : "Rx Pkts",
+        "tab" : "rx_pkts",
+        "description" : "顯示透過VPN連線接收的封包數量。"
+      }
+    ]
+  },
+  "menu-1-5-0" :
+  {
+    "label" : "流量指示",
+    "tab" : "traffic_direction",
+    "description" : "使用此頁面可以依傳送行進的方向，查看每個連線的流量統計。 您還可以輸入開始\/結束日期和時間，然後點擊搜尋按鈕以顯示指定時間區段內的記錄。 您也可以顯示傳送方向和流量統計的群組記錄。",
+    "content" :
+    [
+      {
+        "label" : "ID",
+        "tab" : "id",
+        "description" : "此為記錄中的索引編號。"
+      },
+      {
+        "label" : "來源區域",
+        "tab" : "fromZone",
+        "description" : "此為流量來源端的區域名稱。"
+      },
+      {
+        "label" : "傳送區域",
+        "tab" : "toZone",
+        "description" : "此為流量傳送端的區域名稱。"
+      },
+      {
+        "label" : "傳輸量",
+        "tab" : "traffic_amount",
+        "description" : "顯示流量傳送使用的數量。"
+      },
+      {
+        "label" : "",
+        "tab" : "",
+        "description" : "連線開始的日期和時間。"
+      },
+      {
+        "label" : "",
+        "tab" : "",
+        "description" : "連線結束的日期和時間。"
+      }
+    ]
+  },
+  "menu-1-5-1" :
+  {
+    "label" : "來源報告",
+    "tab" : "source_report",
+    "description" : "可使用此頁面上的來源IP位址，查看每個連線的流量統計。 您還可以輸入開始\/結束日期和時間，然後點擊搜尋按鈕以顯示指定時間區段內的記錄。 您也可以顯示傳送方向和流量統計的群組記錄。",
+    "content" :
+    [
+      {
+        "label" : "ID",
+        "tab" : "id",
+        "description" : "此為記錄中的索引編號。"
+      },
+      {
+        "label" : "主機 IP",
+        "tab" : "host_ip",
+        "description" : "此為連線來源的IP位址。"
+      },
+      {
+        "label" : "上傳串流",
+        "tab" : "upstream",
+        "description" : "來源IP位址的傳送流量。"
+      },
+      {
+        "label" : "下載串流",
+        "tab" : "downstream",
+        "description" : "來源IP位址的接收流量。"
+      },
+      {
+        "label" : "開始時間",
+        "tab" : "start_datetime",
+        "description" : "連線開始的日期和時間。"
+      },
+      {
+        "label" : "結束時間",
+        "tab" : "end_datetime",
+        "description" : "連線結束的日期和時間。"
+      }
+    ]
+  },
+  "menu-1-5-2" :
+  {
+    "label" : "目標報告",
+    "tab" : "destination_report",
+    "description" : "可使用此頁面上的來源IP位址，查看每個連線的流量統計。 您還可以輸入開始\/結束日期和時間，然後點擊搜尋按鈕以顯示指定時間區段內的記錄。 您也可以顯示傳送方向和流量統計的群組記錄。",
+    "content" :
+    [
+      {
+        "label" : "ID",
+        "tab" : "id",
+        "description" : "此為記錄中的索引編號。"
+      },
+      {
+        "label" : "主機 IP",
+        "tab" : "host_ip",
+        "description" : "此為連線目標的IP位址。"
+      },
+      {
+        "label" : "上傳串流",
+        "tab" : "upstream",
+        "description" : "目標IP位址的傳送流量。"
+      },
+      {
+        "label" : "下載串流",
+        "tab" : "downstream",
+        "description" : "目標IP位址的接收流量。"
+      },
+      {
+        "label" : "開始時間",
+        "tab" : "start_datetime",
+        "description" : "連線開始的日期和時間。"
+      },
+      {
+        "label" : "結束時間",
+        "tab" : "end_datetime",
+        "description" : "連線結束的日期和時間。"
+      }
+    ]
+  },
+  "menu-1-6-0" :
+  {
+    "label" : "檔案副檔名",
+    "tab" : "file_extension",
+    "description" : "透過此頁面可由病毒感染的檔案類型來查看安全防護的相關記錄。 您還可以輸入開始\/結束日期和時間，然後點擊搜尋按鈕以顯示指定時間區段內的記錄。 您也可以顯示傳送方向和流量統計的群組記錄。",
+    "content" :
+    [
+      {
+        "label" : "ID",
+        "tab" : "id",
+        "description" : "此為記錄中的索引編號。"
+      },
+      {
+        "label" : "副檔名",
+        "tab" : "extension",
+        "description" : "此為TitanWALL掃描並偵測到含有病毒的檔案副檔名。"
+      },
+      {
+        "label" : "存取數量",
+        "tab" : "access_count",
+        "description" : "顯示該檔案已被存取過的數量。"
+      },
+      {
+        "label" : "時間日期",
+        "tab" : "datetime",
+        "description" : "此為記錄事件的日期和時間。"
+      }
+    ]
+  },
+  "menu-1-6-1" :
+  {
+    "label" : "已封鎖的主機",
+    "tab" : "blocked_host",
+    "description" : "使用此頁面可以查看被防火牆規則或病毒防護封鎖的網域IP位址的相關記錄。 您還可以輸入開始\/結束日期和時間，然後點擊搜尋按鈕以顯示指定時間區段內的記錄。  您還可以記錄您主機IP位址和防火牆封鎖及病毒數量的統計。",
+    "content" :
+    [
+      {
+        "label" : "ID",
+        "tab" : "id",
+        "description" : "此為記錄中的索引編號。"
+      },
+      {
+        "label" : "IP",
+        "tab" : "ip",
+        "description" : "被封鎖主機的IP位址。"
+      },
+      {
+        "label" : "病毒計數",
+        "tab" : "virus_count",
+        "description" : "顯示已被TitanWALL防護封鎖的主機病毒數量。"
+      },
+      {
+        "label" : "防火牆計數",
+        "tab" : "firewall_count",
+        "description" : "顯示已被TitanWALL防火牆封鎖的主機病毒數量。"
+      },
+      {
+        "label" : "時間日期",
+        "tab" : "datetime",
+        "description" : "此為記錄事件的日期和時間。"
+      }
+    ]
+  },
+  "menu-1-6-2" :
+  {
+    "label" : "受感染的主機",
+    "tab" : "affected_host",
+    "description" : "可使用此頁面上被感染主機的IP位址來查看相關的安全防護記錄。 您還可以輸入開始\/結束日期和時間，然後點擊搜尋按鈕以顯示指定時間區段內的記錄。 您還可以透過主機的IP位址記錄，來顯示病毒偵測數的統計。",
+    "content" :
+    [
+      {
+        "label" : "ID",
+        "tab" : "id",
+        "description" : "此為記錄中的索引編號。"
+      },
+      {
+        "label" : "IP",
+        "tab" : "ip",
+        "description" : "受感染主機的IP位址。"
+      },
+      {
+        "label" : "病毒計數",
+        "tab" : "virus_hit_count",
+        "description" : "顯示已被TitanWALL防護封鎖的主機病毒數量。"
+      },
+      {
+        "label" : "時間日期",
+        "tab" : "datetime",
+        "description" : "此為記錄事件的日期和時間。"
+      }
+    ]
+  },
+  "menu-1-6-3" :
+  {
+    "label" : "病毒防護",
+    "tab" : "antivurs_report",
+    "description" : "可使用此頁面上被病毒感染的連線來查看相關的安全防護記錄。 您還可以輸入開始\/結束日期和時間，然後點擊搜尋按鈕以顯示指定時間區段內的記錄。 您還可以記錄您來源/目標IP位址，使用者或病毒名稱並顯示偵測計數的總和。",
+    "content" :
+    [
+      {
+        "label" : "ID",
+        "tab" : "id",
+        "description" : "此為記錄中的索引編號。"
+      },
+      {
+        "label" : "Src IP",
+        "tab" : "src_ip",
+        "description" : "被病毒感染的連線來源IP位址。"
+      },
+      {
+        "label" : "Dst IP",
+        "tab" : "dst_ip",
+        "description" : "被病毒感染的連線目標IP位址。"
+      },
+      {
+        "label" : "協定",
+        "tab" : "protocol",
+        "description" : "一個用來攜帶病毒的IP協定。"
+      },
+      {
+        "label" : "病毒名稱",
+        "tab" : "virus_name",
+        "description" : "TitanWALL已偵測到的病毒名稱。"
+      },
+      {
+        "label" : "時間日期",
+        "tab" : "datetime",
+        "description" : "此為記錄事件的日期和時間。"
+      },
+      {
+        "label" : "偵測數",
+        "tab" : "hit_count",
+        "description" : "可顯示由TitanWALL病毒防護偵測到的病毒發送/主機接收的傳遞數量。 這也可以顯示已偵測到的病毒名稱記錄。"
+      }
+    ]
+  },
+  "menu-2-0" :
+  {
+    "label" : "埠號",
+    "tab" : "ports",
+    "description" : "可使用此頁面查看TitanWALL所要連接的實體網路埠的設定和狀態。 如果您已經指定一個網路埠連接到LAN或WAN介面，您便只能改變其速度和MTU的設定。",
+    "content" :
+    [
+      {
+        "label" : "埠號#",
+        "tab" : "port",
+        "description" : "此為連接埠號碼。"
+      },
+      {
+        "label" : "名稱",
+        "tab" : "name",
+        "description" : "此為連接埠名稱。"
+      },
+      {
+        "label" : "位址",
+        "tab" : "address",
+        "description" : "此為連接埠的IP位址。"
+      },
+      {
+        "label" : "DHCP 位址範圍",
+        "tab" : "dhcp_pool",
+        "description" : "顯示DHCP 位址範圍使用的連接埠。"
+      },
+      {
+        "label" : "速度/雙工",
+        "tab" : "speed_duplex",
+        "description" : "此為連接埠的傳輸速度與雙工模式。"
+      },
+      {
+        "label" : "連結狀態",
+        "tab" : "link_status",
+        "description" : "顯示連接埠是否能正常連線。"
+      },
+      {
+        "label" : "區域",
+        "tab" : "zone",
+        "description" : "顯示連接埠被分派的區域。"
+      },
+      {
+        "label" : "啟用",
+        "tab" : "action",
+        "description" : "可點擊編輯按鈕來設定連接埠。\n 備註： 如果連接埠不能設定，將會派給LAN介面。 從LAN介面上刪除連接埠之前，您可以設定它。"
+      }
+    ],
+    "editor" : 
+    [
+      {
+        "label" : "基本設定",
+        "tab" : "basic_settings",
+        "description" : "使用此頁面可設定連接埠的基本設定和指定連接埠區域。",
+        "content" :
+        [
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "此項目僅能唯讀及顯示連接埠名稱。"
+          },
+          {
+            "label" : "位址",
+            "tab" : "address",
+            "description" : "連接埠輸入的IPv4位址，如果您已經指定該連接埠連接至LAN或WAN區域，則此項目將無法設定。"
+          },
+          {
+            "label" : "網路遮罩",
+            "tab" : "netmask",
+            "description" : "連接埠輸入的網路遮罩位址，如果您已經指定該連接埠連接至LAN或WAN區域，則此項目將無法設定。"
+          },
+          {
+            "label" : "速度",
+            "tab" : "speed",
+            "description" : "選定連接埠速度(Mbps)，如果您選擇自動，連接埠將會與對等裝置溝通（在連結的另一端），以確定連接速度和雙工模式。"
+          },
+          {
+            "label" : "雙工",
+            "tab" : "duplex",
+            "description" : "可指定連接埠的雙工模式。 若您選擇自動將無法進行設定調整。\n 當在全雙工的資料交換模式下，資料可以在交換資料的雙方以雙向同時傳輸。\n 如果是使用半雙工時，則一次僅能有一方傳輸資料。"
+          },
+          {
+            "label" : "MTU",
+            "tab" : "mtu",
+            "description" : "指定連接埠的最大傳輸單位(MTU)。\n 選擇手動則可自行輸入最大封包大小（以為bytes單位）。"
+          },
+          {
+            "label" : "區域",
+            "tab" : "zone",
+            "description" : "您可點擊儲存上一個畫面指派的連接埠區域。 如果您已經指定該連接埠連接至LAN或WAN區域，則此項目將無法設定。"
+          }
+        ]
+      },
+      {
+        "label" : "DHCP 位址範圍設定",
+        "tab" : "dhcp_pool_settings",
+        "description" : "可使用此頁面將連接埠設為DHCP伺服器或DHCP中繼代理。",
+        "content" :
+        [
+          {
+            "label" : "DHCP 類型",
+            "tab" : "dhcp_type",
+            "description" : "若選擇停用則此連接埠將不提供DHCP服務。 您需要有一台DHCP伺服器已在網路中運行或手動設定連接到這個連接埠的電腦IP位址。\n 選擇DHCP伺服器則會設定TitanWALL做為DHCP伺服器。\n 選擇DHCP中繼則TitanWALL將會轉發DHCP請求給其它網路上的DHCP伺服器。"
+          },
+          {
+            "label" : "IP 起始位址",
+            "tab" : "start_ip_address",
+            "description" : "請輸入DHCP位址範圍的第一個IPv4位址， TitanWALL將會分派IP位址給DHCP用戶端。"
+          },
+          {
+            "label" : "IP 結束位址",
+            "tab" : "end_ip_address",
+            "description" : "請輸入DHCP位址範圍的最後一個IPv4位址， TitanWALL將會分派IP位址給DHCP用戶端。"
+          },
+          {
+            "label" : "租約時間",
+            "tab" : "lease_time",
+            "description" : "指定DHCP用戶端可以使用分配的IP位址的時效（以秒計算）。"
+          },
+          {
+            "label" : "閘道",
+            "tab" : "gateway",
+            "description" : "輸入預設閘道，它將會分配給DHCP用戶端的IP位址。"
+          },
+          {
+            "label" : "DNS1",
+            "tab" : "dns1",
+            "description" : "輸入慣用DNS，它將會分配給DHCP用戶端的IP位址。"
+          },
+          {
+            "label" : "DNS2",
+            "tab" : "dns2",
+            "description" : "輸入其他DNS，它將會分配給DHCP用戶端的IP位址。"
+          },
+          {
+            "label" : "WINS1",
+            "tab" : "dns1",
+            "description" : "輸入慣用WINS，它將會分配給DHCP用戶端的IP位址。"
+          },
+          {
+            "label" : "WINS2",
+            "tab" : "dns2",
+            "description" : "輸入其他WINS，它將會分配給DHCP用戶端的IP位址。"
+          },
+          {
+            "label" : "網域名稱",
+            "tab" : "domain_name",
+            "description" : "連接埠輸入的網域名稱。"
+          }
+        ]
+      },
+      {
+        "label" : "IPV6 設定",
+        "tab" : "ipv6_settings",
+        "description" : "可使用此頁面查看或設定連接埠的IPv6位址。 您可以在頁面中的網路連線>路由>路由頁面來啟用IPv6。",
+        "content" :
+        [
+          {
+            "label" : "IPv6 位址",
+            "tab" : "ipv6_address",
+            "description" : "顯示連接埠本機的IPv6位址，該位址是由TitanWALL自動產成。 您可以手動指定固定的IPv6位址。"
+          },
+          {
+            "label" : "IPv6 首碼長度",
+            "tab" : "ipv6_prefix_lengtth",
+            "description" : "顯示IPv6的首碼長度。 首碼長度相當於IPv4中的子網路遮罩。 輸入一個新號碼來指定該網路中有多少個IPv6位址。"
+          }
+        ]
+      },
+      {
+        "label" : "IP 別名",
+        "tab" : "ip_alias",
+        "description" : "IP別名可以讓您一個網路連接埠有多個路由的IP位址。\n 使用此頁面可查看或設定連接埠的IP別名。 如果您已經指定該連接埠連接至LAN或WAN區域，則此項目將無法設定。",
+        "content" : 
+        [
+          {
+            "label" : "位址",
+            "tab" : "address",
+            "description" : "連接埠的IP位址。 "
+          },
+          {
+            "label" : "網路遮罩",
+            "tab" : "netmask",
+            "description" : "連接埠的子網路遮罩。"
+          },
+          {
+            "label" : "啟用",
+            "tab" : "action",
+            "description" : "點擊編輯按鈕可設定IP別名。\n 點擊移除按鈕可刪除IP別名。\n 點擊建立按鈕可新增IP別名。"
+          }
+        ]
+      }
+    ]
+  },
+  "menu-2-1" :
+  {
+    "label" : "VLAN 連接介面",
+    "tab" : "vlan_interfaces",
+    "description" : "您可以在實體連接埠上建立多個虛擬網路（VLANs）以將一個實體網路劃分成多個虛擬網路。 每個VLAN都可以有自己的IP位址和一個專屬ID。\n 使用此頁面可建立或設定VLAN連接介面。 如果您有相關的VLAN連接介面與LAN連接介面或連接埠，您將只能改變其速度和MTU的設定。",
+    "content" :
+    [
+      {
+        "label" : "埠號#",
+        "tab" : "port",
+        "description" : "VLAN 連接介面的索引號碼。"
+      },
+      {
+        "label" : "名稱",
+        "tab" : "name",
+        "description" : "VLAN 連接介面的名稱。"
+      },
+      {
+        "label" : "介面",
+        "tab" : "interface",
+        "description" : "這是與該VLAN連接介面聯繫的實體連接埠。"
+      },
+      {
+        "label" : "VID",
+        "tab" : "vid",
+        "description" : "此為VLAN連接介面的VLAN ID。"。
+      },
+      {
+        "label" : "位址",
+        "tab" : "address",
+        "description" : "此為VLAN連接介面的IP位址。"
+      },
+      {
+        "label" : "DHCP 位址範圍",
+        "tab" : "dhcp_pool",
+        "description" : "此頁面將顯示VLAN連接介面使用的DHCP位址範圍。"
+      },
+      {
+        "label" : "區域",
+        "tab" : "zone",
+        "description" : "此頁面將顯示VLAN連接介面分派的區域。"
+      },
+      {
+        "label" : "啟用",
+        "tab" : "action",
+        "description" : "點擊編輯按鈕可設定VLAN連接介面項目。\n 點擊移除按鈕可刪除VLAN連接介面項目。\n 點擊建立按鈕可新增VLAN連接介面項目。"
+      }
+    ],
+    "editor" : 
+    [
+      {
+        "label" : "基本設定",
+        "tab" : "basic_settings",
+        "description" : "使用此頁面可設定VLAN連接介面的基本設定和連接埠的分派區域。",
+        "content" :
+        [
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "VLAN連接埠的輸入名稱。"
+          },
+          {
+            "label" : "介面",
+            "tab" : "interface",
+            "description" : "選擇您要在VLAN連接介面建立的實體網路連接埠。"
+          },
+          {
+            "label" : "VID",
+            "tab" : "vid",
+            "description" : "從VLAN連接介面輸入一個編號(1~4094)。"
+          },
+          {
+            "label" : "位址",
+            "tab" : "address",
+            "description" : VLAN連接介面輸入的IPv4位址，如果您已經指定該連接埠連接至LAN或WAN區域，則此項目將無法設定。"
+          },
+          {
+            "label" : "網路遮罩",
+            "tab" : "netmask",
+            "description" : "VLAN連接介面輸入的網路遮罩位址，如果您已經指定該連接埠連接至LAN或WAN區域，則此項目將無法設定。"
+          },
+          {
+            "label" : "MTU",
+            "tab" : "mtu",
+            "description" : "指定VLAN連接介面的最大傳輸單位(MTU)。\n 選擇手動則可自行輸入最大封包大小（以為bytes單位）。"
+          },
+          {
+            "label" : "區域",
+            "tab" : "zone",
+            "description" : "您可點擊儲存上一個畫面中VLAN連接介面指派的區域。 如果您已經指定該連接埠連接至LAN或WAN區域，則此項目將無法設定。"
+          }
+        ]
+      },
+      {
+        "label" : "DHCP 位址範圍設定",
+        "tab" : "dhcp_pool_settings",
+        "description" : "可使用此頁面將連接埠設為DHCP伺服器或DHCP中繼代理。",
+        "content" :
+        [
+          {
+            "label" : "DHCP 類型",
+            "tab" : "dhcp_type",
+            "description" : "若選擇停用則此連接埠將不提供DHCP服務。 您需要有一台DHCP伺服器已在網路中運行或手動設定連接到這個連接埠的電腦IP位址。\n 選擇DHCP伺服器則會設定TitanWALL做為DHCP伺服器。\n 選擇DHCP中繼則TitanWALL將會轉發DHCP請求給其它網路上的DHCP伺服器。"
+          },
+          {
+            "label" : "IP 起始位址",
+            "tab" : "start_ip_address",
+            "description" : "請輸入DHCP位址範圍的第一個IPv4位址， TitanWALL將會分派IP位址給DHCP用戶端。"
+          },
+          {
+            "label" : "IP 結束位址",
+            "tab" : "end_ip_address",
+            "description" : "請輸入DHCP位址範圍的最後一個IPv4位址， TitanWALL將會分派IP位址給DHCP用戶端。"
+          },
+          {
+            "label" : "租約時間",
+            "tab" : "lease_time",
+            "description" : "指定DHCP用戶端可以使用分配的IP位址的時效（以秒計算）。"
+          },
+          {
+            "label" : "閘道",
+            "tab" : "gateway",
+            "description" : "輸入預設閘道，它將會分配給DHCP用戶端的IP位址。"
+          },
+          {
+            "label" : "DNS1",
+            "tab" : "dns1",
+            "description" : "輸入慣用DNS，它將會分配給DHCP用戶端的IP位址。"
+          },
+          {
+            "label" : "DNS2",
+            "tab" : "dns2",
+            "description" : "輸入其他DNS，它將會分配給DHCP用戶端的IP位址。"
+          },
+          {
+            "label" : "WINS1",
+            "tab" : "dns1",
+            "description" : "輸入慣用WINS，它將會分配給DHCP用戶端的IP位址。"
+          },
+          {
+            "label" : "WINS2",
+            "tab" : "dns2",
+            "description" : "輸入其他WINS，它將會分配給DHCP用戶端的IP位址。"
+          },
+          {
+            "label" : "網域名稱",
+            "tab" : "domain_name",
+            "description" : "連接埠輸入的網域名稱。"
+          }
+        ]
+      },
+      {
+        "label" : "IPV6 設定",
+        "tab" : "ipv6_settings",
+        "description" : "可使用此頁面查看或設定連接埠的IPv6位址。 您可以在頁面中的網路連線>路由>路由頁面來啟用IPv6。",
+        "content" :
+        [
+          {
+            "label" : "IPv6 位址",
+            "tab" : "ipv6_address",
+            "description" : "顯示連接埠本機的IPv6位址，該位址是由TitanWALL自動產成。 您可以手動指定固定的IPv6位址。"
+          },
+          {
+            "label" : "IPv6 首碼長度",
+            "tab" : "ipv6_prefix_lengtth",
+            "description" : "顯示IPv6的首碼長度。 首碼長度相當於IPv4中的子網路遮罩。 輸入一個新號碼來指定該網路中有多少個IPv6位址。"
+          }
+        ]
+      },
+      {
+        "label" : "IP 別名",
+        "tab" : "ip_alias",
+        "description" : "IP別名可以讓您一個網路連接埠有多個路由的IP位址。\n 使用此頁面可查看或設定連接埠的IP別名。 如果您已經指定該連接埠連接至LAN或WAN區域，則此項目將無法設定。",
+        "content" : 
+        [
+          {
+            "label" : "位址",
+            "tab" : "address",
+            "description" : "連接埠的IP位址。"
+          },
+          {
+            "label" : "網路遮罩",
+            "tab" : "netmask",
+            "description" : "連接埠的子網路遮罩。"
+          },
+          {
+            "label" : "啟用",
+            "tab" : "action",
+            "description" : "點擊編輯按鈕可設定IP別名。\n 點擊移除按鈕可刪除IP別名。\n 點擊建立按鈕可新增IP別名。"
+          }
+        ]
+      }
+    ]
+  },
+  "menu-2-2" :
+  {
+    "label" : "LAN",
+    "tab" : "lan",
+    "description" : "可使用此頁面設定或建立LAN連接介面。\n 備註：您不能刪除LAN連接介面的預設和訪客項目。",
+    "content" :
+    [
+      {
+        "label" : "名稱",
+        "tab" : "name",
+        "description" : "LAN 連接介面的名稱。"
+      },
+      {
+        "label" : "位址",
+        "tab" : "address",
+        "description" : "此為LAN連接介面的IP位址。"
+      },
+      {
+        "label" : "DHCP 位址範圍",
+        "tab" : "dhcp_pool",
+        "description" : "此頁面將顯示LAN連接介面使用的DHCP位址範圍。"
+      },
+      {
+        "label" : "介面",
+        "tab" : "interface",
+        "description" : "這是與該LAN連接介面聯繫的實體連接埠。"
+      },
+      {
+        "label" : "區域",
+        "tab" : "zone",
+        "description" : "此頁面將顯示LAN連接介面分派的區域。"
+      },
+      {
+        "label" : "啟用",
+        "tab" : "action",
+        "description" : "點擊編輯按鈕可設定LAN連接介面項目。\n 點擊移除按鈕可刪除LAN連接介面項目。\n 點擊建立按鈕可新增LAN連接介面項目。"
+      }
+    ],
+    "editor" : 
+    [
+      {
+        "label" : "基本設定",
+        "tab" : "basic_settings",
+        "description" : "使用此頁面可設定LAN連接介面的基本設定和連接埠的分派區域。",
+        "content" :
+        [
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "LAN連接介面的輸入名稱。"
+          },
+          {
+            "label" : "IP 位址",
+            "tab" : "ip_address",
+            "description" : "LAN連接介面輸入的IPv4位址，如果您已經指定該連接埠連接至LAN或WAN區域，則此項目將無法設定。"
+          },
+          {
+            "label" : "網路遮罩",
+            "tab" : "netmask",
+            "description" : "LAN連接介面輸入的網路遮罩位址，如果您已經指定該連接埠連接至LAN或WAN區域，則此項目將無法設定。"
+          },
+          {
+            "label" : "生成樹",
+            "tab" : "spanning_tree",
+            "description" : "選定該複選框使LAN連接介面上能啟用生成樹協議（STP），以防止橋接環路產生。"
+          },
+          {
+            "label" : "介面清單",
+            "tab" : "interface_list",
+            "description" : "此清單包含TitanWALL可用的實體網路連接埠。"
+          },
+          {
+            "label" : "新增/移除",
+            "tab" : "left_right_arrow",
+            "description" : "從介面清單中選擇網路連接埠，然後點擊右箭頭新增連接埠到選定的介面清單，以便連接埠與LAN連接介面聯繫。否則，請從介面清單選擇連接埠，然後點擊左箭頭移動連接埠到介面清單。"
+          },
+          {
+            "label" : "選定的介面清單",
+            "tab" : "selected_interface_list",
+            "description" : "清單將列出TitanWALL要與LAN連接介面聯繫的實體網路連接埠，。"
+          },
+          {
+            "label" : "區域",
+            "tab" : "zone",
+            "description" : "您可點擊儲存上一個畫面中VLAN連接介面指派的區域。 如果您已經指定該連接埠連接至LAN或WAN區域，則此項目將無法設定。"
+          }
+        ]
+      },
+      {
+        "label" : "DHCP 位址範圍設定",
+        "tab" : "dhcp_pool_settings",
+        "description" : "可使用此頁面將連接埠設為DHCP伺服器或DHCP中繼代理。",
+        "content" :
+        [
+          {
+            "label" : "DHCP 類型",
+            "tab" : "dhcp_type",
+            "description" : "若選擇停用則此連接埠將不提供DHCP服務。 您需要有一台DHCP伺服器已在網路中運行或手動設定連接到這個連接埠的電腦IP位址。\n 選擇DHCP伺服器則會設定TitanWALL做為DHCP伺服器。\n 選擇DHCP中繼則TitanWALL將會轉發DHCP請求給其它網路上的DHCP伺服器。"
+          },
+          {
+            "label" : "IP 起始位址",
+            "tab" : "start_ip_address",
+            "description" : "請輸入DHCP位址範圍的第一個IPv4位址， TitanWALL將會分派IP位址給DHCP用戶端。"
+          },
+          {
+            "label" : "IP 結束位址",
+            "tab" : "end_ip_address",
+            "description" : "請輸入DHCP位址範圍的最後一個IPv4位址， TitanWALL將會分派IP位址給DHCP用戶端。"
+          },
+          {
+            "label" : "租約時間",
+            "tab" : "lease_time",
+            "description" : "指定DHCP用戶端可以使用分配的IP位址的時效（以秒計算）。"
+          },
+          {
+            "label" : "閘道",
+            "tab" : "gateway",
+            "description" : "輸入預設閘道，它將會分配給DHCP用戶端的IP位址。"
+          },
+          {
+            "label" : "DNS1",
+            "tab" : "dns1",
+            "description" : "輸入慣用DNS，它將會分配給DHCP用戶端的IP位址。"
+          },
+          {
+            "label" : "DNS2",
+            "tab" : "dns2",
+            "description" : "輸入其他DNS，它將會分配給DHCP用戶端的IP位址。"
+          },
+          {
+            "label" : "WINS1",
+            "tab" : "dns1",
+            "description" : "輸入慣用WINS，它將會分配給DHCP用戶端的IP位址。"
+          },
+          {
+            "label" : "WINS2",
+            "tab" : "dns2",
+            "description" : "輸入其他WINS，它將會分配給DHCP用戶端的IP位址。"
+          },
+          {
+            "label" : "網域名稱",
+            "tab" : "domain_name",
+            "description" : "連接埠輸入的網域名稱。"
+          }
+        ]
+      },
+      {
+        "label" : "IPV6 設定",
+        "tab" : "ipv6_settings",
+        "description" : "可使用此頁面查看或設定連接埠的IPv6位址。 您可以在頁面中的網路連線>路由>路由頁面來啟用IPv6。",
+        "content" :
+        [
+          {
+            "label" : "IPv6 位址",
+            "tab" : "ipv6_address",
+            "description" : "顯示連接埠本機的IPv6位址，該位址是由TitanWALL自動產成。 您可以手動指定固定的IPv6位址。"
+          },
+          {
+            "label" : "IPv6 首碼長度",
+            "tab" : "ipv6_prefix_lengtth",
+            "description" : "顯示IPv6的首碼長度。 首碼長度相當於IPv4中的子網路遮罩。 輸入一個新號碼來指定該網路中有多少個IPv6位址。"
+          }
+        ]
+      },
+      {
+        "label" : "IP 別名",
+        "tab" : "ip_alias",
+        "description" : "IP別名可以讓您一個網路連接埠有多個路由的IP位址。\n 使用此頁面可查看或設定連接埠的IP別名。 如果您已經指定該連接埠連接至LAN或WAN區域，則此項目將無法設定。",
+        "content" : 
+        [
+          {
+            "label" : "位址",
+            "tab" : "address",
+            "description" : "連接埠的IP位址。"
+          },
+          {
+            "label" : "網路遮罩",
+            "tab" : "netmask",
+            "description" : "連接埠的子網路遮罩。"
+          },
+          {
+            "label" : "啟用",
+            "tab" : "action",
+            "description" : "點擊編輯按鈕可設定IP別名。\n 點擊移除按鈕可刪除IP別名。\n 點擊建立按鈕可新增IP別名。"
+          }
+        ]
+      }
+    ]
+  },
+  "menu-2-3" :
+  {
+    "label" : "WAN",
+    "tab" : "wan",
+    "description" : "",
+    "tabs" :
+    {
+      "wan_settings" : 
+      {
+        "label" : "WAN 設定",
+        "tab" : "wan_settings",
+        "description" : "使用此頁面可設定或建立WAN連接介面。GE1被分派到WAN1連接介面。",
+        "content":
+        [
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "WAN連接介面名稱。"
+          },
+          {
+            "label" : "描述",
+            "tab" : "description",
+            "description" : "顯示WAN連接介面的描述名稱。"
+          },
+          {
+            "label" : "WAN 類型",
+            "tab" : "wan_type",
+            "description" : "顯示WAN連接介面是否被分派固定IP位址或從DHCP伺服器獲取IP位址。"
+          },
+          {
+            "label" : "IP 位址",
+            "tab" : "ip_address",
+            "description" : "顯示WAN連接介面的IP位址。"
+          },
+          {
+            "label" : "實體連接埠",
+            "tab" : "physical_port",
+            "description" : "顯示與WAN連接介面聯繫的實體連接埠名稱。"
+          },
+          {
+            "label" : "權數",
+            "tab" : "weight",
+            "description" : "顯示WAN連接介面的權數。"
+          },
+          {
+            "label" : "備份",
+            "tab" : "backup",
+            "description" : "如果目前的WAN連接介面發生失敗將啟用備用的WAN連接介面。"
+          },
+          {
+            "label" : "區域",
+            "tab" : "zone",
+            "description" : "此頁面將顯示LAN連接介面分派的區域。"
+          },
+          {
+            "label" : "啟用",
+            "tab" : "action",
+            "description" : "點擊編輯按鈕可設定WAN連接介面項目。\n 點擊移除按鈕可刪除WAN連接介面項目。\n 點擊建立按鈕可新增WAN連接介面項目。 "
+          }
+        ],
+        "editor" : 
+        [
+          {
+            "label" : "基本設定",
+            "tab" : "basic_settings",
+            "description" : "使用此頁面可設定WAN連接介面的基本設定和指定WAN連接區域。",
+            "content" :
+            [
+              {
+                "label" : "名稱",
+                "tab" : "name",
+                "description" : "顯示WAN連接介面的名稱。 此名稱是由TitanWALL自動產成，無法更改。"
+              },
+              {
+                "label" : "描述",
+                "tab" : "description",
+                "description" : "顯示WAN連接介面的描述名稱。"
+              },
+              {
+                "label" : "埠號設定",
+                "tab" : "port_setting",
+                "description" : "選擇您要與WAN連接介面聯繫的網路埠。"
+              },
+              {
+                "label" : "區域",
+                "tab" : "zone",
+                "description" : "您可在前面頁面上點擊儲存WAN連接介面將被分派的區域。"
+              },
+              {
+                "label" : "IP 分派方式",
+                "tab" : "ip_assigment_method",
+                "description" : "選擇DHCP讓WAN連接介面從所連接的DHCP伺服器獲取IP位址。\n 選擇固定可為WAN連接介面設定一個固定IP位址和子網路遮罩。"
+              },
+              {
+                "label" : "IP 位址",
+                "tab" : "ip_address",
+                "description" : "如果您選擇固定IP，需輸入WAN連接介面的IPv4位址。"
+              },
+              {
+                "label" : "子網路遮罩",
+                "tab" : "sub_mask",
+                "description" : "如果您選擇固定IP，需輸入WAN連接介面的子網路遮罩。 "
+              },
+              {
+                "label" : "閘道",
+                "tab" : "gateway",
+                "description" : "如果您選擇固定IP，需輸入WAN連接介面的預設閘道來轉送資料。"
+              },
+              {
+                "label" : "MTU",
+                "tab" : "mtu",
+                "description" : "指定連接介面的最大傳輸單位(MTU)。\n 選擇自動將會使用預設設定\n 選擇手動則可自行輸入最大封包大小（以為bytes單位）。"
+              },
+              {
+                "label" : "DNS",
+                "tab" : "dns",
+                "description" : "選擇自動連接介面將從連線的DHCP伺服器獲取DNS伺服器的IP位址。\n 若選擇手動則需要自行輸入慣用與其他DNS的IP位址。"
+              },
+              {
+                "label" : "MAC 位址",
+                "tab" : "mac_address",
+                "description" : "選擇自動WAN將會使用預設的MAC位址\n選擇手動則需要自行輸入MAC位址"
+              }
+            ]
+          },
+          {
+            "label" : "Multiple WAN 設定",
+            "tab" : "multiple_wan_settings",
+            "description" : "使用此頁面可設定TitanWALL以及WAN連接介面的優先層級。",
+            "content" :
+            [
+              {
+                "label" : "權數",
+                "tab" : "weight",
+                "description" : "選擇WAN連接介面的權數。\n 很低 - 10\n 低 - 30\n 一般 - 50\n 高 - 70\n 很高 -90"
+              },
+              {
+                "label" : "偵測連結是由",
+                "tab" : "detect_link_by",
+                "description" : "選擇發送一個ping指令的測試連線到預設閘道（預設情況下）。 您也可以選擇一個IP位址來針對指定的主機發送Ping指令。\ n選擇DNS查詢會發送一個DNS查詢的測試連線到DNS伺服器（預設情況下）。 您也可以選擇一個IP位址來針對指定的主機發送DNS查詢。"
+              },
+              {
+                "label" : "如果連結失效請啟動",
+                "tab" : "if_link_fails_activate",
+                "description" : "選擇一個備份WAN連接介面，這將會在目前WAN連接介面無法正常執行時啟用。"
+              }
+            ]
+          },
+          {
+            "label" : "IPv6 設定",
+            "tab" : "ipv6_settings",
+            "description" : "可使用此頁面查看或設定連接埠的IPv6位址。 您可以在頁面中的網路連線>路由>路由頁面來啟用IPv6。",
+            "content" :
+            [
+              {
+                "label" : "分派 IP 位址",
+                "tab" : "ip_address_assignment",
+                "description" : "選擇SLAAC（無狀態位址自動配置）將會由TitanWALL自動連結建立WAN連接介面的本機位址。\n 選擇固定IP則需設定WAN連接介面的固定IP地址，首碼長度，預設閘道和DNS伺服器位址。"
+              },
+              {
+                "label" : "IPv6 位址",
+                "tab" : "ipv6_address",
+                "description" : "輸入介面的固定IP位址。"
+              },
+              {
+                "label" : "IPv6 首碼長度",
+                "tab" : "ipv6_prefix_length",
+                "description" : "首碼長度相當於IPv4中的子網路遮罩。 輸入一個新號碼來指定該網路中有多少個IPv6位址。 在同一網段中的主機IPv6位址將擁有共同的首碼資訊。"
+              },
+              {
+                "label" : "預設 IPv6 閘道",
+                "tab" : "default_ipv6_gateway",
+                "description" : "輸入預設閘道的IPv6位址。"
+              },
+              {
+                "label" : "慣用 DNS 伺服器",
+                "tab" : "primary_dns_server",
+                "description" : "輸入慣用 DNS 伺服器的IPv6位址。"
+              },
+              {
+                "label" : "其他 DNS 伺服器",
+                "tab" : "secondary_dns_server",
+                "description" : "輸入其他 DNS 伺服器的IPv6位址。"
+              }
+            ]
+          },
+          {
+            "label" : "IP 別名",
+            "tab" : "ip_alias",
+            "description" : "IP別名可以讓您一個網路連接埠有多個路由的IP位址。\n 使用此頁面可查看或設定連接埠的IP別名。 如果您已經指定該連接埠連接至LAN或WAN區域，則此項目將無法設定。",
+            "content" : 
+            [
+              {
+                "label" : "位址",
+                "tab" : "address",
+                "description" : "此連接埠的IP位址。"
+              },
+              {
+                "label" : "網路遮罩",
+                "tab" : "netmask",
+                "description" : "此連接埠的子網路遮罩。"
+              },
+              {
+                "label" : "啟用",
+                "tab" : "action",
+                "description" : "點擊編輯按鈕可設定IP別名。\n 點擊移除按鈕可刪除IP別名。\n 點擊建立按鈕可新增IP別名。"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "menu-2-4" :
+  {
+    "label" : "區域",
+    "tab" : "zone",
+    "description" : "使用此頁面可以查看TitanWALL的區域設定或建立一個區域。",
+    "content" :
+    [
+      {
+        "label" : "名稱",
+        "tab" : "name",
+        "description" : "此為區域名稱。"
+      },
+      {
+        "label" : "安全層級",
+        "tab" : "security_level",
+        "description" : "顯示區域的安全層級"。
+      },
+      {
+        "label" : "使用者登入列表",
+        "tab" : "joined_member_list",
+        "description" : "顯示分配給該區域的連接埠和/或介面名稱。"
+      },
+      {
+        "label" : "啟用",
+        "tab" : "action",
+        "description" : "點擊編輯按鈕可設定區域。\n 點擊移除按鈕可刪除區域。\n 點擊建立按鈕可新增區域。"
+      }
+    ],
+    "editor" : 
+    [
+      {
+        "label" : "名稱",
+        "tab" : "name",
+        "description" : "輸入的區域名稱。"
+      },
+      {
+        "label" : "安全層級",
+        "tab" : "security_level",
+        "description" : "可輸入一個數字從0到100來指定該區域的安全層級。 數字越高，代表是越安全的區域。 預設的防火牆政策是自動設定安全層級。具有較高安全層級的區域可以傳送去具有較低安全層級的區域，而從具有較低安全層級區域的傳送不能進入預設建立具有更高安全層級的區域。"
+      },
+      {
+        "label" : "使用者列表",
+        "tab" : "member_list",
+        "description" : "此清單包含TitanWALL上可用的實體連接埠或介面。"
+      },
+      {
+        "label" : "新增/移除",
+        "tab" : "left_right_arrow",
+        "description" : "從介面清單中選擇連接埠或介面，然後點擊右箭頭新增連接埠到選定的使用者登入列表，以便分派區域。否則，請從介面清單選擇連接埠，然後點擊左箭頭移動連接埠到使用者列表。"
+      },
+      {
+        "label" : "使用者登入列表",
+        "tab" : "joined_member_list",
+        "description" : "這裡列出分派到該區域的連接埠或介面。"
+      }
+    ]
+  },
+  "menu-3-0-0" :
+  {
+    "label" : "路由",
+    "tab" : "routing",
+    "description" : "使用此頁面可為WAN和LAN之間的流量傳遞選擇路由模式。\n 如果ISP僅分派您一個IP位址，並且在您的內網有多台主機需要共享時可選擇NAT模式。\n 如果您網路中的每台主機都可以從ISP獲得一個獨立的IP位址，則可選擇典型路由模式。\n 您也可以使用此頁面設定TitanWALL傳送IPv4封包時僅可用IPv4網路或是也可使用IPv6網路。 \n IPv6 (網際網路通訊協定第6版) IP位址長度從32位增加到128位，並且比IPv4提供更大的IP位址空間。 但目前釋出的韌體版本中防火牆、VPN和其他的安全防護服務不支援IPv6。\n 點擊儲存可套用您新的設定。"
+  },
+  "menu-3-0-1" :
+  {
+    "label" : "靜態路由",
+    "tab" : "static_routing",
+    "description" : "使用此頁面可查看和管理TitanWALL上的靜態路由。",
+    "content" :
+    [
+      {
+        "label" : "網路選定",
+        "tab" : "destinated_network",
+        "description" : "顯示用於向所述流量路由主機或網路的位址名稱。"
+      },
+      {
+        "label" : "次站路徑",
+        "tab" : "next_hop",
+        "description" : "顯示介面/實體網路連接埠或是路由中下一站閘道的位址名稱。"
+      },
+      {
+        "label" : "衡量標準",
+        "tab" : "metric",
+        "description" : "此為路由等價路徑計算。在多個最佳路徑併列時的首要路由權重計算來決定優先權。"
+      },
+      {
+        "label" : "啟用",
+        "tab" : "action",
+        "description" : "點擊編輯按鈕可設定路由。\n 點擊移除按鈕可刪除路由。\n 點擊建立按鈕可新增路由。\n 選擇該項目的複選框，然後點擊刪除按鈕刪除所選的路由。"
+      }
+    ],
+    "editor" :
+    [
+      {
+        "label" : "靜態路由編輯",
+        "tab" : "static_routing_editor",
+        "description" : "使用此頁面可建立一個新路由或編輯現有的。",
+        "content" :
+        [
+          {
+            "label" : "網路選定",
+            "tab" : "destinated_network",
+            "description" : "請從下拉選單中選擇現有物件位址。 否則，請選擇新建位址，在頁面中您可以建立一個新的物件位址。 可至物件>位址>位址列表中查看詳細資訊。"
+          },
+          {
+            "label" : "設定預設路由",
+            "tab" : "configure_as_default_route",
+            "description" : "選擇此選項可以使用這條路線做為預設路由。 您可在WAN的路由列表模式> Multiple WAN設定中進行設定。"
+          },
+          {
+            "label" : "次站路徑",
+            "tab" : "next_hop",
+            "description" : "選擇介面並選擇透過哪個連接介面或實體網路埠進行指定路由的流量傳送。\n 選擇IP位址，然後選擇確定做為下一站閘道的物件IP位址。次站路徑有助於流量轉發到目標主機/網路。"
+          },
+          {
+            "label" : "衡量標準",
+            "tab" : "metric",
+            "description" : "輸入一個數字來設定路由的優先層級。 當多個路由為同一目標建立，TitanWALL將使用具有最低度量值的路由。 數值越低，優先層級越高。"
+          }
+        ]
+      }
+    ]
+  },
+  "menu-3-1-0" :
+  {
+    "label" : "IPSec 政策",
+    "tab" : "ipsec_policies",
+    "description" : "VPN (虛擬私有網路) 隧道連接兩個路由器，以確保兩台路由器後端的獨立網路之間傳輸的流量。\n VPN 隧道是建立在兩段之間。 在第一階段（階段1）通訊雙方建立一個安全通道，進行IKE（網際網路金鑰交換）驗證。 在第二階段（階段2），會建立其他安全服務所使用的金鑰，且第一階段所建立金鑰可以用來建立許多第二階段的金鑰來保護VPN流量。 \n 使用此頁面可以查閱和管理TitanWALL上的IPSec VPN 政策。",
+    "content" :
+    [
+      {
+        "label" : "啟用 (checkbox)",
+        "tab" : "enable",
+        "description" : "選定此複選框以開啟在TitanWALL的site-to-site VPN功能。"
+      },
+      {
+        "label" : "名稱",
+        "tab" : "name",
+        "description" : "顯示VPN的政策名稱。"
+      },
+      {
+        "label" : "啟用",
+        "tab" : "enables",
+        "description" : "顯示政策是否開啟。"
+      },
+      {
+        "label" : "狀態",
+        "tab" : "status",
+        "description" : "說明VPN連線是處於連線或中斷。"
+      },
+      {
+        "label" : "WAN",
+        "tab" : "wan",
+        "description" : "顯示TitanWALL的WAN連接介面， 透過此VPN隧道傳送VPN流量。"
+      },
+      {
+        "label" : "Peers",
+        "tab" : "peers",
+        "description" : "顯示TitanWALL連接建立VPN隧道的遠端路由器IP位址。"
+      },
+      {
+        "label" : "本機",
+        "tab" : "local",
+        "description" : "顯示TitanWALL後端透過VPN隧道發送流量的本機網路位址的物件名稱。"
+      },
+      {
+        "label" : "遠端",
+        "tab" : "remote",
+        "description" : "說明遠端路由器透過VPN隧道後端發送流量的遠端網路位址的物件名稱。"
+      },
+      {
+        "label" : "IKE",
+        "tab" : "ike",
+        "description" : "顯示VPN政策使用的IKE政策名稱。"
+      },
+      {
+        "label" : "轉換",
+        "tab" : "transform",
+        "description" : "顯示VPN政策使用的轉換政策名稱。"
+      },
+      {
+        "label" : "啟用",
+        "tab" : "action",
+        "description" : "點擊編輯按鈕可設定政策。\n 點擊移除按鈕可刪除政策。\n 點擊建立按鈕可新增政策。\n 點擊連線按鈕可啟用VPN連線。\n 點擊斷線按鈕可中斷VPN連線。\n 選定政策並點選移除按鈕可刪除指定的政策項目。"
+      }
+    ],
+    "editor" :
+    [
+      {
+        "label" : "基本設定",
+        "tab" : "basic_settings",
+        "description" : "使用此頁面可設定VPN政策的基本設定。 ",
+        "content" :
+        [
+          {
+            "label" : "描述",
+            "tab" : "description",
+            "description" : "政策的描述名稱"
+          },
+          {
+            "label" : "啟用",
+            "tab" : "enable",
+            "description" : "選定啟用的政策"
+          },
+          {
+            "label" : "遠端類型",
+            "tab" : "remote_type",
+            "description" : "如果遠端路由器是使用從DHCP伺服器接收的浮動IP位址，請選擇浮動IP選項。\n 如果遠端路由器是使用固定IP位址，請選擇固定IP選項。 在遠端位址欄位中輸入固定IP位址。\n 如果遠端路由器是使用網域名稱，請選擇固定FQDN選項(例如 vpn.titan.com)。 在遠端位址欄位中輸入網域名稱。"
+          },
+          {
+            "label" : "驗證方式",
+            "tab" : "authentication_method",
+            "description" : "輸入最多255個字母數字字元做為TitanWALL驗證遠端路由的金鑰。 TitanWALL和遠端路由器必須使用相同的密鑰才能建立VPN連線。"
+          },
+          {
+            "label" : "WAN 連接介面",
+            "tab" : "wan_interface",
+            "description" : "選擇透過WAN連接介面傳遞的VPN流量。"
+          },
+          {
+            "label" : "本機網路",
+            "tab" : "選擇一個位址物件來指定允許使用VPN通道的TitanWALL後端的本機網路。\n 選擇任何您可以使用存取控制頁面來管制遠端網路VPN隧道到指定區域的傳入流量。",
+            "description" : ""
+          },
+          {
+            "label" : "遠端網路",
+            "tab" : "remote_network",
+            "description" : "選擇一個位址物件來指定允許使用VPN隧道連線遠端路由器後端的遠端網路。"
+          }
+        ]
+      },
+      {
+        "label" : "進階設定",
+        "tab" : "advance_settings",
+        "description" : "使用此頁面可設定VPN政策的進階設定。",
+        "content" :
+        [
+          {
+            "label" : "PFS",
+            "tab" : "pfs",
+            "description" : "選擇此選項可啟用完美遠期加密（PFS），以提高VPN的安全性。當PFS啟用後，會建立迪菲－赫爾曼金鑰交換，且第一階段所建立金鑰可以用來與第二階段的金鑰進行溝通。\n 同時TitanWALL和遠端路由必須支援PFS才能正常運作此功能。"
+          },
+          {
+            "label" : "DPD",
+            "tab" : "dpd",
+            "description" : "選擇此選項可啟用連線偵測（DPD）來檢測VPN通道的另一端遠端路由器是否仍處於連線狀態。 這有助於最小化確認對方可用性所需的訊息數量。"
+          },
+          {
+            "label" : "延遲時間",
+            "tab" : "delay_time",
+            "description" : "指定DPD RU-THERE訊息之間的時間間隔（以秒為單位）。 TitanWALL發送DPD RU-THERE的訊息，只有當VPN隧道處於閒置狀態，並且遠端沒有任何VPN流量傳遞。 "
+          },
+          {
+            "label" : "偵測逾時",
+            "tab" : "detection_timeout",
+            "description" : "輸入的逾時秒數為TitanWALL等待來自遠端的回應或VPN流量傳遞的時間。"
+          },
+          {
+            "label" : "執行DPD",
+            "tab" : "dpd_action",
+            "description" : "選擇TitanWALL當遠端斷線時採取的行動。\n 選擇保持等待到遠端重新連線。 從TitanWALL後端的本機網路VPN流量可以觸發TitanWALL重新啟動VPN連線。建議您選擇此選項時，遠端節點使用固定IP位址。\n 選擇清除以刪除VPN隧道。您需要手動重新啟動VPN隧道。 建議您選擇此選項時，遠端節點使用浮動IP位址。\n 選擇重啟TitanWALL會嘗試重新啟動VPN隧道三次。"
+          },
+          {
+            "label" : "IKE",
+            "tab" : "ike",
+            "description" : "選擇VPN政策要使用的IKE政策名稱。"
+          },
+          {
+            "label" : "轉換",
+            "tab" : "transform",
+            "description" : "顯示VPN政策使用的轉換政策名稱。"
+          }
+        ]
+      },
+      {
+        "label" : "VPN 故障轉移",
+        "tab" : "vpn_failover",
+        "description" : "使用此頁面可以設定IPSec政策的故障轉移。",
+        "content" :
+        [
+          {
+            "label" : "啟用 WAN 故障轉移",
+            "tab" : "wan_failover_enable",
+            "description" : "選擇此選項，可在主要WAN連接介面無法正常轉發VPN流量時啟用備份的WAN連接介面。 為支援此功能，您需要在TitanWALL設定動態DNS或設定遠端路由使用浮動IP位址（請參閱基本設定畫面的遠端類型）。"
+          },
+          {
+            "label" : "冗餘閘道",
+            "tab" : "redundant_gateway",
+            "description" : "選擇此選項可讓TitanWALL使用替代的IPSec政策來連接到遠端備份路由器，在建立新的VPN連線主要遠端路由器失敗時使用。 若要使用此功能您必須啟用DPD功能。"
+          },
+          {
+            "label" : "選擇備份政策",
+            "tab" : "select_backup_policy",
+            "description" : "選擇一個VPN政策做為IPSec備份政策。"
+          },
+          {
+            "label" : "從備份切換到主要的轉移時間",
+            "tab" : "fallback_time",
+            "description" : "TitanWALL將定期檢查慣用的遠端路由器是否有被啟動。\n 輸入秒數是必須經過TitanWALL確認主要隧道已經從故障中恢復的時間。 如果主隧道在指定的時間內被啟動，Titanwall將會停用備份隧道轉換為主隧道。 可輸入3 ~ 59秒之間的參數值。預設值為5秒。\n 備註:若您要為IPsec VPN使用冗餘閘道您必須啟用DPD功能。"
+          }
+        ]
+      },
+      {
+        "label" : "存取控制",
+        "tab" : "access_control",
+        "description" : "使用此頁面可以設定VPN政策的存取控制設定。 您可在IPSec政策>基本設定頁面中設定本機網路的政策。",
+        "content" :
+        [
+          {
+            "label" : "傳送區域列表",
+            "tab" : "to_zone_list",
+            "description" : "此為TitanWall建立的區域名稱。"
+          },
+          {
+            "label" : "存取設定",
+            "tab" : "access_setting",
+            "description" : "選擇允許，遠端網路流量將可透過VPN隧道進入該區域。\n 選擇封鎖將會阻擋遠端網路透過VPN隧道前往該區域。"
+          }
+        ]
+      }
+    ]
+  },
+  "menu-3-1-1" :
+  {
+    "label" : "IKE 政策",
+    "tab" : "ike_policy",
+    "description" : "網際網路金鑰交換（IKE）是用於建立兩個IPSec路由之間的安全參數組合（SA）的協議。 它使用的迪菲－赫爾曼金鑰交換（DH）產生金鑰對資料進行加密，並使用驗證演算法來驗證對端路由器的身份。\ n可使用介面來管理或建立IKE政策，它定義了階段1建立使用的安全參數（IKE SA）。",
+    "content" :
+    [
+      {
+        "label" : "名稱",
+        "tab" : "name",
+        "description" : "顯示IKE政策名稱。"
+      },
+      {
+        "label" : "加密",
+        "tab" : "encryption",
+        "description" : "顯示在這個政策中使用的加密演算法。"
+      },
+      {
+        "label" : "驗證",
+        "tab" : "authentication",
+        "description" : "顯示在這個政策中使用的驗證演算法。"
+      },
+      {
+        "label" : "D-H 群組",
+        "tab" : "d_h_group",
+        "description" : "顯示在這個政策中使用的D-H 群組。"
+      },
+      {
+        "label" : "生命週期",
+        "tab" : "lifetime",
+        "description" : "顯示IKE SA的有效日期。"
+      },
+      {
+        "label" : "啟用",
+        "tab" : "action",
+        "description" : "點擊編輯按鈕可設定政策。\n 點擊移除按鈕可刪除政策。\n 點擊建立按鈕可新增政策。\n 選定政策並點選移除按鈕可刪除指定的政策項目。"
+      }
+    ],
+    "editor" :
+    [
+      {
+        "label" : "IKE 政策編輯",
+        "tab" : "ike_policy_editor",
+        "description" : "使用此頁面可以新增或編輯現有的IKE政策。",
+        "content" :
+        [
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "IKE的政策名稱。"
+          },
+          {
+            "label" : "加密",
+            "tab" : "encryption",
+            "description" : "DES (資料加密標準)屬於區塊加密法，每次加密解密的區塊大小均為64 位元。 它將使用分享的金鑰來加解密檔案。 3DES設計用來增加DES的金鑰長度來避免暴力破解。 AES (進階加密標準) 是新的資料加密方式用來取代DES並且比3DES執行效能更快速。\n ESP_DES 是使用56位元的金鑰長度。\n ESP_3DES 是比 ESP_DES 更安全並且使用的是168位元的金鑰長度。\n AES的區塊長度固定為128 位元，金鑰長度則可以是128，192或256位元，來進行加解密的動作。"
+          },
+          {
+            "label" : "驗證",
+            "tab" : "authentication",
+            "description" : "選擇驗證演算法 (SHA_1 or MD5) 來與IKE SA進行溝通。\n MD5 (訊息摘要演算法第五版) 是輸入不定長度訊息，輸出固定長度128-bits的演算法。經過程式流程，產生四個32位元資料，最後聯合起來成為一個128-bits雜湊。 SHA-1可將一個2的64次方位元訊息，轉換成一串160位元的訊息摘要。 SHA1安全性是比MD5要來的高。"
+          },
+          {
+            "label" : "D-H 群組",
+            "tab" : "d_h_group",
+            "description" : "選擇IPSec路由將共享使用的D-H 群組金鑰。\n 選項設定分為 群組2 (1024 bits)、 群組5 (1536 bits)、 群組14 (2048 bits)、 群組15 (3072 bits)、 群組16 (4096 bits)、 群組17 (6144 bits) 群組18 (8192 bits)。 較長的金鑰提供比短金鑰更安全的加密。但在速度上較短的金鑰可在較短時間內完成加解密動作。"
+          },
+          {
+            "label" : "生命週期",
+            "tab" : "lifetime",
+            "description" : "指定IKE SA的有效日期。 較短的生命週期能提供更安全的ISAKMP(網際網路安全關聯鑰匙管理協定)溝通。"
+          }
+        ]
+      }
+    ]
+  },
+  "menu-3-1-2" :
+  {
+    "label" : "轉換政策",
+    "tab" : "transform_policy",
+    "description" : "使用此頁面來建立或管理轉換政策，它用於建立IPSec在階段2的SA安全參數。",
+    "content" :
+    [
+      {
+        "label" : "名稱",
+        "tab" : "name",
+        "description" : "顯示轉換政策的名稱。"
+      },
+      {
+        "label" : "加密",
+        "tab" : "encryption",
+        "description" : "顯示在這個政策中使用的加密演算法。"
+      },
+      {
+        "label" : "驗證",
+        "tab" : "authentication",
+        "description" : "顯示在這個政策中使用的驗證演算法。"
+      },
+      {
+        "label" : "PFS 群組",
+        "tab" : "pfs_group",
+        "description" : "顯示在這個政策中使用的PFS金鑰群組。"
+      },
+      {
+        "label" : "生命週期",
+        "tab" : "lifetime",
+        "description" : "顯示轉移SA的有效日期。"
+      },
+      {
+        "label" : "Action",
+        "tab" : "action",
+        "description" : "點擊編輯按鈕可設定政策。\n 點擊移除按鈕可刪除政策。\n 點擊建立按鈕可新增政策。\n 選定政策並點選移除按鈕可刪除指定的政策項目。"
+      }
+    ],
+    "editor" :
+    [
+      {
+        "label" : "轉移政策編輯",
+        "tab" : "transform_policy_editor",
+        "description" : "使用此頁面可以新增或編輯現有的轉移政策。",
+        "content" :
+        [
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "轉換政策的名稱。"
+          },
+          {
+            "label" : "加密",
+            "tab" : "encryption",
+            "description" : "DES (資料加密標準)屬於區塊加密法，每次加密解密的區塊大小均為64 位元。 它將使用分享的金鑰來加解密檔案。 3DES設計用來增加DES的金鑰長度來避免暴力破解。 AES (進階加密標準) 是新的資料加密方式用來取代DES並且比3DES執行效能更快速。\n ESP_DES 是使用56位元的金鑰長度。\n ESP_3DES 是比 ESP_DES 更安全並且使用的是168位元的金鑰長度。\n AES的區塊長度固定為128 位元，金鑰長度則可以是128，192或256位元，來進行加解密的動作。"
+          },
+          {
+            "label" : "驗證",
+            "tab" : "authentication",
+            "description" : "選擇驗證演算法 (SHA_1 or MD5) 來與IKE SA進行溝通。\n MD5 (訊息摘要演算法第五版) 是輸入不定長度訊息，輸出固定長度128-bits的演算法。經過程式流程，產生四個32位元資料，最後聯合起來成為一個128-bits雜湊。 SHA-1可將一個2的64次方位元訊息，轉換成一串160位元的訊息摘要。 SHA1安全性是比MD5要來的高。"
+          },
+          {
+            "label" : "D-H 群組",
+            "tab" : "d_h_group",
+            "description" : "選擇IPSec路由將共享使用的D-H 群組金鑰。\n 選項設定分為 群組2 (1024 bits)、 群組5 (1536 bits)、 群組14 (2048 bits)、 群組15 (3072 bits)、 群組16 (4096 bits)、 群組17 (6144 bits) 群組18 (8192 bits)。 較長的金鑰提供比短金鑰更安全的加密。但在速度上較短的金鑰可在較短時間內完成加解密動作。"
+          },
+          {
+            "label" : "生命週期",
+            "tab" : "lifetime",
+            "description" : "指定IKE SA的有效日期。 當SA到期時，IPSec將需要進行新的交涉。"
+          }
+        ]
+      }
+    ]
+  },
+  "menu-4-0" :
+  {
+    "label" : "規則",
+    "tab" : "rules",
+    "description" : "防火牆允許您設定區域的存取控制。 防火牆規則是按照在列表中出現的順序進行套用。 使用者自訂的防火牆規則優先層級高於預設的防火牆規則。\n 在沒有任何使用者自訂規則的情況下TitanWALL將會使用預設的防火牆規則。您無法刪除或重新排序預設的防火牆規則，或由系統自動產生的防火牆規則。請參閱下表預設的防火牆政策。",
+    "tabs" :
+    {
+      "rule" :
+      {
+        "label" : "規則",
+        "tab" : "rule",
+        "description" : "使用此頁面可查看TitanWALL所有的防火牆規則並且可自訂新增或管理防火牆政策。點擊右上角的按鈕可隱藏或顯示指定項目。",
+        "content" : 
+        [
+          {
+            "label" : "選擇規則表對應標準",
+            "tab" : "criterion",
+            "description" : "設定以下條件，點擊查詢按鈕進行搜尋，只顯示您希望在此頁面中看到的防火牆規則。自訂的規則將永遠都會顯示。\n 來源區域 – 選擇傳送流量的來源區域。\n 傳送區域 – 選擇接收流量的目標區域。\n 預設規則 – 選擇此選項將會顯示預設的防火牆規則\n VPN 規則 – 選擇此選項可顯示正在透過VPN隧道傳輸流量的防火牆規則。\n NAT 規則 – 選擇此選項可顯示，TitanWALL自動建立的每個NAT防火牆規則。"
+          },
+          {
+            "label" : "優先權",
+            "tab" : "priority",
+            "description" : "顯示在列表中的防火牆規則數量。 防火牆規則的順序優先安排很重要。"
+          },
+          {
+            "label" : "啟用",
+            "tab" : "enable",
+            "description" : "此項顯示防火牆規則是否啟用。"
+          },
+          {
+            "label" : "來源區域",
+            "tab" : "fromZone",
+            "description" : "此為流量來源端的區域名稱。 TitanWALL將套用此規則到流量的來源區域。"
+          },
+          {
+            "label" : "傳送區域",
+            "tab" : "toZone",
+            "description" : "此為流量傳送端的區域名稱。 TitanWALL將套用此規則到流量的接收區域。"
+          },
+          {
+            "label" : "Src 位址",
+            "tab" : "src_addr",
+            "description" : "顯示來源位址的物件名稱。 TitanWALL將套用此規則在有與來源位址匹配的封包。"
+          },
+          {
+            "label" : "Dst 位址",
+            "tab" : "dst_addr",
+            "description" : "顯示目標位址的物件名稱。 TitanWALL將套用此規則在有與目標位址匹配的封包。"
+          },
+          {
+            "label" : "服務",
+            "tab" : "service",
+            "description" : "顯示TitanWALL套用此規則的服務名稱。"
+          },
+          {
+            "label" : "排程",
+            "tab" : "schedule",
+            "description" : "顯示在這個規則中使用的排程工作名稱。 排程定義將會被規則套用。"
+          },
+          {
+            "label" : "偵測數",
+            "tab" : "hit",
+            "description" : "顯示該規則被套用於匹配流量的次數。"
+          },
+          {
+            "label" : "記錄",
+            "tab" : "log",
+            "description" : "無論任何流量只要匹配此規則TitanWALL就會建立一個記錄。"
+          },
+          {
+            "label" : "執行動作",
+            "tab" : "match_action",
+            "description" : "表示TitanWALL在發生與規則相符時的執行動作。"
+          },
+          {
+            "label" : "啟用",
+            "tab" : "action",
+            "description" : "點擊編輯按鈕可設定政策。\n 點擊移除按鈕可刪除政策。\n 點擊上移，規則將會上移一行。\n 點擊下移規則將會下移一行。"
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "啟用",
+            "tab" : "enable",
+            "description" : "選擇要啟用的規則。"
+          },
+          {
+            "label" : "來源區域",
+            "tab" : "fromZone",
+            "description" : "選擇流量來源端的區域名稱。"
+          },
+          {
+            "label" : "傳送區域",
+            "tab" : "to_zone",
+            "description" : "選擇流量傳送端的區域名稱。"
+          },
+          {
+            "label" : "來源",
+            "tab" : "source",
+            "description" : "選擇使用此規則的來源位址。 套用此規則到流量的來源區域。"
+          },
+          {
+            "label" : "目標",
+            "tab" : "destination",
+            "description" : "選擇使用此規則的目標位址。 套用此規則到流量的接收區域。"
+          },
+          {
+            "label" : "服務/App/URL",
+            "tab" : "service_app_url",
+            "description" : "選擇使用此規則的服務。該規則只適用於指定的服務。"
+          },
+          {
+            "label" : "排程",
+            "tab" : "schedule",
+            "description" : "選擇使用此規則的排程。 排程定義將會被規則套用。"
+          },
+          {
+            "label" : "記錄",
+            "tab" : "log",
+            "description" : "選擇此選項可讓TitanWALL建立記錄時套用規則。"
+          },
+          {
+            "label" : "執行動作",
+            "tab" : "match_action",
+            "description" : "選擇允許表示TitanWALL允許匹配的流量進入。\n 選擇封鎖表示TitanWALL會阻擋匹配的流量進入。\n 選擇計數會統計TitanWALL套用此規則的次數。 該數量會顯示在安全防護儀表板的封鎖數量中。 如果您修改了規則設定，該計數將會歸零。"
+          }
+        ]
+      },
+      "default_policy" :
+      {
+        "label" : "預設政策",
+        "tab" : "default_policy",
+        "description" : "使用此頁面可啟用預設防火牆規則此項目將不同於您手動建立的規則。 根據它們所屬區域的安全層級設定建立預設的防火牆規則。",
+        "content" : 
+        [
+          {
+            "label" : "來源區域",
+            "tab" : "from_zone",
+            "description" : "此為流量來源端的區域名稱。 TitanWALL將套用此規則到流量的來源區域。"
+          },
+          {
+            "label" : "傳送區域",
+            "tab" : "to_zone",
+            "description" : "此為流量傳送端的區域名稱。 TitanWALL將套用此規則到流量的接收區域。"
+          },
+          {
+            "label" : "執行動作",
+            "tab" : "match_action",
+            "description" : "選擇允許表示TitanWALL允許匹配的流量進入。\n 選擇封鎖表示TitanWALL會阻擋匹配的流量進入。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-4-1-0" :
+  {
+    "label" : "動態 PAT",
+    "tab" : "dynamic_pat",
+    "description" : "動態連接埠位址轉譯 (動態PAT)讓您可將多個私人位址和來源連接埠轉譯為一個公用位址和一個獨特的動態連接埠。 每個連接都具有相同的映射位址，但使用不同來源的連接埠。 當遠端可以連線到TitanWALL後端主機時，防火牆允許它和映射的來源連接埠不會改變。",
+    "tabs" :
+    {
+      "pat_settings" :
+      {
+        "label" : "PAT 設定",
+        "tab" : "pat_settings",
+        "description" : "使用此頁面可以啟用或停用動態PAT。",
+        "content" :
+        [
+          {
+            "label" : "介面名稱",
+            "tab" : "interface_name",
+            "description" : "顯示通訊流量的LAN連接介面或實體連接埠名稱。"
+          },
+          {
+            "label" : "介面位址",
+            "tab" : "interface_address",
+            "description" : "表示傳入流量的來源IP位址將會被轉譯。"
+          },
+          {
+            "label" : "WANx",
+            "tab" : "wanx",
+            "description" : "選擇WAN複選框來啟用動態PAT和從LAN連接介面的來源IP位址映射到WAN連接介面的公用IP位址。 如果清除該複選框，從LAN連接介面使用來源IP位址的流量將連接到其它網路。"
+          }
+        ]
+      },
+      "wan_address_settings" :
+      {
+        "label" : "WAN 位址設定",
+        "tab" : "wan_address_settings",
+        "description" : "使用此頁面可設定當已啟用動態PAT 時，將一個LAN IP位址映射成一個WAN IP位址。",
+        "content" :
+        [
+          {
+            "label" : "WAN",
+            "tab" : "wan",
+            "description" : "此為WAN連接介面的名稱。 將一個來源端的LAN IP位址映射成一個WAN IP位址。"
+          },
+          {
+            "label" : "模式",
+            "tab" : "mode",
+            "description" : "表示TitanWALL是否將LAN IP位址映射到WAN IP位址（自動）或指定一個IP位址（手動）。"
+          },
+          {
+            "label" : "位址",
+            "tab" : "address",
+            "description" : "顯示動態PAT的WAN IP位址。"
+          },
+          {
+            "label" : "啟用",
+            "tab" : "action",
+            "description" : "點擊編輯開啟頁面，您就可更改動態PAT的WAN IP地址。"
+          }
+        ],
+        "editor" : 
+        [
+          {
+            "label" : "WAN 連接介面",
+            "tab" : "wan_interface",
+            "description" : "WAN連接介面的名稱。"
+          },
+          {
+            "label" : "模式",
+            "tab" : "mode",
+            "description" : "選擇自動TitanWALL將會從LAN來源IP位址連結到WAN的原始IP位址。\n 選擇手動並指定一個預先定義的位址物件。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-4-1-1" :
+  {
+    "label" : "靜態 NAT",
+    "tab" : "static_nat",
+    "description" : "使用此頁面可以查看和管理固定位址的對應規則。 來自本機主機私有IP的封包未被轉換為指定的公共IP地址之前，TitanWALL將會為其轉換到公共網路，反之亦然。遠端可以隨時使用映射的公共IP來存取指定私有IP的主機。",
+    "content" :
+    [
+      {
+        "label" : "Seq",
+        "tab" : "seq",
+        "description" : "靜態NAT規則的索引編號。"
+      },
+      {
+        "label" : "WAN 連接介面",
+        "tab" : "wan_interface",
+        "description" : "表示傳輸封包的WAN名稱。"
+      },
+      {
+        "label" : "公共 IP",
+        "tab" : "public_ip",
+        "description" : "此為公共位址的名稱，它定義了TitanWALL轉發到WAN專用IP地址時將被映射的名稱。"
+      },
+      {
+        "label" : "私有 IP",
+        "tab" : "private_ip",
+        "description" : "此為斯有位址的名稱，它定義此規則匹配封包的私有IP位址名稱。"
+      },
+      {
+        "label" : "啟用",
+        "tab" : "action",
+        "description" : "點擊編輯可變更規則設定。\n 點擊刪除可移除規則。"
+      }
+    ],
+    "editor" :
+    [
+      {
+        "label" : "WAN 連接介面",
+        "tab" : "wan_interface",
+        "description" : "選擇指定傳輸私有IP位址封包的WAN連接埠。"
+      },
+      {
+        "label" : "公共 IP",
+        "tab" : "public_ip",
+        "description" : "選擇匹配封包的IP位址映射到一個指定位址。"
+      },
+      {
+        "label" : "私有 IP",
+        "tab" : "private_ip",
+        "description" : "選擇一個位址來指定此規則匹配封包的原始IP位址。"
+      }
+    ]
+  },
+  "menu-4-1-2" :
+  {
+    "label" : "連接埠轉送",
+    "tab" : "port_forwarding",
+    "description" : "Port Forwarding 的功能是將外部連線轉向到內部伺服器或本機其他連接埠，例如FTP伺服器、郵件伺服器或是網頁伺服器，其通常具有專屬的IP位址並且佈署應用程式服務在NAT路由器（TitanWALL）的本機網路。\n 使用此頁面可以查看和管理連接埠轉送服務並可指定內網IP的轉送服務。",
+    "content" :
+    [
+      {
+        "label" : "Seq",
+        "tab" : "seq",
+        "description" : "此為列表規則的索引編號。"
+      },
+      {
+        "label" : "描述",
+        "tab" : "description",
+        "description" : "描述規則的名稱。"
+      },
+      {
+        "label" : "原始服務",
+        "tab" : "orig_service",
+        "description" : "顯示外部連線服務的遠端主機。"
+      },
+      {
+        "label" : "轉址服務",
+        "tab" : "trans_service",
+        "description" : "顯示您需要TitanWALL進行連線轉址的服務。"
+      },
+      {
+        "label" : "私有 IP 轉址",
+        "tab" : "trans_private_ip",
+        "description" : "您指定TitanWALL轉址傳入內部伺服器的私有IP位址。"
+      },
+      {
+        "label" : "WAN",
+        "tab" : "wan",
+        "description" : "顯示接收到外部傳入服務的WAN連接埠。"
+      },
+      {
+        "label" : "WAN IP",
+        "tab" : "wan_ip",
+        "description" : "顯示內部伺服器的公共IP位址。"
+      },
+      {
+        "label" : "啟用",
+        "tab" : "action",
+        "description" : "點擊編輯可變更規則設定。\n 點擊刪除可移除規則。"
+      }
+    ],
+    "editor" :
+    [
+      {
+        "label" : "服務",
+        "tab" : "service",
+        "description" : "指定外部連線服務的遠端主機。"
+      },
+      {
+        "label" : "轉址服務",
+        "tab" : "trans_service",
+        "description" : "選擇指定您要TitanWALL轉址傳入的服務和連接埠。"
+      },
+      {
+        "label" : "私有 IP 轉址",
+        "tab" : "trans_private_ip",
+        "description" : "選擇指定內部伺服器的私有IP位址。"
+      },
+      {
+        "label" : "WAN",
+        "tab" : "wan",
+        "description" : "選擇要在其接收傳入服務的WAN連接介面。 當您選擇一個特定的WAN連接介面，WAN IP位址將會套用給內部服務器做為公共IP位址使用。如果您選擇全部，IP區域將無法使用。"
+      },
+      {
+        "label" : "描述",
+        "tab" : "description",
+        "description" : "輸入規則的描述名稱。"
+      }
+    ]
+  },
+  "menu-4-1-3" :
+  {
+    "label" : "連接埠觸發",
+    "tab" : "port_trigger",
+    "description" : "連接埠觸發讓TitanWALL接收到由主機在內網中使用特定的連接埠號和協議（TCP或UDP）發送的傳送流量響應打開指定的輸入連接埠。 TitanWALL的流量轉發到指定的輸入連接埠上的本地主機的IP位址，並在資料交換完成時的600秒（10分鐘）之後關閉連接埠。\ n使用該介面可查看和管理連接埠觸發的規則。",
+    "content" :
+    [
+      {
+        "label" : "Seq",
+        "tab" : "seq",
+        "description" : "此為列表中規則的索引編號。"
+      },
+      {
+        "label" : "描述",
+        "tab" : "description",
+        "description" : "顯示規則的描述名稱。"
+      },
+      {
+        "label" : "觸發服務",
+        "tab" : "trigger_service",
+        "description" : "顯示TitanWALL後端本地主機發送的服務。"
+      },
+      {
+        "label" : "開啟服務",
+        "tab" : "opened_service",
+        "description" : "顯示遠端主機並觸發TitanWALL開啟指定連接埠的服務。"
+      },
+      {
+        "label" : "啟用",
+        "tab" : "action",
+        "description" : "點擊編輯可變更規則設定。\n 點擊刪除可移除規則。"
+      }
+    ],
+    "editor" :
+    [
+      {
+        "label" : "啟用",
+        "tab" : "enable",
+        "description" : "選定開啟使用的規則。"
+      },
+      {
+        "label" : "觸發服務",
+        "tab" : "trigger_service",
+        "description" : "選擇一個服務物件來指定本地主機發送到遠端主機的傳送服務。"
+      },
+      {
+        "label" : "開啟服務",
+        "tab" : "opened_service",
+        "description" : "選擇一個服務物件來指定遠端主機發送的傳送服務。"
+      },
+      {
+        "label" : "描述",
+        "tab" : "description",
+        "description" : "輸入規則的描述名稱。"
+      }
+    ]
+  },
+  "menu-4-1-4" :
+  {
+    "label" : "進階 NAT",
+    "tab" : "advanced_nat",
+    "description" : "您還可以設定進階NAT規則來指定原始來源/目標地址和原有的服務和新的來源/目標和服務，當符合匹配條件時進行轉譯。\n 使用此頁面可以查看和管理進階NAT規則。",
+    "content" :
+    [
+      {
+        "label" : "Seq",
+        "tab" : "seq",
+        "description" : "此為列表中規則的索引編號。"
+      },
+      {
+        "label" : "啟用",
+        "tab" : "enable",
+        "description" : "顯示規則是否啟用或停用。"
+      },
+      {
+        "label" : "來自",
+        "tab" : "from",
+        "description" : "顯示傳送匹配封包的連接介面或實體連接埠。"
+      },
+      {
+        "label" : "到",
+        "tab" : "to",
+        "description" : "顯示接收匹配封包的連接介面或實體連接埠。"
+      },
+      {
+        "label" : "原始 Src 位址",
+        "tab" : "orig_src_addr",
+        "description" : "顯示匹配封包規則的原始發送端IP位址。"
+      },
+      {
+        "label" : "原始 Dst 位址",
+        "tab" : "orig_dst_addr",
+        "description" : "顯示匹配封包規則的原始接收端IP位址。"
+      },
+      {
+        "label" : "原始服務",
+        "tab" : "orig_serivce",
+        "description" : "顯示匹配封包規則的原始服務。"
+      },
+      {
+        "label" : "轉譯 Src 位址",
+        "tab" : "trans_src_addr",
+        "description" : "顯示匹配封包規則的新來源IP位址。"
+      },
+      {
+        "label" : "轉譯 Dst 位址",
+        "tab" : "trans_dst_addr",
+        "description" : "顯示匹配封包規則的新目標IP位址。"
+      },
+      {
+        "label" : "轉址服務",
+        "tab" : "trans_service",
+        "description" : "顯示匹配封包規則的新服務"
+      },
+      {
+        "label" : "啟用",
+        "tab" : "action",
+        "description" : "點擊編輯可變更規則設定。\n 點擊刪除可移除規則。"
+      }
+    ],
+    "editor" :
+    [
+      {
+        "label" : "啟用",
+        "tab" : "enable",
+        "description" : "選定開啟使用的規則。"
+      },
+      {
+        "label" : "來自",
+        "tab" : "from",
+        "description" : "選擇傳送匹配封包的連接介面或實體連接埠。"
+      },
+      {
+        "label" : "到",
+        "tab" : "to",
+        "description" : "選擇接收匹配封包的連接介面或實體連接埠。"
+      },
+      {
+        "label" : "原始來源位址",
+        "tab" : "orig_src_addr",
+        "description" : "選擇一個位址物件來指定匹配封包規則的原始發送端IP位址。"
+      },
+      {
+        "label" : "原始目標位址",
+        "tab" : "orig_dst_addr",
+        "description" : "選擇一個位址物件來指定匹配封包規則的原始接收端IP位址。
+      },
+      {
+        "label" : "原始服務",
+        "tab" : "orig_serive",
+        "description" : "指定匹配封包規則的原始服務。"
+      },
+      {
+        "label" : "轉譯來源位址",
+        "tab" : "trans_src_addr",
+        "description" : "選擇一個位址為匹配封包指定新的（映射）來源IP位址。"
+      },
+      {
+        "label" : "轉譯目標位址",
+        "tab" : "trans_dst_addr",
+        "description" : "選擇一個位址為匹配封包指定新的（映射）目標IP位址。"
+      },
+      {
+        "label" : "轉址服務",
+        "tab" : "trans_service",
+        "description" : "選擇一個服務來為匹配封包指定使用的新服務。"
+      }
+    ]
+  },
+  "menu-4-2" :
+  {
+    "label" : "ALG",
+    "tab" : "alg",
+    "description" : "應用層閘道（ALG）允許NAT不相容的應用程式，例如SIP或H.323。TitanWALL支援SIP、H.323和FTP的ALG。\n 使用此頁面可以啟用TitanWALL上的ALG功能。 例如，為了讓VoIP流量穿過TitanWALL，您需要選擇支援SIP協議或H.323的VoIP裝置/應用程式協議。 從TitanWALL打開所需的VoIP流量連接埠。 點擊儲存套用您的新設定。\n FTP ALG僅做動在FTP主動模式，以使用其中FTP用戶端使用發送命令到FTP伺服器提供IP位址和連接埠號。 FTP伺服器將使用位址訊息建立FTP用戶端的資料通道。"
+  },
+  "menu-4-3" :
+  {
+    "label" : "VPN 通透",
+    "tab" : "vpn_passthrough",
+    "description" : "使用此頁面可開啟VPN 通透功能，這將可使得VPN串流能夠通過TitanWALL進行傳輸。 您還可依需求選擇不同的VPN傳輸類型(L2TP, PPTP or IPSec)。 點擊儲存以套用您的新設定。"
+  },
+  "menu-4-4" :
+  {
+    "label" : "連線設定",
+    "tab" : "session_settings",
+    "description" : "TitanWALL可允許同一時間最多可有1350000個連線數。 當達到限制時，任何新連線都將被排除。\n 使用此頁面可以指定刪除沒有活動的連線。",
+    "content" :
+    [
+      {
+        "label" : "TCP 逾時",
+        "tab" : "tcp_timeout",
+        "description" : "您可輸入一個逾時參數值（單位：秒），用以指定閒置的TCP連線多久會被TitanWALL關閉。"
+      },
+      {
+        "label" : "UDP 逾時",
+        "tab" : "udp_timeout",
+        "description" : "您可輸入一個逾時參數值（單位：秒），用以指定閒置的UDP連線多久會被TitanWALL關閉。"
+      },
+      {
+        "label" : "其他連線逾時時間",
+        "tab" : "other_timeout",
+        "description" : "您可輸入一個逾時參數值（單位：秒），用以指定其他閒置的連線（TCP或UDP）多久會被TitanWALL關閉。"
+      }
+    ]
+  },
+  "menu-4-5" :
+  {
+    "label" : "攻擊防護",
+    "tab" : "attack_protection",
+    "description" : "使用此頁面功能能保護您的TitanWALL和網路免受攻擊，例如連接埠掃描，網路阻斷攻擊，等等。",
+    "content" :
+    [
+      {
+        "label" : "封鎖 Ping 偵測 WAN 介面",
+        "tab" : "block_ping",
+        "description" : "選定該複選框以封鎖TitanWALL向WAN連接埠接收Ping封包。 這可以防止攻擊者使用ICMP Echo（PING）要求發現您的網路。 建議您允許ping回應命令的時機，僅在用於診斷目的時。"
+      },
+      {
+        "label" : "啟用連接埠防護掃描",
+        "tab" : "enable_port_scan_protection",
+        "description" : "選定複選框，TitanWALL將會封鎖來自外部探測WAN開放連接埠的行為。"
+      },
+      {
+        "label" : "啟用 TCP 阻斷攻擊防護",
+        "tab" : "enable_tcp_flooding_protection",
+        "description" : "您的TitanWALL可以處理高達每秒200個TCP封包同時進行。 選定複選框TitanWALL將會封鎖在WAN連接埠上接收的TCP封包。 這有助於防止TCP阻斷攻擊。 SYN 阻斷攻擊是一種DoS類型的攻擊。 這是一種利用TCP協議缺陷，發送大量偽造的TCP連接請求，從而使得被攻擊方資源耗盡的攻擊方式。"
+      },
+      {
+        "label" : "啟用 UDP 阻斷攻擊防護",
+        "tab" : "enable_udp_flooding_protection",
+        "description" : "您的TitanWALL可以處理高達每秒200個UDP封包同時進行。 選定複選框TitanWALL將會封鎖在WAN連接埠上接收的TCP封包。 這有助於防止UDP阻斷攻擊。 "
+      },
+      {
+        "label" : "封鎖 ICMP 通知",
+        "tab" : "block_icmp_notification",
+        "description" : "選定複選框TitanWALL將會封鎖匹配防火牆規則的封包，而不發送ICMP通知給 寄件人。 某些協議，例如MTU路徑搜尋，將需要ICMP通知。"
+      },
+      {
+        "label" : "封鎖分割封包",
+        "tab" : "block_fragmented_packets",
+        "description" : "選定複選框來封鎖區域間傳送任何的分割封包。"
+      },
+      {
+        "label" : "封鎖多點傳輸封包",
+        "tab" : "block_multicast_packets",
+        "description" : "選定複選框來封鎖區域之間傳輸任何的多點傳輸封包。 在這裡您設定的優先層級高於允許區域之間任何帳號定義的多點傳輸封包規則。預設情況下，防火牆會封鎖任何的多點傳輸封包。"
+      },
+      {
+        "label" : "偵測 SYN 攻擊",
+        "tab" : "syn_flood_threshold",
+        "description" : "輸入SYN封包被允許的每秒最大數量。 當達到臨界值時，TitanWALL將認為已經發生SYN攻擊入侵並封鎖任何新的SYN封包。 輸入0以停用此功能。"
+      },
+      {
+        "label" : "偵測 Echo 風暴",
+        "tab" : "echo_storm_threshold",
+        "description" : "輸入ping請求被允許的每秒最大數量。 當達到臨界值時，TitanWALL將認為已經發生Echo風暴攻擊入侵並封鎖任何新的ping請求。 輸入0以停用此功能。"
+      },
+      {
+        "label" : "偵測 ICMP 攻擊",
+        "tab" : "icmp_flood_threshold",
+        "description" : "進入ICMP封包被允許的每秒最大數量。 當達到臨界值時，TitanWALL將認為已經發生ICMP攻擊入侵並封鎖任何新的ICMP封包。 輸入0以停用此功能。"
+      }
+    ]
+  },
+  "menu-5-0" :
+  {
+    "label" : "病毒防護",
+    "tab" : "antivirus",
+    "description" : "點擊病毒防護子選單中的面板來設定病毒防護設定。",
+    "tabs" :
+    {
+      "general" :
+      {
+        "label" : "一般設定",
+        "tab" : "general",
+        "description" : "使用此頁面可啟用病毒防護並調整設定。",
+        "content" :
+        [
+          {
+            "label" : "啟用",
+            "tab" : "enable",
+            "description" : "選定複選框以開啟TitanWALL病毒防護服務"
+          },
+          {
+            "label" : "區域掃描",
+            "tab" : "zone_to_scan",
+            "description" : "選擇您要套用的病毒防護設定和掃描病毒流量的區域。\n 從可用區域選框中選擇區域，然後點擊向右箭頭，新增到選定區域，以查看所選區域進/出封包的內容。 否則，可從選定區域選擇區域，然後點擊左箭頭將區域移回可用區域中。"
+          },
+          {
+            "label" : "啟用HTTP/FTP/SMTP/POP3",
+            "tab" : "app_enable",
+            "description" : "選定複選框以讓TitanWALL檢查對應類型的流量。"
+          },
+          {
+            "label" : "HTTP/FTP/SMTP/POP3記錄",
+            "tab" : "app_logging",
+            "description" : "選定複選框以讓TitanWALL檢測到病毒時建立記錄。 您還需要在裝置>記錄上進行配置。"
+          },
+          {
+            "label" : "HTTP/FTP/SMTP/POP3啟用",
+            "tab" : "app_action",
+            "description" : "選擇檢測到病毒時TitanWALL採取的動作。\n 無 - TitanWALL將不會進行任何動作。\n 通知 - 在HTTP端TitanWALL對於在首次被檢測到的病毒不會有任何動作。 當第二次檢測到該病毒時，它將會發送關於所述網頁嘗試存取受感染的檔案或網頁帳號資訊的警報通知。  在SMTP或POP3端，當病毒在附件中被檢測到，它仍然會發送原始郵件給收件人並同時發送郵件警報通知給寄件人和收件人。\n 通知 + 封鎖連線 – TitanWALL將在第一時間檢測到病毒感染時封鎖存取的網頁。 當第二次檢測到該病毒時，它將會發送關於所述網頁嘗試存取受感染的檔案或網頁帳號資訊的警報通知。\n 通知 + 損毀檔案 – TitanWALL將檢測附件病毒是否在檔案毀損的部分。 它還會使用命令通知郵件伺服器，並發送電子郵件警報給郵件寄件人和收件人。\n 封鎖連線 – TitanWALL將在檢測到病毒時終止FTP連線。 \n 備註: 如果您針對HTTP端選用通知或通知 + 封鎖連線，需在安全防護 > 病毒防護 > HTTP通知中設定警報通知。 \n 備註: 如果您針對SMTP/POP3端選用通知或通知 + 損毀檔案，需在安全防護 > 病毒防護 > 電子郵件通知中設定警報通知。 您還需要在裝置 > 管理功能 > 電子郵件警示通知 > 設定頁面配置SMTP伺服器地址並同時需要在裝置 > 管理功能 > 電子郵件警示通知 > 警報頁面啟用警報通知。"
+          },
+          {
+            "label" : "HTTP/FTP/SMTP/POP3連接埠清單",
+            "tab" : "app_port",
+            "description" : "指定用於識別應用程式（服務）伺服器的連接埠。 您可以設定多個連接埠。"
+          },
+          {
+            "label" : "掃描檔案的上限大小",
+            "tab" : "max_file_size",
+            "description" : ""
+          }
+        ]
+      },
+      "http" :
+      {
+        "label" : "HTTP 通知",
+        "tab" : "http",
+        "description" : "使用此頁面輸入當病毒在一個網頁或檔案中被TitanWALL檢測到時發送警報通知。您最多可以輸入255個字元。 點擊儲存以套用您的變更。若要使用警報通知您必須啟用HTTP的通知或通知 + 封鎖連線功能。 "
+      },
+      "email" :
+      {
+        "label" : "電子郵件通知",
+        "tab" : "email",
+        "description" : "使用此頁面可配置發送到郵件寄件者和收件者的警報通知，當您設定SMTP或POP3的通知或通知+損毀檔案功能時。\n 此頁面還顯示了電子郵件通知功能是否被啟用及參照的唯讀資訊。",
+        "content" :
+        [
+          {
+            "label" : "郵件來源",
+            "tab" : "from_email",
+            "description" : "此為TitanWALL用來發送電子郵件警報的電子郵件位址。"
+          },
+          {
+            "label" : "SMTP 伺服器",
+            "tab" : "smtp_server",
+            "description" : "此為可以幫助轉發郵件的IP位址或網域名稱的SMTP伺服器。"
+          },
+          {
+            "label" : "SMTP 驗證",
+            "tab" : "smtp_auth",
+            "description" : "驗證SMTP伺服器是否已啟用。"
+          },
+          {
+            "label" : "郵件標籤",
+            "tab" : "mail_tag",
+            "description" : "輸入標籤長度最多30個字元。 標籤將插入到郵件主題，然後在“[標籤]電子郵件主題”的格式中顯示。"
+          },
+          {
+            "label" : "郵件內容",
+            "tab" : "mail_content",
+            "description" : "輸入您想要發送警報時的通知內容。 您最多可以輸入255個字元。"
+          }
+        ]
+      },
+      "address_except" :
+      {
+        "label" : "異常位址",
+        "tab" : "address_except",
+        "description" : "使用此頁面可設定IP位址的白名單。 指定位址的封包將不會進行病毒掃描。",
+        "content" :
+        [
+          {
+            "label" : "啟用",
+            "tab" : "enable",
+            "description" : "顯示該規則是否被啟用。"
+          },
+          {
+            "label" : "來源",
+            "tab" : "source",
+            "description" : "顯示封包的來源IP位址將不會被病毒引擎掃描。"
+          },
+          {
+            "label" : "目標",
+            "tab" : "destination",
+            "description" : "顯示封包的目標IP位址將不會被病毒引擎掃描。"
+          },
+          {
+            "label" : "記錄",
+            "tab" : "log",
+            "description" : "在TitanWALL接收到具有指定來源或目標IP位址的封包時將會產生記錄。"
+          },
+          {
+            "label" : "啟用",
+            "tab" : "action",
+            "description" : "點擊編輯可變更規則設定。\n 點擊刪除可移除規則。"
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "啟用",
+            "tab" : "enable",
+            "description" : "選定開啟使用的規則。"
+          },
+          {
+            "label" : "來源",
+            "tab" : "source",
+            "description" : "選擇將不會被病毒引擎掃描封包的來源IP位址。"
+          },
+          {
+            "label" : "目標",
+            "tab" : "destination",
+            "description" : "選擇將不會被病毒引擎掃描封包的目標IP位址。"
+          },
+          {
+            "label" : "記錄",
+            "tab" : "log",
+            "description" : "選擇在TitanWALL接收到指定IP位址的封包時產生記錄。"
+          }
+        ]
+      },
+      "file_ext" :
+      {
+        "label" : "檔案副檔名",
+        "tab" : "file_ext",
+        "description" : "使用此頁面可設定副檔名的白名單。 指定的副檔名將不會進行病毒掃描。 您可以根據的MIME（多用途網際網路郵件附檔名）類型或檔案副檔名設定規則。",
+        "content" :
+        [
+          {
+            "label" : "MIME",
+            "tab" : "mime",
+            "description" : "MIME類型/子類型的檔案（例如，音訊/ mpeg或image / jpeg檔案）。"
+          },
+          {
+            "label" : "檔案副檔名",
+            "tab" : "file_ext",
+            "description" : "顯示該檔案的檔案副檔名（例如，doc或MP3）。"
+          },
+          {
+            "label" : "啟用",
+            "tab" : "action",
+            "description" : "點擊編輯可變更規則設定。\n 點擊刪除可移除規則。"
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "MIME 編輯",
+            "tab" : "mime",
+            "description" : "使用該頁面可建立新的MIME類型的檔案副檔名規則或編輯現有的。",
+            "content" :
+            [
+              {
+                "label" : "類型",
+                "tab" : "type",
+                "description" : "選定的MIME類型的檔案副檔名將不會被掃描。"
+              },
+              {
+                "label" : "子類型",
+                "tab" : "subtype",
+                "description" : "選定的MIME子類型的檔案副檔名將不會被掃描。"
+              }
+            ]
+          },
+          {
+            "label" : "檔案副檔名編輯",
+            "tab" : "file_ext",
+            "description" : "使用該頁面可建立新的檔案副檔名規則或編輯現有的。",
+            "content" :
+            [
+              {
+                "label" : "檔案副檔名",
+                "tab" : "file_ext",
+                "description" : "輸入的檔案副檔名將不會被掃描。"
+              }
+            ]
+          }
+        ]
+      },
+      "blacklist" :
+      {
+        "label" : "黑名單",
+        "tab" : "blacklist",
+        "description" : "當一個病毒被TitanWALL的病毒防護檢測到，TitanWALL將記錄受感染網站的網址進入黑名單資料庫，並封鎖用戶存取。 每個黑名單項目都有自己的生命週期在這個資料庫中。\n 使用此頁面指定所有黑名單項目的生命週期。 在項目過期時，系統重新啟動時，或病毒防護簽章更新時TitanWALL將會移除該資料庫中的黑名單。TitanWALL最多可記錄多達4096個黑名單。 如果您發現他們是誤報也可以手動將黑名單項目移到到白名單資料庫。",
+        "content" :
+        [
+          {
+            "label" : "到期時間",
+            "tab" : "expire_duration",
+            "description" : "指定資料庫中每一個黑名單項目的存在時間。"
+          },
+          {
+            "label" : "索引",
+            "tab" : "index",
+            "description" : "這是項目的索引編號。"
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "是由TitanWALL的病毒防護檢測到含有病毒的URL（網頁位址）。 例如， http://www.eicar.org/download/eicar.com.txt 或 ftp://1.1.1.1/aaa.com"
+          },
+          {
+            "label" : "到期日",
+            "tab" : "expire_date",
+            "description" : "TitanWALL 將在這個時間到期時從資料庫中刪除URL黑名單項目。 "
+          },
+          {
+            "label" : "啟用",
+            "tab" : "actiove",
+            "description" : "點擊移動到白名單來刪除黑名單資料庫中的項目，並把它添加到白名單資料庫。 點擊刪除圖標，可刪除該項目。"
+          }
+        ]
+      },
+      "whitelist" :
+      {
+        "label" : "白名單",
+        "tab" : "whitelist",
+        "description" : "如果您發現黑名單資料庫中的URL實際上是並非病毒網頁或FTP站點，您可以手動將其移動到白名單資料庫。 病毒防護功能並不需要連線存取白名單資料庫的URL，只是將它們記錄在系統日誌中。 TitanWALL可顯示此頁面儲存的4096個白名單項目。\ n可使用頁面查看白名單與刪除指定項目。",
+        "content" :
+        [
+          {
+            "label" : "索引",
+            "tab" : "index",
+            "description" : "顯示項目的索引編號。"
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "此為您的信任網址。"
+          },
+          {
+            "label" : "啟用",
+            "tab" : "action",
+            "description" : "點擊刪除可移除規則。"
+          }
+        ]
+      },
+      "sig" :
+      {
+        "label" : "簽章",
+        "tab" : "sig",
+        "description" : "使用此頁面可配置病毒防護簽章設定和查看簽章資訊。 您可以手動更新簽章或由TitanWALL依排程自動更新的簽章。 ",
+        "content" :
+        [
+          {
+            "label" : "手動更新",
+            "tab" : "manually_update",
+            "description" : "點擊更新按鈕TitanWALL將立即檢查簽章伺服器。 如有發現新檔案TitanWALL將會自伺服器下載更新檔案。"
+          },
+          {
+            "label" : "自動更新",
+            "tab" : "auto_update",
+            "description" : "選定複選框並選擇簽章自動更新設定的類型和時間間隔。"
+          },
+          {
+            "label" : "類型",
+            "tab" : "type",
+            "description" : "選擇TitanWALL自動檢查簽章伺服器的頻率（每週，每天，每小時）。"
+          },
+          {
+            "label" : "時間間隔",
+            "tab" : "interval",
+            "description" : "選擇TitanWALL自動檢查簽章伺服器的時間間隔。 例如，如果您選擇在每週類型欄位輸入3，這表示TitanWALL將每3週執行一次自動檢查簽章伺服器。"
+          },
+          {
+            "label" : "簽章版本",
+            "tab" : "sig_ver",
+            "description" : "病毒資料庫的版本號。"
+          },
+          {
+            "label" : "MD5 版本",
+            "tab" : "md5_ver",
+            "description" : "病毒防護MD5資料庫的版本號"
+          },
+          {
+            "label" : "簽章數量編號",
+            "tab" : "sig_pat_no",
+            "description" : "病毒資料庫的數量。"
+          },
+          {
+            "label" : "MD5數量編號",
+            "tab" : "md5_pat_no",
+            "description" : "病毒防護MD5資料庫的數量。"
+          },
+          {
+            "label" : "最後檢查時間",
+            "tab" : "last_checked",
+            "description" : "顯示最後一次執行TitanWALL檢查簽章更新伺服器的最新時間。"
+          },
+          {
+            "label" : "最後成功更新時間",
+            "tab" : "last_updated",
+            "description" : "顯示最後一次成功執行TitanWALL更新的時間。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-6-0" : 
+  {
+    "label" : "使用者 & 群組",
+    "tab" : "users_and_groups", 
+    "description" : "點擊使用者 > 使用者 & 群組可查看及設定TitanWALL的使用者列表及群組列表。",
+    "tabs" :
+    {
+      "group" :
+      {
+        "label" : "群組頁籤",
+        "tab" : "group_table",
+        "description" : "使用此頁面可以查看和管理（建立，修改，刪除）所有設定的您可以使用使用者群組在同一時間對同一服務的政策套用相應的使用者成員。請注意，一個使用者只能加入一個使用者群組。群組。 您可以使用使用者群組在同一時間對同一服務的政策套用相應的使用者成員。請注意，一個使用者只能加入一個使用者群組。",
+        "content" :
+        [
+          {
+            "label" : "名稱", 
+            "tab" : "name",
+            "description" : "使用者群組名稱。"
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "群組設定",
+            "tab" : "group_settings",
+            "description" : "點擊建立圖示或編輯圖示 旁邊的使用者> 使用者 & 群組 >群組列表來打開下面的使用者群組。 點擊確認按鈕來儲存設定。 點擊取消按鈕來取消設定。",
+            "content" :
+            [
+              {
+                "label" : "名稱",
+                "tab" : "name",
+                "description" : "使用者群組名稱"
+              }
+            ]
+          },
+          {
+            "label" : "身分資料",
+            "tab" : "membership",
+            "description" : "點擊身分資料頁籤中的使用者 > 使用者 & 群組 > 群組列表 > 建立/編輯頁面來開啟以下頁面。 使用此頁面可以添加或編輯該群組的使用者成員。點擊頁面底部的確定以儲存設定。 點擊取消按鈕離開頁面來取消設定。",
+            "content" :
+            [
+              {
+                "label" : "使用者列表",
+                "tab" : "user_list",
+                "description" : "此列表框中列出所有可用的使用者。 點擊一個或多個使用者，然後點擊向右箭頭按鈕，將其添加到加入使用者列表中。"
+              }
+            ]
+          }
+        ]
+      },
+      "user" :
+      {
+        "label" : "使用者頁籤",
+        "tab" : "user_table",
+        "description" : "點擊使用者頁籤中的使用者 > 使用者 & 群組頁面來開啟以下頁面。 使用此頁面可以查看與編輯TitanWALL的使用者帳號。",
+        "content" :
+        [
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "使用者帳號名稱"
+          }
+        ]
+      }
+    }
+  },
+  "menu-7-0" :
+  {
+    "label" : "位址",
+    "tab" : "addressObj",
+    "description" : "位址項目可以是單個IP位址或是一個IP位址範圍。 位址群組將會包括一些物件位址。 它也可以包含其它的位址群組。",
+    "tabs" :
+    {
+      "group_address" : 
+      {
+        "label" : "位址群組頁籤",
+        "tab" : "group_address",
+        "description" : "一個位址群組是由多個位址項目和其他群組位址組成。 TitanWALL支援64個位址群組。 一個位址群組最多可包含64個位址成員。 本群組頁籤提供TitanWALL所有位址群組的摘要資訊。 您可以在此頁面中新增，編輯或刪除群組位址。 位址類型可以是主機名稱、範圍、網路、或MAC。\n 在位址群組頁籤中，點擊群組位址項目的名稱，可顯示對應的詳細資訊。",
+        "content" : 
+        [
+          {
+            "label" : "#",
+            "tab" : "index",
+            "description" : "這是列表中群組位址的索引編號。"
+          },
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "這是每個位址群組的名稱。 點擊群組位址項目的名稱，可顯示對應的詳細資訊。"
+          },
+          {
+            "label" : "詳細位址",
+            "tab" : "address_detail",
+            "description" : "可顯示位址群組的詳細資訊，包括類型和IP位址，範圍和網路遮罩。"
+          },
+          {
+            "label" : "類型",
+            "tab" : "type",
+            "description" : "一個位址群組可以包括不同類型的位址：\n 如果物件是獨立的IP位址將會顯示主機名稱。\n 如果物件是一組連續性的IP位址將會顯示IP範圍。\n 如果物件是定義為IP位址和網路遮罩將會顯示為網路位址。\n 如果物件定義為MAC位址將會顯示對應的MAC位址。"
+          },
+          {
+            "label" : "啟用",
+            "tab" : "action",
+            "description" : "點擊編輯圖示可以變更位址群組的設定。 點擊刪除圖示可以進行刪除。"
+          }
+        ],
+        "editor" : 
+        [
+          {
+            "label" : "群組名稱",
+            "tab" : "group_name",
+            "description" : "輸入的群組名稱。"
+          },
+          {
+            "label" : "位址列表/已選定位址",
+            "tab" : "address_list",
+            "description" : "如果您想將一個位址項目新增到群組中，請從位址列表中選定它，然後點擊向右箭頭移動項目到選定列表中。  若要從群組中刪除一個位址項目，請從選定位址列表中選擇位址項目，然後點擊左箭頭。 選定位址的詳細資訊、名稱、類型和設定將顯示在該頁面的下半部分。"
+          }
+        ]
+      },
+      "address" : 
+      {
+        "label" : "位址頁籤",
+        "tab" : "address",
+        "description" : "位址項目可以是單個IP位址或是一個IP位址範圍。 TitanWALL的位址列表配置了常用的位址列表，以便您可以使用它來配置防火牆規則，連接埠轉址規則，或其他功能。 您也可以設定一個自訂的位址項目。 位址類型可以是主機名稱、範圍、網路、或MAC。",
+        "content" : 
+        [
+          {
+            "label" : "#",
+            "tab" : "索引",
+            "description" : "這是列表中位址的索引編號。"
+          },
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "這是每個位址的名稱。"
+          },
+          {
+            "label" : "類型",
+            "tab" : "type",
+            "description" : "如果物件是獨立的IP位址將會顯示主機名稱。\n 如果物件是一組連續性的IP位址將會顯示IP範圍。\n 如果物件是定義為IP位址和網路遮罩將會顯示為網路位址。\n 如果物件定義為MAC位址將會顯示對應的MAC位址。"
+          },
+          {
+            "label" : "啟用",
+            "tab" : "action",
+            "description" : "點擊編輯圖示可以變更位址群組的設定。 點擊刪除圖示可以進行刪除。 如果物件沒有刪除圖示您將無法刪除它。"
+          }
+        ],
+        "editor" : 
+        [
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "輸入位址的名稱。"
+          },
+          {
+            "label" : "類型",
+            "tab" : "type",
+            "description" : "如果您選擇主機位址類型，請在位址欄中輸入主機的IP位址。 如果選擇主機類型，您可以設定使用獨立IP位址的主機名稱。 主機位址項目的網路遮罩將被自動設定為255.255.255.255，以確定它是一個獨立的主機。\n 如果您選擇網路做為位址類型，請在網路遮罩欄位中輸入在位址欄位中的子網路IP位址和網路遮罩。 網路位址項目包括多個主機，但範圍是由一個有效的子網遮罩來定義，而不是IP位址。 網路位址項目必須由網路位址和相應的遮罩來定義。 不能使用在網路中（網路位址）的啟始位址，和最後一個位址（廣播位址）。\n 如果您選擇範圍做為位址類型，請在對應的欄位中輸入起始IP位址和結束IP位址。 位址範圍項目定義了一系列連續的IP位址。\n 如果您選擇的MAC做為位址類型，在MAC欄位中輸入主機的MAC位址。 MAC位址項目是透過其硬體位址或MAC（媒體存取控制）位址來識別的主機。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-7-1" :
+  {
+    "label" : "服務",
+    "tab" : "serviceObj",
+    "description" : "服務項目可以被用來定義ICMP訊息，並應用在TCP和UDP上。 可以建立服務群組項目，使相同的規則可以應用於其他功能。",
+    "tabs" :
+    {
+      "group_service" : 
+      {
+        "label" : "服務群組頁籤",
+        "tab" : "group_service",
+        "description" : "當需要建立多個服務相同的規則，您可以使用群組服務，而不用為每個服務單獨建立規則。 服務群組可以由多個服務和其他服務群組組成，但它將被視為一個單一的服務。TitanWALL支援多達64個服務群組。 服務群組最多可以包括64名成員。\n 在服務群組頁面中，點擊群組位址的名稱，可顯示對應的詳細資訊。",
+        "content" :
+        [
+          {
+            "label" : "#",
+            "tab" : "index",
+            "description" : "這是列表中服務群組的索引編號。"
+          },
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "這是每個群組的服務名稱。\n 點擊該群組的服務名稱，以顯示其協議和 起始/結束連接埠的資訊。"
+          },
+          {
+            "label" : "協定",
+            "tab" : "protocol",
+            "description" : "顯示協定和服務群組的連接埠範圍。"
+          },
+          {
+            "label" : "起始連接埠/IP/ICMP類型",
+            "tab" : "port_start",
+            "description" : "可顯示以連接埠範圍、IP或ICMP類型為服務群組的起始連接埠號。"
+          },
+          {
+            "label" : "結束連接埠",
+            "tab" : "port_end",
+            "description" : "顯示服務連接埠範圍的結束埠號。 "
+          },
+          {
+            "label" : "啟用",
+            "tab" : "action",
+            "description" : "點擊編輯圖示可以變更服務群組的設定。 點擊刪除圖示可以進行刪除。"
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "群組名稱",
+            "tab" : "group_name",
+            "description" : "輸入服務群組的名稱。"
+          },
+          {
+            "label" : "服務列表/已選定",
+            "tab" : "service_list",
+            "description" : "如果您想將一個服務群組添加到群組中，請從位址列表中選定它，然後點擊向右箭頭。 它將會被新增至已選定的服務列表中。 要從群組中刪除群組的服務項目，請在服務選擇列表中選定位址項目，然後點擊向左箭頭。所選服務的詳細資訊、名稱、類型和設定將顯示在該頁面的下半部分。"
+          }
+        ]
+      },
+      "service" : 
+      {
+        "label" : "服務頁籤",
+        "tab" : "service",
+        "description" : "可使用此服務頁面，以維護服務項目。 它們被用來定義ICMP訊息並應用在TCP和UDP。 TitanWALL的服務列表中配置了常用服務的列表，以便您可以使用它來配置防火牆規則，連接埠轉址規則，或其他功能。 如果您想自訂配置服務功能，並不是直接在標準列表中進行，而是您首要必須先定義服務項目。",
+        "content" :
+        [
+          {
+            "label" : "#",
+            "tab" : "索引",
+            "description" : "這是服務列表中的索引編號。"
+          },
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "這是每一個服務的名稱。"
+          },
+          {
+            "label" : "協定",
+            "tab" : "protocol",
+            "description" : "顯示協定和服務的連接埠範圍。"
+          },
+          {
+            "label" : "起始連接埠/IP/ICMP類型",
+            "tab" : "port_start",
+            "description" : "可顯示以連接埠範圍、IP或ICMP類型為服務的起始連接埠號"
+          },
+          {
+            "label" : "結束連接埠",
+            "tab" : "port_end",
+            "description" : "顯示服務連接埠範圍的結束埠號。"
+          },
+          {
+            "label" : "啟用",
+            "tab" : "action",
+            "description" : "點擊編輯圖示可以變更服務的設定。 點擊刪除圖示可以進行刪除。 如果物件沒有刪除圖示您將無法刪除它。"
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "輸入服務的名稱。"
+          },
+          {
+            "label" : "協定",
+            "tab" : "protocol",
+            "description" : "指定協定和服務的連接埠範圍。\n 您可以讓服務同時使用TCP和UDP協議。 在連接埠範圍的開始和結束欄位輸入對應的連接埠。\n 如果您想確保訊息能正確發送請選擇TCP（傳輸控制協議（TCP））。\n 當不需要可靠傳遞時您選擇UDP（用戶數據報協議（UDP）），來代替TCP協議使用。 \n 選擇ICMP（網路控制消息協定（ICMP））可發送錯誤和控制消息。 如果您選擇此項目做為服務的協定，請在ICMP類型欄位中輸入ICMP類型。\n 如果您要使用預定義的IP類型請選擇IP項目。如果您選擇了這個做為服務的協定，請在IP區域中輸入IP。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-7-2" :
+  {
+    "label" : "排程",
+    "tab" : "scheduleObj",
+    "description" : "TitanWALL支援一次性和週期性的排程。 一次性的工作排程只在指定的時間和日期是有效的。 週期性的工作排程可重複在一個星期一定時間和天數，例如，如果您想有一個防火牆規則只在週末運行，可以建立一個名為“週末”的排程，它將只做動在每個星期六和星期日。",
+    "content" :
+    [
+      {
+        "label" : "#",
+        "tab" : "索引",
+        "description" : "這是排程列表中的索引編號。"
+      },
+      {
+        "label" : "名稱",
+        "tab" : "name",
+        "description" : "這是每個排程的名稱。"
+      },
+      {
+        "label" : "天",
+        "tab" : "days",
+        "description" : "顯示指定排程被啟動的日期。"
+      },
+      {
+        "label" : "起始時間",
+        "tab" : "start_time",
+        "description" : "顯示排程的開始時間。"
+      },
+      {
+        "label" : "結束時間",
+        "tab" : "end_time",
+        "description" : "顯示排程的結束時間。"
+      },
+      {
+        "label" : "啟用",
+        "tab" : "action",
+        "description" : "點擊編輯圖示可以變更排程的設定。 點擊刪除圖示可以進行刪除。"
+      }
+    ],
+    "editor" :
+    [
+      {
+        "label" : "排程名稱", 
+        "tab" : "name", 
+        "description" : "輸入排程的名稱。"
+      },
+      {
+        "label" : "排程指定日期", 
+        "tab" : "days", 
+        "description" : "您可以設定啟用防火牆規則在每天或一星期的特定日期。 可選擇每天或特定日期。 選擇每天表示防火牆規則將會一直都處於啟動狀態。 選擇特定日期，防火牆規則將會在每星期被指定日期進行啟動。"
+      },
+      {
+        "label" : "排程指定時間", 
+        "tab" : "times", 
+        "description" : "您可以設定啟用防火牆規則在每24小時或特定的時間。 可從時間欄位中選擇所有時間或特定時間。選擇所有時間表示將會全時啟用防火牆規則。 選擇特定時間，表示防火牆規則將會在指定時間啟動。  "
+      }
+    ]
+  },
+  "menu-8-0-0" :
+  {
+    "label" : "管理員設定",
+    "tab" : "administrator_settings",
+    "description" : "se 使用此頁面可配置TitanWALL的使用者名稱、密碼和連線設定。",
+    "content" :
+    [
+      {
+        "label" : "使用者名稱",
+        "tab" : "user_name",
+        "description" : "此欄位顯示目前預設管理員帳號的使用者名稱。 您可以輸入一個新的使用者名稱來變更它。"
+      },
+      {
+        "label" : "目前密碼",
+        "tab" : "current_password",
+        "description" : "請輸入目前的管理員密碼。"
+      },
+      {
+        "label" : "新密碼",
+        "tab" : "new_password",
+        "description" : "請輸入新的管理員密碼。 您輸入的密碼需考量安全強度。"
+      },
+      {
+        "label" : "確認新密碼",
+        "tab" : "confirm_password",
+        "description" : "請再次輸入新的管理員密碼。 您輸入的密碼需考量安全強度。"
+      },
+      {
+        "label" : "無活動逾時",
+        "tab" : "inactive_timeout",
+        "description" : "如果閒置時間超過指定時間（輸入時間以秒為單位）TitanWALL將會自動登出該帳號。"
+      },
+      {
+        "label" : "限制 Web 登入連線",
+        "tab" : "login_web",
+        "description" : "選定複選框來限制使用者可以透過Web瀏覽器登錄到TitanWALL的時間。"
+      },
+      {
+        "label" : "登入連線限制",
+        "tab" : "login_session_limit",
+        "description" : "如果您選擇上述複選框，請輸入登錄限制時間（以秒為單位）。"
+      },
+      {
+        "label" : "最大嘗試次數",
+        "tab" : "max_attempts",
+        "description" : "輸入允許使用者去猜測登錄密碼的最大嘗試次數。 如果使用者沒有在可嘗試次數中輸入正確的密碼登入，使用者的IP位址將會被TitanWALL封鎖。"
+      },
+      {
+        "label" : "限制 Web 登入連線",
+        "tab" : "logins_web",
+        "description" : "在輸入的指定時間內（以秒為單位），如果使用者沒有輸入正確的密碼登入，使用者的IP位址將會被TitanWALL封鎖。 "
+      }
+    ]
+  },
+  "menu-8-0-1" :
+  {
+    "label" : "管理設定",
+    "tab" : "management_settings",
+    "description" : "使用管理設定頁面來允許或設定條件，讓來自不同的連接埠連線。 您可以允許使用Ping（ICMP回應請求），HTTPS（SSL上的HTTP）和SSH。當此功能啟用時，從其他連接埠使用者可以使用Web瀏覽器或者命令介面工具存取TitanWALL，然後存取該連接埠的IP位址（請使用正確的連接埠號）。",
+    "content" :
+    [
+      {
+        "label" : "HTTPS 聽候連接埠號",
+        "tab" : "https_port",
+        "description" : "輸入用於連線到TitanWALL的HTTPS連接埠號。 當使用者嘗試存取TitanWALL的web介面時，必須輸入此埠號。 舉例來說如果埠號是1234則便需在網址列輸入 https://192.168.1.1:1234 "
+      },
+      {
+        "label" : "SSH 聽候連接埠號",
+        "tab" : "ssh_port",
+        "description" : "輸入用於連線到TitanWALL的SSH連接埠號。 當使用者嘗試使用SSH存取TitanWALL的web介面時，必須輸入此埠號。"
+      },
+      {
+        "label" : "介面",
+        "tab" : "interface",
+        "description" : "顯示使用者可以存取的TitanWALL連接埠。 連接埠類型包含Ping（ICMP回應請求），HTTPS（SSL上的HTTP）和SSH。"
+      },
+      {
+        "label" : "Ping",
+        "tab" : "ping",
+        "description" : "顯示連接埠上的Ping協定是否已啟用。"
+      },
+      {
+        "label" : "HTTPS",
+        "tab" : "https",
+        "description" : "顯示連接埠上的HTTPS協定是否已啟用。"
+      },
+      {
+        "label" : "SSH",
+        "tab" : "ssh",
+        "description" : "顯示連接埠上的SSH協定是否已啟用。"
+      },
+      {
+        "label" : "允許存取",
+        "tab" : "allow_access",
+        "description" : "顯示可從一個特定的IP位址或群組位址存取TitanWALL裝置的連接埠。 任何來源裝置都可被允許存取TitanWALL。"
+      },
+      {
+        "label" : "啟用",
+        "tab" : "action",
+        "description" : "點擊編輯圖示可變更介面設定。"
+      }
+    ],
+    "editor" :
+    [
+      {
+        "label" : "介面",
+        "tab" : "interface",
+        "description" : "顯示您正在編輯的連接埠名稱。"
+      },
+      {
+        "label" : "Ping",
+        "tab" : "ping",
+        "description" : "如果您要啟用此連接埠上的Ping協定請選定此複選框。"
+      },
+      {
+        "label" : "HTTPS",
+        "tab" : "https",
+        "description" : "如果您要啟用此連接埠上的HTTPS協定請選定此複選框。"
+      },
+      {
+        "label" : "SSH",
+        "tab" : "ssh",
+        "description" : "如果您要啟用此連接埠上的SSH協定請選定此複選框。"
+      },
+      {
+        "label" : "允許存取",
+        "tab" : "allow_access",
+        "description" : "指定可以透過連接埠存取TitanWALL的裝置。 您可以從現有的位址，群組地址選擇或建立一個新的。 如果您想讓所有來源裝置都可存取TitanWALL請選擇所有。"
+      }
+    ]
+  },
+  "menu-8-0-2" :
+  {
+    "label" : "電子郵件警示通知",
+    "tab" : "email_alert",
+    "description" : "使用電子郵件警示通知可以配置如何將電子郵件警報發送給用戶的相關操作、安全事件或除錯",
+    "tabs" :
+    {
+      "settings" :
+      {
+        "label" : "設定",
+        "tab" : "settings",
+        "description" : "您可以在設定頁面配置SMTP伺服器設定。",
+        "content" :
+        [
+          {
+            "label" : "SMTP 伺服器",
+            "tab" : "smtp_server",
+            "description" : "請輸入SMTP伺服器的IP位址或名稱。"
+          },
+          {
+            "label" : "連接埠",
+            "tab" : "port",
+            "description" : "選擇要用於SMTP通訊的連接埠。"
+          },
+          {
+            "label" : "安全連線方式",
+            "tab" : "secure_method",
+            "description" : "可選擇TLS或SSL做為SMTP的安全連線。若選擇無則為不使用。"
+          },
+          {
+            "label" : "啟用SMTP驗證",
+            "tab" : "smtp_auth",
+            "description" : "如果SMTP伺服器需要身份驗證請選定該複選框。 之後您便需要輸入SMTP和密碼進行驗證。"
+          },
+          {
+            "label" : "帳號",
+            "tab" : "account",
+            "description" : "如果已啟用SMTP驗證即需輸入SMTP帳號。"
+          },
+          {
+            "label" : "密碼",
+            "tab" : "password",
+            "description" : "輸入SMTP帳號的密碼。"
+          },
+          {
+            "label" : "發送端郵件位址",
+            "tab" : "from_email",
+            "description" : "輸入發送電子郵件警示通知的郵件位址。"
+          },
+          {
+            "label" : "接收端郵件位址",
+            "tab" : "to_email",
+            "description" : "輸入接收電子郵件警示通知的郵件位址。"
+          }
+        ]
+      },
+      "alerts" : 
+      {
+        "label" : "警示",
+        "tab" : "alerts",
+        "description" : "可使用警示頁面配置電子郵件警示設定每個事件。 當檢測到對應事件時，系統會自動發送電子郵件警示通知到指定的郵件位址。\n 選擇您希望接收警示通知的事件。",
+        "content" :
+        [
+          {
+            "label" : "CPU 超載警示",
+            "tab" : "cpu_overload",
+            "description" : "如果CPU使用率高於臨界值超過一分鐘將會發送電子郵件警示通知，並當CPU使用率降回正常值一分鐘後發送另一個通知。 您可以在CPU臨界值設定中設定CPU臨界值的百分比。"
+          },
+          {
+            "label" : "新韌體警示",
+            "tab" : "new_firmware",
+            "description" : "如果檢測到新韌體將會發送郵件警示通知。"
+          },
+          {
+            "label" : "系統重啟警示",
+            "tab" : "system_restart",
+            "description" : "如果系統發生重啟將會發送郵件警示通知。"
+          },
+          {
+            "label" : "管理員登入失敗警示 ",
+            "tab" : "failed_admin_login",
+            "description" : "如果檢測到管理員登入失敗將會發送郵件警示通知。"
+          },
+          {
+            "label" : "硬碟空間警示",
+            "tab" : "disk_filling_up",
+            "description" : "如果硬碟空間即將屆滿將會發送郵件警示通知。 您可以定義硬碟額滿的設定值。 如果這個警示功能被啟用，系統會自動檢測硬碟的狀態，每天一次，如果硬碟使用率超過設定值時將會在00:00發送提醒郵件。"
+          },
+          {
+            "label" : "Site-to-Site VPN 斷/連線警示",
+            "tab" : "site2site",
+            "description" : "如果VPN連線發生斷線或失敗將會發送郵件警示通知。" 
+          },
+          {
+            "label" : "WAN 斷/連線警示",
+            "tab" : "wan",
+            "description" : "如果WAN發生斷線或失敗將會發送郵件警示通知。 您可以在警示間隔欄位中指定間隔時間。"
+          },
+          {
+            "label" : "病毒防護警示",
+            "tab" : "antivirus",
+            "description" : "如果偵測到病毒將會發送郵件警示通知。 您可以在警示間隔欄位中指定間隔時間。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-8-0-3" :
+  {
+    "label" : "備份/還原",
+    "tab" : "backup_restore",
+    "description" : "使用此頁面可以備份設定或還原設定到TitanWALL。 您可以將目前設定備份到本機PC或連接到TitanWALL USB連接埠的USB裝置。 選定設定並點擊備份按鈕。\n 您可以從PC指定路徑，點擊檔案將設定檔上傳到TitanWALL來還原設定。 您也可使用連接到TitanWALL USB連接埠的USB裝置來還原設定。"
+  },
+  "menu-8-0-4" :
+  {
+    "label" : "韌體",
+    "tab" : "firmware",
+    "description" : "TitanWALL最多可儲存兩個韌體版本，並執行其中之一版本。其它韌體不能做為前次韌體使用。 您可以使用此韌體頁面執行以下操作：\n 查看目前韌體資訊。\n 將目前韌體切換到前次韌體。\n 從網路檢查最新的韌體版本並進行升級。\n 您也可使用本機PC或是TitanWALL USB連接埠來進行更新。\n 當TitanWALL無法開機三次或切換韌體時發生CRC（循環冗餘校驗）錯誤，TitanWALL將自動還原韌體到前次良好設定的韌體版本。\n 注意：在韌體升級過程中必須持續開啟升級頁面不要關閉TitanWALL、關閉PC、斷開網路連線，或做任何可能會中斷這個過程的事情，直到韌體更新完成。 整個過程只需幾分鐘時間，包含重新啟動系統。 中斷韌體上傳過程可能會破壞您TitanWALL的記憶體和導致TitanWALL無法操作。",
+    "content" :
+    [
+      {
+        "label" : "目前韌體版本",
+        "tab" : "primary",
+        "description" : "目前TitanWALL執行的韌體版本。"
+      },
+      {
+        "label" : "前次韌體版本",
+        "tab" : "secondary",
+        "description" : "TitanWALL存放沒有執行的韌體版本。"
+      },
+      {
+        "label" : "伺服器版本",
+        "tab" : "server",
+        "description" : "由TitanWALL伺服器上提供最新的韌體版本。如果您目前的韌體已是最新版本將不會有變更。 TitanWALL會每隔24小時自動檢查伺服器是否有更新的韌體版本。 請確認您的TitanWALL可以存取網際網路以獲取韌體版本更新。"
+      },
+      {
+        "label" : "最後檢查時間",
+        "tab" : "last_check",
+        "description" : "TitanWALL檢查伺服器最新韌體版本的日期和時間。"
+      },
+      {
+        "label" : "韌體切換",
+        "tab" : "switch",
+        "description" : "點擊此按鈕來變更TitanWALL使用其他韌體。 建議您在切換韌體之前先備份設定。"
+      },
+      {
+        "label" : "檢查伺服器版本",
+        "tab" : "check",
+        "description" : "點擊此按鈕TitanWALL將檢查伺服器是否有韌體更新並更新此頁面上的韌體版本。"
+      },
+      {
+        "label" : "從本機更新韌體",
+        "tab" : "upgrade_local",
+        "description" : "選擇此選項可從本機PC端更新韌體到TitanWALL。 點擊選擇檔案按鈕指定檔案路徑。"
+      },
+      {
+        "label" : "從伺服器更新韌體",
+        "tab" : "upgrade_server",
+        "description" : "選擇此選項可從伺服器取得韌體更新。"
+      },
+      {
+        "label" : "從USB更新韌體",
+        "tab" : "upgrade_usb",
+        "description" : "選擇此選項可從USB連接埠更新韌體到TitanWALL。 "
+      },
+      {
+        "label" : "韌體更新",
+        "tab" : "upgrade",
+        "description" : "點擊此按鈕可上傳指定韌體到TitanWALL。"
+      },
+      {
+        "label" : "更新並還原出廠預設值",
+        "tab" : "reset",
+        "description" : "點擊此按鈕可上傳指定韌體到TitanWALL。 當韌體上傳完成時，TitanWALL設定將會重置為出廠預設值。"
+      }
+    ]
+  },
+  "menu-8-0-5" :
+  {
+    "label" : "重新啟動/重設/關機",
+    "tab" : "reboot_reset_shutdown",
+    "description" : "此頁面允許您透過點擊重新啟動按鈕重新啟動TitanWALL，點擊重置按鈕重置所有設定恢復到出廠預設值，並透過點擊關機按鈕關閉此TitanWALL。"
+  },
+  "menu-8-0-6" :
+  {
+    "label" : "內容",
+    "tab" : "properties",
+    "description" : "使用此頁面可以設定主機及網域名稱。"
+  },
+  "menu-8-1" :
+  {
+    "label" : "日期和時間",
+    "tab" : "date_and_time",
+    "description" : "使用日期和時間頁面可手動設定TitanWALL的系統時間或根據您當地時區和日期的網路時間協定伺服器（NTP）系統進行時間同步。",
+    "content" :
+    [
+      {
+        "label" : "時區",
+        "tab" : "time_zone",
+        "description" : "指定您當地的時區。"
+      },
+      {
+        "label" : "手動設定系統時間",
+        "tab" : "manual_systime",
+        "description" : "選擇此選項您必須手動輸入時間和日期。"
+      },
+      {
+        "label" : "自動設定系統時間",
+        "tab" : "auto_systime",
+        "description" : "如果您希望系統自動與指定的NTP伺服器同步日期和時間，請選擇此選項：\n Daylight Saving Time Adjustment: 調整日光節約時間：選擇此選項可自動調整時間為日光節約時間。\n 預設的NTP伺服器：選擇此選項可以使用預設的NTP伺服器。\n 自訂NTP伺服器：選擇此選項可使用自訂的NTP伺服器。 輸入自訂的NTP伺服器IP位址與網域名稱，在伺服器1/伺服器2的名稱和IP欄位中。 伺服器1為主要NTP伺服器伺服器2為備用的NTP伺服器。"
+      }
+    ]
+  },
+  "menu-8-2" :
+  {
+    "label" : "事件記錄",
+    "tab" : "loggins",
+    "description" : "使用事件記錄可查看與管理記錄資訊與警示通知。",
+    "tabs" :
+    {
+      "view_logs" : 
+      {
+        "label" : "查看記錄",
+        "tab" : "view_logs",
+        "description" : "在查看記錄頁面中您可使用篩選查看特定的嚴重級別事件或者來源/目標IP位址的記錄。",
+        "content" :
+        [
+          {
+            "label" : "嚴重性 (篩選)",
+            "tab" : "serverity_f",
+            "description" : "選擇嚴重級別來篩選記錄。"
+          },
+          {
+            "label" : "設施 (篩選)",
+            "tab" : "facility_f",
+            "description" : "選擇設施項目來篩選記錄。 "
+          },
+          {
+            "label" : "來源IP位址 (篩選)",
+            "tab" : "src_ip_f",
+            "description" : "輸入來源IP位址進行防火牆記錄的篩選。"
+          },
+          {
+            "label" : 目標IP位址 (篩選)",
+            "tab" : "dst_ip_f",
+            "description" : "輸入目標IP位址進行防火牆記錄的篩選。"
+          },
+          {
+            "label" : "起始/結束日期 (篩選)",
+            "tab" : "start_end_f",
+            "description" : "如果你想設定一段時間來篩選記錄，請選擇開始和結束日期。"
+          },
+          {
+            "label" : "日期",
+            "tab" : "date",
+            "description" : "此為日期的事件記錄"
+          },
+          {
+            "label" : "嚴重性",
+            "tab" : "severity",
+            "description" : "此為嚴重性的事件記錄"
+          },
+          {
+            "label" : "設施",
+            "tab" : "facility",
+            "description" : 此為設施的事件記錄"
+          },
+          {
+            "label" : "來源IP位址",
+            "tab" : "src_ip",
+            "description" : "此為來源IP位址的事件記錄"
+          },
+          {
+            "label" : "目標IP位址",
+            "tab" : "dst_ip",
+            "description" : "此為目標IP位址的事件記錄"
+          },
+          {
+            "label" : "記錄資料",
+            "tab" : "log_data",
+            "description" : "顯示事件的描述摘要。"
+          },
+          {
+            "label" : "匯出 (按鈕)",
+            "tab" : "export",
+            "description" : "點擊以匯出記錄"
+          }
+        ]
+      },
+      "log_settings" : 
+      {
+        "label" : "記錄設定",
+        "tab" : "log_settings",
+        "description" : "使用記錄設定頁面可配置記錄設定，比如儲存日誌到遠端的事件記錄伺服器並依排程發送指定記錄的電子郵件通知。",
+        "content" : 
+        [
+          {
+            "label" : "啟用",
+            "tab" : "enable",
+            "description" : "選定此複選框以啟用TitanWALL的記錄功能。"
+          },
+          {
+            "label" : "本機記錄",
+            "tab" : "local",
+            "description" : "選定啟用複選框，啟用記錄寫入硬碟，並在嚴重列表中指定事件的嚴重性級別。"
+          },
+          {
+            "label" : "遠端記錄",
+            "tab" : "remote",
+            "description" : "選定啟用複選框，將記錄儲存到遠端伺服器。"
+          },
+          {
+            "label" : "郵件警示通知",
+            "tab" : "email_alert",
+            "description" : "選擇啟用排程複選框將會依排程發送指定記錄的電子郵件通知。 "
+          }
+        ]
+      },
+      "logs_facility" : 
+      {
+        "label" : "設施記錄",
+        "tab" : "logs_facility",
+        "description" : "使用設施記錄頁面設定被記錄的消息。 ",
+        "content" :
+        [
+          {
+            "label" : "名稱",
+            "tab" : "name",
+            "description" : "設施名稱"
+          },
+          {
+            "label" : "本機記錄",
+            "tab" : "local_log",
+            "description" : "選擇設施複選框來啟用其本機記錄設定。"
+          },
+          {
+            "label" : "遠端記錄",
+            "tab" : "remote_log",
+            "description" : "選擇設施複選框來啟用其遠端記錄設定。"
+          },
+          {
+            "label" : "郵件警示通知",
+            "tab" : "email_alert",
+            "description" : "選擇設施複選框來啟用郵件警示通知設定。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-8-3" :
+  {
+    "label" : "Proxy",
+    "tab" : "proxy",
+    "description" : "如果您的公司使用代理服務器尋求一些服務（例如FTP、網頁），則您必須設定TitanWALL代理伺服器設定。 如果您不需使用代理伺服器則不需設定此選項。",
+    "content" :
+    [
+      {
+        "label" : "啟用Proxy",
+        "tab" : "enable",
+        "description" : "選擇此選項可啟用代理伺服器功能。"
+      },
+      {
+        "label" : "Proxy伺服器",
+        "tab" : "server",
+        "description" : "請輸入您的代理伺服器IP位址或網域名稱。"
+      },
+      {
+        "label" : "Proxy伺服器連接埠",
+        "tab" : "port",
+        "description" : "輸入代理服務器的聽候連接埠。"
+      },
+      {
+        "label" : "使用 Proxy 驗證",
+        "tab" : "auth",
+        "description" : "如果代理服務器需要使用者驗證請選定此複選框。"
+      },
+      {
+        "label" : "使用者名稱",
+        "tab" : "user",
+        "description" : "輸入使用者名稱。"
+      },
+      {
+        "label" : "使用者密碼",
+        "tab" : "pass",
+        "description" : "輸入使用者密碼。"
+      }
+    ]
+  },
+  "menu-8-4" : 
+  {
+    "label" : "授權",
+    "tab" : "license",
+    "description" : "使用授權頁面來啟用試用授權並註冊支援服務。",
+    "tabs" :
+    {
+      "registration" :
+      {
+        "label" : "註冊",
+        "tab" : "registration",
+        "description" : "使用授權頁面可查看授權資訊和啟用試用授權。 安全防護功能只可被試用授權啟用一次。 頁面資訊將會顯示目前TitanWALL的授權資訊。 ",
+        "content" : 
+        [
+          {
+            "label" : "試用版啟動碼",
+            "tab" : "trial",
+            "description" : "選定此複選框，然後點擊儲存圖標來啟動試用授權。 試用授權僅可使用30天。 在這30天內您可免費更新病毒樣本。"
+          }
+        ]
+      },
+      "services" :
+      {
+        "label" : "服務",
+        "tab" : "services",
+        "description" : "在您完成TitanWALL的註冊之您將可看到此服務頁面。您可以點擊手動更新按鈕從伺服器進行更新。 如果您想註冊授權，請從授權中心進入升級啟動碼欄位輸入啟動碼，然後點擊註冊按鈕。"
+      }
+    }
+  }
+}

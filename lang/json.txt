@@ -1,0 +1,519 @@
+{
+  "common_addr_list" : 
+  {
+    "guiAddrTNum": 0,
+    "guiMacTNum": 0,
+    "guiIpTNum": 0,
+    "guiAddrT": 
+    [
+      {
+        "gid": 0,
+        "name": "",
+        "userDefined": 1,
+        "type": 0,
+        "startIp": "",
+        "endIp": "",
+        "netmask": "",
+        "mac": ""
+      }
+    ]
+  },
+  "common_updateAddr" :
+  {
+    "gid": 0,
+    "action": 0,
+    "name": "",
+    "type": 0,
+    "startIp": "",
+    "endIp": "",
+    "mac": ""
+  },
+  "common_gAddr_list" :
+  {
+    "guiGAddrTNum": 0,
+    "guiGAddrT": 
+    [
+      {
+        "gid": 0,
+        "name": "",
+        "userDefined": 1,
+        "num": 0,
+        "idList": ""
+      }
+    ]
+  },
+  "common_updateGAddr" : 
+  {
+    "gid": 0,
+    "action": 0,
+    "name": "",
+    "num": 0,
+    "idList": ""
+  },
+  "common_service_list" :
+  {
+    "guiServiceTNum": 0,
+    "guiServiceT": 
+    [
+      {
+        "gid": 0,
+        "name": "",
+        "type": 0,
+        "userDefined": 0,
+        "param1": 0,
+        "param2": 0
+      }
+    ]
+  },
+  "common_updateService" :
+  {
+    "gid": 0,
+    "action": 0,
+    "name": "",
+    "type": 0,
+    "param1": 0,
+    "param2": 0
+  },
+  "common_gService_list" :
+  {
+    "guiGServiceTNum": 0,
+    "guiGServiceT": 
+    [
+      {
+        "gid": 0,
+        "name": "",
+        "userDefined": 1,
+        "num": 0,
+        "idList": ""
+      }
+    ]
+  },
+  "common_time_list" :
+  {
+    "guiTimeTNum": 0,
+    "guiTimeT": 
+    [
+      {
+        "gid": 0,
+        "name": "",
+        "type": 0,
+        "userDefined": 1,
+        "day": 0,
+        "startHour": 1,
+        "startMin": 0,
+        "endHour": 1,
+        "endMin": 0
+      }
+    ]
+  },
+  "common_ip_list" :
+  {
+    "guiIpTNum": 0,
+    "guiIpT": 
+    [
+      {
+        "gid": 0,
+        "name": "",
+        "userDefined": 1,
+        "type": 1,
+        "startIp": "",
+        "endIp": "",
+        "netmask": ""
+      }
+    ]
+  },
+  "common_mac_list" :
+  {
+    "guiMacTNum": 0,
+    "guiMacT": 
+    [
+      {
+        "gid": 0,
+        "name": "",
+        "userDefined": 0,
+        "mac": ""
+      }
+    ]
+  },
+  "common_lanIf_list" :
+  {
+    "guiLanIfTNum": 0,
+    "guiLanIfT":
+    [
+      {
+        "gid":0,
+        "name":"",
+        "userDefined":1,
+        "type":0,
+        "ip":"",
+        "netmask":""
+      }
+    ]
+  },
+  "common_portIf_list" :
+  {
+    "guiPortIfTNum": 0, 
+    "guiPortIfT":
+    [
+      {
+        "gid":0, 
+        "name":"", 
+        "type":0
+      }
+    ]
+  },
+  "common_vlanIf_list" : 
+  { 
+    "guiVlanIfTNum": 0, 
+    "guiVlanIfT":
+    [
+      {
+        "gid": 0, 
+        "name": "", 
+        "type":0
+      }
+    ]
+  },
+  "common_wanIf_list" :
+  { 
+    "guiWanIfTNum": 0, 
+    "guiWanIfT":
+    [
+      {
+        "gid": 0, 
+        "name": "", 
+        "status": 1, 
+        "ip": "", 
+        "netmask": ""
+      }
+    ]
+  },
+  "common_zoneIf_list" :
+  {
+    "guiZoneIfTNum": 0, 
+    "guiZoneIfT": 
+    [
+      {
+        "gid": 0, 
+        "name": "", 
+        "userDefined": 1, 
+        "securityLevel":0
+      }
+    ]
+  },
+  "common_if_list" :
+  {
+    "guiIfTNum": 0, 
+    "guiIfT": 
+    [
+      {
+        "gid": 0,
+        "name": "",
+        "ipNum" : 0,
+        "ipIdList" : ""
+      }
+    ]
+  },
+  "wan" :
+  { 
+    "wanIpIfT":
+    [
+      {
+        "gid":0,
+        "name":"",
+        "description":"",
+        "wanProto":0,
+        "wanProto_v6":0,
+        "address":"192.168.100.254/24",
+        "portId":"",
+        "zoneId":"",
+        "macCloneEnable":0,
+        "macClone":"",
+        "weight":"50",
+        "netDetectEnable":0,
+        "netDetectMethod":0,
+        "netDetectPingIpId":"0",
+        "netDetectDnsIpId":"0",
+        "failoverEnable":0,
+        "backupWanName":"",
+        "cgiAction":0
+      }
+    ],
+    "ipAliasT":
+    [
+      {
+        "ipAliasCnt":0,
+        "address":"",
+        "netmask":""
+      }
+    ],
+    "staticipT":
+    [
+      {
+        "gid":0,
+        "ip":"",
+        "netmask":"",
+        "gateway":"",
+        "mtuMode":0,
+        "mtu":1500,
+        "dnsMode":"1",
+        "userDns1":"",
+        "userDns2":""
+      }
+    ],
+    "dhcpcT":
+    [
+      {
+        "gid":"0",
+        "mtuMode":"0",
+        "mtu":1500,
+        "dnsMode":0,
+        "userDns1":"",
+        "userDns2":""
+      }
+    ],
+    "staticip6T":
+    [
+      {
+        "gid":0,
+        "ip":"::",
+        "prefix":0,
+        "gateway":"::",
+        "userDns1":"::",
+        "userDns1":"::"
+      }
+    ]
+  },
+  "lan" :
+  {
+    "guiLanIfTNum": 0,
+    "guiLanIfT": 
+    [
+      {
+        "gid": 0,
+        "name": "",
+        "userDefined":1,
+        "address": "",
+        "netmask": "",
+        "stp": 0,
+        "dhcpPool": "",
+        "interfaces": "",
+        "zone": 0,
+        "ipv6Address":"::",
+        "ipv6PrefixLength": 0,
+        "cgiAction": 0
+      }
+    ],
+    "guiIpAliasTNum": 0,
+    "guiIpAliasT": [
+      {
+        "ipAliasCnt": 0,
+        "address": "",
+        "netmask": ""
+      }
+    ],
+    "guiDhcpsTNum": 0,
+    "guiDhcpsT": [
+      {
+        "gid": 0,
+        "type": 1,
+        "startIp": "",
+        "endIp": "",
+        "relayIp": "",
+        "leaseTime": "",
+        "gateway": "",
+        "dns1": "",
+        "dns2": "",
+        "wins1": "",
+        "wins2": "",
+        "domainName": ""
+      }
+    ]
+  },
+  "zone" :
+  {
+    "guiZoneIfTNum" : 0, 
+    "guiZoneIfT" : 
+    [
+      {
+        "gid" : 0, 
+        "name" : "", 
+        "userDefined" : 1, 
+        "memberCnt" : 0, 
+        "member" : "", 
+        "securityLevel" : 0, 
+        "cgiAction":0
+      }
+    ] 
+  },
+  "vlan" :
+  {
+    "guiVlanIfTNum": 0,
+    "guiVlanIfT": [
+      {
+        "gid": 0,
+        "port": 1,
+        "name": "",
+        "type": 0,
+        "interface": "",
+        "vid": 0,
+        "address": "",
+        "netmask": "",
+        "dhcpPool": "",
+        "mtuMode": 0,
+        "mtuValue": 1500,
+        "zoneId": 0,
+        "ipv6Address":"::",
+        "ipv6PrefixLength":0,
+        "cgiAction": 0
+      }
+    ],
+    "guiIpAliasTNum": 0,
+    "guiIpAliasT": [
+      {
+        "ipAliasCnt": 0,
+        "address": "",
+        "netmask": ""
+      }
+    ],
+    "guiDhcpsTNum": 0,
+    "guiDhcpsT": [
+      {
+        "gid": 0,
+        "type": 1,
+        "startIp": "",
+        "endIp": "",
+        "relayIp": "",
+        "leaseTime": "",
+        "gateway": "",
+        "dns1": "",
+        "dns2": "",
+        "wins1": "",
+        "wins2": "",
+        "domainName": ""
+      }
+    ]
+  },
+  "s2svpn" :
+  {
+    "s2svpnEnable": 0,
+    "guiS2svpnTNum": 0,
+    "guiS2svpnT": 
+    [
+      {
+        "gid": 0,
+        "name": "",
+        "type": 0,
+        "enable": 0,
+        "remoteGwType": 0,
+        "remoteGw": "",
+        "wanId": 0,
+        "localNetworkId": 0,
+        "remoteNetworkId": 0,
+        "phase1AuthType": 0,
+        "presharedkey": "",
+        "ikePolicyId": 0,
+        "transformPolicyId": 0,
+        "pfsEnable": 0,
+        "dpdEnable": 0,
+        "dpdaction": 0,
+        "dpddelay": 10,
+        "dpdtimeout": 30,
+        "vpnaclTNum": 0,
+        "vpnaclT": 
+        [
+          {
+            "zoneName": "",
+            "actionType": 0
+          }
+        ],
+        "wanFailoverEnable": 0,
+        "backupPolicyEnable": 0,
+        "backupPolicyName": "",
+        "fallbackTime": 5,
+        "infoStatus": 0,
+        "cgiAction": 0
+      }
+    ]
+  },
+  "ipsecike" :
+  {
+    "guiIpsecikeTNum": 0,
+    "guiIpsecikeT": 
+    [
+      {
+        "gid": 0,
+        "name": "",
+        "cipher": "",
+        "hash": "",
+        "dhgroup": "",
+        "lifetime": 0,
+        "userDefined": 0,
+        "cgiAction": 0
+      }
+    ]
+  },
+  "ipsectransform" :
+  {
+    "guiIpsectransformTNum": 0,
+    "guiIpsectransformT": 
+    [
+      {
+        "gid": 0,
+        "name": "",
+        "cipher": "",
+        "hash": "",
+        "pfsgroup": "",
+        "lifetime": 0,
+        "userDefined": 0,
+        "cgiAction": 0
+      }
+    ]
+  },
+  "staticRoute" :
+  {
+    "guiStaticRouteTNum": 0,
+    "guiStaticRouteT": 
+    [
+      {
+        "gid": 0,
+        "name": "",
+        "dstIpId": 0,
+        "nhType": 0,
+        "nhIfId": 0,
+        "nhIpId": 0,
+        "metric": 0,
+        "isDefaultRt":0,
+        "cgiAction": 0
+      }
+    ]
+  },
+  "groupList" :
+  {
+    "groupListT" :
+    [
+      {
+        "gid" : 0,
+        "name" : "",
+        "webLoginPriv" : 3,
+        "portalPriv" : 1,
+        "cgiSetListId" : "",
+        "cgiAction" : 0
+      }
+    ]
+  },
+  "userList" :
+  {
+    "userListT" :
+    [
+      {
+        "gid" : 0,
+        "name" : "",
+        "password" : "",
+        "groupId" : 0,
+        "cgiSetPwd" : 0,
+        "cgiAction" : 0
+      }
+    ]
+  }
+}

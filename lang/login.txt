@@ -1,0 +1,20 @@
+﻿{
+  "en" :
+  {
+    "userName" : "User Name",
+    "userPass" : "Password",
+    "userLang" : "Language"
+  },
+  "cn" :
+  {
+    "userName" : "帐号",
+    "userPass" : "密码",
+    "userLang" : "语言"
+  },
+  "tw" :
+  {
+    "userName" : "帳號",
+    "userPass" : "密碼",
+    "userLang" : "語系"
+  }
+}

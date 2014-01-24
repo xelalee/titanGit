@@ -1,0 +1,26 @@
+{
+  "en":
+  {
+    "hd_user" : "Welcome",
+    "hd_timer" : "Date",
+    "hd_ip" : "User IP",
+    "hd_idle" : "Idle Logout",
+    "hd_force" : "Force Logout"
+  },
+  "cn":
+  {
+    "hd_user" : "欢迎",
+    "hd_timer" : "时间",
+    "hd_ip" : "登陆IP",
+    "hd_idle" : "超时时间",
+    "hd_force" : "强制注销"
+  },
+  "tw":
+  {
+    "hd_user" : "歡迎",
+    "hd_timer" : "時間",
+    "hd_ip" : "登入 IP",
+    "hd_idle" : "閒置登出",
+    "hd_force" : "強制登出"
+  }
+}
