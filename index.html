@@ -145,6 +145,7 @@ var gHtml = {};
 var gLogin = {};
 var gData  = {};
 var gError = {};
+var gTitle = {};
 var gLimit = {};
 var gCheck = {};
 var gIssue = {};
@@ -506,6 +507,8 @@ $(document).ready(function () {
         default:
             err = '<p>' + gError[ gObj.lang ].unknownError + '</p>';
         }
+gY.log( gObj.lang );
+gY.log( err );
         $('.errorMsg').html( err );
     }
 
@@ -717,10 +720,10 @@ $(document).ready(function () {
         gHtml.login +=       '<td>';
         gHtml.login +=         '<select id="userLang">';
         gHtml.login +=           '<option value="en">English</option>';
-        //gHtml.login +=           '<option value="tw"  >繁體中文</option>';
-        //gHtml.login +=           '<option value="cn"  >简体中文</option>';
-        gHtml.login +=           '<option value="tw" disabled >繁體中文</option>';
-        gHtml.login +=           '<option value="cn" disabled >简体中文</option>';
+        gHtml.login +=           '<option value="tw"  >繁體中文</option>';
+        gHtml.login +=           '<option value="cn"  >简体中文</option>';
+        //gHtml.login +=           '<option value="tw" disabled >繁體中文</option>';
+        //gHtml.login +=           '<option value="cn" disabled >简体中文</option>';
         gHtml.login +=         '</select>';
         gHtml.login +=       '</td>';
         gHtml.login +=     '</tr>';
@@ -745,15 +748,20 @@ $(document).ready(function () {
         $('#loginButton').on('click', function(e) {
             e.preventDefault();
     
-            if (!gReg.ascii.login.test($('#userName').val()) || !gReg.ascii.login.test($('#userPass').val())) {
-                failAlert('login_fail');
-                return false;
-            }
-    
             // get lang for relative msg
             gObj.lang = $('#userLang').val();
             gObj.user = $('#userName').val();
             gObj.pass = $('#userPass').val();
+
+gY.log( 'if login' );
+gY.log( gObj.user );
+gY.log( gObj.pass );
+gY.log( gObj.lang );
+    
+            if (!gReg.ascii.login.test($('#userName').val()) || !gReg.ascii.login.test($('#userPass').val())) {
+                failAlert('login_fail');
+                return false;
+            }
     
             gObj.form = {};
             gObj.form.username = gObj.user;
@@ -2871,13 +2879,40 @@ $(document).ready(function () {
     
         $('#popError').html('<div class="errorForm"><p class="errorMsg"></p><div class="processDiv"></div></div>');
     
+        // alert msg depend on target
+        switch(tar.id)
+        {
+        case 'restoreConf':
+            tar.title = gTitle[ gObj.lang ].restoreConf;
+            msg = '<p>' + gError[ gObj.lang ].restoreConf + gRef.rebooting[ tar.id ] + gError[ gObj.lang ].seconds + '</p>';
+            break;
+        case 'checkFirmware':
+            tar.title = gTitle[ gObj.lang ].checkFirmware;
+            msg = '<p>' + gError[ gObj.lang ].checkFirmware + '</p>';
+            break;
+        case 'switchFirmware':
+            tar.title = gTitle[ gObj.lang ].switchFirmware;
+            msg = '<p>' + gError[ gObj.lang ].switchFirmware + gRef.rebooting[ tar.id ] + gError[ gObj.lang ].seconds + '</p>';
+            break;
+        case 'resetDefault':
+            tar.title = gTitle[ gObj.lang ].resetDefault;
+            msg = '<p>' + gError[ gObj.lang ].resetDefault + gRef.rebooting[ tar.id ] + (($('#type-1').is(':checked'))? gError[ gObj.lang ].few_minutes : gRef.rebooting[ tar.id ] + gError[ gObj.lang ].seconds ) + '</p>';
+            break;
+        case 'upgradeFirmware':
+            tar.title = gTitle[ gObj.lang ].upgradeFirmware;
+            msg = '<p>' + gError[ gObj.lang ].upgradeFirmware + (($('#type-1').is(':checked'))? gError[ gObj.lang ].few_minutes : gRef.rebooting[ tar.id ] + gError[ gObj.lang ].seconds) + '</p>';
+            break;
+        }
+    
+        $('.errorMsg').html(msg);
+
         gPop.popError = $('#popError').dialog({
             width: 300,
             height:200,
             position: "center",
             resizable: false,
             modal: true,
-            title: "Reboot Preparing",
+            title: tar.title,
             buttons: {
                 okay: function() {
                     gData.firmware = {};
@@ -3051,27 +3086,6 @@ $(document).ready(function () {
             }
         });
     
-        // alert msg depend on target
-        switch(tar.id)
-        {
-        case 'restoreConf':
-            msg = '<p>' + gError[ gObj.lang ].restoreConf + gRef.rebooting[ tar.id ] + gError[ gObj.lang ].seconds + '</p>';
-            break;
-        case 'checkFirmware':
-            msg = '<p>' + gError[ gObj.lang ].checkFirmware + '</p>';
-            break;
-        case 'switchFirmware':
-            msg = '<p>' + gError[ gObj.lang ].switchFirmware + gRef.rebooting[ tar.id ] + gError[ gObj.lang ].seconds + '</p>';
-            break;
-        case 'resetDefault':
-            msg = '<p>' + gError[ gObj.lang ].resetDefault + gRef.rebooting[ tar.id ] + (($('#type-1').is(':checked'))? gError[ gObj.lang ].few_minutes : gError[ gObj.lang ].seconds ) + '</p>';
-            break;
-        case 'upgradeFirmware':
-            msg = '<p>' + gError[ gObj.lang ].upgradeFirmware + (($('#type-1').is(':checked'))? gError[ gObj.lang ].few_minutes : gRef.rebooting[ tar.id ] + gError[ gObj.lang ].seconds) + '</p>';
-            break;
-        }
-    
-        $('.errorMsg').html(msg);
     }
     
     function alterAlert() {
@@ -26530,9 +26544,19 @@ gY.log( 'tabs ' + x );
             for (var i=0, len=gLang.length; i<len; i++)
             {
                 $.ajax({
+                    url:'lang/' + gLang[ i ] + '-title.txt',
+                    dataType:'json',
+                    success:function(data) {
+                        // prepare popup title
+                        gTitle[ data.lang ] = data.title;
+                    }
+                });
+
+                $.ajax({
                     url:'lang/' + gLang[ i ] + '-error.txt',
                     dataType:'json',
                     success:function(data) {
+                        // prepare error message
                         gError[ data.lang ] = data.error;
                     }
                 });
