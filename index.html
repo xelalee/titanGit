@@ -507,8 +507,6 @@ $(document).ready(function () {
         default:
             err = '<p>' + gError[ gObj.lang ].unknownError + '</p>';
         }
-gY.log( gObj.lang );
-gY.log( err );
         $('.errorMsg').html( err );
     }
 
@@ -753,11 +751,6 @@ gY.log( err );
             gObj.user = $('#userName').val();
             gObj.pass = $('#userPass').val();
 
-gY.log( 'if login' );
-gY.log( gObj.user );
-gY.log( gObj.pass );
-gY.log( gObj.lang );
-    
             if (!gReg.ascii.login.test($('#userName').val()) || !gReg.ascii.login.test($('#userPass').val())) {
                 failAlert('login_fail');
                 return false;
@@ -2718,7 +2711,7 @@ gY.log( gObj.lang );
 
                 $.post('cgi-bin/checkSmtpSetting.cgi', gY.JSON.stringify( gCache.email_alert ), function(poster) {
                     if ( 0 === parseInt( poster.smtpErrorCode ) ) {
-                        errorAlert( gError[ gObj.lang ]['smtpErrorCode-0'] + gCache.email_alert.toEmail + ' ' + gError[ gObj.lang ].please_check_email );
+                        errorAlert( gError[ gObj.lang ]['smtpErrorCode-0'] + gCache.email_alert.toEmail + ', ' + gError[ gObj.lang ].please_check_email );
                     } else {
                         errorAlert( poster.smtpErrorMsg );
                     } 
@@ -2896,7 +2889,7 @@ gY.log( gObj.lang );
             break;
         case 'resetDefault':
             tar.title = gTitle[ gObj.lang ].resetDefault;
-            msg = '<p>' + gError[ gObj.lang ].resetDefault + gRef.rebooting[ tar.id ] + (($('#type-1').is(':checked'))? gError[ gObj.lang ].few_minutes : gRef.rebooting[ tar.id ] + gError[ gObj.lang ].seconds ) + '</p>';
+            msg = '<p>' + gError[ gObj.lang ].resetDefault + (($('#type-1').is(':checked'))? gError[ gObj.lang ].few_minutes : gRef.rebooting[ tar.id ] + gError[ gObj.lang ].seconds ) + '</p>';
             break;
         case 'upgradeFirmware':
             tar.title = gTitle[ gObj.lang ].upgradeFirmware;
@@ -2950,17 +2943,7 @@ gY.log( gObj.lang );
                         $('#upgradeFirmware').prop('disabled', true);
                         $('#resetDefault').prop('disabled', true);
 
-                        if (!gIf.uploaded && gObj.uploader.get("fileList").length > 0) {
-                            gData.firmware.type = 0;
-                            gData.firmware.action = 1;
-                            if (gIf.invalid) {
-                                $('.errorMsg').html( gError[ gObj.lang ][ 'invalid_firmware' ] );
-                            } else {
-                                loadingToggle( true );
-                                $('.errorMsg').html( gError[ gObj.lang ][ 'please_wait_for_check' ] );
-                                gObj.uploader.upload(gObj.uploaderFile, gObj.uploader.uploadURL, gData.firmware);
-                            }
-                        }else if ( $('#type-1').is(':checked') ) {
+                        if ( $('#type-1').is(':checked') ) {
                             gData.firmware.type = 1;
                             gData.firmware.action = 1;
                             loadingToggle( true );
@@ -2996,6 +2979,16 @@ gY.log( gObj.lang );
                                     $('.errorMsg').html( gError[ gObj.lang ][ poster.msg ]);
                                 }
                             });
+                        }else if (!gIf.uploaded && gObj.uploader.get("fileList").length > 0) {
+                            gData.firmware.type = 0;
+                            gData.firmware.action = 1;
+                            if (gIf.invalid) {
+                                $('.errorMsg').html( gError[ gObj.lang ][ 'invalid_firmware' ] );
+                            } else {
+                                loadingToggle( true );
+                                $('.errorMsg').html( gError[ gObj.lang ][ 'please_wait_for_check' ] );
+                                gObj.uploader.upload(gObj.uploaderFile, gObj.uploader.uploadURL, gData.firmware);
+                            }
                         }
                         break;
                     case 'resetDefault':
@@ -3003,26 +2996,21 @@ gY.log( gObj.lang );
                         $('#resetDefault').prop('disabled', true);
 
                         gObj.form = gData.firmware;
-                        if (!gIf.uploaded && gObj.uploader.get("fileList").length > 0) {
-                            gData.firmware.type = 0;
-                            gData.firmware.action = 2;
-                            if (gIf.invalid) {
-                                $('.errorMsg').html( 'please check for file you choosed ... ');
-                            } else {
-                                loadingToggle( true );
-                                $('.errorMsg').html( 'please wait for file uploading and checking ...');
-                                gObj.uploader.upload(gObj.uploaderFile, gObj.uploader.uploadURL, gData.firmware);
-                            }
-                        }else if ( $('#type-1').is(':checked') ) {
+                        if ( $('#type-1').is(':checked') ) {
                             gData.firmware.type = 1;
                             gData.firmware.action = 2;
                             loadingToggle( true );
                             $.post('cgi-bin/dev_firmware_post.cgi', gData.firmware , function(poster) {
                                 if (0 === parseInt(poster.status)) {
                                     gPop.popError.dialog( "close" );
-                                    gObj.loading = 99;
-                                    gIf.loading = true;
-                                    gIf.reboot = true;
+                                    if ('no_change_required' == poster.msg) {
+                                        loadingToggle( false );
+                                        errorAlert( gError[ gObj.lang ][ poster.msg ] );
+                                    } else {
+                                        gObj.loading = 99;
+                                        gIf.loading = true;
+                                        gIf.reboot = true;
+                                    }
                                 }else {
                                     loadingToggle( false );
                                     $('.errorMsg').html( gError[ gObj.lang ][ poster.msg ]);
@@ -3044,6 +3032,16 @@ gY.log( gObj.lang );
                                     $('.errorMsg').html( gError[ gObj.lang ][ poster.msg ]);
                                 }
                             });
+                        }else if (!gIf.uploaded && gObj.uploader.get("fileList").length > 0) {
+                            gData.firmware.type = 0;
+                            gData.firmware.action = 2;
+                            if (gIf.invalid) {
+                                $('.errorMsg').html( gError[ gObj.lang ].pleaes_check_file );
+                            } else {
+                                loadingToggle( true );
+                                $('.errorMsg').html( gError[ gObj.lang ].please_wait_for_check );
+                                gObj.uploader.upload(gObj.uploaderFile, gObj.uploader.uploadURL, gData.firmware);
+                            }
                         }
                         break;
                     case 'restoreConf':
@@ -3068,7 +3066,7 @@ gY.log( gObj.lang );
                             }
                         }else if (!gIf.uploaded && gObj.uploader.get("fileList").length > 0) {
                             if (gIf.invalid) {
-                                $('.errorMsg').html( 'please check for file you choosed ... ');
+                                $('.errorMsg').html( gError[ gObj.lang ].please_check_file );
                             } else {
                                 loadingToggle( true );
                                 gObj.uploader.upload(gObj.uploaderFile, gObj.uploader.uploadURL);
@@ -16003,7 +16001,7 @@ gY.log( gObj.lang );
                                 gData[ tar.pid ].guiAddrFilterT[ tar.thisNo ].enable = ($('#Editor-enable').is(':checked'))? 1 : 0 ;
                                 gData[ tar.pid ].guiAddrFilterT[ tar.thisNo ].sAddrId = $('#Editor-sAddrId').val();
                                 gData[ tar.pid ].guiAddrFilterT[ tar.thisNo ].dAddrId = $('#Editor-dAddrId').val();
-                                gData[ tar.pid ].guiAddrFilterT[ tar.thisNo ].logEnable = ($('#Editor-enable').is(':checked'))? 1 : 0 ;
+                                gData[ tar.pid ].guiAddrFilterT[ tar.thisNo ].logEnable = ($('#Editor-logEnable').is(':checked'))? 1 : 0 ;
                             }
                             gCache.tabber[ 3 ] = true;
                             break;
@@ -17699,8 +17697,6 @@ gY.log( gObj.lang );
         var cnt = 0;
         var tmp = '';
 
-gY.log( 'refresh ' + pid );
-
         switch( pid )
         {
         case 'address':
@@ -17959,11 +17955,11 @@ gY.log( 'refresh ' + pid );
             tmp +=   '<td class="alignLeft">';
             tmp +=     '<table id="Editor-table-type-3">';
             tmp +=       '<tr>';
-            tmp +=         '<td class="alignLeft BT100">* Starting IP Address</td>';
+            tmp +=         '<td class="alignLeft BT110">* Starting IP Address</td>';
             tmp +=         '<td class="alignLeft"><input type="text" id="Editor-type-3-startIp" /></td>';
             tmp +=       '</tr>';
             tmp +=       '<tr>';
-            tmp +=         '<td class="alignLeft BT100">* Ending IP Address</td>';
+            tmp +=         '<td class="alignLeft BT110">* Ending IP Address</td>';
             tmp +=         '<td class="alignLeft"><input type="text" id="Editor-type-3-endIp" /></td>';
             tmp +=       '</tr>';
             tmp +=     '</table>';
@@ -18263,7 +18259,7 @@ gY.log( 'refresh ' + pid );
             tmp += '</th>';
             tmp += '</tr>';
             tmp += '<tr>';
-            tmp += '<td class="BT40 alignRight">';
+            tmp += '<td class="BT60 alignRight">';
             tmp += 'Name : ';
             tmp += '</td>';
             tmp += '<td colspan="3" class="alignLeft">';
@@ -18271,7 +18267,7 @@ gY.log( 'refresh ' + pid );
             tmp += '</td>';
             tmp += '</tr>';
             tmp += '<tr>';
-            tmp += '<td class="BT40 alignRight">';
+            tmp += '<td class="BT60 alignRight">';
             tmp += 'Protocol : ';
             tmp += '</td>';
             tmp += '<td colspan="3" class="alignLeft">';
@@ -18279,7 +18275,7 @@ gY.log( 'refresh ' + pid );
             tmp += '</td>';
             tmp += '</tr>';
             tmp += '<tr>';
-            tmp += '<td class="BT40 alignRight">';
+            tmp += '<td class="BT60 alignRight">';
             tmp += 'Value : ';
             tmp += '</td>';
             tmp += '<td colspan="3" class="alignLeft">';
@@ -18316,7 +18312,7 @@ gY.log( 'refresh ' + pid );
                         if (parseInt(gData.service.guiServiceT[ i ].gid) === parseInt($('#pool option:selected').val())) {
                             $('#Editor-serviceName').html( gData.service.guiServiceT[ i ].name);
                             $('#Editor-serviceProtocol').html( gRef.service.type[ gData.service.guiServiceT[ i ].type ] );
-                            switch( parseInt( gData.service.guiService[ i ].type  ) )
+                            switch( parseInt( gData.service.guiServiceT[ i ].type  ) )
                             {
                             case 0:
                             case 1:
@@ -18344,7 +18340,7 @@ gY.log( 'refresh ' + pid );
                         if (parseInt(gData.service.guiServiceT[ i ].gid) === parseInt($('#pick option:selected').val())) {
                             $('#Editor-serviceName').html( gData.service.guiServiceT[ i ].name);
                             $('#Editor-serviceProtocol').html( gRef.service.type[ gData.service.guiServiceT[ i ].type ] );
-                            switch( parseInt( gData.service.guiService[ i ].type  ) )
+                            switch( parseInt( gData.service.guiServiceT[ i ].type  ) )
                             {
                             case 0:
                             case 1:
@@ -18529,11 +18525,11 @@ gY.log( 'refresh ' + pid );
             tmp +=   '<td class="alignLeft">';
             tmp +=     '<table id="Editor-table-type-3">';
             tmp +=       '<tr>';
-            tmp +=         '<td class="alignLeft BT100">* Starting IP Address</td>';
+            tmp +=         '<td class="alignLeft BT110">* Starting IP Address</td>';
             tmp +=         '<td class="alignLeft"><input type="text" id="Editor-type-3-startIp" /></td>';
             tmp +=       '</tr>';
             tmp +=       '<tr>';
-            tmp +=         '<td class="alignLeft BT100">* Ending IP Address</td>';
+            tmp +=         '<td class="alignLeft BT110">* Ending IP Address</td>';
             tmp +=         '<td class="alignLeft"><input type="text" id="Editor-type-3-endIp" /></td>';
             tmp +=       '</tr>';
             tmp +=     '</table>';
@@ -19437,7 +19433,6 @@ gY.log( 'refresh ' + pid );
                                 } 
                                 gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].day = 0;
                             }
-gY.log( gData[ tar.pid ][ gNode.guiT ] );
                             break;
                         }
                         gPop.popForm.dialog("close");
@@ -19547,7 +19542,7 @@ gY.log( gData[ tar.pid ][ gNode.guiT ] );
                 }
     
                 if (pass) {
-                    if (! ipv4Compare.test( $('#Editor-type-' + $('#Editor-type').val() + '-startIp').val(), $('#Editor-type-' + $('#Editor-type').val() + '-endIp').val() ) ) {
+                    if (! ipv4Compare( $('#Editor-type-' + $('#Editor-type').val() + '-startIp').val(), $('#Editor-type-' + $('#Editor-type').val() + '-endIp').val() ) ) {
                         pass = false;
                         msg += '<p>' + gError[ gObj.lang ].ipRange + '</p>';
                     }
@@ -19666,6 +19661,7 @@ gY.log( gData[ tar.pid ][ gNode.guiT ] );
                                 dataType: 'json',
                                 success: function(data) {
                                     gData[ pid ] = data;
+                                    gIf.alter = false;
                                     refreshObject( pid );
                                 }
                             });
@@ -19707,7 +19703,6 @@ gY.log( gData[ tar.pid ][ gNode.guiT ] );
                             tmp += '<button class="yui3-button" id="' + gNode.col[ i ].tab + '" title="' + gNode.col[ i ].label + '" >' + gNode.col[ i ].label + '</button>';
                         }
                         tmp += '</div>';
-gY.log( tmp );
                         $('#div-' + pid).append(tmp);
 
                         $('#' + gNode.col[ i ].tab).bind('click', function(e) {
@@ -23346,11 +23341,11 @@ gY.log( tmp );
             tmp +=   '<td class="alignLeft">';
             tmp +=     '<table id="More-table-type-3">';
             tmp +=       '<tr>';
-            tmp +=         '<td class="alignLeft BT100">* Starting IP Address</td>';
+            tmp +=         '<td class="alignLeft BT110">* Starting IP Address</td>';
             tmp +=         '<td class="alignLeft"><input type="text" id="More-type-3-startIp" /></td>';
             tmp +=       '</tr>';
             tmp +=       '<tr>';
-            tmp +=         '<td class="alignLeft BT100">* Ending IP Address</td>';
+            tmp +=         '<td class="alignLeft BT110">* Ending IP Address</td>';
             tmp +=         '<td class="alignLeft"><input type="text" id="More-type-3-endIp" /></td>';
             tmp +=       '</tr>';
             tmp +=     '</table>';
@@ -23430,7 +23425,7 @@ gY.log( tmp );
             tmp += '</th>';
             tmp += '</tr>';
             tmp += '<tr>';
-            tmp += '<td class="alignRight BT40">';
+            tmp += '<td class="alignRight BT60">';
             tmp += 'Name : ';
             tmp += '</td>';
             tmp += '<td colspan="3" class="alignLeft">';
@@ -23438,7 +23433,7 @@ gY.log( tmp );
             tmp += '</td>';
             tmp += '</tr>';
             tmp += '<tr>';
-            tmp += '<td class="alignRight BT40">';
+            tmp += '<td class="alignRight BT60">';
             tmp += 'Type : ';
             tmp += '</td>';
             tmp += '<td colspan="3" class="alignLeft">';
@@ -23446,7 +23441,7 @@ gY.log( tmp );
             tmp += '</td>';
             tmp += '</tr>';
             tmp += '<tr>';
-            tmp += '<td class="alignRight BT40">';
+            tmp += '<td class="alignRight BT60">';
             tmp += 'Value : ';
             tmp += '</td>';
             tmp += '<td colspan="3" class="alignLeft">';
@@ -23683,7 +23678,7 @@ gY.log( tmp );
             tmp += '</th>';
             tmp += '</tr>';
             tmp += '<tr>';
-            tmp += '<td class="alignRight BT40">';
+            tmp += '<td class="alignRight BT60">';
             tmp += 'Name : ';
             tmp += '</td>';
             tmp += '<td colspan="3" class="alignLeft">';
@@ -23691,7 +23686,7 @@ gY.log( tmp );
             tmp += '</td>';
             tmp += '</tr>';
             tmp += '<tr>';
-            tmp += '<td class="alignRight BT40">';
+            tmp += '<td class="alignRight BT60">';
             tmp += 'Protocol : ';
             tmp += '</td>';
             tmp += '<td colspan="3" class="alignLeft">';
@@ -23699,7 +23694,7 @@ gY.log( tmp );
             tmp += '</td>';
             tmp += '</tr>';
             tmp += '<tr>';
-            tmp += '<td class="alignRight BT40">';
+            tmp += '<td class="alignRight BT60">';
             tmp += 'Value : ';
             tmp += '</td>';
             tmp += '<td colspan="3" class="alignLeft">';
@@ -23737,7 +23732,7 @@ gY.log( tmp );
                         if (parseInt(gData.service.guiServiceT[ i ].gid) === parseInt($('#pool option:selected').val())) {
                             $('#More-serviceName').html( gData.service.guiServiceT[ i ].name);
                             $('#More-serviceProtocol').html( gRef.service.type[ gData.service.guiServiceT[ i ].type ] );
-                            switch( parseInt( gData.service.guiService[ i ].type  ) )
+                            switch( parseInt( gData.service.guiServiceT[ i ].type  ) )
                             {
                             case 0:
                             case 1:
@@ -23765,7 +23760,7 @@ gY.log( tmp );
                         if (parseInt(gData.service.guiServiceT[ i ].gid) === parseInt($('#pick option:selected').val())) {
                             $('#More-serviceName').html( gData.service.guiServiceT[ i ].name);
                             $('#More-serviceProtocol').html( gRef.service.type[ gData.service.guiServiceT[ i ].type ] );
-                            switch( parseInt( gData.service.guiService[ i ].type  ) )
+                            switch( parseInt( gData.service.guiServiceT[ i ].type  ) )
                             {
                             case 0:
                             case 1:
@@ -25874,7 +25869,6 @@ gY.log( tmp );
             // content
             for (var x in gRef.docs[ gNode.id ].tabs)
             {
-gY.log( 'tabs ' + x );
                 $('#docDiv-panel-div-' + x).html('<hr/>');
                 if ( gRef.docs[ gNode.id ].tabs[ x ].editor ) {
                     // tabs in tabs 
