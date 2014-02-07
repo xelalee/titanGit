@@ -248,11 +248,10 @@ gReg.ascii.user     = /^[\x21\x23\x24\x26\x28-\x3E\x40-\x5F\x61-\x7E]{1,31}$/;
 gReg.ascii.group    = /^[\x21\x23\x24\x26\x28-\x3E\x40-\x5F\x61-\x7E]{1,31}$/;
 gReg.ascii.account  = /^[\x21\x23\x24\x26\x28-\x3E\x40-\x5F\x61-\x7E]{1,31}$/;
 gReg.ascii.password = /^[\x21\x23\x24\x26\x28-\x3E\x40-\x5F\x61-\x7E]{1,31}$/;
-gReg.ascii.passOut  = /^((.){1,31})$/;
 
 gReg.ascii.username = /^[\x2D\x2E\x5F\x30-x39\x40-\x5A\x61-\x7A]{6,20}$/;
 gReg.ascii.userpass = /^[\x2D\x2E\x5F\x30-x39\x40-\x5A\x61-\x7A]{6,20}$/;
-gReg.ascii.email    = /^[\x2D\x2E\x5F\x30-x39\x40-\x5A\x61-\x7A]{6,32}$/;
+gReg.ascii.email    = /^[\x2D\x2E\x5F\x30-x39\x40-\x5A\x61-\x7A]{6,63}$/;
 
 gReg.ascii.description  = /^[\x20\x21\x23\x24\x26\x28-\x3E\x40-\x5F\x61-\x7E]{0,100}$/;
 gReg.ascii.remoteGw     = /^[\x21\x23\x24\x26\x28-\x3E\x40-\x5F\x61-\x7E]{0,127}$/;
@@ -1705,7 +1704,10 @@ $(document).ready(function () {
         case 'active_sessions':
             gObj.form.guiIpsecSessionUpDownTNum = "1";
             gObj.form.guiIpsecSessionUpDownT = [{ "sessionName": gData[ aimID ].guiIpsecSessionT[ thisNo ].sessionName, "instno": gData[ aimID ].guiIpsecSessionT[ thisNo ].instno, "actionType": "1" }];
-            $.post('cgi-bin/ipsecSessionUpDown.cgi', gY.JSON.stringify(gObj.form));
+            //loadingToggle( true );
+            $.post('cgi-bin/ipsecSessionUpDown.cgi', gY.JSON.stringify(gObj.form), function() {
+            //    progressTAlert();
+            });
             break;
         case 'ipsec_policies':
             gObj.form.name = gData[ aimID ].guiS2svpnT[ thisNo ].name;
@@ -2629,7 +2631,7 @@ $(document).ready(function () {
                 }
             }
     
-            if (!gReg.isEmail.test( $('#fromEmail').val() )) {
+            if (!gReg.isEmail.test( $('#fromEmail').val() ) || !gReg.ascii.email.test( $('#fromEmail').val() ) ) {
                 pass = false;
                 msg += '<p>' + gError[ gObj.lang ].fromEmail + '</p>';
             }
@@ -2637,33 +2639,33 @@ $(document).ready(function () {
             gIf.toEmail = false;
             gObj.toEmails = [];
 
-            if ($('#toEmail0').val().length > 5) {
-                if (!gReg.isEmail.test( $('#toEmail0').val() )) {
-                    pass = false;
-                    msg += '<p>' + gError[ gObj.lang ].toEmail + '</p>';
-                } else {
+            if ( gReg.ascii.email.test( $('#toEmail0').val() ) ) {
+                if (gReg.isEmail.test( $('#toEmail0').val() )) {
                     gObj.toEmails.push( $('#toEmail0').val() );
                     gIf.toEmail = true;
+                } else {
+                    pass = false;
+                    msg += '<p>' + gError[ gObj.lang ].toEmail + '</p>';
                 }
             }
 
-            if ($('#toEmail1').val().length > 5) {
-                if (!gReg.isEmail.test( $('#toEmail1').val() )) {
-                    pass = false;
-                    msg += '<p>' + gError[ gObj.lang ].toEmail + '</p>';
-                } else {
+            if ( gReg.ascii.email.test( $('#toEmail1').val() ) ) {
+                if (gReg.isEmail.test( $('#toEmail1').val() )) {
                     gObj.toEmails.push( $('#toEmail1').val() );
                     gIf.toEmail = true;
+                } else {
+                    pass = false;
+                    msg += '<p>' + gError[ gObj.lang ].toEmail + '</p>';
                 }
             }
 
-            if ($('#toEmail2').val().length > 5) {
-                if (!gReg.isEmail.test( $('#toEmail2').val() )) {
-                    pass = false;
-                    msg += '<p>' + gError[ gObj.lang ].toEmail + '</p>';
-                } else {
+            if ( gReg.ascii.email.test( $('#toEmail2').val() ) ) {
+                if (gReg.isEmail.test( $('#toEmail2').val() )) {
                     gObj.toEmails.push( $('#toEmail2').val() );
                     gIf.toEmail = true;
+                } else {
+                    pass = false;
+                    msg += '<p>' + gError[ gObj.lang ].toEmail + '</p>';
                 }
             }
 
@@ -21952,41 +21954,41 @@ $(document).ready(function () {
                 }
             }
     
-            if (!gReg.isEmail.test( $('#fromEmail').val() )) {
+            if (!gReg.isEmail.test( $('#fromEmail').val() ) || !gReg.ascii.email.test( $('#fromEmail').val() ) ) {
                 pass = false;
                 msg += '<p>' + gError[ gObj.lang ].fromEmail + '</p>';
             }
-    
+   
             gIf.toEmail = false;
             gObj.toEmails = [];
 
-            if ($('#toEmail0').val().length > 5) {
-                if (!gReg.isEmail.test( $('#toEmail0').val() )) {
-                    pass = false;
-                    msg += '<p>' + gError[ gObj.lang ].toEmail + '</p>';
-                } else {
+            if ( gReg.ascii.email.test( $('#toEmail0').val() ) ) {
+                if (gReg.isEmail.test( $('#toEmail0').val() )) {
                     gObj.toEmails.push( $('#toEmail0').val() );
                     gIf.toEmail = true;
+                } else {
+                    pass = false;
+                    msg += '<p>' + gError[ gObj.lang ].toEmail + '</p>';
                 }
             }
 
-            if ($('#toEmail1').val().length > 5) {
-                if (!gReg.isEmail.test( $('#toEmail1').val() )) {
-                    pass = false;
-                    msg += '<p>' + gError[ gObj.lang ].toEmail + '</p>';
-                } else {
+            if ( gReg.ascii.email.test( $('#toEmail1').val() ) ) {
+                if (gReg.isEmail.test( $('#toEmail1').val() )) {
                     gObj.toEmails.push( $('#toEmail1').val() );
                     gIf.toEmail = true;
+                } else {
+                    pass = false;
+                    msg += '<p>' + gError[ gObj.lang ].toEmail + '</p>';
                 }
             }
 
-            if ($('#toEmail2').val().length > 5) {
-                if (!gReg.isEmail.test( $('#toEmail2').val() )) {
-                    pass = false;
-                    msg += '<p>' + gError[ gObj.lang ].toEmail + '</p>';
-                } else {
+            if ( gReg.ascii.email.test( $('#toEmail2').val() ) ) {
+                if (gReg.isEmail.test( $('#toEmail2').val() )) {
                     gObj.toEmails.push( $('#toEmail2').val() );
                     gIf.toEmail = true;
+                } else {
+                    pass = false;
+                    msg += '<p>' + gError[ gObj.lang ].toEmail + '</p>';
                 }
             }
 
@@ -22071,10 +22073,9 @@ $(document).ready(function () {
                         msg += '<p>' + gError[ gObj.lang ].lastName32 + '</p>';
                     }
     
-                    //if (!($('#email').val().length > 5 && $('#email').val().length < 33 && gReg.isEmail.test($('#email').val()))) {
                     if (!gReg.ascii.email.test( $('#email').val() )) {
                         pass = false;
-                        msg += '<p>' + gError[ gObj.lang ].email32 + '</p>';
+                        msg += '<p>' + gError[ gObj.lang ].email + '</p>';
                     }
     
                     if (!($('#raddress').val().length > 0 && $('#raddress').val().length < 65 )) {

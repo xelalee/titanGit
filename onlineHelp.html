@@ -241,10 +241,13 @@
         }
     
         function genMain() {
-            var tmp, arr;
+            var tmp = '', 
+                arr = [];
             $('#main_bd').empty();
             $('#main_bd').append('<div id="docDiv"></div>');
     
+gY.log( gNode.id );
+
             if ( gRef[ gNode.id ].tabs ) {
                 // use tabs
                 $('#docDiv').append('<ul></ul>');
@@ -347,9 +350,9 @@
                                     tmp += '<dt>' + gRef[ gNode.id ].tabs[ x ].editors[ i ].content[ j ].label + ' : </dt>';
                                     if ( gReg.isMulti.test( gRef[ gNode.id ].tabs[ x ].editors[ i ].content[ j ].description ) ) {
                                         arr = gRef[ gNode.id ].tabs[ x ].editors[ i ].content[ j ].description.split( '\n' );
-                                        for (var j=0, jlen=arr.length; j<jlen; j++)
+                                        for (var k=0, klen=arr.length; k<klen; k++)
                                         {
-                                            tmp += '<dd>' + arr[ j ] + '</dd>';
+                                            tmp += '<dd>' + arr[ k ] + '</dd>';
                                         }
                                     } else {
                                         tmp += '<dd>' + gRef[ gNode.id ].tabs[ x ].editors[ i ].content[ j ].description + '</dd>';
@@ -406,6 +409,7 @@
                 $('#docDiv').tabs();
                 tmp = '<hr/>';
                 tmp += '<dl id="docDiv-panel-dl-' + gNode.id + '">';
+gY.log( gNode.id );
                 for (var i=0, len=gRef[ gNode.id ].content.length; i<len; i++)
                 {
                     tmp += '<dt>' + gRef[ gNode.id ].content[ i ].label + ' : </dt>';
@@ -440,9 +444,9 @@
                         tmp += '<dt>' + gRef[ gNode.id ].editors[ i ].content[ j ].label + ' : </dt>';
                         if ( gReg.isMulti.test( gRef[ gNode.id ].editors[ i ].content[ j ].description ) ) {
                             arr = gRef[ gNode.id ].editors[ i ].content[ j ].description.split( '\n' );
-                            for (var j=0, jlen=arr.length; j<jlen; j++)
+                            for (var k=0, klen=arr.length; k<klen; k++)
                             {
-                                tmp += '<dd>' + arr[ j ] + '</dd>';
+                                tmp += '<dd>' + arr[ k ] + '</dd>';
                             }
                         } else {
                             tmp += '<dd>' + gRef[ gNode.id ].editors[ i ].content[ j ].description + '</dd>';
@@ -498,7 +502,6 @@
                 tmp = '<dl id="docDiv-dl">';
                 for (var i=0, len=gRef[ gNode.id ].content.length; i<len; i++)
                 {
-                    gY.log(i + ' @ ' +  gRef[ gNode.id ].content[ i ] );
                     tmp += '<dt>' + gRef[ gNode.id ].content[ i ].label + ' : </dt>';
                     if ( gReg.isMulti.test( gRef[ gNode.id ].content[ i ].description ) ) {
                         arr = gRef[ gNode.id ].content[ i ].description.split( '\n' );
