@@ -3657,7 +3657,7 @@
           },
           {
             "label" : "Membership",
-            "tab" : "membership",
+            "tab" : "group_membership",
             "description" : "Click the Membership tab in the Users > User & Group > Group Table > Create/Edit screen to open the following screen. Use this screen to add or edit the user members for the group. Click OK at the bottom of the screen to save the settings. Click Cancel to exit this screen without saving any changes.",
             "content" :
             [
@@ -3684,17 +3684,17 @@
         [
           {
             "label" : "Name",
-            "tab" : "name",
+            "tab" : "user_name",
             "description" : "This is the name of user"
           },
           {
             "label" : "Group",
-            "tab" : "group",
+            "tab" : "user_group",
             "description" : "This lists the group to which this user belongs."
           },
           {
             "label" : "Action",
-            "tab" : "action",
+            "tab" : "user_action",
             "description" : "Click the Edit icon to change the user's settings. Click Delete icon to remove the user."
           }
         ],
