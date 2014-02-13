@@ -2366,7 +2366,7 @@
         "description" : "Click the Edit button to configure the policy.\n Click the Delete button to delete the policy.\n Click the Connect button to start the VPN connection.\n Click the Disconnect button to terminate the VPN connection.\n Click the Create button to add a new policy.\n Select the check box of the entry and click the Remove button to delete the selected policy."
       }
     ],
-    "editor" :
+    "editors" :
     [
       {
         "label" : "Basic Settings",
@@ -3320,7 +3320,7 @@
             "description" : "Specify the server port that is used to identify an application (service). You can configure multiple ports."
           },
           {
-            "label" : "Mac File Size to Scan",
+            "label" : "Maximum File Size to Scan",
             "tab" : "max_file_size",
             "description" : ""
           }
@@ -3446,7 +3446,7 @@
             "description" : "Click Edit to modify the rule’s settings.\n Click Delete to remove the rule."
           }
         ],
-        "editor" :
+        "editors" :
         [
           {
             "label" : "MIME Editor",
@@ -3650,7 +3650,7 @@
             "description" : "Click the Edit icon to change the group's settings. \nClick the Delete icon to remove the group. You cannot delete the default group."
           }
         ],
-        "editor" :
+        "editors" :
         [
           {
             "label" : "Group Settings",
@@ -3713,7 +3713,7 @@
             "description" : "Click the Edit icon to change the user's settings. Click Delete icon to remove the user."
           }
         ],
-        "editor" :
+        "editors" :
         [
           {
             "label" : "Account",
@@ -4560,30 +4560,6 @@
         "label" : "Service",
         "tab" : "services",
         "description" : "After the TitanWALL is registered, you can see the service list in the Service screen. You can click the Manual Update button to update it from the server. If you want register the license, enter the code from the license center into the Upgrade Active Code field and click the Register button."
-      }
-    }
-  },
-  "menu-x" : 
-  {
-    "label" : "Quick Reference",
-    "tab" : "quick_reference",
-    "description" : "",
-    "tabs" : 
-    {
-      "row_button" : 
-      {
-        "label" : "Row Button",
-        "tab" : "row_button",
-        "description" : "",
-        "content" : 
-        [
-          {
-            "label" : "",
-            "tab" : "",
-            "description" : "",
-            "icon" : ""
-          }
-        ]
       }
     }
   }

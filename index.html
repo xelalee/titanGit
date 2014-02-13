@@ -717,10 +717,10 @@ $(document).ready(function () {
         gHtml.login +=       '<td>';
         gHtml.login +=         '<select id="userLang">';
         gHtml.login +=           '<option value="en">English</option>';
-        gHtml.login +=           '<option value="tw"  >繁體中文</option>';
-        gHtml.login +=           '<option value="cn"  >简体中文</option>';
-        //gHtml.login +=           '<option value="tw" disabled >繁體中文</option>';
-        //gHtml.login +=           '<option value="cn" disabled >简体中文</option>';
+        //gHtml.login +=           '<option value="tw"  >繁體中文</option>';
+        //gHtml.login +=           '<option value="cn"  >简体中文</option>';
+        gHtml.login +=           '<option value="tw" disabled >繁體中文</option>';
+        gHtml.login +=           '<option value="cn" disabled >简体中文</option>';
         gHtml.login +=         '</select>';
         gHtml.login +=       '</td>';
         gHtml.login +=     '</tr>';
@@ -18617,7 +18617,6 @@ $(document).ready(function () {
             tmp += 'Value : ';
             tmp += '</td>';
             tmp += '<td colspan="3" class="alignLeft ">';
-            tmp += 'Value : ';
             tmp += '<span id="Editor-addressValue"></span>';
             tmp += '</td>';
             tmp += '</tr>';

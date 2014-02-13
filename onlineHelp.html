@@ -374,6 +374,8 @@ gY.log( gNode.id );
                             $('#docDiv-editor3-div-' + gRef[ gNode.id ].tabs[ x ].editors[ i ].tab).html( tmp );
                         }
                     } else if ( gRef[ gNode.id ].tabs[ x ].content ) {
+gY.log( gNode.id );
+gY.log(' ... ' );
                         tmp = '<dl id="docDiv-panel-dl-' + x + '">';
                         for (var i=0, len=gRef[ gNode.id ].tabs[ x ].content.length; i<len; i++)
                         {
@@ -484,15 +486,30 @@ gY.log( gNode.id );
                 tmp += '<dl id="docDiv-editor-dl-' + gNode.id + '">';
                 for (var i=0, len=gRef[ gNode.id ].editor.length; i<len; i++)
                 {
-                    tmp += '<dt>' + gRef[ gNode.id ].editor[ i ].label + ' : </dt>';
-                    if ( gReg.isMulti.test( gRef[ gNode.id ].editor[ i ].description ) ) {
-                        arr = gRef[ gNode.id ].editor[ i ].description.split( '\n' );
-                        for (var j=0, jlen=arr.length; j<jlen; j++)
+                    if ( gRef[ gNode.id ].editor[ i ].content ) {
+                        for (var j=0, jlen=gRef[ gNode.id ].editor[ i ].content.length; j<jlen; j++) 
                         {
-                            tmp += '<dd>' + arr[ j ] + '</dd>';
+                            if ( gReg.isMulti.test( gRef[ gNode.id ].editor[ i ].content[ j ].description ) ) {
+                                arr = gRef[ gNode.id ].editor[ i ].content[ j ].description.split( '\n' );
+                                for (var k=0, klen=arr.length; k<klen; k++)
+                                {
+                                    tmp += '<dd>' + arr[ k ] + '</dd>';
+                                }
+                            } else {
+                                tmp += '<dd>' + gRef[ gNode.id ].editor[ i ].content[ j ].description + '</dd>';
+                            }
                         }
                     } else {
-                        tmp += '<dd>' + gRef[ gNode.id ].editor[ i ].description + '</dd>';
+                        tmp += '<dt>' + gRef[ gNode.id ].editor[ i ].label + ' : </dt>';
+                        if ( gReg.isMulti.test( gRef[ gNode.id ].editor[ i ].description ) ) {
+                            arr = gRef[ gNode.id ].editor[ i ].description.split( '\n' );
+                            for (var j=0, jlen=arr.length; j<jlen; j++)
+                            {
+                                tmp += '<dd>' + arr[ j ] + '</dd>';
+                            }
+                        } else {
+                            tmp += '<dd>' + gRef[ gNode.id ].editor[ i ].description + '</dd>';
+                        }
                     }
                 }
                 tmp += '</dl>';
