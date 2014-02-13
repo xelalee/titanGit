@@ -3322,7 +3322,7 @@
           {
             "label" : "Maximum File Size to Scan",
             "tab" : "max_file_size",
-            "description" : ""
+            "description" : "TitanWALL won't scan the file size over this value, "0" means disable."
           }
         ]
       },
@@ -4038,8 +4038,8 @@
         "description" : "Enter a new administrator password. The password you enter is case sensitive."
       },
       {
-        "label" : "Confirm Password",
-        "tab" : "confirm_password",
+        "label" : "Confirm New Password",
+        "tab" : "confirm_new_password",
         "description" : "Enter a new administrator password. The password you enter is case sensitive."
       },
       {
