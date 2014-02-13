@@ -246,8 +246,6 @@
             $('#main_bd').empty();
             $('#main_bd').append('<div id="docDiv"></div>');
     
-gY.log( gNode.id );
-
             if ( gRef[ gNode.id ].tabs ) {
                 // use tabs
                 $('#docDiv').append('<ul></ul>');
@@ -359,11 +357,8 @@ gY.log( gNode.id );
                                     }
                                 }
                             } else {
-gY.log( gNode.id );
-gY.log( x );
-gY.log( gRef[ gNode.id ].tabs[ x ].editors[ i ] );
                                 if ( gReg.isMulti.test( gRef[ gNode.id ].tabs[ x ].editors[ i ].description ) ) {
-                                    arr = gRef[ gNode.id ].tabs[ x ].editor[ i ].description.split( '\n' );
+                                    arr = gRef[ gNode.id ].tabs[ x ].editors[ i ].description.split( '\n' );
                                     for (var j=0, jlen=arr.length; j<jlen; j++)
                                     {
                                         tmp += '<dd>' + arr[ j ] + '</dd>';
