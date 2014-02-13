@@ -2713,7 +2713,8 @@ $(document).ready(function () {
 
                 $.post('cgi-bin/checkSmtpSetting.cgi', gY.JSON.stringify( gCache.email_alert ), function(poster) {
                     if ( 0 === parseInt( poster.smtpErrorCode ) ) {
-                        errorAlert( gError[ gObj.lang ]['smtpErrorCode-0'] + gCache.email_alert.toEmail + ', ' + gError[ gObj.lang ].please_check_email );
+                        //noteAlert( gError[ gObj.lang ]['smtpErrorCode-0'] + gCache.email_alert.toEmail + ', ' + gError[ gObj.lang ].please_check_email );
+                        noteAlert(); 
                     } else {
                         errorAlert( poster.smtpErrorMsg );
                     } 
@@ -2862,6 +2863,36 @@ $(document).ready(function () {
         });
 
         $('.errorMsg').html( msg );
+    }
+
+    function noteAlert() {
+        if (!$('#popError').exists())
+            $('#popBase').append('<div id="popError"></div>');
+    
+        $('#popError').html('<div class="errorForm"></div>');
+        $('#popError').dialog({
+            width: 300,
+            height:200,
+            position: "center",
+            resizable: false,
+            modal: true,
+            title: 'Note Message',
+            buttons: {
+                okay: function() {
+                    $( this ).dialog( "close" );
+                }
+            },
+            close: function(event, ui) {
+                $(this).dialog('destroy').remove();
+            }
+        });
+
+        $('.errorForm').append( '<p>' + gError[ gObj.lang ][ 'smtpErrorCode-0' ] + '</p>' );
+        for (var i=0, len=gObj.toEmails.length; i<len; i++) 
+        {
+            $('.errorForm').append( '<p>' + gObj.toEmails[ i ] + '</p>' );
+        }
+        $('.errorForm').append( '<p>' + gError[ gObj.lang ].please_check_email + '</p>' );
     }
     
     function rebootAlert(e) {
