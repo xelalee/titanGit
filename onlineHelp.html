@@ -359,7 +359,9 @@ gY.log( gNode.id );
                                     }
                                 }
                             } else {
-                                tmp += '<dt>' + gRef[ gNode.id ].tabs[ x ].editors[ i ].label + ' : </dt>';
+gY.log( gNode.id );
+gY.log( x );
+gY.log( gRef[ gNode.id ].tabs[ x ].editors[ i ] );
                                 if ( gReg.isMulti.test( gRef[ gNode.id ].tabs[ x ].editors[ i ].description ) ) {
                                     arr = gRef[ gNode.id ].tabs[ x ].editor[ i ].description.split( '\n' );
                                     for (var j=0, jlen=arr.length; j<jlen; j++)
@@ -374,8 +376,6 @@ gY.log( gNode.id );
                             $('#docDiv-editor3-div-' + gRef[ gNode.id ].tabs[ x ].editors[ i ].tab).html( tmp );
                         }
                     } else if ( gRef[ gNode.id ].tabs[ x ].content ) {
-gY.log( gNode.id );
-gY.log(' ... ' );
                         tmp = '<dl id="docDiv-panel-dl-' + x + '">';
                         for (var i=0, len=gRef[ gNode.id ].tabs[ x ].content.length; i<len; i++)
                         {
