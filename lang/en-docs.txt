@@ -3322,7 +3322,7 @@
           {
             "label" : "Maximum File Size to Scan",
             "tab" : "max_file_size",
-            "description" : "TitanWALL won't scan the file size over this value, "0" means disable."
+            "description" : "TitanWALL won't scan the file size over this value, \"0\" means disable."
           }
         ]
       },
@@ -3627,22 +3627,7 @@
           {
             "label" : "Services",
             "tab" : "services",
-            "description" : "This shows the service policy applied to this user group."
-          },
-          {
-            "label" : "Diasble",
-            "tab" : "disable",
-            "description" : "All the user member are not allowed to log into the web configurator."
-          },
-          {
-            "label" : "Read Only",
-            "tab" : "read_only",
-            "description" : "The user members can vie the TitanWall's settings through web configurator, but are not allowed to configure any settings."
-          },
-          {
-            "label" : "Administrator",
-            "tab" : "administrator",
-            "description" : "The users members can view and configure the TitanWall through the web configurator."
+            "description" : "This shows the service policy applied to this user group.\nDisable: All the user member are not allowed to log into the web configurator. \nRead Only: The user members can vie the TitanWall's settings through web configurator, but are not allowed to configure any settings.\nAdministrator: The users members can view and configure the TitanWall through the web configurator."
           },
           {
             "label" : "Action",
@@ -3785,6 +3770,16 @@
             "label" : "Action",
             "tab" : "action",
             "description" : "Click the Edit icon to modify the settings for this group address. Click the Delete icon to remove it."
+          },
+          {
+            "label" : "Create",
+            "tab" : "create",
+            "description" : "Click the Create icon to add a new group address."
+          },
+          {
+            "label" : "Delete",
+            "tab" : "delete",
+            "description" : "Select one or multiple group addresses and then click the Remove icon to remove them from the table."
           }
         ],
         "editor" : 
@@ -3798,6 +3793,16 @@
             "label" : "Address List/Address Secleted",
             "tab" : "address_list",
             "description" : "If you want to add an address object to the group, select it from the Address List and click the right arrow. It will be added to the Address Selected list. To remove an address object from the group, select the address object from the Address Selected list and click the left arrow. The details, name, type and value of the selected address will be displayed in the lower section of this screen."
+          },
+          {
+            "label" : "OK",
+            "tab" : "ok",
+            "description" : "Click this button to save your changes and close this screen."
+          },
+          {
+            "label" : "Cancel",
+            "tab" : "cancel",
+            "description" : "Click this button to close this screen without saving any changes."
           }
         ]
       },
@@ -3819,6 +3824,11 @@
             "description" : "This is the name of each address."
           },
           {
+            "label" : "Address Detial",
+            "tab" : "address_detail",
+            "description" : "This shows details of the address, including its type and IP address, range, and subnet mask."
+          },
+          {
             "label" : "Type",
             "tab" : "type",
             "description" : "This shows Host if the object is defined by a single host by its IP address.\n This shows Range if the object is defined by a range of contiguous IP addresses.\n This shows Network if the object is defined by a network IP address and netmask.\n This shows MAC if the object is defined by a host by its MAC address"
@@ -3827,6 +3837,16 @@
             "label" : "Action",
             "tab" : "action",
             "description" : "Click the Edit icon to modify the settings for this address.\n Click the Delete icon to remove it. If the object does not have a Delete icon, you cannot remove it."
+          },
+          {
+            "label" : "Create",
+            "tab" : "create",
+            "description" : "Click the Create icon to add a new address."
+          },
+          {
+            "label" : "Delete",
+            "tab" : "delete",
+            "description" : "Select one or multiple addresses and then click the Remove icon to remove them from the table."
           }
         ],
         "editor" : 
@@ -3840,6 +3860,16 @@
             "label" : "Type",
             "tab" : "type",
             "description" : "if you select host as the address type, enter the host’s IP address in the Address field. By selecting host, you define a single host by its IP address. The netmask for a host address object will automatically be set to 255.255.255.255 to identify it as a single host.\n If you select Network as the address type, enter the subnet IP address in the Address field and the netmask in the Netmask field. Network address object comprises multiple hosts, but the range is defined by a valid netmask rather than IP addresses. Network address objects must be defined by the network’s address and a corresponding netmask. You cannot use the first address in a network (the network address) and the last address in a network (the broadcast address).\n If you select Range as the address type, enter the starting IP address in the Starting IP Address field and the ending IP address in the Ending IP Address field. Range address object defines a range of contiguous IP addresses.\n If you select MAC as the address type, enter the MAC address of the host in the MAC field. MAC address object identifies a host by its hardware address or MAC (Media Access Control) address."
+          },
+          {
+            "label" : "OK",
+            "tab" : "ok",
+            "description" : "Click this button to save your changes and close this screen."
+          },
+          {
+            "label" : "Cancel",
+            "tab" : "cancel",
+            "description" : "Click this button to close this screen without saving any changes."
           }
         ]
       }
@@ -3888,6 +3918,16 @@
             "label" : "Action",
             "tab" : "action",
             "description" : "Click the Edit icon to modify the settings for this group service. Click the Delete icon to remove it."
+          },
+          {
+            "label" : "Create",
+            "tab" : "create",
+            "description" : "Click the Create icon to add a new group service."
+          },
+          {
+            "label" : "Delete",
+            "tab" : "delete",
+            "description" : "Select one or multiple group services and then click the Remove icon to remove them from the table."
           }
         ],
         "editor" :
@@ -3901,6 +3941,16 @@
             "label" : "Service List/Selected",
             "tab" : "service_list",
             "description" : "If you want to add a group service object to the group, select it from the Address List and click the right arrow. It will be added to the Service Selected list. To remove a group service object from the group, select the address object from the Service Selected list and click the left arrow. The details, name, type and value of the selected service will be displayed in the lower section of this screen."
+          },
+          {
+            "label" : "OK",
+            "tab" : "ok",
+            "description" : "Click this button to save your changes and close this screen."
+          },
+          {
+            "label" : "Cancel",
+            "tab" : "cancel",
+            "description" : "Click this button to close this screen without saving any changes."
           }
         ]
       },
@@ -3940,6 +3990,16 @@
             "label" : "Action",
             "tab" : "action",
             "description" : "Click the Edit icon to modify the settings for this service. Click the Delete icon to remove it. If the object does not have a Delete icon, you cannot remove it."
+          },
+          {
+            "label" : "Create",
+            "tab" : "create",
+            "description" : "Click the Create icon to add a new service."
+          },
+          {
+            "label" : "Delete",
+            "tab" : "delete",
+            "description" : "Select one or multiple service and then click the Remove icon to remove them from the table."
           }
         ],
         "editor" :
@@ -3953,6 +4013,16 @@
             "label" : "Protocol",
             "tab" : "protocol",
             "description" : "Specify the protocol and port range for the service.\n Select both (tcp/udp) if you want to use both TCP and UDP as the protocol for the service. Enter the starting port number in the Port Range Start field and the ending port number in the Port Range End field.\n Select tcp (Transmission Control Protocol (TCP)) if you want to ensure that a message is sent correctly. If you choose this as the service’s protocol, enter the starting port number in the Port Range Start field and the ending port number in the Port Range End field.\n Select udp (User Datagram Protocol (UDP)) if you want to use in place of TCP when a reliable delivery is not required. If you choose this as the service’s protocol, enter the starting port number in the Port Range Start field and the ending port number in the Port Range End field.\n Select icmp (Internet Control Message Protocol (ICMP)) to send error and control messages. If you choose this as the service’s protocol, enter the ICMP type in the ICMP Type field.\n Select ip if you want to use the predefined IP type. If you choose this as the service’s protocol, enter the IP in the IP field."
+          },
+          {
+            "label" : "OK",
+            "tab" : "ok",
+            "description" : "Click this button to save your changes and close this screen."
+          },
+          {
+            "label" : "Cancel",
+            "tab" : "cancel",
+            "description" : "Click this button to close this screen without saving any changes."
           }
         ]
       }
@@ -3994,6 +4064,16 @@
         "label" : "Action",
         "tab" : "action",
         "description" : "Click the Edit icon to modify the settings for this schedule. Click the Delete icon to remove it."
+      },
+      {
+        "label" : "Create",
+        "tab" : "create",
+        "description" : "Click the Create icon to add a new schedule."
+      },
+      {
+        "label" : "Delete",
+        "tab" : "delete",
+        "description" : "Select one or multiple schedule and then click the Remove icon to remove them from the table."
       }
     ],
     "editor" :
@@ -4012,6 +4092,16 @@
         "label" : "Schedule Time of Days", 
         "tab" : "times", 
         "description" : "You can configure the firewall rule to be activated 24 hours a day or during a certain period of time. Select All Times or Specific Time from the Times field. Select All Times to enable the firewall rule all the time. Select Specific Time to specify the period of time that you want the firewall rule to be activated. Select "
+      },
+      {
+        "label" : "OK",
+        "tab" : "ok",
+        "description" : "Click this button to save your changes and close this screen."
+      },
+      {
+        "label" : "Cancel",
+        "tab" : "cancel",
+        "description" : "Click this button to close this screen without saving any changes."
       }
     ]
   },
