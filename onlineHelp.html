@@ -356,16 +356,18 @@
                                         tmp += '<dd>' + gRef[ gNode.id ].tabs[ x ].editors[ i ].content[ j ].description + '</dd>';
                                     }
                                 }
-                            } else {
-                                if ( gReg.isMulti.test( gRef[ gNode.id ].tabs[ x ].editors[ i ].description ) ) {
-                                    arr = gRef[ gNode.id ].tabs[ x ].editors[ i ].description.split( '\n' );
-                                    for (var j=0, jlen=arr.length; j<jlen; j++)
-                                    {
-                                        tmp += '<dd>' + arr[ j ] + '</dd>';
-                                    }
-                                } else {
-                                    tmp += '<dd>' + gRef[ gNode.id ].tabs[ x ].editors[ i ].description + '</dd>';
+                            } else if ( gReg.isMulti.test( gRef[ gNode.id ].tabs[ x ].editors[ i ].description ) ) {
+gY.log( ' multi ' );
+                                gY.log ( gRef[ gNode.id ].tabs[ x ].editors[ i ].description );
+                                arr = gRef[ gNode.id ].tabs[ x ].editors[ i ].description.split( '\n' );
+                                for (var j=0, jlen=arr.length; j<jlen; j++)
+                                {
+                                    tmp += '<dd>' + arr[ j ] + '</dd>';
                                 }
+                            } else {
+gY.log( ' single ' );
+                                gY.log ( gRef[ gNode.id ].tabs[ x ].editors[ i ].description );
+                                tmp += '<dd>' + gRef[ gNode.id ].tabs[ x ].editors[ i ].description + '</dd>';
                             }
                             tmp += '</dl>';
                             $('#docDiv-editor3-div-' + gRef[ gNode.id ].tabs[ x ].editors[ i ].tab).html( tmp );
