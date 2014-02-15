@@ -2401,8 +2401,8 @@
           },
           {
             "label" : "Local Network",
-            "tab" : "Select an address object to specify the local network behind the TitanWALL that is allowed to use the VPN tunnel.\n Select Any and you can use the Access Control screen to control the incoming traffic from the remote network to a zone over the VPN tunnel.",
-            "description" : ""
+            "tab" : "local_network",
+            "description" : "Select an address object to specify the local network behind the TitanWALL that is allowed to use the VPN tunnel.\n Select Any and you can use the Access Control screen to control the incoming traffic from the remote network to a zone over the VPN tunnel."
           },
           {
             "label" : "Remote Network",
