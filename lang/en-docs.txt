@@ -3420,6 +3420,16 @@
             "label" : "Log",
             "tab" : "log",
             "description" : "Select the check to generate a log when the TitanWALL receives a packet that matches this rule."
+          },
+          {
+            "label" : "OK",
+            "tab" : "ok",
+            "description" : "Click this button to save your changes and close this screen."
+          },
+          {
+            "label" : "Cancel",
+            "tab" : "cancel",
+            "description" : "Click this button to close this screen without saving any changes."
           }
         ]
       },
@@ -3463,6 +3473,16 @@
                 "label" : "Subtype",
                 "tab" : "subtype",
                 "description" : "Select the MIME sub-type of the file that will not be scanned"
+              },
+              {
+                "label" : "OK",
+                "tab" : "ok",
+                "description" : "Click this button to save your changes and close this screen."
+              },
+              {
+                "label" : "Cancel",
+                "tab" : "cancel",
+                "description" : "Click this button to close this screen without saving any changes."
               }
             ]
           },
@@ -3476,6 +3496,16 @@
                 "label" : "File Extension",
                 "tab" : "file_ext",
                 "description" : "Enter the file name extension of the file that will not be scanned."
+              },
+              {
+                "label" : "OK",
+                "tab" : "ok",
+                "description" : "Click this button to save your changes and close this screen."
+              },
+              {
+                "label" : "Cancel",
+                "tab" : "cancel",
+                "description" : "Click this button to close this screen without saving any changes."
               }
             ]
           }
