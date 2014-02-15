@@ -486,6 +486,7 @@ gY.log( gNode.id );
                     if ( gRef[ gNode.id ].editor[ i ].content ) {
                         for (var j=0, jlen=gRef[ gNode.id ].editor[ i ].content.length; j<jlen; j++) 
                         {
+                            tmp += '<dt>' + gRef[ gNode.id ].editor[ i ].content[ j ].label + ' : </dt>';
                             if ( gReg.isMulti.test( gRef[ gNode.id ].editor[ i ].content[ j ].description ) ) {
                                 arr = gRef[ gNode.id ].editor[ i ].content[ j ].description.split( '\n' );
                                 for (var k=0, klen=arr.length; k<klen; k++)
