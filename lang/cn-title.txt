@@ -6,6 +6,18 @@
     "switchFirmware" : "Switch Firmware",
     "upgradeFirmware" : "Upgrade Firmware",
     "restoreConf" : "Restore Configuration",
-    "resetDefault" : "Reset Factory Default"
+    "resetDefault" : "Reset Factory Default",
+    "failAlert" : "Error Message Reminder",
+    "virusHistory" : "Virus History",
+    "moveAlert" : "Move Alert Message",
+    "successAlert" : "Success Alert Message",
+    "errorAlert" : "Error Alert Message",
+    "noteAlert" : "Note Alert Message",
+    "alterAlert" : "Alter Alert Message",
+    "cmdAlert" : "Reset/Reboot/Shutdown Confirm",
+    "progressAlert" : "Progress Alert",
+    "create" : "Create",
+    "ipAlias" : "IP Alias"
+    
   }
 }
