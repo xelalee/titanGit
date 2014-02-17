@@ -473,7 +473,7 @@ $(document).ready(function () {
             position: "center",
             resizable: false,
             modal: true,
-            title: "Error Message Reminder",
+            title: gTitle[ gObj.lang ].failAlert,
             buttons: {
                 okay: function() {
                     $( this ).dialog( "close" );
@@ -2014,7 +2014,7 @@ $(document).ready(function () {
                     position: "center",
                     resizable: false,
                     modal: true,
-                    title: "Virus History",
+                    title: gTitle[ gObj.lang ].virusHistory,
                     buttons: {
                         ok: function() {
                             $( this ).dialog( "close" );
@@ -2088,7 +2088,7 @@ $(document).ready(function () {
                 position: "center",
                 resizable: false,
                 modal: true,
-                title: 'Move alert message',
+                title: gTitle[ gObj.lang ].moveAlert,
                 buttons: {
                     okay: function() {
                         gIf.alter = true;
@@ -2154,7 +2154,7 @@ $(document).ready(function () {
                 position: "center",
                 resizable: false,
                 modal: true,
-                title: 'Move alert message',
+                title: gTitle[ gObj.lang ].moveAlert,
                 buttons: {
                     okay: function() {
                         gIf.alter = true;
@@ -2825,7 +2825,7 @@ $(document).ready(function () {
             position: "center",
             resizable: false,
             modal: true,
-            title: 'Success Message',
+            title: gTitle[ gObj.lang ].successAlert,
             buttons: {
                 okay: function() {
                     $( this ).dialog( "close" );
@@ -2851,7 +2851,7 @@ $(document).ready(function () {
             position: "center",
             resizable: false,
             modal: true,
-            title: 'Erorr Message',
+            title: gTitle[ gObj.lang ].errorAlert,
             buttons: {
                 okay: function() {
                     $( this ).dialog( "close" );
@@ -2876,7 +2876,7 @@ $(document).ready(function () {
             position: "center",
             resizable: false,
             modal: true,
-            title: 'Note Message',
+            title: gTitle[ gObj.lang ].noteAlert,
             buttons: {
                 okay: function() {
                     $( this ).dialog( "close" );
@@ -2909,23 +2909,18 @@ $(document).ready(function () {
         switch(tar.id)
         {
         case 'restoreConf':
-            tar.title = gTitle[ gObj.lang ].restoreConf;
             msg = '<p>' + gError[ gObj.lang ].restoreConf + gRef.rebooting[ tar.id ] + gError[ gObj.lang ].seconds + '</p>';
             break;
         case 'checkFirmware':
-            tar.title = gTitle[ gObj.lang ].checkFirmware;
             msg = '<p>' + gError[ gObj.lang ].checkFirmware + '</p>';
             break;
         case 'switchFirmware':
-            tar.title = gTitle[ gObj.lang ].switchFirmware;
             msg = '<p>' + gError[ gObj.lang ].switchFirmware + gRef.rebooting[ tar.id ] + gError[ gObj.lang ].seconds + '</p>';
             break;
         case 'resetDefault':
-            tar.title = gTitle[ gObj.lang ].resetDefault;
             msg = '<p>' + gError[ gObj.lang ].resetDefault + (($('#type-1').is(':checked'))? gError[ gObj.lang ].few_minutes : gRef.rebooting[ tar.id ] + gError[ gObj.lang ].seconds ) + '</p>';
             break;
         case 'upgradeFirmware':
-            tar.title = gTitle[ gObj.lang ].upgradeFirmware;
             msg = '<p>' + gError[ gObj.lang ].upgradeFirmware + (($('#type-1').is(':checked'))? gError[ gObj.lang ].few_minutes : gRef.rebooting[ tar.id ] + gError[ gObj.lang ].seconds) + '</p>';
             break;
         }
@@ -2938,7 +2933,7 @@ $(document).ready(function () {
             position: "center",
             resizable: false,
             modal: true,
-            title: tar.title,
+            title: gTitle[ gObj.lang ][ tar.id ],
             buttons: {
                 okay: function() {
                     gData.firmware = {};
@@ -3131,7 +3126,7 @@ $(document).ready(function () {
             position: "center",
             resizable: false,
             modal: true,
-            title: "Data Alter Alert",
+            title: gTitle[ gObj.lang ].alterAlert,
             buttons: {
                 okay: function() {
                     gIf.ajaxed = false;
@@ -3189,7 +3184,7 @@ $(document).ready(function () {
             position: "center",
             resizable: false,
             modal: true,
-            title: "Reboot/Reset/Shutdown Confirm",
+            title: gTitle[ gObj.lang ].cmdAlert,
             buttons: {
                 okay: function() {
                     switch( cmd )
@@ -3248,7 +3243,7 @@ $(document).ready(function () {
             position: "center",
             resizable: false,
             modal: true,
-            title: 'Progress Message',
+            title: gTitle[ gObj.lang ].progressTAlert,
             buttons: {
                 okay: function() {
                     if (!gIf.progressT) {
@@ -14047,7 +14042,7 @@ $(document).ready(function () {
             position: "center",
             resizable: false,
             modal: true,
-            title: tar.title + ' > ' + ((tar.pid == 'wan_address_settings')? 'WAN Address Settings > ' : '') + tar.type,
+            title: tar.title + ' > ' + ((tar.pid == 'wan_address_settings')? gNode.tabs[ tar.pid ] + ' > ' : '') + tar.type,
             buttons: {
                 OK: function() {
                     if (firewallChecker(e)) {
@@ -15813,7 +15808,7 @@ $(document).ready(function () {
                 position: "center",
                 resizable: false,
                 modal: true,
-                title: 'Move alert message',
+                title: gTitle[ gObj.lang ].moveAlert,
                 buttons: {
                     okay: function() {
                         tar.blacklist = [];
@@ -15906,7 +15901,7 @@ $(document).ready(function () {
                 position: "center",
                 resizable: false,
                 modal: true,
-                title: 'Move alert message',
+                title: gTitle[ gObj.lang ].moveAlert,
                 buttons: {
                     okay: function() {
                         $('#table-' + tar.pid + ' tr').each(function() {
@@ -23928,7 +23923,7 @@ $(document).ready(function () {
             position: "center",
             resizable: false,
             modal: true,
-            title: tar.title + ' > ' + ((tar.pid)? tar.pid : tar.id ) + ' > Create ',
+            title: tar.title + ' > ' + ((tar.pid)? tar.pid : tar.id ) + ' > ' + gTitle[ gObj.lang ].create,
             buttons: {
                 ok: function() {
                     if (selectorChecker(e)) {
@@ -24405,7 +24400,7 @@ $(document).ready(function () {
             position: "center",
             resizable: false,
             modal: true,
-            title: tar.title + ' > IP Alias > ' + tar.type,
+            title: tar.title + ' > ' + gTitle[ gObj.lang ].ipAlias + ' > ' + tar.type,
             buttons: {
                 Ok: function() {
                     if (aliasChecker(e)) {

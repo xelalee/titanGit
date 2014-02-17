@@ -27,7 +27,7 @@
     "move_black_or_white" : "move with other same virus ID blacklist",
     "delete_black_or_white" : "delete with other same virus ID blacklist",
     "please_check_file" : "please check for the file you choosed",
-    "smtpErrorCode-0" : "test email had set to ",
+    "smtpErrorCode-0" : "test email had sent to ",
     "please_check_email" : "please check email",
     "overlapCheck" : "fail to connect server for overlap ip check",
     "wanIfIp" : "Conflict with the WAN IP",
