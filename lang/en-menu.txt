@@ -2935,46 +2935,6 @@
               ]
             },
             {
-              "label" : "DHCP Binding",
-              "tab" : "dhcp_binding",
-              "tag" : "div",
-              "type" : "tabs",
-              "col" :
-              [
-                {
-                  "label" : "DHCP Binding Table",
-                  "tab" : "dhcpBinding",
-                  "tag" : "table",
-                  "type" : "table",
-                  "col" :
-                  [
-                    {
-                      "label" : "Name",
-                      "tab" : "name",
-                      "wiz" : "20%"
-                    },
-                    {
-                      "label" : "IP",
-                      "tab" : "assignIpId",
-                      "wiz" : "30%"
-                    },
-                    {
-                      "label" : "MAC",
-                      "tab" : "macAddrId",
-                      "wiz" : "30%"
-                    },
-                    {
-                      "label" : "Action",
-                      "tab" : "action",
-                      "tag" : "button",
-                      "type" : "button",
-                      "wiz" : "20%"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
               "label" : "IPv6 Settings",
               "tab" : "ipv6_settings",
               "tag" : "div",
@@ -3357,46 +3317,6 @@
               ]
             },
             {
-              "label" : "DHCP Binding",
-              "tab" : "dhcp_binding",
-              "tag" : "div",
-              "type" : "tabs",
-              "col" :
-              [
-                {
-                  "label" : "DHCP Binding Table",
-                  "tab" : "dhcpBinding",
-                  "tag" : "table",
-                  "type" : "table",
-                  "col" :
-                  [
-                    {
-                      "label" : "Name",
-                      "tab" : "name",
-                      "wiz" : "20%"
-                    },
-                    {
-                      "label" : "IP",
-                      "tab" : "assignIpId",
-                      "wiz" : "30%"
-                    },
-                    {
-                      "label" : "MAC",
-                      "tab" : "macAddrId",
-                      "wiz" : "30%"
-                    },
-                    {
-                      "label" : "Action",
-                      "tab" : "action",
-                      "tag" : "button",
-                      "type" : "button",
-                      "wiz" : "20%"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
               "label" : "IPv6 Settings",
               "tab" : "ipv6_settings",
               "tag" : "div",
@@ -3755,46 +3675,6 @@
                       }
                     ]
                   }
-                }
-              ]
-            },
-            {
-              "label" : "DHCP Binding",
-              "tab" : "dhcp_binding",
-              "tag" : "div",
-              "type" : "tabs",
-              "col" :
-              [
-                {
-                  "label" : "DHCP Binding Table",
-                  "tab" : "dhcpBinding",
-                  "tag" : "table",
-                  "type" : "table",
-                  "col" :
-                  [
-                    {
-                      "label" : "Name",
-                      "tab" : "name",
-                      "wiz" : "20%"
-                    },
-                    {
-                      "label" : "IP",
-                      "tab" : "assignIpId",
-                      "wiz" : "30%"
-                    },
-                    {
-                      "label" : "MAC",
-                      "tab" : "macAddrId",
-                      "wiz" : "30%"
-                    },
-                    {
-                      "label" : "Action",
-                      "tab" : "action",
-                      "tag" : "button",
-                      "type" : "button",
-                      "wiz" : "20%"
-                    }
-                  ]
                 }
               ]
             },

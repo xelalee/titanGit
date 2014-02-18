@@ -213,8 +213,8 @@ gIf.limited = false;
 gIf.reboot  = false;
 gIf.alter   = false;
 gIf.ipAlias = false;
-gIf.defaultRt    = false;
-gIf.hasDefaultRt = false;
+gIf.defaultRt = false;
+gIf.isDefaultRt = false;
 gIf.progressT = false;
 gIf.progress  = false;
 gIf.rtMode  = false;
@@ -1376,7 +1376,7 @@ $(document).ready(function () {
                 break;
             case 'address_exceptions':
             case 'mime':
-            case 'file_exceptions':
+            case 'file_extension':
                 createSecurity( e );
                 break;
             case 'user':
@@ -1421,7 +1421,7 @@ $(document).ready(function () {
                 break;
             case 'address_exceptions':
             case 'mime':
-            case 'file_exceptions':
+            case 'file_extension':
                 editSecurity( e );
                 break;
             case 'user':
@@ -2895,6 +2895,31 @@ $(document).ready(function () {
         $('.errorForm').append( '<p>' + gError[ gObj.lang ].please_check_email + '</p>' );
     }
     
+    function remindAlert( msg ) {
+        if (!$('#popError').exists())
+            $('#popBase').append('<div id="popError"></div>');
+    
+        $('#popError').html('<div class="errorForm"><p class="errorMsg"></p></div>');
+        $('#popError').dialog({
+            width: 300,
+            height:200,
+            position: "center",
+            resizable: false,
+            modal: true,
+            title: gTitle[ gObj.lang ].remindAlert,
+            buttons: {
+                okay: function() {
+                    $( this ).dialog( "close" );
+                }
+            },
+            close: function(event, ui) {
+                $(this).dialog('destroy').remove();
+            }
+        });
+
+        $('.errorMsg').html( msg );
+    }
+
     function rebootAlert(e) {
     // firmware
         var tar = {};
@@ -3900,12 +3925,12 @@ $(document).ready(function () {
                                         case 'trafficAmount':
                                         case 'tx':
                                         case 'rx':
-                                            if (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ] > 1000000/8) {
-                                                tmp += (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ]*8/1000000).toFixed(2) + ' Mb';
+                                            if (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ] > 1000000) {
+                                                tmp += (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ]/1000000).toFixed(2) + ' MB';
                                             } else if ( data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ] == 0) {
                                                 tmp += '0';
                                             } else {
-                                                tmp += (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ]*8/1000).toFixed(2) + ' Kb';
+                                                tmp += (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ]/1000).toFixed(2) + ' KB';
                                             }
                                             break;
                                         default:
@@ -4033,12 +4058,12 @@ $(document).ready(function () {
                                                     case 'trafficAmount':
                                                     case 'tx':
                                                     case 'rx':
-                                                        if (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ] > 1000000/8) {
-                                                            tmp += (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ]*8/1000000).toFixed(2) + ' Mb';
+                                                        if (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ] > 1000000) {
+                                                            tmp += (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ]/1000000).toFixed(2) + ' MB';
                                                         } else if ( data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ] == 0) {
                                                             tmp += '0';
                                                         } else {
-                                                            tmp += (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ]*8/1000).toFixed(2) + ' Kb';
+                                                            tmp += (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ]/1000).toFixed(2) + ' KB';
                                                         }
                                                         break;
                                                     default:
@@ -4249,12 +4274,12 @@ $(document).ready(function () {
                                                 case 'trafficAmount':
                                                 case 'tx':
                                                 case 'rx':
-                                                    if (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ] > 1000000/8) {
-                                                        tmp += (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ]*8/1000000).toFixed(2) + ' Mb';
+                                                    if (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ] > 1000000) {
+                                                        tmp += (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ]/1000000).toFixed(2) + ' MB';
                                                     } else if ( data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ] == 0) {
                                                         tmp += '0';
                                                     } else {
-                                                        tmp += (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ]*8/1000).toFixed(2) + ' Kb';
+                                                        tmp += (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ]/1000).toFixed(2) + ' KB';
                                                     }
                                                     break;
                                                 default:
@@ -4485,12 +4510,12 @@ $(document).ready(function () {
                                     case 'trafficAmount':
                                     case 'tx':
                                     case 'rx':
-                                        if (data.queryResults[ j ][ feed.col[ i ].tab ] > 1000000/8) {
-                                            tmp += (data.queryResults[ j ][ feed.col[ i ].tab ]*8/1000000).toFixed(2) + ' Mb'; 
+                                        if (data.queryResults[ j ][ feed.col[ i ].tab ] > 1000000) {
+                                            tmp += (data.queryResults[ j ][ feed.col[ i ].tab ]/1000000).toFixed(2) + ' MB'; 
                                         } else if ( data.queryResults[ j ][ feed.col[ i ].tab ] == 0) {
                                             tmp += '0';
                                         } else {
-                                            tmp += (data.queryResults[ j ][ feed.col[ i ].tab ]*8/1000).toFixed(2) + ' Kb'; 
+                                            tmp += (data.queryResults[ j ][ feed.col[ i ].tab ]/1000).toFixed(2) + ' KB'; 
                                         }
                                         break;
                                     default: 
@@ -7216,7 +7241,7 @@ $(document).ready(function () {
                 });
 
                 genAlias( tar.pid );
-        
+
                 if (gObj.routing.protoType == 3) {
                     gObj.tab.tabs({"disabled": [3]});
                 }else {
@@ -10411,6 +10436,7 @@ $(document).ready(function () {
                     if ('static_routing' == pid) {
                         gCache[ pid ].dstIpId = [];
                         gIf.defaultRt = false;
+                        gIf.isDefaultRt = false;
                     }
     
                     $.ajax({
@@ -11374,11 +11400,11 @@ $(document).ready(function () {
                 }
             }).eq( 0 ).trigger('click');
     
-            gIf.isDefaultRt = false;
             if (!gIf.rtMode) {
                 $('#Editor-isDefaultRt').prop('disabled', true);
-            }else if (gIf.defaultRt)
+            }else if (gIf.defaultRt) {
                 $('#Editor-isDefaultRt').prop('disabled', true);
+            }
     
             $('#Editor-metric').val(0);
     
@@ -11841,12 +11867,15 @@ $(document).ready(function () {
                 }
             }).eq( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].nhType ).trigger('click');
     
-            gIf.isDefaultRt = false;
             if (!gIf.rtMode) {
+                if ( 1 === parseInt(gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].isDefaultRt) ) {
+                    $('#Editor-isDefaultRt').attr('checked', true);
+                    $('#Editor-dstIpId').prop('disabled', true);
+                    gIf.isDefaultRt = true;
+                }
                 $('#Editor-isDefaultRt').prop('disabled', true);
             } else if (gIf.defaultRt) {
                 if ( 1 === parseInt(gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].isDefaultRt) ) {
-                    gIf.isDefaultRt = true;
                     $('#Editor-isDefaultRt').attr('checked', true);
                     $('#Editor-dstIpId').prop('disabled', true);
                 }else {
@@ -12084,10 +12113,7 @@ $(document).ready(function () {
     
                             if ($('#Editor-isDefaultRt').is(':checked')) {
                                 gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].isDefaultRt = 1;
-                                gIf.isDefaultRt = true;
                             }else {
-                                if (gIf.isDefaultRt) 
-                                    gIf.isDefaultRt = false;
                                 gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].isDefaultRt = 0;
                             }
     
@@ -12112,6 +12138,12 @@ $(document).ready(function () {
                 $(this).dialog('destroy').remove();
             }
         });
+
+        if (gIf.isDefaultRt) {
+            remindAlert( gError[ gObj.lang ].defaultRoute );
+            gIf.isDefaultRt = false;
+        }
+
     }
     
     function networkingChecker(e, pid) {
@@ -15465,7 +15497,7 @@ $(document).ready(function () {
                                                 $('#signature-' + node).append( genSelectOption('signature-' + node + '-' + data.type) ).val( data[ node ]);
                                                 break;
                                             case 'version':
-                                                $('#signature-version').html( Number( data.version ) + Number( data.md5Version ) -1 );
+                                                $('#signature-version').html( Number( parseFloat( data.version ) + parseFloat( data.md5Version ) - 1).toFixed(3) );
                                                 break;
                                             case 'md5Version':
                                                 // dealed by version

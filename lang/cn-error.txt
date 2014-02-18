@@ -29,6 +29,7 @@
     "please_check_file" : "please check for the file you choosed",
     "smtpErrorCode-0" : "test email had sent to ",
     "please_check_email" : "please check email",
+    "defaultRoute" : "The 'configure as default route' option only works in routing table mode",
     "overlapCheck" : "连接到服务器失败",
     "wanIfIp" : "和WAN IP地址冲突",
     "wanIfNetwork" : "和WAN网络冲突",

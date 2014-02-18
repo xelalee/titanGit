@@ -15,6 +15,7 @@
     "noteAlert" : "Note Alert Message",
     "alterAlert" : "Alter Alert Message",
     "cmdAlert" : "Reset/Reboot/Shutdown Confirm",
+    "remindAlert" : "Remind Alert Message",
     "progressAlert" : "Progress Alert",
     "create" : "Create",
     "ipAlias" : "IP Alias"
