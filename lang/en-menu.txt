@@ -4695,8 +4695,8 @@
                   "wiz" : "200px",
                   "option" :
                   {
-                    "0" : "IPv4 Only",
-                    "1" : "IPv4 or IPv6"
+                    "1" : "IPv4 Only",
+                    "3" : "IPv4 or IPv6"
                   }
                 }
               ]

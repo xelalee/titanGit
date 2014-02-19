@@ -204,6 +204,7 @@ gObj.forceOut = 0;
 gObj.help   = 0;
 
 // if condition 
+gIf.multi   = true;
 gIf.loading = false;
 gIf.session = false;
 gIf.systime = false;
@@ -717,10 +718,13 @@ $(document).ready(function () {
         gHtml.login +=       '<td>';
         gHtml.login +=         '<select id="userLang">';
         gHtml.login +=           '<option value="en">English</option>';
-        //gHtml.login +=           '<option value="tw"  >繁體中文</option>';
-        //gHtml.login +=           '<option value="cn"  >简体中文</option>';
-        gHtml.login +=           '<option value="tw" disabled >繁體中文</option>';
-        gHtml.login +=           '<option value="cn" disabled >简体中文</option>';
+        if (gIf.multi) {
+            gHtml.login +=           '<option value="tw"  >繁體中文</option>';
+            gHtml.login +=           '<option value="cn"  >简体中文</option>';
+        } else {
+            gHtml.login +=           '<option value="tw" disabled >繁體中文</option>';
+            gHtml.login +=           '<option value="cn" disabled >简体中文</option>';
+        }
         gHtml.login +=         '</select>';
         gHtml.login +=       '</td>';
         gHtml.login +=     '</tr>';
@@ -10347,7 +10351,7 @@ $(document).ready(function () {
     }
     
     function genNetworking(pid) {
-        var tmp;
+        var tmp = '';
     
         switch(gNode.ext)
         {
@@ -10376,21 +10380,19 @@ $(document).ready(function () {
                             switch( pid )
                             {
                             case 'routing':
-                                tmp = '<div id="div-routeMode">';
-                                tmp += '<ul>';
-                                tmp += '<li><h2>Routing Mode between WAN and LAN</h2></li>';
-                                tmp += '<li><span><input type="radio" name="routeMode" id="routeMode-0" value="0" />&nbsp;<label for="routeMode-0">NAT</label></span></li>';
-                                tmp += '<li><span><input type="radio" name="routeMode" id="routeMode-1" value="1" />&nbsp;<label for="routeMode-1">Classical Routing</label></span></li>';
-                                tmp += '</ul>';
-                                tmp += '</div>';
-                                tmp += '<div id="div-protocol">';
-                                tmp += '<ul>';
-                                tmp += '<li><h2>Protocol</h2></li>';
-                                tmp += '<li><span><input type="radio" name="protoType" id="protoType-0" value="1" />&nbsp;<label for="protoType-0">IPv4 Only</label></span></li>';
-                                tmp += '<li><span><input type="radio" name="protoType" id="protoType-1" value="3" />&nbsp;<label for="protoType-1">IPv4 or IPv6</label></span></li>';
-                                tmp += '</ul>';
-                                tmp += '</div>';
-    
+                                for (var i=0, len=gNode.col.length; i<len; i++)
+                                {
+                                    tmp += '<div id="div-' + gNode.col[ i ].tab + '">';
+                                    tmp += '<ul>';
+                                    tmp += '<li><h2>' + gNode.col[ i ].label + '</h2></li>';
+                                    for (var x in gNode.col[ i ].option)
+                                    {
+                                        tmp += '<li><span><input type="radio" name="' + gNode.col[ i ].tab + '" id="' + gNode.col[ i ].tab + '-' + x + '" value="' + x + '" />&nbsp;<label for="' + gNode.col[ i ].tab + '-' + x + '">' + gNode.col[ i ].option[ x ] + '</label></span></li>';
+                                    }
+                                    tmp += '</ul>';
+                                    tmp += '</div>';
+                                }
+
                                 $('#div-' + pid).html( tmp );
     
                                 $('input[name=routeMode]').each( function() {
