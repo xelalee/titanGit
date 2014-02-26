@@ -181,6 +181,7 @@ gObj.ipAlias   = [];
 gObj.statusMsg = "";
 gObj.progress = 99;
 gObj.loading  = 99;
+gObj.progress = '';
 gObj.tab;
 gObj.tabber;
 gObj.tabIndex = 0;
@@ -214,10 +215,9 @@ gIf.limited = false;
 gIf.reboot  = false;
 gIf.alter   = false;
 gIf.ipAlias = false;
-gIf.defaultRt = false;
+gIf.hasDefaultRt = false;
 gIf.isDefaultRt = false;
 gIf.progressT = false;
-gIf.progress  = false;
 gIf.rtMode  = false;
 gIf.query   = false;
 gIf.dialog  = false;
@@ -237,6 +237,7 @@ gIf.power       = false;
 gIf.ajaxed      = false;
 gIf.toEmail     = false;
 gIf.callHelp    = false;
+gIf.refresh     = false;
 
 // regexp 
 // try to reg per element instead of obj, for solve ie issues 
@@ -301,7 +302,7 @@ gReg.diskAlertThreshold = /^([5-9]\d|100)$/;
 gReg.alertInterval  = /^([3-9]|[1-9]\d{1,2}|1[0-3]\d{2}|14[0-3]\d|1440)$/;
 
 gReg.isPhp          = /php/;
-gReg.isEnabled      = /Enabled/;
+gReg.isEnabled      = /Enable/i;
 gReg.invalid        = /invalid|ERR/;
 gReg.isWan          = /^(WAN[1-6])$/;
 gReg.isPage         = /(Save|Cancel)/g;
@@ -544,12 +545,17 @@ $(document).ready(function () {
                     url: 'cgi-bin/common_progress_list.cgi',
                     dataType: 'json',
                     success: function(data) {
-                        $('.errorMsg').html( data.progressT[ 0 ].statusMsg );
-                        $('.processDiv').progressbar({ value: parseInt( data.progressT[ 0 ].percent ) });
-
-                        if ( 100 === parseInt( data.progressT[ 0 ].percent ) ) {
-                            loadingToggle( false );
-                            gIf.progressT = false;
+                        for (var i=0, len=data.progressT.length; i<len; i++)
+                        {
+                            if ( gObj.progress == data.progressT[ i ].name) {
+                                $('.errorMsg').html( data.progressT[ i ].statusMsg );
+                                $('.processDiv').progressbar({ value: parseInt( data.progressT[ i ].percent ) });
+                                if ( 100 === parseInt( data.progressT[ i ].percent ) ) {
+                                    loadingToggle( false );
+                                    gIf.progressT = false;
+                                    gObj.progress = '';
+                                }
+                            }
                         }
                     }
                 });
@@ -575,7 +581,6 @@ $(document).ready(function () {
                     case 'traffic_statistics':
                     case 'nat_status':
                     case 'active_users':
-                    case 'active_sessions':
                     case 'ipsec_vpn_statistics':
                     case 'traffic_direction':
                     case 'source_report':
@@ -585,6 +590,12 @@ $(document).ready(function () {
                     case 'affected_host':
                     case 'antivirus_report':
                         refreshReports( gObj.active.pid );
+                        break;
+                    case 'active_sessions':
+                        if (gIf.progressT) 
+                            gIf.getSessInfo = false;
+                        else 
+                            refreshReports( gObj.active.pid );
                         break;
                     case 'wan_bandwidth_report':
                     case 'resource_utilization':
@@ -1708,9 +1719,9 @@ $(document).ready(function () {
         case 'active_sessions':
             gObj.form.guiIpsecSessionUpDownTNum = "1";
             gObj.form.guiIpsecSessionUpDownT = [{ "sessionName": gData[ aimID ].guiIpsecSessionT[ thisNo ].sessionName, "instno": gData[ aimID ].guiIpsecSessionT[ thisNo ].instno, "actionType": "1" }];
-            //loadingToggle( true );
+            loadingToggle( true );
             $.post('cgi-bin/ipsecSessionUpDown.cgi', gY.JSON.stringify(gObj.form), function() {
-            //    progressTAlert();
+                progressTAlert( 's2svpn' );
             });
             break;
         case 'ipsec_policies':
@@ -1719,7 +1730,7 @@ $(document).ready(function () {
             gData[ aimID ].guiS2svpnT[ thisNo ].infoStatus = "1";
             loadingToggle( true );
             $.post('cgi-bin/s2svpnUpDown.cgi', gY.JSON.stringify(gObj.form), function() {
-                progressTAlert();
+                progressTAlert( 's2svpn' );
             });
             break;
         }
@@ -2773,7 +2784,7 @@ $(document).ready(function () {
                     loadingToggle( false );
                     successAlert( poster.msg );
                 } else if (1 === parseInt( poster.status )) {
-                    progressTAlert();
+                    progressTAlert( 'avsignature' );
                 } else {
                     loadingToggle( false );
                     errorAlert( gError[ gObj.lang ][ poster.msg ]);
@@ -3261,7 +3272,7 @@ $(document).ready(function () {
 
     }
 
-    function progressTAlert() {
+    function progressTAlert( progress ) {
         if (!$('#popError').exists())
             $('#popBase').append('<div id="popError"></div>');
     
@@ -3283,6 +3294,7 @@ $(document).ready(function () {
             }
         });
         $( 'a.ui-dialog-titlebar-close' ).remove();
+        gObj.progress = progress;
         gIf.progressT = true;
     }
 
@@ -3849,6 +3861,7 @@ $(document).ready(function () {
     }
 
     function refreshDashboard( pid, id ) {
+        gIf.refresh = false;
         gIf.ajaxed = true;
         gIf.getSessInfo = true;
         var tmp = '';
@@ -3880,6 +3893,15 @@ $(document).ready(function () {
                                     tmp += gRef[ pid ][ gSort[ pid ].col[ j ].tab ][ data[ gSort[ pid ].guiT ][ i ][ gSort[ pid ].col[ j ].tab ] ];
                                     tmp += '<span class="linkStatus ' + ( (1 === parseInt( data[ gSort[ pid ].guiT ][ i ][ gSort[ pid ].col[ j ].tab ] ))? 'linkUp' : 'linkDown' ) + '"></span>';
     
+                                }else if ( gSort[ pid ].col[ j ].tab == 'tx' || gSort[ pid ].col[ j ].tab == 'rx' ) {
+                                    var mkbs = parseInt( data[ gSort[ pid ].guiT ][ i ][ gSort[ pid ].col[ j ].tab ] ) * 8;
+                                    if (mkbs > 1000) {
+                                        tmp += (mkbs/1000).toFixed(2) + ' Mb/s';
+                                    } else if ( mkbs == 0) {
+                                        tmp += '0';
+                                    } else {
+                                        tmp += mkbs + ' Kb/s';
+                                    }
                                 } else if ( gRef[ pid ] && gRef[ pid ][ gSort[ pid ].col[ j ].tab ] )
                                     tmp += gRef[ pid ][ gSort[ pid ].col[ j ].tab ][ data[ gSort[ pid ].guiT ][ i ][ gSort[ pid ].col[ j ].tab ] ];
                                 else
@@ -3929,12 +3951,15 @@ $(document).ready(function () {
                                         case 'trafficAmount':
                                         case 'tx':
                                         case 'rx':
-                                            if (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ] > 1000000) {
-                                                tmp += (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ]/1000000).toFixed(2) + ' MB';
-                                            } else if ( data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ] == 0) {
+                                            var mkbs = parseInt( data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ] );
+                                            if (mkbs > 1000000000) {
+                                                tmp += (mkbs/1000000000).toFixed(2) + ' GB';
+                                            } else if (mkbs > 1000000) {
+                                                tmp += (mkbs/1000000).toFixed(2) + ' MB';
+                                            } else if (mkbs == 0) {
                                                 tmp += '0';
                                             } else {
-                                                tmp += (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ]/1000).toFixed(2) + ' KB';
+                                                tmp += (mkbs/1000).toFixed(2) + ' KB';
                                             }
                                             break;
                                         default:
@@ -3948,6 +3973,7 @@ $(document).ready(function () {
                             }
                             $('#table-' + pid + ' tbody').append( tmp );
                         }
+                        gObj.active.counting = gObj.active.refresh;
                     }
                 });                
 
@@ -3991,6 +4017,12 @@ $(document).ready(function () {
                                         }
                                     } else {
                                         $('#table-' + v2.id + ' tbody').empty();
+                                        if (!gSort[ v2.id ]) 
+                                            return false;
+gY.log( v2.id );
+gY.log( gSort[ v2.id ] );
+gY.log( gSort[ v2.id ].guiT );
+gY.log( data );
 
                                         data[ gSort[ v2.id ].guiT ] = dataSort( data[ gSort[ v2.id ].guiT ], v2.id );
                                         tmp = '';
@@ -4010,6 +4042,15 @@ $(document).ready(function () {
                                                     tmp += gRef[ v2.id ][ gSort[ v2.id ].col[ j ].tab ][ data[ gSort[ v2.id ].guiT ][ i ][ gSort[ v2.id ].col[ j ].tab ] ];
                                                     tmp += '<span class="linkStatus ' + ( (1 === parseInt( data[ gSort[ v2.id ].guiT ][ i ][ gSort[ v2.id ].col[ j ].tab ] ))? 'linkUp' : 'linkDown' ) + '"></span>';
                 
+                                                } else if ( gSort[ v2.id ].col[ j ].tab == 'tx' || gSort[ v2.id ].col[ j ].tab == 'rx' ) {
+                                                    var mkbs = parseInt( data[ gSort[ v2.id ].guiT ][ i ][ gSort[ v2.id ].col[ j ].tab ] ) * 8;
+                                                    if (mkbs > 1000) {
+                                                        tmp += (mkbs/1000).toFixed(2) + ' Mb/s';
+                                                    } else if ( mkbs == 0) {
+                                                        tmp += '0';
+                                                    } else {
+                                                        tmp += mkbs + ' Kb/s';
+                                                    }
                                                 } else if ( gRef[ v2.id ] && gRef[ v2.id ][ gSort[ v2.id ].col[ j ].tab ] )
                                                     tmp += gRef[ v2.id ][ gSort[ v2.id ].col[ j ].tab ][ data[ gSort[ v2.id ].guiT ][ i ][ gSort[ v2.id ].col[ j ].tab ] ];
                                                 else
@@ -4062,12 +4103,15 @@ $(document).ready(function () {
                                                     case 'trafficAmount':
                                                     case 'tx':
                                                     case 'rx':
-                                                        if (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ] > 1000000) {
-                                                            tmp += (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ]/1000000).toFixed(2) + ' MB';
-                                                        } else if ( data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ] == 0) {
+                                                        var mkbs = parseInt( data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ] );
+                                                        if (mkbs > 1000000000) {
+                                                            tmp += (mkbs/1000000000).toFixed(2) + ' GB';
+                                                        } else if (mkbs > 1000000) {   
+                                                            tmp += (mkbs/1000000).toFixed(2) + ' MB';
+                                                        } else if (mkbs == 0) {
                                                             tmp += '0';
-                                                        } else {
-                                                            tmp += (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ]/1000).toFixed(2) + ' KB';
+                                                        } else { 
+                                                            tmp += (mkbs/1000).toFixed(2) + ' KB';
                                                         }
                                                         break;
                                                     default:
@@ -4080,6 +4124,7 @@ $(document).ready(function () {
                                             tmp += '</tr>';
                                         }
                                         $('#table-' + data.param + ' tbody').append( tmp );
+                                        gObj.active.counting = gObj.active.refresh;
                                     }
                                 }
                             });                
@@ -4165,7 +4210,16 @@ $(document).ready(function () {
                                             if (gSort[ y ].col[ j ].wiz)
                                                 tmp += ' style="width:' + gSort[ y ].col[ j ].wiz + '"';
                                             tmp += '>';
-                                            if ( gRef[ y ] && gRef[ y ][ gSort[ y ].col[ j ].tab ] )
+                                            if ( gSort[ y ].col[ j ].tab == 'tx' || gSort[ y ].col[ j ].tab == 'rx' ) {
+                                                var mkbs = parseInt( data[ gSort[ y ].guiT ][ i ][ gSort[ y ].col[ j ].tab ] ) * 8;
+                                                if (mkbs > 1000) {
+                                                    tmp += (mkbs/1000).toFixed(2) + ' Mb/s';
+                                                } else if ( mkbs == 0) {
+                                                    tmp += '0';
+                                                } else {
+                                                    tmp += mkbs + ' Kb/s';
+                                                }
+                                            } else if ( gRef[ y ] && gRef[ y ][ gSort[ y ].col[ j ].tab ] )
                                                 tmp += gRef[ y ][ gSort[ y ].col[ j ].tab ][ data[ gSort[ y ].guiT ][ i ][ gSort[ y ].col[ j ].tab ] ];
                                             else
                                                 tmp += data[ gSort[ y ].guiT ][ i ][ gSort[ y ].col[ j ].tab ];
@@ -4239,6 +4293,9 @@ $(document).ready(function () {
                         break;
                     case 'php':
                         $('#table-' + x + ' tbody').empty();
+gY.log( x );
+                        if (! gY.one('#table-' + x + ' thead') )
+                            return false;
 
                         var ascend = gY.one('#table-' + x + ' thead').all('span.sortable.ascending');
                         var descend = gY.one('#table-' + x + ' thead').all('span.sortable.descending');
@@ -4278,12 +4335,15 @@ $(document).ready(function () {
                                                 case 'trafficAmount':
                                                 case 'tx':
                                                 case 'rx':
-                                                    if (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ] > 1000000) {
-                                                        tmp += (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ]/1000000).toFixed(2) + ' MB';
-                                                    } else if ( data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ] == 0) {
+                                                    var mkbs = parseInt( data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ] );
+                                                    if (mkbs > 1000000000) {
+                                                        tmp += (mkbs/1000000000).toFixed(2) + ' GB';
+                                                    } else if (mkbs > 1000000) {
+                                                        tmp += (mkbs/1000000).toFixed(2) + ' MB';
+                                                    } else if (mkbs == 0) {
                                                         tmp += '0';
-                                                    } else {
-                                                        tmp += (data.queryResults[ j ][ gSort[ data.param ].col[ i ].tab ]/1000).toFixed(2) + ' KB';
+                                                    } else {  
+                                                        tmp += (mkbs/1000).toFixed(2) + ' KB';
                                                     }
                                                     break;
                                                 default:
@@ -4296,6 +4356,7 @@ $(document).ready(function () {
                                         tmp += '</tr>';
                                     }
                                     $('#table-' + data.param + ' tbody').append( tmp );
+                                    gObj.active.counting = gObj.active.refresh;
                                 }
                             }
                         });
@@ -4390,9 +4451,18 @@ $(document).ready(function () {
                                         tmp += gRef.dashboard_port.link[ data[ feed.guiT ][ j ][ feed.col[ i ].tab ] ];
                                         // up or down arrow
                                         tmp += '<span class="linkStatus ' + ( (1 === parseInt( data[ feed.guiT ][ j ][ feed.col[ i ].tab ] ))? 'linkUp' : 'linkDown' ) + '"></span>';
-                                    } else if ( feed.col[ i ].tab == 'index' )
+                                    } else if ( feed.col[ i ].tab == 'index' ) 
                                         tmp += (j+1);
-                                    else
+                                    else if ( feed.col[ i ].tab == 'tx' || feed.col[ i ].tab == 'rx' ) {
+                                        var mkbs = parseInt( data[ feed.guiT ][ j ][ feed.col[ i ].tab ] ) * 8;
+                                        if (mkbs > 1000) {
+                                            tmp += (mkbs/1000).toFixed(2) + ' Mb/s'; 
+                                        } else if ( mkbs == 0) {
+                                            tmp += '0';
+                                        } else {
+                                            tmp += mkbs + ' Kb/s'; 
+                                        }
+                                    } else
                                         tmp += data[ feed.guiT ][ j ][ feed.col[ i ].tab ];
                                     tmp += '</td>';
                                 }
@@ -4514,12 +4584,15 @@ $(document).ready(function () {
                                     case 'trafficAmount':
                                     case 'tx':
                                     case 'rx':
-                                        if (data.queryResults[ j ][ feed.col[ i ].tab ] > 1000000) {
-                                            tmp += (data.queryResults[ j ][ feed.col[ i ].tab ]/1000000).toFixed(2) + ' MB'; 
-                                        } else if ( data.queryResults[ j ][ feed.col[ i ].tab ] == 0) {
+                                        var mkbs = parseInt( data.queryResults[ j ][ feed.col[ i ].tab ] );
+                                        if (mkbs > 1000000000) {
+                                            tmp += (mkbs/1000000000).toFixed(2) + ' GB'; 
+                                        } else if (mkbs > 1000000) {
+                                            tmp += (mkbs/1000000).toFixed(2) + ' MB'; 
+                                        } else if (mkbs == 0) {
                                             tmp += '0';
                                         } else {
-                                            tmp += (data.queryResults[ j ][ feed.col[ i ].tab ]/1000).toFixed(2) + ' KB'; 
+                                            tmp += (mkbs/1000).toFixed(2) + ' KB'; 
                                         }
                                         break;
                                     default: 
@@ -4640,6 +4713,9 @@ $(document).ready(function () {
                                         tmp += '>';
                                         if ('linkStatus' === gNode.col[ x ][ j ].tab) {
                                             tmp += gRef[ gNode.tab ][ gNode.col[ x ][ j ].tab ][ data[ gNode.guiT[ x ] ][ i ][ gNode.col[ x ][ j ].tab ] ];
+                                        } else if ( 'txBps' == gNode.col[ x ][ j ].tab || 'rxBps' == gNode.col[ x ][ j ].tab ) {
+                                            var mkbs = parseInt( data[ gNode.guiT[ x ] ][ i ][ gNode.col[ x ][ j ].tab ] ) * 8;
+                                            tmp += ( mkbs > 1000000 )? (mkbs/1000000).toFixed(2) + ' Mb/s' : ( ( mkbs == 0 )? 0 : (mkbs/1000).toFixed(2) + ' Kb/s' );
                                         }else {
                                             tmp += data[ gNode.guiT[ x ] ][ i ][ gNode.col[ x ][ j ].tab ];
                                         }
@@ -4677,6 +4753,7 @@ $(document).ready(function () {
                     dataType: 'json',
                     success: function(data) {
                         gIf.ajaxed = true;
+
                         gData[ gNode.tab ] = data;
                         var tblID   = 'table-' + gNode.tab;
                         var tableID = '#' + tblID;
@@ -4762,7 +4839,10 @@ $(document).ready(function () {
                                         } else {
                                             tmp += '';
                                         }
-                                    } else if ( gNode.col[ i ].tab == 'action' )
+                                    } else if ( gNode.col[ i ].tab == 'tx_bytes' || gNode.col[ i ].tab == 'rx_bytes' ) {
+                                        var mkbs = parseInt( data[ gNode.guiT ][ j ][ gNode.col[ i ].tab ] );
+                                        tmp += ( mkbs > 1000000000 )? (mkbs/1000000000).toFixed(2) + ' GB' : ( ( mkbs > 1000000 )? (mkbs/1000000).toFixed(2) + ' MB' : ( ( mkbs == 0 )? 0 : (mkbs/1000).toFixed(2) + ' KB' ) );
+                                    } else if ( gNode.col[ i ].tab == 'action' ) {
                                         if ( gIf.power ) {
                                             for (var z=0, zlen=gObj.btn.length; z<zlen; z++)
                                             {
@@ -4771,7 +4851,7 @@ $(document).ready(function () {
                                         } else {
                                             tmp += '';
                                         }
-                                    else if (cols.length > 0)
+                                    } else if (cols.length > 0)
                                         tmp += cols[ i ];
                                     else
                                         tmp += data[ gNode.guiT ][ j ][ gNode.col[ i ].tab ];
@@ -4946,7 +5026,8 @@ $(document).ready(function () {
                                             case 'trafficAmount':
                                             case 'tx':
                                             case 'rx':
-                                                tmp += (data.queryResults[ j ][ gNode.col[ 0 ][ i ].tab ]*8/1000).toFixed(2); 
+                                                var mkbs = parseInt( data.queryResults[ j ][ gNode.col[ 0 ][ i ].tab ] );
+                                                tmp += ( mkbs > 1000000000 )? (mkbs/1000000000).toFixed(2) + ' GB' : ( ( mkbs > 1000000 )? (mkbs/1000000).toFixed(2) + ' MB' : ( ( mkbs == 0 )? 0 : (mkbs/1000).toFixed(2) + ' KB' ) );
                                                 break;
                                             default: 
                                                 if (data.queryResults[ j ][ gNode.col[ 0 ][ i ].tab ])
@@ -5393,6 +5474,9 @@ $(document).ready(function () {
                                     tmp += '>';
                                     if ('linkStatus' === gNode.col[ x ][ j ].tab) {
                                         tmp += gRef[ gNode.tab ][ gNode.col[ x ][ j ].tab ][ data[ gNode.guiT[ x ] ][ i ][ gNode.col[ x ][ j ].tab ] ];
+                                    } else if ( 'txBps' == gNode.col[ x ][ j ].tab || 'rxBps' == gNode.col[ x ][ j ].tab ) {
+                                        var mkbs = parseInt( data[ gNode.guiT[ x ] ][ i ][ gNode.col[ x ][ j ].tab ] ) * 8;
+                                        tmp += ( mkbs > 1000000 )? (mkbs/1000000).toFixed(2) + ' Mb/s' : ( ( mkbs == 0 )? 0 : (mkbs/1000).toFixed(2) + ' Kb/s' );
                                     }else {
                                         tmp += data[ gNode.guiT[ x ] ][ i ][ gNode.col[ x ][ j ].tab ];
                                     }
@@ -5420,7 +5504,6 @@ $(document).ready(function () {
                     dataType: 'json',
                     success: function(data) {
                         gIf.ajaxed = true;
-                        gData[ gNode.tab ] = data;
 
                         if (gNode.guiTN)
                             gNodelen = parseInt( data[ gNode.guiTNum ] );
@@ -5431,6 +5514,7 @@ $(document).ready(function () {
                             gObj.btn = gNode.rowAction.split(' ');
 
                         data[ gNode.guiT ] = dataSort( data[ gNode.guiT ], pid );
+                        gData[ gNode.tab ] = data;
                         var cols = [];
                         for (var i=0; i<gNodelen; i++)
                         {
@@ -5464,6 +5548,9 @@ $(document).ready(function () {
                                     } else {
                                         tmp += ''; 
                                     } 
+                                } else if ( gNode.col[ j ].tab == 'tx_bytes' || gNode.col[ j ].tab == 'rx_bytes' ) {
+                                    var mkbs = parseInt( data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] );
+                                    tmp += ( mkbs > 1000000000 )? (mkbs/1000000000).toFixed(2) + ' GB' : ( ( mkbs > 1000000 )? (mkbs/1000000).toFixed(2) + ' MB' : ( ( mkbs == 0 )? 0 : (mkbs/1000).toFixed(2) + ' KB' ) );
                                 } else if ( gNode.col[ j ].tab == 'action') {
                                     if (gIf.power) {
                                         for (var z=0; z<gObj.btn.length; z++)
@@ -5640,7 +5727,8 @@ $(document).ready(function () {
                                                 case 'trafficAmount':
                                                 case 'tx':
                                                 case 'rx':
-                                                    tmp += (data.queryResults[ j ][ gNode.col[ 0 ][ i ].tab ]*8/1000).toFixed(2);
+                                                    var mkbs = parseInt( data.queryResults[ j ][ gNode.col[ 0 ][ i ].tab ] );
+                                                    tmp += ( mkbs > 1000000000 )? (mkbs/1000000000).toFixed(2) + ' GB' : ( ( mkbs > 1000000 )? (mkbs/1000000).toFixed(2) + ' MB' : ( ( mkbs == 0 )? 0 : (mkbs/1000).toFixed(2) + ' KB' ) );
                                                     break;
                                                 default: 
                                                     if (data.queryResults[ j ][ gNode.col[ $('#query-aggregateBy').val() ][ i ].tab ])
@@ -10437,7 +10525,7 @@ $(document).ready(function () {
     
                     if ('static_routing' == pid) {
                         gCache[ pid ].dstIpId = [];
-                        gIf.defaultRt = false;
+                        gIf.hasDefaultRt = false;
                         gIf.isDefaultRt = false;
                     }
     
@@ -10481,10 +10569,10 @@ $(document).ready(function () {
                                     } else if (gNode.col[ j ].tab == 'action') {
                                         tmp += '<td>'; 
                                         if (gIf.power) {
-                                            for (var z=0, zlen=gObj.btn.length; z<zlen; z++)
+                                            for (var k=0, klen=gObj.btn.length; k<klen; k++)
                                             {
-                                                if ( !( 'Delete' === gObj.btn[ z ] && 0 === parseInt( data[ gNode.guiT ][ i ].userDefined ) ) ) {
-                                                    tmp += '<button class="' + gObj.btn[ z ] + '" id="' + gObj.btn[ z ] + '-' + pid + '-' + i + '" title="' + gObj.btn[ z ] + '"><span class="ui-icon" ></span></button>';
+                                                if ( !( 'Delete' === gObj.btn[ k ] && 0 === parseInt( data[ gNode.guiT ][ i ].userDefined ) ) ) {
+                                                    tmp += '<button class="' + gObj.btn[ k ] + '" id="' + gObj.btn[ k ] + '-' + pid + '-' + i + '" title="' + gObj.btn[ k ] + '"><span class="ui-icon" ></span></button>';
                                                 }
                                             }
                                         } else {
@@ -10495,7 +10583,7 @@ $(document).ready(function () {
                                         tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">'; 
                                         if (1 === parseInt( data[ gNode.guiT ][ i ].isDefaultRt )) {
                                             tmp += 'default' ;
-                                            gIf.defaultRt = true;
+                                            gIf.hasDefaultRt = true;
                                         } else {
                                             tmp += gCache.address[ parseInt( data[ gNode.guiT ][ i ].dstIpId ) ];
                                             gCache[ pid ].dstIpId.push( parseInt( data[ gNode.guiT ][ i ].dstIpId ) );
@@ -10643,18 +10731,19 @@ $(document).ready(function () {
                                     $('#table-' + pid + ' tbody').append(tmp);
     
                                     if (gIf.power) {
-                                        switch ( parseInt(data[ gNode.guiT ][ i ].infoStatus) )
-                                        {
-                                        case 0:
-                                            $('#Disconnect-' + pid + '-' + i).prop('disabled', true);
-                                            break;
-                                        case 1:
-                                            $('#Connect-' + pid + '-' + i).prop('disabled', true);
-                                            break;
-                                        case 2:
-                                            $('#Disconnect-' + pid + '-' + i).prop('disabled', true);
-                                            $('#Connect-' + pid + '-' + i).prop('disabled', true);
-                                            break;
+                                        $('#Disconnect-' + pid + '-' + i).prop('disabled', true);
+                                        $('#Connect-' + pid + '-' + i).prop('disabled', true);
+
+                                        if ( 1 === parseInt( data.s2svpnEnable ) ) {
+                                            switch ( parseInt(data[ gNode.guiT ][ i ].infoStatus) ) 
+                                            { 
+                                            case 0:
+                                                $('#Connect-' + pid + '-' + i).prop('disabled', false);
+                                                break;
+                                            case 1:
+                                                $('#Disconnect-' + pid + '-' + i).prop('disabled', false);
+                                                break;
+                                            }
                                         }
     
                                         for (var j=0, jlen=data[ gNode.guiTNum ]; j<jlen; j++)
@@ -10678,8 +10767,6 @@ $(document).ready(function () {
                                     else 
                                         $('#Create-ipsec_policies').prop('disabled', true);
         
-                                    if (1 === parseInt( data.s2svpnEnable ))
-                                        $('#s2svpnEnable').attr('checked', true);
                                     $('#s2svpnEnable').change( function() {
                                         if ($(this).is(':checked')) {
                                             for (var i=0, len=parseInt(data[ gNode.guiTNum ]); i<len; i++)
@@ -10763,7 +10850,7 @@ $(document).ready(function () {
                         tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">'; 
                         if (parseInt( gData[ pid ][ gNode.guiT ][ i ].isDefaultRt ) == 1) {
                             tmp += 'default' ;
-                            gIf.defaultRt = true;
+                            gIf.hasDefaultRt = true;
                         } else {
                             tmp += gCache.address[ parseInt( gData[ pid ][ gNode.guiT ][ i ].dstIpId ) ];
                         }
@@ -10849,19 +10936,20 @@ $(document).ready(function () {
                 $(tableBD).append(tmp);
     
                 if (gIf.power) {
-                    switch ( parseInt(gData[ pid ][ gNode.guiT ][ i ].infoStatus) )
-                    {
-                    case 0:
-                        $('#Disconnect-' + pid + '-' + i).prop('disabled', true);
-                        break;
-                    case 1:
-                        $('#Connect-' + pid + '-' + i).prop('disabled', true);
-                        break;
-                    case 2:
-                        $('#Disconnect-' + pid + '-' + i).prop('disabled', true);
-                        $('#Connect-' + pid + '-' + i).prop('disabled', true);
-                        break;
-                    }
+                    $('#Disconnect-' + pid + '-' + i).prop('disabled', true);
+                    $('#Connect-' + pid + '-' + i).prop('disabled', true);
+
+                    if ( 1 === gData[ pid ].s2svpnEnable ) {
+                        switch ( parseInt(gData[ pid ][ gNode.guiT ][ i ].infoStatus) )
+                        {
+                        case 0:
+                            $('#Connect-' + pid + '-' + i).prop('disabled', false);
+                            break;
+                        case 0:
+                            $('#Disconnect-' + pid + '-' + i).prop('disabled', false);
+                            break;
+                        }
+                    } 
         
                     for (var j=0, jlen=gData[ pid ][ gNode.guiTNum ]; j<jlen; j++)
                     {
@@ -11401,10 +11489,18 @@ $(document).ready(function () {
                     break;
                 }
             }).eq( 0 ).trigger('click');
+
+            $('#Editor-isDefaultRt').change( function() {
+                if ($(this).is(':checked')) {
+                    $('#Editor-dstIpId').prop('disabled', true);
+                } else {
+                    $('#Editor-dstIpId').prop('disabled', false);
+                }
+            });
     
             if (!gIf.rtMode) {
                 $('#Editor-isDefaultRt').prop('disabled', true);
-            }else if (gIf.defaultRt) {
+            }else if (gIf.hasDefaultRt) {
                 $('#Editor-isDefaultRt').prop('disabled', true);
             }
     
@@ -11869,6 +11965,14 @@ $(document).ready(function () {
                 }
             }).eq( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].nhType ).trigger('click');
     
+            $('#Editor-isDefaultRt').change( function() {
+                if ($(this).is(':checked')) {
+                    $('#Editor-dstIpId').prop('disabled', true);
+                } else {
+                    $('#Editor-dstIpId').prop('disabled', false);
+                }
+            });
+    
             if (!gIf.rtMode) {
                 if ( 1 === parseInt(gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].isDefaultRt) ) {
                     $('#Editor-isDefaultRt').attr('checked', true);
@@ -11876,7 +11980,7 @@ $(document).ready(function () {
                     gIf.isDefaultRt = true;
                 }
                 $('#Editor-isDefaultRt').prop('disabled', true);
-            } else if (gIf.defaultRt) {
+            } else if (gIf.hasDefaultRt) {
                 if ( 1 === parseInt(gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].isDefaultRt) ) {
                     $('#Editor-isDefaultRt').attr('checked', true);
                     $('#Editor-dstIpId').prop('disabled', true);
@@ -12115,7 +12219,11 @@ $(document).ready(function () {
     
                             if ($('#Editor-isDefaultRt').is(':checked')) {
                                 gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].isDefaultRt = 1;
+                                gIf.hasDefaultRt = true;
                             }else {
+                                if ( 1 === parseInt( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].isDefaultRt ) ) {
+                                    gIf.hasDefaultRt = false;
+                                }
                                 gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].isDefaultRt = 0;
                             }
     
@@ -22742,6 +22850,7 @@ $(document).ready(function () {
                 }
             });
             break;
+/*
         case 'traffic_statistics':
             tID     = 'port';
             tableID = '#table-' + tID;
@@ -22768,7 +22877,12 @@ $(document).ready(function () {
                             // each col
                             var thID = $(this).attr('id');
                             tmp += '<td id="' + thID + '-' + i + '">'; 
-                            tmp += gData[ tID ][ cgiT ][ i ][ thID.replace( tID + '-','') ];
+                            var tdID = thId.replace( tID + '-', '' );
+                            if ( tdID == 'txBps' || tdID == 'rxBps' ) {
+                                var mkbs = parseInt( gData[ tID ][ cgiT ][ i ][ tdID ] ) * 8;
+                                tmp += ( mkbs > 1000000 )? mkbs/1000000 + ' Mb/s' : ( ( mkbs > 1000 )? mkbs/1000 + ' Kb/s' : mkbs + ' b/s');
+                            } else 
+                                tmp += gData[ tID ][ cgiT ][ i ][ tdID ];
                             tmp += '</td>';
                         });
                         tmp += '</tr>';
@@ -22803,7 +22917,12 @@ $(document).ready(function () {
                                 // each col
                                 var thID = $(this).attr('id');
                                 tmp += '<td id="' + thID + '-' + i + '">'; 
-                                tmp += gData[ tID ][ cgiT ][ i ][ thID.replace( tID + '-','') ];
+                                var tdID = thId.replace( tID + '-', '' );
+                                if ( tdID == 'txBps' || tdID == 'rxBps' ) {
+                                    var mkbs = parseInt( gData[ tID ][ cgiT ][ i ][ tdID ] ) * 8;
+                                    tmp += ( mkbs > 1000000 )? mkbs/1000000 + ' Mb/s' : ( ( mkbs > 1000 )? mkbs/1000 + ' Kb/s' : mkbs + ' b/s');
+                                } else
+                                    tmp += gData[ tID ][ cgiT ][ i ][ tdID ];
                                 tmp += '</td>';
                             });
                             tmp += '</tr>';
@@ -22838,7 +22957,12 @@ $(document).ready(function () {
                                     // each col
                                     var thID = $(this).attr('id');
                                     tmp += '<td id="' + thID + '-' + i + '">'; 
-                                    tmp += gData[ tID ][ cgiT ][ i ][ thID.replace( tID + '-','') ];
+                                    var tdID = thId.replace( tID + '-', '' );
+                                    if ( tdID == 'txBps' || tdID == 'rxBps' ) {
+                                        var mkbs = parseInt( gData[ tID ][ cgiT ][ i ][ tdID ] ) * 8;
+                                        tmp += ( mkbs > 1000000 )? mkbs/1000000 + ' Mb/s' : ( ( mkbs > 1000 )? mkbs/1000 + ' Kb/s' : mkbs + ' b/s');
+                                    } else 
+                                        tmp += gData[ tID ][ cgiT ][ i ][ tdID ];
                                     tmp += '</td>';
                                 });
                                 tmp += '</tr>';
@@ -22872,7 +22996,12 @@ $(document).ready(function () {
                                         // each col
                                         var thID = $(this).attr('id');
                                         tmp += '<td id="' + thID + '-' + i + '">'; 
-                                        tmp += gData[ tID ][ cgiT ][ i ][ thID.replace( tID + '-','') ];
+                                        var tdID = thId.replace( tID + '-', '' );
+                                        if ( tdID == 'txBps' || tdID == 'rxBps' ) {
+                                            var mkbs = parseInt( gData[ tID ][ cgiT ][ i ][ tdID ] ) * 8;
+                                            tmp += ( mkbs > 1000000 )? mkbs/1000000 + ' Mb/s' : ( ( mkbs > 1000 )? mkbs/1000 + ' Kb/s' : mkbs + ' b/s');
+                                        } else 
+                                            tmp += gData[ tID ][ cgiT ][ i ][ tdID ];
                                         tmp += '</td>';
                                     });
                                     tmp += '</tr>';
@@ -22886,6 +23015,7 @@ $(document).ready(function () {
                 });
             });
             break;
+*/
     
         case 'status_summary':
             tID     = 'port';

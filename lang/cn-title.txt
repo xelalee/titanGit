@@ -16,7 +16,7 @@
     "alterAlert" : "Alter Alert Message",
     "cmdAlert" : "Reset/Reboot/Shutdown Confirm",
     "remindAlert" : "Remind Alert Message",
-    "progressAlert" : "Progress Alert",
+    "progressTAlert" : "Progress Alert",
     "create" : "Create",
     "ipAlias" : "IP Alias"
     
