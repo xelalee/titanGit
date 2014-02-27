@@ -65,6 +65,17 @@ html {
     top: 86px;
     width: 130px;
     height: 32px;
+}
+
+.en_help {
+    background: url('images/button_manual_0.png') top left no-repeat;
+}
+
+.cn_help {
+    background: url('images/button_manual_0.png') top left no-repeat;
+}
+
+.tw_help {
     background: url('images/button_manual_0.png') top left no-repeat;
 }
 
@@ -79,10 +90,29 @@ html {
     top: 85px;
     width: 108px;
     height: 32px;
+}
+
+.en_home {
     background: url('images/button_home_00_0.png') top left no-repeat;
 }
 
-#hd_home:hover {
+.en_home:hover {
+    background: url('images/button_home_00_r.png') top left no-repeat;
+}
+
+.cn_home {
+    background: url('images/button_home_00_0.png') top left no-repeat;
+}
+
+.cn_home:hover {
+    background: url('images/button_home_00_r.png') top left no-repeat;
+}
+
+.tw_home {
+    background: url('images/button_home_00_0.png') top left no-repeat;
+}
+
+.tw_home:hover {
     background: url('images/button_home_00_r.png') top left no-repeat;
 }
 
@@ -93,10 +123,29 @@ html {
     top: 85px;
     width: 112px;
     height: 32px;
+}
+
+.en_refresh {
     background: url('images/button_refresh_00_0.png') top left no-repeat;
 }
 
-#hd_refresh:hover {
+.en_refresh:hover {
+    background: url('images/button_refresh_00_r.png') top left no-repeat;
+}
+
+.cn_refresh {
+    background: url('images/button_refresh_00_0.png') top left no-repeat;
+}
+
+.cn_refresh:hover {
+    background: url('images/button_refresh_00_r.png') top left no-repeat;
+}
+
+.tw_refresh {
+    background: url('images/button_refresh_00_0.png') top left no-repeat;
+}
+
+.tw_refresh:hover {
     background: url('images/button_refresh_00_r.png') top left no-repeat;
 }
 
@@ -107,10 +156,29 @@ html {
     top: 85px;
     width: 104px;
     height: 32px;
+}
+
+.en_logout {
     background: url('images/button_logout_00_0.png') top left no-repeat;
 }
 
-#hd_logout:hover {
+.en_logout:hover {
+    background: url('images/button_logout_00_r.png') top left no-repeat;
+}
+
+.cn_logout {
+    background: url('images/button_logout_00_0.png') top left no-repeat;
+}
+
+.cn_logout:hover {
+    background: url('images/button_logout_00_r.png') top left no-repeat;
+}
+
+.tw_logout {
+    background: url('images/button_logout_00_0.png') top left no-repeat;
+}
+
+.tw_logout:hover {
     background: url('images/button_logout_00_r.png') top left no-repeat;
 }
 

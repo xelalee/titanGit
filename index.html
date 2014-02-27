@@ -146,6 +146,7 @@ var gLogin = {};
 var gData  = {};
 var gError = {};
 var gTitle = {};
+var gTerm  = {};
 var gLimit = {};
 var gCheck = {};
 var gIssue = {};
@@ -217,6 +218,7 @@ gIf.alter   = false;
 gIf.ipAlias = false;
 gIf.hasDefaultRt = false;
 gIf.isDefaultRt = false;
+gIf.wasDefaultRt = false;
 gIf.progressT = false;
 gIf.rtMode  = false;
 gIf.query   = false;
@@ -366,12 +368,9 @@ gCache.ipCheck  = {};
 gCache.ipName   = {};
 gCache.type     = {};
 gCache.address  = {};
-gCache.address[ 0 ] = 'Any';
 gCache.service  = {};
-gCache.service[ 0 ] = 'Any';
 gCache.schedule  = {};
 gCache.name      = {};
-gCache.name[ 0 ] = 'Any';
 gCache.sID       = "";
 gCache.pID       = "";
 gCache.loadline  = [];
@@ -401,10 +400,10 @@ gHtml.layout +=     '<div id="ft"></div>';
 gHtml.layout +=   '</div>';
 gHtml.layout +=   '<div class="modals">';
 gHtml.layout +=     '<div id="divSec">';
-gHtml.layout +=       '<div class="titleA" >wait for</div>';
+gHtml.layout +=       '<div class="titleA" ></div>';
 gHtml.layout +=       '<div class="numbers" id="dsec" ></div>';
 gHtml.layout +=       '<div class="lineH" ></div>';
-gHtml.layout +=       '<div class="titleB" >seconds</div>';
+gHtml.layout +=       '<div class="titleB" ></div>';
 gHtml.layout +=       '</div>';
 gHtml.layout +=     '</div>';
 gHtml.layout +=   '</div>';
@@ -1107,6 +1106,12 @@ $(document).ready(function () {
         // draw main head 
         $('#hd').html( gHtml.head );
     
+        // assign lang icon
+        $('#hd_help').addClass( gObj.lang + '_help' );
+        $('#hd_home').addClass( gObj.lang + '_home' );
+        $('#hd_refresh').addClass( gObj.lang + '_refresh' );
+        $('#hd_logout').addClass( gObj.lang + '_logout' );
+
         $('#hd_logout').on('click', function(e) {
             e.preventDefault();
             gObj.form = {};
@@ -2040,11 +2045,11 @@ $(document).ready(function () {
                         tmp += '<table id="table-whitelist_info">';
                         tmp += '<thead>';
                         tmp += '<tr>';
-                        tmp += '<th colspan="2" class="ui-state-default BT130">VirusID</th>';
+                        tmp += '<th colspan="2" class="ui-state-default BT130">Virus ID</th>';
                         tmp += '<th>' + gData[ tar.pid ].urlT[ tar.thisNo ].virusID + '</th>';
                         tmp += '</tr>';
                         tmp += '<tr>';
-                        tmp += '<th colspan="2" class="ui-state-default BT130">VirusName</th>';
+                        tmp += '<th colspan="2" class="ui-state-default BT130">Virus Name</th>';
                         tmp += '<th>' + gData[ tar.pid ].urlT[ tar.thisNo ].virusName + '</th>';
                         tmp += '</tr>';
                         tmp += '<tr>';
@@ -3314,6 +3319,8 @@ $(document).ready(function () {
                 document.location.reload(true);
                 gIf.reboot = false;
             } else if ( gIf.shutdown ) {
+                $('.titleA').html( gTerm[ gObj.lang ].keyWait + ' ' + gTerm[ gObj.lang ].keyFor );
+                $('.titleB').html( gTerm[ gObj.lang ].keySeconds );
                 $('#divSec').hide();
                 errorAlert( 'shudown done' );
             } else {
@@ -4019,10 +4026,6 @@ $(document).ready(function () {
                                         $('#table-' + v2.id + ' tbody').empty();
                                         if (!gSort[ v2.id ]) 
                                             return false;
-gY.log( v2.id );
-gY.log( gSort[ v2.id ] );
-gY.log( gSort[ v2.id ].guiT );
-gY.log( data );
 
                                         data[ gSort[ v2.id ].guiT ] = dataSort( data[ gSort[ v2.id ].guiT ], v2.id );
                                         tmp = '';
@@ -4293,7 +4296,6 @@ gY.log( data );
                         break;
                     case 'php':
                         $('#table-' + x + ' tbody').empty();
-gY.log( x );
                         if (! gY.one('#table-' + x + ' thead') )
                             return false;
 
@@ -10526,6 +10528,7 @@ gY.log( x );
                     if ('static_routing' == pid) {
                         gCache[ pid ].dstIpId = [];
                         gIf.hasDefaultRt = false;
+                        gIf.wasDefaultRt = false;
                         gIf.isDefaultRt = false;
                     }
     
@@ -11010,6 +11013,11 @@ gY.log( x );
                 }
             }
             break;
+        case 'static_routing':
+            if ( 1 === parseInt( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].isDefaultRt ) ) {
+                gIf.hasDefaultRt = false;
+            }
+            break;
         }
     
         if (parseInt( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].gid) > 0 ) {
@@ -11054,6 +11062,11 @@ gY.log( x );
                                 gData[ tar.pid ][ gNode.guiT ][ i ].cgiAction = 2;
                             }
                         }
+                    }
+                    break;
+                case 'static_routing':
+                    if ( 1 === parseInt( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].isDefaultRt ) ) {
+                        gIf.hasDefaultRt = false;
                     }
                     break;
                 }
@@ -11438,8 +11451,9 @@ gY.log( x );
                     {
                     case 'checkbox':
                         tmp += '<input type="checkbox" id="Editor-' + gNode.editor[ i ].tab + '" value="' + gNode.editor[ i ].val + '"/>';
-                        if ( gNode.editor[ i ].note )
-                            tmp += '&nbsp;' + gNode.editor[ i ].note;
+                        if ( gNode.editor[ i ].note ) {
+                            tmp += '&nbsp;<label for="Editor-' + gNode.editor[ i ].tab + '">' + gNode.editor[ i ].note + '</label>';
+                        }
                         break;
                     case 'radio':
                         tmp += '<table id="Editor-table-' + gNode.editor[ i ].tab + '">';
@@ -11493,9 +11507,12 @@ gY.log( x );
             $('#Editor-isDefaultRt').change( function() {
                 if ($(this).is(':checked')) {
                     $('#Editor-dstIpId').prop('disabled', true);
+                    gIf.isDefaultRt = true;
                 } else {
                     $('#Editor-dstIpId').prop('disabled', false);
+                    gIf.isDefaultRt = false;
                 }
+                cgiSelectOption( 'Editor-nhIfId', $('#Editor-nhIfId').val());
             });
     
             if (!gIf.rtMode) {
@@ -11912,7 +11929,7 @@ gY.log( x );
                     case 'checkbox':
                         tmp += '<input type="checkbox" id="Editor-' + gNode.editor[ i ].tab + '" value="' + gNode.editor[ i ].val + '"/>';
                         if ( gNode.editor[ i ].note )
-                            tmp += '&nbsp;' + gNode.editor[ i ].note;
+                            tmp += '&nbsp;<label for="Editor-' + gNode.editor[ i ].tab + '">' + gNode.editor[ i ].note + '</label>';
                         break;
                     case 'radio':
                         tmp += '<table id="Editor-table-' + gNode.editor[ i ].tab + '">';
@@ -11971,21 +11988,24 @@ gY.log( x );
                 } else {
                     $('#Editor-dstIpId').prop('disabled', false);
                 }
+                cgiSelectOption( 'Editor-nhIfId', $('#Editor-nhIfId').val());
             });
     
             if (!gIf.rtMode) {
                 if ( 1 === parseInt(gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].isDefaultRt) ) {
                     $('#Editor-isDefaultRt').attr('checked', true);
                     $('#Editor-dstIpId').prop('disabled', true);
-                    gIf.isDefaultRt = true;
+                    gIf.wasDefaultRt = true;
                 }
                 $('#Editor-isDefaultRt').prop('disabled', true);
             } else if (gIf.hasDefaultRt) {
                 if ( 1 === parseInt(gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].isDefaultRt) ) {
                     $('#Editor-isDefaultRt').attr('checked', true);
                     $('#Editor-dstIpId').prop('disabled', true);
+                    gIf.isDefaultRt = true;
                 }else {
                     $('#Editor-isDefaultRt').prop('disabled', true);
+                    gIf.isDefaultRt = false;
                 }
             }
     
@@ -12249,9 +12269,9 @@ gY.log( x );
             }
         });
 
-        if (gIf.isDefaultRt) {
+        if (gIf.wasDefaultRt) {
             remindAlert( gError[ gObj.lang ].defaultRoute );
-            gIf.isDefaultRt = false;
+            gIf.wasDefaultRt = false;
         }
 
     }
@@ -12624,22 +12644,22 @@ gY.log( x );
                                                             tmp += gRef[ pid ][ gNode.col[ x ][ k ].tab ][ data[ gNode.guiT[ x ][ i ] ][ j ][ gNode.col[ x ][ k ].tab ] ];
                                                         else if (gNode.col[ x ][ k ].tab == 'sourceAddress') {
                                                             if (parseInt( data[ gNode.guiT[ x ][ i ] ][ j ][ gNode.col[ x ][ k ].tab ]) == 0 )
-                                                                tmp += 'Any';
+                                                                tmp += gTerm[ gObj.lang ].keyAny;
                                                             else 
                                                                 tmp += gCache.address[ data[ gNode.guiT[ x ][ i ] ][ j ][ gNode.col[ x ][ k ].tab ] ];
                                                         } else if (gNode.col[ x ][ k ].tab == 'destinationAddress') {
                                                             if (parseInt( data[ gNode.guiT[ x ][ i ] ][ j ][ gNode.col[ x ][ k ].tab ]) == 0 )
-                                                                tmp += 'Any';
+                                                                tmp += gTerm[ gObj.lang ].keyAny;
                                                             else 
                                                                 tmp += gCache.address[ data[ gNode.guiT[ x ][ i ] ][ j ][ gNode.col[ x ][ k ].tab ] ];
                                                         } else if (gNode.col[ x ][ k ].tab == 'fromZone') {
                                                             if (parseInt( data[ gNode.guiT[ x ][ i ] ][ j ][ gNode.col[ x ][ k ].tab ]) == 0 )
-                                                                tmp += 'Any';
+                                                                tmp += gTerm[ gObj.lang ].keyAny;
                                                             else 
                                                                 tmp += gCache.name[ data[ gNode.guiT[ x ][ i ] ][ j ][ gNode.col[ x ][ k ].tab ] ];
                                                         } else if (gNode.col[ x ][ k ].tab == 'toZone') {
                                                             if (parseInt( data[ gNode.guiT[ x ][ i ] ][ j ][ gNode.col[ x ][ k ].tab ]) == 0 )
-                                                                tmp += 'Any';
+                                                                tmp += gTerm[ gObj.lang ].keyAny;
                                                             else 
                                                                 tmp += gCache.name[ data[ gNode.guiT[ x ][ i ] ][ j ][ gNode.col[ x ][ k ].tab ] ];
                                                         } else if (gNode.col[ x ][ k ].tab == 'schedule') {
@@ -13192,22 +13212,22 @@ gY.log( x );
                             tmp += gRef.rules[ gNode.col[ pid ][ k ].tab ][ gData[ pid ][ gNode.guiT[ pid ][ i ] ][ j ][ gNode.col[ pid ][ k ].tab ] ];
                         else if (gNode.col[ pid ][ k ].tab == 'sourceAddress') {
                             if (parseInt( gData[ pid ][ gNode.guiT[ pid ][ i ] ][ j ][ gNode.col[ pid ][ k ].tab ] ) == 0 )
-                                tmp += 'Any';
+                                tmp += gTerm[ gObj.lang ].keyAny;
                             else
                                 tmp += gCache.address[ parseInt( gData[ pid ][ gNode.guiT[ pid ][ i ] ][ j ][ gNode.col[ pid ][ k ].tab ] ) ];
                         } else if (gNode.col[ pid ][ k ].tab == 'destinationAddress') {
                             if (isNaN( parseInt( gData[ pid ][ gNode.guiT[ pid ][ i ] ][ j ][ gNode.col[ pid ][ k ].tab ]) ) || parseInt( gData[ pid ][ gNode.guiT[ pid ][ i ] ][ j ][ gNode.col[ pid ][ k ].tab ]) == 0 )
-                                tmp += 'Any';
+                                tmp += gTerm[ gObj.lang ].keyAny;
                             else
                                 tmp += gCache.address[ parseInt( gData[ pid ][ gNode.guiT[ pid ][ i ] ][ j ][ gNode.col[ pid ][ k ].tab ] ) ];
                         } else if (gNode.col[ pid ][ k ].tab == 'fromZone') {
                             if (isNaN( parseInt( gData[ pid ][ gNode.guiT[ pid ][ i ] ][ j ][ gNode.col[ pid ][ k ].tab ]) ) || parseInt( gData[ pid ][ gNode.guiT[ pid ][ i ] ][ j ][ gNode.col[ pid ][ k ].tab ]) == 0 )
-                                tmp += 'Any';
+                                tmp += gTerm[ gObj.lang ].keyAny;
                             else
                                 tmp += gCache.name[ gData[ pid ][ gNode.guiT[ pid ][ i ] ][ j ][ gNode.col[ pid ][ k ].tab ] ];
                         } else if (gNode.col[ pid ][ k ].tab == 'toZone') {
                             if (parseInt( gData[ pid ][ gNode.guiT[ pid ][ i ] ][ j ][ gNode.col[ pid ][ k ].tab ]) == 0 )
-                                tmp += 'Any';
+                                tmp += gTerm[ gObj.lang ].keyAny;
                             else
                                 tmp += gCache.name[ gData[ pid ][ gNode.guiT[ pid ][ i ] ][ j ][ gNode.col[ pid ][ k ].tab ] ];
                         } else if (gNode.col[ pid ][ k ].tab == 'schedule') {
@@ -15269,13 +15289,13 @@ gY.log( x );
                                                 tmp += '<td id="enable-' + i + '">' + gRef.antivirus.enable[ data.guiAddrFilterT[ i ].enable ] + '</td>';
                                                 tmp += '<td id="sAddrId-' + i + '">';
                                                 if (parseInt(data.guiAddrFilterT[ i ].sAddrId) == 0)
-                                                    tmp += 'Any';
+                                                    tmp += gTerm[ gObj.lang ].keyAny;
                                                 else 
                                                     tmp += gCache.address[ parseInt( data.guiAddrFilterT[ i ].sAddrId ) ];
                                                 tmp += '</td>';
                                                 tmp += '<td id="dAddrId-' + i + '">';
                                                 if (parseInt(data.guiAddrFilterT[ i ].dAddrId) == 0)
-                                                    tmp += 'Any';
+                                                    tmp += gTerm[ gObj.lang ].keyAny;
                                                 else 
                                                     tmp += gCache.address[ parseInt( data.guiAddrFilterT[ i ].dAddrId ) ];
                                                 tmp += '</td>';
@@ -19986,7 +20006,7 @@ gY.log( x );
                                             tmp += gCache.name[ parseInt(data[ gNode.guiT ][ i ][ thID ]) ];
                                             break;
                                         case 'accessAddressId':
-                                            tmp += (parseInt( data[ gNode.guiT ][i][thID] ) == 0)? 'Any' : gCache.address[ parseInt(data[ gNode.guiT ][ i ][ thID ]) ];
+                                            tmp += (parseInt( data[ gNode.guiT ][i][thID] ) == 0)? gTerm[ gObj.lang ].keyAny : gCache.address[ parseInt(data[ gNode.guiT ][ i ][ thID ]) ];
                                             break;
                                         default:
                                             tmp += gRef[ gNode.url.get ].enabled[ data[ gNode.guiT ][ i ][ thID ] ];
@@ -21823,7 +21843,7 @@ gY.log( x );
                         tmp += gCache.name[ parseInt(gData[ pid ][ gNode.guiT ][ i ][ thID ]) ];
                         break;
                     case 'accessAddressId':
-                        tmp += (parseInt( gData[ pid ][ gNode.guiT ][i][thID] ) == 0)? 'Any' : gCache.address[ parseInt(gData[ pid ][ gNode.guiT ][ i ][ thID ]) ];
+                        tmp += (parseInt( gData[ pid ][ gNode.guiT ][i][thID] ) == 0)? gTerm[ gObj.lang ].keyAny : gCache.address[ parseInt(gData[ pid ][ gNode.guiT ][ i ][ thID ]) ];
                         break;
                     default:
                         tmp += gRef[ gNode.url.get ].enabled[ gData[ pid ][ gNode.guiT ][ i ][ thID ] ];
@@ -24930,7 +24950,7 @@ gY.log( x );
                 tag = 0;
                 break;
             case 'Editor-nhIfId':
-                if ($('#static_routing-isDefaultRt').is(':checked'))
+                if ($('#Editor-isDefaultRt').is(':checked'))
                     tag = 1;
                 else 
                     tag = 4;
@@ -24973,7 +24993,7 @@ gY.log( x );
             cgiID   = 'common_zoneIf_list';
             cgiT    = 'guiZoneIfT';
             cgiTNum = 'guiZoneIfTNum';
-            tmp     = '<option value="NA">Select From Existing Zone</option>';
+            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].keySelect + ' ' + gTerm[ gObj.lang ].keyFrom + ' ' + gTerm[ gObj.lang ].keyExisting + ' ' + gTerm[ gObj.lang ].keyZone + '</option>';
             break;
         case 'ports-zoneId':
         case 'lan-zoneId':
@@ -25010,16 +25030,16 @@ gY.log( x );
                 cgiID   = 'common_addr_list';
                 cgiT    = 'guiAddrT';
                 cgiTNum = 'guiAddrTNum';
-                tmp     = '<option value="NA" >Select From Existing Address</option>';
+                tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].keySelect + ' ' + gTerm[ gObj.lang ].keyFrom + ' ' + gTerm[ gObj.lang ].keyExisting + ' ' + gTerm[ gObj.lang ].keyAddress + '</option>';
                 tmp    += '<option value="cAddr"'; 
                 if (gObj.thisNo>= gLimit.common_addr_list.rows)
                     tmp += '"disabled=disabled"';
-                tmp    += '>Create New Address</option>';
+                tmp    += '>' + gTerm[ gObj.lang ].keyCreate + ' ' + gTerm[ gObj.lang ].keyNew + ' ' + gTerm[ gObj.lang ].keyAddress + '</option>';
                 tmp    += '<option value="cGAddr"';
                 if (gObj.thisNo>= gLimit.common_gAddr_list.rows)
                     tmp += '"disabled=disabled"';
-                tmp    += '>Create New Group Address</option>';
-                tmp    += '<option value="0">Any</option>';
+                tmp    += '>' + gTerm[ gObj.lang ].keyCreate + ' ' + gTerm[ gObj.lang ].keyNew + ' ' + gTerm[ gObj.lang ].keyGroup + ' ' + gTerm[ gObj.lang ].keyAddress + '</option>';
+                tmp    += '<option value="0" >' + gTerm[ gObj.lang ].keyAny + '</option>';
                 break;
             }
             break;
@@ -25038,15 +25058,15 @@ gY.log( x );
                 cgiID   = 'common_addr_list';
                 cgiT    = 'guiAddrT';
                 cgiTNum = 'guiAddrTNum';
-                tmp     = '<option value="NA" >Select From Existing Address</option>';
+                tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].keySelect + ' ' + gTerm[ gObj.lang ].keyFrom + ' ' + gTerm[ gObj.lang ].keyExisting + ' ' + gTerm[ gObj.lang ].keyAddress + '</option>';
                 tmp    += '<option value="cAddr"'; 
                 if (gObj.thisNo>= gLimit.common_addr_list.rows)
                     tmp += '"disabled=disabled"';
-                tmp    += '>Create New Address</option>';
+                tmp    += '>' + gTerm[ gObj.lang ].keyCreate + ' ' + gTerm[ gObj.lang ].keyNew + ' ' + gTerm[ gObj.lang ].keyAddress + '</option>';
                 tmp    += '<option value="cGAddr"';
                 if (gObj.thisNo>= gLimit.common_gAddr_list.rows)
                     tmp += '"disabled=disabled"';
-                tmp    += '>Create New Group Address</option>';
+                tmp    += '>' + gTerm[ gObj.lang ].keyCreate + ' ' + gTerm[ gObj.lang ].keyNew + ' ' + gTerm[ gObj.lang ].keyGroup + ' ' + gTerm[ gObj.lang ].keyAddress + '</option>';
                 break;
             }
             break;
@@ -25062,15 +25082,15 @@ gY.log( x );
                 cgiID   = 'common_addr_list';
                 cgiT    = 'guiAddrT';
                 cgiTNum = 'guiAddrTNum';
-                tmp     = '<option value="0" >Any</option>';
+                tmp     = '<option value="0" >' + gTerm[ gObj.lang ].keyAny + '</option>';
                 tmp    += '<option value="cAddr"';
                 if (gObj.thisNo>= gLimit.common_addr_list.rows)
                     tmp += '"disabled=disabled"';
-                tmp    += '>Create New Address</option>';
+                tmp    += '>' + gTerm[ gObj.lang ].keyCreate + ' ' + gTerm[ gObj.lang ].keyNew + ' ' + gTerm[ gObj.lang ].keyAddress + '</option>';
                 tmp    += '<option value="cGAddr"';
                 if (gObj.thisNo>= gLimit.common_gAddr_list.rows)
                     tmp += '"disabled=disabled"';
-                tmp    += '>Create New Group Address</option>';
+                tmp    += '>' + gTerm[ gObj.lang ].keyCreate + ' ' + gTerm[ gObj.lang ].keyNew + ' ' + gTerm[ gObj.lang ].keyGroup + ' ' + gTerm[ gObj.lang ].keyAddress + '</option>';
                 break;
             }
             break;
@@ -25087,16 +25107,16 @@ gY.log( x );
                 cgiID   = 'common_addr_list';
                 cgiT    = 'guiAddrT';
                 cgiTNum = 'guiAddrTNum';
-                tmp     = '<option value="NA" >Select From Existing Address</option>';
+                tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].keySelect + ' ' + gTerm[ gObj.lang ].keyFrom + ' ' + gTerm[ gObj.lang ].keyExisting + ' ' + gTerm[ gObj.lang ].keyAddress + '</option>';
                 tmp    += '<option value="cAddr"'; 
                 if (gObj.thisNo>= gLimit.common_addr_list.rows)
                     tmp += '"disabled=disabled"';
-                tmp    += '>Create New Address</option>';
+                tmp    += '>' + gTerm[ gObj.lang ].keyCreate + ' ' + gTerm[ gObj.lang ].keyNew + ' ' + gTerm[ gObj.lang ].keyAddress + '</option>';
                 tmp    += '<option value="cGAddr"';
                 if (gObj.thisNo>= gLimit.common_gAddr_list.rows)
                     tmp += '"disabled=disabled"';
-                tmp    += '>Create New Group Address</option>';
-                tmp    += '<option value="0">Any</option>';
+                tmp    += '>' + gTerm[ gObj.lang ].keyCreate + ' ' + gTerm[ gObj.lang ].keyNew + ' ' + gTerm[ gObj.lang ].keyGroup + ' ' + gTerm[ gObj.lang ].keyAddress + '</option>';
+                tmp    += '<option value="0" >' + gTerm[ gObj.lang ].keyAny + '</option>';
                 break;
             }
             break;
@@ -25104,7 +25124,7 @@ gY.log( x );
             cgiID = 's2svpn';
             cgiT  = 'guiS2svpnT';
             aimID = 'ipsec_policies';
-            tmp   = '<option value="NA" >Select From Existing IPSec Policy</option>';
+            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].keySelect + ' ' + gTerm[ gObj.lang ].keyFrom + ' ' + gTerm[ gObj.lang ].keyExisting + ' ' + gTerm[ gObj.lang ].keyIPSec + ' ' + gTerm[ gObj.lang ].keyPolicy + '</option>';
             break;
         case 'Editor-originalSrc':
         case 'Editor-originalDst':
@@ -25114,11 +25134,11 @@ gY.log( x );
             cgiID   = 'common_addr_list';
             cgiT    = 'guiAddrT';
             cgiTNum = 'guiAddrTNum';
-            tmp     = '<option value="NA" >Select From Existing Address</option>';
+            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].keySelect + ' ' + gTerm[ gObj.lang ].keyFrom + ' ' + gTerm[ gObj.lang ].keyExisting + ' ' + gTerm[ gObj.lang ].keyAddress + '</option>';
             tmp    += '<option value="cAddr"'; 
             if (gObj.thisNo>= gLimit.common_addr_list.rows)
                 tmp += '"disabled=disabled"';
-            tmp    += '>Create New Address</option>';
+            tmp    += '>' + gTerm[ gObj.lang ].keyCreate + ' ' + gTerm[ gObj.lang ].keyNew + ' ' + gTerm[ gObj.lang ].keyAddress + '</option>';
             break;
         case 'Editor-wanIpId':
             cgiID   = 'common_addr_list';
@@ -25157,14 +25177,14 @@ gY.log( x );
                 cgiID   = 'common_wanIf_list';
                 cgiT    = 'guiWanIfT';
                 cgiTNum = 'guiWanIfTNum';
-                if ($('#static_routing-isDefaultRt').is(':checked'))
-                    tmp = '<option value="NA" >Select From Existing Interface</option>';
+                if ($('#Editor-isDefaultRt').is(':checked'))
+                    tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].keySelect + ' ' + gTerm[ gObj.lang ].keyFrom + ' ' + gTerm[ gObj.lang ].keyExisting + ' ' + gTerm[ gObj.lang ].keyInterface + '</option>';
                 break;
             case 4:
                 cgiID   = 'common_portIf_list';
                 cgiT    = 'guiPortIfT';
                 cgiTNum = 'guiPortIfTNum';
-                tmp     = '<option value="NA" >Select From Existing Interface</option>';
+                tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].keySelect + ' ' + gTerm[ gObj.lang ].keyFrom + ' ' + gTerm[ gObj.lang ].keyExisting + ' ' + gTerm[ gObj.lang ].keyInterface + '</option>';
                 break;
             }
             break;
@@ -25175,11 +25195,11 @@ gY.log( x );
             cgiID   = 'common_service_list';
             cgiT    = 'guiServiceT';
             cgiTNum = 'guiServiceTNum';
-            tmp     = '<option value="NA" ">Select From Existing Service</option>';
+            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].keySelect + ' ' + gTerm[ gObj.lang ].keyFrom + ' ' + gTerm[ gObj.lang ].keyExisting + ' ' + gTerm[ gObj.lang ].keyService + '</option>';
             tmp    += '<option value="cService"'; 
             if (gObj.thisNo>= gLimit.common_service_list.rows)
                 tmp += '"disabled=disabled"';
-            tmp    += '>Create New Service</option>';
+            tmp    += '>' + gTerm[ gObj.lang ].keyCreate + ' ' + gTerm[ gObj.lang ].keyNew + ' ' + gTerm[ gObj.lang ].keyService + '</option>';
             break;
         case 'Editor-service':
             switch( tag )
@@ -25191,21 +25211,22 @@ gY.log( x );
                 tmp    += '<option value="cGService"'; 
                 if (gObj.thisNo>= gLimit.common_gService_list.rows)
                     tmp += '"disabled=disabled"';
-                tmp    += '>Create New Group Service</option>';
+                tmp    += '>' + gTerm[ gObj.lang ].keyCreate + ' ' + gTerm[ gObj.lang ].keyNew + ' ' + gTerm[ gObj.lang ].keyGroup + ' ' + gTerm[ gObj.lang ].keyService + '</option>';
                 break;
             case 2:
                 cgiID   = 'common_service_list';
                 cgiT    = 'guiServiceT';
                 cgiTNum = 'guiServiceTNum';
-                tmp     = '<option value="NA" >Select From Existing Service</option>';
+                tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].keySelect + ' ' + gTerm[ gObj.lang ].keyFrom + ' ' + gTerm[ gObj.lang ].keyExisting + ' ' + gTerm[ gObj.lang ].keyService + '</option>';
                 tmp    += '<option value="cService"'; 
                 if (gObj.thisNo>= gLimit.common_service_list.rows)
                     tmp += '"disabled=disabled"';
-                tmp    += '>Create New Service</option>';
+                tmp    += '>' + gTerm[ gObj.lang ].keyCreate + ' ' + gTerm[ gObj.lang ].keyNew + ' ' + gTerm[ gObj.lang ].keyService + '</option>';
                 tmp    += '<option value="cGService"'; 
                 if (gObj.thisNo>= gLimit.common_gService_list.rows)
                     tmp += '"disabled=disabled"';
                 tmp    += '>Create New Group Service</option>';
+                tmp    += '>' + gTerm[ gObj.lang ].keyCreate + ' ' + gTerm[ gObj.lang ].keyNew + ' ' + gTerm[ gObj.lang ].keyGroup + ' ' + gTerm[ gObj.lang ].keyService + '</option>';
                 break;
             }
             break;
@@ -25213,31 +25234,31 @@ gY.log( x );
             cgiID   = 'common_time_list';
             cgiT    = 'guiTimeT';
             cgiTNum = 'guiTimeTNum';
-            tmp     = '<option value="NA" >Select From Existing Schedule</option>';
+            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].keySelect + ' ' + gTerm[ gObj.lang ].keyFrom + ' ' + gTerm[ gObj.lang ].keyExisting + ' ' + gTerm[ gObj.lang ].keySchedule + '</option>';
             tmp    += '<option value="cSchedule"'; 
             if (gObj.thisNo>= gLimit.common_time_list.rows)
                 tmp += '"disabled=disabled"';
-            tmp    += '>Create New Schedule</option>';
+            tmp    += '>' + gTerm[ gObj.lang ].keyCreate + ' ' + gTerm[ gObj.lang ].keyNew + ' ' + gTerm[ gObj.lang ].keySchedule + '</option>';
             break;
         case 'multiple_wan_settings-netDetectPingIpId':
             cgiID   = 'common_addr_list';
             cgiT    = 'guiAddrT';
             cgiTNum = 'guiAddrTNum';
-            tmp     = '<option value="0"> -- Default Gateway -- </option>';
+            tmp     = '<option value="0"> -- ' + gTerm[ gObj.lang ].keyDefault + ' ' + gTerm[ gObj.lang ].keyGateway + ' -- </option>';
             tmp    += '<option value="cAddr"'; 
             if (gObj.thisNo>= gLimit.common_addr_list.rows)
                 tmp += '"disabled=disabled"';
-            tmp    += '>Create New Address</option>';
+            tmp    += '>' + gTerm[ gObj.lang ].keyCreate + ' ' + gTerm[ gObj.lang ].keyNew + ' ' + gTerm[ gObj.lang ].keyAddress + '</option>';
             break;
         case 'multiple_wan_settings-netDetectDnsIpId':
             cgiID   = 'common_addr_list';
             cgiT    = 'guiAddrT';
             cgiTNum = 'guiAddrTNum';
-            tmp     = '<option value="0"> -- Default DNS Server -- </option>';
+            tmp     = '<option value="0"> -- ' + gTerm[ gObj.lang ].keyDefault + ' ' + gTerm[ gObj.lang ].keyDNS + ' ' + gTerm[ gObj.lang ].keyServer + ' -- </option>';
             tmp    += '<option value="cAddr"'; 
             if (gObj.thisNo>= gLimit.common_addr_list.rows)
                 tmp += '"disabled=disabled"';
-            tmp    += '>Create New Address</option>';
+            tmp    += '>' + gTerm[ gObj.lang ].keyCreate + ' ' + gTerm[ gObj.lang ].keyNew + ' ' + gTerm[ gObj.lang ].keyAddress + '</option>';
             break;
         case 'Editor-dstIpId':
         case 'Editor-nhIpId':
@@ -25245,11 +25266,11 @@ gY.log( x );
             cgiID   = 'common_addr_list';
             cgiT    = 'guiAddrT';
             cgiTNum = 'guiAddrTNum';
-            tmp     = '<option value="NA" >Select From Existing Address</option>';
+            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].keySelect + ' ' + gTerm[ gObj.lang ].keyFrom + ' ' + gTerm[ gObj.lang ].keyExisting + ' ' + gTerm[ gObj.lang ].keyAddress + '</option>';
             tmp    += '<option value="cAddr"'; 
             if (gObj.thisNo>= gLimit.common_addr_list.rows)
                 tmp += '"disabled=disabled"';
-            tmp    += '>Create New Address</option>';
+            tmp    += '>' + gTerm[ gObj.lang ].keyCreate + ' ' + gTerm[ gObj.lang ].keyNew + ' ' + gTerm[ gObj.lang ].keyAddress + '</option>';
             break;
         }
     
@@ -25437,13 +25458,13 @@ gY.log( x );
             break;
         case 'Editor-days':
         case 'More-days':
-            tmp += '<option value="0">All Days</option>';
-            tmp += '<option value="1">Specific Days</option>';
+            tmp += '<option value="0">' + gTerm[ gObj.lang ].keyAll + ' ' + gTerm[ gObj.lang ].keyDays + '</option>';
+            tmp += '<option value="1">' + gTerm[ gObj.lang ].keySpecific + ' ' + gTerm[ gObj.lang ].keyDays + '</option>';
             break;
         case 'Editor-times':
         case 'More-times':
-            tmp += '<option value="0">All Times</option>';
-            tmp += '<option value="1">Specific Times</option>';
+            tmp += '<option value="0">' + gTerm[ gObj.lang ].keyAll + ' ' + gTerm[ gObj.lang ].keyTimes + '</option>';
+            tmp += '<option value="1">' + gTerm[ gObj.lang ].keySpecific + ' ' + gTerm[ gObj.lang ].keyTimes + '</option>';
             break;
         case 'Editor-startHour':
         case 'Editor-endHour':
@@ -25563,8 +25584,8 @@ gY.log( x );
                 tmp += '<option value="' + x + '">' + gRef.rules.matchAction[x] + '</option>';
             break;
         case 'access_control-actionType':
-            tmp = '<option value="0">Deny</option>';
-            tmp += '<option value="1">Permit</option>';
+            tmp = '<option value="0">' + gTerm[ gObj.lang ].keyDeny + '</option>';
+            tmp += '<option value="1">' + gTerm[ gObj.lang ].keyPermit + '</option>';
             break;
         case 'membership-groupId':
             for ( var i=0, len=gData.group.groupListT.length; i<len; i++ )
@@ -25688,11 +25709,11 @@ gY.log( x );
         case 'rule':
             tmp += '<caption>Select Criterion For Rule Table</caption>';
             tmp +=   '<tr>';
-            tmp +=      '<td class="BT225">From Zone <select id="query-fromZone"></select></td>';
-            tmp +=      '<td class="BT225">To Zone <select id="query-toZone"></select></td>';
-            tmp +=      '<td class="BT100"><input type="checkbox" id="query-default" value="1" checked /> <label for="query-default">Default Rule</label></td>';
-            tmp +=      '<td class="BT80"><input type="checkbox" id="query-vpn" value="1" checked /> <label for="query-vpn">VPN Rule</label></td>';
-            tmp +=      '<td class="BT80"><input type="checkbox" id="query-nat" value="1" checked /> <label for="query-nat">NAT Rule</label></td>';
+            tmp +=      '<td class="BT225">' + gTerm[ gObj.lang ].keyFrom + ' ' + gTerm[ gObj.lang ].keyZone + ' <select id="query-fromZone"></select></td>';
+            tmp +=      '<td class="BT225">' + gTerm[ gObj.lang ].keyTo + ' ' + gTerm[ gObj.lang ].keyZone + ' <select id="query-toZone"></select></td>';
+            tmp +=      '<td class="BT100"><input type="checkbox" id="query-default" value="1" checked /> <label for="query-default">' + gTerm[ gObj.lang ].keyDefault + ' ' + gTerm[ gObj.lang ].keyRule + '</label></td>';
+            tmp +=      '<td class="BT80"><input type="checkbox" id="query-vpn" value="1" checked /> <label for="query-vpn">' + gTerm[ gObj.lang ].keyVPN + ' ' + gTerm[ gObj.lang ].keyRule + '</label></td>';
+            tmp +=      '<td class="BT80"><input type="checkbox" id="query-nat" value="1" checked /> <label for="query-nat">' + gTerm[ gObj.lang ].keyNAT + ' ' + gTerm[ gObj.lang ].keyRule + '</label></td>';
             tmp +=      '<td class="BT40"><button class="Query" id="query-rule"><span class="ui-icon" title="Query"></span></button></td>';
             tmp +=   '</tr>';
             break;
@@ -25717,10 +25738,10 @@ gY.log( x );
         case 'resource_utilization':
             tmp += '<tr>';
             tmp += '<td>';
-            tmp += 'Start Date: <input type="text" id="query-startDate" /> Hour: <select id="query-startHour"></select> Minute: <select id="query-startMin"></select>';
+            tmp += gTerm[ gObj.lang ].keyStart + ' ' + gTerm[ gObj.lang ].keyDate + ': <input type="text" id="query-startDate" /> ' + gTerm[ gObj.lang ].keyHour + ': <select id="query-startHour"></select> ' + gTerm[ gObj.lang ].keyMinute + ': <select id="query-startMin"></select>';
             tmp += '</td>';
             tmp += '<td>';
-            tmp += 'End Date: <input type="text" id="query-endDate" /> Hour: <select id="query-endHour"></select> Minute: <select id="query-endMin"></select>';
+            tmp += gTerm[ gObj.lang ].keyEnd + ' ' + gTerm[ gObj.lang ].keyDate + ': <input type="text" id="query-endDate" /> ' + gTerm[ gObj.lang ].keyHour + ': <select id="query-endHour"></select> ' + gTerm[ gObj.lang ].keyMinute + ': <select id="query-endMin"></select>';
             tmp += '</td>';
             tmp += '<td class="alignCenter">';
             tmp += '<button class="Query" id="Query-' + id + '"><span class="ui-icon" title="query"></span></button>';
@@ -25734,7 +25755,7 @@ gY.log( x );
             tmp += '<img src="css/images/i_16_severity_00.png" />';
             tmp += '</td>';
             tmp += '<th class="alignLeft BT150">';
-            tmp += 'Severity';
+            tmp += gTerm[ gObj.lang ].keySeverity;
             tmp += '</th>';
             tmp += '<td class="alignLeft BT200">';
             tmp += '<select id="query-severity"></select>';
@@ -25744,7 +25765,7 @@ gY.log( x );
             tmp += '<img src="css/images/i_16_facility_00.png" />';
             tmp += '</td>';
             tmp += '<th class="alignLeft BT150">';
-            tmp += 'Facility';
+            tmp += gTerm[ gObj.lang ].keyFacility;
             tmp += '</th>';
             tmp += '<td class="alignLeft BT180">';
             tmp += '<select id="query-facility"></select>';
@@ -25758,7 +25779,7 @@ gY.log( x );
             tmp += '<img src="css/images/i_16_source_address_00.png" />';
             tmp += '</td>';
             tmp += '<th class="alignLeft BT150">';
-            tmp += 'Source Address';
+            tmp += gTerm[ gObj.lang ].keySource + ' ' + gTerm[ gObj.lang ].keyAddress;
             tmp += '</th>';
             tmp += '<td class="alignLeft BT200">';
             tmp += '<input type="text" id="query-srcIp"/>';
@@ -25767,58 +25788,19 @@ gY.log( x );
             tmp += '<img src="css/images/i_16_destination_address_00.png" />';
             tmp += '</td>';
             tmp += '<th class="alignLeft BT150">';
-            tmp += 'Destination Address';
+            tmp += gTerm[ gObj.lang ].keyDestination + ' ' + gTerm[ gObj.lang ].keyAddress;
             tmp += '</th>';
             tmp += '<td class="alignLeft BT200">';
             tmp += '<input type="text" id="query-dstIp"/>';
             tmp += '</td>';
             tmp += '</tr>';
-    
-/*
-            tmp += '<td class="BT40" >';
-            tmp += '<img src="css/images/i_16_source_address_00.png" />';
-            tmp += '</td>';
-            tmp += '<th class="alignLeft BT150">';
-            tmp += 'Source User';
-            tmp += '</th>';
-            tmp += '<td class="alignLeft BT180">';
-            tmp += '<input type="text" id="query-srcUsr"/>';
-            tmp += '</td>';
-            tmp += '<td class="BT40" >';
-            tmp += '</td>';
-            tmp += '</tr>';
-    
-            tmp += '<tr>';
-            tmp += '<td class="BT40" >';
-            tmp += '<img src="css/images/i_16_destination_address_00.png" />';
-            tmp += '</td>';
-            tmp += '<th class="alignLeft BT150">';
-            tmp += 'Destination Address';
-            tmp += '</th>';
-            tmp += '<td class="alignLeft BT200">';
-            tmp += '<input type="text" id="query-dstIp"/>';
-            tmp += '</td>';
-    
-            tmp += '<td class="BT40" >';
-            tmp += '<img src="css/images/i_16_destination_address_00.png" />';
-            tmp += '</td>';
-            tmp += '<th class="alignLeft BT150">';
-            tmp += 'Destination User';
-            tmp += '</th>';
-            tmp += '<td class="alignLeft BT180">';
-            tmp += '<input type="text" id="query-dstUsr"/>';
-            tmp += '</td>';
-            tmp += '<td class="BT40" >';
-            tmp += '</td>';
-            tmp += '</tr>';
-*/
     
             tmp += '<tr>';
             tmp += '<td class="BT40" >';
             tmp += '<img src="css/images/i_16_date_00.png" />';
             tmp += '</td>';
             tmp += '<th class="alignLeft BT150">';
-            tmp += 'Start Date';
+            tmp += gTerm[ gObj.lang ].keyStart + ' ' + gTerm[ gObj.lang ].keyDate;
             tmp += '</th>';
             tmp += '<td class="alignLeft BT200">';
             tmp += '<input type="text" id="query-startDate"/>';
@@ -25828,7 +25810,7 @@ gY.log( x );
             tmp += '<img src="css/images/i_16_date_00.png" />';
             tmp += '</td>';
             tmp += '<th class="alignLeft BT150">';
-            tmp += 'End Date';
+            tmp += gTerm[ gObj.lang ].keyEnd + ' ' + gTerm[ gObj.lang ].keyDate;
             tmp += '</th>';
             tmp += '<td class="alignLeft BT180">';
             tmp += '<input type="text" id="query-endDate"/>';
@@ -25842,34 +25824,34 @@ gY.log( x );
         default:
             tmp += '<tr>';
             tmp += '<td class="BT250">';
-            tmp += 'Start Date: <input type="text" id="query-startDate" />';
+            tmp += gTerm[ gObj.lang ].keyStart + ' ' + gTerm[ gObj.lang ].keyDate + ': <input type="text" id="query-startDate" />';
             tmp += '</td>';
             tmp += '<td class="BT250">';
-            tmp += 'End Date: <input type="text" id="query-endDate" />';
+            tmp += gTerm[ gObj.lang ].keyEnd + ' ' + gTerm[ gObj.lang ].keyDate + ': <input type="text" id="query-endDate" />';
             tmp += '</td>';
             tmp += '<td class="BT250">';
-            tmp += 'Aggregate By <select id="query-aggregateBy">';
+            tmp += gTerm[ gObj.lang ].keyAggregateBy + ' <select id="query-aggregateBy">';
             tmp += '<option value="0">None</option>';
             switch(id)
             {
             case 'traffic_direction':
-                tmp += '<option value="1">Zone Direction</option>';
+                tmp += '<option value="1">' + gTerm[ gObj.lang ].keyZoneDirection + '</option>';
                 break;
             case 'source_report':
             case 'destination_report':
-                tmp += '<option value="1">Host IP</option>';
+                tmp += '<option value="1">' + gTerm[ gObj.lang ].keyHost + ' ' + gTerm[ gObj.lang ].keyIP + '</option>';
                 break;
             case 'file_extension':
-                tmp += '<option value="1">Extension</option>';
+                tmp += '<option value="1">' + gTerm[ gObj.lang ].keyExtension + '</option>';
                 break;
             case 'blocked_host':
             case 'affected_host':
-                tmp += '<option value="1">Host IP/User</option>';
+                tmp += '<option value="1">' + gTerm[ gObj.lang ].keyHost + ' ' + gTerm[ gObj.lang ].keyIP + '/' + gTerm[ gObj.lang ].keyUser + '</option>';
                 break;
             case 'antivirus_report':
-                tmp += '<option value="1">Src IP/User</option>';
-                tmp += '<option value="2">Dst IP/User</option>';
-                tmp += '<option value="3">Virus Name</option>';
+                tmp += '<option value="1">' + gTerm[ gObj.lang ].keySource + ' ' + gTerm[ gObj.lang ].keyIP + '/' + gTerm[ gObj.lang ].keyUser + '</option>';
+                tmp += '<option value="2">' + gTerm[ gObj.lang ].keyDestination + ' ' + gTerm[ gObj.lang ].keyIP + '/' + gTerm[ gObj.lang ].keyUser + '</option>';
+                tmp += '<option value="3">' + gTerm[ gObj.lang ].keyVirusName + '</option>';
                 break;
             }
             tmp += '</select>';
@@ -26225,6 +26207,9 @@ gY.log( x );
         gCache.uniq      = {};
         gCache.loadline  = [];
         gCache.loadCount = 0;
+        gCache.address[ 0 ] = gTerm[ gObj.lang ].keyAny;
+        gCache.service[ 0 ] = gTerm[ gObj.lang ].keyAny;
+        gCache.name[ 0 ] = gTerm[ gObj.lang ].keyAny;
     
         switch(id)
         {
@@ -26733,6 +26718,15 @@ gY.log( x );
                     success:function(data) {
                         // prepare popup title
                         gTitle[ data.lang ] = data.title;
+                    }
+                });
+
+                $.ajax({
+                    url:'lang/' + gLang[ i ] + '-term.txt',
+                    dataType:'json',
+                    success:function(data) {
+                        // prepare query terms
+                        gTerm[ data.lang ] = data.term;
                     }
                 });
 

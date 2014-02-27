@@ -8866,7 +8866,27 @@
                   "tab" : "reset",
                   "icon" : "css/images/i_128_reset_00.png",
                   "key" : "action",
-                  "val" : 1
+                  "val" : 1,
+                  "tag" : "input",
+                  "type" : "radio",
+                  "option" :
+                  {
+                    "1" :
+                    {
+                      "label" : "config",
+                      "tab" : "resetMode-1"
+                    },
+                    "2" :
+                    {
+                      "label" : "database",
+                      "tab" : "resetMode-2"
+                    },
+                    "3" :
+                    {
+                      "label" : "both",
+                      "tab" : "resetMode-3"
+                    }
+                  }
                 },
                 {
                   "label" : "關閉",
