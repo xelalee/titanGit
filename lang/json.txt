@@ -214,6 +214,19 @@
       }
     ]
   },
+  "common_if_list" :
+  {
+    "guiArpTableTNum": 0, 
+    "guiArpTableT": 
+    [
+      {
+        "addrss": "",
+        "flag": "",
+        "mac" : 0,
+        "device" : ""
+      }
+    ]
+  },
   "wan" :
   { 
     "wanIpIfT":
@@ -222,7 +235,7 @@
         "gid":0,
         "name":"",
         "description":"",
-        "wanProto":0,
+        "wanProto":1,
         "wanProto_v6":0,
         "address":"192.168.100.254/24",
         "portId":"",
@@ -236,7 +249,7 @@
         "netDetectDnsIpId":"0",
         "failoverEnable":0,
         "backupWanName":"",
-        "cgiAction":0
+        "cgiAction" : 1
       }
     ],
     "ipAliasT":
@@ -272,6 +285,22 @@
         "userDns2":""
       }
     ],
+    "pppoecT":
+    [
+      {
+        "gid":"0",
+        "username":"",
+        "password":"",
+        "authType":"0",
+        "ondemand":"0",
+        "maxIdleTime":"10",
+        "mtuMode":"0",
+        "mtu":1492,
+        "dnsMode":0,
+        "userDns1":"",
+        "userDns2":""
+      }
+    ],
     "staticip6T":
     [
       {
@@ -281,6 +310,51 @@
         "gateway":"::",
         "userDns1":"::",
         "userDns1":"::"
+      }
+    ]
+  },
+  "port" :
+  {
+    "guiPortIfTNum": 0,
+    "guiPortIfT":
+    [
+      {
+        "gid": 0,
+        "port": 1,
+        "name": "",
+        "type":1,
+        "address": "",
+        "netmask": "",
+        "dhcpPool": "",
+        "speed": 0,
+        "duplex": 0,
+        "flowControl": 0,
+        "mtuMode": 0,
+        "mtuValue": 0,
+        "linkStatus": 0,
+        "zoneId": 0,
+        "ipv6Address":"::",
+        "ipv6PrefixLength": 0,
+        "cgiAction": 1
+      }
+    ],
+    "guiIpAliasTNum": 0,
+    "guiIpAliasT": [
+      {
+        "ipAliasCnt": 0,
+        "address": "",
+        "netmask": ""
+      }
+    ],
+    "dhcpReservT": [
+      {
+        "gid": 0,
+        "name": "",
+        "macAddrId": "",
+        "assignIpId": "",
+        "ifId": "",
+        "refIfName": "",
+        "cgiAction": 1
       }
     ]
   },
@@ -301,7 +375,7 @@
         "zone": 0,
         "ipv6Address":"::",
         "ipv6PrefixLength": 0,
-        "cgiAction": 0
+        "cgiAction": 1
       }
     ],
     "guiIpAliasTNum": 0,
@@ -328,23 +402,18 @@
         "wins2": "",
         "domainName": ""
       }
-    ]
-  },
-  "zone" :
-  {
-    "guiZoneIfTNum" : 0, 
-    "guiZoneIfT" : 
-    [
+    ],
+    "dhcpReservT": [
       {
-        "gid" : 0, 
-        "name" : "", 
-        "userDefined" : 1, 
-        "memberCnt" : 0, 
-        "member" : "", 
-        "securityLevel" : 0, 
-        "cgiAction":0
+        "gid": 0,
+        "name": "",
+        "macAddrId": "",
+        "assignIpId": "",
+        "ifId": "",
+        "refIfName": "",
+        "cgiAction": 1
       }
-    ] 
+    ]
   },
   "vlan" :
   {
@@ -365,7 +434,7 @@
         "zoneId": 0,
         "ipv6Address":"::",
         "ipv6PrefixLength":0,
-        "cgiAction": 0
+        "cgiAction": 1
       }
     ],
     "guiIpAliasTNum": 0,
@@ -391,6 +460,33 @@
         "wins1": "",
         "wins2": "",
         "domainName": ""
+      }
+    ],
+    "dhcpReservT": [
+      {
+        "gid": 0,
+        "name": "",
+        "macAddrId": "",
+        "assignIpId": "",
+        "ifId": "",
+        "refIfName": "",
+        "cgiAction": 1
+      }
+    ]
+  },
+  "zone" :
+  {
+    "guiZoneIfTNum" : 0,
+    "guiZoneIfT" :
+    [
+      {
+        "gid" : 0,
+        "name" : "",
+        "userDefined" : 1,
+        "memberCnt" : 0,
+        "member" : "",
+        "securityLevel" : 0,
+        "cgiAction": 1
       }
     ]
   },
@@ -432,7 +528,7 @@
         "backupPolicyName": "",
         "fallbackTime": 5,
         "infoStatus": 0,
-        "cgiAction": 0
+        "cgiAction": 1
       }
     ]
   },
@@ -449,7 +545,7 @@
         "dhgroup": "",
         "lifetime": 0,
         "userDefined": 0,
-        "cgiAction": 0
+        "cgiAction": 1
       }
     ]
   },
@@ -466,7 +562,7 @@
         "pfsgroup": "",
         "lifetime": 0,
         "userDefined": 0,
-        "cgiAction": 0
+        "cgiAction": 1
       }
     ]
   },
@@ -484,7 +580,7 @@
         "nhIpId": 0,
         "metric": 0,
         "isDefaultRt":0,
-        "cgiAction": 0
+        "cgiAction": 1
       }
     ]
   },
@@ -498,7 +594,7 @@
         "webLoginPriv" : 3,
         "portalPriv" : 1,
         "cgiSetListId" : "",
-        "cgiAction" : 0
+        "cgiAction": 1
       }
     ]
   },
@@ -512,7 +608,36 @@
         "password" : "",
         "groupId" : 0,
         "cgiSetPwd" : 0,
-        "cgiAction" : 0
+        "cgiAction": 1
+      }
+    ]
+  },
+  "dnssetting" :
+  {
+    "staticDnsT" :
+    [
+      {
+        "gid" : 0,
+        "domain" : "",
+        "ipAddr" : "",
+        "cgiAction": 0
+      }
+    ]
+  },
+  "config_profile_list" :
+  {
+    "guiProfileT" :
+    [
+      {
+        "gid" : 0,
+        "name" : "",
+        "desc" : "",
+        "baseOn" : "",
+        "userDefined" : 1,
+        "time" : "",
+        "fileName" : "",
+        "isUsed" : 0,
+        "cgiAction": 1
       }
     ]
   }

@@ -23,9 +23,9 @@
     "Tehran": "(GMT+03:30) 德黑兰",
     "Abu Dhabi, Muscat, Baku, Moscow": "(GMT+04:00) 阿布扎比, 马斯喀特, 巴库, 莫斯科",
     "Kabul": "(GMT+04:30) 喀布尔",
-    "Ekaterinburg, Islamabad, Karachi": "(GMT+05:00) 伊斯兰堡, 卡拉奇",
+    "Islamabad, Karachi": "(GMT+05:00) 伊斯兰堡, 卡拉奇",
     "Bombay, Calcutta, Madras, Delhi": "(GMT+05:30) 孟买, 加尔各答, 马德拉斯, 新德里",
-    "Almaty, Dhaka, Colombo": "(GMT+06:00) 叶卡捷琳堡, 阿拉木图, 达卡, 科伦坡",
+    "Ekaterinburg, Almaty, Dhaka, Colombo": "(GMT+06:00) 叶卡捷琳堡, 阿拉木图, 达卡, 科伦坡",
     "Burma": "(GMT+06:30) 缅甸",
     "Bangkok, Hanoi, Jakarta": "(GMT+07:00) 曼谷, 河内, 雅加达",
     "Beijing, Chongqing, Hong Kong": "(GMT+08:00) 北京，重庆，香港，乌鲁木齐",
@@ -33,9 +33,9 @@
     "Adelaide, Darwin": "(GMT+09:30) 阿德莱德, 达尔文",
     "Brisbane, Guam, Port Moresby, Sydney": "(GMT+10:00) 布里斯班, 关岛, 莫尔兹比港, 悉尼",
     "Lord Howe Is.": "(GMT+10:30) 罗德豪岛",
-    "Magadan, Solomon Is, New Caledonia": "(GMT+11:00) 所罗门群岛, 新喀里多尼亚",
+    "Solomon Is, New Caledonia": "(GMT+11:00) 所罗门群岛, 新喀里多尼亚",
     "Norfolk I.": "(GMT+11:30) 诺福克群岛",
-    "Auckland, Wellington, New Zealand, Fiji": "(GMT+12:00) 马加丹, 奥克兰, 惠灵顿, 新西兰, 斐济",
+    "Magadan, Auckland, Wellington, New Zealand, Fiji": "(GMT+12:00) 马加丹, 奥克兰, 惠灵顿, 新西兰, 斐济",
     "Tonga": "(GMT+13:00) 汤加",
     "Kiribati, Western Samoa": "(GMT+14:00) 基里巴斯, 西萨摩亚"
   },
@@ -56,7 +56,7 @@
     "Ekaterinburg, Islamabad, Karachi",
     "Adelaide, Darwin",
     "Lord Howe Is.",
-    "Magadan, Solomon Is, New Caledonia",
-    "Auckland, Wellington, New Zealand, Fiji"
+    "Solomon Is, New Caledonia",
+    "Magadan, Auckland, Wellington, New Zealand, Fiji"
   ]
 }

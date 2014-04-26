@@ -4446,7 +4446,7 @@
                       "wiz" : "40%"
                     },
                     {
-                      "label" : "網路閘道",
+                      "label" : "網路遮罩",
                       "tab" : "netmask",
                       "wiz" : "40%"
                     },
@@ -6233,7 +6233,7 @@
 		[
                   {
                     "label" : "WAN 連接介面",
-                    "tab" : "wanInterface",
+                    "tab" : "wanName",
                     "tag" : "p",
                     "align" :
                     [
@@ -6693,19 +6693,6 @@
               ],
               "editor" :
               [
-                {
-                  "label" : "啟用",
-                  "tab" : "enable",
-                  "tag" : "input",
-                  "type" : "checkbox",
-                  "val" : 1,
-                  "align" :
-                  [
-                    "Left",
-                    "Left"
-                  ],
-                  "wiz" : "100px"
-                },
                 {
                   "label" : "觸發服務",
                   "tab" : "triggerService",
@@ -7308,7 +7295,7 @@
                   "wiz" : "150px"
                 },
                 {
-                  "label" : "Log droppped packets destined to TitanWall",
+                  "label" : "TitanWALL接收封包遺失記錄",
                   "tab" : "enableInputDropLog",
                   "tag" : "input",
                   "type" : "checkbox",
@@ -7395,7 +7382,7 @@
             "http_notification" : "HTTP Notify",
             "email_notification" : "Email Notify",
             "address_exceptions" : "Address Exception",
-            "file_extensions" : "File Extension",
+            "file_exceptions" : "File Extension",
             "blacklist" : "Blacklist",
             "whitelist" : "Whitelist",
             "signature" : "Signature"
@@ -7427,7 +7414,7 @@
               "http_notification" : "av_http_notify",
               "email_notification" : "av_email_notify",
               "address_exceptions" : "addr_filter",
-              "file_extensions" : "av_file_exception",
+              "file_exceptions" : "av_file_exception",
               "blacklist" : "av_blacklist",
               "whitelist" : "av_whitelist",
               "signature" : "av_sig"
@@ -7438,7 +7425,7 @@
               "http_notification" : "av_http_notify",
               "email_notification" : "av_email_notify",
               "address_exceptions" : "addr_filter",
-              "file_extensions" : "av_file_exception",
+              "file_exceptions" : "av_file_exception",
               "blacklist" : "av_blacklist",
               "whitelist" : "av_whitelist",
               "signature" : "av_sig"
@@ -7451,7 +7438,7 @@
             "http_notification" : "Save Cancel",
             "email_notification" : "Save Cancel",
             "address_exceptions" : "Save Cancel",
-            "file_extensions" : "Save Cancel",
+            "file_exceptions" : "Save Cancel",
             "blacklist" : "Save Cancel",
             "whitelist" : "Save Cancel",
             "signature" : "Save Cancel"
@@ -7462,7 +7449,7 @@
             "http_notification" : false,
             "email_notification" : false,
             "address_exceptions" : "Create",
-            "file_extensions" : "Create",
+            "file_exceptions" : "Create",
             "blacklist" : "Move2Whites Remove",
             "whitelist" : "Remove",
             "signature" : false 
@@ -7473,7 +7460,7 @@
             "http_notification" : false,
             "email_notification" : false,
             "address_exceptions" : "Edit Delete",
-            "file_extensions" : "Edit Delete",
+            "file_exceptions" : "Edit Delete",
             "blacklist" : "Delete",
             "whitelist" : "Delete",
             "signature" : false 
@@ -7484,7 +7471,7 @@
             "http_notification" : false,
             "email_notification" : false,
             "address_exceptions" : "guiAddrFilterT",
-            "file_extensions" : 
+            "file_exceptions" : 
             {
               "mime" : "mimeExcepT",
               "file_exception" : "fileExcepT"
@@ -7499,7 +7486,7 @@
             "http_notification" : false,
             "email_notification" : false,
             "address_exceptions" : "guiAddrFilterNum",
-            "file_extensions" : 
+            "file_exceptions" : 
             {
               "mime" : "mimeExcepTNum",
               "file_exception" : "fileExcepTNum"
@@ -7565,46 +7552,534 @@
               {
                 "label" : "應用程式掃描",
                 "tab" : "applicationToScan",
-                "tag" : "",
+                "tag" : "tables",
                 "col" : 
                 [
                   {
-                    "label" : "可用區域",
-                    "tab" : "selectedZonesTPool",
-                    "tag" : "select",
-                    "type" : "multiple"
+                    "label" : "HTTP",
+                    "tab" : "http",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" :
+                    [
+                      {
+                        "label" : "啟用",
+                        "tab" : "httpEnable",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "記錄",
+                        "tab" : "httpLog",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "動作",
+                        "tab" : "httpAct",
+                        "tag" : "select",
+                        "type" : "select",
+                        "option" :
+                        {
+                          "0" : "none",
+                          "1" : "notify",
+                          "2" : "notify + drop connection"
+                        }
+                      },
+                      {
+                        "label" : "端口列表",
+                        "tab" : "httpPort",
+                        "tag" : "input",
+                        "type" : "texts",
+                        "texts" : 5
+                      }
+                    ]
                   },
                   {
-                    "label" : "已選定區域",
-                    "tab" : "selectedZonesT",
-                    "tag" : "select",
-                    "type" : "multiple"
+                    "label" : "FTP",
+                    "tab" : "ftp",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" :
+                    [
+                      {
+                        "label" : "啟用",
+                        "tab" : "ftpEnable",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "記錄",
+                        "tab" : "ftpLog",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "動作",
+                        "tab" : "ftpAct",
+                        "tag" : "select",
+                        "type" : "select",
+                        "option" :
+                        {
+                          "0" : "none",
+                          "1" : "drop connection"
+                        }
+                      },
+                      {
+                        "label" : "端口列表",
+                        "tab" : "ftpPort",
+                        "tag" : "input",
+                        "type" : "texts",
+                        "texts" : 5
+                      }
+                    ]
+                  },
+                  {
+                    "label" : "SMTP",
+                    "tab" : "smtp",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" :
+                    [
+                      {
+                        "label" : "啟用",
+                        "tab" : "smtpEnable",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "記錄",
+                        "tab" : "smtpLog",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "動作",
+                        "tab" : "smtpAct",
+                        "tag" : "select",
+                        "type" : "select",
+                        "option" :
+                        {
+                          "0" : "none",
+                          "1" : "notify",
+                          "2" : "notify + destruct file"
+                        }
+                      },
+                      {
+                        "label" : "端口列表",
+                        "tab" : "smtpPort",
+                        "tag" : "input",
+                        "type" : "texts",
+                        "texts" : 5
+                      }
+                    ]
+                  },                  {
+                    "label" : "POP3",
+                    "tab" : "pop3",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" :
+                    [
+                      {
+                        "label" : "啟用",
+                        "tab" : "pop3Enable",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "記錄",
+                        "tab" : "pop3Log",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "動作",
+                        "tab" : "pop3Act",
+                        "tag" : "select",
+                        "type" : "select",
+                        "option" :
+                        {
+                          "0" : "none",
+                          "1" : "notify",
+                          "2" : "notify + destruct file"
+                        }
+                      },
+                      {
+                        "label" : "端口列表",
+                        "tab" : "pop3Port",
+                        "tag" : "input",
+                        "type" : "texts",
+                        "texts" : 5
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "label" : "掃描檔案大小上限",
+                "tab" : "maxFileSize",
+                "tag" : "input",
+                "type" : "text",
+                "note" : "(1-10240 byte, 0=不限)"
+              }
+            ],
+            "http_notification" :
+            [
+              {
+                "label" : "提醒內容",
+                "tab" : "httpNotify",
+                "tag" : "textarea",
+                "type" : "textarea"
+              }
+            ],
+            "email_notification" :
+            [
+              {
+                "label" : "Email 提醒狀態",
+                "tab" : "mailStatus",
+                "tag" : "p"
+              },
+              {
+                "label" : "從 Email",
+                "tab" : "fromMail",
+                "tag" : "p"
+              },
+              {
+                "label" : "SMTP 伺服器",
+                "tab" : "smtpServer",
+                "tag" : "p"
+              },
+              {
+                "label" : "SMTP 認証",
+                "tab" : "smtpAuth",
+                "tag" : "p"
+              },
+              {
+                "label" : "郵件標籤",
+                "tab" : "mailTag",
+                "tag" : "input",
+                "type" : "text"
+              },
+              {
+                "label" : "郵件內容",
+                "tab" : "mailContent",
+                "tag" : "textarea",
+                "type" : "textarea"
+              }
+            ],
+            "address_exceptions" :
+            [
+              {
+                "label" : "啟用",
+                "tab" : "enable"
+              },
+              {
+                "label" : "源",
+                "tab" : "sAddrId"
+              },
+              {
+                "label" : "目的",
+                "tab" : "dAddrId"
+              },
+              {
+                "label" : "記錄",
+                "tab" : "logEnable"
+              },
+              {
+                "label" : "動作",
+                "tab" : "action"
+              }
+            ],
+            "file_exceptions" :
+            [
+              {
+                "label" : "MIME 例外列表",
+                "tab" : "mime",
+                "tag" : "table",
+                "type" : "table",
+                "col" :
+                [
+                  {
+                    "label" : "MIME",
+                    "tab" : "mime"
+                  },
+                  {
+                    "label" : "動作",
+                    "tab" : "action"
+                  }
+                ]
+              },
+              {
+                "label" : "檔案例外列表",
+                "tab" : "file_exception",
+                "tag" : "table",
+                "type" : "table",
+                "col" :
+                [
+                  {
+                    "label" : "檔案擴展名",
+                    "tab" : "fileExt"
+                  },
+                  {
+                    "label" : "動作",
+                    "tab" : "action"
                   }
                 ]
               }
             ],
-            "http_notification" : 
+            "blacklist" :
             [
-
+              {
+                "label" : "到期時間",
+                "tab" : "expiration_duration",
+                "tag" : "table",
+                "type" : "table",
+                "col" :
+                [
+                  {
+                    "label" : "到期時間",
+                    "tab" : false
+                  },
+                  {
+                    "label" : "天",
+                    "tab" : "expiration_days",
+                    "tag" : "input",
+                    "type" : "text",
+                    "note" : "( 0-300 )"
+                  },
+                  {
+                    "label" : "時",
+                    "tab" : "expiration_hours",
+                    "tag" : "input",
+                    "type" : "text",
+                    "note" : " ( 0-23 )"
+                  }
+                ]
+              },
+              {
+                "label" : "黑名單",
+                "tab" : "blacklist",
+                "tag" : "table",
+                "type" : "table",
+                "col" :
+                [
+                  {
+                    "label" : "",
+                    "tab" : "blacklist_all",
+                    "tag" : "input",
+                    "type" : "checkbox"
+                  },
+                  {
+                    "label" : "Index",
+                    "tab" : "blacklist_index"
+                  },
+                  {
+                    "label" : "病毒 ID",
+                    "tab" : "virusID"
+                  },
+                  {
+                    "label" : "病毒名稱",
+                    "tab" : "virusName"
+                  },
+                  {
+                    "label" : "類型",
+                    "tab" : "type"
+                  },
+                  {
+                    "label" : "資訊",
+                    "tab" : "url"
+                  },
+                  {
+                    "label" : "到期時間",
+                    "tab" : "expiration"
+                  },
+                  {
+                    "label" : "動作",
+                    "tab" : "action"
+                  }
+                ]
+              }
             ],
-            "email_notification" : 
+            "whitelist" :
             [
-
+              {
+                "label" : "白名單",
+                "tab" : "whitelist",
+                "tag" : "table",
+                "type" : "table",
+                "col" :
+                [
+                  {
+                    "label" : "",
+                    "tab" : "whitelist_all",
+                    "tag" : "input",
+                    "type" : "checkbox"
+                  },
+                  {
+                    "label" : "Index",
+                    "tab" : "whitelist_index"
+                  },
+                  {
+                    "label" : "病毒 ID",
+                    "tab" : "virusID"
+                  },
+                  {
+                    "label" : "病毒名稱",
+                    "tab" : "virusName"
+                  },
+                  {
+                    "label" : "動作",
+                    "tab" : "action"
+                  }
+                ]
+              }
             ],
-            "address_exceptions" : 
+            "signature" :
             [
+              {
+                "label" : "病毒資料庫",
+                "tab" : "signatures",
+                "tag" : "div",
+                "type" : "div",
+                "icon" : "i_128_virus_database_00.png",
+                "col" :
+                [
+                  {
+                    "label" : "Signature 更新",
+                    "tab" : "signature_update",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" :
+                    [
+                      {
+                        "label" : "手動更新",
+                        "tab" : "startUpdate",
+                        "tag" : "button",
+                        "type" : "submit"
+                      },
+                      {
+                        "label" : "自動更新",
+                        "tab" : "autoUpdate",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "col" :
+                        [
+                          {
+                            "label" : "類型",
+                            "tab" : "type",
+                            "tag" : "select",
+                            "type" : "select",
+                            "option" : "cgi"
+                          },
+                          {
+                            "label" : "間隔",
+                            "tab" : "number",
+                            "tag" : "select",
+                            "type" : "select",
+                            "option" : "cgi"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+{
+                    "label" : "版本與圖案編號",
+                    "tab" : "version_pattern",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" :
+                    [
+                      {
+                        "label" : "版本",
+                        "tab" : "version"
+                      },
+                      {
+                        "label" : "圖案編號",
+                        "tab" : "ptnNum"
+                      }
+                    ]
+                  },
+                  {
+                    "label" : "檢查記錄",
+                    "tab" : "check_record",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" :
+                    [
+                      {
+                        "label" : "上一次檢查",
+                        "tab" : "lastChecked"
+                      },
+                      {
+                        "label" : "上一次更新",
+                        "tab" : "lastUpdated"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "editor":
+          {
+            "address_exceptions" :
+            [
+              {
+                "label" : "啟用",
+                "tab" : "enable",
+                "tag" : "input",
+                "type" : "checkbox"
+              },
+              {
+                "label" : "源地址",
+                "tab" : "sAddrId",
+                "tag" : "select",
+                "type" : "select"
+              },
+              {
+                "label" : "目的地址",
+                "tab" : "dAddrId",
+                "tag" : "select",
+                "type" : "select"
+              },
+              {
+                "label" : "記錄",
+                "tab" : "logEnable",
+                "tag" : "input",
+                "type" : "checkbox"
+              }
             ],
-            "file_extensions" : 
+            "mime" :
             [
+              {
+                "label" : "類型",
+                "tab" : "type",
+                "tag" : "select",
+                "type" : "select"
+              },
+              {
+                "label" : "子類型",
+                "tab" : "sub",
+                "tag" : "select",
+                "type" : "select"
+              }
             ],
-            "fileExcepT" : 
+            "file_extension" :
             [
-            ],
-            "blacklist" : 
-            [
-            ],
-            "whitelist" : 
-            [
+              {
+                "label" : "檔案擴展名",
+                "tab" : "fileExt",
+                "tag" : "input",
+                "type" : "text"
+              }
             ]
           }
         }
@@ -8126,6 +8601,283 @@
           },
           "editor" :
           {
+            "group_address" :
+            [
+              {
+                "label" : "群名稱",
+                "tab" : "name",
+                "tag" : "input",
+                "type" : "text",
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "colspan" : 4
+              },
+              {
+                "label" : "成員",
+                "tab" : "idList",
+                "tag" : "select",
+                "type" : "multiple",
+                "multiple" :
+                {
+                  "pool" :
+                  {
+                    "label" : "地址列表",
+                    "tab" : "pool",
+                    "wiz" : "40%"
+                  },
+                  "del" :
+                  {
+                    "label" : "Move to Remove",
+                    "tab" : "Move2Del",
+                    "tag" : "button",
+                    "type" : "button",
+                    "wiz" : "10%"
+                  },
+                  "add" :
+                  {
+                    "label" : "Move to Add",
+                    "tab" : "Move2Add",
+                    "tag" : "button",
+                    "type" : "button",
+                    "wiz" : "10%"
+                  },
+                  "pick" :
+                  {
+                    "label" : "已選擇的地址",
+                    "tab" : "pick",
+                    "wiz" : "40%"
+                  }
+                },
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "wiz" : "100px"
+              },
+              {
+                "label" : "地址詳情",
+                "tab" : "address_detail",
+                "tag" : "p",
+                "type" : "p",
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "colspan" : 4
+              },
+              {
+                "label" : "名稱",
+                "tab" : "addressName",
+                "tag" : "span",
+                "type" : "span",
+                "align" :
+                [
+                  "Right",
+                  "Left"
+                ],
+                "wiz" : "40px",
+                "colspan" : 3
+              },
+              {
+                "label" : "類型",
+                "tab" : "addressType",
+                "tag" : "span",
+                "type" : "span",
+                "align" :
+                [
+                  "Right",
+                  "Left"
+                ],
+                "wiz" : "40px",
+                "colspan" : 3
+              },
+              {
+                "label" : "值",
+                "tab" : "addressValue",
+                "tag" : "span",
+                "type" : "span",
+                "align" :
+                [
+                  "Right",
+                  "Left"
+                ],
+                "wiz" : "40px",
+                "colspan" : 3
+              }
+            ],
+            "address" :
+            [
+              {
+                "label" : "名稱",
+                "tab" : "name",
+                "tag" : "input",
+                "type" : "text",
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "wiz" : "60px"
+              },
+              {
+                "label" : "類型",
+                "tab" : "type",
+                "tag" : "select",
+                "type" : "select",
+                "option" :
+                [
+                  {
+                    "label" : "主機",
+                    "tab" : "1",
+                    "col" :
+                    [
+                      {
+                        "label" : "地址",
+                        "tab" : "startIp",
+                        "tag" : "input",
+                        "type" : "text",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "60px"
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "60px"
+                  },
+                  {
+                    "label" : "網路",
+                    "tab" : "2",
+                    "col" :
+                    [
+                      {
+                        "label" : "地址",
+                        "tab" : "startIp",
+                        "tag" : "input",
+                        "type" : "text",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "60px"
+                      },
+                      {
+                        "label" : "網路遮罩",
+                        "tab" : "netmask",
+                        "tag" : "input",
+                        "type" : "text",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "60px"
+                      },
+                      {
+                        "label" : "輸入 *0* 在 IP 地址區塊代表一個 IP 地址範圍",
+                        "tab" : "networkNote",
+                        "tag" : "p",
+                        "type" : "p",
+                        "colspan" : 2
+                      },
+                      {
+                        "label" : "舉例來說, 192.168.1.0 代表範圍 自 192.168.1.1 至 192.168.1.255",
+                        "tab" : "networkExample",
+                        "tag" : "p",
+                        "type" : "p",
+                        "colspan" : 2
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "60px"
+                  },
+                  {
+                    "label" : "範圍",
+                    "tab" : "3",
+                    "col" :
+                    [
+                      {
+                        "label" : "開始 IP 地址",
+                        "tab" : "startIp",
+                        "tag" : "input",
+                        "type" : "text",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "110px"
+                      },
+                      {
+                        "label" : "結束 IP 地址",
+                        "tab" : "endIp",
+                        "tag" : "input",
+                        "type" : "text",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "110px"
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "60px"
+                  },
+                  {
+                    "label" : "MAC",
+                    "tab" : "4",
+                    "col" :
+                    [
+                      {
+                        "label" : "MAC 地址",
+                        "tab" : "mac",
+                        "tag" : "input",
+                        "type" : "text",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "60px"
+                  }
+                ],
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "wiz" : "60px"
+              }
+            ]
           }
         },
         {
@@ -8310,7 +9062,7 @@
                 "align" : "Left"
               },
               {
-                "label" : "連接埠起點/Ip/ICMP 類型",
+                "label" : "連接埠起點/IP/ICMP 類型",
                 "tab" : "param1",
                 "wiz" : "150px",
                 "display" : true,
@@ -8337,6 +9089,314 @@
           },
           "editor" :
           {
+            "group_service" :
+            [
+              {
+                "label" : "群名稱",
+                "tab" : "name",
+                "tag" : "input",
+                "type" : "text",
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "colspan" : 4
+              },
+              {
+                "label" : "成員",
+                "tab" : "idList",
+                "tag" : "select",
+                "type" : "multiple",
+                "multiple" :
+                {
+                  "pool" :
+                  {
+                    "label" : "服務列表",
+                    "tab" : "pool",
+                    "wiz" : "40%"
+                  },
+                  "del" :
+                  {
+                    "label" : "Move to Remove",
+                    "tab" : "Move2Del",
+                    "tag" : "button",
+                    "type" : "button",
+                    "wiz" : "10%"
+                  },
+                  "add" :
+                  {
+                    "label" : "Move to Add",
+                    "tab" : "Move2Add",
+                    "tag" : "button",
+                    "type" : "button",
+                    "wiz" : "10%"
+                  },
+                  "pick" :
+                  {
+                    "label" : "已選擇的服務",
+                    "tab" : "pick",
+                    "wiz" : "40%"
+                  }
+                },
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "wiz" : "100px"
+              },
+              {
+                "label" : "服務詳情",
+                "tab" : "service_detail",
+                "tag" : "p",
+                "type" : "p",
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "colspan" : 4
+              },
+              {
+                "label" : "名稱",
+                "tab" : "serviceName",
+                "tag" : "span",
+                "type" : "span",
+                "align" :
+                [
+                  "Right",
+                  "Left"
+                ],
+                "wiz" : "40px",
+                "colspan" : 3
+              },
+              {
+                "label" : "類型",
+                "tab" : "serviceType",
+                "tag" : "span",
+                "type" : "span",
+                "align" :
+                [
+                  "Right",
+                  "Left"
+                ],
+                "wiz" : "40px",
+                "colspan" : 3
+              },
+              {
+                "label" : "值",
+                "tab" : "serviceValue",
+                "tag" : "span",
+                "type" : "span",
+                "align" :
+                [
+                  "Right",
+                  "Left"
+                ],
+                "wiz" : "40px",
+                "colspan" : 3
+              }
+            ],
+            "service" :
+            [
+              {
+                "label" : "名稱",
+                "tab" : "name",
+                "tag" : "input",
+                "type" : "text",
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "colspan" : 4
+              },
+              {
+                "label" : "協定",
+                "tab" : "type",
+                "tag" : "select",
+                "type" : "select",
+                "option" :
+                [
+                  {
+                    "label" : "Both (TCP/UDP)",
+                    "tab" : "0",
+                    "col" :
+                    [
+                      {
+                        "label" : "端口範圍開始",
+                        "tab" : "param1",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-65535)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      },
+                      {
+                        "label" : "端口範圍結束",
+                        "tab" : "param2",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-65535)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "80px"
+                  },
+                  {
+                    "label" : "TCP",
+                    "tab" : "1",
+                    "col" :
+                    [
+                      {
+                        "label" : "端口範圍開始",
+                        "tab" : "param1",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-65535)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      },
+                      {
+                        "label" : "端口範圍結束",
+                        "tab" : "param2",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-65535)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "80px"
+                  },
+                  {
+                    "label" : "UDP",
+                    "tab" : "2",
+                    "col" :
+                    [
+                      {
+                        "label" : "端口範圍開始",
+                        "tab" : "param1",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-65535)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      },
+                      {
+                        "label" : "端口範圍結束",
+                        "tab" : "param2",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-65535)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "80px"
+                  },
+                  {
+                    "label" : "ICMP",
+                    "tab" : "3",
+                    "col" :
+                    [
+                      {
+                        "label" : "ICMP 類型",
+                        "tab" : "param1",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-255)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "80px"
+                  },
+                  {
+                    "label" : "IP",
+                    "tab" : "4",
+                    "col" :
+                    [
+                      {
+                        "label" : "IP",
+                        "tab" : "param1",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-255)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "80px"
+                  }
+                ],
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "wiz" : "80px"
+              }
+            ]
           }
         },
         {
@@ -8419,6 +9479,193 @@
           ],
           "editor" :
           [
+            {
+              "label" : "排程名稱",
+              "tab" : "name",
+              "tag" : "input",
+              "type" : "text",
+              "align" :
+              [
+                "Left",
+                "Left"
+              ],
+              "wiz" : "100px"
+            },
+            {
+              "label" : "排程日期",
+              "tab" : "schedule_days",
+              "tag" : "p",
+              "type" : "note",
+              "note" : "您希望此排程在所有天或特定天生效?",
+              "align" :
+              [
+                "Left",
+                "Left"
+              ],
+              "wiz" : "100px"
+            },
+            {
+              "label" : "天",
+              "tab" : "days",
+              "tag" : "select",
+              "type" : "select",
+              "option" :
+              [
+                {
+                  "label" : "所有天",
+                  "tab" : "0"
+                },
+                {
+                  "label" : "特定天",
+                  "tab" : "1",
+                  "col" :
+                  [
+                    {
+                      "label" : "星期一",
+                      "tab" : "day1",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : "1"
+                    },
+                    {
+                      "label" : "星期二",
+                      "tab" : "day2",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : "2"
+                    },
+                    {
+                      "label" : "星期三",
+                      "tab" : "day4",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : "4"
+                    },
+                    {
+                      "label" : "星期四",
+                      "tab" : "day8",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : "8"
+                    },
+                    {
+                      "label" : "星期五",
+                      "tab" : "day16",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : "16"
+                    },
+                    {
+                      "label" : "星期六",
+                      "tab" : "day32",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : "32"
+                    },
+                    {
+                      "label" : "星期日",
+                      "tab" : "day64",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : "64"
+                    }
+                  ]
+                }
+              ],
+              "align" :
+              [
+                "Right",
+                "Left"
+              ],
+              "wiz" : "100px"
+            },
+            {
+              "label" : "排程時間",
+              "tab" : "schedule_times",
+              "tag" : "p",
+              "type" : "note",
+              "note" : "您希望這排程在所有時間或特定時間啟用?",
+              "align" :
+              [
+                "Right",
+                "Left"
+              ],
+              "wiz" : "100px"
+            },
+            {
+              "label" : "時間",
+              "tab" : "times",
+              "tag" : "select",
+              "type" : "select",
+              "option" :
+              [
+                {
+                  "label" : "所有時間",
+                  "tab" : "0"
+                },
+                {
+                  "label" : "特定時間",
+                  "tab" : "1",
+                  "col" :
+                  [
+                    {
+                      "label" : "開始時間",
+                      "tab" : "startTime",
+                      "tag" : "p",
+                      "type" : "note",
+                      "col" :
+                      [
+                        {
+                          "label" : "開始時",
+                          "tab" : "startHour",
+                          "tag" : "select",
+                          "type" : "select",
+                          "option" : "cgi"
+                        },
+                        {
+                          "label" : "開始分",
+                          "tab" : "startMin",
+                          "tag" : "select",
+                          "type" : "select",
+                          "option" : "cgi"
+                        }
+                      ],
+                      "note" : "(hh:mm)"
+                    },
+                    {
+                      "label" : "結束時間",
+                      "tab" : "endTime",
+                      "tag" : "p",
+                      "type" : "note",
+                      "col" :
+                      [
+                        {
+                          "label" : "結束時",
+                          "tab" : "endHour",
+                          "tag" : "select",
+                          "type" : "select",
+                          "option" : "cgi"
+                        },
+                        {
+                          "label" : "結束分",
+                          "tab" : "endMin",
+                          "tag" : "select",
+                          "type" : "select",
+                          "option" : "cgi"
+                        }
+                      ],
+                      "note" : "(hh:mm)"
+                    }
+                  ]
+                }
+              ],
+              "align" :
+              [
+                "Right",
+                "Left"
+              ],
+              "wiz" : "100px"
+            }
           ]
         }
       ]
@@ -8455,7 +9702,7 @@
                   "tab" : "administrator_name_and_password",
                   "tag" : "table",
                   "type" : "table",
-                  "caption": "Administrator Name and Password",
+                  "caption": "管理員名稱與密碼",
                   "wiz" : "350px",
                   "col" : 
                   [
@@ -8705,6 +9952,43 @@
                     }
                   ]
                 }
+              ],
+              "editor" :
+              [
+                {
+                  "label" : "Interface",
+                  "tab" : "interfaceId",
+                  "tag" : "p",
+                  "type" : "p"
+                },
+                {
+                  "label" : "Ping",
+                  "tab" : "pingEnabled",
+                  "tag" : "input",
+                  "type" : "checkbox",
+                  "val" : "1"
+                },
+                {
+                  "label" : "HTTPS",
+                  "tab" : "httpsEnabled",
+                  "tag" : "input",
+                  "type" : "checkbox",
+                  "val" : "1"
+                },
+                {
+                  "label" : "SSH",
+                  "tab" : "sshEnabled",
+                  "tag" : "input",
+                  "type" : "checkbox",
+                  "val" : "1"
+                },
+                {
+                  "label" : "允許存取",
+                  "tab" : "accessAddressId",
+                  "tag" : "select",
+                  "type" : "select",
+                  "option" : "cgi"
+                }
               ]
             },
             {
@@ -8719,6 +10003,7 @@
                 "post" : "emailAlert"
               },
               "ext" : "cgi",
+              "pgAction" : "Check Save Cancel",
               "col" : 
               [
                 {
@@ -8770,8 +10055,20 @@
                       "type" : "text"
                     },
                     {
-                      "label": "接收端郵件位址",
-                      "tab" : "toEmail",
+                      "label": "接收端郵件位址 1",
+                      "tab" : "toEmail0",
+                      "tag" : "input",
+                      "type" : "text"
+                    },
+                    {
+                      "label": "接收端郵件位址 2",
+                      "tab" : "toEmail1",
+                      "tag" : "input",
+                      "type" : "text"
+                    },
+                    {
+                      "label": "接收端郵件位址 3",
+                      "tab" : "toEmail2",
                       "tag" : "input",
                       "type" : "text"
                     }
@@ -8783,6 +10080,121 @@
                   "type" : "tab",
                   "col" : 
                   [
+                    {
+                      "label": "系統",
+                      "tab" : "systems",
+                      "tag" : "table",
+                      "type" : "table",
+                      "col" :
+                      [
+                        {
+                          "label" : "CPU 過載警示",
+                          "tab" : "cpuAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox",
+                          "col" :
+                          [
+                            {
+                              "label" : "CPU 門檻設定",
+                              "tab" : "cpuAlertThreshold",
+                              "tag" : "input",
+                              "type" : "text",
+                              "note" : "( 10-100% )"
+                            }
+                          ]
+                        },
+                        {
+                          "label" : "新韌體警示",
+                          "tab" : "newFwAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox"
+                        },
+                        {
+                          "label" : "系統重啟警示",
+                          "tab" : "restartAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox"
+                        },
+                        {
+                          "label" : "管理員登入失敗警示",
+                          "tab" : "failLoginAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox"
+                        },
+                        {
+                          "label" : "硬碟空間警示",
+                          "tab" : "diskAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox",
+                          "col" :
+                          [
+                            {
+                              "label" : "門檻",
+                              "tab" : "diskAlertThreshold",
+                              "tag" : "input",
+                              "type" : "text",
+                              "note" : "( 50-100% )"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "label": "網路",
+                      "tab" : "networks",
+                      "tag" : "table",
+                      "type" : "table",
+                      "col" :
+                      [
+                        {
+                          "label" : "Site-to-Site VPN 啟用/關閉 警示",
+                          "tab" : "vpnAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox"
+                        },
+                        {
+                          "label" : "WAN 啟用/關閉 警示",
+                          "tab" : "wanAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox",
+                          "col" :
+                          [
+                            {
+                              "label" : "警示間隔",
+                              "tab" : "wanAlertInterval",
+                              "tag" : "input",
+                              "type" : "text",
+                              "note" : "( 3-1440 minutes )"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "label": "安全威脇與保護",
+                      "tab" : "email_security",
+                      "tag" : "table",
+                      "type" : "table",
+                      "col" :
+                      [
+                        {
+                          "label" : "Anti-Virus 警示",
+                          "tab" : "virusAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox",
+                          "col" :
+                          [
+                            {
+                              "label" : "警示間隔",
+                              "tab" : "virusAlertInterval",
+                              "tag" : "input",
+                              "type" : "text",
+                              "note" : "( 3-1440 minutes )"
+                            }
+                          ]
+                        }
+                      ]
+                    }
                   ]
                 }
               ]
@@ -8806,7 +10218,66 @@
                   "usb" : "conf_usb_restore"
                 }
               },
-              "ext" : "cgi"
+              "ext" : "cgi",
+              "col" :
+              [
+                {
+                  "label" : "備份",
+                  "tab" : "backup",
+                  "icon" : "css/images/i_128_backup_00.png",
+                  "key" : "action",
+                  "val" : 1,
+                  "tag" : "input",
+                  "type" : "radio",
+                  "option" :
+                  {
+                    "0" :
+                    {
+                      "label" : "備份設定檔到 PC",
+                      "tab" : "backup-1"
+                    },
+                    "1" :
+                    {
+                      "label" : "備份設定檔到 USB",
+                      "tab" : "backup-2"
+                    }
+                  },
+                  "align" :
+                  [
+                    "Left",
+                    "Left"
+                  ],
+                  "wiz" : "200px"
+                },
+                {
+                  "label" : "Restore",
+                  "tab" : "restore",
+                  "icon" : "css/images/i_128_restore_00.png",
+                  "key" : "action",
+                  "val" : 1,
+                  "tag" : "input",
+                  "type" : "radio",
+                  "option" :
+                  {
+                    "0" :
+                    {
+                      "label" : "備份設定檔自 PC",
+                      "tab" : "restore-1"
+                    },
+                    "1" :
+                    {
+                      "label" : "備份設定檔自 USB",
+                      "tab" : "restore-2"
+                    }
+                  },
+                  "align" :
+                  [
+                    "Left",
+                    "Left"
+                  ],
+                  "wiz" : "200px"
+                }
+              ]
             },
             {
               "label" : "韌體",  
@@ -8824,6 +10295,15 @@
               "col" : 
               [
                 {
+                  "label" : "韌體版本",
+                  "tab" : "firmware_version",
+                  "tag" : "div",
+                  "icon" : "css/images/i_128_reset_00.png",
+                  "type" : "table",
+                  "col" :
+                  [
+
+                    {
                   "label" : "主要韌體版本",
                   "tab" : "primaryVer"
                 },
@@ -8838,6 +10318,93 @@
                 {
                   "label" : "最後檢查時間",
                   "tab" : "lastCheck"
+                    },
+                    {
+                      "label" : "切換韌體",
+                      "tab" : "switchFirmware",
+                      "tag" : "button",
+                      "type" : "submit",
+                      "align" :
+                      [
+                        "Left",
+                        "Left"
+                      ],
+                      "wiz" : "180px"
+                    },
+                    {
+                      "label" : "檢查伺服器版本",
+                      "tab" : "checkFirmware",
+                      "tag" : "button",
+                      "type" : "submit",
+                      "align" :
+                      [
+                        "Left",
+                        "Left"
+                      ],
+                      "wiz" : "180px"
+                    }
+                  ]
+                },
+                {
+                  "label" : "更新韌體",
+                  "tab" : "upgrade_firmware",
+                  "tag" : "div",
+                  "type" : "table",
+                  "icon" : "css/images/i_128_upgrade_00.png",
+                  "col" :
+                  [
+                    {
+                      "label" : "",
+                      "tab" : "type",
+                      "tag" : "input",
+                      "type" : "radio",
+                      "option" :
+                      {
+                        "0" :
+                        {
+                          "label" : "自本地端更新韌體",
+                          "tab" : "type-0"
+                        },
+                        "1" :
+                        {
+                          "label" : "自伺服器更新韌體",
+                          "tab" : "type-1"
+                        },
+                        "2" :
+                        {
+                          "label" : "自 USB 更新韌體",
+                          "tab" : "type-2"
+                        }
+                      },
+                      "align" :
+                      [
+                        "Left",
+                        "Left"
+                      ],
+                      "wiz" : "180px"
+                    },
+                    {
+                      "label" : "",
+                      "tab" : "upgradeButtons",
+                      "tag" : "buttons",
+                      "type" : "submit",
+                      "buttons" :
+                      {
+                        "更新韌體" :
+                        {
+                          "label" : "Upgrade Firmware",
+                          "tab" : "upgradeFirmware"
+                        },
+                        "更新並回復出廠值" :
+                        {
+                          "label" : "Upgrade and Factory Reset",
+                          "tab" : "resetDefault",
+                          "colspan" : "2"
+                        }
+                      },
+                      "wiz" : "180px"
+                    }
+                  ]
                 }
               ]
             },
@@ -8873,17 +10440,17 @@
                   {
                     "1" :
                     {
-                      "label" : "config",
+                      "label" : "設定檔",
                       "tab" : "resetMode-1"
                     },
                     "2" :
                     {
-                      "label" : "database",
+                      "label" : "資料庫",
                       "tab" : "resetMode-2"
                     },
                     "3" :
                     {
-                      "label" : "both",
+                      "label" : "皆是",
                       "tab" : "resetMode-3"
                     }
                   }
@@ -9077,9 +10644,9 @@
           "type" : "tabs",
           "tabs" :
           {
-            "view_logs" : "View Logs",
-            "log_settings" : "Log Settings",
-            "logs_facility" : "Logs Facility"
+            "view_logs" : "查看記錄",
+            "log_settings" : "記錄設定",
+            "logs_facility" : "記錄設施"
           },
           "url" :
           {
@@ -9216,6 +10783,94 @@
                     "option" : "cgi"
                   }
                 ]
+              },
+              {
+                "label": "遠端記錄",
+                "tab" : "log_remote",
+                "tag" : "table",
+                "type" : "table",
+                "caption": "Remote Log",
+                "wiz" : "350px",
+                "col" :
+                [
+                  {
+                    "label" : "啟用",
+                    "tab" : "remoteLogEnable",
+                    "tag" : "input",
+                    "type" : "checkbox",
+                    "wiz" : "10px",
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "記錄伺服器",
+                    "tab" : "remoteLogServer",
+                    "tag" : "input",
+                    "type" : "text",
+                    "wiz" : "auto",
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "嚴重性",
+                    "tab" : "remoteLogSeverity",
+                    "tag" : "select",
+                    "type" : "select",
+                    "wiz" : "10px",
+                    "align" : "Left",
+                    "option" : "cgi"
+                  }
+                ]
+              },
+              {
+                "label": "郵件警告",
+                "tab" : "log_email",
+                "tag" : "table",
+                "type" : "table",
+                "caption": "Email Alert",
+                "wiz" : "350px",
+                "col" :
+                [
+                  {
+                    "label" : "啟用定期郵件通知",
+                    "tab" : "emailLogEnable",
+                    "tag" : "input",
+                    "type" : "checkbox",
+                    "wiz" : "10px",
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "頻率",
+                    "tab" : "emailSchUnit",
+                    "tag" : "select",
+                    "type" : "select",
+                    "wiz" : "auto",
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "天",
+                    "tab" : "emailSchDay",
+                    "tag" : "select",
+                    "type" : "select",
+                    "wiz" : "auto",
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "時",
+                    "tab" : "emailSchHour",
+                    "tag" : "select",
+                    "type" : "select",
+                    "wiz" : "auto",
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "嚴重性",
+                    "tab" : "emailLogSeverity",
+                    "tag" : "select",
+                    "type" : "select",
+                    "wiz" : "10px",
+                    "align" : "Left",
+                    "option" : "cgi"
+                  }
+                ]
               }
             ],
             "logs_facility" :
@@ -9334,8 +10989,8 @@
           "type" : "tabsForm",
           "tabs" :
           {
-            "registration" : "Registration",
-            "services" : "Service" 
+            "registration" : "授權",
+            "services" : "服務" 
           },
           "url" :
           { 
@@ -9374,143 +11029,262 @@
           {
             "registration" :
             [ 
-              { 
-                "label" : "使用者名稱",
-                "tab" : "newUsername",
-                "tag" : "input",
-                "type" : "text",
-                "class" : "registrationMode-0",
-                "rowAction" : "CheckExists" 
-              }, 
-              { 
-                "label" : "密碼",
-                "tab" : "newPassword",
-                "tag" : "input",
-                "type" : "password",
-                "class" : "registrationMode-0"
-              },
-              { 
-                "label" : "確認密碼",
-                "tab" : "confirmPassword",
-                "tag" : "input",
-                "type" : "password",
-                "class" : "registrationMode-0"
+              {
+                "label" : "Titan 安全中心帳號",
+                "tab" : "haveAccount",
+                "tag" : "table",
+                "type" : "table",
+                "col" :
+                [
+                  {
+                    "label" : "註冊",
+                    "tab" : "haveAccount-0",
+                    "tag" : "input",
+                    "type" : "radio",
+                    "option" :
+                    {
+                      "0" :
+                      {
+                        "label" : "新帳號",
+                        "tab" : "registrationMode-0",
+                        "col" :
+                        [
+                          {
+                            "label" : "使用者名稱",
+                            "tab" : "newUsername",
+                            "tag" : "input",
+                            "type" : "password",
+                            "class" : "registrationMode-0",
+                            "rowAction" : "CheckExists"
+                          },
+                          {
+                            "label" : "密碼",
+                            "tab" : "newPassword",
+                            "tag" : "input",
+                            "type" : "password",
+                            "class" : "registrationMode-0"
+                          },
+                          {
+                            "label" : "確認密碼",
+                            "tab" : "confirmPassword",
+                            "tag" : "input",
+                            "type" : "password",
+                            "class" : "registrationMode-0"
+                          },
+                          {
+                            "label" : "名字",
+                            "tab" : "firstName",
+                            "tag" : "input",
+                            "type" : "text",
+                            "class" : "registrationMode-0"
+                          },
+                          {
+                            "label" : "姓氏",
+                            "tab" : "lastName",
+                            "tag" : "input",
+                            "type" : "text",
+                            "class" : "registrationMode-0"
+                          },
+                          {
+                            "label" : "電子郵件",
+                            "tab" : "email",
+                            "tag" : "input",
+                            "type" : "text",
+                            "class" : "registrationMode-0"
+                          },
+                          {
+                            "label" : "公司",
+                            "tab" : "company",
+                            "tag" : "input",
+                            "type" : "text",
+                            "class" : "registrationMode-0"
+                          },
+                          {
+                            "label" : "地址",
+                            "tab" : "address",
+                            "tag" : "input",
+                            "type" : "text",
+                            "class" : "registrationMode-0"
+                          },
+                          {
+                            "label" : "城市",
+                            "tab" : "city",
+                            "tag" : "input",
+                            "type" : "text",
+                            "class" : "registrationMode-0"
+                          },
+                          {
+                            "label" : "郵遞區號",
+                            "tab" : "zipCode",
+                            "tag" : "input",
+                            "type" : "text",
+                            "class" : "registrationMode-0"
+                          },
+                          {
+                            "label" : "鄉鎮市區",
+                            "tab" : "state",
+                            "tag" : "input",
+                            "type" : "text",
+                            "class" : "registrationMode-0"
+                          },
+                          {
+                            "label" : "國家",
+                            "tab" : "country",
+                            "tag" : "select",
+                            "option" : "txt",
+                            "class" : "registrationMode-0"
+                          }
+                        ]
+                      },
+                      "1" :
+                      {
+                        "label" : "已有帳號",
+                        "tab" : "registrationMode-1",
+                        "col" :
+                        [
+                          {
+                            "label" : "使用者名稱",
+                            "tab" : "oldUsername",
+                            "tag" : "input",
+                            "type" : "text",
+                            "class" : "registrationMode-1"
+                          },
+                          {
+                            "label" : "密碼",
+                            "tab" : "oldPassword",
+                            "tag" : "input",
+                            "type" : "password",
+                            "class" : "registrationMode-1"
+                          }
+                        ]
+                      }
+                    },
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "250px"
+                  },
+                  {
+                    "label" : "已註冊",
+                    "tab" : "haveAccount-1" ,
+                    "col" :
+                    [
+                      {
+                        "label" : "使用者名稱",
+                        "tab" : "oldUsername"
+                      },
+                      {
+                        "label" : "密碼",
+                        "tab" : "oldPassword"
+                      },
+                      {
+                        "label" : "名字",
+                        "tab" : "firstName"
+                      },
+                      {
+                        "label" : "姓氏",
+                        "tab" : "lastName"
+                      },
+                      {
+                        "label" : "電子郵箱",
+                        "tab" : "email"
+                      },
+                      {
+                        "label" : "公司",
+                        "tab" : "company"
+                      },
+                      {
+                        "label" : "地址",
+                        "tab" : "address"
+                      },
+                      {
+                        "label" : "城市",
+                        "tab" : "city"
+                      },
+                      {
+                        "label" : "郵遞區號",
+                        "tab" : "zipCode"
+                      },
+                      {
+                        "label" : "鄉鎮市區",
+                        "tab" : "state"
+                      },
+                      {
+                        "label" : "國家",
+                        "tab" : "country"
+                      }
+                    ]
+                  }
+                ]
               },
               {
-                "label" : "使用者名稱",
-                "tab" : "oldUsername",
-                "tag" : "input",
-                "type" : "text",
-                "class" : "registrationMode-1"
-              },
-              {
-                "label" : "密碼",
-                "tab" : "oldPassword",
-                "tag" : "input",
-                "type" : "password",
-                "class" : "registrationMode-1"
-              },
-              {
-                "label" : "名字",
-                "tab" : "firstName",
-                "tag" : "input",
-                "type" : "text",
-                "class" : "registrationMode-0"
-              },
-              {
-                "label" : "姓氏",
-                "tab" : "lastName",
-                "tag" : "input",
-                "type" : "text",
-                "class" : "registrationMode-0"
-              },
-              {
-                "label" : "電子郵件",
-                "tab" : "email",
-                "tag" : "input",
-                "type" : "text",
-                "class" : "registrationMode-0"
-              },
-              {
-                "label" : "公司",
-                "tab" : "company",
-                "tag" : "input",
-                "type" : "text",
-                "class" : "registrationMode-0"
-              },
-              {
-                "label" : "地址",
-                "tab" : "address",
-                "tag" : "input",
-                "type" : "text",
-                "class" : "registrationMode-0"
-              },
-              {
-                "label" : "縣市",
-                "tab" : "city",
-                "tag" : "input",
-                "type" : "text",
-                "class" : "registrationMode-0"
-              },
-              {
-                "label" : "郵遞區號",
-                "tab" : "zipCode",
-                "tag" : "input",
-                "type" : "text",
-                "class" : "registrationMode-0"
-              },
-              {
-                "label" : "鄉鎮市區",
-                "tab" : "state",
-                "tag" : "input",
-                "type" : "text",
-                "class" : "registrationMode-0"
-              },
-              {
-                "label" : "國家",
-                "tab" : "country",
-                "tag" : "select",
-                "option" : "txt",
-                "class" : "registrationMode-0"
-              },
-              {
-                "label" : "試用版啟動碼",
-                "tab" : "trialCode",
-                "tag" : "input",
-                "type" : "text",
-                "class" : "registrationMode-0"
+                "label" : "試用版啟動",
+                "tab" : "trial_code",
+                "tag" : "table",
+                "type" : "table",
+                "col" :
+                [
+                  {
+                    "label" : "試用版啟動碼",
+                    "tab" : "trialCode",
+                    "tag" : "input",
+                    "type" : "text",
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "150px;"
+                  }
+                ]
               }
             ],
             "services" :
-            [ 
+            [
               {
-                "label" : "服務",
-                "tab" : "service",
-                "tag" : "p"
-              },
-              {
-                "label" : "狀態",
-                "tab" : "status",
-                "tag" : "p"
-              },
-              {
-                "label" : "註冊類型",
-                "tab" : "type",
-                "tag" : "p"
-              },
-              {
-                "label" : "到期日",
-                "tab" : "expireDate",
-                "tag" : "p"
+                "label" : "服務管理列表",
+                "tab" : "service_management",
+                "tag" : "table",
+                "type" : "table",
+                "col" :
+                [
+                  {
+                    "label" : "服務",
+                    "tab" : "service"
+                  },
+                  {
+                    "label" : "狀態",
+                    "tab" : "status"
+                  },
+                  {
+                    "label" : "註冊類型",
+                    "tab" : "type"
+                  },
+                  {
+                    "label" : "到期日",
+                    "tab" : "expireDate"
+                  }
+                ]
               },
               {
                 "label" : "啟動碼",
-                "tab" : "activeCode",
-                "tag" : "input",
-                "type" : "text",
-                "rowAction" : "LicenseUpgrade" 
+                "tab" : "active_code",
+                "tag" : "table",
+                "type" : "table",
+                "col" :
+                [
+                  {
+                    "label" : "更新啟動碼",
+                    "tab" : "activeCode",
+                    "tag" : "input",
+                    "type" : "text",
+                    "rowAction" : "LicenseUpgrade"
+                  }
+                ]
               }
-            ] 
+            ]
           }
         }
       ]

@@ -1,527 +1,10 @@
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
-YUI.add('async-queue', function (Y, NAME) {
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
 
-/**
- * <p>AsyncQueue allows you create a chain of function callbacks executed
- * via setTimeout (or synchronously) that are guaranteed to run in order.
- * Items in the queue can be promoted or removed.  Start or resume the
- * execution chain with run().  pause() to temporarily delay execution, or
- * stop() to halt and clear the queue.</p>
- *
- * @module async-queue
- */
-
-/**
- * <p>A specialized queue class that supports scheduling callbacks to execute
- * sequentially, iteratively, even asynchronously.</p>
- *
- * <p>Callbacks can be function refs or objects with the following keys.  Only
- * the <code>fn</code> key is required.</p>
- *
- * <ul>
- * <li><code>fn</code> -- The callback function</li>
- * <li><code>context</code> -- The execution context for the callbackFn.</li>
- * <li><code>args</code> -- Arguments to pass to callbackFn.</li>
- * <li><code>timeout</code> -- Millisecond delay before executing callbackFn.
- *                     (Applies to each iterative execution of callback)</li>
- * <li><code>iterations</code> -- Number of times to repeat the callback.
- * <li><code>until</code> -- Repeat the callback until this function returns
- *                         true.  This setting trumps iterations.</li>
- * <li><code>autoContinue</code> -- Set to false to prevent the AsyncQueue from
- *                        executing the next callback in the Queue after
- *                        the callback completes.</li>
- * <li><code>id</code> -- Name that can be used to get, promote, get the
- *                        indexOf, or delete this callback.</li>
- * </ul>
- *
- * @class AsyncQueue
- * @extends EventTarget
- * @constructor
- * @param callback* {Function|Object} 0..n callbacks to seed the queue
- */
-Y.AsyncQueue = function() {
-    this._init();
-    this.add.apply(this, arguments);
-};
-
-var Queue   = Y.AsyncQueue,
-    EXECUTE = 'execute',
-    SHIFT   = 'shift',
-    PROMOTE = 'promote',
-    REMOVE  = 'remove',
-
-    isObject   = Y.Lang.isObject,
-    isFunction = Y.Lang.isFunction;
-
-/**
- * <p>Static default values used to populate callback configuration properties.
- * Preconfigured defaults include:</p>
- *
- * <ul>
- *  <li><code>autoContinue</code>: <code>true</code></li>
- *  <li><code>iterations</code>: 1</li>
- *  <li><code>timeout</code>: 10 (10ms between callbacks)</li>
- *  <li><code>until</code>: (function to run until iterations &lt;= 0)</li>
- * </ul>
- *
- * @property defaults
- * @type {Object}
- * @static
- */
-Queue.defaults = Y.mix({
-    autoContinue : true,
-    iterations   : 1,
-    timeout      : 10,
-    until        : function () {
-        this.iterations |= 0;
-        return this.iterations <= 0;
-    }
-}, Y.config.queueDefaults || {});
-
-Y.extend(Queue, Y.EventTarget, {
-    /**
-     * Used to indicate the queue is currently executing a callback.
-     *
-     * @property _running
-     * @type {Boolean|Object} true for synchronous callback execution, the
-     *                        return handle from Y.later for async callbacks.
-     *                        Otherwise false.
-     * @protected
-     */
-    _running : false,
-
-    /**
-     * Initializes the AsyncQueue instance properties and events.
-     *
-     * @method _init
-     * @protected
-     */
-    _init : function () {
-        Y.EventTarget.call(this, { prefix: 'queue', emitFacade: true });
-
-        this._q = [];
-
-        /** 
-         * Callback defaults for this instance.  Static defaults that are not
-         * overridden are also included.
-         *
-         * @property defaults
-         * @type {Object}
-         */
-        this.defaults = {};
-
-        this._initEvents();
-    },
-
-    /**
-     * Initializes the instance events.
-     *
-     * @method _initEvents
-     * @protected
-     */
-    _initEvents : function () {
-        this.publish({
-            'execute' : { defaultFn : this._defExecFn,    emitFacade: true },
-            'shift'   : { defaultFn : this._defShiftFn,   emitFacade: true },
-            'add'     : { defaultFn : this._defAddFn,     emitFacade: true },
-            'promote' : { defaultFn : this._defPromoteFn, emitFacade: true },
-            'remove'  : { defaultFn : this._defRemoveFn,  emitFacade: true }
-        });
-    },
-
-    /**
-     * Returns the next callback needing execution.  If a callback is
-     * configured to repeat via iterations or until, it will be returned until
-     * the completion criteria is met.
-     *
-     * When the queue is empty, null is returned.
-     *
-     * @method next
-     * @return {Function} the callback to execute
-     */
-    next : function () {
-        var callback;
-
-        while (this._q.length) {
-            callback = this._q[0] = this._prepare(this._q[0]);
-            if (callback && callback.until()) {
-                this.fire(SHIFT, { callback: callback });
-                callback = null;
-            } else {
-                break;
-            }
-        }
-
-        return callback || null;
-    },
-
-    /**
-     * Default functionality for the &quot;shift&quot; event.  Shifts the
-     * callback stored in the event object's <em>callback</em> property from
-     * the queue if it is the first item.
-     *
-     * @method _defShiftFn
-     * @param e {Event} The event object
-     * @protected
-     */
-    _defShiftFn : function (e) {
-        if (this.indexOf(e.callback) === 0) {
-            this._q.shift();
-        }
-    },
-
-    /**
-     * Creates a wrapper function to execute the callback using the aggregated 
-     * configuration generated by combining the static AsyncQueue.defaults, the
-     * instance defaults, and the specified callback settings.
-     *
-     * The wrapper function is decorated with the callback configuration as
-     * properties for runtime modification.
-     *
-     * @method _prepare
-     * @param callback {Object|Function} the raw callback
-     * @return {Function} a decorated function wrapper to execute the callback
-     * @protected
-     */
-    _prepare: function (callback) {
-        if (isFunction(callback) && callback._prepared) {
-            return callback;
-        }
-
-        var config = Y.merge(
-            Queue.defaults,
-            { context : this, args: [], _prepared: true },
-            this.defaults,
-            (isFunction(callback) ? { fn: callback } : callback)),
-            
-            wrapper = Y.bind(function () {
-                if (!wrapper._running) {
-                    wrapper.iterations--;
-                }
-                if (isFunction(wrapper.fn)) {
-                    wrapper.fn.apply(wrapper.context || Y,
-                                     Y.Array(wrapper.args));
-                }
-            }, this);
-            
-        return Y.mix(wrapper, config);
-    },
-
-    /**
-     * Sets the queue in motion.  All queued callbacks will be executed in
-     * order unless pause() or stop() is called or if one of the callbacks is
-     * configured with autoContinue: false.
-     *
-     * @method run
-     * @return {AsyncQueue} the AsyncQueue instance
-     * @chainable
-     */
-    run : function () {
-        var callback,
-            cont = true;
-
-        for (callback = this.next();
-            cont && callback && !this.isRunning();
-            callback = this.next())
-        {
-            cont = (callback.timeout < 0) ?
-                this._execute(callback) :
-                this._schedule(callback);
-        }
-
-        if (!callback) {
-            /**
-             * Event fired after the last queued callback is executed.
-             * @event complete
-             */
-            this.fire('complete');
-        }
-
-        return this;
-    },
-
-    /**
-     * Handles the execution of callbacks. Returns a boolean indicating
-     * whether it is appropriate to continue running.
-     *
-     * @method _execute
-     * @param callback {Object} the callback object to execute
-     * @return {Boolean} whether the run loop should continue
-     * @protected
-     */
-    _execute : function (callback) {
-        this._running = callback._running = true;
-
-        callback.iterations--;
-        this.fire(EXECUTE, { callback: callback });
-
-        var cont = this._running && callback.autoContinue;
-
-        this._running = callback._running = false;
-
-        return cont;
-    },
-
-    /**
-     * Schedules the execution of asynchronous callbacks.
-     *
-     * @method _schedule
-     * @param callback {Object} the callback object to execute
-     * @return {Boolean} whether the run loop should continue
-     * @protected
-     */
-    _schedule : function (callback) {
-        this._running = Y.later(callback.timeout, this, function () {
-            if (this._execute(callback)) {
-                this.run();
-            }
-        });
-
-        return false;
-    },
-
-    /**
-     * Determines if the queue is waiting for a callback to complete execution.
-     *
-     * @method isRunning
-     * @return {Boolean} true if queue is waiting for a 
-     *                   from any initiated transactions
-     */
-    isRunning : function () {
-        return !!this._running;
-    },
-
-    /**
-     * Default functionality for the &quot;execute&quot; event.  Executes the
-     * callback function
-     *
-     * @method _defExecFn
-     * @param e {Event} the event object
-     * @protected
-     */
-    _defExecFn : function (e) {
-        e.callback();
-    },
-
-    /**
-     * Add any number of callbacks to the end of the queue. Callbacks may be
-     * provided as functions or objects.
-     *
-     * @method add
-     * @param callback* {Function|Object} 0..n callbacks
-     * @return {AsyncQueue} the AsyncQueue instance
-     * @chainable
-     */
-    add : function () {
-        this.fire('add', { callbacks: Y.Array(arguments,0,true) });
-
-        return this;
-    },
-
-    /**
-     * Default functionality for the &quot;add&quot; event.  Adds the callbacks
-     * in the event facade to the queue. Callbacks successfully added to the
-     * queue are present in the event's <code>added</code> property in the
-     * after phase.
-     *
-     * @method _defAddFn
-     * @param e {Event} the event object
-     * @protected
-     */
-    _defAddFn : function(e) {
-        var _q = this._q,
-            added = [];
-
-        Y.Array.each(e.callbacks, function (c) {
-            if (isObject(c)) {
-                _q.push(c);
-                added.push(c);
-            }
-        });
-
-        e.added = added;
-    },
-
-    /**
-     * Pause the execution of the queue after the execution of the current
-     * callback completes.  If called from code outside of a queued callback,
-     * clears the timeout for the pending callback. Paused queue can be
-     * restarted with q.run()
-     *
-     * @method pause
-     * @return {AsyncQueue} the AsyncQueue instance
-     * @chainable
-     */
-    pause: function () {
-        if (isObject(this._running)) {
-            this._running.cancel();
-        }
-
-        this._running = false;
-
-        return this;
-    },
-
-    /**
-     * Stop and clear the queue after the current execution of the
-     * current callback completes.
-     *
-     * @method stop
-     * @return {AsyncQueue} the AsyncQueue instance
-     * @chainable
-     */
-    stop : function () { 
-        this._q = [];
-
-        return this.pause();
-    },
-
-    /** 
-     * Returns the current index of a callback.  Pass in either the id or
-     * callback function from getCallback.
-     *
-     * @method indexOf
-     * @param callback {String|Function} the callback or its specified id
-     * @return {Number} index of the callback or -1 if not found
-     */
-    indexOf : function (callback) {
-        var i = 0, len = this._q.length, c;
-
-        for (; i < len; ++i) {
-            c = this._q[i];
-            if (c === callback || c.id === callback) {
-                return i;
-            }
-        }
-
-        return -1;
-    },
-
-    /**
-     * Retrieve a callback by its id.  Useful to modify the configuration
-     * while the queue is running.
-     *
-     * @method getCallback
-     * @param id {String} the id assigned to the callback
-     * @return {Object} the callback object
-     */
-    getCallback : function (id) {
-        var i = this.indexOf(id);
-
-        return (i > -1) ? this._q[i] : null;
-    },
-
-    /**
-     * Promotes the named callback to the top of the queue. If a callback is
-     * currently executing or looping (via until or iterations), the promotion
-     * is scheduled to occur after the current callback has completed.
-     *
-     * @method promote
-     * @param callback {String|Object} the callback object or a callback's id
-     * @return {AsyncQueue} the AsyncQueue instance
-     * @chainable
-     */
-    promote : function (callback) {
-        var payload = { callback : callback },e;
-
-        if (this.isRunning()) {
-            e = this.after(SHIFT, function () {
-                    this.fire(PROMOTE, payload);
-                    e.detach();
-                }, this);
-        } else {
-            this.fire(PROMOTE, payload);
-        }
-
-        return this;
-    },
-
-    /**
-     * <p>Default functionality for the &quot;promote&quot; event.  Promotes the
-     * named callback to the head of the queue.</p>
-     *
-     * <p>The event object will contain a property &quot;callback&quot;, which
-     * holds the id of a callback or the callback object itself.</p>
-     *
-     * @method _defPromoteFn
-     * @param e {Event} the custom event
-     * @protected
-     */
-    _defPromoteFn : function (e) {
-        var i = this.indexOf(e.callback),
-            promoted = (i > -1) ? this._q.splice(i,1)[0] : null;
-
-        e.promoted = promoted;
-
-        if (promoted) {
-            this._q.unshift(promoted);
-        }
-    },
-
-    /**
-     * Removes the callback from the queue.  If the queue is active, the
-     * removal is scheduled to occur after the current callback has completed.
-     *
-     * @method remove
-     * @param callback {String|Object} the callback object or a callback's id
-     * @return {AsyncQueue} the AsyncQueue instance
-     * @chainable
-     */
-    remove : function (callback) {
-        var payload = { callback : callback },e;
-
-        // Can't return the removed callback because of the deferral until
-        // current callback is complete
-        if (this.isRunning()) {
-            e = this.after(SHIFT, function () {
-                    this.fire(REMOVE, payload);
-                    e.detach();
-                },this);
-        } else {
-            this.fire(REMOVE, payload);
-        }
-
-        return this;
-    },
-
-    /**
-     * <p>Default functionality for the &quot;remove&quot; event.  Removes the
-     * callback from the queue.</p>
-     *
-     * <p>The event object will contain a property &quot;callback&quot;, which
-     * holds the id of a callback or the callback object itself.</p>
-     *
-     * @method _defRemoveFn
-     * @param e {Event} the custom event
-     * @protected
-     */
-    _defRemoveFn : function (e) {
-        var i = this.indexOf(e.callback);
-
-        e.removed = (i > -1) ? this._q.splice(i,1)[0] : null;
-    },
-
-    /**
-     * Returns the number of callbacks in the queue.
-     *
-     * @method size
-     * @return {Number}
-     */
-    size : function () {
-        // next() flushes callbacks that have met their until() criteria and
-        // therefore shouldn't count since they wouldn't execute anyway.
-        if (!this.isRunning()) {
-            this.next();
-        }
-
-        return this._q.length;
-    }
-});
-
-
-
-}, '3.8.1', {"requires": ["event-custom"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
 YUI.add('gesture-simulate', function (Y, NAME) {
 
 /**
@@ -603,9 +86,7 @@ var NAME = "gesture-simulate",
     X_AXIS = 'x',
     Y_AXIS = 'y';
 
-/**
- *
- */
+
 function Simulations(node) {
     if(!node) {
         Y.error(NAME+': invalid target node');
@@ -624,20 +105,20 @@ Simulations.prototype = {
 
     /**
      * Helper method to convert a degree to a radian.
-     * 
+     *
      * @method _toRadian
      * @private
      * @param {Number} deg A degree to be converted to a radian.
-     * @return {Number} The degree in radian. 
+     * @return {Number} The degree in radian.
      */
     _toRadian: function(deg) {
         return deg * (Math.PI/180);
     },
 
     /**
-     * Helper method to get height/width while accounting for 
-     * rotation/scale transforms where possible by using the 
-     * bounding client rectangle height/width instead of the 
+     * Helper method to get height/width while accounting for
+     * rotation/scale transforms where possible by using the
+     * bounding client rectangle height/width instead of the
      * offsetWidth/Height which region uses.
      * @method _getDims
      * @private
@@ -675,13 +156,13 @@ Simulations.prototype = {
     },
 
     /**
-     * Helper method to convert a point relative to the node element into 
+     * Helper method to convert a point relative to the node element into
      * the point in the page coordination.
-     * 
+     *
      * @method _calculateDefaultPoint
      * @private
      * @param {Array} point A point relative to the node element.
-     * @return {Array} The same point in the page coordination. 
+     * @return {Array} The same point in the page coordination.
      */
     _calculateDefaultPoint: function(point) {
 
@@ -703,26 +184,26 @@ Simulations.prototype = {
     },
 
     /**
-     * The "rotate" and "pinch" methods are essencially same with the exact same 
-     * arguments. Only difference is the required parameters. The rotate method 
-     * requires "rotation" parameter while the pinch method requires "startRadius" 
+     * The "rotate" and "pinch" methods are essencially same with the exact same
+     * arguments. Only difference is the required parameters. The rotate method
+     * requires "rotation" parameter while the pinch method requires "startRadius"
      * and "endRadius" parameters.
      *
      * @method rotate
-     * @param {Function} cb The callback to execute when the gesture simulation 
+     * @param {Function} cb The callback to execute when the gesture simulation
      *      is completed.
      * @param {Array} center A center point where the pinch gesture of two fingers
-     *      should happen. It is relative to the top left corner of the target 
+     *      should happen. It is relative to the top left corner of the target
      *      node element.
-     * @param {Number} startRadius A radius of start circle where 2 fingers are 
-     *      on when the gesture starts. This is optional. The default is a fourth of 
+     * @param {Number} startRadius A radius of start circle where 2 fingers are
+     *      on when the gesture starts. This is optional. The default is a fourth of
      *      either target node width or height whichever is smaller.
      * @param {Number} endRadius A radius of end circle where 2 fingers will be on when
-     *      the pinch or spread gestures are completed. This is optional. 
+     *      the pinch or spread gestures are completed. This is optional.
      *      The default is a fourth of either target node width or height whichever is less.
      * @param {Number} duration A duration of the gesture in millisecond.
-     * @param {Number} start A start angle(0 degree at 12 o'clock) where the 
-     *      gesture should start. Default is 0.  
+     * @param {Number} start A start angle(0 degree at 12 o'clock) where the
+     *      gesture should start. Default is 0.
      * @param {Number} rotation A rotation in degree. It is required.
      */
     rotate: function(cb, center, startRadius, endRadius, duration, start, rotation) {
@@ -731,7 +212,7 @@ Simulations.prototype = {
             r2 = endRadius;     // optional
 
         if(!Y.Lang.isNumber(r1) || !Y.Lang.isNumber(r2) || r1<0 || r2<0) {
-            radius = (this.target.offsetWidth < this.target.offsetHeight)? 
+            radius = (this.target.offsetWidth < this.target.offsetHeight)?
                 this.target.offsetWidth/4 : this.target.offsetHeight/4;
             r1 = radius;
             r2 = radius;
@@ -746,31 +227,31 @@ Simulations.prototype = {
     },
 
     /**
-     * The "rotate" and "pinch" methods are essencially same with the exact same 
-     * arguments. Only difference is the required parameters. The rotate method 
-     * requires "rotation" parameter while the pinch method requires "startRadius" 
+     * The "rotate" and "pinch" methods are essencially same with the exact same
+     * arguments. Only difference is the required parameters. The rotate method
+     * requires "rotation" parameter while the pinch method requires "startRadius"
      * and "endRadius" parameters.
      *
-     * The "pinch" gesture can simulate various 2 finger gestures such as pinch, 
+     * The "pinch" gesture can simulate various 2 finger gestures such as pinch,
      * spread and/or rotation. The "startRadius" and "endRadius" are required.
-     * If endRadius is larger than startRadius, it becomes a spread gesture 
-     * otherwise a pinch gesture. 
+     * If endRadius is larger than startRadius, it becomes a spread gesture
+     * otherwise a pinch gesture.
      *
      * @method pinch
-     * @param {Function} cb The callback to execute when the gesture simulation 
+     * @param {Function} cb The callback to execute when the gesture simulation
      *      is completed.
      * @param {Array} center A center point where the pinch gesture of two fingers
-     *      should happen. It is relative to the top left corner of the target 
+     *      should happen. It is relative to the top left corner of the target
      *      node element.
-     * @param {Number} startRadius A radius of start circle where 2 fingers are 
+     * @param {Number} startRadius A radius of start circle where 2 fingers are
      *      on when the gesture starts. This paramenter is required.
      * @param {Number} endRadius A radius of end circle where 2 fingers will be on when
      *      the pinch or spread gestures are completed. This parameter is required.
      * @param {Number} duration A duration of the gesture in millisecond.
-     * @param {Number} start A start angle(0 degree at 12 o'clock) where the 
-     *      gesture should start. Default is 0.  
-     * @param {Number} rotation If rotation is desired during the pinch or 
-     *      spread gestures, this parameter can be used. Default is 0 degree.  
+     * @param {Number} start A start angle(0 degree at 12 o'clock) where the
+     *      gesture should start. Default is 0.
+     * @param {Number} rotation If rotation is desired during the pinch or
+     *      spread gestures, this parameter can be used. Default is 0 degree.
      */
     pinch: function(cb, center, startRadius, endRadius, duration, start, rotation) {
         var eventQueue,
@@ -784,7 +265,7 @@ Simulations.prototype = {
             centerX, centerY,
             startScale, endScale, scalePerStep,
             startRot, endRot, rotPerStep,
-            path1 = {start: [], end: []}, // paths for 1st and 2nd fingers. 
+            path1 = {start: [], end: []}, // paths for 1st and 2nd fingers.
             path2 = {start: [], end: []},
             steps,
             touchMove;
@@ -824,21 +305,21 @@ Simulations.prototype = {
 
         // 1st finger path
         path1.start = [
-            centerX + r1*Math.sin(this._toRadian(startRot)), 
+            centerX + r1*Math.sin(this._toRadian(startRot)),
             centerY - r1*Math.cos(this._toRadian(startRot))
         ];
         path1.end   = [
-            centerX + r2*Math.sin(this._toRadian(endRot)), 
+            centerX + r2*Math.sin(this._toRadian(endRot)),
             centerY - r2*Math.cos(this._toRadian(endRot))
         ];
-        
+
         // 2nd finger path
         path2.start = [
-            centerX - r1*Math.sin(this._toRadian(startRot)), 
+            centerX - r1*Math.sin(this._toRadian(startRot)),
             centerY + r1*Math.cos(this._toRadian(startRot))
         ];
         path2.end   = [
-            centerX - r2*Math.sin(this._toRadian(endRot)), 
+            centerX - r2*Math.sin(this._toRadian(endRot)),
             centerY + r2*Math.cos(this._toRadian(endRot))
         ];
 
@@ -852,19 +333,19 @@ Simulations.prototype = {
 
                 // coordinate for each touch object.
                 coord1 = {
-                    pageX: path1.start[0], 
+                    pageX: path1.start[0],
                     pageY: path1.start[1],
-                    clientX: path1.start[0], 
+                    clientX: path1.start[0],
                     clientY: path1.start[1]
                 };
                 coord2 = {
-                    pageX: path2.start[0], 
+                    pageX: path2.start[0],
                     pageY: path2.start[1],
-                    clientX: path2.start[0], 
+                    clientX: path2.start[0],
                     clientY: path2.start[1]
                 };
                 touches = this._createTouchList([Y.merge({
-                    identifier: (id++)   
+                    identifier: (id++)
                 }, coord1), Y.merge({
                     identifier: (id++)
                 }, coord2)]);
@@ -905,7 +386,7 @@ Simulations.prototype = {
         radiusPerStep = (r2 - r1)/steps;
         scalePerStep = (endScale - startScale)/steps;
         rotPerStep = (endRot - startRot)/steps;
-        
+
         touchMove = function(step) {
             var radius = r1 + (radiusPerStep)*step,
                 px1 = centerX + radius*Math.sin(this._toRadian(startRot + rotPerStep*step)),
@@ -916,7 +397,7 @@ Simulations.prototype = {
                 py = (py1+py2)/2,
                 coord1, coord2, coord, touches;
 
-            // coordinate for each touch object.    
+            // coordinate for each touch object.
             coord1 = {
                 pageX: px1,
                 pageY: py1,
@@ -930,7 +411,7 @@ Simulations.prototype = {
                 clientY: py2
             };
             touches = this._createTouchList([Y.merge({
-                identifier: (id++)   
+                identifier: (id++)
             }, coord1), Y.merge({
                 identifier: (id++)
             }, coord2)]);
@@ -975,19 +456,19 @@ Simulations.prototype = {
 
                 // coordinate for each touch object.
                 coord1 = {
-                    pageX: path1.end[0], 
+                    pageX: path1.end[0],
                     pageY: path1.end[1],
-                    clientX: path1.end[0], 
+                    clientX: path1.end[0],
                     clientY: path1.end[1]
                 };
                 coord2 = {
-                    pageX: path2.end[0], 
+                    pageX: path2.end[0],
                     pageY: path2.end[1],
-                    clientX: path2.end[0], 
+                    clientX: path2.end[0],
                     clientY: path2.end[1]
                 };
                 touches = this._createTouchList([Y.merge({
-                    identifier: (id++)   
+                    identifier: (id++)
                 }, coord1), Y.merge({
                     identifier: (id++)
                 }, coord2)]);
@@ -998,7 +479,7 @@ Simulations.prototype = {
                     pageY: (path1.end[0] + path2.end[1])/2,
                     clientX: (path1.end[0] + path2.end[0])/2,
                     clientY: (path1.end[0] + path2.end[1])/2
-                };  
+                };
 
                 if(Y.UA.ios >= 2.0) {
                     this._simulateEvent(this.target, GESTURE_END, Y.merge({
@@ -1022,12 +503,12 @@ Simulations.prototype = {
             eventQueue.add({
                 fn: cb,
 
-                // by default, the callback runs the node context where 
+                // by default, the callback runs the node context where
                 // simulateGesture method is called.
                 context: this.node
 
                 //TODO: Use args to pass error object as 1st param if there is an error.
-                //args: 
+                //args:
             });
         }
 
@@ -1035,15 +516,15 @@ Simulations.prototype = {
     },
 
     /**
-     * The "tap" gesture can be used for various single touch point gestures 
-     * such as single tap, N number of taps, long press. The default is a single 
+     * The "tap" gesture can be used for various single touch point gestures
+     * such as single tap, N number of taps, long press. The default is a single
      * tap.
-     * 
+     *
      * @method tap
-     * @param {Function} cb The callback to execute when the gesture simulation 
+     * @param {Function} cb The callback to execute when the gesture simulation
      *      is completed.
-     * @param {Array} point A point(relative to the top left corner of the 
-     *      target node element) where the tap gesture should start. The default 
+     * @param {Array} point A point(relative to the top left corner of the
+     *      target node element) where the tap gesture should start. The default
      *      is the center of the taget node.
      * @param {Number} times The number of taps. Default is 1.
      * @param {Number} hold The hold time in milliseconds between "touchstart" and
@@ -1051,7 +532,7 @@ Simulations.prototype = {
      * @param {Number} delay The time gap in millisecond between taps if this
      *      gesture has more than 1 tap. Default is 10ms.
      */
-    tap: function(cb, point, times, hold, delay) {           
+    tap: function(cb, point, times, hold, delay) {
         var eventQueue = new Y.AsyncQueue(),
             emptyTouchList = this._getEmptyTouchList(),
             touches,
@@ -1075,9 +556,9 @@ Simulations.prototype = {
         }
 
         coord = {
-            pageX: point[0], 
+            pageX: point[0],
             pageY: point[1],
-            clientX: point[0], 
+            clientX: point[0],
             clientY: point[1]
         };
 
@@ -1090,7 +571,7 @@ Simulations.prototype = {
                 changedTouches: touches
             }, coord));
         };
-        
+
         touchEnd = function() {
             this._simulateEvent(this.target, TOUCH_END, Y.merge({
                 touches: emptyTouchList,
@@ -1098,7 +579,7 @@ Simulations.prototype = {
                 changedTouches: touches
             }, coord));
         };
-        
+
         for (i=0; i < times; i++) {
             eventQueue.add({
                 fn: touchStart,
@@ -1126,12 +607,12 @@ Simulations.prototype = {
             eventQueue.add({
                 fn: cb,
 
-                // by default, the callback runs the node context where 
+                // by default, the callback runs the node context where
                 // simulateGesture method is called.
                 context: this.node
 
                 //TODO: Use args to pass error object as 1st param if there is an error.
-                //args: 
+                //args:
             });
         }
 
@@ -1139,22 +620,22 @@ Simulations.prototype = {
     },
 
     /**
-     * The "flick" gesture is a specialized "move" that has some velocity 
+     * The "flick" gesture is a specialized "move" that has some velocity
      * and the movement always runs either x or y axis. The velocity is calculated
-     * with "distance" and "duration" arguments. If the calculated velocity is 
-     * below than the minimum velocity, the given duration will be ignored and 
+     * with "distance" and "duration" arguments. If the calculated velocity is
+     * below than the minimum velocity, the given duration will be ignored and
      * new duration will be created to make a valid flick gesture.
-     *   
+     *
      * @method flick
-     * @param {Function} cb The callback to execute when the gesture simulation 
+     * @param {Function} cb The callback to execute when the gesture simulation
      *      is completed.
-     * @param {Array} point A point(relative to the top left corner of the 
-     *      target node element) where the flick gesture should start. The default 
+     * @param {Array} point A point(relative to the top left corner of the
+     *      target node element) where the flick gesture should start. The default
      *      is the center of the taget node.
      * @param {String} axis Either "x" or "y".
      * @param {Number} distance A distance in pixels to flick.
      * @param {Number} duration A duration of the gesture in millisecond.
-     * 
+     *
      */
     flick: function(cb, point, axis, distance, duration) {
         var path;
@@ -1170,8 +651,8 @@ Simulations.prototype = {
             }
         }
 
-        if(!Y.Lang.isNumber(distance)) { 
-            distance = DEFAULTS.DISTANCE_FLICK; 
+        if(!Y.Lang.isNumber(distance)) {
+            distance = DEFAULTS.DISTANCE_FLICK;
         }
 
         if(!Y.Lang.isNumber(duration)){
@@ -1182,9 +663,9 @@ Simulations.prototype = {
             }
         }
 
-        /**
+        /*
          * Check if too slow for a flick.
-         * Adjust duration if the calculated velocity is less than 
+         * Adjust duration if the calculated velocity is less than
          * the minimum velcocity to be claimed as a flick.
          */
         if(Math.abs(distance)/duration < DEFAULTS.MIN_VELOCITY_FLICK) {
@@ -1203,20 +684,20 @@ Simulations.prototype = {
     },
 
     /**
-     * The "move" gesture simulate the movement of any direction between 
+     * The "move" gesture simulate the movement of any direction between
      * the straight line of start and end point for the given duration.
      * The path argument is an object with "point", "xdist" and "ydist" properties.
      * The "point" property is an array with x and y coordinations(relative to the
-     * top left corner of the target node element) while "xdist" and "ydist" 
-     * properties are used for the distance along the x and y axis. A negative 
-     * distance number can be used to drag either left or up direction. 
-     * 
+     * top left corner of the target node element) while "xdist" and "ydist"
+     * properties are used for the distance along the x and y axis. A negative
+     * distance number can be used to drag either left or up direction.
+     *
      * If no arguments are given, it will simulate the default move, which
-     * is moving 200 pixels from the center of the element to the positive X-axis 
+     * is moving 200 pixels from the center of the element to the positive X-axis
      * direction for 1 sec.
-     * 
+     *
      * @method move
-     * @param {Function} cb The callback to execute when the gesture simulation 
+     * @param {Function} cb The callback to execute when the gesture simulation
      *      is completed.
      * @param {Object} path An object with "point", "xdist" and "ydist".
      * @param {Number} duration A duration of the gesture in millisecond.
@@ -1265,16 +746,16 @@ Simulations.prototype = {
 
     /**
      * A base method on top of "move" and "flick" methods. The method takes
-     * the path with start/end properties and duration to generate a set of 
-     * touch events for the movement gesture. 
+     * the path with start/end properties and duration to generate a set of
+     * touch events for the movement gesture.
      *
      * @method _move
      * @private
-     * @param {Function} cb The callback to execute when the gesture simulation 
+     * @param {Function} cb The callback to execute when the gesture simulation
      *      is completed.
-     * @param {Object} path An object with "start" and "end" properties. Each 
+     * @param {Object} path An object with "start" and "end" properties. Each
      *      property should be an array with x and y coordination (e.g. start: [100, 50])
-     * @param {Number} duration A duration of the gesture in millisecond. 
+     * @param {Number} duration A duration of the gesture in millisecond.
      */
     _move: function(cb, path, duration) {
         var eventQueue,
@@ -1295,24 +776,24 @@ Simulations.prototype = {
         if(!Y.Lang.isObject(path)) {
             path = {
                 start: [
-                    START_PAGEX, 
+                    START_PAGEX,
                     START_PAGEY
-                ], 
+                ],
                 end: [
-                    START_PAGEX + DEFAULTS.DISTANCE_MOVE, 
+                    START_PAGEX + DEFAULTS.DISTANCE_MOVE,
                     START_PAGEY
                 ]
             };
         } else {
             if(!Y.Lang.isArray(path.start)) {
                 path.start = [
-                    START_PAGEX, 
+                    START_PAGEX,
                     START_PAGEY
                 ];
             }
             if(!Y.Lang.isArray(path.end)) {
                 path.end = [
-                    START_PAGEX + DEFAULTS.DISTANCE_MOVE, 
+                    START_PAGEX + DEFAULTS.DISTANCE_MOVE,
                     START_PAGEY
                 ];
             }
@@ -1325,11 +806,11 @@ Simulations.prototype = {
         eventQueue.add({
             fn: function() {
                 var coord = {
-                        pageX: path.start[0], 
+                        pageX: path.start[0],
                         pageY: path.start[1],
-                        clientX: path.start[0], 
+                        clientX: path.start[0],
                         clientY: path.start[1]
-                    }, 
+                    },
                     touches = this._createTouchList([
                         Y.merge({identifier: (id++)}, coord)
                     ]);
@@ -1351,13 +832,13 @@ Simulations.prototype = {
 
         touchMove = function(step) {
             var px = path.start[0]+(stepX * step),
-                py = path.start[1]+(stepY * step), 
+                py = path.start[1]+(stepY * step),
                 coord = {
-                    pageX: px, 
+                    pageX: px,
                     pageY: py,
                     clientX: px,
                     clientY: py
-                }, 
+                },
                 touches = this._createTouchList([
                     Y.merge({identifier: (id++)}, coord)
                 ]);
@@ -1381,9 +862,9 @@ Simulations.prototype = {
         eventQueue.add({
             fn: function() {
                 var coord = {
-                        pageX: path.end[0], 
+                        pageX: path.end[0],
                         pageY: path.end[1],
-                        clientX: path.end[0], 
+                        clientX: path.end[0],
                         clientY: path.end[1]
                     },
                     touches = this._createTouchList([
@@ -1404,9 +885,9 @@ Simulations.prototype = {
         eventQueue.add({
             fn: function() {
                 var coord = {
-                    pageX: path.end[0], 
+                    pageX: path.end[0],
                     pageY: path.end[1],
-                    clientX: path.end[0], 
+                    clientX: path.end[0],
                     clientY: path.end[1]
                 },
                 emptyTouchList = this._getEmptyTouchList(),
@@ -1422,26 +903,26 @@ Simulations.prototype = {
             },
             context: this
         });
-        
+
         if(cb && Y.Lang.isFunction(cb)) {
             eventQueue.add({
                 fn: cb,
 
-                // by default, the callback runs the node context where 
+                // by default, the callback runs the node context where
                 // simulateGesture method is called.
                 context: this.node
 
                 //TODO: Use args to pass error object as 1st param if there is an error.
-                //args: 
+                //args:
             });
         }
-        
+
         eventQueue.run();
     },
 
     /**
      * Helper method to return a singleton instance of empty touch list.
-     * 
+     *
      * @method _getEmptyTouchList
      * @private
      * @return {TouchList | Array} An empty touch list object.
@@ -1457,12 +938,12 @@ Simulations.prototype = {
     /**
      * Helper method to convert an array with touch points to TouchList object as
      * defined in http://www.w3.org/TR/touch-events/
-     * 
+     *
      * @method _createTouchList
      * @private
-     * @param {Array} touchPoints 
+     * @param {Array} touchPoints
      * @return {TouchList | Array} If underlaying platform support creating touch list
-     *      a TouchList object will be returned otherwise a fake Array object 
+     *      a TouchList object will be returned otherwise a fake Array object
      *      will be returned.
      */
     _createTouchList: function(touchPoints) {
@@ -1485,23 +966,23 @@ Simulations.prototype = {
                     if(!point.screenX) {point.screenX = 0;}
                     if(!point.screenY) {point.screenY = 0;}
 
-                    touches.push(document.createTouch(Y.config.win, 
+                    touches.push(document.createTouch(Y.config.win,
                         self.target,
-                        point.identifier, 
-                        point.pageX, point.pageY, 
+                        point.identifier,
+                        point.pageX, point.pageY,
                         point.screenX, point.screenY));
                 });
 
                 touchList = document.createTouchList.apply(document, touches);
-            } else if(Y.UA.ios && Y.UA.ios < 2.0) { 
+            } else if(Y.UA.ios && Y.UA.ios < 2.0) {
                 Y.error(NAME+': No touch event simulation framework present.');
             } else {
-                // this will inclide android(Y.UA.android && Y.UA.android < 4.0) 
-                // and desktops among all others. 
+                // this will inclide android(Y.UA.android && Y.UA.android < 4.0)
+                // and desktops among all others.
 
-                /**
-                 * Touch APIs are broken in androids older than 4.0. We will use 
-                 * simulated touch apis for these versions. 
+                /*
+                 * Touch APIs are broken in androids older than 4.0. We will use
+                 * simulated touch apis for these versions.
                  */
                 touchList = [];
                 Y.each(touchPoints, function(point) {
@@ -1540,11 +1021,10 @@ Simulations.prototype = {
      * @method _simulateEvent
      * @private
      * @param {HTMLElement} target The DOM element that's the target of the event.
-     * @param {String} type The type of event or name of the supported gesture to simulate 
+     * @param {String} type The type of event or name of the supported gesture to simulate
      *      (i.e., "click", "doubletap", "flick").
-     * @param {Object} options (Optional) Extra options to copy onto the event object. 
+     * @param {Object} options (Optional) Extra options to copy onto the event object.
      *      For gestures, options are used to refine the gesture behavior.
-     * @return {void}
      */
     _simulateEvent: function(target, type, options) {
         var touches;
@@ -1599,62 +1079,62 @@ Simulations.prototype = {
      * @param {TouchList} changedTouches
      */
     _isSingleTouch: function(touches, targetTouches, changedTouches) {
-        return (touches && (touches.length <= 1)) && 
+        return (touches && (touches.length <= 1)) &&
             (targetTouches && (targetTouches.length <= 1)) &&
             (changedTouches && (changedTouches.length <= 1));
     }
 };
 
-/**
+/*
  * A gesture simulation class.
  */
 Y.GestureSimulation = Simulations;
 
-/**
- * Various simulation default behavior properties. If user override 
- * Y.GestureSimulation.defaults, overriden values will be used and this 
- * should be done before the gesture simulation.  
+/*
+ * Various simulation default behavior properties. If user override
+ * Y.GestureSimulation.defaults, overriden values will be used and this
+ * should be done before the gesture simulation.
  */
 Y.GestureSimulation.defaults = DEFAULTS;
 
-/**
+/*
  * The high level gesture names that YUI knows how to simulate.
  */
 Y.GestureSimulation.GESTURES = gestureNames;
 
 /**
- * Simulates the higher user level gesture of the given name on a target. 
- * This method generates a set of low level touch events(Apple specific gesture 
- * events as well for the iOS platforms) asynchronously. Note that gesture  
- * simulation is relying on `Y.Event.simulate()` method to generate 
+ * Simulates the higher user level gesture of the given name on a target.
+ * This method generates a set of low level touch events(Apple specific gesture
+ * events as well for the iOS platforms) asynchronously. Note that gesture
+ * simulation is relying on `Y.Event.simulate()` method to generate
  * the touch events under the hood. The `Y.Event.simulate()` method
  * itself is a synchronous method.
- * 
- * Users are suggested to use `Node.simulateGesture()` method which 
- * basically calls this method internally. Supported gestures are `tap`, 
+ *
+ * Users are suggested to use `Node.simulateGesture()` method which
+ * basically calls this method internally. Supported gestures are `tap`,
  * `doubletap`, `press`, `move`, `flick`, `pinch` and `rotate`.
- * 
+ *
  * The `pinch` gesture is used to simulate the pinching and spreading of two
  * fingers. During a pinch simulation, rotation is also possible. Essentially
  * `pinch` and `rotate` simulations share the same base implementation to allow
  * both pinching and rotation at the same time. The only difference is `pinch`
- * requires `start` and `end` option properties while `rotate` requires `rotation` 
+ * requires `start` and `end` option properties while `rotate` requires `rotation`
  * option property.
- * 
+ *
  * The `pinch` and `rotate` gestures can be described as placing 2 fingers along a
- * circle. Pinching and spreading can be described by start and end circles while 
- * rotation occurs on a single circle. If the radius of the start circle is greater 
+ * circle. Pinching and spreading can be described by start and end circles while
+ * rotation occurs on a single circle. If the radius of the start circle is greater
  * than the end circle, the gesture becomes a pinch, otherwise it is a spread spread.
- * 
+ *
  * @example
  *
  *     var node = Y.one("#target");
- *       
+ *
  *     // double tap example
  *     node.simulateGesture("doubletap", function() {
  *         // my callback function
  *     });
- *     
+ *
  *     // flick example from the center of the node, move 50 pixels down for 50ms)
  *     node.simulateGesture("flick", {
  *         axis: y,
@@ -1663,133 +1143,132 @@ Y.GestureSimulation.GESTURES = gestureNames;
  *     }, function() {
  *         // my callback function
  *     });
- *     
- *     // simulate rotating a node 75 degrees counter-clockwise 
+ *
+ *     // simulate rotating a node 75 degrees counter-clockwise
  *     node.simulateGesture("rotate", {
  *         rotation: -75
  *     });
  *
- *     // simulate a pinch and a rotation at the same time. 
+ *     // simulate a pinch and a rotation at the same time.
  *     // fingers start on a circle of radius 100 px, placed at top/bottom
- *     // fingers end on a circle of radius 50px, placed at right/left 
+ *     // fingers end on a circle of radius 50px, placed at right/left
  *     node.simulateGesture("pinch", {
  *         r1: 100,
  *         r2: 50,
  *         start: 0
  *         rotation: 90
  *     });
- *     
+ *
  * @method simulateGesture
- * @param {HTMLElement|Node} node The YUI node or HTML element that's the target 
+ * @param {HTMLElement|Node} node The YUI node or HTML element that's the target
  *      of the event.
- * @param {String} name The name of the supported gesture to simulate. The 
- *      supported gesture name is one of "tap", "doubletap", "press", "move", 
- *      "flick", "pinch" and "rotate". 
+ * @param {String} name The name of the supported gesture to simulate. The
+ *      supported gesture name is one of "tap", "doubletap", "press", "move",
+ *      "flick", "pinch" and "rotate".
  * @param {Object} [options] Extra options used to define the gesture behavior:
- * 
+ *
  *      Valid options properties for the `tap` gesture:
- *      
- *      @param {Array} [options.point] (Optional) Indicates the [x,y] coordinates 
- *        where the tap should be simulated. Default is the center of the node 
+ *
+ *      @param {Array} [options.point] (Optional) Indicates the [x,y] coordinates
+ *        where the tap should be simulated. Default is the center of the node
  *        element.
- *      @param {Number} [options.hold=10] (Optional) The hold time in milliseconds. 
+ *      @param {Number} [options.hold=10] (Optional) The hold time in milliseconds.
  *        This is the time between `touchstart` and `touchend` event generation.
  *      @param {Number} [options.times=1] (Optional) Indicates the number of taps.
- *      @param {Number} [options.delay=10] (Optional) The number of milliseconds 
- *        before the next tap simulation happens. This is valid only when `times` 
- *        is more than 1. 
- *        
+ *      @param {Number} [options.delay=10] (Optional) The number of milliseconds
+ *        before the next tap simulation happens. This is valid only when `times`
+ *        is more than 1.
+ *
  *      Valid options properties for the `doubletap` gesture:
- *      
- *      @param {Array} [options.point] (Optional) Indicates the [x,y] coordinates 
- *        where the doubletap should be simulated. Default is the center of the 
+ *
+ *      @param {Array} [options.point] (Optional) Indicates the [x,y] coordinates
+ *        where the doubletap should be simulated. Default is the center of the
  *        node element.
- * 
+ *
  *      Valid options properties for the `press` gesture:
- *      
- *      @param {Array} [options.point] (Optional) Indicates the [x,y] coordinates 
- *        where the press should be simulated. Default is the center of the node 
+ *
+ *      @param {Array} [options.point] (Optional) Indicates the [x,y] coordinates
+ *        where the press should be simulated. Default is the center of the node
  *        element.
- *      @param {Number} [options.hold=3000] (Optional) The hold time in milliseconds. 
- *        This is the time between `touchstart` and `touchend` event generation. 
+ *      @param {Number} [options.hold=3000] (Optional) The hold time in milliseconds.
+ *        This is the time between `touchstart` and `touchend` event generation.
  *        Default is 3000ms (3 seconds).
- * 
+ *
  *      Valid options properties for the `move` gesture:
- *      
- *      @param {Object} [options.path] (Optional) Indicates the path of the finger 
- *        movement. It's an object with three optional properties: `point`, 
+ *
+ *      @param {Object} [options.path] (Optional) Indicates the path of the finger
+ *        movement. It's an object with three optional properties: `point`,
  *        `xdist` and  `ydist`.
  *        @param {Array} [options.path.point] A starting point of the gesture.
  *          Default is the center of the node element.
- *        @param {Number} [options.path.xdist=200] A distance to move in pixels  
+ *        @param {Number} [options.path.xdist=200] A distance to move in pixels
  *          along the X axis. A negative distance value indicates moving left.
- *        @param {Number} [options.path.ydist=0] A distance to move in pixels  
+ *        @param {Number} [options.path.ydist=0] A distance to move in pixels
  *          along the Y axis. A negative distance value indicates moving up.
- *      @param {Number} [options.duration=1000] (Optional) The duration of the 
+ *      @param {Number} [options.duration=1000] (Optional) The duration of the
  *        gesture in milliseconds.
- * 
+ *
  *      Valid options properties for the `flick` gesture:
- *      
- *      @param {Array} [options.point] (Optional) Indicates the [x, y] coordinates 
- *        where the flick should be simulated. Default is the center of the 
+ *
+ *      @param {Array} [options.point] (Optional) Indicates the [x, y] coordinates
+ *        where the flick should be simulated. Default is the center of the
  *        node element.
- *      @param {String} [options.axis='x'] (Optional) Valid values are either 
- *        "x" or "y". Indicates axis to move along. The flick can move to one of 
+ *      @param {String} [options.axis='x'] (Optional) Valid values are either
+ *        "x" or "y". Indicates axis to move along. The flick can move to one of
  *        4 directions(left, right, up and down).
  *      @param {Number} [options.distance=200] (Optional) Distance to move in pixels
- *      @param {Number} [options.duration=1000] (Optional) The duration of the 
- *        gesture in milliseconds. User given value could be automatically 
- *        adjusted by the framework if it is below the minimum velocity to be 
+ *      @param {Number} [options.duration=1000] (Optional) The duration of the
+ *        gesture in milliseconds. User given value could be automatically
+ *        adjusted by the framework if it is below the minimum velocity to be
  *        a flick gesture.
- * 
+ *
  *      Valid options properties for the `pinch` gesture:
- *      
- *      @param {Array} [options.center] (Optional) The center of the circle where 
+ *
+ *      @param {Array} [options.center] (Optional) The center of the circle where
  *        two fingers are placed. Default is the center of the node element.
- *      @param {Number} [options.r1] (Required) Pixel radius of the start circle 
- *        where 2 fingers will be on when the gesture starts. The circles are 
+ *      @param {Number} [options.r1] (Required) Pixel radius of the start circle
+ *        where 2 fingers will be on when the gesture starts. The circles are
  *        centered at the center of the element.
- *      @param {Number} [options.r2] (Required) Pixel radius of the end circle 
+ *      @param {Number} [options.r2] (Required) Pixel radius of the end circle
  *        when this gesture ends.
- *      @param {Number} [options.duration=1000] (Optional) The duration of the 
+ *      @param {Number} [options.duration=1000] (Optional) The duration of the
  *        gesture in milliseconds.
- *      @param {Number} [options.start=0] (Optional) Starting degree of the first 
- *        finger. The value is relative to the path of the north. Default is 0 
+ *      @param {Number} [options.start=0] (Optional) Starting degree of the first
+ *        finger. The value is relative to the path of the north. Default is 0
  *        (i.e., 12:00 on a clock).
- *      @param {Number} [options.rotation=0] (Optional) Degrees to rotate from 
- *        the starting degree. A negative value means rotation to the 
+ *      @param {Number} [options.rotation=0] (Optional) Degrees to rotate from
+ *        the starting degree. A negative value means rotation to the
  *        counter-clockwise direction.
- * 
+ *
  *      Valid options properties for the `rotate` gesture:
- *      
- *      @param {Array} [options.center] (Optional) The center of the circle where 
+ *
+ *      @param {Array} [options.center] (Optional) The center of the circle where
  *        two fingers are placed. Default is the center of the node element.
- *      @param {Number} [options.r1] (Optional) Pixel radius of the start circle 
- *        where 2 fingers will be on when the gesture starts. The circles are 
- *        centered at the center of the element. Default is a fourth of the node 
+ *      @param {Number} [options.r1] (Optional) Pixel radius of the start circle
+ *        where 2 fingers will be on when the gesture starts. The circles are
+ *        centered at the center of the element. Default is a fourth of the node
  *        element width or height, whichever is smaller.
- *      @param {Number} [options.r2] (Optional) Pixel radius of the end circle 
- *        when this gesture ends. Default is a fourth of the node element width or 
+ *      @param {Number} [options.r2] (Optional) Pixel radius of the end circle
+ *        when this gesture ends. Default is a fourth of the node element width or
  *        height, whichever is smaller.
- *      @param {Number} [options.duration=1000] (Optional) The duration of the 
+ *      @param {Number} [options.duration=1000] (Optional) The duration of the
  *        gesture in milliseconds.
- *      @param {Number} [options.start=0] (Optional) Starting degree of the first 
- *        finger. The value is relative to the path of the north. Default is 0 
+ *      @param {Number} [options.start=0] (Optional) Starting degree of the first
+ *        finger. The value is relative to the path of the north. Default is 0
  *        (i.e., 12:00 on a clock).
- *      @param {Number} [options.rotation] (Required) Degrees to rotate from 
- *        the starting degree. A negative value means rotation to the 
+ *      @param {Number} [options.rotation] (Required) Degrees to rotate from
+ *        the starting degree. A negative value means rotation to the
  *        counter-clockwise direction.
- * 
- * @param {Function} [cb] The callback to execute when the asynchronouse gesture  
- *      simulation is completed. 
- *      @param {Error} cb.err An error object if the simulation is failed.  
- * @return {void}
+ *
+ * @param {Function} [cb] The callback to execute when the asynchronouse gesture
+ *      simulation is completed.
+ *      @param {Error} cb.err An error object if the simulation is failed.
  * @for Event
  * @static
  */
 Y.Event.simulateGesture = function(node, name, options, cb) {
 
-    node = Y.one(node);    
+    node = Y.one(node);
 
     var sim = new Y.GestureSimulation(node);
     name = name.toLowerCase();
@@ -1803,7 +1282,7 @@ Y.Event.simulateGesture = function(node, name, options, cb) {
 
     if (gestureNames[name]) {
         switch(name) {
-            // single-touch: point gestures 
+            // single-touch: point gestures
             case 'tap':
                 sim.tap(cb, options.point, options.times, options.hold, options.delay);
                 break;
@@ -1821,22 +1300,22 @@ Y.Event.simulateGesture = function(node, name, options, cb) {
                 sim.tap(cb, options.point, 1, options.hold);
                 break;
 
-            // single-touch: move gestures 
+            // single-touch: move gestures
             case 'move':
                 sim.move(cb, options.path, options.duration);
                 break;
             case 'flick':
-                sim.flick(cb, options.point, options.axis, options.distance, 
+                sim.flick(cb, options.point, options.axis, options.distance,
                     options.duration);
                 break;
 
             // multi-touch: pinch/rotation gestures
             case 'pinch':
-                sim.pinch(cb, options.center, options.r1, options.r2, 
+                sim.pinch(cb, options.center, options.r1, options.r2,
                     options.duration, options.start, options.rotation);
-                break;    
+                break;
             case 'rotate':
-                sim.rotate(cb, options.center, options.r1, options.r2, 
+                sim.rotate(cb, options.center, options.r1, options.r2,
                     options.duration, options.start, options.rotation);
                 break;
         }
@@ -1846,8 +1325,14 @@ Y.Event.simulateGesture = function(node, name, options, cb) {
 };
 
 
-}, '3.8.1', {"requires": ["async-queue", "event-simulate", "node-screen"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
+}, '3.16.0', {"requires": ["async-queue", "event-simulate", "node-screen"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
 YUI.add('node-event-simulate', function (Y, NAME) {
 
 /**
@@ -1860,47 +1345,46 @@ YUI.add('node-event-simulate', function (Y, NAME) {
  * Simulates an event on the node.
  * @param {String} type The type of event (i.e., "click").
  * @param {Object} options (Optional) Extra options to copy onto the event object.
- * @return {void}
  * @for Node
  * @method simulate
  */
 Y.Node.prototype.simulate = function (type, options) {
-    
+
     Y.Event.simulate(Y.Node.getDOMNode(this), type, options);
 };
 
 /**
- * Simulates the higher user level gesture of the given name on this node. 
- * This method generates a set of low level touch events(Apple specific gesture 
- * events as well for the iOS platforms) asynchronously. Note that gesture  
- * simulation is relying on `Y.Event.simulate()` method to generate 
+ * Simulates the higher user level gesture of the given name on this node.
+ * This method generates a set of low level touch events(Apple specific gesture
+ * events as well for the iOS platforms) asynchronously. Note that gesture
+ * simulation is relying on `Y.Event.simulate()` method to generate
  * the touch events under the hood. The `Y.Event.simulate()` method
  * itself is a synchronous method.
- * 
+ *
  * Supported gestures are `tap`, `doubletap`, `press`, `move`, `flick`, `pinch`
  * and `rotate`.
- * 
+ *
  * The `pinch` gesture is used to simulate the pinching and spreading of two
  * fingers. During a pinch simulation, rotation is also possible. Essentially
  * `pinch` and `rotate` simulations share the same base implementation to allow
  * both pinching and rotation at the same time. The only difference is `pinch`
- * requires `start` and `end` option properties while `rotate` requires `rotation` 
+ * requires `start` and `end` option properties while `rotate` requires `rotation`
  * option property.
- * 
+ *
  * The `pinch` and `rotate` gestures can be described as placing 2 fingers along a
- * circle. Pinching and spreading can be described by start and end circles while 
- * rotation occurs on a single circle. If the radius of the start circle is greater 
+ * circle. Pinching and spreading can be described by start and end circles while
+ * rotation occurs on a single circle. If the radius of the start circle is greater
  * than the end circle, the gesture becomes a pinch, otherwise it is a spread spread.
- * 
+ *
  * @example
  *
  *     var node = Y.one("#target");
- *       
+ *
  *     // double tap example
  *     node.simulateGesture("doubletap", function() {
  *         // my callback function
  *     });
- *     
+ *
  *     // flick example from the center of the node, move 50 pixels down for 50ms)
  *     node.simulateGesture("flick", {
  *         axis: y,
@@ -1909,125 +1393,124 @@ Y.Node.prototype.simulate = function (type, options) {
  *     }, function() {
  *         // my callback function
  *     });
- *     
- *     // simulate rotating a node 75 degrees counter-clockwise 
+ *
+ *     // simulate rotating a node 75 degrees counter-clockwise
  *     node.simulateGesture("rotate", {
  *         rotation: -75
  *     });
  *
- *     // simulate a pinch and a rotation at the same time. 
+ *     // simulate a pinch and a rotation at the same time.
  *     // fingers start on a circle of radius 100 px, placed at top/bottom
- *     // fingers end on a circle of radius 50px, placed at right/left 
+ *     // fingers end on a circle of radius 50px, placed at right/left
  *     node.simulateGesture("pinch", {
  *         r1: 100,
  *         r2: 50,
  *         start: 0
  *         rotation: 90
  *     });
- *     
+ *
  * @method simulateGesture
- * @param {String} name The name of the supported gesture to simulate. The 
- *      supported gesture name is one of "tap", "doubletap", "press", "move", 
- *      "flick", "pinch" and "rotate". 
+ * @param {String} name The name of the supported gesture to simulate. The
+ *      supported gesture name is one of "tap", "doubletap", "press", "move",
+ *      "flick", "pinch" and "rotate".
  * @param {Object} [options] Extra options used to define the gesture behavior:
- * 
+ *
  *      Valid options properties for the `tap` gesture:
- *      
- *      @param {Array} [options.point] (Optional) Indicates the [x,y] coordinates 
- *        where the tap should be simulated. Default is the center of the node 
+ *
+ *      @param {Array} [options.point] (Optional) Indicates the [x,y] coordinates
+ *        where the tap should be simulated. Default is the center of the node
  *        element.
- *      @param {Number} [options.hold=10] (Optional) The hold time in milliseconds. 
+ *      @param {Number} [options.hold=10] (Optional) The hold time in milliseconds.
  *        This is the time between `touchstart` and `touchend` event generation.
  *      @param {Number} [options.times=1] (Optional) Indicates the number of taps.
- *      @param {Number} [options.delay=10] (Optional) The number of milliseconds 
- *        before the next tap simulation happens. This is valid only when `times` 
- *        is more than 1. 
- *        
+ *      @param {Number} [options.delay=10] (Optional) The number of milliseconds
+ *        before the next tap simulation happens. This is valid only when `times`
+ *        is more than 1.
+ *
  *      Valid options properties for the `doubletap` gesture:
- *      
- *      @param {Array} [options.point] (Optional) Indicates the [x,y] coordinates 
- *        where the doubletap should be simulated. Default is the center of the 
+ *
+ *      @param {Array} [options.point] (Optional) Indicates the [x,y] coordinates
+ *        where the doubletap should be simulated. Default is the center of the
  *        node element.
- * 
+ *
  *      Valid options properties for the `press` gesture:
- *      
- *      @param {Array} [options.point] (Optional) Indicates the [x,y] coordinates 
- *        where the press should be simulated. Default is the center of the node 
+ *
+ *      @param {Array} [options.point] (Optional) Indicates the [x,y] coordinates
+ *        where the press should be simulated. Default is the center of the node
  *        element.
- *      @param {Number} [options.hold=3000] (Optional) The hold time in milliseconds. 
- *        This is the time between `touchstart` and `touchend` event generation. 
+ *      @param {Number} [options.hold=3000] (Optional) The hold time in milliseconds.
+ *        This is the time between `touchstart` and `touchend` event generation.
  *        Default is 3000ms (3 seconds).
- * 
+ *
  *      Valid options properties for the `move` gesture:
- *      
- *      @param {Object} [options.path] (Optional) Indicates the path of the finger 
- *        movement. It's an object with three optional properties: `point`, 
+ *
+ *      @param {Object} [options.path] (Optional) Indicates the path of the finger
+ *        movement. It's an object with three optional properties: `point`,
  *        `xdist` and  `ydist`.
  *        @param {Array} [options.path.point] A starting point of the gesture.
  *          Default is the center of the node element.
- *        @param {Number} [options.path.xdist=200] A distance to move in pixels  
+ *        @param {Number} [options.path.xdist=200] A distance to move in pixels
  *          along the X axis. A negative distance value indicates moving left.
- *        @param {Number} [options.path.ydist=0] A distance to move in pixels  
+ *        @param {Number} [options.path.ydist=0] A distance to move in pixels
  *          along the Y axis. A negative distance value indicates moving up.
- *      @param {Number} [options.duration=1000] (Optional) The duration of the 
+ *      @param {Number} [options.duration=1000] (Optional) The duration of the
  *        gesture in milliseconds.
- * 
+ *
  *      Valid options properties for the `flick` gesture:
- *      
- *      @param {Array} [options.point] (Optional) Indicates the [x, y] coordinates 
- *        where the flick should be simulated. Default is the center of the 
+ *
+ *      @param {Array} [options.point] (Optional) Indicates the [x, y] coordinates
+ *        where the flick should be simulated. Default is the center of the
  *        node element.
- *      @param {String} [options.axis='x'] (Optional) Valid values are either 
- *        "x" or "y". Indicates axis to move along. The flick can move to one of 
+ *      @param {String} [options.axis='x'] (Optional) Valid values are either
+ *        "x" or "y". Indicates axis to move along. The flick can move to one of
  *        4 directions(left, right, up and down).
  *      @param {Number} [options.distance=200] (Optional) Distance to move in pixels
- *      @param {Number} [options.duration=1000] (Optional) The duration of the 
- *        gesture in milliseconds. User given value could be automatically 
- *        adjusted by the framework if it is below the minimum velocity to be 
+ *      @param {Number} [options.duration=1000] (Optional) The duration of the
+ *        gesture in milliseconds. User given value could be automatically
+ *        adjusted by the framework if it is below the minimum velocity to be
  *        a flick gesture.
- * 
+ *
  *      Valid options properties for the `pinch` gesture:
- *      
- *      @param {Array} [options.center] (Optional) The center of the circle where 
+ *
+ *      @param {Array} [options.center] (Optional) The center of the circle where
  *        two fingers are placed. Default is the center of the node element.
- *      @param {Number} [options.r1] (Required) Pixel radius of the start circle 
- *        where 2 fingers will be on when the gesture starts. The circles are 
+ *      @param {Number} [options.r1] (Required) Pixel radius of the start circle
+ *        where 2 fingers will be on when the gesture starts. The circles are
  *        centered at the center of the element.
- *      @param {Number} [options.r2] (Required) Pixel radius of the end circle 
+ *      @param {Number} [options.r2] (Required) Pixel radius of the end circle
  *        when this gesture ends.
- *      @param {Number} [options.duration=1000] (Optional) The duration of the 
+ *      @param {Number} [options.duration=1000] (Optional) The duration of the
  *        gesture in milliseconds.
- *      @param {Number} [options.start=0] (Optional) Starting degree of the first 
- *        finger. The value is relative to the path of the north. Default is 0 
+ *      @param {Number} [options.start=0] (Optional) Starting degree of the first
+ *        finger. The value is relative to the path of the north. Default is 0
  *        (i.e., 12:00 on a clock).
- *      @param {Number} [options.rotation=0] (Optional) Degrees to rotate from 
- *        the starting degree. A negative value means rotation to the 
+ *      @param {Number} [options.rotation=0] (Optional) Degrees to rotate from
+ *        the starting degree. A negative value means rotation to the
  *        counter-clockwise direction.
- * 
+ *
  *      Valid options properties for the `rotate` gesture:
- *      
- *      @param {Array} [options.center] (Optional) The center of the circle where 
+ *
+ *      @param {Array} [options.center] (Optional) The center of the circle where
  *        two fingers are placed. Default is the center of the node element.
- *      @param {Number} [options.r1] (Optional) Pixel radius of the start circle 
- *        where 2 fingers will be on when the gesture starts. The circles are 
- *        centered at the center of the element. Default is a fourth of the node 
+ *      @param {Number} [options.r1] (Optional) Pixel radius of the start circle
+ *        where 2 fingers will be on when the gesture starts. The circles are
+ *        centered at the center of the element. Default is a fourth of the node
  *        element width or height, whichever is smaller.
- *      @param {Number} [options.r2] (Optional) Pixel radius of the end circle 
- *        when this gesture ends. Default is a fourth of the node element width or 
+ *      @param {Number} [options.r2] (Optional) Pixel radius of the end circle
+ *        when this gesture ends. Default is a fourth of the node element width or
  *        height, whichever is smaller.
- *      @param {Number} [options.duration=1000] (Optional) The duration of the 
+ *      @param {Number} [options.duration=1000] (Optional) The duration of the
  *        gesture in milliseconds.
- *      @param {Number} [options.start=0] (Optional) Starting degree of the first 
- *        finger. The value is relative to the path of the north. Default is 0 
+ *      @param {Number} [options.start=0] (Optional) Starting degree of the first
+ *        finger. The value is relative to the path of the north. Default is 0
  *        (i.e., 12:00 on a clock).
- *      @param {Number} [options.rotation] (Required) Degrees to rotate from 
- *        the starting degree. A negative value means rotation to the 
+ *      @param {Number} [options.rotation] (Required) Degrees to rotate from
+ *        the starting degree. A negative value means rotation to the
  *        counter-clockwise direction.
- * 
- * @param {Function} [cb] The callback to execute when the asynchronouse gesture  
- *      simulation is completed. 
- *      @param {Error} cb.err An error object if the simulation is failed.  
- * @return {void}
+ *
+ * @param {Function} [cb] The callback to execute when the asynchronouse gesture
+ *      simulation is completed.
+ *      @param {Error} cb.err An error object if the simulation is failed.
  * @for Node
  */
 Y.Node.prototype.simulateGesture = function (name, options, cb) {
@@ -2036,178 +1519,22 @@ Y.Node.prototype.simulateGesture = function (name, options, cb) {
 };
 
 
-}, '3.8.1', {"requires": ["node-base", "event-simulate", "gesture-simulate"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
-YUI.add('substitute', function (Y, NAME) {
+}, '3.16.0', {"requires": ["node-base", "event-simulate", "gesture-simulate"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
 
-/**
- * String variable substitution and string formatting.
- * If included, the substitute method is added to the YUI instance.
- *
- * @module substitute
- */
-
-    var L = Y.Lang, DUMP = 'dump', SPACE = ' ', LBRACE = '{', RBRACE = '}',
-		savedRegExp =  /(~-(\d+)-~)/g, lBraceRegExp = /\{LBRACE\}/g, rBraceRegExp = /\{RBRACE\}/g,
-
-    /**
-     * The following methods are added to the YUI instance
-     * @class YUI~substitute
-     */
-
-    /**
-    Does {placeholder} substitution on a string.  The object passed as the
-    second parameter provides values to replace the {placeholder}s.
-    {placeholder} token names must match property names of the object.  For
-    example
-
-    `var greeting = Y.substitute("Hello, {who}!", { who: "World" });`
-
-    {placeholder} tokens that are undefined on the object map will be left in
-    tact (leaving unsightly "{placeholder}"s in the output string).  If your
-    replacement strings *should* include curly braces, use `{LBRACE}` and
-    `{RBRACE}` in your object map string value.
-
-    If a function is passed as a third argument, it will be called for each
-    {placeholder} found.  The {placeholder} name is passed as the first value
-    and the value from the object map is passed as the second.  If the
-    {placeholder} contains a space, the first token will be used to identify
-    the object map property and the remainder will be passed as a third
-    argument to the function.  See below for an example.
-    
-    If the value in the object map for a given {placeholder} is an object and
-    the `dump` module is loaded, the replacement value will be the string
-    result of calling `Y.dump(...)` with the object as input.  Include a
-    numeric second token in the {placeholder} to configure the depth of the call
-    to `Y.dump(...)`, e.g. "{someObject 2}".  See the
-    <a href="../classes/YUI.html#method_dump">`dump`</a> method for details.
-
-    @method substitute
-    @param {string} s The string that will be modified.
-    @param {object} o An object containing the replacement values.
-    @param {function} f An optional function that can be used to
-                        process each match.  It receives the key,
-                        value, and any extra metadata included with
-                        the key inside of the braces.
-    @param {boolean} recurse if true, the replacement will be recursive,
-                        letting you have replacement tokens in replacement text.
-                        The default is false.
-    @return {string} the substituted string.
-
-    @example
-
-        function getAttrVal(key, value, name) {
-            // Return a string describing the named attribute and its value if
-            // the first token is @. Otherwise, return the value from the
-            // replacement object.
-            if (key === "@") {
-                value += name + " Value: " + myObject.get(name);
-            }
-            return value;
-        }
-
-        // Assuming myObject.set('foo', 'flowers'),
-        // => "Attr: foo Value: flowers"
-        var attrVal = Y.substitute("{@ foo}", { "@": "Attr: " }, getAttrVal);
-    **/
-
-    substitute = function(s, o, f, recurse) {
-        var i, j, k, key, v, meta, saved = [], token, dump,
-            lidx = s.length;
-
-        for (;;) {
-            i = s.lastIndexOf(LBRACE, lidx);
-            if (i < 0) {
-                break;
-            }
-            j = s.indexOf(RBRACE, i);
-            if (i + 1 >= j) {
-                break;
-            }
-
-            //Extract key and meta info
-            token = s.substring(i + 1, j);
-            key = token;
-            meta = null;
-            k = key.indexOf(SPACE);
-            if (k > -1) {
-                meta = key.substring(k + 1);
-                key = key.substring(0, k);
-            }
-
-            // lookup the value
-            v = o[key];
-
-            // if a substitution function was provided, execute it
-            if (f) {
-                v = f(key, v, meta);
-            }
-
-            if (L.isObject(v)) {
-                if (!Y.dump) {
-                    v = v.toString();
-                } else {
-                    if (L.isArray(v)) {
-                        v = Y.dump(v, parseInt(meta, 10));
-                    } else {
-                        meta = meta || '';
-
-                        // look for the keyword 'dump', if found force obj dump
-                        dump = meta.indexOf(DUMP);
-                        if (dump > -1) {
-                            meta = meta.substring(4);
-                        }
-
-                        // use the toString if it is not the Object toString
-                        // and the 'dump' meta info was not found
-                        if (v.toString === Object.prototype.toString ||
-                            dump > -1) {
-                            v = Y.dump(v, parseInt(meta, 10));
-                        } else {
-                            v = v.toString();
-                        }
-                    }
-                }
-			} else if (L.isUndefined(v)) {
-                // This {block} has no replace string. Save it for later.
-                v = '~-' + saved.length + '-~';
-					saved.push(token);
-
-                // break;
-            }
-
-            s = s.substring(0, i) + v + s.substring(j + 1);
-
-			if (!recurse) {
-				lidx = i - 1;
-			} 
-		}
-		// restore saved {block}s and escaped braces
-
-		return s
-			.replace(savedRegExp, function (str, p1, p2) {
-				return LBRACE + saved[parseInt(p2,10)] + RBRACE;
-			})
-			.replace(lBraceRegExp, LBRACE)
-			.replace(rBraceRegExp, RBRACE)
-		;
-	};
-
-    Y.substitute = substitute;
-    L.substitute = substitute;
-
-
-
-}, '3.8.1', {"requires": ["yui-base"], "optional": ["dump"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
 YUI.add('file-html5', function (Y, NAME) {
 
     /**
-     * The FileHTML5 class provides a wrapper for a file pointer in an HTML5 The File wrapper 
+     * The FileHTML5 class provides a wrapper for a file pointer in an HTML5 The File wrapper
      * also implements the mechanics for uploading a file and tracking its progress.
      * @module file-html5
-     */     
-     
+     */
+
     /**
      * The class provides a wrapper for a file pointer.
      * @class FileHTML5
@@ -2220,7 +1547,7 @@ YUI.add('file-html5', function (Y, NAME) {
         Win = Y.config.win;
 
     var FileHTML5 = function(o) {
-        
+
         var file = null;
 
         if (FileHTML5.isValidFile(o)) {
@@ -2233,8 +1560,8 @@ YUI.add('file-html5', function (Y, NAME) {
             file = false;
         }
 
-        FileHTML5.superclass.constructor.apply(this, arguments);      
-        
+        FileHTML5.superclass.constructor.apply(this, arguments);
+
         if (file && FileHTML5.canUpload()) {
            if (!this.get("file")) {
                this._set("file", file);
@@ -2279,14 +1606,14 @@ YUI.add('file-html5', function (Y, NAME) {
         * @method _uploadEventHandler
         * @param {Event} event The event object received from the XMLHTTPRequest.
         * @protected
-        */      
+        */
         _uploadEventHandler: function (event) {
             var xhr = this.get("xhr");
 
             switch (event.type) {
                 case "progress":
                   /**
-                   * Signals that progress has been made on the upload of this file. 
+                   * Signals that progress has been made on the upload of this file.
                    *
                    * @event uploadprogress
                    * @param event {Event} The event object for the `uploadprogress` with the
@@ -2303,8 +1630,8 @@ YUI.add('file-html5', function (Y, NAME) {
                    *  </dl>
                    */
                    this.fire("uploadprogress", {originEvent: event,
-                                               bytesLoaded: event.loaded, 
-                                               bytesTotal: this.get("size"), 
+                                               bytesLoaded: event.loaded,
+                                               bytesTotal: this.get("size"),
                                                percentLoaded: Math.min(100, Math.round(10000*event.loaded/this.get("size"))/100)
                                                });
                    this._set("bytesUploaded", event.loaded);
@@ -2330,27 +1657,28 @@ YUI.add('file-html5', function (Y, NAME) {
                                                      data: event.target.responseText});
                         var xhrupload = xhr.upload,
                             boundEventHandler = this.get("boundEventHandler");
-    
+
                         xhrupload.removeEventListener ("progress", boundEventHandler);
                         xhrupload.removeEventListener ("error", boundEventHandler);
                         xhrupload.removeEventListener ("abort", boundEventHandler);
-                        xhr.removeEventListener ("load", boundEventHandler); 
+                        xhr.removeEventListener ("load", boundEventHandler);
                         xhr.removeEventListener ("error", boundEventHandler);
                         xhr.removeEventListener ("readystatechange", boundEventHandler);
-                        
+
                         this._set("xhr", null);
                    }
                    else {
                         this.fire("uploaderror", {originEvent: event,
+                                                  data: xhr.responseText,
                                                   status: xhr.status,
                                                   statusText: xhr.statusText,
                                                   source: "http"});
-                   }                   
+                   }
                    break;
 
                 case "error":
                   /**
-                   * Signals that this file's upload has encountered an error. 
+                   * Signals that this file's upload has encountered an error.
                    *
                    * @event uploaderror
                    * @param event {Event} The event object for the `uploaderror` with the
@@ -2358,18 +1686,21 @@ YUI.add('file-html5', function (Y, NAME) {
                    *  <dl>
                    *      <dt>originEvent</dt>
                    *          <dd>The original event fired by the XMLHttpRequest instance.</dd>
+                   *      <dt>data</dt>
+                   *          <dd>The data returned by the server.</dd>
                    *      <dt>status</dt>
                    *          <dd>The status code reported by the XMLHttpRequest. If it's an HTTP error,
                                   then this corresponds to the HTTP status code received by the uploader.</dd>
                    *      <dt>statusText</dt>
                    *          <dd>The text of the error event reported by the XMLHttpRequest instance</dd>
                    *      <dt>source</dt>
-                   *          <dd>Either "http" (if it's an HTTP error), or "io" (if it's a network transmission 
+                   *          <dd>Either "http" (if it's an HTTP error), or "io" (if it's a network transmission
                    *              error.)</dd>
                    *
                    *  </dl>
                    */
                    this.fire("uploaderror", {originEvent: event,
+                                                  data: xhr.responseText,
                                                   status: xhr.status,
                                                   statusText: xhr.statusText,
                                                   source: "io"});
@@ -2378,7 +1709,7 @@ YUI.add('file-html5', function (Y, NAME) {
                 case "abort":
 
                   /**
-                   * Signals that this file's upload has been cancelled. 
+                   * Signals that this file's upload has been cancelled.
                    *
                    * @event uploadcancel
                    * @param event {Event} The event object for the `uploadcancel` with the
@@ -2394,7 +1725,7 @@ YUI.add('file-html5', function (Y, NAME) {
                 case "readystatechange":
 
                   /**
-                   * Signals that XMLHttpRequest has fired a readystatechange event. 
+                   * Signals that XMLHttpRequest has fired a readystatechange event.
                    *
                    * @event readystatechange
                    * @param event {Event} The event object for the `readystatechange` with the
@@ -2421,12 +1752,12 @@ YUI.add('file-html5', function (Y, NAME) {
         * @param fileFieldName {String} (optional) The name of the POST variable that should contain the uploaded file ('Filedata' by default)
         */
         startUpload: function(url, parameters, fileFieldName) {
-         
+
             this._set("bytesUploaded", 0);
-            
+
             this._set("xhr", new XMLHttpRequest());
             this._set("boundEventHandler", Bind(this._uploadEventHandler, this));
-                         
+
             var uploadData = new FormData(),
                 fileField = fileFieldName || "Filedata",
                 xhr = this.get("xhr"),
@@ -2446,7 +1777,7 @@ YUI.add('file-html5', function (Y, NAME) {
             xhrupload.addEventListener ("error", boundEventHandler, false);
             xhrupload.addEventListener ("abort", boundEventHandler, false);
             xhr.addEventListener ("abort", boundEventHandler, false);
-            xhr.addEventListener ("loadend", boundEventHandler, false); 
+            xhr.addEventListener ("loadend", boundEventHandler, false);
             xhr.addEventListener ("readystatechange", boundEventHandler, false);
 
             xhr.open("POST", url, true);
@@ -2458,9 +1789,9 @@ YUI.add('file-html5', function (Y, NAME) {
             });
 
             xhr.send(uploadData);
-      
+
             /**
-             * Signals that this file's upload has started. 
+             * Signals that this file's upload has started.
              *
              * @event uploadstart
              * @param event {Event} The event object for the `uploadstart` with the
@@ -2478,9 +1809,12 @@ YUI.add('file-html5', function (Y, NAME) {
         * Cancels the upload of a specific file, if currently in progress.
         *
         * @method cancelUpload
-        */    
+        */
         cancelUpload: function () {
-            this.get('xhr').abort();
+            var xhr = this.get('xhr');
+            if (xhr) {
+                xhr.abort();
+            }
         }
 
 
@@ -2646,7 +1980,7 @@ YUI.add('file-html5', function (Y, NAME) {
 
        /**
         * A Boolean indicating whether the XMLHttpRequest should be sent with user credentials.
-        * This does not affect same-site requests. 
+        * This does not affect same-site requests.
         *
         * @attribute xhrWithCredentials
         * @type {Boolean}
@@ -2694,8 +2028,15 @@ YUI.add('file-html5', function (Y, NAME) {
 
     Y.FileHTML5 = FileHTML5;
 
-}, '3.8.1', {"requires": ["base"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
+
+}, '3.16.0', {"requires": ["base"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
 YUI.add('uploader-queue', function (Y, NAME) {
 
 /**
@@ -2933,7 +2274,7 @@ Y.extend(UploaderQueue, Y.Base, {
         updatedEvent.originEvent = event;
         updatedEvent.file = event.target;
 
-        this.fire("uploadcacel", updatedEvent);
+        this.fire("uploadcancel", updatedEvent);
     },
 
 
@@ -3017,7 +2358,7 @@ Y.extend(UploaderQueue, Y.Base, {
     * by cancelling its upload and immediately relaunching it.
     *
     * @method forceReupload
-    * @param file {Y.File} The file to force reupload on.
+    * @param file {File} The file to force reupload on.
     */
     forceReupload : function (file) {
         var id = file.get("id");
@@ -3035,7 +2376,7 @@ Y.extend(UploaderQueue, Y.Base, {
     * drops below the maximum permissible value).
     *
     * @method addToQueueTop
-    * @param file {Y.File} The file to add to the top of the queue.
+    * @param file {File} The file to add to the top of the queue.
     */
     addToQueueTop: function (file) {
             this.queuedFiles.unshift(file);
@@ -3046,7 +2387,7 @@ Y.extend(UploaderQueue, Y.Base, {
     * launched after all the other queued files are uploaded.)
     *
     * @method addToQueueBottom
-    * @param file {Y.File} The file to add to the bottom of the queue.
+    * @param file {File} The file to add to the bottom of the queue.
     */
     addToQueueBottom: function (file) {
             this.queuedFiles.push(file);
@@ -3058,7 +2399,7 @@ Y.extend(UploaderQueue, Y.Base, {
     * stopped.
     *
     * @method cancelUpload
-    * @param file {Y.File} An optional parameter - the file whose upload
+    * @param file {File} An optional parameter - the file whose upload
     * should be cancelled.
     */
     cancelUpload: function (file) {
@@ -3190,7 +2531,7 @@ Y.extend(UploaderQueue, Y.Base, {
         * Maximum number of simultaneous uploads; must be in the
         * range between 1 and 5. The value of `2` is default. It
         * is recommended that this value does not exceed 3.
-        * @property simUploads
+        * @attribute simUploads
         * @type Number
         * @default 2
         */
@@ -3209,7 +2550,7 @@ Y.extend(UploaderQueue, Y.Base, {
         * should restart immediately on the errored out file and continue as planned), or
         * Y.Uploader.Queue.RESTART_AFTER (the upload of the errored out file should restart
         * after all other files have uploaded)
-        * @property errorAction
+        * @attribute errorAction
         * @type String
         * @default Y.Uploader.Queue.CONTINUE
         */
@@ -3227,7 +2568,7 @@ Y.extend(UploaderQueue, Y.Base, {
 
         /**
         * The total number of bytes that has been uploaded.
-        * @property bytesUploaded
+        * @attribute bytesUploaded
         * @type Number
         */
         bytesUploaded: {
@@ -3237,7 +2578,7 @@ Y.extend(UploaderQueue, Y.Base, {
 
         /**
         * The total number of bytes in the queue.
-        * @property bytesTotal
+        * @attribute bytesTotal
         * @type Number
         */
         bytesTotal: {
@@ -3250,8 +2591,8 @@ Y.extend(UploaderQueue, Y.Base, {
         * before the upload has been started; modifying it after starting
         * the upload has no effect, and `addToQueueTop` or `addToQueueBottom` methods
         * should be used instead.
-        * @property fileList
-        * @type Number
+        * @attribute fileList
+        * @type Array
         */
         fileList: {
             value: [],
@@ -3351,8 +2692,14 @@ Y.namespace('Uploader');
 Y.Uploader.Queue = UploaderQueue;
 
 
-}, '3.8.1', {"requires": ["base"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
+}, '3.16.0', {"requires": ["base"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
 YUI.add('uploader-html5', function (Y, NAME) {
 
 /**
@@ -3411,7 +2758,7 @@ Y.UploaderHTML5 = Y.extend( UploaderHTML5, Y.Widget, {
     * it will be ignored.
     *
     * @property queue
-    * @type {Y.Uploader.Queue}
+    * @type {Uploader.Queue}
     */
     queue: null,
 
@@ -3633,6 +2980,9 @@ Y.UploaderHTML5 = Y.extend( UploaderHTML5, Y.Widget, {
             this.get("selectFilesButton").set("tabIndex", this.get("tabIndex"));
         }, this);
         this._fileInputField.on("change", this._updateFileList, this);
+        this._fileInputField.on("click", function(event) {
+            event.stopPropagation();
+        }, this);
 
         this.get("selectFilesButton").set("tabIndex", this.get("tabIndex"));
     },
@@ -3940,7 +3290,7 @@ Y.UploaderHTML5 = Y.extend( UploaderHTML5, Y.Widget, {
     * Starts the upload of a specific file.
     *
     * @method upload
-    * @param file {Y.File} Reference to the instance of the file to be uploaded.
+    * @param file {File} Reference to the instance of the file to be uploaded.
     * @param url {String} The URL to upload the file to.
     * @param postVars {Object} (optional) A set of key-value pairs to send as variables along with the file upload HTTP request.
     *                          If not specified, the values from the attribute `postVarsPerFile` are used instead.
@@ -4038,7 +3388,7 @@ Y.UploaderHTML5 = Y.extend( UploaderHTML5, Y.Widget, {
     * The template for the "Select Files" button.
     *
     * @property SELECT_FILES_BUTTON
-    * @type {HTML}
+    * @type {String}
     * @static
     * @default '<button type="button" class="yui3-button" role="button" aria-label="{selectButtonLabel}"
     *           tabindex="{tabIndex}">{selectButtonLabel}</button>'
@@ -4355,8 +3705,14 @@ Y.UploaderHTML5.Queue = UploaderQueue;
 
 
 
-}, '3.8.1', {"requires": ["widget", "node-event-simulate", "substitute", "file-html5", "uploader-queue"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
+}, '3.16.0', {"requires": ["widget", "node-event-simulate", "file-html5", "uploader-queue"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
 YUI.add('swfdetect', function (Y, NAME) {
 
 /**
@@ -4379,11 +3735,11 @@ function parseFlashVersion (flashVer) {
     if (lG.isNumber(makeInt(flashVer[0]))) {
         uA.flashMajor = flashVer[0];
     }
-    
+
     if (lG.isNumber(makeInt(flashVer[1]))) {
         uA.flashMinor = flashVer[1];
     }
-    
+
     if (lG.isNumber(makeInt(flashVer[2]))) {
         uA.flashRev = flashVer[2];
     }
@@ -4423,12 +3779,12 @@ else if(uA.ie) {
 /** Create a calendar view to represent a single or multiple
   * month range of dates, rendered as a grid with date and
   * weekday labels.
-  * 
+  *
   * @class SWFDetect
   * @constructor
   */
 
-        
+
 Y.SWFDetect = {
 
     /**
@@ -4436,8 +3792,8 @@ Y.SWFDetect = {
      * or the Flash Player ActiveX control (in IE), as a String of the form "MM.mm.rr", where
      * MM is the major version, mm is the minor version, and rr is the revision.
      * @method getFlashVersion
-     */ 
-    
+     */
+
     getFlashVersion : function () {
         return (String(uA.flashMajor) + "." + String(uA.flashMinor) + "." + String(uA.flashRev));
     },
@@ -4447,15 +3803,15 @@ Y.SWFDetect = {
      * than or equal to the one specified. If it is, this method returns true; it is false otherwise.
      * @method isFlashVersionAtLeast
      * @return {Boolean} Whether the Flash player version is greater than or equal to the one specified.
-     * @param flashMajor {int} The Major version of the Flash player to compare against.
-     * @param flashMinor {int} The Minor version of the Flash player to compare against.
-     * @param flashRev {int} The Revision version of the Flash player to compare against.
-     */ 
+     * @param flashMajor {Number} The Major version of the Flash player to compare against.
+     * @param flashMinor {Number} The Minor version of the Flash player to compare against.
+     * @param flashRev {Number} The Revision version of the Flash player to compare against.
+     */
     isFlashVersionAtLeast : function (flashMajor, flashMinor, flashRev) {
         var uaMajor    = makeInt(uA.flashMajor),
             uaMinor    = makeInt(uA.flashMinor),
             uaRev      = makeInt(uA.flashRev);
-            
+
         flashMajor = makeInt(flashMajor || 0);
         flashMinor = makeInt(flashMinor || 0);
         flashRev   = makeInt(flashRev || 0);
@@ -4467,13 +3823,34 @@ Y.SWFDetect = {
             return flashMinor < uaMinor;
         }
         return flashMajor < uaMajor;
-    }           
+    }
 };
 
 
-}, '3.8.1', {"requires": ["yui-base"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
-YUI.add('swf', function (Y, NAME) {
+}, '3.16.0', {"requires": ["yui-base"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
+YUI.add('uploader-flash', function (Y, NAME) {
+
+/**
+* This module provides a UI for file selection and multiple file upload capability using
+* Flash as a transport engine.
+* The supported features include: automatic upload queue management, upload progress
+* tracking, file filtering, server response retrieval and error reporting.
+*
+* @module uploader-flash
+* @deprecated
+*/
+
+// Shorthands for external modules
+var substitute            = Y.Lang.sub,
+    UploaderQueue         = Y.Uploader.Queue;
+
 
 /**
  * Embed a Flash applications in a standard manner and communicate with it
@@ -4507,7 +3884,7 @@ YUI.add('swf', function (Y, NAME) {
          * Creates the SWF instance and keeps the configuration data
          *
          * @class SWF
-         * @augments Y.Event.Target
+         * @uses Y.Event.Target
          * @constructor
          * @param {String|HTMLElement} id The id of the element, or the element itself that the SWF will be inserted into.
          *        The width and height of the SWF will be set to the width and height of this container element.
@@ -4531,7 +3908,7 @@ function SWF (p_oElement /*:String*/, swfURL /*:String*/, p_oAttributes /*:Objec
 
     var _id = this._id;
     var oElement = Node.one(p_oElement);
-    
+
     var p_oAttributes = p_oAttributes || {};
 
     var flashVersion = p_oAttributes.version || FLASH_VER;
@@ -4583,7 +3960,7 @@ function SWF (p_oElement /*:String*/, swfURL /*:String*/, p_oAttributes /*:Objec
         objstring += "</object>";
         //using innerHTML as setHTML/setContent causes some issues with ExternalInterface for IE versions of the player
         oElement.set("innerHTML", objstring);
-        
+
         this._swf = Node.one("#" + _id);
     } else {
         /**
@@ -4644,19 +4021,19 @@ SWF.prototype = {
      * @param func {String} the name of the function to call
      * @param args {Array} the set of arguments to pass to the function.
      */
-    
+
     callSWF: function (func, args)
     {
-    if (!args) { 
-          args= []; 
-    }   
+    if (!args) {
+          args= [];
+    }
         if (this._swf._node[func]) {
         return(this._swf._node[func].apply(this._swf._node, args));
         } else {
         return null;
         }
     },
-    
+
     /**
      * Public accessor to the unique name of the SWF instance.
      *
@@ -4672,17 +4049,11 @@ SWF.prototype = {
 Y.augment(SWF, Y.EventTarget);
 
 Y.SWF = SWF;
-
-
-}, '3.8.1', {"requires": ["event-custom", "node", "swfdetect", "escape"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
-YUI.add('file-flash', function (Y, NAME) {
-
     /**
-     * The FileFlash class provides a wrapper for a file pointer stored in Flash. The File wrapper 
+     * The FileFlash class provides a wrapper for a file pointer stored in Flash. The File wrapper
      * also implements the mechanics for uploading a file and tracking its progress.
      * @module file-flash
-     */     
+     */
     /**
      * The class provides a wrapper for a file pointer in Flash.
      * @class FileFlash
@@ -4692,7 +4063,7 @@ YUI.add('file-flash', function (Y, NAME) {
      */
 
     var FileFlash = function(o) {
-        FileFlash.superclass.constructor.apply(this, arguments);   
+        FileFlash.superclass.constructor.apply(this, arguments);
     };
 
     Y.extend(FileFlash, Y.Base, {
@@ -4715,12 +4086,12 @@ YUI.add('file-flash', function (Y, NAME) {
         * @method _swfEventHandler
         * @param {Event} event The event object received from the Flash player.
         * @protected
-        */      
+        */
         _swfEventHandler: function (event) {
           if (event.id === this.get("id")) {
           switch (event.type) {
             /**
-             * Signals that this file's upload has started. 
+             * Signals that this file's upload has started.
              *
              * @event uploadstart
              * @param event {Event} The event object for the `uploadstart` with the
@@ -4736,7 +4107,7 @@ YUI.add('file-flash', function (Y, NAME) {
             case "uploadprogress":
 
                   /**
-                   * Signals that progress has been made on the upload of this file. 
+                   * Signals that progress has been made on the upload of this file.
                    *
                    * @event uploadprogress
                    * @param event {Event} The event object for the `uploadprogress` with the
@@ -4753,8 +4124,8 @@ YUI.add('file-flash', function (Y, NAME) {
                    *  </dl>
                    */
                  this.fire("uploadprogress", {originEvent: event,
-                                              bytesLoaded: event.bytesLoaded, 
-                                              bytesTotal: event.bytesTotal, 
+                                              bytesLoaded: event.bytesLoaded,
+                                              bytesTotal: event.bytesTotal,
                                               percentLoaded: Math.min(100, Math.round(10000*event.bytesLoaded/event.bytesTotal)/100)
                                              });
                  this._set("bytesUploaded", event.bytesLoaded);
@@ -4762,7 +4133,7 @@ YUI.add('file-flash', function (Y, NAME) {
             case "uploadcomplete":
 
                   /**
-                   * Signals that this file's upload has completed, but data has not yet been received from the server. 
+                   * Signals that this file's upload has completed, but data has not yet been received from the server.
                    *
                    * @event uploadfinished
                    * @param event {Event} The event object for the `uploadfinished` with the
@@ -4789,12 +4160,12 @@ YUI.add('file-flash', function (Y, NAME) {
                  *  </dl>
                  */
                  this.fire("uploadcomplete", {originEvent: event,
-                                              data: event.data});  
+                                              data: event.data});
                  break;
             case "uploadcancel":
 
                 /**
-                 * Signals that this file's upload has been cancelled. 
+                 * Signals that this file's upload has been cancelled.
                  *
                  * @event uploadcancel
                  * @param event {Event} The event object for the `uploadcancel` with the
@@ -4809,7 +4180,7 @@ YUI.add('file-flash', function (Y, NAME) {
             case "uploaderror":
 
                 /**
-                 * Signals that this file's upload has encountered an error. 
+                 * Signals that this file's upload has encountered an error.
                  *
                  * @event uploaderror
                  * @param event {Event} The event object for the `uploaderror` with the
@@ -4823,11 +4194,11 @@ YUI.add('file-flash', function (Y, NAME) {
                  *      <dt>statusText</dt>
                  *          <dd>The text of the error event reported by the Flash Player.</dd>
                  *      <dt>source</dt>
-                 *          <dd>Either "http" (if it's an HTTP error), or "io" (if it's a network transmission 
+                 *          <dd>Either "http" (if it's an HTTP error), or "io" (if it's a network transmission
                  *              error.)</dd>
                  *  </dl>
                  */
-                 this.fire("uploaderror", {originEvent: event, status: event.status, statusText: event.message, source: event.source});         
+                 this.fire("uploaderror", {originEvent: event, status: event.status, statusText: event.message, source: event.source});
 
           }
         }
@@ -4842,7 +4213,7 @@ YUI.add('file-flash', function (Y, NAME) {
         * @param fileFieldName {String} (optional) The name of the POST variable that should contain the uploaded file ('Filedata' by default)
         */
         startUpload: function(url, parameters, fileFieldName) {
-         
+
         if (this.get("uploader")) {
 
             var myUploader = this.get("uploader"),
@@ -4851,7 +4222,7 @@ YUI.add('file-flash', function (Y, NAME) {
                 params = parameters || null;
 
             this._set("bytesUploaded", 0);
-            
+
             myUploader.on("uploadstart", this._swfEventHandler, this);
             myUploader.on("uploadprogress", this._swfEventHandler, this);
             myUploader.on("uploadcomplete", this._swfEventHandler, this);
@@ -4867,7 +4238,7 @@ YUI.add('file-flash', function (Y, NAME) {
         * Cancels the upload of a specific file, if currently in progress.
         *
         * @method cancelUpload
-        */  
+        */
         cancelUpload: function () {
          if (this.get("uploader")) {
            this.get("uploader").callSWF("cancel", [this.get("id")]);
@@ -5014,25 +4385,6 @@ YUI.add('file-flash', function (Y, NAME) {
     });
 
     Y.FileFlash = FileFlash;
-
-}, '3.8.1', {"requires": ["base"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
-YUI.add('uploader-flash', function (Y, NAME) {
-
-/**
-* This module provides a UI for file selection and multiple file upload capability using
-* Flash as a transport engine.
-* The supported features include: automatic upload queue management, upload progress
-* tracking, file filtering, server response retrieval and error reporting.
-*
-* @module uploader-flash
-*/
-
-// Shorthands for external modules
-var substitute            = Y.Lang.sub,
-    UploaderQueue         = Y.Uploader.Queue;
-
-
 /**
 * This module provides a UI for file selection and multiple file upload capability
 * using Flash as a transport engine.
@@ -5040,6 +4392,7 @@ var substitute            = Y.Lang.sub,
 * @extends Widget
 * @param {Object} config Configuration object.
 * @constructor
+* @deprecated
 */
 
 function UploaderFlash() {
@@ -5096,7 +4449,7 @@ Y.UploaderFlash = Y.extend(UploaderFlash, Y.Widget, {
     * it will be ignored.
     *
     * @property queue
-    * @type {Y.Uploader.Queue}
+    * @type {Uploader.Queue}
     */
     queue: null,
 
@@ -5305,7 +4658,9 @@ Y.UploaderFlash = Y.extend(UploaderFlash, Y.Widget, {
         var boundingBox = this.get("boundingBox"),
             contentBox = this.get('contentBox'),
             selFilesButton = this.get("selectFilesButton"),
-            flashContainer = Y.one("#" + this._swfContainerId),
+            flashContainer = Y.Node.create(substitute(UploaderFlash.FLASH_CONTAINER, {
+                swfContainerId: this._swfContainerId
+            })),
             params = {
                 version: "10.0.45",
                 fixedAttributes: {
@@ -5319,9 +4674,7 @@ Y.UploaderFlash = Y.extend(UploaderFlash, Y.Widget, {
         boundingBox.setStyle("position", "relative");
         selFilesButton.setStyles({width: "100%", height: "100%"});
         contentBox.append(selFilesButton);
-        contentBox.append(Y.Node.create(substitute(UploaderFlash.FLASH_CONTAINER, {
-            swfContainerId: this._swfContainerId
-        })));
+        contentBox.append(flashContainer);
 
         this._swfReference = new Y.SWF(flashContainer, this.get("swfURL"), params);
     },
@@ -5668,7 +5021,7 @@ Y.UploaderFlash = Y.extend(UploaderFlash, Y.Widget, {
     * Starts the upload of a specific file.
     *
     * @method upload
-    * @param file {Y.FileFlash} Reference to the instance of the file to be uploaded.
+    * @param file {FileFlash} Reference to the instance of the file to be uploaded.
     * @param url {String} The URL to upload the file to.
     * @param [postVars] {Object} A set of key-value pairs to send as variables along with the file upload HTTP request.
     *                          If not specified, the values from the attribute `postVarsPerFile` are used instead.
@@ -5750,7 +5103,7 @@ Y.UploaderFlash = Y.extend(UploaderFlash, Y.Widget, {
     * with width and height set to 100% of the parent.
     *
     * @property FLASH_CONTAINER
-    * @type {HTML}
+    * @type {String}
     * @static
     * @default '<div id="{swfContainerId}" style="position:absolute; top:0px; left: 0px; margin: 0; padding: 0;
     *           border: 0; width:100%; height:100%"></div>'
@@ -5762,7 +5115,7 @@ Y.UploaderFlash = Y.extend(UploaderFlash, Y.Widget, {
     * The template for the "Select Files" button.
     *
     * @property SELECT_FILES_BUTTON
-    * @type {HTML}
+    * @type {String}
     * @static
     * @default "<button type='button' class='yui3-button' tabindex='-1'>{selectButtonLabel}</button>"
     */
@@ -6017,13 +5370,13 @@ Y.UploaderFlash = Y.extend(UploaderFlash, Y.Widget, {
         *
         * @attribute swfURL
         * @type {String}
-        * @default "CDN Prefix + uploader/assets/flashuploader.swf" with a
+        * @default "flashuploader.swf" with a
         * random GET parameter for IE (to prevent buggy behavior when the SWF
         * is cached).
         */
         swfURL: {
             valueFn: function () {
-                var prefix = Y.Env.cdn + "uploader/assets/flashuploader.swf";
+                var prefix = "flashuploader.swf";
 
                 if (Y.UA.ie > 0) {
                     return (prefix + "?t=" + Y.guid("uploader"));
@@ -6081,20 +5434,25 @@ Y.UploaderFlash = Y.extend(UploaderFlash, Y.Widget, {
 Y.UploaderFlash.Queue = UploaderQueue;
 
 
-}, '3.8.1', {
+}, '3.16.0', {
     "requires": [
-        "swf",
+        "swfdetect",
+        "escape",
         "widget",
-        "substitute",
         "base",
         "cssbutton",
         "node",
         "event-custom",
-        "file-flash",
         "uploader-queue"
     ]
 });
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
 YUI.add('uploader', function (Y, NAME) {
 
 /**
@@ -6146,4 +5504,5 @@ else {
     Y.Uploader.TYPE = "none";
 }
 
-}, '3.8.1', {"requires": ["uploader-html5", "uploader-flash"]});
+
+}, '3.16.0', {"requires": ["uploader-html5", "uploader-flash"]});

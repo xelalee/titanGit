@@ -44,6 +44,10 @@
                   "tab" : "secondaryVer"
                 },
                 {
+                  "label": "Signature Version",
+                  "tab" : "sigVer"
+                },
+                {
                   "label": "Serial Number",
                   "tab" : "serial"
                 },
@@ -2591,6 +2595,8 @@
           "aliasTNum" : "guiIpAliasTNum",
           "dhcpT" : "guiDhcpsT",
           "dhcpTNum" : "guiDhcpsTNum",
+          "reservT" : "dhcpReservT",
+          "reservTNum" : "dhcpReservTNum",
           "pgAction" : "Save Cancel",
           "rowAction" : "Edit",
           "col" : 
@@ -2763,7 +2769,7 @@
                         "tab" : "mtuValue",
                         "tag" : "input",
                         "type" : "text",
-                        "note" : "(min: 68, ipv6 min: 1280, max: 1500 Bytes)",
+                        "note" : "(68-1500; IPv6 1280-1500 Bytes)",
                         "size" : 8
                       }
                     }
@@ -2832,7 +2838,7 @@
                         "tag" : "input",
                         "type" : "text",
                         "wiz" : "150px",
-                        "note" : "(30~1440)"
+                        "note" : "(30-1440)"
                       },
                       {
                         "label" : "Gateway",
@@ -2892,25 +2898,47 @@
               ]
             },
             {
-              "label" : "IPv6 Settings",
-              "tab" : "ipv6_settings",
+              "label" : "DHCP Binding",
+              "tab" : "dhcp_binding",
               "tag" : "div",
               "type" : "tabs",
               "col" :
               [
                 {
-                  "label" : "IPv6 Address",
-                  "tab" : "ipv6Address",
-                  "tag" : "input",
-                  "type" : "text",
-                  "wiz" : "150px"
-                },
-                {
-                  "label" : "IPv6 Prefix Length",
-                  "tab" : "ipv6PrefixLength",
-                  "tag" : "input",
-                  "type" : "text",
-                  "wiz" : "150px"
+                  "label" : "DHCP Binding Table",
+                  "tab" : "dhcpBinding",
+                  "tag" : "table",
+                  "type" : "table",
+                  "col" :
+                  [
+                    {
+                      "label" : "",
+                      "tab" : "checkbox",
+                      "wiz" : "40px"
+                    },
+                    {
+                      "label" : "Name",
+                      "tab" : "name",
+                      "wiz" : "auto"
+                    },
+                    {
+                      "label" : "IP",
+                      "tab" : "assignIpId",
+                      "wiz" : "120px"
+                    },
+                    {
+                      "label" : "MAC",
+                      "tab" : "macAddrId",
+                      "wiz" : "120px"
+                    },
+                    {
+                      "label" : "Action",
+                      "tab" : "action",
+                      "tag" : "button",
+                      "type" : "button",
+                      "wiz" : "100px"
+                    }
+                  ]
                 }
               ]
             },
@@ -2948,6 +2976,30 @@
                   ]
                 }
               ]
+            },
+            {
+              "label" : "IPv6 Settings",
+              "tab" : "ipv6_settings",
+              "tag" : "div",
+              "type" : "tabs",
+              "col" :
+              [
+                {
+                  "label" : "IPv6 Address",
+                  "tab" : "ipv6Address",
+                  "tag" : "input",
+                  "type" : "text",
+                  "wiz" : "150px"
+                },
+                {
+                  "label" : "IPv6 Prefix Length",
+                  "tab" : "ipv6PrefixLength",
+                  "tag" : "input",
+                  "type" : "text",
+                  "wiz" : "150px",
+                  "size" : 8
+                }
+              ]
             }
           ]
         },
@@ -2969,6 +3021,8 @@
           "aliasTNum" : "guiIpAliasTNum",
           "dhcpT" : "guiDhcpsT",
           "dhcpTNum" : "guiDhcpsTNum",
+          "reservT" : "dhcpReservT",
+          "reservTNum" : "dhcpReservTNum",
           "pgAction" : "Save Cancel",
           "tblAction" : "Create Remove",
           "rowAction" : "Edit Delete",
@@ -3095,7 +3149,7 @@
                     "Left"
                   ],
                   "wiz" : "100px",
-                  "note" : "(1~4094)",
+                  "note" : "(1-4094)",
                   "size" : 8
                 },
                 {
@@ -3144,7 +3198,7 @@
                         "tab" : "mtuValue",
                         "tag" : "input",
                         "type" : "text",
-                        "note" : "(min: 68, ipv6 min: 1280, max: 1500 Bytes)",
+                        "note" : "(68-1500; IPv6 1280-1500 Bytes)",
                         "size" : 8
                       }
                     }
@@ -3213,7 +3267,7 @@
                         "tag" : "input",
                         "type" : "text",
                         "wiz" : "150px",
-                        "note" : "(30~1440)",
+                        "note" : "(30-1440)",
                         "size" : 8
                       },
                       {
@@ -3274,26 +3328,47 @@
               ]
             },
             {
-              "label" : "IPv6 Settings",
-              "tab" : "ipv6_settings",
+              "label" : "DHCP Binding",
+              "tab" : "dhcp_binding",
               "tag" : "div",
               "type" : "tabs",
               "col" :
               [
                 {
-                  "label" : "IPv6 Address",
-                  "tab" : "ipv6Address",
-                  "tag" : "input",
-                  "type" : "text",
-                  "wiz" : "150px"
-                },
-                {
-                  "label" : "IPv6 Prefix Length",
-                  "tab" : "ipv6PrefixLength",
-                  "tag" : "input",
-                  "type" : "text",
-                  "wiz" : "150px",
-                  "size" : 8
+                  "label" : "DHCP Binding Table",
+                  "tab" : "dhcpBinding",
+                  "tag" : "table",
+                  "type" : "table",
+                  "col" :
+                  [
+                    {
+                      "label" : "",
+                      "tab" : "checkbox",
+                      "wiz" : "40px"
+                    },
+                    {
+                      "label" : "Name",
+                      "tab" : "name",
+                      "wiz" : "auto"
+                    },
+                    {
+                      "label" : "IP",
+                      "tab" : "assignIpId",
+                      "wiz" : "120px"
+                    },
+                    {
+                      "label" : "MAC",
+                      "tab" : "macAddrId",
+                      "wiz" : "120px"
+                    },
+                    {
+                      "label" : "Action",
+                      "tab" : "action",
+                      "tag" : "button",
+                      "type" : "button",
+                      "wiz" : "100px"
+                    }
+                  ]
                 }
               ]
             },
@@ -3331,6 +3406,30 @@
                   ]
                 }
               ]
+            },
+            {
+              "label" : "IPv6 Settings",
+              "tab" : "ipv6_settings",
+              "tag" : "div",
+              "type" : "tabs",
+              "col" :
+              [
+                {
+                  "label" : "IPv6 Address",
+                  "tab" : "ipv6Address",
+                  "tag" : "input",
+                  "type" : "text",
+                  "wiz" : "150px"
+                },
+                {
+                  "label" : "IPv6 Prefix Length",
+                  "tab" : "ipv6PrefixLength",
+                  "tag" : "input",
+                  "type" : "text",
+                  "wiz" : "150px",
+                  "size" : 8
+                }
+              ]
             }
           ]
         },
@@ -3352,6 +3451,8 @@
           "aliasTNum" : "guiIpAliasTNum",
           "dhcpT" : "guiDhcpsT",
           "dhcpTNum" : "guiDhcpsTNum",
+          "reservT" : "dhcpReservT",
+          "reservTNum" : "dhcpReservTNum",
           "pgAction" : "Save Cancel",
           "tblAction" : "Create Remove",
           "rowAction" : "Edit Delete",
@@ -3575,7 +3676,7 @@
                         "tag" : "input",
                         "type" : "text",
                         "wiz" : "150px",
-                        "note" : "(30~1440)",
+                        "note" : "(30-1440)",
                         "size" : 8
                       },
                       {
@@ -3636,26 +3737,47 @@
               ]
             },
             {
-              "label" : "IPv6 Settings",
-              "tab" : "ipv6_settings",
+              "label" : "DHCP Binding",
+              "tab" : "dhcp_binding",
               "tag" : "div",
               "type" : "tabs",
               "col" :
               [
                 {
-                  "label" : "IPv6 Address",
-                  "tab" : "ipv6Address",
-                  "tag" : "input",
-                  "type" : "text",
-                  "wiz" : "150px"
-                },
-                {
-                  "label" : "IPv6 Prefix Length",
-                  "tab" : "ipv6PrefixLength",
-                  "tag" : "input",
-                  "type" : "text",
-                  "wiz" : "150px",
-                  "size" : 8
+                  "label" : "DHCP Binding Table",
+                  "tab" : "dhcpBinding",
+                  "tag" : "table",
+                  "type" : "table",
+                  "col" :
+                  [
+                    {
+                      "label" : "",
+                      "tab" : "checkbox",
+                      "wiz" : "40px"
+                    },
+                    {
+                      "label" : "Name",
+                      "tab" : "name",
+                      "wiz" : "auto"
+                    },
+                    {
+                      "label" : "IP",
+                      "tab" : "assignIpId",
+                      "wiz" : "120px"
+                    },
+                    {
+                      "label" : "MAC",
+                      "tab" : "macAddrId",
+                      "wiz" : "120px"
+                    },
+                    {
+                      "label" : "Action",
+                      "tab" : "action",
+                      "tag" : "button",
+                      "type" : "button",
+                      "wiz" : "100px"
+                    }
+                  ]
                 }
               ]
             },
@@ -3691,6 +3813,30 @@
                       "wiz" : "20%"
                     }
                   ]
+                }
+              ]
+            },
+            {
+              "label" : "IPv6 Settings",
+              "tab" : "ipv6_settings",
+              "tag" : "div",
+              "type" : "tabs",
+              "col" :
+              [
+                {
+                  "label" : "IPv6 Address",
+                  "tab" : "ipv6Address",
+                  "tag" : "input",
+                  "type" : "text",
+                  "wiz" : "150px"
+                },
+                {
+                  "label" : "IPv6 Prefix Length",
+                  "tab" : "ipv6PrefixLength",
+                  "tag" : "input",
+                  "type" : "text",
+                  "wiz" : "150px",
+                  "size" : 8
                 }
               ]
             }
@@ -3730,6 +3876,8 @@
           "aliasTNum" : "aliasT",
           "dhcpT" : "dhcpcT",
           "dhcpTNum" : "dhcpT",
+          "pppoecT" : "pppoecT",
+          "pppoecTNum" : "pppoecT",
           "staticipT" : "staticipT",
           "staticipTNum" : "staticipT",
           "staticip6T" : "staticip6T",
@@ -3867,7 +4015,7 @@
                         "tab" : "period",
                         "tag" : "input",
                         "type" : "text",
-                        "note" : "(3~3600)",
+                        "note" : "(3-3600)",
                         "align" :
                         [
                           "Left",
@@ -3882,7 +4030,7 @@
                         "tab" : "count",
                         "tag" : "input",
                         "type" : "text",
-                        "note" : "(3~100)",
+                        "note" : "(3-100)",
                         "align" :
                         [
                           "Left",
@@ -3986,14 +4134,15 @@
                   "wiz" : "125px"
                 },
                 {
-                  "label" : "Ip Assigment Method",
+                  "label" : "IP Assigment Method",
                   "tab" : "wanProto",
                   "tag" : "select",
                   "type" : "select",
                   "option" : 
                   {
                     "0" : "Static",
-                    "1" : "DHCP"
+                    "1" : "DHCP",
+                    "2" : "PPPoE"
                   },
                   "align" :
                   [
@@ -4040,115 +4189,414 @@
                           "Left",
                           "Left"
                         ]
+                      },
+                      {
+                        "label" : "MTU",
+                        "tab" : "mtuMode",
+                        "tag" : "input",
+                        "type" : "radio",
+                        "option" :
+                        {
+                          "0" :
+                          {
+                            "label" : "Auto",
+                            "tab" : "mtuMode-0",
+                            "align" :
+                            [
+                              "Left",
+                              "Left"
+                            ],
+                            "wiz" : "100px"
+                          },
+                          "1" :
+                          {
+                            "label" : "Manual",
+                            "tab" : "mtuMode-1",
+                            "col" :
+                            [
+                              {
+                                "label" : "Value",
+                                "tab" : "mtu",
+                                "tag" : "input",
+                                "type" : "text",
+                                "note" : "(68-1500; IPv6 1280-1500 Bytes)",
+                                "align" :
+                                [
+                                  "Left",
+                                  "Left"
+                                ],
+                                "wiz" : "100px",
+                                "size" : 8
+                              }
+                            ]
+                          }
+                        },
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "125px"
+                      },
+                      {
+                        "label" : "DNS",
+                        "tab" : "dnsMode",
+                        "tag" : "input",
+                        "type" : "radio",
+                        "option" : 
+                        {
+                          "0" :
+                          {
+                            "label" : "Auto",
+                            "tab" : "dnsMode-0",
+                            "align" :
+                            [
+                              "Left",
+                              "Left"
+                            ],
+                            "wiz" : "100px"
+                          },
+                          "1" :
+                          {
+                            "label" : "Manual",
+                            "tab" : "dnsMode-1",
+                            "col" :
+                            [
+                              {
+                                "label" : "DNS1",
+                                "tab" : "userDns1",
+                                "tag" : "input",
+                                "type" : "text",
+                                "align" :
+                                [
+                                  "Left",
+                                  "Left"
+                                ],
+                                "wiz" : "100px"
+                              },
+                              {
+                                "label" : "DNS2",
+                                "tab" : "userDns2",
+                                "tag" : "input",
+                                "type" : "text",
+                                "align" :
+                                [
+                                  "Left",
+                                  "Left"
+                                ],
+                                "wiz" : "100px"
+                              }
+                            ]
+                          }
+                        },
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "125px"
+                      }
+                    ],
+                    "1" :
+                    [
+                      {
+                        "label" : "MTU",
+                        "tab" : "mtuMode",
+                        "tag" : "input",
+                        "type" : "radio",
+                        "option" :
+                        {
+                          "0" :
+                          {
+                            "label" : "Auto",
+                            "tab" : "mtuMode-0",
+                            "align" :
+                            [
+                              "Left",
+                              "Left"
+                            ],
+                            "wiz" : "100px"
+                          },
+                          "1" :
+                          {
+                            "label" : "Manual",
+                            "tab" : "mtuMode-1",
+                            "col" :
+                            [
+                              {
+                                "label" : "Value",
+                                "tab" : "mtu",
+                                "tag" : "input",
+                                "type" : "text",
+                                "note" : "(68-1500; IPv6 1280-1500 Bytes)",
+                                "align" :
+                                [
+                                  "Left",
+                                  "Left"
+                                ],
+                                "wiz" : "100px",
+                                "size" : 8
+                              }
+                            ]
+                          }
+                        },
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "125px"
+                      },
+                      {
+                        "label" : "DNS",
+                        "tab" : "dnsMode",
+                        "tag" : "input",
+                        "type" : "radio",
+                        "option" : 
+                        {
+                          "0" :
+                          {
+                            "label" : "Auto",
+                            "tab" : "dnsMode-0",
+                            "align" :
+                            [
+                              "Left",
+                              "Left"
+                            ],
+                            "wiz" : "100px"
+                          },
+                          "1" :
+                          {
+                            "label" : "Manual",
+                            "tab" : "dnsMode-1",
+                            "col" :
+                            [
+                              {
+                                "label" : "DNS1",
+                                "tab" : "userDns1",
+                                "tag" : "input",
+                                "type" : "text",
+                                "align" :
+                                [
+                                  "Left",
+                                  "Left"
+                                ],
+                                "wiz" : "100px"
+                              },
+                              {
+                                "label" : "DNS2",
+                                "tab" : "userDns2",
+                                "tag" : "input",
+                                "type" : "text",
+                                "align" :
+                                [
+                                  "Left",
+                                  "Left"
+                                ],
+                                "wiz" : "100px"
+                              }
+                            ]
+                          }
+                        },
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "125px"
+                      }
+                    ],
+                    "2" :
+                    [
+                      {
+                        "label" : "User Name",
+                        "tab" : "username",
+                        "tag" : "input",
+                        "type" : "text",
+                        "wiz" : "100px",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ]
+                      },
+                      {
+                        "label" : "Pasword",
+                        "tab" : "password",
+                        "tag" : "input",
+                        "type" : "text",
+                        "wiz" : "100px",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ]
+                      },
+                      {
+                        "label" : "Authentication Type",
+                        "tab" : "authType",
+                        "tag" : "select",
+                        "type" : "select",
+                        "option" : 
+                        {
+                          "0" : "Auto",
+                          "1" : "PAP",
+                          "2" : "CHAP",
+                          "3" : "MSCHAP",
+                          "4" : "MSCHAPv2"
+                        },
+                        "wiz" : "100px",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ]
+                      },
+                      {
+                        "label" : "Connect Type",
+                        "tab" : "ondemand",
+                        "tag" : "input",
+                        "type" : "radio",
+                        "val" : "0",
+                        "option" :
+                        {
+                          "0" : 
+                          {
+                            "label" : "Keep Alive",
+                            "tab" : "ondemand-0"
+                          },
+                          "1" : 
+                          {
+                            "label" : "Connect Idle (dial on demand)",
+                            "tab" : "ondemand-1",
+                            "col" : 
+                            [
+                              {
+                                "label" : "",
+                                "tab" : "maxIdleTime",
+                                "tag" : "input",
+                                "type" : "text",
+                                "note" : "(5-999 minutes)",
+                                "size" : "8"
+                              }
+                            ]
+                          }
+                        },
+                        "wiz" : "100px",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ]
+                      },
+                      {
+                        "label" : "MTU",
+                        "tab" : "mtuMode",
+                        "tag" : "input",
+                        "type" : "radio",
+                        "option" :
+                        {
+                          "0" :
+                          {
+                            "label" : "Auto",
+                            "tab" : "mtuMode-0",
+                            "align" :
+                            [
+                              "Left",
+                              "Left"
+                            ],
+                            "wiz" : "100px"
+                          },
+                          "1" :
+                          {
+                            "label" : "Manual",
+                            "tab" : "mtuMode-1",
+                            "col" :
+                            [
+                              {
+                                "label" : "Value",
+                                "tab" : "mtu",
+                                "tag" : "input",
+                                "type" : "text",
+                                "note" : "(68-1492; IPv6 1280-1492 Bytes)",
+                                "align" :
+                                [
+                                  "Left",
+                                  "Left"
+                                ],
+                                "wiz" : "100px",
+                                "size" : 8
+                              }
+                            ]
+                          }
+                        },
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "125px"
+                      },
+                      {
+                        "label" : "DNS",
+                        "tab" : "dnsMode",
+                        "tag" : "input",
+                        "type" : "radio",
+                        "option" : 
+                        {
+                          "0" :
+                          {
+                            "label" : "Auto",
+                            "tab" : "dnsMode-0",
+                            "align" :
+                            [
+                              "Left",
+                              "Left"
+                            ],
+                            "wiz" : "100px"
+                          },
+                          "1" :
+                          {
+                            "label" : "Manual",
+                            "tab" : "dnsMode-1",
+                            "col" :
+                            [
+                              {
+                                "label" : "DNS1",
+                                "tab" : "userDns1",
+                                "tag" : "input",
+                                "type" : "text",
+                                "align" :
+                                [
+                                  "Left",
+                                  "Left"
+                                ],
+                                "wiz" : "100px"
+                              },
+                              {
+                                "label" : "DNS2",
+                                "tab" : "userDns2",
+                                "tag" : "input",
+                                "type" : "text",
+                                "align" :
+                                [
+                                  "Left",
+                                  "Left"
+                                ],
+                                "wiz" : "100px"
+                              }
+                            ]
+                          }
+                        },
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "125px"
                       }
                     ]
                   }
-                },
-                {
-                  "label" : "MTU",
-                  "tab" : "mtuMode",
-                  "tag" : "input",
-                  "type" : "radio",
-                  "option" : 
-                  {
-                    "0" :
-                    {
-                      "label" : "Auto",
-                      "tab" : "mtuMode-0",
-                      "align" :
-                      [
-                        "Left",
-                        "Left"
-                      ],
-                      "wiz" : "100px"
-                    },
-                    "1" :
-                    {
-                      "label" : "Manual",
-                      "tab" : "mtuMode-1",
-                      "col" :
-                      [
-                        {
-                          "label" : "Value",
-                          "tab" : "mtu",
-                          "tag" : "input",
-                          "type" : "text",
-                          "note" : "(min: 68, ipv6 min: 1280, max: 1500 Bytes)",
-                          "align" :
-                          [
-                            "Left",
-                            "Left"
-                          ],
-                          "wiz" : "100px",
-                          "size" : 8
-                        }
-                      ]
-                    }
-                  },
-                  "align" :
-                  [
-                    "Left",
-                    "Left"
-                  ],
-                  "wiz" : "125px"
-                },
-                {
-                  "label" : "DNS",
-                  "tab" : "dnsMode",
-                  "tag" : "input",
-                  "type" : "radio",
-                  "option" : 
-                  {
-                    "0" :
-                    {
-                      "label" : "Auto",
-                      "tab" : "dnsMode-0",
-                      "align" :
-                      [
-                        "Left",
-                        "Left"
-                      ],
-                      "wiz" : "100px"
-                    },
-                    "1" :
-                    {
-                      "label" : "Manual",
-                      "tab" : "dnsMode-1",
-                      "col" :
-                      [
-                        {
-                          "label" : "DNS1",
-                          "tab" : "userDns1",
-                          "tag" : "input",
-                          "type" : "text",
-                          "align" :
-                          [
-                            "Left",
-                            "Left"
-                          ],
-                          "wiz" : "100px"
-                          },
-                        {
-                          "label" : "DNS2",
-                          "tab" : "userDns2",
-                          "tag" : "input",
-                          "type" : "text",
-                          "align" :
-                          [
-                            "Left",
-                            "Left"
-                          ],
-                          "wiz" : "100px"
-                        }
-                      ]
-                    }
-                  },
-                  "align" :
-                  [
-                    "Left",
-                    "Left"
-                  ],
-                  "wiz" : "125px"
                 },
                 {
                   "label" : "MAC Address",
@@ -4334,6 +4782,41 @@
               ]
             },
             {
+              "label" : "IP Alias",
+              "tab" : "ip_alias",
+              "tag" : "div",
+              "type" : "tabs",
+              "col" :
+              [
+                {
+                  "label" : "IP Alias",
+                  "tab" : "ipAlias",
+                  "tag" : "table",
+                  "type" : "table",
+                  "col" :
+                  [
+                    {
+                      "label" : "Address",
+                      "tab" : "address",
+                      "wiz" : "40%"
+                    },
+                    {
+                      "label" : "Netmask",
+                      "tab" : "netmask",
+                      "wiz" : "40%"
+                    },
+                    {
+                      "label" : "Action",
+                      "tab" : "action",
+                      "tag" : "button",
+                      "type" : "button",
+                      "wiz" : "20%"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
               "label" : "IPv6 Settings",
               "tab" : "ipv6_settings",
               "tag" : "div",
@@ -4425,41 +4908,6 @@
                   "wiz" : "150px"
                 }
               ]
-            },
-            {
-              "label" : "IP Alias",
-              "tab" : "ip_alias",
-              "tag" : "div",
-              "type" : "tabs",
-              "col" :
-              [
-                {
-                  "label" : "IP Alias",
-                  "tab" : "ipAlias",
-                  "tag" : "table",
-                  "type" : "table",
-                  "col" :
-                  [
-                    {
-                      "label" : "Address",
-                      "tab" : "address",
-                      "wiz" : "40%"
-                    },
-                    {
-                      "label" : "Netmask",
-                      "tab" : "netmask",
-                      "wiz" : "40%"
-                    },
-                    {
-                      "label" : "Action",
-                      "tab" : "action",
-                      "tag" : "button",
-                      "type" : "button",
-                      "wiz" : "20%"
-                    }
-                  ]
-                }
-              ]
             }
           ]
         },
@@ -4545,7 +4993,7 @@
               "tab" : "securityLevel",
               "tag" : "input",
               "type" : "text",
-              "note" : "(0~100)",
+              "note" : "(0-100)",
               "align" :
               [
                 "Left",
@@ -4798,7 +5246,7 @@
                   "tag" : "input",
                   "type" : "text",
                   "wiz" : "160px",
-                  "note" : "(0~255)",
+                  "note" : "(0-255)",
                   "size" : 8
                 }
               ]
@@ -4821,7 +5269,8 @@
               {
                 "get" : "s2svpn",
                 "post" : "s2svpn",
-                "connect" : "s2svpnUpDown"
+                "connect" : "s2svpnUpDown",
+                "disConnect" : "s2svpnUpDown"
               },
               "ext" : "cgi",
               "guiT" : "guiS2svpnT",
@@ -5026,7 +5475,7 @@
                             "tag" : "input",
                             "type" : "text",
                             "tbidx" : 6,
-                            "note" : "(length 1~255)"
+                            "note" : "(length 1-255)"
                           }
                         }
                       },
@@ -5123,7 +5572,7 @@
                           "tag" : "input",
                           "type" : "text",
                           "tbidx" : 12,
-                          "note" : "(10~300) seconds",
+                          "note" : "(10-300) seconds",
                           "align" :
                           [
                             "Left",
@@ -5138,7 +5587,7 @@
                           "tag" : "input",
                           "type" : "text",
                           "tbidx" : 13,
-                          "note" : "(30~1800) seconds",
+                          "note" : "(30-1800) seconds",
                           "align" :
                           [
                             "Left",
@@ -5255,7 +5704,7 @@
                           "tag" : "input",
                           "type" : "text",
                           "tbidx" : 21,
-                          "note" : "(3~59) seconds",
+                          "note" : "(3-59) seconds",
                           "align" :
                           [
                             "Left",
@@ -5474,7 +5923,7 @@
                   "type" : "text",
                   "tbidx" : 5,
                   "icon" : "css/images/i_64_lifetime_00.png",
-                  "note" : "(180~86400) seconds",
+                  "note" : "(180-86400) seconds",
                   "align" :
                   [
                     "Left",
@@ -5652,7 +6101,7 @@
                   "type" : "text",
                   "tbidx" : 5,
                   "icon" : "css/images/i_64_lifetime_00.png",
-                  "note" : "(180~86400) seconds",
+                  "note" : "(180-86400) seconds",
                   "align" :
                   [
                     "Left",
@@ -5662,6 +6111,116 @@
                   "size" : 8
                 }
               ]
+            }
+          ]
+        },
+        {
+          "label" : "DNS Forwarder",
+          "id" : "menu-3-2",
+          "tab" : "dns_forwarder",
+          "tag" : "table",
+          "type" : "tables",
+          "url" :
+          {
+            "get" : "dnssetting",
+            "post" : "dnssetting"
+          },
+          "ext" : "cgi",
+          "guiT" : "staticDnsT",
+          "guiTNum" : "guiT",
+          "pgAction" : "Save Cancel",
+          "tblAction" : "Create Remove",
+          "rowAction" : "Edit Delete",
+          "col" :
+          [
+            {
+              "label" : "",
+              "tab" : "general_configuration",
+              "tag" : "table",
+              "type" : "table",
+              "col" : 
+              [
+                {
+                  "label" : "Cache",
+                  "tab" : "enableCache",
+                  "tag" : "input",
+                  "type" : "radio",
+                  "option" :
+                  {
+                    "0" : "disabled",
+                    "1" : "enabled"
+                  },
+                  "default" : "1"
+                },
+                {
+                  "label" : "Cache",
+                  "tab" : "cacheSize",
+                  "tag" : "input",
+                  "type" : "text",
+                  "size" : "8",
+                  "max" : "10000",
+                  "min" : "150",
+                  "default" : "5000"
+                },
+                {
+                  "label" : "Static Mapping",
+                  "tab" : "enableStaticDNS",
+                  "tag" : "input",
+                  "type" : "radio",
+                  "option" :
+                  {
+                    "0" : "disabled",
+                    "1" : "enabled"
+                  },
+                  "default" : "0"
+                }
+              ]
+            },
+            {
+              "label" : "",
+              "tab" : "static_mapping",
+              "tag" : "table",
+              "type" : "table",
+              "col" : 
+              [
+                {
+                  "label" : "",
+                  "tab" : "index",
+                  "tag" : "input",
+                  "type" : "checkbox",
+                  "wiz" : "40px"
+                },
+                {
+                  "label" : "Domain Name",
+                  "tab" : "domain",
+                  "wiz" : "auto"
+                },
+                {
+                  "label" : "IP Address",
+                  "tab" : "ipAddr",
+                  "wiz" : "120px"
+                },
+                {
+                  "label" : "Action",
+                  "tab" : "action",
+                  "wiz" : "100px"
+                }
+              ]
+            }
+          ],
+          "editor" :
+          [
+            {
+              "label" : "Domain",
+              "tab" : "domain",
+              "tag" : "input",
+              "type" : "text"
+            },
+            {
+              "label" : "IP",
+              "tab" : "ipAddr",
+              "tag" : "input",
+              "type" : "text"
             }
           ]
         }
@@ -6233,7 +6792,7 @@
 		[
                   {
                     "label" : "WAN Interface",
-                    "tab" : "wanInterface",
+                    "tab" : "wanName",
                     "tag" : "p",
                     "align" :
                     [
@@ -6252,7 +6811,8 @@
                       "0" :
                       {
                         "label" : "Auto",
-                        "tab" : "mode-0"
+                        "tab" : "mode-0",
+                        "wiz" : "60px"
                       },
                       "1" :
                       {
@@ -6270,7 +6830,8 @@
                             "Left"
                           ],
                           "wiz" : "100px"
-                        }
+                        },
+                        "wiz" : "60px"
                       }
                     },
                     "align" :
@@ -6694,19 +7255,6 @@
               "editor" :
               [
                 {
-                  "label" : "Enable",
-                  "tab" : "enable",
-                  "tag" : "input",
-                  "type" : "checkbox",
-                  "val" : 1,
-                  "align" :
-                  [
-                    "Left",
-                    "Left"
-                  ],
-                  "wiz" : "100px"
-                },
-                {
                   "label" : "Trigger Service",
                   "tab" : "triggerService",
                   "tag" : "select",
@@ -6973,21 +7521,8 @@
                   "wiz" : "100px"
                 },
                 {
-                  "label" : "Trans Serices",
+                  "label" : "Trans Services",
                   "tab" : "translatedService",
-                  "tag" : "select",
-                  "type" : "select",
-                  "option" : "cgi",
-                  "align" :
-                  [
-                    "Left",
-                    "Left"
-                  ],
-                  "wiz" : "100px"
-                },
-                {
-                  "label" : "To",
-                  "tab" : "toIf",
                   "tag" : "select",
                   "type" : "select",
                   "option" : "cgi",
@@ -7134,7 +7669,7 @@
               "tab" : "tcpTimeout",
               "tag" : "input",
               "type" : "text",
-              "note" : "(0~3600) seconds",
+              "note" : "(0-3600) seconds",
               "icon" : true,
               "align" :
               [
@@ -7149,7 +7684,7 @@
               "tab" : "udpTimeout",
               "tag" : "input",
               "type" : "text",
-              "note" : "(0~3600) seconds",
+              "note" : "(0-3600) seconds",
               "icon" : true,
               "align" :
               [
@@ -7164,7 +7699,7 @@
               "tab" : "otherTimeout",
               "tag" : "input",
               "type" : "text",
-              "note" : "(0~3600) seconds",
+              "note" : "(0-3600) seconds",
               "icon" : true,
               "align" :
               [
@@ -7308,7 +7843,7 @@
                   "wiz" : "150px"
                 },
                 {
-                  "label" : "Log droppped packets destined to TitanWall",
+                  "label" : "Log droppped packets destined to TitanWALL",
                   "tab" : "enableInputDropLog",
                   "tag" : "input",
                   "type" : "checkbox",
@@ -7334,7 +7869,7 @@
                   "tab" : "synFloodThreshold",
                   "tag" : "input",
                   "type" : "text",
-                  "note" : "(0~50000) pkt/s",
+                  "note" : "(0-50000) pkt/s",
                   "align" :
                   [
                     "Left",
@@ -7348,7 +7883,7 @@
                   "tab" : "echoStormThreshold",
                   "tag" : "input",
                   "type" : "text",
-                  "note" : "(0~50000) pkt/s",
+                  "note" : "(0-50000) pkt/s",
                   "align" :
                   [
                     "Left",
@@ -7362,7 +7897,7 @@
                   "tab" : "icmpFloodThreshold",
                   "tag" : "input",
                   "type" : "text",
-                  "note" : "(0~50000) pkt/s",
+                  "note" : "(0-50000) pkt/s",
                   "align" :
                   [
                     "Left",
@@ -7583,7 +8118,7 @@
                         "val" : 1
                       },
                       {
-                        "label" : "Enable",
+                        "label" : "Log",
                         "tab" : "httpLog",
                         "tag" : "input",
                         "type" : "checkbox",
@@ -7625,7 +8160,7 @@
                         "val" : 1
                       },
                       {
-                        "label" : "Enable",
+                        "label" : "Log",
                         "tab" : "ftpLog",
                         "tag" : "input",
                         "type" : "checkbox",
@@ -7666,7 +8201,7 @@
                         "val" : 1
                       },
                       {
-                        "label" : "Enable",
+                        "label" : "Log",
                         "tab" : "smtpLog",
                         "tag" : "input",
                         "type" : "checkbox",
@@ -7708,7 +8243,7 @@
                         "val" : 1
                       },
                       {
-                        "label" : "Enable",
+                        "label" : "Log",
                         "tab" : "pop3Log",
                         "tag" : "input",
                         "type" : "checkbox",
@@ -7719,7 +8254,7 @@
                         "tab" : "pop3Act",
                         "tag" : "select",
                         "type" : "select",
-                        "option" : 
+                        "option" :
                         {
                           "0" : "none",
                           "1" : "notify",
@@ -7742,7 +8277,7 @@
                 "tab" : "maxFileSize",
                 "tag" : "input",
                 "type" : "text",
-                "note" : "(1~10240 byte, 0=unlimited)"
+                "note" : "(1-10240 byte, 0=unlimited)"
               }
             ],
             "http_notification" : 
@@ -7792,37 +8327,308 @@
             "address_exceptions" : 
             [
               {
-                "label" : "",
-                "tab" : "",
-                "tag" : ""
+                "label" : "Enable",
+                "tab" : "enable"
+              },
+              {
+                "label" : "Source",
+                "tab" : "sAddrId"
+              },
+              {
+                "label" : "Destination",
+                "tab" : "dAddrId"
+              },
+              {
+                "label" : "Log",
+                "tab" : "logEnable"
+              },
+              {
+                "label" : "Action",
+                "tab" : "action"
               }
             ],
             "file_exceptions" : 
             [
+              {
+                "label" : "MIME Exception List",
+                "tab" : "mime",
+                "tag" : "table",
+                "type" : "table",
+                "col" : 
+                [
+                  {
+                    "label" : "MIME",
+                    "tab" : "mime"
+                  },
+                  {
+                    "label" : "Action",
+                    "tab" : "action"
+                  }
+                ]
+              },
+              {
+                "label" : "File Exception List",
+                "tab" : "file_exception",
+                "tag" : "table",
+                "type" : "table",
+                "col" : 
+                [
+                  {
+                    "label" : "File Extension",
+                    "tab" : "fileExt"
+                  },
+                  {
+                    "label" : "Action",
+                    "tab" : "action"
+                  }
+                ]
+              }
             ],
             "blacklist" : 
             [
+              {
+                "label" : "Expirtaion Duration",
+                "tab" : "expiration_duration",
+                "tag" : "table",
+                "type" : "table",
+                "col" : 
+                [
+                  {
+                    "label" : "Expirtaion Duration",
+                    "tab" : false
+                  },
+                  {
+                    "label" : "Days",
+                    "tab" : "expiration_days",
+                    "tag" : "input",
+                    "type" : "text",
+                    "note" : "( 0-300 )"
+                  },
+                  {
+                    "label" : "Hours",
+                    "tab" : "expiration_hours",
+                    "tag" : "input",
+                    "type" : "text",
+                    "note" : " ( 0-23 )"
+                  }
+                ]
+              },
+              {
+                "label" : "Blacklist",
+                "tab" : "blacklist",
+                "tag" : "table",
+                "type" : "table",
+                "col" : 
+                [
+                  {
+                    "label" : "",
+                    "tab" : "blacklist_all",
+                    "tag" : "input",
+                    "type" : "checkbox"
+                  },
+                  {
+                    "label" : "Index",
+                    "tab" : "blacklist_index"
+                  },
+                  {
+                    "label" : "Virus ID",
+                    "tab" : "virusID"
+                  },
+                  {
+                    "label" : "Virus Name",
+                    "tab" : "virusName"
+                  },
+                  {
+                    "label" : "Type",
+                    "tab" : "type"
+                  },
+                  {
+                    "label" : "Info",
+                    "tab" : "url"
+                  },
+                  {
+                    "label" : "Expiration Date",
+                    "tab" : "expiration"
+                  },
+                  {
+                    "label" : "Action",
+                    "tab" : "action"
+                  }
+                ]
+              }
             ],
             "whitelist" : 
             [
+              {
+                "label" : "Whitelist",
+                "tab" : "whitelist",
+                "tag" : "table",
+                "type" : "table",
+                "col" :
+                [
+                  {
+                    "label" : "",
+                    "tab" : "whitelist_all",
+                    "tag" : "input",
+                    "type" : "checkbox"
+                  },
+                  {
+                    "label" : "Index",
+                    "tab" : "whitelist_index"
+                  },
+                  {
+                    "label" : "Virus ID",
+                    "tab" : "virusID"
+                  },
+                  {
+                    "label" : "Virus Name",
+                    "tab" : "virusName"
+                  },
+                  {
+                    "label" : "Action",
+                    "tab" : "action"
+                  }
+                ]
+              }
             ],
-            "fileExcepT" : 
+            "signature" : 
             [
+              {
+                "label" : "Virus Database",
+                "tab" : "signatures",
+                "tag" : "div",
+                "type" : "div",
+                "icon" : "i_128_virus_database_00.png",
+                "col" :
+                [
+                  {
+                    "label" : "Signature Update",
+                    "tab" : "signature_update",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" : 
+                    [
+                      {
+                        "label" : "Manual Update",
+                        "tab" : "startUpdate",
+                        "tag" : "button",
+                        "type" : "submit"
+                      },
+                      {
+                        "label" : "Auto Update",
+                        "tab" : "autoUpdate",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "col" :
+                        [
+                          {
+                            "label" : "Type",
+                            "tab" : "type",
+                            "tag" : "select",
+                            "type" : "select",
+                            "option" : "cgi"
+                          },
+                          {
+                            "label" : "Interval",
+                            "tab" : "number",
+                            "tag" : "select",
+                            "type" : "select",
+                            "option" : "cgi"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "label" : "Version & Pattern Number",
+                    "tab" : "version_pattern",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" : 
+                    [
+                      {
+                        "label" : "Version",
+                        "tab" : "version"
+                      },
+                      {
+                        "label" : "Pattern Number",
+                        "tab" : "ptnNum"
+                      }
+                    ]
+                  },
+                  {
+                    "label" : "Check Record",
+                    "tab" : "check_record",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" : 
+                    [
+                      {
+                        "label" : "Last Checked",
+                        "tab" : "lastChecked"
+                      },
+                      {
+                        "label" : "Last Successful Updated",
+                        "tab" : "lastUpdated"
+                      }
+                    ]
+                  }
+                ]
+              }
             ]
           },
           "editor": 
           {
-            "address_exception" :
+            "address_exceptions" :
             [
-            
+              {
+                "label" : "Enable",
+                "tab" : "enable",
+                "tag" : "input",
+                "type" : "checkbox"
+              },
+              {
+                "label" : "Source Address",
+                "tab" : "sAddrId",
+                "tag" : "select",
+                "type" : "select"
+              },
+              {
+                "label" : "Destination Address",
+                "tab" : "dAddrId",
+                "tag" : "select",
+                "type" : "select"
+              },
+              {
+                "label" : "Log",
+                "tab" : "logEnable",
+                "tag" : "input",
+                "type" : "checkbox"
+              }
             ],
             "mime" :
             [
-            
+              {
+                "label" : "Type",
+                "tab" : "type",
+                "tag" : "select",
+                "type" : "select"
+              },
+              {
+                "label" : "Sub Type",
+                "tab" : "sub",
+                "tag" : "select",
+                "type" : "select"
+              }
             ],
             "file_extension" :
             [
-            
+              {
+                "label" : "File Extension",
+                "tab" : "fileExt",
+                "tag" : "input",
+                "type" : "text"
+              }
             ]
           }
         }
@@ -7888,8 +8694,8 @@
           },
           "rowAction" : 
           {
-            "group" : "Edit Delete",
-            "user" : "Edit Delete"
+            "group" : "Edit Duplicate Delete",
+            "user" : "Edit Duplicate Delete"
           },
           "col": 
           {
@@ -7900,7 +8706,7 @@
                 "tab" : "checkbox",
                 "tag" : "input",
                 "type" : "checkbox",
-                "wiz" : "auto",
+                "wiz" : "20px",
                 "display" : true,
                 "sortable" : false,
                 "align" : "Center"
@@ -7908,7 +8714,7 @@
               {
                 "label" : "Name",
                 "tab" : "name",
-                "wiz" : "auto",
+                "wiz" : "140px",
                 "display" : true,
                 "sortable" : true,
                 "align" : "Left"
@@ -7924,7 +8730,7 @@
               {
                 "label" : "Services",
                 "tab" : "services",
-                "wiz" : "auto",
+                "wiz" : "140px",
                 "display" : true,
                 "sortable" : true,
                 "align" : "Left"
@@ -7933,7 +8739,7 @@
                 "label" : "Action",
                 "tab" : "action",
                 "type" : "button",
-                "wiz" : "auto",
+                "wiz" : "100px",
                 "display" : true,
                 "sortable" : false,
                 "align" : "Center"
@@ -7946,7 +8752,7 @@
                 "tab" : "checkbox",
                 "tag" : "input",
                 "type" : "checkbox",
-                "wiz" : "auto",
+                "wiz" : "20px",
                 "display" : true,
                 "sortable" : false,
                 "align" : "Center"
@@ -7954,7 +8760,7 @@
               {
                 "label" : "Name",
                 "tab" : "name",
-                "wiz" : "auto",
+                "wiz" : "200px",
                 "display" : true,
                 "sortable" : true,
                 "align" : "Left"
@@ -7971,7 +8777,7 @@
                 "label" : "Action",
                 "tab" : "action",
                 "type" : "button",
-                "wiz" : "auto",
+                "wiz" : "100px",
                 "display" : true,
                 "sortable" : false,
                 "align" : "Center"
@@ -8188,7 +8994,7 @@
             "group_address" : false,
             "address" : "guiIpTNum"
           },
-          "guiMacTNum" :
+          "guiMACTNum" :
           {
             "group_address" : false,
             "address" : "guiAddrTNum"
@@ -8199,7 +9005,7 @@
             "address" : false
           },
           "tblAction" : "Create Remove",
-          "rowAction" : "Edit Delete",
+          "rowAction" : "Edit Duplicate Delete",
           "pgAction" : "Save Cancel",
           "col" :
           {
@@ -8344,6 +9150,296 @@
           },
           "editor" :
           {
+            "group_address" :
+            [
+              {
+                "label" : "* Group Name",
+                "tab" : "name",
+                "tag" : "input",
+                "type" : "text",
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "colspan" : 4
+              },
+              {
+                "label" : "Members",
+                "tab" : "idList",
+                "tag" : "select",
+                "type" : "multiple",
+                "multiple" :
+                {
+                  "pool" :
+                  {
+                    "label" : "Address List",
+                    "tab" : "pool",
+                    "wiz" : "40%"
+                  },
+                  "del" :
+                  {
+                    "label" : "Move to Remove",
+                    "tab" : "Move2Del",
+                    "tag" : "button",
+                    "type" : "button",
+                    "wiz" : "10%"
+                  },
+                  "add" :
+                  {
+                    "label" : "Move to Add",
+                    "tab" : "Move2Add",
+                    "tag" : "button",
+                    "type" : "button",
+                    "wiz" : "10%"
+                  },
+                  "pick" :
+                  {
+                    "label" : "Selected Address List",
+                    "tab" : "pick",
+                    "wiz" : "40%"
+                  }
+                },
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "wiz" : "100px"
+              },
+              {
+                "label" : "Address Detail",
+                "tab" : "address_detail",
+                "tag" : "p",
+                "type" : "p",
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "colspan" : 4
+              },
+              {
+                "label" : "Name",
+                "tab" : "addressName",
+                "tag" : "span",
+                "type" : "span",
+                "align" :
+                [
+                  "Right",
+                  "Left"
+                ],
+                "wiz" : "40px",
+                "colspan" : 3
+              },
+              {
+                "label" : "Type",
+                "tab" : "addressType",
+                "tag" : "span",
+                "type" : "span",
+                "align" :
+                [
+                  "Right",
+                  "Left"
+                ],
+                "wiz" : "40px",
+                "colspan" : 3
+              },
+              {
+                "label" : "Value",
+                "tab" : "addressValue",
+                "tag" : "span",
+                "type" : "span",
+                "align" :
+                [
+                  "Right",
+                  "Left"
+                ],
+                "wiz" : "40px",
+                "colspan" : 3
+              }
+            ],
+            "address" :
+            [
+              {
+                "label" : "* Name",
+                "tab" : "name",
+                "tag" : "input",
+                "type" : "text",
+                "align" : 
+                [
+                  "Left",
+                  "Left"
+                ],
+                "wiz" : "60px"
+              },
+              {
+                "label" : "* Type",
+                "tab" : "type",
+                "tag" : "select",
+                "type" : "select",
+                "option" : 
+                [
+                  {
+                    "label" : "Host",
+                    "tab" : "1",
+                    "col" : 
+                    [
+                      {
+                        "label" : "* Address",
+                        "tab" : "startIp",
+                        "tag" : "input",
+                        "type" : "text",
+                        "align" : 
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "60px"
+                      }
+                    ],
+                    "align" : 
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "60px"
+                  },
+                  {
+                    "label" : "Network",
+                    "tab" : "2",
+                    "col" : 
+                    [
+                      {
+                        "label" : "* Address",
+                        "tab" : "startIp",
+                        "tag" : "input",
+                        "type" : "text",
+                        "align" : 
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "60px"
+                      },
+                      {
+                        "label" : "* Netmask",
+                        "tab" : "netmask",
+                        "tag" : "input",
+                        "type" : "text",
+                        "align" : 
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "60px"
+                      },
+                      {
+                        "label" : "Enter *0* in the IP address segment for a range of IP address",
+                        "tab" : "networkNote",
+                        "tag" : "p",
+                        "type" : "p",
+                        "colspan" : 2
+                      },
+                      {
+                        "label" : "For example, 192.168.1.0 indicates a range from 192.168.1.1 to 192.168.1.255",
+                        "tab" : "networkExample",
+                        "tag" : "p",
+                        "type" : "p",
+                        "colspan" : 2
+                      }
+                    ],
+                    "align" : 
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "60px"
+                  },
+                  {
+                    "label" : "Range",
+                    "tab" : "3",
+                    "col" : 
+                    [
+                      {
+                        "label" : "* Starting IP Address",
+                        "tab" : "startIp",
+                        "tag" : "input",
+                        "type" : "text",
+                        "align" : 
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "110px"
+                      },
+                      {
+                        "label" : "* Ending IP Address",
+                        "tab" : "endIp",
+                        "tag" : "input",
+                        "type" : "text",
+                        "align" : 
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "110px"
+                      }
+                    ],
+                    "align" : 
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "60px"
+                  },
+                  {
+                    "label" : "MAC",
+                    "tab" : "4",
+                    "col" : 
+                    [
+                      {
+                        "label" : "MAC Address",
+                        "tab" : "mac",
+                        "tag" : "select",
+                        "type" : "select",
+                        "option" : "cgi",
+                        "align" : 
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "110px"
+                      },
+                      {
+                        "label" : "Manual Input",
+                        "tab" : "macInput",
+                        "tag" : "input",
+                        "type" : "text",
+                        "align" : 
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "110px"
+                      }
+                    ],
+                    "align" : 
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "60px"
+                  }
+                ],
+                "align" : 
+                [
+                  "Left",
+                  "Left"
+                ],
+                "wiz" : "60px"
+              }
+            ]
           }
         },
         {
@@ -8387,7 +9483,8 @@
             "service" : false
           },
           "tblAction" : "Create Remove",
-          "rowAction" : "Edit Delete",
+          "rowAction" : "Edit Duplicate Delete",
+          "pgAction" : "Save Cancel",
           "col" :
           {
             "group_service" : 
@@ -8555,6 +9652,314 @@
           },
           "editor" :
           {
+            "group_service" :
+            [
+              {
+                "label" : "* Group Name",
+                "tab" : "name",
+                "tag" : "input",
+                "type" : "text",
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "colspan" : 4
+              },
+              {
+                "label" : "Members",
+                "tab" : "idList",
+                "tag" : "select",
+                "type" : "multiple",
+                "multiple" :
+                {
+                  "pool" :
+                  {
+                    "label" : "Service List",
+                    "tab" : "pool",
+                    "wiz" : "40%"
+                  },
+                  "del" :
+                  {
+                    "label" : "Move to Remove",
+                    "tab" : "Move2Del",
+                    "tag" : "button",
+                    "type" : "button",
+                    "wiz" : "10%"
+                  },
+                  "add" :
+                  {
+                    "label" : "Move to Add",
+                    "tab" : "Move2Add",
+                    "tag" : "button",
+                    "type" : "button",
+                    "wiz" : "10%"
+                  },
+                  "pick" :
+                  {
+                    "label" : "Selected Service List",
+                    "tab" : "pick",
+                    "wiz" : "40%"
+                  }
+                },
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "wiz" : "100px"
+              },
+              {
+                "label" : "Service Detail",
+                "tab" : "service_detail",
+                "tag" : "p",
+                "type" : "p",
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "colspan" : 4
+              },
+              {
+                "label" : "Name",
+                "tab" : "serviceName",
+                "tag" : "span",
+                "type" : "span",
+                "align" :
+                [
+                  "Right",
+                  "Left"
+                ],
+                "wiz" : "40px",
+                "colspan" : 3
+              },
+              {
+                "label" : "Type",
+                "tab" : "serviceType",
+                "tag" : "span",
+                "type" : "span",
+                "align" :
+                [
+                  "Right",
+                  "Left"
+                ],
+                "wiz" : "40px",
+                "colspan" : 3
+              },
+              {
+                "label" : "Value",
+                "tab" : "serviceValue",
+                "tag" : "span",
+                "type" : "span",
+                "align" :
+                [
+                  "Right",
+                  "Left"
+                ],
+                "wiz" : "40px",
+                "colspan" : 3
+              }
+            ],
+            "service" :
+            [
+              {
+                "label" : "* Name",
+                "tab" : "name",
+                "tag" : "input",
+                "type" : "text",
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "colspan" : 4
+              },
+              {
+                "label" : "* Protocol",
+                "tab" : "type",
+                "tag" : "select",
+                "type" : "select",
+                "option" :
+                [
+                  {
+                    "label" : "Both (TCP/UDP)",
+                    "tab" : "0",
+                    "col" :
+                    [
+                      {
+                        "label" : "* Port Range Start",
+                        "tab" : "param1",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-65535)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      },
+                      {
+                        "label" : "* Port Range End",
+                        "tab" : "param2",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-65535)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "80px"
+                  },
+                  {
+                    "label" : "TCP",
+                    "tab" : "1",
+                    "col" :
+                    [
+                      {
+                        "label" : "* Port Range Start",
+                        "tab" : "param1",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-65535)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      },
+                      {
+                        "label" : "* Port Range End",
+                        "tab" : "param2",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-65535)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "80px"
+                  },
+                  {
+                    "label" : "UDP",
+                    "tab" : "2",
+                    "col" :
+                    [
+                      {
+                        "label" : "* Port Range Start",
+                        "tab" : "param1",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-65535)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      },
+                      {
+                        "label" : "* Port Range End",
+                        "tab" : "param2",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-65535)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "80px"
+                  },
+                  {
+                    "label" : "ICMP",
+                    "tab" : "3",
+                    "col" :
+                    [
+                      {
+                        "label" : "* ICMP Type",
+                        "tab" : "param1",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-255)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "80px"
+                  },
+                  {
+                    "label" : "IP",
+                    "tab" : "4",
+                    "col" :
+                    [
+                      {
+                        "label" : "* IP",
+                        "tab" : "param1",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-255)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "80px"
+                  }
+                ],
+                "align" : 
+                [
+                  "Left",
+                  "Left"
+                ],
+                "wiz" : "80px"
+              }
+            ]
           }
         },
         {
@@ -8572,7 +9977,8 @@
           "guiT" : "guiTimeT",
           "guiTNum" : "guiTimeTNum",
           "tblAction" : "Create Remove",
-          "rowAction" : "Edit Delete",
+          "rowAction" : "Edit Duplicate Delete",
+          "pgAction" : "Save Cancel",
           "col" :
           [
             {
@@ -8603,7 +10009,7 @@
             },
             {
               "label" : "Days",
-              "tab" : "name",
+              "tab" : "days",
               "wiz" : "280px",
               "display" : true,
               "sortable" : true,
@@ -8611,7 +10017,7 @@
             },
             {
               "label" : "Start Time",
-              "tab" : "name",
+              "tab" : "startTime",
               "wiz" : "80px",
               "display" : true,
               "sortable" : true,
@@ -8619,7 +10025,7 @@
             },
             {
               "label" : "End Time",
-              "tab" : "name",
+              "tab" : "endTime",
               "wiz" : "80px",
               "display" : true,
               "sortable" : true,
@@ -8637,6 +10043,193 @@
           ],
           "editor" :
           [
+            {
+              "label" : "* Schedule Name",
+              "tab" : "name",
+              "tag" : "input",
+              "type" : "text",
+              "align" :
+              [
+                "Left",
+                "Left"
+              ],
+              "wiz" : "100px"
+            },
+            {
+              "label" : "* Schedule Days",
+              "tab" : "schedule_days",
+              "tag" : "p",
+              "type" : "note",
+              "note" : "Do you want this schedule to be active on all days or specific days?",
+              "align" :
+              [
+                "Left",
+                "Left"
+              ],
+              "wiz" : "100px"
+            },
+            {
+              "label" : "Days",
+              "tab" : "days",
+              "tag" : "select",
+              "type" : "select",
+              "option" :
+              [
+                {
+                  "label" : "All Days",
+                  "tab" : "0"
+                },
+                {
+                  "label" : "Specific Days",
+                  "tab" : "1",
+                  "col" :
+                  [
+                    {
+                      "label" : "Monday",
+                      "tab" : "day1",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : "1"
+                    },
+                    {
+                      "label" : "Tuesday",
+                      "tab" : "day2",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : "2"
+                    },
+                    {
+                      "label" : "Wednesday",
+                      "tab" : "day4",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : "4"
+                    },
+                    {
+                      "label" : "Thursday",
+                      "tab" : "day8",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : "8"
+                    },
+                    {
+                      "label" : "Friday",
+                      "tab" : "day16",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : "16"
+                    },
+                    {
+                      "label" : "Saturday",
+                      "tab" : "day32",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : "32"
+                    },
+                    {
+                      "label" : "Sunday",
+                      "tab" : "day64",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : "64"
+                    }
+                  ]
+                }
+              ],
+              "align" :
+              [
+                "Right",
+                "Left"
+              ],
+              "wiz" : "100px"
+            },
+            {
+              "label" : "* Schedule Times",
+              "tab" : "schedule_times",
+              "tag" : "p",
+              "type" : "note",
+              "note" : "Do you want this schedule to be active on all times or specific time?",
+              "align" :
+              [
+                "Right",
+                "Left"
+              ],
+              "wiz" : "100px"
+            },
+            {
+              "label" : "Times",
+              "tab" : "times",
+              "tag" : "select",
+              "type" : "select",
+              "option" :
+              [
+                {
+                  "label" : "All Times",
+                  "tab" : "0"
+                },
+                {
+                  "label" : "Specific Times",
+                  "tab" : "1",
+                  "col" :
+                  [
+                    {
+                      "label" : "Start Time",
+                      "tab" : "startTime",
+                      "tag" : "p",
+                      "type" : "note",
+                      "col" : 
+                      [
+                        {
+                          "label" : "Start Hour",
+                          "tab" : "startHour",
+                          "tag" : "select",
+                          "type" : "select",
+                          "option" : "cgi"
+                        },
+                        {
+                          "label" : "Start Minute",
+                          "tab" : "startMin",
+                          "tag" : "select",
+                          "type" : "select",
+                          "option" : "cgi"
+                        }
+                      ],
+                      "note" : "(hh:mm)"
+                    },
+                    {
+                      "label" : "End Time",
+                      "tab" : "endTime",
+                      "tag" : "p",
+                      "type" : "note",
+                      "col" : 
+                      [
+                        {
+                          "label" : "End Hour",
+                          "tab" : "endHour",
+                          "tag" : "select",
+                          "type" : "select",
+                          "option" : "cgi"
+                        },
+                        {
+                          "label" : "End Minute",
+                          "tab" : "endMin",
+                          "tag" : "select",
+                          "type" : "select",
+                          "option" : "cgi"
+                        }
+                      ],
+                      "note" : "(hh:mm)"
+                    }
+                  ]
+                }
+              ],
+              "align" :
+              [
+                "Right",
+                "Left"
+              ],
+              "wiz" : "100px"
+            }
           ]
         }
       ]
@@ -8747,7 +10340,7 @@
                         "Left"
                       ],
                       "wiz" : "150px",
-                      "note" : "(0-1000)",
+                      "note" : "(60-1000)",
                       "size" : 8
                     },
                     {
@@ -8774,7 +10367,7 @@
                         "Left"
                       ],
                       "wiz" : "150px",
-                      "note" : "(0-1000)",
+                      "note" : "(60-1000)",
                       "size" : 8
                     },
                     {
@@ -8803,7 +10396,7 @@
                       "size" : 8
                     },
                     {
-                      "label" : "Block Access for",
+                      "label" : "Limit Login Session for Web Login",
                       "tab" : "loginFailBlockTime",
                       "tag" : "input",
                       "type" : "text",
@@ -8813,7 +10406,7 @@
                         "Left"
                       ],
                       "wiz" : "150px",
-                      "note" : "(0-3600 seconds)",
+                      "note" : "(30-3600 seconds)",
                       "size" : 8
                     }
                   ]
@@ -8869,6 +10462,7 @@
                 {
                   "label" : "",
                   "tab" : "management_interface",
+                  "tag" : "table",
                   "type" : "table",
                   "col" :
                   [
@@ -8923,6 +10517,43 @@
                     }
                   ]
                 }
+              ],
+              "editor" :
+              [
+                {
+                  "label" : "Interface",
+                  "tab" : "interfaceId",
+                  "tag" : "p",
+                  "type" : "p"
+                },
+                {
+                  "label" : "Ping",
+                  "tab" : "pingEnabled",
+                  "tag" : "input",
+                  "type" : "checkbox",
+                  "val" : "1"
+                },
+                {
+                  "label" : "HTTPS",
+                  "tab" : "httpsEnabled",
+                  "tag" : "input",
+                  "type" : "checkbox",
+                  "val" : "1"
+                },
+                {
+                  "label" : "SSH",
+                  "tab" : "sshEnabled",
+                  "tag" : "input",
+                  "type" : "checkbox",
+                  "val" : "1"
+                },
+                {
+                  "label" : "Allow Access",
+                  "tab" : "accessAddressId",
+                  "tag" : "select",
+                  "type" : "select",
+                  "option" : "cgi"
+                }
               ]
             },
             {
@@ -8947,20 +10578,20 @@
                   "col" : 
                   [
                     {
-                      "label": "SMTP Server",
+                      "label": "* SMTP Server",
                       "tab" : "server",
                       "tag" : "input",
                       "type" : "text"
                     },
                     {
-                      "label": "Port",
+                      "label": "* Port",
                       "tab" : "port",
                       "tag" : "input",
                       "type" : "text",
-                      "note" : "( 1 ~ 65535 )"
+                      "note" : "( 1-65535 )"
                     },
                     {
-                      "label": "Secure Connectivity Method",
+                      "label": "* Secure Connectivity Method",
                       "tab" : "secureMethod",
                       "tag" : "select",
                       "type" : "select"
@@ -8984,13 +10615,13 @@
                       "type" : "password"
                     },
                     {
-                      "label": "From Email Address",
+                      "label": "* From Email Address",
                       "tab" : "fromEmail",
                       "tag" : "input",
                       "type" : "text"
                     },
                     {
-                      "label": "To Email Address 1",
+                      "label": "* To Email Address 1",
                       "tab" : "toEmail0",
                       "tag" : "input",
                       "type" : "text"
@@ -9015,6 +10646,121 @@
                   "type" : "tab",
                   "col" : 
                   [
+                    {
+                      "label": "Systems",
+                      "tab" : "systems",
+                      "tag" : "table",
+                      "type" : "table",
+                      "col" :
+                      [
+                        {
+                          "label" : "CPU Overload Alert",
+                          "tab" : "cpuAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox",
+                          "col" : 
+                          [
+                            {
+                              "label" : "CPU Threshold Settings",
+                              "tab" : "cpuAlertThreshold",
+                              "tag" : "input",
+                              "type" : "text",
+                              "note" : "( 10-100% )"
+                            }
+                          ]
+                        },
+                        {
+                          "label" : "New Firmware Alert",
+                          "tab" : "newFwAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox"
+                        },
+                        {
+                          "label" : "System Restart Alert",
+                          "tab" : "restartAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox"
+                        },
+                        {
+                          "label" : "Failed Administrator Login Alert",
+                          "tab" : "failLoginAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox"
+                        },
+                        {
+                          "label" : "Disk Filling Up Alert",
+                          "tab" : "diskAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox",
+                          "col" : 
+                          [
+                            {
+                              "label" : "Threshold by",
+                              "tab" : "diskAlertThreshold",
+                              "tag" : "input",
+                              "type" : "text",
+                              "note" : "( 50-100% )"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "label": "Networks",
+                      "tab" : "networks",
+                      "tag" : "table",
+                      "type" : "table",
+                      "col" :
+                      [
+                        {
+                          "label" : "Site-to-Site VPN Up/Down Alert",
+                          "tab" : "vpnAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox"
+                        },
+                        {
+                          "label" : "WAN Up/Down Alert",
+                          "tab" : "wanAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox",
+                          "col" : 
+                          [
+                            {
+                              "label" : "Alert Interval",
+                              "tab" : "wanAlertInterval",
+                              "tag" : "input",
+                              "type" : "text",
+                              "note" : "( 3-1440 minutes )"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "label": "Security Threat and Prevention",
+                      "tab" : "email_security",
+                      "tag" : "table",
+                      "type" : "table",
+                      "col" :
+                      [
+                        {
+                          "label" : "Anti-Virus Alert",
+                          "tab" : "virusAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox",
+                          "col" : 
+                          [
+                            {
+                              "label" : "Alert Interval",
+                              "tab" : "virusAlertInterval",
+                              "tag" : "input",
+                              "type" : "text",
+                              "note" : "( 3-1440 minutes )"
+                            }
+                          ]
+                        }
+                      ]
+                    }
                   ]
                 }
               ]
@@ -9029,16 +10775,133 @@
               {
                 "get" : 
                 {
+                  "profile" : "config_profile_list",
                   "pc" : "conf_backup",
                   "usb" : "conf_usb_backup"
                 },
                 "post" : 
                 {
+                  "profile" : "config_profile_list",
                   "pc" : "conf_restore",
                   "usb" : "conf_usb_restore"
                 }
               },
-              "ext" : "cgi"
+              "ext" : "cgi",
+              "tblAction" : "Create",
+              "rowAction" : "Apply Delete",
+              "guiT" : "guiProfileT",
+              "guiTNum" : "guiProfileTNum",
+              "col" : 
+              [
+                {
+                  "label" : "Backup",
+                  "tab" : "backup",
+                  "icon" : "css/images/i_128_backup_00.png",
+                  "key" : "action",
+                  "val" : 1,
+                  "tag" : "input",
+                  "type" : "radio",
+                  "option" :
+                  {
+                    "0" :
+                    {
+                      "label" : "Backup Configuration to PC",
+                      "tab" : "backup-1"
+                    },
+                    "1" :
+                    {
+                      "label" : "Backup Configuration to USB",
+                      "tab" : "backup-2"
+                    }
+                  },
+                  "align" :
+                  [
+                    "Left",
+                    "Left"
+                  ],
+                  "wiz" : "200px"
+                },
+                {
+                  "label" : "Restore",
+                  "tab" : "restore",
+                  "icon" : "css/images/i_128_restore_00.png",
+                  "key" : "action",
+                  "val" : 1,
+                  "tag" : "input",
+                  "type" : "radio",
+                  "option" :
+                  {
+                    "0" :
+                    {
+                      "label" : "Restore Configuration from PC",
+                      "tab" : "restore-1"
+                    },
+                    "1" :
+                    {
+                      "label" : "restore Configuration from USB",
+                      "tab" : "restore-2"
+                    }
+                  },
+                  "align" :
+                  [
+                    "Left",
+                    "Left"
+                  ],
+                  "wiz" : "200px"
+                },
+                {
+                  "label" : "Profile Table",
+                  "tab" : "profile",
+                  "tag" : "table",
+                  "type" : "table",
+                  "caption" : "Profile Table",
+                  "col" :
+                  [
+                    {
+                      "label" : "Name",
+                      "tab" : "name",
+                      "wiz" : "100px"
+                    },
+                    {
+                      "label" : "Time",
+                      "tab" : "time",
+                      "wiz" : "180px"
+                    },
+                    {
+                      "label" : "Description",
+                      "tab" : "desc",
+                      "wiz" : "auto"
+                    },
+                    {
+                      "label" : "Action",
+                      "tab" : "action",
+                      "wiz" : "100px"
+                    }
+                  ]
+                }
+              ],
+              "editor" : 
+              [
+                {
+                  "label" : "Name",
+                  "tab" : "name",
+                  "input" : "input",
+                  "text" : "text"
+                },
+                {
+                  "label" : "Description",
+                  "tab" : "desc",
+                  "tag" : "input",
+                  "type" : "text"
+                },
+                {
+                  "label" : "Based On",
+                  "tab" : "baseOn",
+                  "tag" : "select",
+                  "type" : "select",
+                  "option" : "cgi"
+                }
+              ]
             },
             {
               "label" : "Firmware",  
@@ -9056,20 +10919,147 @@
               "col" : 
               [
                 {
-                  "label" : "Primary Firmware Version",
-                  "tab" : "primaryVer"
+                  "label" : "Firmware Version",
+                  "tab" : "firmware_version",
+                  "tag" : "div",
+                  "icon" : "css/images/i_128_reset_00.png",
+                  "type" : "table",
+                  "col" : 
+                  [
+                    {
+                      "label" : "Primary Firmware Version",
+                      "tab" : "primaryVer",
+                      "tag" : "p",
+                      "type" : "p",
+                      "align" :
+                      [
+                        "Left",
+                        "Left"
+                      ],
+                      "wiz" : "180px"
+                    },
+                    {
+                      "label" : "Secondary Firmware Version",
+                      "tab" : "secondaryVer",
+                      "tag" : "p",
+                      "type" : "p",
+                      "align" :
+                      [
+                        "Left",
+                        "Left"
+                      ],
+                      "wiz" : "180px"
+                    },
+                    {
+                      "label" : "Server Version",
+                      "tab" : "serverVer",
+                      "tag" : "p",
+                      "type" : "p",
+                      "align" :
+                      [
+                        "Left",
+                        "Left"
+                      ],
+                      "wiz" : "180px"
+                    },
+                    {
+                      "label" : "Last Check Time",
+                      "tab" : "lastCheck",
+                      "tag" : "p",
+                      "type" : "p",
+                      "align" :
+                      [
+                        "Left",
+                        "Left"
+                      ],
+                      "wiz" : "180px"
+                    },
+                    {
+                      "label" : "Switch Firmware",
+                      "tab" : "switchFirmware",
+                      "tag" : "button",
+                      "type" : "submit",
+                      "align" :
+                      [
+                        "Left",
+                        "Left"
+                      ],
+                      "wiz" : "180px"
+                    },
+                    {
+                      "label" : "Check Server Version",
+                      "tab" : "checkFirmware",
+                      "tag" : "button",
+                      "type" : "submit",
+                      "align" :
+                      [
+                        "Left",
+                        "Left"
+                      ],
+                      "wiz" : "180px"
+                    }
+                  ]
                 },
                 {
-                  "label" : "Secondary Firmware Version",
-                  "tab" : "secondaryVer"
-                },
-                {
-                  "label" : "Server Version",
-                  "tab" : "serverVer"
-                },
-                {
-                  "label" : "Last Check Time",
-                  "tab" : "lastCheck"
+                  "label" : "Upgrade firmware",
+                  "tab" : "upgrade_firmware",
+                  "tag" : "div",
+                  "type" : "table",
+                  "icon" : "css/images/i_128_upgrade_00.png",
+                  "col" : 
+                  [
+                    {
+                      "label" : "",
+                      "tab" : "type",
+                      "tag" : "input",
+                      "type" : "radio",
+                      "option" :
+                      {
+                        "0" :
+                        {
+                          "label" : "Upgrade Firmware from Local",
+                          "tab" : "type-0"
+                        },
+                        "1" :
+                        {
+                          "label" : "Upgrade Firmware from Server",
+                          "tab" : "type-1"
+                        },
+                        "2" :
+                        {
+                          "label" : "Upgrade Firmware from USB",
+                          "tab" : "type-2"
+                        }
+                      },
+                      "align" :
+                      [
+                        "Left",
+                        "Left"
+                      ],
+                      "wiz" : "180px"
+                    },
+                    {
+                      "label" : "",
+                      "tab" : "upgradeButtons",
+                      "tag" : "buttons",
+                      "type" : "submit",
+                      "buttons" : 
+                      {
+                        "upgradeFirmware" :
+                        {
+                          "label" : "Upgrade Firmware",
+                          "tab" : "upgradeFirmware"
+                        },
+                        "resetDefault" :
+                        {
+                          "label" : "Upgrade and Factory Reset",
+                          "tab" : "resetDefault",
+                          "colspan" : "2"
+                        }
+                      },
+                      "wiz" : "180px"
+                    }
+                  ]
                 }
               ]
             },
@@ -9105,17 +11095,17 @@
                   {
                     "1" : 
                     {
-                      "label" : "config",
+                      "label" : "Config",
                       "tab" : "resetMode-1"
                     },
                     "2" : 
                     {
-                      "label" : "database",
+                      "label" : "Database",
                       "tab" : "resetMode-2"
                     },
                     "3" : 
                     {
-                      "label" : "both",
+                      "label" : "Both",
                       "tab" : "resetMode-3"
                     }
                   }
@@ -9448,6 +11438,94 @@
                     "option" : "cgi"
                   }
                 ]
+              },
+              {
+                "label": "Remote Log",
+                "tab" : "log_remote",
+                "tag" : "table",
+                "type" : "table",
+                "caption": "Remote Log",
+                "wiz" : "350px",
+                "col" :
+                [
+                  {
+                    "label" : "Enable",
+                    "tab" : "remoteLogEnable",
+                    "tag" : "input",
+                    "type" : "checkbox",
+                    "wiz" : "10px",
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "Syslog Server",
+                    "tab" : "remoteLogServer",
+                    "tag" : "input",
+                    "type" : "text",
+                    "wiz" : "auto",
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "Severity",
+                    "tab" : "remoteLogSeverity",
+                    "tag" : "select",
+                    "type" : "select",
+                    "wiz" : "10px",
+                    "align" : "Left",
+                    "option" : "cgi"
+                  }
+                ]
+              },
+              {
+                "label": "Email Alert",
+                "tab" : "log_email",
+                "tag" : "table",
+                "type" : "table",
+                "caption": "Email Alert",
+                "wiz" : "350px",
+                "col" : 
+                [
+                  {
+                    "label" : "Enable send email by schedule",
+                    "tab" : "emailLogEnable",
+                    "tag" : "input",
+                    "type" : "checkbox",
+                    "wiz" : "10px",
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "Frequency",
+                    "tab" : "emailSchUnit",
+                    "tag" : "select",
+                    "type" : "select",
+                    "wiz" : "auto",
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "Day",
+                    "tab" : "emailSchDay",
+                    "tag" : "select",
+                    "type" : "select",
+                    "wiz" : "auto",
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "Time",
+                    "tab" : "emailSchHour",
+                    "tag" : "select",
+                    "type" : "select",
+                    "wiz" : "auto",
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "Severity",
+                    "tab" : "emailLogSeverity",
+                    "tag" : "select",
+                    "type" : "select",
+                    "wiz" : "10px",
+                    "align" : "Left",
+                    "option" : "cgi"
+                  }
+                ]
               }
             ],
             "logs_facility" :
@@ -9461,7 +11539,7 @@
                 "align" : "Left"
               },
               {
-                "label" : "Name",
+                "label" : "Local Log",
                 "tab" : "logLocal",
                 "wiz" : "auto",
                 "display" : true,
@@ -9469,15 +11547,15 @@
                 "align" : "Center"
               },
               {
-                "label" : "Name",
-                "tab" : "logName",
+                "label" : "Remote Log",
+                "tab" : "logRemote",
                 "wiz" : "auto",
                 "display" : true,
                 "sortable" : false,
                 "align" : "Center"
               },
               {
-                "label" : "Name",
+                "label" : "Email Alert",
                 "tab" : "logEmail",
                 "wiz" : "auto",
                 "display" : true,
@@ -9558,9 +11636,282 @@
             }
           ]
         }, 
+        {
+          "label" : "Diagnostics",
+          "id" : "menu-8-4",
+          "tab" : "diagnostics",
+          "panel" :
+          [
+            {
+              "label" : "DNS Lookup",
+              "id" : "menu-8-4-0",
+              "tab" : "dns_lookup",
+              "tag" : "div",
+              "type" : "submit",
+              "url" : 
+              {
+                "get" : "dnslookup",
+                "post" : "dnslookup"
+              },
+              "pgAction" : "Run Clean",
+              "ext" : "cgi",
+              "col" : 
+              [
+                {
+                  "label" : "IP Address/URL",
+                  "tab" : "queryString",
+                  "tag" : "input",
+                  "type" : "text"
+                },
+                {
+                  "label" : "Query Result",
+                  "tab" : "queryResult",
+                  "tag" : "ul",
+                  "type" : "ul"
+                }
+              ]
+            },
+            {
+              "label" : "Ping",
+              "id" : "menu-8-4-1",
+              "tab" : "ping",
+              "tag" : "div",
+              "type" : "submit",
+              "url" : 
+              {
+                "get" : "ping",
+                "post" : "ping"
+              },
+              "pgAction" : "Start Stop",
+              "ext" : "cgi",
+              "col" : 
+              [
+                {
+                  "label" : "IP Address/URL",
+                  "tab" : "destination",
+                  "tag" : "input",
+                  "type" : "text"
+                },
+                {
+                  "label" : "Packet Size",
+                  "tab" : "packetsize",
+                  "tag" : "input",
+                  "type" : "text",
+                  "size" : "8"
+                },
+                {
+                  "label" : "Number of ping",
+                  "tab" : "packetcount",
+                  "tag" : "select",
+                  "type" : "select",
+                  "option" : 
+                  {
+                    "5" : "5",
+                    "10" : "10",
+                    "15" : "15"
+                  }
+                },
+                {
+                  "label" : "Results",
+                  "tab" : "result",
+                  "tag" : "ul",
+                  "type" : "ul"
+                }
+              ]
+            },
+            {
+              "label" : "Traceroute",
+              "id" : "menu-8-4-2",
+              "tab" : "traceroute",
+              "tag" : "div",
+              "type" : "submit",
+              "url" : 
+              {
+                "get" : "traceroute",
+                "post" : "traceroute"
+              },
+              "pgAction" : "Start Stop",
+              "ext" : "cgi",
+              "col" : 
+              [
+                {
+                  "label" : "IP Address/URL",
+                  "tab" : "destination",
+                  "tag" : "input",
+                  "type" : "text"
+                },
+                {
+                  "label" : "Maximum Number of Hops",
+                  "tab" : "ttl",
+                  "tag" : "select",
+                  "type" : "select",
+                  "option" : 
+                  {
+                    "5" : "5",
+                    "10" : "10",
+                    "15" : "15",
+                    "30" : "30"
+                  }
+                },
+                {
+                  "label" : "Result",
+                  "tab" : "result",
+                  "tag" : "ul",
+                  "type" : "ul"
+                }
+              ]
+            },
+            {
+              "label" : "Packet Capture",
+              "id" : "menu-8-4-3",
+              "tab" : "packet_capture",
+              "tag" : "table",
+              "type" : "table",
+              "url" : 
+              {
+                "get" : "pcap_file_list",
+                "post" : "pcap_file_list",
+                "check" : "getDiskUsage",
+                "capture" : "packetCapture",
+                "download" : "packetCaptureDl"
+              },
+              "tblAction" : "New Remove",
+              "rowAction" : "Download Delete",
+              "popAction" : "Start Stop",
+              "ext" : "cgi",
+              "guiT" : "guiPcapFileT",
+              "guiTNum" : "guiPcapFileTNum",
+              "col" : 
+              [
+                {
+                  "label" : "",
+                  "tab" : "index",
+                  "tag" : "input",
+                  "type" : "checkbox",
+                  "val" : "cgi",
+                  "wiz" : "40px"
+                },
+                {
+                  "label" : "File",
+                  "tab" : "filename",
+                  "wiz" : "140px"
+                },
+                {
+                  "label" : "Description",
+                  "tab" : "desc",
+                  "wiz" : "auto"
+                },
+                {
+                  "label" : "Action",
+                  "tab" : "action",
+                  "wiz" : "100px"
+                }
+              ],
+              "editor" : 
+              [
+                {
+                  "label" : "Description",
+                  "tab" : "desc",
+                  "tag" : "input",
+                  "type" : "text"
+                },
+                {
+                  "label" : "Network Interface",
+                  "tab" : "ifname",
+                  "tag" : "select",
+                  "type" : "select",
+                  "option" : "cgi"
+                },
+                {
+                  "label" : "Auto Stop",
+                  "tab" : "autoStop",
+                  "tag" : "input",
+                  "type" : "checkbox",
+                  "val" : "1"
+                },
+                {
+                  "label" : "Port Range",
+                  "tab" : "port_table",
+                  "tag" : "table",
+                  "type" : "table",
+                  "col" :
+                  [
+                    {
+                      "label" : "Start",
+                      "tab" : "portStart",
+                      "tag" : "input",
+                      "type" : "text",
+                      "size" : "8",
+                      "default" : "0"
+                    },
+                    {
+                      "label" : "End",
+                      "tab" : "portEnd",
+                      "tag" : "input",
+                      "type" : "text",
+                      "size" : "8",
+                      "default" : "0"
+                    }
+                  ]
+                },
+                {
+                  "label" : "Host",
+                  "tab" : "host_table",
+                  "tag" : "table",
+                  "type" : "table",
+                  "col" :
+                  [
+                    {
+                      "label" : "Address",
+                      "tab" : "host",
+                      "tag" : "input",
+                      "type" : "text"
+                    }
+                  ]
+                },
+                {
+                  "label" : "Net",
+                  "tab" : "net_table",
+                  "tag" : "table",
+                  "type" : "table",
+                  "col" :
+                  [
+                    {
+                      "label" : "Address",
+                      "tab" : "netAddress",
+                      "tag" : "input",
+                      "type" : "text"
+                    },
+                    {
+                      "label" : "Netmask",
+                      "tab" : "netmask",
+                      "tag" : "input",
+                      "type" : "text"
+                    }
+                  ]
+                },
+                {
+                  "label" : "MAC",
+                  "tab" : "mac_table",
+                  "tag" : "table",
+                  "type" : "table",
+                  "col" :
+                  [
+                    {
+                      "label" : "MAC Address",
+                      "tab" : "mac",
+                      "tag" : "input",
+                      "type" : "text"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
         { 
           "label" : "License",
-          "id" : "menu-8-4",
+          "id" : "menu-8-5",
           "tab" : "license",
           "tag" : "div",
           "type" : "tabsForm",
@@ -9606,141 +11957,260 @@
           {
             "registration" :
             [ 
-              { 
-                "label" : "Username",
-                "tab" : "newUsername",
-                "tag" : "input",
-                "type" : "text",
-                "class" : "registrationMode-0",
-                "rowAction" : "CheckExists" 
-              }, 
-              { 
-                "label" : "Password",
-                "tab" : "newPassword",
-                "tag" : "input",
-                "type" : "password",
-                "class" : "registrationMode-0"
-              },
-              { 
-                "label" : "Confirm Password",
-                "tab" : "confirmPassword",
-                "tag" : "input",
-                "type" : "password",
-                "class" : "registrationMode-0"
+              {
+                "label" : "Titan Security Center Account",
+                "tab" : "haveAccount",
+                "tag" : "table",
+                "type" : "table",
+                "col" : 
+                [
+                  {
+                    "label" : "Register",
+                    "tab" : "haveAccount-0",
+                    "tag" : "input", 
+                    "type" : "radio", 
+                    "option" :
+                    {
+                      "0" : 
+                      {
+                        "label" : "New Account",
+                        "tab" : "registrationMode-0",
+                        "col" : 
+                        [
+                          {
+                            "label" : "Username",
+                            "tab" : "newUsername",
+                            "tag" : "input",
+                            "type" : "password",
+                            "class" : "registrationMode-0",
+                            "rowAction" : "CheckExists"
+                          },
+                          {
+                            "label" : "Password",
+                            "tab" : "newPassword",
+                            "tag" : "input",
+                            "type" : "password",
+                            "class" : "registrationMode-0"
+                          },
+                          {
+                            "label" : "Confirm Password",
+                            "tab" : "confirmPassword",
+                            "tag" : "input",
+                            "type" : "password",
+                            "class" : "registrationMode-0"
+                          },
+                          {
+                            "label" : "First Name",
+                            "tab" : "firstName",
+                            "tag" : "input",
+                            "type" : "text",
+                            "class" : "registrationMode-0"
+                          },
+                          {
+                            "label" : "Last Name",
+                            "tab" : "lastName",
+                            "tag" : "input",
+                            "type" : "text",
+                            "class" : "registrationMode-0"
+                          },
+                          {
+                            "label" : "Email",
+                            "tab" : "email",
+                            "tag" : "input",
+                            "type" : "text",
+                            "class" : "registrationMode-0"
+                          },          
+                          {
+                            "label" : "Company",
+                            "tab" : "company",
+                            "tag" : "input",
+                            "type" : "text",
+                            "class" : "registrationMode-0"
+                          },
+                          {
+                            "label" : "Address",
+                            "tab" : "address",
+                            "tag" : "input",
+                            "type" : "text",
+                            "class" : "registrationMode-0"
+                          },
+                          {
+                            "label" : "City",
+                            "tab" : "city",
+                            "tag" : "input",
+                            "type" : "text",
+                            "class" : "registrationMode-0"
+                          },
+                          {
+                            "label" : "Zip Code",
+                            "tab" : "zipCode",
+                            "tag" : "input",
+                            "type" : "text",
+                            "class" : "registrationMode-0"
+                          },
+                          {
+                            "label" : "State",
+                            "tab" : "state",
+                            "tag" : "input",
+                            "type" : "text",
+                            "class" : "registrationMode-0"
+                          },
+                          {
+                            "label" : "Country",
+                            "tab" : "country",
+                            "tag" : "select",
+                            "option" : "txt",
+                            "class" : "registrationMode-0"
+                          }
+                        ]
+                      },
+                      "1" : 
+                      {
+                        "label" : "Existing Account",
+                        "tab" : "registrationMode-1",
+                        "col" : 
+                        [
+                          {
+                            "label" : "Username",
+                            "tab" : "oldUsername",
+                            "tag" : "input",
+                            "type" : "text",
+                            "class" : "registrationMode-1"
+                          },
+                          {
+                            "label" : "Password",
+                            "tab" : "oldPassword",
+                            "tag" : "input",
+                            "type" : "password",
+                            "class" : "registrationMode-1"
+                          }
+                        ]
+                      }
+                    },
+                    "align" : 
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "250px"
+                  },
+                  {
+                    "label" : "Registered", 
+                    "tab" : "haveAccount-1" ,
+                    "col" : 
+                    [
+                      {
+                        "label" : "Username",
+                        "tab" : "oldUsername"
+                      },
+                      {
+                        "label" : "Password",
+                        "tab" : "oldPassword"
+                      },
+                      {
+                        "label" : "First Name",
+                        "tab" : "firstName"
+                      },
+                      {
+                        "label" : "Last Name",
+                        "tab" : "lastName"
+                      },
+                      {
+                        "label" : "Email",
+                        "tab" : "email"
+                      },          
+                      {
+                        "label" : "Company",
+                        "tab" : "company"
+                      },
+                      {
+                        "label" : "Address",
+                        "tab" : "address"
+                      },
+                      {
+                        "label" : "City",
+                        "tab" : "city"
+                      },
+                      {
+                        "label" : "Zip Code",
+                        "tab" : "zipCode"
+                      },
+                      {
+                        "label" : "State",
+                        "tab" : "state"
+                      },
+                      {
+                        "label" : "Country",
+                        "tab" : "country"
+                      }
+                    ]
+                  }
+                ]
               },
               {
-                "label" : "Username",
-                "tab" : "oldUsername",
-                "tag" : "input",
-                "type" : "text",
-                "class" : "registrationMode-1"
-              },
-              {
-                "label" : "Password",
-                "tab" : "oldPassword",
-                "tag" : "input",
-                "type" : "password",
-                "class" : "registrationMode-1"
-              },
-              {
-                "label" : "First Name",
-                "tab" : "firstName",
-                "tag" : "input",
-                "type" : "text",
-                "class" : "registrationMode-0"
-              },
-              {
-                "label" : "Last Name",
-                "tab" : "lastName",
-                "tag" : "input",
-                "type" : "text",
-                "class" : "registrationMode-0"
-              },
-              {
-                "label" : "Email",
-                "tab" : "email",
-                "tag" : "input",
-                "type" : "text",
-                "class" : "registrationMode-0"
-              },
-              {
-                "label" : "Company",
-                "tab" : "company",
-                "tag" : "input",
-                "type" : "text",
-                "class" : "registrationMode-0"
-              },
-              {
-                "label" : "Address",
-                "tab" : "address",
-                "tag" : "input",
-                "type" : "text",
-                "class" : "registrationMode-0"
-              },
-              {
-                "label" : "City",
-                "tab" : "city",
-                "tag" : "input",
-                "type" : "text",
-                "class" : "registrationMode-0"
-              },
-              {
-                "label" : "Zip Code",
-                "tab" : "zipCode",
-                "tag" : "input",
-                "type" : "text",
-                "class" : "registrationMode-0"
-              },
-              {
-                "label" : "State",
-                "tab" : "state",
-                "tag" : "input",
-                "type" : "text",
-                "class" : "registrationMode-0"
-              },
-              {
-                "label" : "Country",
-                "tab" : "country",
-                "tag" : "select",
-                "option" : "txt",
-                "class" : "registrationMode-0"
-              },
-              {
-                "label" : "Trail Activation Code",
-                "tab" : "trialCode",
-                "tag" : "input",
-                "type" : "text",
-                "class" : "registrationMode-0"
+                "label" : "Trial Service Activation",
+                "tab" : "trial_code",
+                "tag" : "table",
+                "type" : "table",
+                "col" :
+                [
+                  {
+                    "label" : "Trial Activation Code",
+                    "tab" : "trialCode",
+                    "tag" : "input",
+                    "type" : "text",
+                    "align" : 
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "150px;"
+                  }
+                ]
               }
             ],
             "services" :
             [ 
               {
-                "label" : "Service",
-                "tab" : "service",
-                "tag" : "p"
-              },
-              {
-                "label" : "Status",
-                "tab" : "status",
-                "tag" : "p"
-              },
-              {
-                "label" : "Registration Type",
-                "tab" : "type",
-                "tag" : "p"
-              },
-              {
-                "label" : "Expiration Date",
-                "tab" : "expireDate",
-                "tag" : "p"
+                "label" : "Service Management Table",
+                "tab" : "service_management",
+                "tag" : "table",
+                "type" : "table",
+                "col" :
+                [
+                  {
+                    "label" : "Service",
+                    "tab" : "service"
+                  },
+                  {
+                    "label" : "Status",
+                    "tab" : "status"
+                  },
+                  {
+                    "label" : "Registration Type",
+                    "tab" : "type"
+                  },
+                  {
+                    "label" : "Expiration Date",
+                    "tab" : "expireDate"
+                  }
+                ]
               },
               {
                 "label" : "Active Code",
-                "tab" : "activeCode",
-                "tag" : "input",
-                "type" : "text",
-                "rowAction" : "LicenseUpgrade" 
+                "tab" : "active_code",
+                "tag" : "table",
+                "type" : "table",
+                "col" : 
+                [
+                  {
+                    "label" : "Upgrade Active Code",
+                    "tab" : "activeCode",
+                    "tag" : "input",
+                    "type" : "text",
+                    "rowAction" : "LicenseUpgrade" 
+                  }
+                ]
               }
             ] 
           }

@@ -5,10 +5,6 @@
   },
   "common_updateAddr" :
   {
-    "name" :
-    {
-      "uniq" : true
-    },
     "rows" : 512
   },
   "common_gAddr_list" :
@@ -17,10 +13,6 @@
   },
   "common_updateGAddr" :
   {
-    "name" :
-    {
-      "uniq" : true
-    },
     "members" : 64,
     "rows" : 64
   },
@@ -30,10 +22,6 @@
   },
   "common_updateService" : 
   {
-    "name" :
-    {
-      "uniq" : true
-    },
     "rows" : 256
   },
   "common_gService_list" :
@@ -42,10 +30,6 @@
   },
   "common_updateGService" : 
   {
-    "name" :
-    {
-      "uniq" : true
-    },
     "members" : 64,
     "rows" : 64
   },
@@ -55,11 +39,19 @@
   },
   "common_updateTime" :
   {
-    "name" :
-    {
-      "uniq" : true
-    },
     "rows" : 64
+  },
+  "pcap_file_list" :
+  {
+    "rows" : 50
+  },
+  "dhcpBindingIP" :
+  {
+    "rows" : 254
+  },
+  "dhcpBindingMAC" :
+  {
+    "rows" : 254
   },
   "ipAlias" : 
   {
@@ -67,86 +59,48 @@
   },
   "port" :
   {
-    "name" :
-    {
-      "uniq" : true,
-      "readonly" : true
-    },
     "rows" : 8
   },
   "lan" :
   {
-    "name" :
-    {
-      "uniq" : true
-    },
     "members" : 16,
     "rows" : 32
   },
   "vlan" :
   {
-    "name" :
-    {
-      "uniq" : true
-    },
     "rows" : 128
   },
   "wan" :
   {
-    "name" :
-    {
-      "uniq" : true,
-      "readonly" : true
-    },
     "rows" : 6
   },
   "zone" :
   {
-    "name" :
-    {
-      "uniq" : true
-    },
     "members" : 20,
     "rows" : 32 
   },
   "staticRoute" :
   {
-    "name" :
-    {
-      "uniq" : true
-    },
     "rows" : 100
+  },
+  "dnssetting" :
+  {
+    "rows" : 254
   },
   "s2svpn" :
   {
-    "name" :
-    {
-      "uniq" : true
-    },
     "rows" : 100
   },
   "ipsecike" :
   {
-    "name" :
-    {
-      "uniq" : true
-    },
     "rows" : 16
   },
   "ipsectransform" :
   {
-    "name" :
-    {
-      "uniq" : true
-    },
     "rows" : 16
   },
   "rules" :
   {
-    "name" :
-    {
-      "uniq" : true
-    },
     "rows" : 100
   },
   "staticNat" : 
@@ -171,24 +125,10 @@
   },
   "userList" :
   {
-    "name" : 
-    {
-      "preserve" : "admin",
-      "uniq" : true
-    },
-    "password" : 
-    {
-      "confirm": true
-    },
-    "rows" : 100
+    "rows" : 1000
   },
   "groupList" :
   {
-    "name" : 
-    {
-      "preserve" : "default",
-      "uniq" : true
-    },
     "members" : 100,
     "rows" : 50
   } 

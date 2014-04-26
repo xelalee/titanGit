@@ -476,4 +476,19 @@ function h_fillbitsfromleft(num)
 }
 
 //--------------------------
+function compareIf( ip1, ip2, mask )
+{
+    var arr1 = ip1.split('\.');
+    var arr2 = ip2.split('\.');
+    var arrm = mask.split('\.');
+
+    var pass = true;
+    for (var i=0; i<4; i++)
+    {
+        if ( (parseInt( arr1[ i ] ) & parseInt( arrm[ i ] )) != (parseInt( arr2[ i ] ) & parseInt( arrm[ i ] )) ) {
+            pass = false;
+        }
+    }
+    return pass;
+}
 

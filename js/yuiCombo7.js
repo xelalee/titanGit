@@ -1,2674 +1,10 @@
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
-YUI.add('event-resize', function (Y, NAME) {
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
 
-/**
- * Adds a window resize event that has its behavior normalized to fire at the
- * end of the resize rather than constantly during the resize.
- * @module event
- * @submodule event-resize
- */
-
-
-/**
- * Old firefox fires the window resize event once when the resize action
- * finishes, other browsers fire the event periodically during the
- * resize.  This code uses timeout logic to simulate the Firefox 
- * behavior in other browsers.
- * @event windowresize
- * @for YUI
- */
-Y.Event.define('windowresize', {
-
-    on: (Y.UA.gecko && Y.UA.gecko < 1.91) ?
-        function (node, sub, notifier) {
-            sub._handle = Y.Event.attach('resize', function (e) {
-                notifier.fire(e);
-            });
-        } :
-        function (node, sub, notifier) {
-            // interval bumped from 40 to 100ms as of 3.4.1
-            var delay = Y.config.windowResizeDelay || 100;
-
-            sub._handle = Y.Event.attach('resize', function (e) {
-                if (sub._timer) {
-                    sub._timer.cancel();
-                }
-
-                sub._timer = Y.later(delay, Y, function () {
-                    notifier.fire(e);
-                });
-            });
-        },
-
-    detach: function (node, sub) {
-        if (sub._timer) {
-            sub._timer.cancel();
-        }
-        sub._handle.detach();
-    }
-    // delegate methods not defined because this only works for window
-    // subscriptions, so...yeah.
-});
-
-
-}, '3.8.1', {"requires": ["node-base", "event-synthetic"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
-YUI.add('dd-ddm', function (Y, NAME) {
-
-
-    /**
-     * Extends the dd-ddm-base Class to add support for the viewport shim to allow a draggable
-     * anode to drag to be dragged over an iframe or any other node that traps mousemove events.
-     * It is also required to have Drop Targets enabled, as the viewport shim will contain the shims for the Drop Targets.
-     * @module dd
-     * @submodule dd-ddm
-     * @for DDM
-     * @namespace DD
-     */
-    Y.mix(Y.DD.DDM, {
-        /**
-        * The shim placed over the screen to track the mousemove event.
-        * @private
-        * @property _pg
-        * @type {Node}
-        */
-        _pg: null,
-        /**
-        * Set this to true to set the shims opacity to .5 for debugging it, default: false.
-        * @private
-        * @property _debugShim
-        * @type {Boolean}
-        */
-        _debugShim: false,
-        _activateTargets: function() { },
-        _deactivateTargets: function() {},
-        _startDrag: function() {
-            if (this.activeDrag && this.activeDrag.get('useShim')) {
-                this._shimming = true;
-                this._pg_activate();
-                this._activateTargets();
-            }
-        },
-        _endDrag: function() {
-            this._pg_deactivate();
-            this._deactivateTargets();
-        },
-        /**
-        * Deactivates the shim
-        * @private
-        * @method _pg_deactivate
-        */
-        _pg_deactivate: function() {
-            this._pg.setStyle('display', 'none');
-        },
-        /**
-        * Activates the shim
-        * @private
-        * @method _pg_activate
-        */
-        _pg_activate: function() {
-            if (!this._pg) {
-                this._createPG();
-            }
-            var ah = this.activeDrag.get('activeHandle'), cur = 'auto';
-            if (ah) {
-                cur = ah.getStyle('cursor');
-            }
-            if (cur === 'auto') {
-                cur = this.get('dragCursor');
-            }
-
-            this._pg_size();
-            this._pg.setStyles({
-                top: 0,
-                left: 0,
-                display: 'block',
-                opacity: ((this._debugShim) ? '.5' : '0'),
-                cursor: cur
-            });
-        },
-        /**
-        * Sizes the shim on: activatation, window:scroll, window:resize
-        * @private
-        * @method _pg_size
-        */
-        _pg_size: function() {
-            if (this.activeDrag) {
-                var b = Y.one('body'),
-                h = b.get('docHeight'),
-                w = b.get('docWidth');
-                this._pg.setStyles({
-                    height: h + 'px',
-                    width: w + 'px'
-                });
-            }
-        },
-        /**
-        * Creates the shim and adds it's listeners to it.
-        * @private
-        * @method _createPG
-        */
-        _createPG: function() {
-            var pg = Y.Node.create('<div></div>'),
-            bd = Y.one('body'), win;
-            pg.setStyles({
-                top: '0',
-                left: '0',
-                position: 'absolute',
-                zIndex: '9999',
-                overflow: 'hidden',
-                backgroundColor: 'red',
-                display: 'none',
-                height: '5px',
-                width: '5px'
-            });
-            pg.set('id', Y.stamp(pg));
-            pg.addClass(Y.DD.DDM.CSS_PREFIX + '-shim');
-            bd.prepend(pg);
-            this._pg = pg;
-            this._pg.on('mousemove', Y.throttle(Y.bind(this._move, this), this.get('throttleTime')));
-            this._pg.on('mouseup', Y.bind(this._end, this));
-
-            win = Y.one('win');
-            Y.on('window:resize', Y.bind(this._pg_size, this));
-            win.on('scroll', Y.bind(this._pg_size, this));
-        }
-    }, true);
-
-
-
-
-}, '3.8.1', {"requires": ["dd-ddm-base", "event-resize"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
-YUI.add('dd-ddm-drop', function (Y, NAME) {
-
-
-    /**
-     * Extends the dd-ddm Class to add support for the placement of Drop Target
-     * shims inside the viewport shim. It also handles all Drop Target related events and interactions.
-     * @module dd
-     * @submodule dd-ddm-drop
-     * @for DDM
-     * @namespace DD
-     */
-
-    //TODO CSS class name for the bestMatch..
-    Y.mix(Y.DD.DDM, {
-        /**
-        * This flag turns off the use of the mouseover/mouseout shim. It should not be used unless you know what you are doing.
-        * @private
-        * @property _noShim
-        * @type {Boolean}
-        */
-        _noShim: false,
-        /**
-        * Placeholder for all active shims on the page
-        * @private
-        * @property _activeShims
-        * @type {Array}
-        */
-        _activeShims: [],
-        /**
-        * This method checks the _activeShims Object to see if there is a shim active.
-        * @private
-        * @method _hasActiveShim
-        * @return {Boolean}
-        */
-        _hasActiveShim: function() {
-            if (this._noShim) {
-                return true;
-            }
-            return this._activeShims.length;
-        },
-        /**
-        * Adds a Drop Target to the list of active shims
-        * @private
-        * @method _addActiveShim
-        * @param {Object} d The Drop instance to add to the list.
-        */
-        _addActiveShim: function(d) {
-            this._activeShims.push(d);
-        },
-        /**
-        * Removes a Drop Target to the list of active shims
-        * @private
-        * @method _removeActiveShim
-        * @param {Object} d The Drop instance to remove from the list.
-        */
-        _removeActiveShim: function(d) {
-            var s = [];
-            Y.Array.each(this._activeShims, function(v) {
-                if (v._yuid !== d._yuid) {
-                    s.push(v);
-                }
-
-            });
-            this._activeShims = s;
-        },
-        /**
-        * This method will sync the position of the shims on the Drop Targets that are currently active.
-        * @method syncActiveShims
-        * @param {Boolean} force Resize/sync all Targets.
-        */
-        syncActiveShims: function(force) {
-            Y.later(0, this, function(force) {
-                var drops = ((force) ? this.targets : this._lookup());
-                Y.Array.each(drops, function(v) {
-                    v.sizeShim.call(v);
-                }, this);
-            }, force);
-        },
-        /**
-        * The mode that the drag operations will run in 0 for Point, 1 for Intersect, 2 for Strict
-        * @private
-        * @property mode
-        * @type Number
-        */
-        mode: 0,
-        /**
-        * In point mode, a Drop is targeted by the cursor being over the Target
-        * @private
-        * @property POINT
-        * @type Number
-        */
-        POINT: 0,
-        /**
-        * In intersect mode, a Drop is targeted by "part" of the drag node being over the Target
-        * @private
-        * @property INTERSECT
-        * @type Number
-        */
-        INTERSECT: 1,
-        /**
-        * In strict mode, a Drop is targeted by the "entire" drag node being over the Target
-        * @private
-        * @property STRICT
-        * @type Number
-        */
-        STRICT: 2,
-        /**
-        * Should we only check targets that are in the viewport on drags (for performance), default: true
-        * @property useHash
-        * @type {Boolean}
-        */
-        useHash: true,
-        /**
-        * A reference to the active Drop Target
-        * @property activeDrop
-        * @type {Object}
-        */
-        activeDrop: null,
-        /**
-        * An array of the valid Drop Targets for this interaction.
-        * @property validDrops
-        * @type {Array}
-        */
-        //TODO Change array/object literals to be in sync..
-        validDrops: [],
-        /**
-        * An object literal of Other Drop Targets that we encountered during this interaction (in the case of overlapping Drop Targets)
-        * @property otherDrops
-        * @type {Object}
-        */
-        otherDrops: {},
-        /**
-        * All of the Targets
-        * @property targets
-        * @type {Array}
-        */
-        targets: [],
-        /**
-        * Add a Drop Target to the list of Valid Targets. This list get's regenerated on each new drag operation.
-        * @private
-        * @method _addValid
-        * @param {Object} drop
-        * @return {Self}
-        * @chainable
-        */
-        _addValid: function(drop) {
-            this.validDrops.push(drop);
-            return this;
-        },
-        /**
-        * Removes a Drop Target from the list of Valid Targets. This list get's regenerated on each new drag operation.
-        * @private
-        * @method _removeValid
-        * @param {Object} drop
-        * @return {Self}
-        * @chainable
-        */
-        _removeValid: function(drop) {
-            var drops = [];
-            Y.Array.each(this.validDrops, function(v) {
-                if (v !== drop) {
-                    drops.push(v);
-                }
-            });
-
-            this.validDrops = drops;
-            return this;
-        },
-        /**
-        * Check to see if the Drag element is over the target, method varies on current mode
-        * @method isOverTarget
-        * @param {Object} drop The drop to check against
-        * @return {Boolean}
-        */
-        isOverTarget: function(drop) {
-            if (this.activeDrag && drop) {
-                var xy = this.activeDrag.mouseXY, r, dMode = this.activeDrag.get('dragMode'),
-                    aRegion, node = drop.shim;
-                if (xy && this.activeDrag) {
-                    aRegion = this.activeDrag.region;
-                    if (dMode === this.STRICT) {
-                        return this.activeDrag.get('dragNode').inRegion(drop.region, true, aRegion);
-                    }
-                    if (drop && drop.shim) {
-                        if ((dMode === this.INTERSECT) && this._noShim) {
-                            r = aRegion || this.activeDrag.get('node');
-                            return drop.get('node').intersect(r, drop.region).inRegion;
-                        }
-
-                        if (this._noShim) {
-                            node = drop.get('node');
-                        }
-                        return node.intersect({
-                            top: xy[1],
-                            bottom: xy[1],
-                            left: xy[0],
-                            right: xy[0]
-                        }, drop.region).inRegion;
-                    }
-                }
-            }
-            return false;
-        },
-        /**
-        * Clears the cache data used for this interaction.
-        * @method clearCache
-        */
-        clearCache: function() {
-            this.validDrops = [];
-            this.otherDrops = {};
-            this._activeShims = [];
-        },
-        /**
-        * Clear the cache and activate the shims of all the targets
-        * @private
-        * @method _activateTargets
-        */
-        _activateTargets: function() {
-            this._noShim = true;
-            this.clearCache();
-            Y.Array.each(this.targets, function(v) {
-                v._activateShim([]);
-                if (v.get('noShim') === true) {
-                    this._noShim = false;
-                }
-            }, this);
-            this._handleTargetOver();
-
-        },
-        /**
-        * This method will gather the area for all potential targets and see which has the hightest covered area and return it.
-        * @method getBestMatch
-        * @param {Array} drops An Array of drops to scan for the best match.
-        * @param {Boolean} all If present, it returns an Array. First item is best match, second is an Array of the other items in the original Array.
-        * @return {Object or Array}
-        */
-        getBestMatch: function(drops, all) {
-            var biggest = null, area = 0, out;
-
-            Y.Array.each(drops, function(v) {
-                var inter = this.activeDrag.get('dragNode').intersect(v.get('node'));
-                v.region.area = inter.area;
-
-                if (inter.inRegion) {
-                    if (inter.area > area) {
-                        area = inter.area;
-                        biggest = v;
-                    }
-                }
-            }, this);
-            if (all) {
-                out = [];
-                //TODO Sort the others in numeric order by area covered..
-                Y.Array.each(drops, function(v) {
-                    if (v !== biggest) {
-                        out.push(v);
-                    }
-                }, this);
-                return [biggest, out];
-            }
-            return biggest;
-        },
-        /**
-        * This method fires the drop:hit, drag:drophit, drag:dropmiss methods and deactivates the shims..
-        * @private
-        * @method _deactivateTargets
-        */
-        _deactivateTargets: function() {
-            var other = [], tmp,
-                activeDrag = this.activeDrag,
-                activeDrop = this.activeDrop;
-
-            //TODO why is this check so hard??
-            if (activeDrag && activeDrop && this.otherDrops[activeDrop]) {
-                if (!activeDrag.get('dragMode')) {
-                    //TODO otherDrops -- private..
-                    other = this.otherDrops;
-                    delete other[activeDrop];
-                } else {
-                    tmp = this.getBestMatch(this.otherDrops, true);
-                    activeDrop = tmp[0];
-                    other = tmp[1];
-                }
-                activeDrag.get('node').removeClass(this.CSS_PREFIX + '-drag-over');
-                if (activeDrop) {
-                    activeDrop.fire('drop:hit', { drag: activeDrag, drop: activeDrop, others: other });
-                    activeDrag.fire('drag:drophit', { drag: activeDrag,  drop: activeDrop, others: other });
-                }
-            } else if (activeDrag && activeDrag.get('dragging')) {
-                activeDrag.get('node').removeClass(this.CSS_PREFIX + '-drag-over');
-                activeDrag.fire('drag:dropmiss', { pageX: activeDrag.lastXY[0], pageY: activeDrag.lastXY[1] });
-            }
-
-            this.activeDrop = null;
-
-            Y.Array.each(this.targets, function(v) {
-                v._deactivateShim([]);
-            }, this);
-        },
-        /**
-        * This method is called when the move method is called on the Drag Object.
-        * @private
-        * @method _dropMove
-        */
-        _dropMove: function() {
-            if (this._hasActiveShim()) {
-                this._handleTargetOver();
-            } else {
-                Y.Array.each(this.otherDrops, function(v) {
-                    v._handleOut.apply(v, []);
-                });
-            }
-        },
-        /**
-        * Filters the list of Drops down to those in the viewport.
-        * @private
-        * @method _lookup
-        * @return {Array} The valid Drop Targets that are in the viewport.
-        */
-        _lookup: function() {
-            if (!this.useHash || this._noShim) {
-                return this.validDrops;
-            }
-            var drops = [];
-            //Only scan drop shims that are in the Viewport
-            Y.Array.each(this.validDrops, function(v) {
-                if (v.shim && v.shim.inViewportRegion(false, v.region)) {
-                    drops.push(v);
-                }
-            });
-            return drops;
-
-        },
-        /**
-        * This method execs _handleTargetOver on all valid Drop Targets
-        * @private
-        * @method _handleTargetOver
-        */
-        _handleTargetOver: function() {
-            var drops = this._lookup();
-            Y.Array.each(drops, function(v) {
-                v._handleTargetOver.call(v);
-            }, this);
-        },
-        /**
-        * Add the passed in Target to the targets collection
-        * @private
-        * @method _regTarget
-        * @param {Object} t The Target to add to the targets collection
-        */
-        _regTarget: function(t) {
-            this.targets.push(t);
-        },
-        /**
-        * Remove the passed in Target from the targets collection
-        * @private
-        * @method _unregTarget
-        * @param {Object} drop The Target to remove from the targets collection
-        */
-        _unregTarget: function(drop) {
-            var targets = [], vdrops;
-            Y.Array.each(this.targets, function(v) {
-                if (v !== drop) {
-                    targets.push(v);
-                }
-            }, this);
-            this.targets = targets;
-
-            vdrops = [];
-            Y.Array.each(this.validDrops, function(v) {
-                if (v !== drop) {
-                    vdrops.push(v);
-                }
-            });
-
-            this.validDrops = vdrops;
-        },
-        /**
-        * Get a valid Drop instance back from a Node or a selector string, false otherwise
-        * @method getDrop
-        * @param {String/Object} node The Node instance or Selector string to check for a valid Drop Object
-        * @return {Object}
-        */
-        getDrop: function(node) {
-            var drop = false,
-                n = Y.one(node);
-            if (n instanceof Y.Node) {
-                Y.Array.each(this.targets, function(v) {
-                    if (n.compareTo(v.get('node'))) {
-                        drop = v;
-                    }
-                });
-            }
-            return drop;
-        }
-    }, true);
-
-
-
-
-}, '3.8.1', {"requires": ["dd-ddm"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
-YUI.add('dd-drag', function (Y, NAME) {
-
-
-    /**
-     * Provides the ability to drag a Node.
-     * @module dd
-     * @submodule dd-drag
-     */
-    /**
-     * Provides the ability to drag a Node.
-     * @class Drag
-     * @extends Base
-     * @constructor
-     * @namespace DD
-     */
-
-    var DDM = Y.DD.DDM,
-        NODE = 'node',
-        DRAGGING = 'dragging',
-        DRAG_NODE = 'dragNode',
-        OFFSET_HEIGHT = 'offsetHeight',
-        OFFSET_WIDTH = 'offsetWidth',
-        /**
-        * Handles the mouseup DOM event, does nothing internally just fires.
-        * @event drag:mouseup
-        * @bubbles DDM
-        * @type {CustomEvent}
-        */
-        /**
-        * Handles the mousedown DOM event, checks to see if you have a valid handle then starts the drag timers.
-        * @event drag:mouseDown
-        * @preventable _defMouseDownFn
-        * @param {EventFacade} event An Event Facade object with the following specific property added:
-        * <dl><dt>ev</dt><dd>The original mousedown event.</dd></dl>
-        * @bubbles DDM
-        * @type {CustomEvent}
-        */
-        EV_MOUSE_DOWN = 'drag:mouseDown',
-        /**
-        * Fires after the mousedown event has been cleared.
-        * @event drag:afterMouseDown
-        * @param {EventFacade} event An Event Facade object with the following specific property added:
-        * <dl><dt>ev</dt><dd>The original mousedown event.</dd></dl>
-        * @bubbles DDM
-        * @type {CustomEvent}
-        */
-        EV_AFTER_MOUSE_DOWN = 'drag:afterMouseDown',
-        /**
-        * Fires after a handle is removed.
-        * @event drag:removeHandle
-        * @param {EventFacade} event An Event Facade object with the following specific property added:
-        * <dl><dt>handle</dt><dd>The handle that was removed.</dd></dl>
-        * @bubbles DDM
-        * @type {CustomEvent}
-        */
-        EV_REMOVE_HANDLE = 'drag:removeHandle',
-        /**
-        * Fires after a handle is added.
-        * @event drag:addHandle
-        * @param {EventFacade} event An Event Facade object with the following specific property added:
-        * <dl><dt>handle</dt><dd>The handle that was added.</dd></dl>
-        * @bubbles DDM
-        * @type {CustomEvent}
-        */
-        EV_ADD_HANDLE = 'drag:addHandle',
-        /**
-        * Fires after an invalid selector is removed.
-        * @event drag:removeInvalid
-        * @param {EventFacade} event An Event Facade object with the following specific property added:
-        * <dl><dt>handle</dt><dd>The handle that was removed.</dd></dl>
-        * @bubbles DDM
-        * @type {CustomEvent}
-        */
-        EV_REMOVE_INVALID = 'drag:removeInvalid',
-        /**
-        * Fires after an invalid selector is added.
-        * @event drag:addInvalid
-        * @param {EventFacade} event An Event Facade object with the following specific property added:
-        * <dl><dt>handle</dt><dd>The handle that was added.</dd></dl>
-        * @bubbles DDM
-        * @type {CustomEvent}
-        */
-        EV_ADD_INVALID = 'drag:addInvalid',
-        /**
-        * Fires at the start of a drag operation.
-        * @event drag:start
-        * @param {EventFacade} event An Event Facade object with the following specific property added:
-        * <dl>
-        * <dt>pageX</dt><dd>The original node position X.</dd>
-        * <dt>pageY</dt><dd>The original node position Y.</dd>
-        * <dt>startTime</dt><dd>The startTime of the event. getTime on the current Date object.</dd>
-        * </dl>
-        * @bubbles DDM
-        * @type {CustomEvent}
-        */
-        EV_START = 'drag:start',
-        /**
-        * Fires at the end of a drag operation.
-        * @event drag:end
-        * @param {EventFacade} event An Event Facade object with the following specific property added:
-        * <dl>
-        * <dt>pageX</dt><dd>The current node position X.</dd>
-        * <dt>pageY</dt><dd>The current node position Y.</dd>
-        * <dt>startTime</dt><dd>The startTime of the event, from the start event.</dd>
-        * <dt>endTime</dt><dd>The endTime of the event. getTime on the current Date object.</dd>
-        * </dl>
-        * @bubbles DDM
-        * @type {CustomEvent}
-        */
-        EV_END = 'drag:end',
-        /**
-        * Fires every mousemove during a drag operation.
-        * @event drag:drag
-        * @param {EventFacade} event An Event Facade object with the following specific property added:
-        * <dl>
-        * <dt>pageX</dt><dd>The current node position X.</dd>
-        * <dt>pageY</dt><dd>The current node position Y.</dd>
-        * <dt>scroll</dt><dd>Should a scroll action occur.</dd>
-        * <dt>info</dt><dd>Object hash containing calculated XY arrays: start, xy, delta, offset</dd>
-        * </dl>
-        * @bubbles DDM
-        * @type {CustomEvent}
-        */
-        EV_DRAG = 'drag:drag',
-        /**
-        * Fires when this node is aligned.
-        * @event drag:align
-        * @preventable _defAlignFn
-        * @param {EventFacade} event An Event Facade object with the following specific property added:
-        * <dl>
-        * <dt>pageX</dt><dd>The current node position X.</dd>
-        * <dt>pageY</dt><dd>The current node position Y.</dd>
-        * </dl>
-        * @bubbles DDM
-        * @type {CustomEvent}
-        */
-        EV_ALIGN = 'drag:align',
-        /**
-        * Fires when this node is over a Drop Target. (Fired from dd-drop)
-        * @event drag:over
-        * @param {EventFacade} event An Event Facade object with the following specific property added:
-        * <dl>
-        * <dt>drop</dt><dd>The drop object at the time of the event.</dd>
-        * <dt>drag</dt><dd>The drag object at the time of the event.</dd>
-        * </dl>
-        * @bubbles DDM
-        * @type {CustomEvent}
-        */
-        /**
-        * Fires when this node enters a Drop Target. (Fired from dd-drop)
-        * @event drag:enter
-        * @param {EventFacade} event An Event Facade object with the following specific property added:
-        * <dl>
-        * <dt>drop</dt><dd>The drop object at the time of the event.</dd>
-        * <dt>drag</dt><dd>The drag object at the time of the event.</dd>
-        * </dl>
-        * @bubbles DDM
-        * @type {CustomEvent}
-        */
-        /**
-        * Fires when this node exits a Drop Target. (Fired from dd-drop)
-        * @event drag:exit
-        * @param {EventFacade} event An Event Facade object with the following specific property added:
-        * <dl>
-        * <dt>drop</dt><dd>The drop object at the time of the event.</dd>
-        * </dl>
-        * @bubbles DDM
-        * @type {CustomEvent}
-        */
-        /**
-        * Fires when this node is dropped on a valid Drop Target. (Fired from dd-ddm-drop)
-        * @event drag:drophit
-        * @param {EventFacade} event An Event Facade object with the following specific property added:
-        * <dl>
-        * <dt>drop</dt><dd>The best guess on what was dropped on.</dd>
-        * <dt>drag</dt><dd>The drag object at the time of the event.</dd>
-        * <dt>others</dt><dd>An array of all the other drop targets that was dropped on.</dd>
-        * </dl>
-        * @bubbles DDM
-        * @type {CustomEvent}
-        */
-        /**
-        * Fires when this node is dropped on an invalid Drop Target. (Fired from dd-ddm-drop)
-        * @event drag:dropmiss
-        * @param {EventFacade} event An Event Facade object with the following specific property added:
-        * <dl>
-        * <dt>pageX</dt><dd>The current node position X.</dd>
-        * <dt>pageY</dt><dd>The current node position Y.</dd>
-        * </dl>
-        * @bubbles DDM
-        * @type {CustomEvent}
-        */
-
-    Drag = function(o) {
-        this._lazyAddAttrs = false;
-        Drag.superclass.constructor.apply(this, arguments);
-
-        var valid = DDM._regDrag(this);
-        if (!valid) {
-            Y.error('Failed to register node, already in use: ' + o.node);
-        }
-    };
-
-    Drag.NAME = 'drag';
-
-    /**
-    * This property defaults to "mousedown", but when drag-gestures is loaded, it is changed to "gesturemovestart"
-    * @static
-    * @property START_EVENT
-    */
-    Drag.START_EVENT = 'mousedown';
-
-    Drag.ATTRS = {
-        /**
-        * Y.Node instance to use as the element to initiate a drag operation
-        * @attribute node
-        * @type Node
-        */
-        node: {
-            setter: function(node) {
-                if (this._canDrag(node)) {
-                    return node;
-                }
-                var n = Y.one(node);
-                if (!n) {
-                    Y.error('DD.Drag: Invalid Node Given: ' + node);
-                }
-                return n;
-            }
-        },
-        /**
-        * Y.Node instance to use as the draggable element, defaults to node
-        * @attribute dragNode
-        * @type Node
-        */
-        dragNode: {
-            setter: function(node) {
-                if (this._canDrag(node)) {
-                    return node;
-                }
-                var n = Y.one(node);
-                if (!n) {
-                    Y.error('DD.Drag: Invalid dragNode Given: ' + node);
-                }
-                return n;
-            }
-        },
-        /**
-        * Offset the drag element by the difference in cursor position: default true
-        * @attribute offsetNode
-        * @type Boolean
-        */
-        offsetNode: {
-            value: true
-        },
-        /**
-        * Center the dragNode to the mouse position on drag:start: default false
-        * @attribute startCentered
-        * @type Boolean
-        */
-        startCentered: {
-            value: false
-        },
-        /**
-        * The number of pixels to move to start a drag operation, default is 3.
-        * @attribute clickPixelThresh
-        * @type Number
-        */
-        clickPixelThresh: {
-            value: DDM.get('clickPixelThresh')
-        },
-        /**
-        * The number of milliseconds a mousedown has to pass to start a drag operation, default is 1000.
-        * @attribute clickTimeThresh
-        * @type Number
-        */
-        clickTimeThresh: {
-            value: DDM.get('clickTimeThresh')
-        },
-        /**
-        * Set to lock this drag element so that it can't be dragged: default false.
-        * @attribute lock
-        * @type Boolean
-        */
-        lock: {
-            value: false,
-            setter: function(lock) {
-                if (lock) {
-                    this.get(NODE).addClass(DDM.CSS_PREFIX + '-locked');
-                } else {
-                    this.get(NODE).removeClass(DDM.CSS_PREFIX + '-locked');
-                }
-                return lock;
-            }
-        },
-        /**
-        * A payload holder to store arbitrary data about this drag object, can be used to store any value.
-        * @attribute data
-        * @type Mixed
-        */
-        data: {
-            value: false
-        },
-        /**
-        * If this is false, the drag element will not move with the cursor: default true. Can be used to "resize" the element.
-        * @attribute move
-        * @type Boolean
-        */
-        move: {
-            value: true
-        },
-        /**
-        * Use the protective shim on all drag operations: default true. Only works with dd-ddm, not dd-ddm-base.
-        * @attribute useShim
-        * @type Boolean
-        */
-        useShim: {
-            value: true
-        },
-        /**
-        * Config option is set by Drag to inform you of which handle fired the drag event (in the case that there are several handles): default false.
-        * @attribute activeHandle
-        * @type Node
-        */
-        activeHandle: {
-            value: false
-        },
-        /**
-        * By default a drag operation will only begin if the mousedown occurred with the primary mouse button.
-        * Setting this to false will allow for all mousedown events to trigger a drag.
-        * @attribute primaryButtonOnly
-        * @type Boolean
-        */
-        primaryButtonOnly: {
-            value: true
-        },
-        /**
-        * This attribute is not meant to be used by the implementor, it is meant to be used as an Event tracker so you can listen for it to change.
-        * @attribute dragging
-        * @type Boolean
-        */
-        dragging: {
-            value: false
-        },
-        parent: {
-            value: false
-        },
-        /**
-        * This attribute only works if the dd-drop module has been loaded. It will make this node a drop target as well as draggable.
-        * @attribute target
-        * @type Boolean
-        */
-        target: {
-            value: false,
-            setter: function(config) {
-                this._handleTarget(config);
-                return config;
-            }
-        },
-        /**
-        * This attribute only works if the dd-drop module is active. It will set the dragMode (point, intersect, strict) of this Drag instance.
-        * @attribute dragMode
-        * @type String
-        */
-        dragMode: {
-            value: null,
-            setter: function(mode) {
-                return DDM._setDragMode(mode);
-            }
-        },
-        /**
-        * Array of groups to add this drag into.
-        * @attribute groups
-        * @type Array
-        */
-        groups: {
-            value: ['default'],
-            getter: function() {
-                if (!this._groups) {
-                    this._groups = {};
-                    return [];
-                }
-
-                return Y.Object.keys(this._groups);
-            },
-            setter: function(g) {
-                this._groups = Y.Array.hash(g);
-                return g;
-            }
-        },
-        /**
-        * Array of valid handles to add. Adding something here will set all handles, even if previously added with addHandle
-        * @attribute handles
-        * @type Array
-        */
-        handles: {
-            value: null,
-            setter: function(g) {
-                if (g) {
-                    this._handles = {};
-                    Y.Array.each(g, function(v) {
-                        var key = v;
-                        if (v instanceof Y.Node || v instanceof Y.NodeList) {
-                            key = v._yuid;
-                        }
-                        this._handles[key] = v;
-                    }, this);
-                } else {
-                    this._handles = null;
-                }
-                return g;
-            }
-        },
-        /**
-        * Controls the default bubble parent for this Drag instance. Default: Y.DD.DDM. Set to false to disable bubbling. Use bubbleTargets in config
-        * @deprecated
-        * @attribute bubbles
-        * @type Object
-        */
-        bubbles: {
-            setter: function(t) {
-                this.addTarget(t);
-                return t;
-            }
-        },
-        /**
-        * Should the mousedown event be halted. Default: true
-        * @attribute haltDown
-        * @type Boolean
-        */
-        haltDown: {
-            value: true
-        }
-    };
-
-    Y.extend(Drag, Y.Base, {
-        /**
-        * Checks the object for the methods needed to drag the object around.
-        * Normally this would be a node instance, but in the case of Graphics, it
-        * may be an SVG node or something similar.
-        * @method _canDrag
-        * @private
-        * @param {Object} n The object to check
-        * @return {Boolean} True or false if the Object contains the methods needed to Drag
-        */
-        _canDrag: function(n) {
-            if (n && n.setXY && n.getXY && n.test && n.contains) {
-                return true;
-            }
-            return false;
-        },
-        /**
-        * The default bubbleTarget for this object. Default: Y.DD.DDM
-        * @private
-        * @property _bubbleTargets
-        */
-        _bubbleTargets: Y.DD.DDM,
-        /**
-        * Add this Drag instance to a group, this should be used for on-the-fly group additions.
-        * @method addToGroup
-        * @param {String} g The group to add this Drag Instance to.
-        * @return {Self}
-        * @chainable
-        */
-        addToGroup: function(g) {
-            this._groups[g] = true;
-            DDM._activateTargets();
-            return this;
-        },
-        /**
-        * Remove this Drag instance from a group, this should be used for on-the-fly group removals.
-        * @method removeFromGroup
-        * @param {String} g The group to remove this Drag Instance from.
-        * @return {Self}
-        * @chainable
-        */
-        removeFromGroup: function(g) {
-            delete this._groups[g];
-            DDM._activateTargets();
-            return this;
-        },
-        /**
-        * This will be a reference to the Drop instance associated with this drag if the target: true config attribute is set..
-        * @property target
-        * @type {Object}
-        */
-        target: null,
-        /**
-        * Attribute handler for the target config attribute.
-        * @private
-        * @method _handleTarget
-        * @param {Boolean/Object} config The Config
-        */
-        _handleTarget: function(config) {
-            if (Y.DD.Drop) {
-                if (config === false) {
-                    if (this.target) {
-                        DDM._unregTarget(this.target);
-                        this.target = null;
-                    }
-                } else {
-                    if (!Y.Lang.isObject(config)) {
-                        config = {};
-                    }
-                    config.bubbleTargets = config.bubbleTargets || Y.Object.values(this._yuievt.targets);
-                    config.node = this.get(NODE);
-                    config.groups = config.groups || this.get('groups');
-                    this.target = new Y.DD.Drop(config);
-                }
-            }
-        },
-        /**
-        * Storage Array for the groups this drag belongs to.
-        * @private
-        * @property _groups
-        * @type {Array}
-        */
-        _groups: null,
-        /**
-        * This method creates all the events for this Event Target and publishes them so we get Event Bubbling.
-        * @private
-        * @method _createEvents
-        */
-        _createEvents: function() {
-
-            this.publish(EV_MOUSE_DOWN, {
-                defaultFn: this._defMouseDownFn,
-                queuable: false,
-                emitFacade: true,
-                bubbles: true,
-                prefix: 'drag'
-            });
-
-            this.publish(EV_ALIGN, {
-                defaultFn: this._defAlignFn,
-                queuable: false,
-                emitFacade: true,
-                bubbles: true,
-                prefix: 'drag'
-            });
-
-            this.publish(EV_DRAG, {
-                defaultFn: this._defDragFn,
-                queuable: false,
-                emitFacade: true,
-                bubbles: true,
-                prefix: 'drag'
-            });
-
-            this.publish(EV_END, {
-                defaultFn: this._defEndFn,
-                preventedFn: this._prevEndFn,
-                queuable: false,
-                emitFacade: true,
-                bubbles: true,
-                prefix: 'drag'
-            });
-
-            var ev = [
-                EV_AFTER_MOUSE_DOWN,
-                EV_REMOVE_HANDLE,
-                EV_ADD_HANDLE,
-                EV_REMOVE_INVALID,
-                EV_ADD_INVALID,
-                EV_START,
-                'drag:drophit',
-                'drag:dropmiss',
-                'drag:over',
-                'drag:enter',
-                'drag:exit'
-            ];
-
-            Y.Array.each(ev, function(v) {
-                this.publish(v, {
-                    type: v,
-                    emitFacade: true,
-                    bubbles: true,
-                    preventable: false,
-                    queuable: false,
-                    prefix: 'drag'
-                });
-            }, this);
-        },
-        /**
-        * A private reference to the mousedown DOM event
-        * @private
-        * @property _ev_md
-        * @type {EventFacade}
-        */
-        _ev_md: null,
-        /**
-        * The getTime of the mousedown event. Not used, just here in case someone wants/needs to use it.
-        * @private
-        * @property _startTime
-        * @type Date
-        */
-        _startTime: null,
-        /**
-        * The getTime of the mouseup event. Not used, just here in case someone wants/needs to use it.
-        * @private
-        * @property _endTime
-        * @type Date
-        */
-        _endTime: null,
-        /**
-        * A private hash of the valid drag handles
-        * @private
-        * @property _handles
-        * @type {Object}
-        */
-        _handles: null,
-        /**
-        * A private hash of the invalid selector strings
-        * @private
-        * @property _invalids
-        * @type {Object}
-        */
-        _invalids: null,
-        /**
-        * A private hash of the default invalid selector strings: {'textarea': true, 'input': true, 'a': true, 'button': true, 'select': true}
-        * @private
-        * @property _invalidsDefault
-        * @type {Object}
-        */
-        _invalidsDefault: {'textarea': true, 'input': true, 'a': true, 'button': true, 'select': true },
-        /**
-        * Private flag to see if the drag threshhold was met
-        * @private
-        * @property _dragThreshMet
-        * @type {Boolean}
-        */
-        _dragThreshMet: null,
-        /**
-        * Flag to determine if the drag operation came from a timeout
-        * @private
-        * @property _fromTimeout
-        * @type {Boolean}
-        */
-        _fromTimeout: null,
-        /**
-        * Holder for the setTimeout call
-        * @private
-        * @property _clickTimeout
-        * @type {Boolean}
-        */
-        _clickTimeout: null,
-        /**
-        * The offset of the mouse position to the element's position
-        * @property deltaXY
-        * @type {Array}
-        */
-        deltaXY: null,
-        /**
-        * The initial mouse position
-        * @property startXY
-        * @type {Array}
-        */
-        startXY: null,
-        /**
-        * The initial element position
-        * @property nodeXY
-        * @type {Array}
-        */
-        nodeXY: null,
-        /**
-        * The position of the element as it's moving (for offset calculations)
-        * @property lastXY
-        * @type {Array}
-        */
-        lastXY: null,
-        /**
-        * The xy that the node will be set to. Changing this will alter the position as it's dragged.
-        * @property actXY
-        * @type {Array}
-        */
-        actXY: null,
-        /**
-        * The real xy position of the node.
-        * @property realXY
-        * @type {Array}
-        */
-        realXY: null,
-        /**
-        * The XY coords of the mousemove
-        * @property mouseXY
-        * @type {Array}
-        */
-        mouseXY: null,
-        /**
-        * A region object associated with this drag, used for checking regions while dragging.
-        * @property region
-        * @type Object
-        */
-        region: null,
-        /**
-        * Handler for the mouseup DOM event
-        * @private
-        * @method _handleMouseUp
-        * @param {EventFacade} ev The Event
-        */
-        _handleMouseUp: function() {
-            this.fire('drag:mouseup');
-            this._fixIEMouseUp();
-            if (DDM.activeDrag) {
-                DDM._end();
-            }
-        },
-        /**
-        * The function we use as the ondragstart handler when we start a drag
-        * in Internet Explorer. This keeps IE from blowing up on images as drag handles.
-        * @private
-        * @method _fixDragStart
-        * @param {Event} e The Event
-        */
-        _fixDragStart: function(e) {
-            if (this.validClick(e)) {
-                e.preventDefault();
-            }
-        },
-        /**
-        * The function we use as the onselectstart handler when we start a drag in Internet Explorer
-        * @private
-        * @method _ieSelectFix
-        */
-        _ieSelectFix: function() {
-            return false;
-        },
-        /**
-        * We will hold a copy of the current "onselectstart" method on this property, and reset it after we are done using it.
-        * @private
-        * @property _ieSelectBack
-        */
-        _ieSelectBack: null,
-        /**
-        * This method copies the onselectstart listner on the document to the _ieSelectFix property
-        * @private
-        * @method _fixIEMouseDown
-        */
-        _fixIEMouseDown: function() {
-            if (Y.UA.ie) {
-                this._ieSelectBack = Y.config.doc.body.onselectstart;
-                Y.config.doc.body.onselectstart = this._ieSelectFix;
-            }
-        },
-        /**
-        * This method copies the _ieSelectFix property back to the onselectstart listner on the document.
-        * @private
-        * @method _fixIEMouseUp
-        */
-        _fixIEMouseUp: function() {
-            if (Y.UA.ie) {
-                Y.config.doc.body.onselectstart = this._ieSelectBack;
-            }
-        },
-        /**
-        * Handler for the mousedown DOM event
-        * @private
-        * @method _handleMouseDownEvent
-        * @param {EventFacade} ev  The Event
-        */
-        _handleMouseDownEvent: function(ev) {
-            this.fire(EV_MOUSE_DOWN, { ev: ev });
-        },
-        /**
-        * Handler for the mousedown DOM event
-        * @private
-        * @method _defMouseDownFn
-        * @param {EventFacade} e  The Event
-        */
-        _defMouseDownFn: function(e) {
-            var ev = e.ev;
-
-            this._dragThreshMet = false;
-            this._ev_md = ev;
-
-            if (this.get('primaryButtonOnly') && ev.button > 1) {
-                return false;
-            }
-            if (this.validClick(ev)) {
-                this._fixIEMouseDown(ev);
-                if (Drag.START_EVENT.indexOf('gesture') !== 0) {
-                    //Only do these if it's not a gesture
-                    if (this.get('haltDown')) {
-                        ev.halt();
-                    } else {
-                        ev.preventDefault();
-                    }
-                }
-
-                this._setStartPosition([ev.pageX, ev.pageY]);
-
-                DDM.activeDrag = this;
-
-                this._clickTimeout = Y.later(this.get('clickTimeThresh'), this, this._timeoutCheck);
-            }
-            this.fire(EV_AFTER_MOUSE_DOWN, { ev: ev });
-        },
-        /**
-        * Method first checks to see if we have handles, if so it validates the click
-        * against the handle. Then if it finds a valid handle, it checks it against
-        * the invalid handles list. Returns true if a good handle was used, false otherwise.
-        * @method validClick
-        * @param {EventFacade} ev  The Event
-        * @return {Boolean}
-        */
-        validClick: function(ev) {
-            var r = false, n = false,
-            tar = ev.target,
-            hTest = null,
-            els = null,
-            nlist = null,
-            set = false;
-            if (this._handles) {
-                Y.Object.each(this._handles, function(i, n) {
-                    if (i instanceof Y.Node || i instanceof Y.NodeList) {
-                        if (!r) {
-                            nlist = i;
-                            if (nlist instanceof Y.Node) {
-                                nlist = new Y.NodeList(i._node);
-                            }
-                            nlist.each(function(nl) {
-                                if (nl.contains(tar)) {
-                                    r = true;
-                                }
-                            });
-                        }
-                    } else if (Y.Lang.isString(n)) {
-                        //Am I this or am I inside this
-                        if (tar.test(n + ', ' + n + ' *') && !hTest) {
-                            hTest = n;
-                            r = true;
-                        }
-                    }
-                });
-            } else {
-                n = this.get(NODE);
-                if (n.contains(tar) || n.compareTo(tar)) {
-                    r = true;
-                }
-            }
-            if (r) {
-                if (this._invalids) {
-                    Y.Object.each(this._invalids, function(i, n) {
-                        if (Y.Lang.isString(n)) {
-                            //Am I this or am I inside this
-                            if (tar.test(n + ', ' + n + ' *')) {
-                                r = false;
-                            }
-                        }
-                    });
-                }
-            }
-            if (r) {
-                if (hTest) {
-                    els = ev.currentTarget.all(hTest);
-                    set = false;
-                    els.each(function(n) {
-                        if ((n.contains(tar) || n.compareTo(tar)) && !set) {
-                            set = true;
-                            this.set('activeHandle', n);
-                        }
-                    }, this);
-                } else {
-                    this.set('activeHandle', this.get(NODE));
-                }
-            }
-            return r;
-        },
-        /**
-        * Sets the current position of the Element and calculates the offset
-        * @private
-        * @method _setStartPosition
-        * @param {Array} xy The XY coords to set the position to.
-        */
-        _setStartPosition: function(xy) {
-            this.startXY = xy;
-
-            this.nodeXY = this.lastXY = this.realXY = this.get(NODE).getXY();
-
-            if (this.get('offsetNode')) {
-                this.deltaXY = [(this.startXY[0] - this.nodeXY[0]), (this.startXY[1] - this.nodeXY[1])];
-            } else {
-                this.deltaXY = [0, 0];
-            }
-        },
-        /**
-        * The method passed to setTimeout to determine if the clickTimeThreshold was met.
-        * @private
-        * @method _timeoutCheck
-        */
-        _timeoutCheck: function() {
-            if (!this.get('lock') && !this._dragThreshMet && this._ev_md) {
-                this._fromTimeout = this._dragThreshMet = true;
-                this.start();
-                this._alignNode([this._ev_md.pageX, this._ev_md.pageY], true);
-            }
-        },
-        /**
-        * Remove a Selector added by addHandle
-        * @method removeHandle
-        * @param {String} str The selector for the handle to be removed.
-        * @return {Self}
-        * @chainable
-        */
-        removeHandle: function(str) {
-            var key = str;
-            if (str instanceof Y.Node || str instanceof Y.NodeList) {
-                key = str._yuid;
-            }
-            if (this._handles[key]) {
-                delete this._handles[key];
-                this.fire(EV_REMOVE_HANDLE, { handle: str });
-            }
-            return this;
-        },
-        /**
-        * Add a handle to a drag element. Drag only initiates when a mousedown happens on this element.
-        * @method addHandle
-        * @param {String} str The selector to test for a valid handle. Must be a child of the element.
-        * @return {Self}
-        * @chainable
-        */
-        addHandle: function(str) {
-            if (!this._handles) {
-                this._handles = {};
-            }
-            var key = str;
-            if (str instanceof Y.Node || str instanceof Y.NodeList) {
-                key = str._yuid;
-            }
-            this._handles[key] = str;
-            this.fire(EV_ADD_HANDLE, { handle: str });
-            return this;
-        },
-        /**
-        * Remove an invalid handle added by addInvalid
-        * @method removeInvalid
-        * @param {String} str The invalid handle to remove from the internal list.
-        * @return {Self}
-        * @chainable
-        */
-        removeInvalid: function(str) {
-            if (this._invalids[str]) {
-                this._invalids[str] = null;
-                delete this._invalids[str];
-                this.fire(EV_REMOVE_INVALID, { handle: str });
-            }
-            return this;
-        },
-        /**
-        * Add a selector string to test the handle against. If the test passes the drag operation will not continue.
-        * @method addInvalid
-        * @param {String} str The selector to test against to determine if this is an invalid drag handle.
-        * @return {Self}
-        * @chainable
-        */
-        addInvalid: function(str) {
-            if (Y.Lang.isString(str)) {
-                this._invalids[str] = true;
-                this.fire(EV_ADD_INVALID, { handle: str });
-            }
-            return this;
-        },
-        /**
-        * Internal init handler
-        * @private
-        * @method initializer
-        */
-        initializer: function() {
-
-            this.get(NODE).dd = this;
-
-            if (!this.get(NODE).get('id')) {
-                var id = Y.stamp(this.get(NODE));
-                this.get(NODE).set('id', id);
-            }
-
-            this.actXY = [];
-
-            this._invalids = Y.clone(this._invalidsDefault, true);
-
-            this._createEvents();
-
-            if (!this.get(DRAG_NODE)) {
-                this.set(DRAG_NODE, this.get(NODE));
-            }
-
-            //Fix for #2528096
-            //Don't prep the DD instance until all plugins are loaded.
-            this.on('initializedChange', Y.bind(this._prep, this));
-
-            //Shouldn't have to do this..
-            this.set('groups', this.get('groups'));
-        },
-        /**
-        * Attach event listners and add classname
-        * @private
-        * @method _prep
-        */
-        _prep: function() {
-            this._dragThreshMet = false;
-            var node = this.get(NODE);
-            node.addClass(DDM.CSS_PREFIX + '-draggable');
-            node.on(Drag.START_EVENT, Y.bind(this._handleMouseDownEvent, this));
-            node.on('mouseup', Y.bind(this._handleMouseUp, this));
-            node.on('dragstart', Y.bind(this._fixDragStart, this));
-        },
-        /**
-        * Detach event listeners and remove classname
-        * @private
-        * @method _unprep
-        */
-        _unprep: function() {
-            var node = this.get(NODE);
-            node.removeClass(DDM.CSS_PREFIX + '-draggable');
-            node.detachAll('mouseup');
-            node.detachAll('dragstart');
-            node.detachAll(Drag.START_EVENT);
-            this.mouseXY = [];
-            this.deltaXY = [0,0];
-            this.startXY = [];
-            this.nodeXY = [];
-            this.lastXY = [];
-            this.actXY = [];
-            this.realXY = [];
-        },
-        /**
-        * Starts the drag operation
-        * @method start
-        * @return {Self}
-        * @chainable
-        */
-        start: function() {
-            if (!this.get('lock') && !this.get(DRAGGING)) {
-                var node = this.get(NODE), ow, oh, xy;
-                this._startTime = (new Date()).getTime();
-
-                DDM._start();
-                node.addClass(DDM.CSS_PREFIX + '-dragging');
-                this.fire(EV_START, {
-                    pageX: this.nodeXY[0],
-                    pageY: this.nodeXY[1],
-                    startTime: this._startTime
-                });
-                node = this.get(DRAG_NODE);
-                xy = this.nodeXY;
-
-                ow = node.get(OFFSET_WIDTH);
-                oh = node.get(OFFSET_HEIGHT);
-
-                if (this.get('startCentered')) {
-                    this._setStartPosition([xy[0] + (ow / 2), xy[1] + (oh / 2)]);
-                }
-
-
-                this.region = {
-                    '0': xy[0],
-                    '1': xy[1],
-                    area: 0,
-                    top: xy[1],
-                    right: xy[0] + ow,
-                    bottom: xy[1] + oh,
-                    left: xy[0]
-                };
-                this.set(DRAGGING, true);
-            }
-            return this;
-        },
-        /**
-        * Ends the drag operation
-        * @method end
-        * @return {Self}
-        * @chainable
-        */
-        end: function() {
-            this._endTime = (new Date()).getTime();
-            if (this._clickTimeout) {
-                this._clickTimeout.cancel();
-            }
-            this._dragThreshMet = this._fromTimeout = false;
-
-            if (!this.get('lock') && this.get(DRAGGING)) {
-                this.fire(EV_END, {
-                    pageX: this.lastXY[0],
-                    pageY: this.lastXY[1],
-                    startTime: this._startTime,
-                    endTime: this._endTime
-                });
-            }
-            this.get(NODE).removeClass(DDM.CSS_PREFIX + '-dragging');
-            this.set(DRAGGING, false);
-            this.deltaXY = [0, 0];
-
-            return this;
-        },
-        /**
-        * Handler for fixing the selection in IE
-        * @private
-        * @method _defEndFn
-        */
-        _defEndFn: function() {
-            this._fixIEMouseUp();
-            this._ev_md = null;
-        },
-        /**
-        * Handler for preventing the drag:end event. It will reset the node back to it's start position
-        * @private
-        * @method _prevEndFn
-        */
-        _prevEndFn: function() {
-            this._fixIEMouseUp();
-            //Bug #1852577
-            this.get(DRAG_NODE).setXY(this.nodeXY);
-            this._ev_md = null;
-            this.region = null;
-        },
-        /**
-        * Calculates the offsets and set's the XY that the element will move to.
-        * @private
-        * @method _align
-        * @param {Array} xy The xy coords to align with.
-        */
-        _align: function(xy) {
-            this.fire(EV_ALIGN, {pageX: xy[0], pageY: xy[1] });
-        },
-        /**
-        * Calculates the offsets and set's the XY that the element will move to.
-        * @private
-        * @method _defAlignFn
-        * @param {EventFacade} e The drag:align event.
-        */
-        _defAlignFn: function(e) {
-            this.actXY = [e.pageX - this.deltaXY[0], e.pageY - this.deltaXY[1]];
-        },
-        /**
-        * This method performs the alignment before the element move.
-        * @private
-        * @method _alignNode
-        * @param {Array} eXY The XY to move the element to, usually comes from the mousemove DOM event.
-        */
-        _alignNode: function(eXY, scroll) {
-            this._align(eXY);
-            if (!scroll) {
-                this._moveNode();
-            }
-        },
-        /**
-        * This method performs the actual element move.
-        * @private
-        * @method _moveNode
-        */
-        _moveNode: function(scroll) {
-            //if (!this.get(DRAGGING)) {
-            //    return;
-            //}
-            var diffXY = [], diffXY2 = [], startXY = this.nodeXY, xy = this.actXY;
-
-            diffXY[0] = (xy[0] - this.lastXY[0]);
-            diffXY[1] = (xy[1] - this.lastXY[1]);
-
-            diffXY2[0] = (xy[0] - this.nodeXY[0]);
-            diffXY2[1] = (xy[1] - this.nodeXY[1]);
-
-
-            this.region = {
-                '0': xy[0],
-                '1': xy[1],
-                area: 0,
-                top: xy[1],
-                right: xy[0] + this.get(DRAG_NODE).get(OFFSET_WIDTH),
-                bottom: xy[1] + this.get(DRAG_NODE).get(OFFSET_HEIGHT),
-                left: xy[0]
-            };
-
-            this.fire(EV_DRAG, {
-                pageX: xy[0],
-                pageY: xy[1],
-                scroll: scroll,
-                info: {
-                    start: startXY,
-                    xy: xy,
-                    delta: diffXY,
-                    offset: diffXY2
-                }
-            });
-
-            this.lastXY = xy;
-        },
-        /**
-        * Default function for drag:drag. Fired from _moveNode.
-        * @private
-        * @method _defDragFn
-        * @param {EventFacade} ev The drag:drag event
-        */
-        _defDragFn: function(e) {
-            if (this.get('move')) {
-                if (e.scroll && e.scroll.node) {
-                    var domNode = e.scroll.node.getDOMNode();
-                    //If it's the window
-                    if (domNode === Y.config.win) {
-                        domNode.scrollTo(e.scroll.left, e.scroll.top);
-                    } else {
-                        e.scroll.node.set('scrollTop', e.scroll.top);
-                        e.scroll.node.set('scrollLeft', e.scroll.left);
-                    }
-                }
-                this.get(DRAG_NODE).setXY([e.pageX, e.pageY]);
-                this.realXY = [e.pageX, e.pageY];
-            }
-        },
-        /**
-        * Fired from DragDropMgr (DDM) on mousemove.
-        * @private
-        * @method _move
-        * @param {EventFacade} ev The mousemove DOM event
-        */
-        _move: function(ev) {
-            if (this.get('lock')) {
-                return false;
-            }
-
-            this.mouseXY = [ev.pageX, ev.pageY];
-            if (!this._dragThreshMet) {
-                var diffX = Math.abs(this.startXY[0] - ev.pageX),
-                diffY = Math.abs(this.startXY[1] - ev.pageY);
-                if (diffX > this.get('clickPixelThresh') || diffY > this.get('clickPixelThresh')) {
-                    this._dragThreshMet = true;
-                    this.start();
-                    //This only happens on gestures to stop the page from scrolling
-                    if (ev && ev.preventDefault) {
-                        ev.preventDefault();
-                    }
-                    this._alignNode([ev.pageX, ev.pageY]);
-                }
-            } else {
-                if (this._clickTimeout) {
-                    this._clickTimeout.cancel();
-                }
-                this._alignNode([ev.pageX, ev.pageY]);
-            }
-        },
-        /**
-        * Method will forcefully stop a drag operation. For example calling this from inside an ESC keypress handler will stop this drag.
-        * @method stopDrag
-        * @return {Self}
-        * @chainable
-        */
-        stopDrag: function() {
-            if (this.get(DRAGGING)) {
-                DDM._end();
-            }
-            return this;
-        },
-        /**
-        * Lifecycle destructor, unreg the drag from the DDM and remove listeners
-        * @private
-        * @method destructor
-        */
-        destructor: function() {
-            this._unprep();
-            if (this.target) {
-                this.target.destroy();
-            }
-            DDM._unregDrag(this);
-        }
-    });
-    Y.namespace('DD');
-    Y.DD.Drag = Drag;
-
-
-
-
-}, '3.8.1', {"requires": ["dd-ddm-base"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
-YUI.add('dd-proxy', function (Y, NAME) {
-
-
-    /**
-     * Plugin for dd-drag for creating a proxy drag node, instead of dragging the original node.
-     * @module dd
-     * @submodule dd-proxy
-     */
-    /**
-     * Plugin for dd-drag for creating a proxy drag node, instead of dragging the original node.
-     * @class DDProxy
-     * @extends Base
-     * @constructor
-     * @namespace Plugin
-     */
-    var DDM = Y.DD.DDM,
-        NODE = 'node',
-        DRAG_NODE = 'dragNode',
-        HOST = 'host',
-        TRUE = true, proto,
-        P = function() {
-            P.superclass.constructor.apply(this, arguments);
-        };
-
-    P.NAME = 'DDProxy';
-    /**
-    * The Proxy instance will be placed on the Drag instance under the proxy namespace.
-    * @property NS
-    * @default con
-    * @readonly
-    * @protected
-    * @static
-    * @type {String}
-    */
-    P.NS = 'proxy';
-
-    P.ATTRS = {
-        host: {
-        },
-        /**
-        * Move the original node at the end of the drag. Default: true
-        * @attribute moveOnEnd
-        * @type Boolean
-        */
-        moveOnEnd: {
-            value: TRUE
-        },
-        /**
-        * Hide the drag node at the end of the drag. Default: true
-        * @attribute hideOnEnd
-        * @type Boolean
-        */
-        hideOnEnd: {
-            value: TRUE
-        },
-        /**
-        * Make the Proxy node assume the size of the original node. Default: true
-        * @attribute resizeFrame
-        * @type Boolean
-        */
-        resizeFrame: {
-            value: TRUE
-        },
-        /**
-        * Make the Proxy node appear in the same place as the original node. Default: true
-        * @attribute positionProxy
-        * @type Boolean
-        */
-        positionProxy: {
-            value: TRUE
-        },
-        /**
-        * The default border style for the border of the proxy. Default: 1px solid #808080
-        * @attribute borderStyle
-        * @type Boolean
-        */
-        borderStyle: {
-            value: '1px solid #808080'
-        },
-        /**
-        * Should the node be cloned into the proxy for you. Default: false
-        * @attribute cloneNode
-        * @type Boolean
-        */
-        cloneNode: {
-            value: false
-        }
-    };
-
-    proto = {
-        /**
-        * Holds the event handles for setting the proxy
-        * @private
-        * @property _hands
-        */
-        _hands: null,
-        /**
-        * Handler for the proxy config attribute
-        * @private
-        * @method _init
-        */
-        _init: function() {
-            if (!DDM._proxy) {
-                DDM._createFrame();
-                Y.on('domready', Y.bind(this._init, this));
-                return;
-            }
-            if (!this._hands) {
-                this._hands = [];
-            }
-            var h, h1, host = this.get(HOST), dnode = host.get(DRAG_NODE);
-            if (dnode.compareTo(host.get(NODE))) {
-                if (DDM._proxy) {
-                    host.set(DRAG_NODE, DDM._proxy);
-                }
-            }
-            Y.Array.each(this._hands, function(v) {
-                v.detach();
-            });
-            h = DDM.on('ddm:start', Y.bind(function() {
-                if (DDM.activeDrag === host) {
-                    DDM._setFrame(host);
-                }
-            }, this));
-            h1 = DDM.on('ddm:end', Y.bind(function() {
-                if (host.get('dragging')) {
-                    if (this.get('moveOnEnd')) {
-                        host.get(NODE).setXY(host.lastXY);
-                    }
-                    if (this.get('hideOnEnd')) {
-                        host.get(DRAG_NODE).setStyle('display', 'none');
-                    }
-                    if (this.get('cloneNode')) {
-                        host.get(DRAG_NODE).remove();
-                        host.set(DRAG_NODE, DDM._proxy);
-                    }
-                }
-            }, this));
-            this._hands = [h, h1];
-        },
-        initializer: function() {
-            this._init();
-        },
-        destructor: function() {
-            var host = this.get(HOST);
-            Y.Array.each(this._hands, function(v) {
-                v.detach();
-            });
-            host.set(DRAG_NODE, host.get(NODE));
-        },
-        clone: function() {
-            var host = this.get(HOST),
-                n = host.get(NODE),
-                c = n.cloneNode(true);
-
-            delete c._yuid;
-            c.setAttribute('id', Y.guid());
-            c.setStyle('position', 'absolute');
-            n.get('parentNode').appendChild(c);
-            host.set(DRAG_NODE, c);
-            return c;
-        }
-    };
-
-    Y.namespace('Plugin');
-    Y.extend(P, Y.Base, proto);
-    Y.Plugin.DDProxy = P;
-
-    //Add a couple of methods to the DDM
-    Y.mix(DDM, {
-        /**
-        * Create the proxy element if it doesn't already exist and set the DD.DDM._proxy value
-        * @private
-        * @for DDM
-        * @namespace DD
-        * @method _createFrame
-        */
-        _createFrame: function() {
-            if (!DDM._proxy) {
-                DDM._proxy = TRUE;
-
-                var p = Y.Node.create('<div></div>'),
-                b = Y.one('body');
-
-                p.setStyles({
-                    position: 'absolute',
-                    display: 'none',
-                    zIndex: '999',
-                    top: '-999px',
-                    left: '-999px'
-                });
-
-                b.prepend(p);
-                p.set('id', Y.guid());
-                p.addClass(DDM.CSS_PREFIX + '-proxy');
-                DDM._proxy = p;
-            }
-        },
-        /**
-        * If resizeProxy is set to true (default) it will resize the proxy element to match the size of the Drag Element.
-        * If positionProxy is set to true (default) it will position the proxy element in the same location as the Drag Element.
-        * @private
-        * @for DDM
-        * @namespace DD
-        * @method _setFrame
-        */
-        _setFrame: function(drag) {
-            var n = drag.get(NODE), d = drag.get(DRAG_NODE), ah, cur = 'auto';
-
-            ah = DDM.activeDrag.get('activeHandle');
-            if (ah) {
-                cur = ah.getStyle('cursor');
-            }
-            if (cur === 'auto') {
-                cur = DDM.get('dragCursor');
-            }
-
-            d.setStyles({
-                visibility: 'hidden',
-                display: 'block',
-                cursor: cur,
-                border: drag.proxy.get('borderStyle')
-            });
-
-            if (drag.proxy.get('cloneNode')) {
-                d = drag.proxy.clone();
-            }
-
-            if (drag.proxy.get('resizeFrame')) {
-                d.setStyles({
-                    height: n.get('offsetHeight') + 'px',
-                    width: n.get('offsetWidth') + 'px'
-                });
-            }
-
-            if (drag.proxy.get('positionProxy')) {
-                d.setXY(drag.nodeXY);
-            }
-            d.setStyle('visibility', 'visible');
-        }
-    });
-
-    //Create the frame when DOM is ready
-    //Y.on('domready', Y.bind(DDM._createFrame, DDM));
-
-
-
-
-}, '3.8.1', {"requires": ["dd-drag"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
-YUI.add('dd-constrain', function (Y, NAME) {
-
-
-    /**
-     * The Drag & Drop Utility allows you to create a draggable interface efficiently,
-     * buffering you from browser-level abnormalities and enabling you to focus on the interesting
-     * logic surrounding your particular implementation. This component enables you to create a
-     * variety of standard draggable objects with just a few lines of code and then,
-     * using its extensive API, add your own specific implementation logic.
-     * @module dd
-     * @main dd
-     * @submodule dd-constrain
-     */
-    /**
-     * Plugin for the dd-drag module to add the constraining methods to it.
-     * It supports constraining to a node or viewport. It supports tick based moves and XY axis constraints.
-     * @class DDConstrained
-     * @extends Base
-     * @constructor
-     * @namespace Plugin
-     */
-
-    var DRAG_NODE = 'dragNode',
-        OFFSET_HEIGHT = 'offsetHeight',
-        OFFSET_WIDTH = 'offsetWidth',
-        HOST = 'host',
-        TICK_X_ARRAY = 'tickXArray',
-        TICK_Y_ARRAY = 'tickYArray',
-        DDM = Y.DD.DDM,
-        TOP = 'top',
-        RIGHT = 'right',
-        BOTTOM = 'bottom',
-        LEFT = 'left',
-        VIEW = 'view',
-        proto = null,
-
-        /**
-        * Fires when this node is aligned with the tickX value.
-        * @event drag:tickAlignX
-        * @param {EventFacade} event An Event Facade object
-        * @type {CustomEvent}
-        */
-        EV_TICK_ALIGN_X = 'drag:tickAlignX',
-
-        /**
-        * Fires when this node is aligned with the tickY value.
-        * @event drag:tickAlignY
-        * @param {EventFacade} event An Event Facade object
-        * @type {CustomEvent}
-        */
-        EV_TICK_ALIGN_Y = 'drag:tickAlignY',
-
-        C = function() {
-            this._lazyAddAttrs = false;
-            C.superclass.constructor.apply(this, arguments);
-        };
-
-    C.NAME = 'ddConstrained';
-    /**
-    * The Constrained instance will be placed on the Drag instance under the con namespace.
-    * @property NS
-    * @default con
-    * @readonly
-    * @protected
-    * @static
-    * @type {String}
-    */
-    C.NS = 'con';
-
-    C.ATTRS = {
-        host: {
-        },
-        /**
-        * Stick the drag movement to the X-Axis. Default: false
-        * @attribute stickX
-        * @type Boolean
-        */
-        stickX: {
-            value: false
-        },
-        /**
-        * Stick the drag movement to the Y-Axis
-        * @type Boolean
-        * @attribute stickY
-        */
-        stickY: {
-            value: false
-        },
-        /**
-        * The X tick offset the drag node should snap to on each drag move. False for no ticks. Default: false
-        * @type Number/false
-        * @attribute tickX
-        */
-        tickX: {
-            value: false
-        },
-        /**
-        * The Y tick offset the drag node should snap to on each drag move. False for no ticks. Default: false
-        * @type Number/false
-        * @attribute tickY
-        */
-        tickY: {
-            value: false
-        },
-        /**
-        * An array of page coordinates to use as X ticks for drag movement.
-        * @type Array
-        * @attribute tickXArray
-        */
-        tickXArray: {
-            value: false
-        },
-        /**
-        * An array of page coordinates to use as Y ticks for drag movement.
-        * @type Array
-        * @attribute tickYArray
-        */
-        tickYArray: {
-            value: false
-        },
-        /**
-        * CSS style string for the gutter of a region (supports negative values): '5 0'
-        * (sets top and bottom to 5px, left and right to 0px), '1 2 3 4' (top 1px, right 2px, bottom 3px, left 4px)
-        * @attribute gutter
-        * @type String
-        */
-        gutter: {
-            value: '0',
-            setter: function(gutter) {
-                return Y.DD.DDM.cssSizestoObject(gutter);
-            }
-        },
-        /**
-        * Will attempt to constrain the drag node to the boundaries. Arguments:<br>
-        * 'view': Contrain to Viewport<br>
-        * '#selector_string': Constrain to this node<br>
-        * '{Region Object}': An Object Literal containing a valid region (top, right, bottom, left) of page positions
-        * @attribute constrain
-        * @type {String/Object/Node}
-        */
-        constrain: {
-            value: VIEW,
-            setter: function(con) {
-                var node = Y.one(con);
-                if (node) {
-                    con = node;
-                }
-                return con;
-            }
-        },
-        /**
-        * An Object Literal containing a valid region (top, right, bottom, left) of page positions to constrain the drag node to.
-        * @deprecated
-        * @attribute constrain2region
-        * @type Object
-        */
-        constrain2region: {
-            setter: function(r) {
-                return this.set('constrain', r);
-            }
-        },
-        /**
-        * Will attempt to constrain the drag node to the boundaries of this node.
-        * @deprecated
-        * @attribute constrain2node
-        * @type Object
-        */
-        constrain2node: {
-            setter: function(n) {
-                return this.set('constrain', Y.one(n));
-            }
-        },
-        /**
-        * Will attempt to constrain the drag node to the boundaries of the viewport region.
-        * @deprecated
-        * @attribute constrain2view
-        * @type Object
-        */
-        constrain2view: {
-            setter: function() {
-                return this.set('constrain', VIEW);
-            }
-        },
-        /**
-        * Should the region be cached for performace. Default: true
-        * @attribute cacheRegion
-        * @type Boolean
-        */
-        cacheRegion: {
-            value: true
-        }
-    };
-
-    proto = {
-        _lastTickXFired: null,
-        _lastTickYFired: null,
-
-        initializer: function() {
-            this._createEvents();
-
-            this._eventHandles = [
-                this.get(HOST).on('drag:end', Y.bind(this._handleEnd, this)),
-                this.get(HOST).on('drag:start', Y.bind(this._handleStart, this)),
-                this.get(HOST).after('drag:align', Y.bind(this.align, this)),
-                this.get(HOST).after('drag:drag', Y.bind(this.drag, this))
-            ];
-        },
-        destructor: function() {
-            Y.Array.each(
-                this._eventHandles,
-                function(handle) {
-                    handle.detach();
-                }
-            );
-
-            this._eventHandles.length = 0;
-        },
-        /**
-        * This method creates all the events for this Event Target and publishes them so we get Event Bubbling.
-        * @private
-        * @method _createEvents
-        */
-        _createEvents: function() {
-            var ev = [
-                EV_TICK_ALIGN_X,
-                EV_TICK_ALIGN_Y
-            ];
-
-            Y.Array.each(ev, function(v) {
-                this.publish(v, {
-                    type: v,
-                    emitFacade: true,
-                    bubbles: true,
-                    queuable: false,
-                    prefix: 'drag'
-                });
-            }, this);
-        },
-        /**
-        * Fires on drag:end
-        * @private
-        * @method _handleEnd
-        */
-        _handleEnd: function() {
-            this._lastTickYFired = null;
-            this._lastTickXFired = null;
-        },
-        /**
-        * Fires on drag:start and clears the _regionCache
-        * @private
-        * @method _handleStart
-        */
-        _handleStart: function() {
-            this.resetCache();
-        },
-        /**
-        * Store a cache of the region that we are constraining to
-        * @private
-        * @property _regionCache
-        * @type Object
-        */
-        _regionCache: null,
-        /**
-        * Get's the region and caches it, called from window.resize and when the cache is null
-        * @private
-        * @method _cacheRegion
-        */
-        _cacheRegion: function() {
-            this._regionCache = this.get('constrain').get('region');
-        },
-        /**
-        * Reset the internal region cache.
-        * @method resetCache
-        */
-        resetCache: function() {
-            this._regionCache = null;
-        },
-        /**
-        * Standardizes the 'constraint' attribute
-        * @private
-        * @method _getConstraint
-        */
-        _getConstraint: function() {
-            var con = this.get('constrain'),
-                g = this.get('gutter'),
-                region;
-
-            if (con) {
-                if (con instanceof Y.Node) {
-                    if (!this._regionCache) {
-                        this._eventHandles.push(Y.on('resize', Y.bind(this._cacheRegion, this), Y.config.win));
-                        this._cacheRegion();
-                    }
-                    region = Y.clone(this._regionCache);
-                    if (!this.get('cacheRegion')) {
-                        this.resetCache();
-                    }
-                } else if (Y.Lang.isObject(con)) {
-                    region = Y.clone(con);
-                }
-            }
-            if (!con || !region) {
-                con = VIEW;
-            }
-            if (con === VIEW) {
-                region = this.get(HOST).get(DRAG_NODE).get('viewportRegion');
-            }
-
-            Y.Object.each(g, function(i, n) {
-                if ((n === RIGHT) || (n === BOTTOM)) {
-                    region[n] -= i;
-                } else {
-                    region[n] += i;
-                }
-            });
-            return region;
-        },
-
-        /**
-        * Get the active region: viewport, node, custom region
-        * @method getRegion
-        * @param {Boolean} inc Include the node's height and width
-        * @return {Object} The active region.
-        */
-        getRegion: function(inc) {
-            var r = {}, oh = null, ow = null,
-                host = this.get(HOST);
-
-            r = this._getConstraint();
-
-            if (inc) {
-                oh = host.get(DRAG_NODE).get(OFFSET_HEIGHT);
-                ow = host.get(DRAG_NODE).get(OFFSET_WIDTH);
-                r[RIGHT] = r[RIGHT] - ow;
-                r[BOTTOM] = r[BOTTOM] - oh;
-            }
-            return r;
-        },
-        /**
-        * Check if xy is inside a given region, if not change to it be inside.
-        * @private
-        * @method _checkRegion
-        * @param {Array} _xy The XY to check if it's in the current region, if it isn't
-        * inside the region, it will reset the xy array to be inside the region.
-        * @return {Array} The new XY that is inside the region
-        */
-        _checkRegion: function(_xy) {
-            var oxy = _xy,
-                r = this.getRegion(),
-                host = this.get(HOST),
-                oh = host.get(DRAG_NODE).get(OFFSET_HEIGHT),
-                ow = host.get(DRAG_NODE).get(OFFSET_WIDTH);
-
-                if (oxy[1] > (r[BOTTOM] - oh)) {
-                    _xy[1] = (r[BOTTOM] - oh);
-                }
-                if (r[TOP] > oxy[1]) {
-                    _xy[1] = r[TOP];
-
-                }
-                if (oxy[0] > (r[RIGHT] - ow)) {
-                    _xy[0] = (r[RIGHT] - ow);
-                }
-                if (r[LEFT] > oxy[0]) {
-                    _xy[0] = r[LEFT];
-                }
-
-            return _xy;
-        },
-        /**
-        * Checks if the XY passed or the dragNode is inside the active region.
-        * @method inRegion
-        * @param {Array} xy Optional XY to check, if not supplied this.get('dragNode').getXY() is used.
-        * @return {Boolean} True if the XY is inside the region, false otherwise.
-        */
-        inRegion: function(xy) {
-            xy = xy || this.get(HOST).get(DRAG_NODE).getXY();
-
-            var _xy = this._checkRegion([xy[0], xy[1]]),
-                inside = false;
-                if ((xy[0] === _xy[0]) && (xy[1] === _xy[1])) {
-                    inside = true;
-                }
-            return inside;
-        },
-        /**
-        * Modifies the Drag.actXY method from the after drag:align event. This is where the constraining happens.
-        * @method align
-        */
-        align: function() {
-            var host = this.get(HOST),
-                _xy = [host.actXY[0], host.actXY[1]],
-                r = this.getRegion(true);
-
-            if (this.get('stickX')) {
-                _xy[1] = (host.startXY[1] - host.deltaXY[1]);
-            }
-            if (this.get('stickY')) {
-                _xy[0] = (host.startXY[0] - host.deltaXY[0]);
-            }
-
-            if (r) {
-                _xy = this._checkRegion(_xy);
-            }
-
-            _xy = this._checkTicks(_xy, r);
-
-            host.actXY = _xy;
-        },
-        /**
-        * Fires after drag:drag. Handle the tickX and tickX align events.
-        * @method drag
-        */
-        drag: function() {
-            var host = this.get(HOST),
-                xt = this.get('tickX'),
-                yt = this.get('tickY'),
-                _xy = [host.actXY[0], host.actXY[1]];
-
-            if ((Y.Lang.isNumber(xt) || this.get(TICK_X_ARRAY)) && (this._lastTickXFired !== _xy[0])) {
-                this._tickAlignX();
-                this._lastTickXFired = _xy[0];
-            }
-
-            if ((Y.Lang.isNumber(yt) || this.get(TICK_Y_ARRAY)) && (this._lastTickYFired !== _xy[1])) {
-                this._tickAlignY();
-                this._lastTickYFired = _xy[1];
-            }
-        },
-        /**
-        * This method delegates the proper helper method for tick calculations
-        * @private
-        * @method _checkTicks
-        * @param {Array} xy The XY coords for the Drag
-        * @param {Object} r The optional region that we are bound to.
-        * @return {Array} The calced XY coords
-        */
-        _checkTicks: function(xy, r) {
-            var host = this.get(HOST),
-                lx = (host.startXY[0] - host.deltaXY[0]),
-                ly = (host.startXY[1] - host.deltaXY[1]),
-                xt = this.get('tickX'),
-                yt = this.get('tickY');
-                if (xt && !this.get(TICK_X_ARRAY)) {
-                    xy[0] = DDM._calcTicks(xy[0], lx, xt, r[LEFT], r[RIGHT]);
-                }
-                if (yt && !this.get(TICK_Y_ARRAY)) {
-                    xy[1] = DDM._calcTicks(xy[1], ly, yt, r[TOP], r[BOTTOM]);
-                }
-                if (this.get(TICK_X_ARRAY)) {
-                    xy[0] = DDM._calcTickArray(xy[0], this.get(TICK_X_ARRAY), r[LEFT], r[RIGHT]);
-                }
-                if (this.get(TICK_Y_ARRAY)) {
-                    xy[1] = DDM._calcTickArray(xy[1], this.get(TICK_Y_ARRAY), r[TOP], r[BOTTOM]);
-                }
-
-            return xy;
-        },
-        /**
-        * Fires when the actXY[0] reach a new value respecting the tickX gap.
-        * @private
-        * @method _tickAlignX
-        */
-        _tickAlignX: function() {
-            this.fire(EV_TICK_ALIGN_X);
-        },
-        /**
-        * Fires when the actXY[1] reach a new value respecting the tickY gap.
-        * @private
-        * @method _tickAlignY
-        */
-        _tickAlignY: function() {
-            this.fire(EV_TICK_ALIGN_Y);
-        }
-    };
-
-    Y.namespace('Plugin');
-    Y.extend(C, Y.Base, proto);
-    Y.Plugin.DDConstrained = C;
-
-    Y.mix(DDM, {
-        /**
-        * Helper method to calculate the tick offsets for a given position
-        * @for DDM
-        * @namespace DD
-        * @private
-        * @method _calcTicks
-        * @param {Number} pos The current X or Y position
-        * @param {Number} start The start X or Y position
-        * @param {Number} tick The X or Y tick increment
-        * @param {Number} off1 The min offset that we can't pass (region)
-        * @param {Number} off2 The max offset that we can't pass (region)
-        * @return {Number} The new position based on the tick calculation
-        */
-        _calcTicks: function(pos, start, tick, off1, off2) {
-            var ix = ((pos - start) / tick),
-                min = Math.floor(ix),
-                max = Math.ceil(ix);
-                if ((min !== 0) || (max !== 0)) {
-                    if ((ix >= min) && (ix <= max)) {
-                        pos = (start + (tick * min));
-                        if (off1 && off2) {
-                            if (pos < off1) {
-                                pos = (start + (tick * (min + 1)));
-                            }
-                            if (pos > off2) {
-                                pos = (start + (tick * (min - 1)));
-                            }
-                        }
-                    }
-                }
-                return pos;
-        },
-        /**
-        * This method is used with the tickXArray and tickYArray config options
-        * @for DDM
-        * @namespace DD
-        * @private
-        * @method _calcTickArray
-        * @param {Number} pos The current X or Y position
-        * @param {Number} ticks The array containing our custom tick positions.
-        * @param {Number} off1 The min offset that we can't pass (region)
-        * @param {Number} off2 The max offset that we can't pass (region)
-        * @return The tick position
-        */
-        _calcTickArray: function(pos, ticks, off1, off2) {
-            var i = 0, len = ticks.length, next = 0,
-                diff1, diff2, ret;
-
-            if (!ticks || (ticks.length === 0)) {
-                return pos;
-            }
-            if (ticks[0] >= pos) {
-                return ticks[0];
-            }
-
-            for (i = 0; i < len; i++) {
-                next = (i + 1);
-                if (ticks[next] && ticks[next] >= pos) {
-                    diff1 = pos - ticks[i];
-                    diff2 = ticks[next] - pos;
-                    ret = (diff2 > diff1) ? ticks[i] : ticks[next];
-                    if (off1 && off2) {
-                        if (ret > off2) {
-                            if (ticks[i]) {
-                                ret = ticks[i];
-                            } else {
-                                ret = ticks[len - 1];
-                            }
-                        }
-                    }
-                    return ret;
-                }
-
-            }
-            return ticks[ticks.length - 1];
-        }
-    });
-
-
-
-}, '3.8.1', {"requires": ["dd-drag"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
 YUI.add('dd-drop', function (Y, NAME) {
 
 
@@ -2760,7 +96,7 @@ YUI.add('dd-drop', function (Y, NAME) {
 
     Drop.ATTRS = {
         /**
-        * Y.Node instanace to use as the element to make a Drop Target
+        * Y.Node instance to use as the element to make a Drop Target
         * @attribute node
         * @type Node
         */
@@ -2859,7 +195,6 @@ YUI.add('dd-drop', function (Y, NAME) {
         * Add this Drop instance to a group, this should be used for on-the-fly group additions.
         * @method addToGroup
         * @param {String} g The group to add this Drop Instance to.
-        * @return {Self}
         * @chainable
         */
         addToGroup: function(g) {
@@ -2870,7 +205,6 @@ YUI.add('dd-drop', function (Y, NAME) {
         * Remove this Drop instance from a group, this should be used for on-the-fly group removals.
         * @method removeFromGroup
         * @param {String} g The group to remove this Drop Instance from.
-        * @return {Self}
         * @chainable
         */
         removeFromGroup: function(g) {
@@ -3222,8 +556,14 @@ YUI.add('dd-drop', function (Y, NAME) {
 
 
 
-}, '3.8.1', {"requires": ["dd-drag", "dd-ddm-drop"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
+}, '3.16.0', {"requires": ["dd-drag", "dd-ddm-drop"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
 YUI.add('dd-scroll', function (Y, NAME) {
 
 
@@ -3261,6 +601,7 @@ YUI.add('dd-scroll', function (Y, NAME) {
         /**
         * Internal config option to hold the node that we are scrolling. Should not be set by the developer.
         * @attribute parentScroll
+        * @protected
         * @type Node
         */
         parentScroll: {
@@ -3645,8 +986,14 @@ YUI.add('dd-scroll', function (Y, NAME) {
 
 
 
-}, '3.8.1', {"requires": ["dd-drag"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
+}, '3.16.0', {"requires": ["dd-drag"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
 YUI.add('dd-drop-plugin', function (Y, NAME) {
 
 
@@ -3690,8 +1037,14 @@ YUI.add('dd-drop-plugin', function (Y, NAME) {
 
 
 
-}, '3.8.1', {"requires": ["dd-drop"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
+}, '3.16.0', {"requires": ["dd-drop"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
 YUI.add('dd-delegate', function (Y, NAME) {
 
 
@@ -3847,7 +1200,6 @@ YUI.add('dd-delegate', function (Y, NAME) {
         /**
         * Applies the Y.Plugin.Drop to all nodes matching the cont + nodes selector query.
         * @method syncTargets
-        * @return {Self}
         * @chainable
         */
         syncTargets: function() {
@@ -4029,8 +1381,14 @@ YUI.add('dd-delegate', function (Y, NAME) {
 
 
 
-}, '3.8.1', {"requires": ["dd-drag", "dd-drop-plugin", "event-mouseenter"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
+}, '3.16.0', {"requires": ["dd-drag", "dd-drop-plugin", "event-mouseenter"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
 YUI.add('dd-plugin', function (Y, NAME) {
 
 
@@ -4230,301 +1588,183 @@ YUI.add('dd-plugin', function (Y, NAME) {
 
 
 
-}, '3.8.1', {"optional": ["dd-constrain", "dd-proxy"], "requires": ["dd-drag"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
-YUI.add('io-upload-iframe', function (Y, NAME) {
+}, '3.16.0', {"optional": ["dd-constrain", "dd-proxy"], "requires": ["dd-drag"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
+YUI.add('dump', function (Y, NAME) {
 
 /**
-Extends the IO  to enable file uploads, with HTML forms
-using an iframe as the transport medium.
-@module io
-@submodule io-upload-iframe
-@for IO
-**/
-
-var w = Y.config.win,
-    d = Y.config.doc,
-    _std = (d.documentMode && d.documentMode >= 8),
-    _d = decodeURIComponent,
-    _end = Y.IO.prototype.end;
-
-/**
- * Creates the iframe transported used in file upload
- * transactions, and binds the response event handler.
+ * Returns a simple string representation of the object or array.
+ * Other types of objects will be returned unprocessed.  Arrays
+ * are expected to be indexed.  Use object notation for
+ * associative arrays.
  *
- * @method _cFrame
- * @private
- * @param {Object} o Transaction object generated by _create().
- * @param {Object} c Configuration object passed to YUI.io().
- * @param {Object} io
+ * If included, the dump method is added to the YUI instance.
+ *
+ * @module dump
  */
-function _cFrame(o, c, io) {
-    var i = Y.Node.create('<iframe src="#" id="io_iframe' + o.id + '" name="io_iframe' + o.id + '" />');
-        i._node.style.position = 'absolute';
-        i._node.style.top = '-1000px';
-        i._node.style.left = '-1000px';
-        Y.one('body').appendChild(i);
-    // Bind the onload handler to the iframe to detect the file upload response.
-    Y.on("load", function() { io._uploadComplete(o, c); }, '#io_iframe' + o.id);
-}
+
+    var L = Y.Lang,
+        OBJ = '{...}',
+        FUN = 'f(){...}',
+        COMMA = ', ',
+        ARROW = ' => ',
+
+    /**
+     * Returns a simple string representation of the object or array.
+     * Other types of objects will be returned unprocessed.  Arrays
+     * are expected to be indexed.
+     *
+     * @method dump
+     * @param {Object} o The object to dump.
+     * @param {Number} d How deep to recurse child objects, default 3.
+     * @return {String} the dump result.
+     * @for YUI
+     */
+    dump = function(o, d) {
+        var i, len, s = [], type = L.type(o);
+
+        // Cast non-objects to string
+        // Skip dates because the std toString is what we want
+        // Skip HTMLElement-like objects because trying to dump
+        // an element will cause an unhandled exception in FF 2.x
+        if (!L.isObject(o)) {
+            return o + '';
+        } else if (type == 'date') {
+            return o;
+        } else if (o.nodeType && o.tagName) {
+            return o.tagName + '#' + o.id;
+        } else if (o.document && o.navigator) {
+            return 'window';
+        } else if (o.location && o.body) {
+            return 'document';
+        } else if (type == 'function') {
+            return FUN;
+        }
+
+        // dig into child objects the depth specifed. Default 3
+        d = (L.isNumber(d)) ? d : 3;
+
+        // arrays [1, 2, 3]
+        if (type == 'array') {
+            s.push('[');
+            for (i = 0, len = o.length; i < len; i = i + 1) {
+                if (L.isObject(o[i])) {
+                    s.push((d > 0) ? L.dump(o[i], d - 1) : OBJ);
+                } else {
+                    s.push(o[i]);
+                }
+                s.push(COMMA);
+            }
+            if (s.length > 1) {
+                s.pop();
+            }
+            s.push(']');
+        // regexp /foo/
+        } else if (type == 'regexp') {
+            s.push(o.toString());
+        // objects {k1 => v1, k2 => v2}
+        } else {
+            s.push('{');
+            for (i in o) {
+                if (o.hasOwnProperty(i)) {
+                    try {
+                        s.push(i + ARROW);
+                        if (L.isObject(o[i])) {
+                            s.push((d > 0) ? L.dump(o[i], d - 1) : OBJ);
+                        } else {
+                            s.push(o[i]);
+                        }
+                        s.push(COMMA);
+                    } catch (e) {
+                        s.push('Error: ' + e.message);
+                    }
+                }
+            }
+            if (s.length > 1) {
+                s.pop();
+            }
+            s.push('}');
+        }
+
+        return s.join('');
+    };
+
+    Y.dump = dump;
+    L.dump = dump;
+
+
+
+}, '3.16.0', {"requires": ["yui-base"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
+YUI.add('event-mousewheel', function (Y, NAME) {
 
 /**
- * Removes the iframe transport used in the file upload
- * transaction.
- *
- * @method _dFrame
- * @private
- * @param {Number} id The transaction ID used in the iframe's creation.
+ * Adds mousewheel event support
+ * @module event
+ * @submodule event-mousewheel
  */
-function _dFrame(id) {
-	Y.Event.purgeElement('#io_iframe' + id, false);
-	Y.one('body').removeChild(Y.one('#io_iframe' + id));
-}
-
-Y.mix(Y.IO.prototype, {
-   /**
-    * Parses the POST data object and creates hidden form elements
-    * for each key-value, and appends them to the HTML form object.
-    * @method appendData
-    * @private
-    * @static
-    * @param {Object} f HTML form object.
-    * @param {String} s The key-value POST data.
-    * @return {Array} o Array of created fields.
-    */
-    _addData: function(f, s) {
-        // Serialize an object into a key-value string using
-        // querystring-stringify-simple.
-        if (Y.Lang.isObject(s)) {
-            s = Y.QueryString.stringify(s);
+var DOM_MOUSE_SCROLL = 'DOMMouseScroll',
+    fixArgs = function(args) {
+        var a = Y.Array(args, 0, true), target;
+        if (Y.UA.gecko) {
+            a[0] = DOM_MOUSE_SCROLL;
+            target = Y.config.win;
+        } else {
+            target = Y.config.doc;
         }
 
-        var o = [],
-            m = s.split('='),
-            i, l;
-
-        for (i = 0, l = m.length - 1; i < l; i++) {
-            o[i] = d.createElement('input');
-            o[i].type = 'hidden';
-            o[i].name = _d(m[i].substring(m[i].lastIndexOf('&') + 1));
-            o[i].value = (i + 1 === l) ? _d(m[i + 1]) : _d(m[i + 1].substring(0, (m[i + 1].lastIndexOf('&'))));
-            f.appendChild(o[i]);
+        if (a.length < 3) {
+            a[2] = target;
+        } else {
+            a.splice(2, 0, target);
         }
 
-        return o;
+        return a;
+    };
+
+/**
+ * Mousewheel event.  This listener is automatically attached to the
+ * correct target, so one should not be supplied.  Mouse wheel
+ * direction and velocity is stored in the 'wheelDelta' field.
+ * @event mousewheel
+ * @param type {string} 'mousewheel'
+ * @param fn {function} the callback to execute
+ * @param context optional context object
+ * @param args 0..n additional arguments to provide to the listener.
+ * @return {EventHandle} the detach handle
+ * @for YUI
+ */
+Y.Env.evt.plugins.mousewheel = {
+    on: function() {
+        return Y.Event._attach(fixArgs(arguments));
     },
 
-   /**
-    * Removes the custom fields created to pass additional POST
-    * data, along with the HTML form fields.
-    * @method _removeData
-    * @private
-    * @static
-    * @param {Object} f HTML form object.
-    * @param {Object} o HTML form fields created from configuration.data.
-    */
-    _removeData: function(f, o) {
-        var i, l;
-
-        for (i = 0, l = o.length; i < l; i++) {
-            f.removeChild(o[i]);
-        }
-    },
-
-   /**
-    * Sets the appropriate attributes and values to the HTML
-    * form, in preparation of a file upload transaction.
-    * @method _setAttrs
-    * @private
-    * @static
-    * @param {Object} f HTML form object.
-    * @param {Object} id The Transaction ID.
-    * @param {Object} uri Qualified path to transaction resource.
-    */
-    _setAttrs: function(f, id, uri) {
-        f.setAttribute('action', uri);
-        f.setAttribute('method', 'POST');
-        f.setAttribute('target', 'io_iframe' + id );
-        f.setAttribute(Y.UA.ie && !_std ? 'encoding' : 'enctype', 'multipart/form-data');
-    },
-
-   /**
-    * Reset the HTML form attributes to their original values.
-    * @method _resetAttrs
-    * @private
-    * @static
-    * @param {Object} f HTML form object.
-    * @param {Object} a Object of original attributes.
-    */
-    _resetAttrs: function(f, a) {
-        Y.Object.each(a, function(v, p) {
-            if (v) {
-                f.setAttribute(p, v);
-            }
-            else {
-                f.removeAttribute(p);
-            }
-        });
-    },
-
-   /**
-    * Starts timeout count if the configuration object
-    * has a defined timeout property.
-    *
-    * @method _startUploadTimeout
-    * @private
-    * @static
-    * @param {Object} o Transaction object generated by _create().
-    * @param {Object} c Configuration object passed to YUI.io().
-    */
-    _startUploadTimeout: function(o, c) {
-        var io = this;
-
-        io._timeout[o.id] = w.setTimeout(
-            function() {
-                o.status = 0;
-                o.statusText = 'timeout';
-                io.complete(o, c);
-                io.end(o, c);
-            }, c.timeout);
-    },
-
-   /**
-    * Clears the timeout interval started by _startUploadTimeout().
-    * @method _clearUploadTimeout
-    * @private
-    * @static
-    * @param {Number} id - Transaction ID.
-    */
-    _clearUploadTimeout: function(id) {
-        var io = this;
-
-        w.clearTimeout(io._timeout[id]);
-        delete io._timeout[id];
-    },
-
-   /**
-    * Bound to the iframe's Load event and processes
-    * the response data.
-    * @method _uploadComplete
-    * @private
-    * @static
-    * @param {Object} o The transaction object
-    * @param {Object} c Configuration object for the transaction.
-    */
-    _uploadComplete: function(o, c) {
-        var io = this,
-            d = Y.one('#io_iframe' + o.id).get('contentWindow.document'),
-            b = d.one('body'),
-            p;
-
-        if (c.timeout) {
-            io._clearUploadTimeout(o.id);
-        }
-
-		try {
-			if (b) {
-				// When a response Content-Type of "text/plain" is used, Firefox and Safari
-				// will wrap the response string with <pre></pre>.
-				p = b.one('pre:first-child');
-				o.c.responseText = p ? p.get('text') : b.get('text');
-			}
-			else {
-				o.c.responseXML = d._node;
-			}
-		}
-		catch (e) {
-			o.e = "upload failure";
-		}
-
-        io.complete(o, c);
-        io.end(o, c);
-        // The transaction is complete, so call _dFrame to remove
-        // the event listener bound to the iframe transport, and then
-        // destroy the iframe.
-        w.setTimeout( function() { _dFrame(o.id); }, 0);
-    },
-
-   /**
-    * Uploads HTML form data, inclusive of files/attachments,
-    * using the iframe created in _create to facilitate the transaction.
-    * @method _upload
-    * @private
-    * @static
-    * @param {Object} o The transaction object
-    * @param {Object} uri Qualified path to transaction resource.
-    * @param {Object} c Configuration object for the transaction.
-    */
-    _upload: function(o, uri, c) {
-        var io = this,
-            f = (typeof c.form.id === 'string') ? d.getElementById(c.form.id) : c.form.id,
-            // Track original HTML form attribute values.
-            attr = {
-                action: f.getAttribute('action'),
-                target: f.getAttribute('target')
-            },
-            fields;
-
-        // Initialize the HTML form properties in case they are
-        // not defined in the HTML form.
-        io._setAttrs(f, o.id, uri);
-        if (c.data) {
-            fields = io._addData(f, c.data);
-        }
-
-        // Start polling if a callback is present and the timeout
-        // property has been defined.
-        if (c.timeout) {
-            io._startUploadTimeout(o, c);
-        }
-
-        // Start file upload.
-        f.submit();
-        io.start(o, c);
-        if (c.data) {
-            io._removeData(f, fields);
-        }
-
-        return {
-            id: o.id,
-            abort: function() {
-                o.status = 0;
-                o.statusText = 'abort';
-                if (Y.one('#io_iframe' + o.id)) {
-                    _dFrame(o.id);
-                    io.complete(o, c);
-                    io.end(o, c, attr);
-                }
-                else {
-                    return false;
-                }
-            },
-            isInProgress: function() {
-                return Y.one('#io_iframe' + o.id) ? true : false;
-            },
-            io: io
-        };
-    },
-
-    upload: function(o, uri, c) {
-        _cFrame(o, c, this);
-        return this._upload(o, uri, c);
-    },
-
-    end: function(transaction, config, attr) {
-        if (config && config.form && config.form.upload) {
-            var io = this;
-            // Restore HTML form attributes to their original values.
-            io._resetAttrs(f, attr);
-        }
-
-        return _end.call(this, transaction, config);
+    detach: function() {
+        return Y.Event.detach.apply(Y.Event, fixArgs(arguments));
     }
-});
+};
 
 
-}, '3.8.1', {"requires": ["io-base", "node-base"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
+}, '3.16.0', {"requires": ["node-base"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
 YUI.add('event-key', function (Y, NAME) {
 
 /**
@@ -4543,6 +1783,7 @@ var ALT      = "+alt",
     eventDef = {
         KEY_MAP: {
             enter    : 13,
+            space    : 32,
             esc      : 27,
             backspace: 8,
             tab      : 9,
@@ -4661,7 +1902,7 @@ eventDef.detachDelegate = eventDef.detach;
  * <p>Add a key listener.  The listener will only be notified if the
  * keystroke detected meets the supplied specification.  The
  * specification is a string that is defined as:</p>
- * 
+ *
  * <dl>
  *   <dt>spec</dt>
  *   <dd><code>[{type}:]{code}[,{code}]*</code></dd>
@@ -4672,7 +1913,7 @@ eventDef.detachDelegate = eventDef.detach;
  *   <dt>modifier</dt>
  *   <dd><code>"shift", "ctrl", "alt", or "meta"</code></dd>
  *   <dt>keyName</dt>
- *   <dd><code>"enter", "backspace", "esc", "tab", "pageup", or "pagedown"</code></dd>
+ *   <dd><code>"enter", "space", "backspace", "esc", "tab", "pageup", or "pagedown"</code></dd>
  * </dl>
  *
  * <p>Examples:</p>
@@ -4681,7 +1922,7 @@ eventDef.detachDelegate = eventDef.detach;
  *   <li><code>Y.delegate("key", preventSubmit, "#forms", "enter", "input[type=text]");</code></li>
  *   <li><code>Y.one("doc").on("key", viNav, "j,k,l,;");</code></li>
  * </ul>
- *   
+ *
  * @event key
  * @for YUI
  * @param type {string} 'key'
@@ -4695,8 +1936,91 @@ eventDef.detachDelegate = eventDef.detach;
 Y.Event.define('key', eventDef, true);
 
 
-}, '3.8.1', {"requires": ["event-synthetic"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
+}, '3.16.0', {"requires": ["event-synthetic"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
+YUI.add('event-hover', function (Y, NAME) {
+
+/**
+ * Adds support for a "hover" event.  The event provides a convenience wrapper
+ * for subscribing separately to mouseenter and mouseleave.  The signature for
+ * subscribing to the event is</p>
+ *
+ * <pre><code>node.on("hover", overFn, outFn);
+ * node.delegate("hover", overFn, outFn, ".filterSelector");
+ * Y.on("hover", overFn, outFn, ".targetSelector");
+ * Y.delegate("hover", overFn, outFn, "#container", ".filterSelector");
+ * </code></pre>
+ *
+ * <p>Additionally, for compatibility with a more typical subscription
+ * signature, the following are also supported:</p>
+ *
+ * <pre><code>Y.on("hover", overFn, ".targetSelector", outFn);
+ * Y.delegate("hover", overFn, "#container", outFn, ".filterSelector");
+ * </code></pre>
+ *
+ * @module event
+ * @submodule event-hover
+ */
+var isFunction = Y.Lang.isFunction,
+    noop = function () {},
+    conf = {
+        processArgs: function (args) {
+            // Y.delegate('hover', over, out, '#container', '.filter')
+            // comes in as ['hover', over, out, '#container', '.filter'], but
+            // node.delegate('hover', over, out, '.filter')
+            // comes in as ['hover', over, containerEl, out, '.filter']
+            var i = isFunction(args[2]) ? 2 : 3;
+
+            return (isFunction(args[i])) ? args.splice(i,1)[0] : noop;
+        },
+
+        on: function (node, sub, notifier, filter) {
+            var args = (sub.args) ? sub.args.slice() : [];
+
+            args.unshift(null);
+
+            sub._detach = node[(filter) ? "delegate" : "on"]({
+                mouseenter: function (e) {
+                    e.phase = 'over';
+                    notifier.fire(e);
+                },
+                mouseleave: function (e) {
+                    var thisObj = sub.context || this;
+
+                    args[0] = e;
+
+                    e.type = 'hover';
+                    e.phase = 'out';
+                    sub._extra.apply(thisObj, args);
+                }
+            }, filter);
+        },
+
+        detach: function (node, sub, notifier) {
+            sub._detach.detach();
+        }
+    };
+
+conf.delegate = conf.on;
+conf.detachDelegate = conf.detach;
+
+Y.Event.define("hover", conf);
+
+
+}, '3.16.0', {"requires": ["event-mouseenter"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
 YUI.add('event-outside', function (Y, NAME) {
 
 /**
@@ -4764,7 +2088,7 @@ Y.Event.defineOutside = function (event, name) {
     name = name || (event + 'outside');
 
     var config = {
-    
+
         on: function (node, sub, notifier) {
             sub.handle = Y.one('doc').on(event, function(e) {
                 if (this.isOutside(node, e.target)) {
@@ -4773,11 +2097,11 @@ Y.Event.defineOutside = function (event, name) {
                 }
             }, this);
         },
-        
+
         detach: function (node, sub, notifier) {
             sub.handle.detach();
         },
-        
+
         delegate: function (node, sub, notifier, filter) {
             sub.handle = Y.one('doc').delegate(event, function (e) {
                 if (this.isOutside(node, e.target)) {
@@ -4785,7 +2109,7 @@ Y.Event.defineOutside = function (event, name) {
                 }
             }, filter, this);
         },
-        
+
         isOutside: function (node, target) {
             return target !== node && !target.ancestor(function (p) {
                     return p === node;
@@ -4803,8 +2127,2063 @@ Y.Array.each(nativeEvents, function (event) {
 });
 
 
-}, '3.8.1', {"requires": ["event-synthetic"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
+}, '3.16.0', {"requires": ["event-synthetic"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
+YUI.add('event-move', function (Y, NAME) {
+
+/**
+ * Adds lower level support for "gesturemovestart", "gesturemove" and "gesturemoveend" events, which can be used to create drag/drop
+ * interactions which work across touch and mouse input devices. They correspond to "touchstart", "touchmove" and "touchend" on a touch input
+ * device, and "mousedown", "mousemove", "mouseup" on a mouse based input device.
+ *
+ * <p>Documentation for the gesturemove triplet of events can be found on the <a href="../classes/YUI.html#event_gesturemove">YUI</a> global,
+ * along with the other supported events.</p>
+
+ @example
+
+     YUI().use('event-move', function (Y) {
+         Y.one('#myNode').on('gesturemovestart', function (e) {
+         });
+         Y.one('#myNode').on('gesturemove', function (e) {
+         });
+         Y.one('#myNode').on('gesturemoveend', function (e) {
+         });
+     });
+
+ * @module event-gestures
+ * @submodule event-move
+ */
+
+
+ var GESTURE_MAP = Y.Event._GESTURE_MAP,
+     EVENT = {
+         start: GESTURE_MAP.start,
+         end: GESTURE_MAP.end,
+         move: GESTURE_MAP.move
+     },
+    START = "start",
+    MOVE = "move",
+    END = "end",
+
+    GESTURE_MOVE = "gesture" + MOVE,
+    GESTURE_MOVE_END = GESTURE_MOVE + END,
+    GESTURE_MOVE_START = GESTURE_MOVE + START,
+
+    _MOVE_START_HANDLE = "_msh",
+    _MOVE_HANDLE = "_mh",
+    _MOVE_END_HANDLE = "_meh",
+
+    _DEL_MOVE_START_HANDLE = "_dmsh",
+    _DEL_MOVE_HANDLE = "_dmh",
+    _DEL_MOVE_END_HANDLE = "_dmeh",
+
+    _MOVE_START = "_ms",
+    _MOVE = "_m",
+
+    MIN_TIME = "minTime",
+    MIN_DISTANCE = "minDistance",
+    PREVENT_DEFAULT = "preventDefault",
+    BUTTON = "button",
+    OWNER_DOCUMENT = "ownerDocument",
+
+    CURRENT_TARGET = "currentTarget",
+    TARGET = "target",
+
+    NODE_TYPE = "nodeType",
+    SUPPORTS_POINTER = Y.config.win && ("msPointerEnabled" in Y.config.win.navigator),
+    MS_TOUCH_ACTION_COUNT = 'msTouchActionCount',
+    MS_INIT_TOUCH_ACTION = 'msInitTouchAction',
+
+    _defArgsProcessor = function(se, args, delegate) {
+        var iConfig = (delegate) ? 4 : 3,
+            config = (args.length > iConfig) ? Y.merge(args.splice(iConfig,1)[0]) : {};
+
+        if (!(PREVENT_DEFAULT in config)) {
+            config[PREVENT_DEFAULT] = se.PREVENT_DEFAULT;
+        }
+
+        return config;
+    },
+
+    _getRoot = function(node, subscriber) {
+        return subscriber._extra.root || (node.get(NODE_TYPE) === 9) ? node : node.get(OWNER_DOCUMENT);
+    },
+
+    //Checks to see if the node is the document, and if it is, returns the documentElement.
+    _checkDocumentElem = function(node) {
+        var elem = node.getDOMNode();
+        if (node.compareTo(Y.config.doc) && elem.documentElement) {
+            return elem.documentElement;
+        }
+        else {
+            return false;
+        }
+    },
+
+    _normTouchFacade = function(touchFacade, touch, params) {
+        touchFacade.pageX = touch.pageX;
+        touchFacade.pageY = touch.pageY;
+        touchFacade.screenX = touch.screenX;
+        touchFacade.screenY = touch.screenY;
+        touchFacade.clientX = touch.clientX;
+        touchFacade.clientY = touch.clientY;
+        touchFacade[TARGET] = touchFacade[TARGET] || touch[TARGET];
+        touchFacade[CURRENT_TARGET] = touchFacade[CURRENT_TARGET] || touch[CURRENT_TARGET];
+
+        touchFacade[BUTTON] = (params && params[BUTTON]) || 1; // default to left (left as per vendors, not W3C which is 0)
+    },
+
+    /*
+    In IE10 touch mode, gestures will not work properly unless the -ms-touch-action CSS property is set to something other than 'auto'. Read http://msdn.microsoft.com/en-us/library/windows/apps/hh767313.aspx for more info. To get around this, we set -ms-touch-action: none which is the same as e.preventDefault() on touch environments. This tells the browser to fire DOM events for all touch events, and not perform any default behavior.
+
+    The user can over-ride this by setting a more lenient -ms-touch-action property on a node (such as pan-x, pan-y, etc.) via CSS when subscribing to the 'gesturemovestart' event.
+    */
+    _setTouchActions = function (node) {
+        var elem = _checkDocumentElem(node) || node.getDOMNode(),
+            num = node.getData(MS_TOUCH_ACTION_COUNT);
+
+        //Checks to see if msTouchAction is supported.
+        if (SUPPORTS_POINTER) {
+            if (!num) {
+                num = 0;
+                node.setData(MS_INIT_TOUCH_ACTION, elem.style.msTouchAction);
+            }
+            elem.style.msTouchAction = Y.Event._DEFAULT_TOUCH_ACTION;
+            num++;
+            node.setData(MS_TOUCH_ACTION_COUNT, num);
+        }
+    },
+
+    /*
+    Resets the element's -ms-touch-action property back to the original value, This is called on detach() and detachDelegate().
+    */
+    _unsetTouchActions = function (node) {
+        var elem = _checkDocumentElem(node) || node.getDOMNode(),
+            num = node.getData(MS_TOUCH_ACTION_COUNT),
+            initTouchAction = node.getData(MS_INIT_TOUCH_ACTION);
+
+        if (SUPPORTS_POINTER) {
+            num--;
+            node.setData(MS_TOUCH_ACTION_COUNT, num);
+            if (num === 0 && elem.style.msTouchAction !== initTouchAction) {
+                elem.style.msTouchAction = initTouchAction;
+            }
+        }
+    },
+
+    _prevent = function(e, preventDefault) {
+        if (preventDefault) {
+            // preventDefault is a boolean or a function
+            if (!preventDefault.call || preventDefault(e)) {
+                e.preventDefault();
+            }
+        }
+    },
+
+    define = Y.Event.define;
+    Y.Event._DEFAULT_TOUCH_ACTION = 'none';
+
+/**
+ * Sets up a "gesturemovestart" event, that is fired on touch devices in response to a single finger "touchstart",
+ * and on mouse based devices in response to a "mousedown". The subscriber can specify the minimum time
+ * and distance thresholds which should be crossed before the "gesturemovestart" is fired and for the mouse,
+ * which button should initiate a "gesturemovestart". This event can also be listened for using node.delegate().
+ *
+ * <p>It is recommended that you use Y.bind to set up context and additional arguments for your event handler,
+ * however if you want to pass the context and arguments as additional signature arguments to on/delegate,
+ * you need to provide a null value for the configuration object, e.g: <code>node.on("gesturemovestart", fn, null, context, arg1, arg2, arg3)</code></p>
+ *
+ * @event gesturemovestart
+ * @for YUI
+ * @param type {string} "gesturemovestart"
+ * @param fn {function} The method the event invokes. It receives the event facade of the underlying DOM event (mousedown or touchstart.touches[0]) which contains position co-ordinates.
+ * @param cfg {Object} Optional. An object which specifies:
+ *
+ * <dl>
+ * <dt>minDistance (defaults to 0)</dt>
+ * <dd>The minimum distance threshold which should be crossed before the gesturemovestart is fired</dd>
+ * <dt>minTime (defaults to 0)</dt>
+ * <dd>The minimum time threshold for which the finger/mouse should be help down before the gesturemovestart is fired</dd>
+ * <dt>button (no default)</dt>
+ * <dd>In the case of a mouse input device, if the event should only be fired for a specific mouse button.</dd>
+ * <dt>preventDefault (defaults to false)</dt>
+ * <dd>Can be set to true/false to prevent default behavior as soon as the touchstart or mousedown is received (that is before minTime or minDistance thresholds are crossed, and so before the gesturemovestart listener is notified) so that things like text selection and context popups (on touch devices) can be
+ * prevented. This property can also be set to a function, which returns true or false, based on the event facade passed to it (for example, DragDrop can determine if the target is a valid handle or not before preventing default).</dd>
+ * </dl>
+ *
+ * @return {EventHandle} the detach handle
+ */
+
+define(GESTURE_MOVE_START, {
+
+    on: function (node, subscriber, ce) {
+
+        //Set -ms-touch-action on IE10 and set preventDefault to true
+        _setTouchActions(node);
+
+        subscriber[_MOVE_START_HANDLE] = node.on(EVENT[START],
+            this._onStart,
+            this,
+            node,
+            subscriber,
+            ce);
+    },
+
+    delegate : function(node, subscriber, ce, filter) {
+
+        var se = this;
+
+        subscriber[_DEL_MOVE_START_HANDLE] = node.delegate(EVENT[START],
+            function(e) {
+                se._onStart(e, node, subscriber, ce, true);
+            },
+            filter);
+    },
+
+    detachDelegate : function(node, subscriber, ce, filter) {
+        var handle = subscriber[_DEL_MOVE_START_HANDLE];
+
+        if (handle) {
+            handle.detach();
+            subscriber[_DEL_MOVE_START_HANDLE] = null;
+        }
+
+        _unsetTouchActions(node);
+    },
+
+    detach: function (node, subscriber, ce) {
+        var startHandle = subscriber[_MOVE_START_HANDLE];
+
+        if (startHandle) {
+            startHandle.detach();
+            subscriber[_MOVE_START_HANDLE] = null;
+        }
+
+        _unsetTouchActions(node);
+    },
+
+    processArgs : function(args, delegate) {
+        var params = _defArgsProcessor(this, args, delegate);
+
+        if (!(MIN_TIME in params)) {
+            params[MIN_TIME] = this.MIN_TIME;
+        }
+
+        if (!(MIN_DISTANCE in params)) {
+            params[MIN_DISTANCE] = this.MIN_DISTANCE;
+        }
+
+        return params;
+    },
+
+    _onStart : function(e, node, subscriber, ce, delegate) {
+
+        if (delegate) {
+            node = e[CURRENT_TARGET];
+        }
+
+        var params = subscriber._extra,
+            fireStart = true,
+            minTime = params[MIN_TIME],
+            minDistance = params[MIN_DISTANCE],
+            button = params.button,
+            preventDefault = params[PREVENT_DEFAULT],
+            root = _getRoot(node, subscriber),
+            startXY;
+
+        if (e.touches) {
+            if (e.touches.length === 1) {
+                _normTouchFacade(e, e.touches[0], params);
+            } else {
+                fireStart = false;
+            }
+        } else {
+            fireStart = (button === undefined) || (button === e.button);
+        }
+
+
+        if (fireStart) {
+
+            _prevent(e, preventDefault);
+
+            if (minTime === 0 || minDistance === 0) {
+                this._start(e, node, ce, params);
+
+            } else {
+
+                startXY = [e.pageX, e.pageY];
+
+                if (minTime > 0) {
+
+
+                    params._ht = Y.later(minTime, this, this._start, [e, node, ce, params]);
+
+                    params._hme = root.on(EVENT[END], Y.bind(function() {
+                        this._cancel(params);
+                    }, this));
+                }
+
+                if (minDistance > 0) {
+
+
+                    params._hm = root.on(EVENT[MOVE], Y.bind(function(em) {
+                        if (Math.abs(em.pageX - startXY[0]) > minDistance || Math.abs(em.pageY - startXY[1]) > minDistance) {
+                            this._start(e, node, ce, params);
+                        }
+                    }, this));
+                }
+            }
+        }
+    },
+
+    _cancel : function(params) {
+        if (params._ht) {
+            params._ht.cancel();
+            params._ht = null;
+        }
+        if (params._hme) {
+            params._hme.detach();
+            params._hme = null;
+        }
+        if (params._hm) {
+            params._hm.detach();
+            params._hm = null;
+        }
+    },
+
+    _start : function(e, node, ce, params) {
+
+        if (params) {
+            this._cancel(params);
+        }
+
+        e.type = GESTURE_MOVE_START;
+
+
+        node.setData(_MOVE_START, e);
+        ce.fire(e);
+    },
+
+    MIN_TIME : 0,
+    MIN_DISTANCE : 0,
+    PREVENT_DEFAULT : false
+});
+
+/**
+ * Sets up a "gesturemove" event, that is fired on touch devices in response to a single finger "touchmove",
+ * and on mouse based devices in response to a "mousemove".
+ *
+ * <p>By default this event is only fired when the same node
+ * has received a "gesturemovestart" event. The subscriber can set standAlone to true, in the configuration properties,
+ * if they want to listen for this event without an initial "gesturemovestart".</p>
+ *
+ * <p>By default this event sets up it's internal "touchmove" and "mousemove" DOM listeners on the document element. The subscriber
+ * can set the root configuration property, to specify which node to attach DOM listeners to, if different from the document.</p>
+ *
+ * <p>This event can also be listened for using node.delegate().</p>
+ *
+ * <p>It is recommended that you use Y.bind to set up context and additional arguments for your event handler,
+ * however if you want to pass the context and arguments as additional signature arguments to on/delegate,
+ * you need to provide a null value for the configuration object, e.g: <code>node.on("gesturemove", fn, null, context, arg1, arg2, arg3)</code></p>
+ *
+ * @event gesturemove
+ * @for YUI
+ * @param type {string} "gesturemove"
+ * @param fn {function} The method the event invokes. It receives the event facade of the underlying DOM event (mousemove or touchmove.touches[0]) which contains position co-ordinates.
+ * @param cfg {Object} Optional. An object which specifies:
+ * <dl>
+ * <dt>standAlone (defaults to false)</dt>
+ * <dd>true, if the subscriber should be notified even if a "gesturemovestart" has not occured on the same node.</dd>
+ * <dt>root (defaults to document)</dt>
+ * <dd>The node to which the internal DOM listeners should be attached.</dd>
+ * <dt>preventDefault (defaults to false)</dt>
+ * <dd>Can be set to true/false to prevent default behavior as soon as the touchmove or mousemove is received. As with gesturemovestart, can also be set to function which returns true/false based on the event facade passed to it.</dd>
+ * </dl>
+ *
+ * @return {EventHandle} the detach handle
+ */
+define(GESTURE_MOVE, {
+
+    on : function (node, subscriber, ce) {
+
+        _setTouchActions(node);
+        var root = _getRoot(node, subscriber, EVENT[MOVE]),
+
+            moveHandle = root.on(EVENT[MOVE],
+                this._onMove,
+                this,
+                node,
+                subscriber,
+                ce);
+
+        subscriber[_MOVE_HANDLE] = moveHandle;
+
+    },
+
+    delegate : function(node, subscriber, ce, filter) {
+
+        var se = this;
+
+        subscriber[_DEL_MOVE_HANDLE] = node.delegate(EVENT[MOVE],
+            function(e) {
+                se._onMove(e, node, subscriber, ce, true);
+            },
+            filter);
+    },
+
+    detach : function (node, subscriber, ce) {
+        var moveHandle = subscriber[_MOVE_HANDLE];
+
+        if (moveHandle) {
+            moveHandle.detach();
+            subscriber[_MOVE_HANDLE] = null;
+        }
+
+        _unsetTouchActions(node);
+    },
+
+    detachDelegate : function(node, subscriber, ce, filter) {
+        var handle = subscriber[_DEL_MOVE_HANDLE];
+
+        if (handle) {
+            handle.detach();
+            subscriber[_DEL_MOVE_HANDLE] = null;
+        }
+
+        _unsetTouchActions(node);
+
+    },
+
+    processArgs : function(args, delegate) {
+        return _defArgsProcessor(this, args, delegate);
+    },
+
+    _onMove : function(e, node, subscriber, ce, delegate) {
+
+        if (delegate) {
+            node = e[CURRENT_TARGET];
+        }
+
+        var fireMove = subscriber._extra.standAlone || node.getData(_MOVE_START),
+            preventDefault = subscriber._extra.preventDefault;
+
+
+        if (fireMove) {
+
+            if (e.touches) {
+                if (e.touches.length === 1) {
+                    _normTouchFacade(e, e.touches[0]);
+                } else {
+                    fireMove = false;
+                }
+            }
+
+            if (fireMove) {
+
+                _prevent(e, preventDefault);
+
+
+                e.type = GESTURE_MOVE;
+                ce.fire(e);
+            }
+        }
+    },
+
+    PREVENT_DEFAULT : false
+});
+
+/**
+ * Sets up a "gesturemoveend" event, that is fired on touch devices in response to a single finger "touchend",
+ * and on mouse based devices in response to a "mouseup".
+ *
+ * <p>By default this event is only fired when the same node
+ * has received a "gesturemove" or "gesturemovestart" event. The subscriber can set standAlone to true, in the configuration properties,
+ * if they want to listen for this event without a preceding "gesturemovestart" or "gesturemove".</p>
+ *
+ * <p>By default this event sets up it's internal "touchend" and "mouseup" DOM listeners on the document element. The subscriber
+ * can set the root configuration property, to specify which node to attach DOM listeners to, if different from the document.</p>
+ *
+ * <p>This event can also be listened for using node.delegate().</p>
+ *
+ * <p>It is recommended that you use Y.bind to set up context and additional arguments for your event handler,
+ * however if you want to pass the context and arguments as additional signature arguments to on/delegate,
+ * you need to provide a null value for the configuration object, e.g: <code>node.on("gesturemoveend", fn, null, context, arg1, arg2, arg3)</code></p>
+ *
+ *
+ * @event gesturemoveend
+ * @for YUI
+ * @param type {string} "gesturemoveend"
+ * @param fn {function} The method the event invokes. It receives the event facade of the underlying DOM event (mouseup or touchend.changedTouches[0]).
+ * @param cfg {Object} Optional. An object which specifies:
+ * <dl>
+ * <dt>standAlone (defaults to false)</dt>
+ * <dd>true, if the subscriber should be notified even if a "gesturemovestart" or "gesturemove" has not occured on the same node.</dd>
+ * <dt>root (defaults to document)</dt>
+ * <dd>The node to which the internal DOM listeners should be attached.</dd>
+ * <dt>preventDefault (defaults to false)</dt>
+ * <dd>Can be set to true/false to prevent default behavior as soon as the touchend or mouseup is received. As with gesturemovestart, can also be set to function which returns true/false based on the event facade passed to it.</dd>
+ * </dl>
+ *
+ * @return {EventHandle} the detach handle
+ */
+define(GESTURE_MOVE_END, {
+
+    on : function (node, subscriber, ce) {
+        _setTouchActions(node);
+        var root = _getRoot(node, subscriber),
+
+            endHandle = root.on(EVENT[END],
+                this._onEnd,
+                this,
+                node,
+                subscriber,
+                ce);
+
+        subscriber[_MOVE_END_HANDLE] = endHandle;
+    },
+
+    delegate : function(node, subscriber, ce, filter) {
+
+        var se = this;
+
+        subscriber[_DEL_MOVE_END_HANDLE] = node.delegate(EVENT[END],
+            function(e) {
+                se._onEnd(e, node, subscriber, ce, true);
+            },
+            filter);
+    },
+
+    detachDelegate : function(node, subscriber, ce, filter) {
+        var handle = subscriber[_DEL_MOVE_END_HANDLE];
+
+        if (handle) {
+            handle.detach();
+            subscriber[_DEL_MOVE_END_HANDLE] = null;
+        }
+
+        _unsetTouchActions(node);
+
+    },
+
+    detach : function (node, subscriber, ce) {
+        var endHandle = subscriber[_MOVE_END_HANDLE];
+
+        if (endHandle) {
+            endHandle.detach();
+            subscriber[_MOVE_END_HANDLE] = null;
+        }
+
+        _unsetTouchActions(node);
+    },
+
+    processArgs : function(args, delegate) {
+        return _defArgsProcessor(this, args, delegate);
+    },
+
+    _onEnd : function(e, node, subscriber, ce, delegate) {
+
+        if (delegate) {
+            node = e[CURRENT_TARGET];
+        }
+
+        var fireMoveEnd = subscriber._extra.standAlone || node.getData(_MOVE) || node.getData(_MOVE_START),
+            preventDefault = subscriber._extra.preventDefault;
+
+        if (fireMoveEnd) {
+
+            if (e.changedTouches) {
+                if (e.changedTouches.length === 1) {
+                    _normTouchFacade(e, e.changedTouches[0]);
+                } else {
+                    fireMoveEnd = false;
+                }
+            }
+
+            if (fireMoveEnd) {
+
+                _prevent(e, preventDefault);
+
+                e.type = GESTURE_MOVE_END;
+                ce.fire(e);
+
+                node.clearData(_MOVE_START);
+                node.clearData(_MOVE);
+            }
+        }
+    },
+
+    PREVENT_DEFAULT : false
+});
+
+
+}, '3.16.0', {"requires": ["node-base", "event-touch", "event-synthetic"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
+YUI.add('event-flick', function (Y, NAME) {
+
+/**
+ * The gestures module provides gesture events such as "flick", which normalize user interactions
+ * across touch and mouse or pointer based input devices. This layer can be used by application developers
+ * to build input device agnostic components which behave the same in response to either touch or mouse based
+ * interaction.
+ *
+ * <p>Documentation for events added by this module can be found in the event document for the <a href="../classes/YUI.html#events">YUI</a> global.</p>
+ *
+ *
+ @example
+
+     YUI().use('event-flick', function (Y) {
+         Y.one('#myNode').on('flick', function (e) {
+         });
+     });
+
+ *
+ * @module event-gestures
+ */
+
+/**
+ * Adds support for a "flick" event, which is fired at the end of a touch or mouse based flick gesture, and provides
+ * velocity of the flick, along with distance and time information.
+ *
+ * <p>Documentation for the flick event can be found on the <a href="../classes/YUI.html#event_flick">YUI</a> global,
+ * along with the other supported events.</p>
+ *
+ * @module event-gestures
+ * @submodule event-flick
+ */
+var GESTURE_MAP = Y.Event._GESTURE_MAP,
+    EVENT = {
+        start: GESTURE_MAP.start,
+        end: GESTURE_MAP.end,
+        move: GESTURE_MAP.move
+    },
+    START = "start",
+    END = "end",
+    MOVE = "move",
+
+    OWNER_DOCUMENT = "ownerDocument",
+    MIN_VELOCITY = "minVelocity",
+    MIN_DISTANCE = "minDistance",
+    PREVENT_DEFAULT = "preventDefault",
+
+    _FLICK_START = "_fs",
+    _FLICK_START_HANDLE = "_fsh",
+    _FLICK_END_HANDLE = "_feh",
+    _FLICK_MOVE_HANDLE = "_fmh",
+
+    NODE_TYPE = "nodeType";
+
+/**
+ * Sets up a "flick" event, that is fired whenever the user initiates a flick gesture on the node
+ * where the listener is attached. The subscriber can specify a minimum distance or velocity for
+ * which the event is to be fired. The subscriber can also specify if there is a particular axis which
+ * they are interested in - "x" or "y". If no axis is specified, the axis along which there was most distance
+ * covered is used.
+ *
+ * <p>It is recommended that you use Y.bind to set up context and additional arguments for your event handler,
+ * however if you want to pass the context and arguments as additional signature arguments to "on",
+ * you need to provide a null value for the configuration object, e.g: <code>node.on("flick", fn, null, context, arg1, arg2, arg3)</code></p>
+ *
+ * @event flick
+ * @for YUI
+ * @param type {string} "flick"
+ * @param fn {function} The method the event invokes. It receives an event facade with an e.flick object containing the flick related properties: e.flick.time, e.flick.distance, e.flick.velocity and e.flick.axis, e.flick.start.
+ * @param cfg {Object} Optional. An object which specifies any of the following:
+ * <dl>
+ * <dt>minDistance (in pixels, defaults to 10)</dt>
+ * <dd>The minimum distance between start and end points, which would qualify the gesture as a flick.</dd>
+ * <dt>minVelocity (in pixels/ms, defaults to 0)</dt>
+ * <dd>The minimum velocity which would qualify the gesture as a flick.</dd>
+ * <dt>preventDefault (defaults to false)</dt>
+ * <dd>Can be set to true/false to prevent default behavior as soon as the touchstart/touchend or mousedown/mouseup is received so that things like scrolling or text selection can be
+ * prevented. This property can also be set to a function, which returns true or false, based on the event facade passed to it.</dd>
+ * <dt>axis (no default)</dt>
+ * <dd>Can be set to "x" or "y" if you want to constrain the flick velocity and distance to a single axis. If not
+ * defined, the axis along which the maximum distance was covered is used.</dd>
+ * </dl>
+ * @return {EventHandle} the detach handle
+ */
+
+Y.Event.define('flick', {
+
+    on: function (node, subscriber, ce) {
+
+        var startHandle = node.on(EVENT[START],
+            this._onStart,
+            this,
+            node,
+            subscriber,
+            ce);
+
+        subscriber[_FLICK_START_HANDLE] = startHandle;
+    },
+
+    detach: function (node, subscriber, ce) {
+
+        var startHandle = subscriber[_FLICK_START_HANDLE],
+            endHandle = subscriber[_FLICK_END_HANDLE];
+
+        if (startHandle) {
+            startHandle.detach();
+            subscriber[_FLICK_START_HANDLE] = null;
+        }
+
+        if (endHandle) {
+            endHandle.detach();
+            subscriber[_FLICK_END_HANDLE] = null;
+        }
+    },
+
+    processArgs: function(args) {
+        var params = (args.length > 3) ? Y.merge(args.splice(3, 1)[0]) : {};
+
+        if (!(MIN_VELOCITY in params)) {
+            params[MIN_VELOCITY] = this.MIN_VELOCITY;
+        }
+
+        if (!(MIN_DISTANCE in params)) {
+            params[MIN_DISTANCE] = this.MIN_DISTANCE;
+        }
+
+        if (!(PREVENT_DEFAULT in params)) {
+            params[PREVENT_DEFAULT] = this.PREVENT_DEFAULT;
+        }
+
+        return params;
+    },
+
+    _onStart: function(e, node, subscriber, ce) {
+
+        var start = true, // always true for mouse
+            endHandle,
+            moveHandle,
+            doc,
+            preventDefault = subscriber._extra.preventDefault,
+            origE = e;
+
+        if (e.touches) {
+            start = (e.touches.length === 1);
+            e = e.touches[0];
+        }
+
+        if (start) {
+
+            if (preventDefault) {
+                // preventDefault is a boolean or function
+                if (!preventDefault.call || preventDefault(e)) {
+                    origE.preventDefault();
+                }
+            }
+
+            e.flick = {
+                time : new Date().getTime()
+            };
+
+            subscriber[_FLICK_START] = e;
+
+            endHandle = subscriber[_FLICK_END_HANDLE];
+
+            doc = (node.get(NODE_TYPE) === 9) ? node : node.get(OWNER_DOCUMENT);
+            if (!endHandle) {
+                endHandle = doc.on(EVENT[END], Y.bind(this._onEnd, this), null, node, subscriber, ce);
+                subscriber[_FLICK_END_HANDLE] = endHandle;
+            }
+
+            subscriber[_FLICK_MOVE_HANDLE] = doc.once(EVENT[MOVE], Y.bind(this._onMove, this), null, node, subscriber, ce);
+        }
+    },
+
+    _onMove: function(e, node, subscriber, ce) {
+        var start = subscriber[_FLICK_START];
+
+        // Start timing from first move.
+        if (start && start.flick) {
+            start.flick.time = new Date().getTime();
+        }
+    },
+
+    _onEnd: function(e, node, subscriber, ce) {
+
+        var endTime = new Date().getTime(),
+            start = subscriber[_FLICK_START],
+            valid = !!start,
+            endEvent = e,
+            startTime,
+            time,
+            preventDefault,
+            params,
+            xyDistance,
+            distance,
+            velocity,
+            axis,
+            moveHandle = subscriber[_FLICK_MOVE_HANDLE];
+
+        if (moveHandle) {
+            moveHandle.detach();
+            delete subscriber[_FLICK_MOVE_HANDLE];
+        }
+
+        if (valid) {
+
+            if (e.changedTouches) {
+                if (e.changedTouches.length === 1 && e.touches.length === 0) {
+                    endEvent = e.changedTouches[0];
+                } else {
+                    valid = false;
+                }
+            }
+
+            if (valid) {
+
+                params = subscriber._extra;
+                preventDefault = params[PREVENT_DEFAULT];
+
+                if (preventDefault) {
+                    // preventDefault is a boolean or function
+                    if (!preventDefault.call || preventDefault(e)) {
+                        e.preventDefault();
+                    }
+                }
+
+                startTime = start.flick.time;
+                endTime = new Date().getTime();
+                time = endTime - startTime;
+
+                xyDistance = [
+                    endEvent.pageX - start.pageX,
+                    endEvent.pageY - start.pageY
+                ];
+
+                if (params.axis) {
+                    axis = params.axis;
+                } else {
+                    axis = (Math.abs(xyDistance[0]) >= Math.abs(xyDistance[1])) ? 'x' : 'y';
+                }
+
+                distance = xyDistance[(axis === 'x') ? 0 : 1];
+                velocity = (time !== 0) ? distance/time : 0;
+
+                if (isFinite(velocity) && (Math.abs(distance) >= params[MIN_DISTANCE]) && (Math.abs(velocity)  >= params[MIN_VELOCITY])) {
+
+                    e.type = "flick";
+                    e.flick = {
+                        time:time,
+                        distance: distance,
+                        velocity:velocity,
+                        axis: axis,
+                        start : start
+                    };
+
+                    ce.fire(e);
+
+                }
+
+                subscriber[_FLICK_START] = null;
+            }
+        }
+    },
+
+    MIN_VELOCITY : 0,
+    MIN_DISTANCE : 0,
+    PREVENT_DEFAULT : false
+});
+
+
+}, '3.16.0', {"requires": ["node-base", "event-touch", "event-synthetic"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
+YUI.add('event-valuechange', function (Y, NAME) {
+
+/**
+Adds a synthetic `valuechange` event that fires when the `value` property of an
+`<input>`, `<textarea>`, `<select>`, or `[contenteditable="true"]` node changes
+as a result of a keystroke, mouse operation, or input method editor (IME)
+input event.
+
+Usage:
+
+    YUI().use('event-valuechange', function (Y) {
+        Y.one('#my-input').on('valuechange', function (e) {
+        });
+    });
+
+@module event-valuechange
+**/
+
+/**
+Provides the implementation for the synthetic `valuechange` event. This class
+isn't meant to be used directly, but is public to make monkeypatching possible.
+
+Usage:
+
+    YUI().use('event-valuechange', function (Y) {
+        Y.one('#my-input').on('valuechange', function (e) {
+        });
+    });
+
+@class ValueChange
+@static
+*/
+
+var DATA_KEY = '_valuechange',
+    VALUE    = 'value',
+    NODE_NAME = 'nodeName',
+
+    config, // defined at the end of this file
+
+// Just a simple namespace to make methods overridable.
+VC = {
+    // -- Static Constants -----------------------------------------------------
+
+    /**
+    Interval (in milliseconds) at which to poll for changes to the value of an
+    element with one or more `valuechange` subscribers when the user is likely
+    to be interacting with it.
+
+    @property POLL_INTERVAL
+    @type Number
+    @default 50
+    @static
+    **/
+    POLL_INTERVAL: 50,
+
+    /**
+    Timeout (in milliseconds) after which to stop polling when there hasn't been
+    any new activity (keypresses, mouse clicks, etc.) on an element.
+
+    @property TIMEOUT
+    @type Number
+    @default 10000
+    @static
+    **/
+    TIMEOUT: 10000,
+
+    // -- Protected Static Methods ---------------------------------------------
+
+    /**
+    Called at an interval to poll for changes to the value of the specified
+    node.
+
+    @method _poll
+    @param {Node} node Node to poll.
+
+    @param {Object} options Options object.
+        @param {EventFacade} [options.e] Event facade of the event that
+            initiated the polling.
+
+    @protected
+    @static
+    **/
+    _poll: function (node, options) {
+        var domNode  = node._node, // performance cheat; getValue() is a big hit when polling
+            event    = options.e,
+            vcData   = node._data && node._data[DATA_KEY], // another perf cheat
+            stopped  = 0,
+            facade, prevVal, newVal, nodeName, selectedOption, stopElement;
+
+        if (!(domNode && vcData)) {
+            VC._stopPolling(node);
+            return;
+        }
+
+        prevVal = vcData.prevVal;
+        nodeName  = vcData.nodeName;
+
+        if (vcData.isEditable) {
+            // Use innerHTML for performance
+            newVal = domNode.innerHTML;
+        } else if (nodeName === 'input' || nodeName === 'textarea') {
+            // Use value property for performance
+            newVal = domNode.value;
+        } else if (nodeName === 'select') {
+            // Back-compatibility with IE6 <select> element values.
+            // Huge performance cheat to get past node.get('value').
+            selectedOption = domNode.options[domNode.selectedIndex];
+            newVal = selectedOption.value || selectedOption.text;
+        }
+
+        if (newVal !== prevVal) {
+            vcData.prevVal = newVal;
+
+            facade = {
+                _event       : event,
+                currentTarget: (event && event.currentTarget) || node,
+                newVal       : newVal,
+                prevVal      : prevVal,
+                target       : (event && event.target) || node
+            };
+
+            Y.Object.some(vcData.notifiers, function (notifier) {
+                var evt = notifier.handle.evt,
+                    newStopped;
+
+                // support e.stopPropagation()
+                if (stopped !== 1) {
+                    notifier.fire(facade);
+                } else if (evt.el === stopElement) {
+                    notifier.fire(facade);
+                }
+
+                newStopped = evt && evt._facade ? evt._facade.stopped : 0;
+
+                // need to consider the condition in which there are two
+                // listeners on the same element:
+                // listener 1 calls e.stopPropagation()
+                // listener 2 calls e.stopImmediatePropagation()
+                if (newStopped > stopped) {
+                    stopped = newStopped;
+
+                    if (stopped === 1) {
+                        stopElement = evt.el;
+                    }
+                }
+
+                // support e.stopImmediatePropagation()
+                if (stopped === 2) {
+                    return true;
+                }
+            });
+
+            VC._refreshTimeout(node);
+        }
+    },
+
+    /**
+    Restarts the inactivity timeout for the specified node.
+
+    @method _refreshTimeout
+    @param {Node} node Node to refresh.
+    @param {SyntheticEvent.Notifier} notifier
+    @protected
+    @static
+    **/
+    _refreshTimeout: function (node, notifier) {
+        // The node may have been destroyed, so check that it still exists
+        // before trying to get its data. Otherwise an error will occur.
+        if (!node._node) {
+            return;
+        }
+
+        var vcData = node.getData(DATA_KEY);
+
+        VC._stopTimeout(node); // avoid dupes
+
+        // If we don't see any changes within the timeout period (10 seconds by
+        // default), stop polling.
+        vcData.timeout = setTimeout(function () {
+            VC._stopPolling(node, notifier);
+        }, VC.TIMEOUT);
+
+    },
+
+    /**
+    Begins polling for changes to the `value` property of the specified node. If
+    polling is already underway for the specified node, it will not be restarted
+    unless the `force` option is `true`
+
+    @method _startPolling
+    @param {Node} node Node to watch.
+    @param {SyntheticEvent.Notifier} notifier
+
+    @param {Object} options Options object.
+        @param {EventFacade} [options.e] Event facade of the event that
+            initiated the polling.
+        @param {Boolean} [options.force=false] If `true`, polling will be
+            restarted even if we're already polling this node.
+
+    @protected
+    @static
+    **/
+    _startPolling: function (node, notifier, options) {
+        var vcData, isEditable;
+
+        if (!node.test('input,textarea,select') && !(isEditable = VC._isEditable(node))) {
+            return;
+        }
+
+        vcData = node.getData(DATA_KEY);
+
+        if (!vcData) {
+            vcData = {
+                nodeName   : node.get(NODE_NAME).toLowerCase(),
+                isEditable : isEditable,
+                prevVal    : isEditable ? node.getDOMNode().innerHTML : node.get(VALUE)
+            };
+
+            node.setData(DATA_KEY, vcData);
+        }
+
+        vcData.notifiers || (vcData.notifiers = {});
+
+        // Don't bother continuing if we're already polling this node, unless
+        // `options.force` is true.
+        if (vcData.interval) {
+            if (options.force) {
+                VC._stopPolling(node, notifier); // restart polling, but avoid dupe polls
+            } else {
+                vcData.notifiers[Y.stamp(notifier)] = notifier;
+                return;
+            }
+        }
+
+        // Poll for changes to the node's value. We can't rely on keyboard
+        // events for this, since the value may change due to a mouse-initiated
+        // paste event, an IME input event, or for some other reason that
+        // doesn't trigger a key event.
+        vcData.notifiers[Y.stamp(notifier)] = notifier;
+
+        vcData.interval = setInterval(function () {
+            VC._poll(node, options);
+        }, VC.POLL_INTERVAL);
+
+
+        VC._refreshTimeout(node, notifier);
+    },
+
+    /**
+    Stops polling for changes to the specified node's `value` attribute.
+
+    @method _stopPolling
+    @param {Node} node Node to stop polling on.
+    @param {SyntheticEvent.Notifier} [notifier] Notifier to remove from the
+        node. If not specified, all notifiers will be removed.
+    @protected
+    @static
+    **/
+    _stopPolling: function (node, notifier) {
+        // The node may have been destroyed, so check that it still exists
+        // before trying to get its data. Otherwise an error will occur.
+        if (!node._node) {
+            return;
+        }
+
+        var vcData = node.getData(DATA_KEY) || {};
+
+        clearInterval(vcData.interval);
+        delete vcData.interval;
+
+        VC._stopTimeout(node);
+
+        if (notifier) {
+            vcData.notifiers && delete vcData.notifiers[Y.stamp(notifier)];
+        } else {
+            vcData.notifiers = {};
+        }
+
+    },
+
+    /**
+    Clears the inactivity timeout for the specified node, if any.
+
+    @method _stopTimeout
+    @param {Node} node
+    @protected
+    @static
+    **/
+    _stopTimeout: function (node) {
+        var vcData = node.getData(DATA_KEY) || {};
+
+        clearTimeout(vcData.timeout);
+        delete vcData.timeout;
+    },
+
+    /**
+    Check to see if a node has editable content or not.
+
+    TODO: Add additional checks to get it to work for child nodes
+    that inherit "contenteditable" from parent nodes. This may be
+    too computationally intensive to be placed inside of the `_poll`
+    loop, however.
+
+    @method _isEditable
+    @param {Node} node
+    @protected
+    @static
+    **/
+    _isEditable: function (node) {
+        // Performance cheat because this is used inside `_poll`
+        var domNode = node._node;
+        return domNode.contentEditable === 'true' ||
+               domNode.contentEditable === '';
+    },
+
+
+
+    // -- Protected Static Event Handlers --------------------------------------
+
+    /**
+    Stops polling when a node's blur event fires.
+
+    @method _onBlur
+    @param {EventFacade} e
+    @param {SyntheticEvent.Notifier} notifier
+    @protected
+    @static
+    **/
+    _onBlur: function (e, notifier) {
+        VC._stopPolling(e.currentTarget, notifier);
+    },
+
+    /**
+    Resets a node's history and starts polling when a focus event occurs.
+
+    @method _onFocus
+    @param {EventFacade} e
+    @param {SyntheticEvent.Notifier} notifier
+    @protected
+    @static
+    **/
+    _onFocus: function (e, notifier) {
+        var node       = e.currentTarget,
+            vcData     = node.getData(DATA_KEY);
+
+        if (!vcData) {
+            vcData = {
+                isEditable : VC._isEditable(node),
+                nodeName   : node.get(NODE_NAME).toLowerCase()
+            };
+            node.setData(DATA_KEY, vcData);
+        }
+
+        vcData.prevVal = vcData.isEditable ? node.getDOMNode().innerHTML : node.get(VALUE);
+
+        VC._startPolling(node, notifier, {e: e});
+    },
+
+    /**
+    Starts polling when a node receives a keyDown event.
+
+    @method _onKeyDown
+    @param {EventFacade} e
+    @param {SyntheticEvent.Notifier} notifier
+    @protected
+    @static
+    **/
+    _onKeyDown: function (e, notifier) {
+        VC._startPolling(e.currentTarget, notifier, {e: e});
+    },
+
+    /**
+    Starts polling when an IME-related keyUp event occurs on a node.
+
+    @method _onKeyUp
+    @param {EventFacade} e
+    @param {SyntheticEvent.Notifier} notifier
+    @protected
+    @static
+    **/
+    _onKeyUp: function (e, notifier) {
+        // These charCodes indicate that an IME has started. We'll restart
+        // polling and give the IME up to 10 seconds (by default) to finish.
+        if (e.charCode === 229 || e.charCode === 197) {
+            VC._startPolling(e.currentTarget, notifier, {
+                e    : e,
+                force: true
+            });
+        }
+    },
+
+    /**
+    Starts polling when a node receives a mouseDown event.
+
+    @method _onMouseDown
+    @param {EventFacade} e
+    @param {SyntheticEvent.Notifier} notifier
+    @protected
+    @static
+    **/
+    _onMouseDown: function (e, notifier) {
+        VC._startPolling(e.currentTarget, notifier, {e: e});
+    },
+
+    /**
+    Called when the `valuechange` event receives a new subscriber.
+
+    Child nodes that aren't initially available when this subscription is
+    called will still fire the `valuechange` event after their data is
+    collected when the delegated `focus` event is captured. This includes
+    elements that haven't been inserted into the DOM yet, as well as
+    elements that aren't initially `contenteditable`.
+
+    @method _onSubscribe
+    @param {Node} node
+    @param {Subscription} sub
+    @param {SyntheticEvent.Notifier} notifier
+    @param {Function|String} [filter] Filter function or selector string. Only
+        provided for delegate subscriptions.
+    @protected
+    @static
+    **/
+    _onSubscribe: function (node, sub, notifier, filter) {
+        var _valuechange, callbacks, isEditable, inputNodes, editableNodes;
+
+        callbacks = {
+            blur     : VC._onBlur,
+            focus    : VC._onFocus,
+            keydown  : VC._onKeyDown,
+            keyup    : VC._onKeyUp,
+            mousedown: VC._onMouseDown
+        };
+
+        // Store a utility object on the notifier to hold stuff that needs to be
+        // passed around to trigger event handlers, polling handlers, etc.
+        _valuechange = notifier._valuechange = {};
+
+        if (filter) {
+            // If a filter is provided, then this is a delegated subscription.
+            _valuechange.delegated = true;
+
+            // Add a function to the notifier that we can use to find all
+            // nodes that pass the delegate filter.
+            _valuechange.getNodes = function () {
+                inputNodes    = node.all('input,textarea,select').filter(filter);
+                editableNodes = node.all('[contenteditable="true"],[contenteditable=""]').filter(filter);
+
+                return inputNodes.concat(editableNodes);
+            };
+
+            // Store the initial values for each descendant of the container
+            // node that passes the delegate filter.
+            _valuechange.getNodes().each(function (child) {
+                if (!child.getData(DATA_KEY)) {
+                    child.setData(DATA_KEY, {
+                        nodeName   : child.get(NODE_NAME).toLowerCase(),
+                        isEditable : VC._isEditable(child),
+                        prevVal    : isEditable ? child.getDOMNode().innerHTML : child.get(VALUE)
+                    });
+                }
+            });
+
+            notifier._handles = Y.delegate(callbacks, node, filter, null,
+                notifier);
+        } else {
+            isEditable = VC._isEditable(node);
+            // This is a normal (non-delegated) event subscription.
+            if (!node.test('input,textarea,select') && !isEditable) {
+                return;
+            }
+
+            if (!node.getData(DATA_KEY)) {
+                node.setData(DATA_KEY, {
+                    nodeName   : node.get(NODE_NAME).toLowerCase(),
+                    isEditable : isEditable,
+                    prevVal    : isEditable ? node.getDOMNode().innerHTML : node.get(VALUE)
+                });
+            }
+
+            notifier._handles = node.on(callbacks, null, null, notifier);
+        }
+    },
+
+    /**
+    Called when the `valuechange` event loses a subscriber.
+
+    @method _onUnsubscribe
+    @param {Node} node
+    @param {Subscription} subscription
+    @param {SyntheticEvent.Notifier} notifier
+    @protected
+    @static
+    **/
+    _onUnsubscribe: function (node, subscription, notifier) {
+        var _valuechange = notifier._valuechange;
+
+        notifier._handles && notifier._handles.detach();
+
+        if (_valuechange.delegated) {
+            _valuechange.getNodes().each(function (child) {
+                VC._stopPolling(child, notifier);
+            });
+        } else {
+            VC._stopPolling(node, notifier);
+        }
+    }
+};
+
+/**
+Synthetic event that fires when the `value` property of an `<input>`,
+`<textarea>`, `<select>`, or `[contenteditable="true"]` node changes as a
+result of a user-initiated keystroke, mouse operation, or input method
+editor (IME) input event.
+
+Unlike the `onchange` event, this event fires when the value actually changes
+and not when the element loses focus. This event also reports IME and
+multi-stroke input more reliably than `oninput` or the various key events across
+browsers.
+
+For performance reasons, only focused nodes are monitored for changes, so
+programmatic value changes on nodes that don't have focus won't be detected.
+
+@example
+
+    YUI().use('event-valuechange', function (Y) {
+        Y.one('#my-input').on('valuechange', function (e) {
+        });
+    });
+
+@event valuechange
+@param {String} prevVal Previous value prior to the latest change.
+@param {String} newVal New value after the latest change.
+@for YUI
+**/
+
+config = {
+    detach: VC._onUnsubscribe,
+    on    : VC._onSubscribe,
+
+    delegate      : VC._onSubscribe,
+    detachDelegate: VC._onUnsubscribe,
+
+    publishConfig: {
+        emitFacade: true
+    }
+};
+
+Y.Event.define('valuechange', config);
+Y.Event.define('valueChange', config); // deprecated, but supported for backcompat
+
+Y.ValueChange = VC;
+
+
+}, '3.16.0', {"requires": ["event-focus", "event-synthetic"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
+YUI.add('event-tap', function (Y, NAME) {
+
+/**
+The tap module provides a gesture events, "tap", which normalizes user interactions
+across touch and mouse or pointer based input devices.  This can be used by application developers
+to build input device agnostic components which behave the same in response to either touch or mouse based
+interaction.
+
+'tap' is like a touchscreen 'click', only it requires much less finger-down time since it listens to touch events,
+but reverts to mouse events if touch is not supported.
+
+@example
+
+    YUI().use('event-tap', function (Y) {
+        Y.one('#my-button').on('tap', function (e) {
+        });
+    });
+
+@module event
+@submodule event-tap
+@author Andres Garza, matuzak and tilo mitra
+@since 3.7.0
+
+*/
+var doc = Y.config.doc,
+    GESTURE_MAP = Y.Event._GESTURE_MAP,
+    EVT_START = GESTURE_MAP.start,
+    EVT_TAP = 'tap',
+    POINTER_EVENT_TEST = /pointer/i,
+
+    HANDLES = {
+        START: 'Y_TAP_ON_START_HANDLE',
+        END: 'Y_TAP_ON_END_HANDLE',
+        CANCEL: 'Y_TAP_ON_CANCEL_HANDLE'
+    };
+
+function detachHandles(subscription, handles) {
+    handles = handles || Y.Object.values(HANDLES);
+
+    Y.Array.each(handles, function (item) {
+        var handle = subscription[item];
+        if (handle) {
+            handle.detach();
+            subscription[item] = null;
+        }
+    });
+
+}
+
+
+/**
+Sets up a "tap" event, that is fired on touch devices in response to a tap event (finger down, finder up).
+This event can be used instead of listening for click events which have a 500ms delay on most touch devices.
+This event can also be listened for using node.delegate().
+
+@event tap
+@param type {string} "tap"
+@param fn {function} The method the event invokes. It receives the event facade of the underlying DOM event.
+@for Event
+@return {EventHandle} the detach handle
+*/
+Y.Event.define(EVT_TAP, {
+    publishConfig: {
+        preventedFn: function (e) {
+            var sub = e.target.once('click', function (click) {
+                click.preventDefault();
+            });
+
+            // Make sure to detach the subscription during the next event loop
+            // so this doesn't `preventDefault()` on the wrong click event.
+            setTimeout(function () {
+                sub.detach();
+            //Setting this to `0` causes the detachment to occur before the click
+            //comes in on Android 4.0.3-4.0.4. 100ms seems to be a reliable number here
+            //that works across the board.
+            }, 100);
+        }
+    },
+
+    processArgs: function (args, isDelegate) {
+
+        //if we return for the delegate use case, then the `filter` argument
+        //returns undefined, and we have to get the filter from sub._extra[0] (ugly)
+
+        if (!isDelegate) {
+            var extra = args[3];
+            // remove the extra arguments from the array as specified by
+            // http://yuilibrary.com/yui/docs/event/synths.html
+            args.splice(3,1);
+            return extra;
+        }
+    },
+    /**
+    This function should set up the node that will eventually fire the event.
+
+    Usage:
+
+        node.on('tap', function (e) {
+        });
+
+    @method on
+    @param {Node} node
+    @param {Array} subscription
+    @param {Boolean} notifier
+    @public
+    @static
+    **/
+    on: function (node, subscription, notifier) {
+        subscription[HANDLES.START] = node.on(EVT_START, this._start, this, node, subscription, notifier);
+    },
+
+    /**
+    Detaches all event subscriptions set up by the event-tap module
+
+    @method detach
+    @param {Node} node
+    @param {Array} subscription
+    @param {Boolean} notifier
+    @public
+    @static
+    **/
+    detach: function (node, subscription, notifier) {
+        detachHandles(subscription);
+    },
+
+    /**
+    Event delegation for the 'tap' event. The delegated event will use a
+    supplied selector or filtering function to test if the event references at least one
+    node that should trigger the subscription callback.
+
+    Usage:
+
+        node.delegate('tap', function (e) {
+        }, 'li a');
+
+    @method delegate
+    @param {Node} node
+    @param {Array} subscription
+    @param {Boolean} notifier
+    @param {String | Function} filter
+    @public
+    @static
+    **/
+    delegate: function (node, subscription, notifier, filter) {
+        subscription[HANDLES.START] = Y.delegate(EVT_START, function (e) {
+            this._start(e, node, subscription, notifier, true);
+        }, node, filter, this);
+    },
+
+    /**
+    Detaches the delegated event subscriptions set up by the event-tap module.
+    Only used if you use node.delegate(...) instead of node.on(...);
+
+    @method detachDelegate
+    @param {Node} node
+    @param {Array} subscription
+    @param {Boolean} notifier
+    @public
+    @static
+    **/
+    detachDelegate: function (node, subscription, notifier) {
+        detachHandles(subscription);
+    },
+
+    /**
+    Called when the monitor(s) are tapped on, either through touchstart or mousedown.
+
+    @method _start
+    @param {DOMEventFacade} event
+    @param {Node} node
+    @param {Array} subscription
+    @param {Boolean} notifier
+    @param {Boolean} delegate
+    @protected
+    @static
+    **/
+    _start: function (event, node, subscription, notifier, delegate) {
+
+        var context = {
+                canceled: false,
+                eventType: event.type
+            },
+            preventMouse = subscription.preventMouse || false;
+
+        //move ways to quit early to the top.
+        // no right clicks
+        if (event.button && event.button === 3) {
+            return;
+        }
+
+        // for now just support a 1 finger count (later enhance via config)
+        if (event.touches && event.touches.length !== 1) {
+            return;
+        }
+
+        context.node = delegate ? event.currentTarget : node;
+
+        //There is a double check in here to support event simulation tests, in which
+        //event.touches can be undefined when simulating 'touchstart' on touch devices.
+        if (event.touches) {
+          context.startXY = [ event.touches[0].pageX, event.touches[0].pageY ];
+        }
+        else {
+          context.startXY = [ event.pageX, event.pageY ];
+        }
+
+        //If `onTouchStart()` was called by a touch event, set up touch event subscriptions.
+        //Otherwise, set up mouse/pointer event event subscriptions.
+        if (event.touches) {
+
+            subscription[HANDLES.END] = node.once('touchend', this._end, this, node, subscription, notifier, delegate, context);
+            subscription[HANDLES.CANCEL] = node.once('touchcancel', this.detach, this, node, subscription, notifier, delegate, context);
+
+            //Since this is a touch* event, there will be corresponding mouse events
+            //that will be fired. We don't want these events to get picked up and fire
+            //another `tap` event, so we'll set this variable to `true`.
+            subscription.preventMouse = true;
+        }
+
+        //Only add these listeners if preventMouse is `false`
+        //ie: not when touch events have already been subscribed to
+        else if (context.eventType.indexOf('mouse') !== -1 && !preventMouse) {
+            subscription[HANDLES.END] = node.once('mouseup', this._end, this, node, subscription, notifier, delegate, context);
+            subscription[HANDLES.CANCEL] = node.once('mousecancel', this.detach, this, node, subscription, notifier, delegate, context);
+        }
+
+        //If a mouse event comes in after a touch event, it will go in here and
+        //reset preventMouse to `true`.
+        //If a mouse event comes in without a prior touch event, preventMouse will be
+        //false in any case, so this block doesn't do anything.
+        else if (context.eventType.indexOf('mouse') !== -1 && preventMouse) {
+            subscription.preventMouse = false;
+        }
+
+        else if (POINTER_EVENT_TEST.test(context.eventType)) {
+            subscription[HANDLES.END] = node.once(GESTURE_MAP.end, this._end, this, node, subscription, notifier, delegate, context);
+            subscription[HANDLES.CANCEL] = node.once(GESTURE_MAP.cancel, this.detach, this, node, subscription, notifier, delegate, context);
+        }
+
+    },
+
+
+    /**
+    Called when the monitor(s) fires a touchend event (or the mouse equivalent).
+    This method fires the 'tap' event if certain requirements are met.
+
+    @method _end
+    @param {DOMEventFacade} event
+    @param {Node} node
+    @param {Array} subscription
+    @param {Boolean} notifier
+    @param {Boolean} delegate
+    @param {Object} context
+    @protected
+    @static
+    **/
+    _end: function (event, node, subscription, notifier, delegate, context) {
+        var startXY = context.startXY,
+            endXY,
+            clientXY,
+            sensitivity = 15;
+
+        if (subscription._extra && subscription._extra.sensitivity >= 0) {
+            sensitivity = subscription._extra.sensitivity;
+        }
+
+        //There is a double check in here to support event simulation tests, in which
+        //event.touches can be undefined when simulating 'touchstart' on touch devices.
+        if (event.changedTouches) {
+          endXY = [ event.changedTouches[0].pageX, event.changedTouches[0].pageY ];
+          clientXY = [event.changedTouches[0].clientX, event.changedTouches[0].clientY];
+        }
+        else {
+          endXY = [ event.pageX, event.pageY ];
+          clientXY = [event.clientX, event.clientY];
+        }
+
+        // make sure mouse didn't move
+        if (Math.abs(endXY[0] - startXY[0]) <= sensitivity && Math.abs(endXY[1] - startXY[1]) <= sensitivity) {
+
+            event.type = EVT_TAP;
+            event.pageX = endXY[0];
+            event.pageY = endXY[1];
+            event.clientX = clientXY[0];
+            event.clientY = clientXY[1];
+            event.currentTarget = context.node;
+
+            notifier.fire(event);
+        }
+
+        detachHandles(subscription, [HANDLES.END, HANDLES.CANCEL]);
+    }
+});
+
+
+}, '3.16.0', {"requires": ["node-base", "event-base", "event-touch", "event-synthetic"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
+YUI.add('io-upload-iframe', function (Y, NAME) {
+
+/**
+Extends the IO  to enable file uploads, with HTML forms
+using an iframe as the transport medium.
+@module io
+@submodule io-upload-iframe
+@for IO
+**/
+
+var w = Y.config.win,
+    d = Y.config.doc,
+    _std = (d.documentMode && d.documentMode >= 8),
+    _d = decodeURIComponent,
+    _end = Y.IO.prototype.end;
+
+/**
+ * Creates the iframe transported used in file upload
+ * transactions, and binds the response event handler.
+ *
+ * @method _cFrame
+ * @private
+ * @param {Object} o Transaction object generated by _create().
+ * @param {Object} c Configuration object passed to YUI.io().
+ * @param {Object} io
+ */
+function _cFrame(o, c, io) {
+    var i = Y.Node.create('<iframe id="io_iframe' + o.id + '" name="io_iframe' + o.id + '" />');
+        i._node.style.position = 'absolute';
+        i._node.style.top = '-1000px';
+        i._node.style.left = '-1000px';
+        Y.one('body').appendChild(i);
+    // Bind the onload handler to the iframe to detect the file upload response.
+    Y.on("load", function() { io._uploadComplete(o, c); }, '#io_iframe' + o.id);
+}
+
+/**
+ * Removes the iframe transport used in the file upload
+ * transaction.
+ *
+ * @method _dFrame
+ * @private
+ * @param {Number} id The transaction ID used in the iframe's creation.
+ */
+function _dFrame(id) {
+	Y.Event.purgeElement('#io_iframe' + id, false);
+	Y.one('body').removeChild(Y.one('#io_iframe' + id));
+}
+
+Y.mix(Y.IO.prototype, {
+   /**
+    * Parses the POST data object and creates hidden form elements
+    * for each key-value, and appends them to the HTML form object.
+    * @method _addData
+    * @private
+    * @static
+    * @param {Object} f HTML form object.
+    * @param {String} s The key-value POST data.
+    * @return {Array} o Array of created fields.
+    */
+    _addData: function(f, s) {
+        // Serialize an object into a key-value string using
+        // querystring-stringify-simple.
+        if (Y.Lang.isObject(s)) {
+            s = Y.QueryString.stringify(s);
+        }
+
+        var o = [],
+            m = s.split('='),
+            i, l;
+
+        for (i = 0, l = m.length - 1; i < l; i++) {
+            o[i] = d.createElement('input');
+            o[i].type = 'hidden';
+            o[i].name = _d(m[i].substring(m[i].lastIndexOf('&') + 1));
+            o[i].value = (i + 1 === l) ? _d(m[i + 1]) : _d(m[i + 1].substring(0, (m[i + 1].lastIndexOf('&'))));
+            f.appendChild(o[i]);
+        }
+
+        return o;
+    },
+
+   /**
+    * Removes the custom fields created to pass additional POST
+    * data, along with the HTML form fields.
+    * @method _removeData
+    * @private
+    * @static
+    * @param {Object} f HTML form object.
+    * @param {Object} o HTML form fields created from configuration.data.
+    */
+    _removeData: function(f, o) {
+        var i, l;
+
+        for (i = 0, l = o.length; i < l; i++) {
+            f.removeChild(o[i]);
+        }
+    },
+
+   /**
+    * Sets the appropriate attributes and values to the HTML
+    * form, in preparation of a file upload transaction.
+    * @method _setAttrs
+    * @private
+    * @static
+    * @param {Object} f HTML form object.
+    * @param {Object} id The Transaction ID.
+    * @param {Object} uri Qualified path to transaction resource.
+    */
+    _setAttrs: function(f, id, uri) {
+        // Track original HTML form attribute values.
+        this._originalFormAttrs = {
+            action: f.getAttribute('action'),
+            target: f.getAttribute('target')
+        };
+
+        f.setAttribute('action', uri);
+        f.setAttribute('method', 'POST');
+        f.setAttribute('target', 'io_iframe' + id );
+        f.setAttribute(Y.UA.ie && !_std ? 'encoding' : 'enctype', 'multipart/form-data');
+    },
+
+   /**
+    * Reset the HTML form attributes to their original values.
+    * @method _resetAttrs
+    * @private
+    * @static
+    * @param {Object} f HTML form object.
+    * @param {Object} a Object of original attributes.
+    */
+    _resetAttrs: function(f, a) {
+        Y.Object.each(a, function(v, p) {
+            if (v) {
+                f.setAttribute(p, v);
+            }
+            else {
+                f.removeAttribute(p);
+            }
+        });
+    },
+
+   /**
+    * Starts timeout count if the configuration object
+    * has a defined timeout property.
+    *
+    * @method _startUploadTimeout
+    * @private
+    * @static
+    * @param {Object} o Transaction object generated by _create().
+    * @param {Object} c Configuration object passed to YUI.io().
+    */
+    _startUploadTimeout: function(o, c) {
+        var io = this;
+
+        io._timeout[o.id] = w.setTimeout(
+            function() {
+                o.status = 0;
+                o.statusText = 'timeout';
+                io.complete(o, c);
+                io.end(o, c);
+            }, c.timeout);
+    },
+
+   /**
+    * Clears the timeout interval started by _startUploadTimeout().
+    * @method _clearUploadTimeout
+    * @private
+    * @static
+    * @param {Number} id - Transaction ID.
+    */
+    _clearUploadTimeout: function(id) {
+        var io = this;
+
+        w.clearTimeout(io._timeout[id]);
+        delete io._timeout[id];
+    },
+
+   /**
+    * Bound to the iframe's Load event and processes
+    * the response data.
+    * @method _uploadComplete
+    * @private
+    * @static
+    * @param {Object} o The transaction object
+    * @param {Object} c Configuration object for the transaction.
+    */
+    _uploadComplete: function(o, c) {
+        var io = this,
+            d = Y.one('#io_iframe' + o.id).get('contentWindow.document'),
+            b = d.one('body'),
+            p;
+
+        if (c.timeout) {
+            io._clearUploadTimeout(o.id);
+        }
+
+		try {
+			if (b) {
+				// When a response Content-Type of "text/plain" is used, Firefox and Safari
+				// will wrap the response string with <pre></pre>.
+				p = b.one('pre:first-child');
+				o.c.responseText = p ? p.get('text') : b.get('text');
+			}
+			else {
+				o.c.responseXML = d._node;
+			}
+		}
+		catch (e) {
+			o.e = "upload failure";
+		}
+
+        io.complete(o, c);
+        io.end(o, c);
+        // The transaction is complete, so call _dFrame to remove
+        // the event listener bound to the iframe transport, and then
+        // destroy the iframe.
+        w.setTimeout( function() { _dFrame(o.id); }, 0);
+    },
+
+   /**
+    * Uploads HTML form data, inclusive of files/attachments,
+    * using the iframe created in _create to facilitate the transaction.
+    * @method _upload
+    * @private
+    * @static
+    * @param {Object} o The transaction object
+    * @param {Object} uri Qualified path to transaction resource.
+    * @param {Object} c Configuration object for the transaction.
+    */
+    _upload: function(o, uri, c) {
+        var io = this,
+            f = (typeof c.form.id === 'string') ? d.getElementById(c.form.id) : c.form.id,
+            fields;
+
+        // Initialize the HTML form properties in case they are
+        // not defined in the HTML form.
+        io._setAttrs(f, o.id, uri);
+        if (c.data) {
+            fields = io._addData(f, c.data);
+        }
+
+        // Start polling if a callback is present and the timeout
+        // property has been defined.
+        if (c.timeout) {
+            io._startUploadTimeout(o, c);
+        }
+
+        // Start file upload.
+        f.submit();
+        io.start(o, c);
+        if (c.data) {
+            io._removeData(f, fields);
+        }
+
+        return {
+            id: o.id,
+            abort: function() {
+                o.status = 0;
+                o.statusText = 'abort';
+                if (Y.one('#io_iframe' + o.id)) {
+                    _dFrame(o.id);
+                    io.complete(o, c);
+                    io.end(o, c);
+                }
+                else {
+                    return false;
+                }
+            },
+            isInProgress: function() {
+                return Y.one('#io_iframe' + o.id) ? true : false;
+            },
+            io: io
+        };
+    },
+
+    upload: function(o, uri, c) {
+        _cFrame(o, c, this);
+        return this._upload(o, uri, c);
+    },
+
+    end: function(transaction, config) {
+        var form, io;
+
+        if (config) {
+            form = config.form;
+
+            if (form && form.upload) {
+                io = this;
+
+                // Restore HTML form attributes to their original values.
+                form = (typeof form.id === 'string') ? d.getElementById(form.id) : form.id;
+
+                // Check whether the form still exists before resetting it.
+                if (form) {
+                    io._resetAttrs(form, this._originalFormAttrs);
+                }
+            }
+        }
+
+        return _end.call(this, transaction, config);
+    }
+}, true);
+
+
+}, '3.16.0', {"requires": ["io-base", "node-base"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
 YUI.add('widget-autohide', function (Y, NAME) {
 
 /**
@@ -5027,6 +4406,7 @@ WidgetAutohide.prototype = {
          * Default function called when hideOn Attribute is changed. Remove existing listeners and create new listeners.
          *
          * @method _afterHideOnChange
+         * @protected
          */
         _afterHideOnChange : function(e) {
             this._detachUIHandlesAutohide();
@@ -5040,8 +4420,14 @@ WidgetAutohide.prototype = {
 Y.WidgetAutohide = WidgetAutohide;
 
 
-}, '3.8.1', {"requires": ["base-build", "event-key", "event-outside", "widget"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
+}, '3.16.0', {"requires": ["base-build", "event-key", "event-outside", "widget"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
 YUI.add('button-core', function (Y, NAME) {
 
 /**
@@ -5050,7 +4436,8 @@ YUI.add('button-core', function (Y, NAME) {
  * @module button-core
  * @since 3.5.0
  */
-var getClassName = Y.ClassNameManager.getClassName;
+var getClassName = Y.ClassNameManager.getClassName,
+    AttributeCore = Y.AttributeCore;
 
 /**
  * Creates a button
@@ -5116,11 +4503,7 @@ ButtonCore.prototype = {
      * @private
      */
     _initAttributes: function(config) {
-        var host = this._host,
-            node = host.one('.' + ButtonCore.CLASS_NAMES.LABEL) || host;
-            
-        config.label = config.label || this._getLabel(node);
-        Y.AttributeCore.call(this, ButtonCore.ATTRS, config);
+        AttributeCore.call(this, ButtonCore.ATTRS, config);
     },
 
     /**
@@ -5131,19 +4514,19 @@ ButtonCore.prototype = {
      */
     _renderUI: function() {
         var node = this.getNode(),
-            tagName = node.get('tagName').toLowerCase();
+            nodeName = node.get('nodeName').toLowerCase();
 
         // Set some default node attributes
         node.addClass(ButtonCore.CLASS_NAMES.BUTTON);
-        
-        if (tagName !== 'button' && tagName !== 'input') {
+
+        if (nodeName !== 'button' && nodeName !== 'input') {
             node.set('role', 'button');
         }
     },
 
     /**
      * @method enable
-     * @description Sets the button's `disabled` DOM attribute to false
+     * @description Sets the button's `disabled` DOM attribute to `false`
      * @public
      */
     enable: function() {
@@ -5152,7 +4535,7 @@ ButtonCore.prototype = {
 
     /**
      * @method disable
-     * @description Sets the button's `disabled` DOM attribute to true
+     * @description Sets the button's `disabled` DOM attribute to `true`
      * @public
      */
     disable: function() {
@@ -5161,70 +4544,116 @@ ButtonCore.prototype = {
 
     /**
      * @method getNode
-     * @description Gets the host DOM node for this button instance
+     * @description Gets the button's host node
+     * @return {Node} The host node instance
      * @public
      */
     getNode: function() {
+        if (!this._host) {
+            // If this._host doesn't exist, that means this._initNode
+            // was never executed, meaning this is likely a Widget and
+            // the host node should point to the boundingBox.
+            this._host = this.get('boundingBox');
+        }
+
         return this._host;
     },
-    
+
     /**
      * @method _getLabel
-     * @description Getter for a button's 'label' ATTR
+     * @description Getter for a button's `label` ATTR
+     * @return {String} The text label of the button
      * @private
      */
     _getLabel: function () {
-        var node    = this.getNode(),
-            tagName = node.get('tagName').toLowerCase(),
-            label;
+        var node = this.getNode(),
+            label = ButtonCore._getTextLabelFromNode(node);
 
-        if (tagName === 'input') {
-            label = node.get('value');
-        }
-        else {
-            label = (node.one('.' + ButtonCore.CLASS_NAMES.LABEL) || node).get('text');
-        }
-        
         return label;
     },
-    
+
     /**
-     * @method _uiSetLabel
-     * @description Setter for a button's 'label' ATTR
-     * @param label {string}
+     * @method _getLabelHTML
+     * @description Getter for a button's `labelHTML` ATTR
+     * @return {String} The HTML label of the button
      * @private
      */
-    _uiSetLabel: function (label) {
-        var node    = this.getNode(),
-            tagName = node.get('tagName').toLowerCase();
+    _getLabelHTML: function () {
+        var node = this.getNode(),
+            labelHTML = ButtonCore._getHTMLFromNode(node);
 
-        if (tagName === 'input') {
-            node.set('value', label);
-        } else {
-            (node.one('.' + ButtonCore.CLASS_NAMES.LABEL) || node).set('text', label);
+        return labelHTML;
+    },
+
+    /**
+     * @method _setLabel
+     * @description Setter for a button's `label` ATTR
+     * @param value {String} The value to set for `label`
+     * @param name {String} The name of this ATTR (`label`)
+     * @param opts {Object} Additional options
+     *    @param opts.src {String} A string identifying the callee.
+     *        `internal` will not sync this value with the `labelHTML` ATTR
+     * @return {String} The text label for the given node
+     * @private
+     */
+    _setLabel: function (value, name, opts) {
+        var label = Y.Escape.html(value);
+
+        if (!opts || opts.src !== 'internal') {
+            this.set('labelHTML', label, {src: 'internal'});
         }
 
         return label;
     },
 
     /**
-     * @method _uiSetDisabled
-     * @description Setter for the 'disabled' ATTR
+     * @method _setLabelHTML
+     * @description Setter for a button's `labelHTML` ATTR
+     * @param value {String} The value to set for `labelHTML`
+     * @param name {String} The name of this ATTR (`labelHTML`)
+     * @param opts {Object} Additional options
+     *    @param opts.src {String} A string identifying the callee.
+     *        `internal` will not sync this value with the `label` ATTR
+     * @return {String} The HTML label for the given node
+     * @private
+     */
+    _setLabelHTML: function (value, name, opts) {
+        var node = this.getNode(),
+            labelNode = ButtonCore._getLabelNodeFromParent(node),
+            nodeName = node.get('nodeName').toLowerCase();
+
+        if (nodeName === 'input') {
+            labelNode.set('value', value);
+        }
+        else {
+            labelNode.setHTML(value);
+        }
+
+        if (!opts || opts.src !== 'internal') {
+            this.set('label', value, {src: 'internal'});
+        }
+
+        return value;
+    },
+
+    /**
+     * @method _setDisabled
+     * @description Setter for the `disabled` ATTR
      * @param value {boolean}
      * @private
      */
-    _uiSetDisabled: function(value) {
+    _setDisabled: function(value) {
         var node = this.getNode();
-        
+
         node.getDOMNode().disabled = value; // avoid rerunning setter when this === node
         node.toggleClass(ButtonCore.CLASS_NAMES.DISABLED, value);
-        
+
         return value;
     }
 };
 
-
-Y.mix(ButtonCore.prototype, Y.AttributeCore.prototype);
+// ButtonCore inherits from AttributeCore
+Y.mix(ButtonCore.prototype, AttributeCore.prototype);
 
 /**
  * Attribute configuration.
@@ -5237,26 +4666,46 @@ Y.mix(ButtonCore.prototype, Y.AttributeCore.prototype);
 ButtonCore.ATTRS = {
 
     /**
-     * The text of the button (the `value` or `text` property)
+     * The text of the button's label
      *
-     * @attribute label
+     * @config label
      * @type String
      */
     label: {
-        setter: '_uiSetLabel',
+        setter: '_setLabel',
         getter: '_getLabel',
+        lazyAdd: false
+    },
+
+    /**
+     * The HTML of the button's label
+     *
+     * This attribute accepts HTML and inserts it into the DOM **without**
+     * sanitization.  This attribute should only be used with HTML that has
+     * either been escaped (using `Y.Escape.html`), or sanitized according to
+     * the requirements of your application.
+     *
+     * If all you need is support for text labels, please use the `label`
+     * attribute instead.
+     *
+     * @config labelHTML
+     * @type HTML
+     */
+    labelHTML: {
+        setter: '_setLabelHTML',
+        getter: '_getLabelHTML',
         lazyAdd: false
     },
 
     /**
      * The button's enabled/disabled state
      *
-     * @attribute disabled
+     * @config disabled
      * @type Boolean
      */
     disabled: {
         value: false,
-        setter: '_uiSetDisabled',
+        setter: '_setDisabled',
         lazyAdd: false
     }
 };
@@ -5288,7 +4737,7 @@ ButtonCore.CLASS_NAMES = {
 /**
  * Array of static constants used to for applying ARIA states
  *
- * @property CLASS_NAMES
+ * @property ARIA_STATES
  * @type {Object}
  * @private
  * @static
@@ -5301,7 +4750,7 @@ ButtonCore.ARIA_STATES = {
 /**
  * Array of static constants used to for applying ARIA roles
  *
- * @property CLASS_NAMES
+ * @property ARIA_ROLES
  * @type {Object}
  * @private
  * @static
@@ -5312,11 +4761,79 @@ ButtonCore.ARIA_ROLES = {
     TOGGLE  : 'toggle'
 };
 
-// Export Button
+/**
+ * Finds the label node within a button
+ *
+ * @method _getLabelNodeFromParent
+ * @param node {Node} The parent node
+ * @return {Node} The label node
+ * @private
+ * @static
+ */
+ButtonCore._getLabelNodeFromParent = function (node) {
+    var labelNode = (node.one('.' + ButtonCore.CLASS_NAMES.LABEL) || node);
+
+    return labelNode;
+};
+
+/**
+ * Gets a text label from a node
+ *
+ * @method _getTextLabelFromNode
+ * @param node {Node} The parent node
+ * @return {String} The text label for a given node
+ * @private
+ * @static
+ */
+ButtonCore._getTextLabelFromNode = function (node) {
+    var labelNode = ButtonCore._getLabelNodeFromParent(node),
+        nodeName = labelNode.get('nodeName').toLowerCase(),
+        label = labelNode.get(nodeName === 'input' ? 'value' : 'text');
+
+    return label;
+};
+
+/**
+ * A utility method that gets an HTML label from a given node
+ *
+ * @method _getHTMLFromNode
+ * @param node {Node} The parent node
+ * @return {String} The HTML label for a given node
+ * @private
+ * @static
+ */
+ButtonCore._getHTMLFromNode = function (node) {
+    var labelNode = ButtonCore._getLabelNodeFromParent(node),
+        label = labelNode.getHTML();
+
+    return label;
+};
+
+/**
+ * Gets the disabled attribute from a node
+ *
+ * @method _getDisabledFromNode
+ * @param node {Node} The parent node
+ * @return {boolean} The disabled state for a given node
+ * @private
+ * @static
+ */
+ButtonCore._getDisabledFromNode = function (node) {
+    return node.get('disabled');
+};
+
+// Export ButtonCore
 Y.ButtonCore = ButtonCore;
 
-}, '3.8.1', {"requires": ["attribute-core", "classnamemanager", "node-base"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
+
+}, '3.16.0', {"requires": ["attribute-core", "classnamemanager", "node-base", "escape"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
 YUI.add('button-plugin', function (Y, NAME) {
 
 /**
@@ -5338,7 +4855,7 @@ function ButtonPlugin() {
 }
 
 Y.extend(ButtonPlugin, Y.ButtonCore, {
-    
+
     /**
     * @method _afterNodeGet
     * @param name {string}
@@ -5348,7 +4865,7 @@ Y.extend(ButtonPlugin, Y.ButtonCore, {
         // TODO: point to method (_uiSetLabel, etc) instead of getter/setter
         var ATTRS = this.constructor.ATTRS,
             fn = ATTRS[name] && ATTRS[name].getter && this[ATTRS[name].getter];
-            
+
         if (fn) {
             return new Y.Do.AlterReturn('get ' + name, fn.call(this));
         }
@@ -5363,7 +4880,7 @@ Y.extend(ButtonPlugin, Y.ButtonCore, {
     _afterNodeSet: function (name, val) {
         var ATTRS = this.constructor.ATTRS,
             fn = ATTRS[name] && ATTRS[name].setter && this[ATTRS[name].setter];
-            
+
         if (fn) {
             fn.call(this, val);
         }
@@ -5377,7 +4894,7 @@ Y.extend(ButtonPlugin, Y.ButtonCore, {
     _initNode: function(config) {
         var node = config.host;
         this._host = node;
-        
+
         Y.Do.after(this._afterNodeGet, node, 'get', this);
         Y.Do.after(this._afterNodeSet, node, 'set', this);
     },
@@ -5389,9 +4906,9 @@ Y.extend(ButtonPlugin, Y.ButtonCore, {
     destroy: function(){
         // Nothing to do, but things are happier with it here
     }
-    
+
 }, {
-    
+
     /**
     * Attribute configuration.
     *
@@ -5401,7 +4918,7 @@ Y.extend(ButtonPlugin, Y.ButtonCore, {
     * @static
     */
     ATTRS: Y.merge(Y.ButtonCore.ATTRS),
-    
+
     /**
     * Name of this component.
     *
@@ -5410,7 +4927,7 @@ Y.extend(ButtonPlugin, Y.ButtonCore, {
     * @static
     */
     NAME: 'buttonPlugin',
-    
+
     /**
     * Namespace of this component.
     *
@@ -5419,7 +4936,7 @@ Y.extend(ButtonPlugin, Y.ButtonCore, {
     * @static
     */
     NS: 'button'
-    
+
 });
 
 /**
@@ -5450,8 +4967,14 @@ ButtonPlugin.createNode = function(node, config) {
 Y.namespace('Plugin').Button = ButtonPlugin;
 
 
-}, '3.8.1', {"requires": ["button-core", "cssbutton", "node-pluginhost"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
+}, '3.16.0', {"requires": ["button-core", "cssbutton", "node-pluginhost"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
 YUI.add('widget-stdmod', function (Y, NAME) {
 
 /**
@@ -5513,14 +5036,7 @@ YUI.add('widget-stdmod', function (Y, NAME) {
      * @class WidgetStdMod
      * @param {Object} The user configuration object
      */
-    function StdMod(config) {
-
-        this._stdModNode = this.get(CONTENT_BOX);
-
-        Y.before(this._renderUIStdMod, this, RENDERUI);
-        Y.before(this._bindUIStdMod, this, BINDUI);
-        Y.before(this._syncUIStdMod, this, SYNCUI);
-    }
+    function StdMod(config) {}
 
     /**
      * Constant used to refer the the standard module header, in methods which expect a section specifier
@@ -5710,6 +5226,14 @@ YUI.add('widget-stdmod', function (Y, NAME) {
 
     StdMod.prototype = {
 
+        initializer : function() {
+            this._stdModNode = this.get(CONTENT_BOX);
+
+            Y.before(this._renderUIStdMod, this, RENDERUI);
+            Y.before(this._bindUIStdMod, this, BINDUI);
+            Y.before(this._syncUIStdMod, this, SYNCUI);
+        },
+
         /**
          * Synchronizes the UI to match the Widgets standard module state.
          * <p>
@@ -5887,7 +5411,7 @@ YUI.add('widget-stdmod', function (Y, NAME) {
             if (this.get(FILL_HEIGHT)) {
                 var height = this.get(HEIGHT);
                 if (height != EMPTY && height != AUTO) {
-                    this.fillHeight(this._currFillNode);
+                    this.fillHeight(this.getStdModNode(this.get(FILL_HEIGHT)));
                 }
             }
         },
@@ -6230,8 +5754,14 @@ YUI.add('widget-stdmod', function (Y, NAME) {
     Y.WidgetStdMod = StdMod;
 
 
-}, '3.8.1', {"requires": ["base-build", "widget"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
+}, '3.16.0', {"requires": ["base-build", "widget"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
 YUI.add('widget-buttons', function (Y, NAME) {
 
 /**
@@ -6278,11 +5808,6 @@ from those which already exist in its DOM.
 @since 3.4.0
 **/
 function WidgetButtons() {
-    // Require `Y.WidgetStdMod`.
-    if (!this._stdModNode) {
-        Y.error('WidgetStdMod must be added to a Widget before WidgetButtons.');
-    }
-
     // Has to be setup before the `initializer()`.
     this._buttonsHandles = {};
 }
@@ -6490,6 +6015,11 @@ WidgetButtons.prototype = {
     // -- Lifecycle Methods ----------------------------------------------------
 
     initializer: function () {
+        // Require `Y.WidgetStdMod`.
+        if (!this._stdModNode) {
+            Y.error('WidgetStdMod must be added to a Widget before WidgetButtons.');
+        }
+
         // Creates button mappings and sets the `defaultButton`.
         this._mapButtons(this.get('buttons'));
         this._updateDefaultButton();
@@ -7525,8 +7055,14 @@ WidgetButtons.prototype = {
 Y.WidgetButtons = WidgetButtons;
 
 
-}, '3.8.1', {"requires": ["button-plugin", "cssbutton", "widget-stdmod"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
+}, '3.16.0', {"requires": ["button-plugin", "cssbutton", "widget-stdmod"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
 YUI.add('widget-modality', function (Y, NAME) {
 
 /**
@@ -7540,7 +7076,6 @@ var WIDGET       = 'widget',
     BIND_UI      = 'bindUI',
     SYNC_UI      = 'syncUI',
     BOUNDING_BOX = 'boundingBox',
-    CONTENT_BOX  = 'contentBox',
     VISIBLE      = 'visible',
     Z_INDEX      = 'zIndex',
     CHANGE       = 'Change',
@@ -7658,6 +7193,7 @@ var WIDGET       = 'widget',
     WidgetModal.CLASSES = MODAL_CLASSES;
 
 
+    WidgetModal._MASK = null;
     /**
      * Returns the mask if it exists on the page - otherwise creates a mask. There's only
      * one mask on a page at a given time.
@@ -7669,14 +7205,15 @@ var WIDGET       = 'widget',
      */
     WidgetModal._GET_MASK = function() {
 
-        var mask = Y.one('.' + MODAL_CLASSES.mask),
+        var mask = WidgetModal._MASK,
             win  = Y.one('win');
 
-        if (mask) {
+        if (mask && (mask.getDOMNode() !== null) && mask.inDoc()) {
             return mask;
         }
 
         mask = Y.Node.create('<div></div>').addClass(MODAL_CLASSES.mask);
+        WidgetModal._MASK = mask;
 
         if (supportsPosFixed) {
             mask.setStyles({
@@ -7793,7 +7330,6 @@ var WIDGET       = 'widget',
             //var host = this.get(HOST);
 
             this._uiSetHostVisibleModal(this.get(VISIBLE));
-            this._uiSetHostZIndexModal(this.get(Z_INDEX));
 
         },
 
@@ -7802,7 +7338,7 @@ var WIDGET       = 'widget',
          *
          * @method _focus
          */
-        _focus : function (e) {
+        _focus : function () {
 
             var bb = this.get(BOUNDING_BOX),
             oldTI = bb.get('tabIndex');
@@ -7962,7 +7498,7 @@ var WIDGET       = 'widget',
             }
 
             if ( ! supportsPosFixed) {
-                uiHandles.push(Y.one('win').on('scroll', Y.bind(function(e){
+                uiHandles.push(Y.one('win').on('scroll', Y.bind(function(){
                     maskNode.setStyle('top', maskNode.get('docScrollY'));
                 }, this)));
             }
@@ -8079,7 +7615,7 @@ var WIDGET       = 'widget',
          *
          * @method _afterFocusOnChange
          */
-        _afterFocusOnChange : function(e) {
+        _afterFocusOnChange : function() {
             this._detachUIHandlesModal();
 
             if (this.get(VISIBLE)) {
@@ -8092,8 +7628,14 @@ var WIDGET       = 'widget',
 
 
 
-}, '3.8.1', {"requires": ["base-build", "event-outside", "widget"], "skinnable": true});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
+}, '3.16.0', {"requires": ["base-build", "event-outside", "widget"], "skinnable": true});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
 YUI.add('widget-position-align', function (Y, NAME) {
 
 /**
@@ -8131,15 +7673,7 @@ passed to `Base.build`).
 @param {Object} config User configuration object.
 @constructor
 **/
-function PositionAlign (config) {
-    if ( ! this._posNode) {
-        Y.error('WidgetPosition needs to be added to the Widget, ' + 
-            'before WidgetPositionAlign is added'); 
-    }
-
-    Y.after(this._bindUIPosAlign, this, 'bindUI');
-    Y.after(this._syncUIPosAlign, this, 'syncUI');
-}
+function PositionAlign (config) {}
 
 PositionAlign.ATTRS = {
 
@@ -8152,20 +7686,20 @@ PositionAlign.ATTRS = {
 
       * __`node`__: The `Node` to which the widget is to be aligned. If set to
         `null`, or not provided, the widget is aligned to the viewport.
-    
+
       * __`points`__: A two element Array, defining the two points on the widget
         and `Node`/viewport which are to be aligned. The first element is the
         point on the widget, and the second element is the point on the
         `Node`/viewport. Supported alignment points are defined as static
         properties on `WidgetPositionAlign`.
-    
-    @example Aligns the top-right corner of the widget with the top-left corner 
+
+    @example Aligns the top-right corner of the widget with the top-left corner
     of the viewport:
 
         myWidget.set('align', {
             points: [Y.WidgetPositionAlign.TR, Y.WidgetPositionAlign.TL]
         });
-    
+
     @attribute align
     @type Object
     @default null
@@ -8175,11 +7709,11 @@ PositionAlign.ATTRS = {
     },
 
     /**
-    A convenience Attribute, which can be used as a shortcut for the `align` 
+    A convenience Attribute, which can be used as a shortcut for the `align`
     Attribute.
-    
-    If set to `true`, the widget is centered in the viewport. If set to a `Node` 
-    reference or valid selector String, the widget will be centered within the 
+
+    If set to `true`, the widget is centered in the viewport. If set to a `Node`
+    reference or valid selector String, the widget will be centered within the
     `Node`. If set to `false`, no center positioning is applied.
 
     @attribute centered
@@ -8196,13 +7730,13 @@ PositionAlign.ATTRS = {
     An Array of Objects corresponding to the `Node`s and events that will cause
     the alignment of this widget to be synced to the DOM.
 
-    The `alignOn` Attribute is expected to be an Array of Objects with the 
+    The `alignOn` Attribute is expected to be an Array of Objects with the
     following properties:
 
       * __`eventName`__: The String event name to listen for.
 
-      * __`node`__: The optional `Node` that will fire the event, it can be a 
-        `Node` reference or a selector String. This will default to the widget's 
+      * __`node`__: The optional `Node` that will fire the event, it can be a
+        `Node` reference or a selector String. This will default to the widget's
         `boundingBox`.
 
     @example Sync this widget's alignment on window resize:
@@ -8236,7 +7770,7 @@ PositionAlign.TL = 'tl';
 
 /**
 Constant used to specify the top-right corner for alignment
- 
+
 @property TR
 @type String
 @value 'tr'
@@ -8246,7 +7780,7 @@ PositionAlign.TR = 'tr';
 
 /**
 Constant used to specify the bottom-left corner for alignment
- 
+
 @property BL
 @type String
 @value 'bl'
@@ -8276,7 +7810,7 @@ PositionAlign.TC = 'tc';
 
 /**
 Constant used to specify the right edge, center point for alignment
- 
+
 @property RC
 @type String
 @value 'rc'
@@ -8286,7 +7820,7 @@ PositionAlign.RC = 'rc';
 
 /**
 Constant used to specify the bottom edge, center point for alignment
- 
+
 @property BC
 @type String
 @value 'bc'
@@ -8296,7 +7830,7 @@ PositionAlign.BC = 'bc';
 
 /**
 Constant used to specify the left edge, center point for alignment
- 
+
 @property LC
 @type String
 @value 'lc'
@@ -8316,6 +7850,17 @@ PositionAlign.CC = 'cc';
 
 PositionAlign.prototype = {
     // -- Protected Properties -------------------------------------------------
+
+
+    initializer : function() {
+        if (!this._posNode) {
+            Y.error('WidgetPosition needs to be added to the Widget, ' +
+                'before WidgetPositionAlign is added');
+        }
+
+        Y.after(this._bindUIPosAlign, this, 'bindUI');
+        Y.after(this._syncUIPosAlign, this, 'syncUI');
+    },
 
     /**
     Holds the alignment-syncing event handles.
@@ -8372,7 +7917,7 @@ PositionAlign.prototype = {
 
     /**
     Aligns this widget to the provided `Node` (or viewport) using the provided
-    points. This method can be invoked with no arguments which will cause the 
+    points. This method can be invoked with no arguments which will cause the
     widget's current `align` Attribute value to be synced to the DOM.
 
     @example Aligning to the top-left corner of the `<body>`:
@@ -8384,10 +7929,10 @@ PositionAlign.prototype = {
     @param {Node|String|null} [node] A reference (or selector String) for the
       `Node` which with the widget is to be aligned. If null is passed in, the
       widget will be aligned with the viewport.
-    @param {Array[2]} [points] A two item array specifying the points on the 
-      widget and `Node`/viewport which will to be aligned. The first entry is 
-      the point on the widget, and the second entry is the point on the 
-      `Node`/viewport. Valid point references are defined as static constants on 
+    @param {Array[2]} [points] A two item array specifying the points on the
+      widget and `Node`/viewport which will to be aligned. The first entry is
+      the point on the widget, and the second entry is the point on the
+      `Node`/viewport. Valid point references are defined as static constants on
       the `WidgetPositionAlign` extension.
     @chainable
     **/
@@ -8407,11 +7952,11 @@ PositionAlign.prototype = {
     },
 
     /**
-    Centers the widget in the viewport, or if a `Node` is passed in, it will 
+    Centers the widget in the viewport, or if a `Node` is passed in, it will
     be centered to that `Node`.
 
     @method centered
-    @param {Node|String} [node] A `Node` reference or selector String defining 
+    @param {Node|String} [node] A `Node` reference or selector String defining
       the `Node` which the widget should be centered. If a `Node` is not  passed
       in, then the widget will be centered to the viewport.
     @chainable
@@ -8460,7 +8005,7 @@ PositionAlign.prototype = {
             return;
         }
 
-        var nodeRegion = this._getRegion(node), 
+        var nodeRegion = this._getRegion(node),
             widgetPoint, nodePoint, xy;
 
         if ( ! nodeRegion) {
@@ -8570,7 +8115,7 @@ PositionAlign.prototype = {
         Y.Array.each(this.get(ALIGN_ON), function (o) {
             var event = o.eventName,
                 node  = Y.one(o.node) || bb;
-            
+
             if (event) {
                 handles.push(node.on(event, syncAlign));
             }
@@ -8718,7 +8263,7 @@ PositionAlign.prototype = {
     _afterAlignChange: function (e) {
         var align = e.newVal;
         if (align) {
-            this._uiSetAlign(align.node, align.points);               
+            this._uiSetAlign(align.node, align.points);
         }
     },
 
@@ -8742,8 +8287,14 @@ PositionAlign.prototype = {
 Y.WidgetPositionAlign = PositionAlign;
 
 
-}, '3.8.1', {"requires": ["widget-position"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
+}, '3.16.0', {"requires": ["widget-position"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
 YUI.add('widget-position-constrain', function (Y, NAME) {
 
 /**
@@ -8759,7 +8310,7 @@ var CONSTRAIN = "constrain",
 
     PREVENT_OVERLAP = "preventOverlap",
     ALIGN = "align",
-    
+
     EMPTY_STR = "",
 
     BINDUI = "bindUI",
@@ -8777,22 +8328,17 @@ var CONSTRAIN = "constrain",
 
 /**
  * A widget extension, which can be used to add constrained xy positioning support to the base Widget class,
- * through the <a href="Base.html#method_build">Base.build</a> method. This extension requires that 
- * the WidgetPosition extension be added to the Widget (before WidgetPositionConstrain, if part of the same 
+ * through the <a href="Base.html#method_build">Base.build</a> method. This extension requires that
+ * the WidgetPosition extension be added to the Widget (before WidgetPositionConstrain, if part of the same
  * extension list passed to Base.build).
  *
  * @class WidgetPositionConstrain
  * @param {Object} User configuration object
  */
-function PositionConstrain(config) {
-    if (!this._posNode) {
-        Y.error("WidgetPosition needs to be added to the Widget, before WidgetPositionConstrain is added"); 
-    }
-    Y.after(this._bindUIPosConstrained, this, BINDUI);
-}
+function PositionConstrain(config) {}
 
 /**
- * Static property used to define the default attribute 
+ * Static property used to define the default attribute
  * configuration introduced by WidgetPositionConstrain.
  *
  * @property ATTRS
@@ -8816,10 +8362,10 @@ PositionConstrain.ATTRS = {
     /**
      * @attribute preventOverlap
      * @type boolean
-     * @description If set to true, and WidgetPositionAlign is also added to the Widget, 
-     * constrained positioning will attempt to prevent the widget's bounding box from overlapping 
+     * @description If set to true, and WidgetPositionAlign is also added to the Widget,
+     * constrained positioning will attempt to prevent the widget's bounding box from overlapping
      * the element to which it has been aligned, by flipping the orientation of the alignment
-     * for corner based alignments  
+     * for corner based alignments
      */
     preventOverlap : {
         value:false
@@ -8851,11 +8397,18 @@ PREVENT_OVERLAP_MAP = PositionConstrain._PREVENT_OVERLAP = {
 
 PositionConstrain.prototype = {
 
+    initializer : function() {
+        if (!this._posNode) {
+            Y.error("WidgetPosition needs to be added to the Widget, before WidgetPositionConstrain is added");
+        }
+        Y.after(this._bindUIPosConstrained, this, BINDUI);
+    },
+
     /**
      * Calculates the constrained positions for the XY positions provided, using
-     * the provided node argument is passed in. If no node value is passed in, the value of 
+     * the provided node argument is passed in. If no node value is passed in, the value of
      * the "constrain" attribute is used.
-     * 
+     *
      * @method getConstrainedXY
      * @param {Array} xy The xy values to constrain
      * @param {Node | boolean} node Optional. The node to constrain to, or true for the viewport
@@ -8874,17 +8427,17 @@ PositionConstrain.prototype = {
     },
 
     /**
-     * Constrains the widget's bounding box to a node (or the viewport). If xy or node are not 
+     * Constrains the widget's bounding box to a node (or the viewport). If xy or node are not
      * passed in, the current position and the value of "constrain" will be used respectively.
-     * 
+     *
      * The widget's position will be changed to the constrained position.
      *
-     * @method constrain 
+     * @method constrain
      * @param {Array} xy Optional. The xy values to constrain
      * @param {Node | boolean} node Optional. The node to constrain to, or true for the viewport
      */
     constrain : function(xy, node) {
-        var currentXY, 
+        var currentXY,
             constrainedXY,
             constraint = node || this.get(CONSTRAIN);
 
@@ -8903,7 +8456,7 @@ PositionConstrain.prototype = {
      *
      * @method _setConstrain
      * @protected
-     * @param {Node | boolean} val The attribute value 
+     * @param {Node | boolean} val The attribute value
      */
     _setConstrain : function(val) {
         return (val === true) ? val : Node.one(val);
@@ -8912,15 +8465,15 @@ PositionConstrain.prototype = {
     /**
      * The method which performs the actual constrain calculations for a given axis ("x" or "y") based
      * on the regions provided.
-     * 
+     *
      * @method _constrain
      * @protected
-     * 
+     *
      * @param {Number} val The value to constrain
      * @param {String} axis The axis to use for constrainment
      * @param {Region} nodeRegion The region of the node to constrain
      * @param {Region} constrainingRegion The region of the node (or viewport) to constrain to
-     * 
+     *
      * @return {Number} The constrained value
      */
     _constrain: function(val, axis, nodeRegion, constrainingRegion) {
@@ -8956,7 +8509,7 @@ PositionConstrain.prototype = {
     /**
      * The method which performs the preventOverlap calculations for a given axis ("x" or "y") based
      * on the value and regions provided.
-     * 
+     *
      * @method _preventOverlap
      * @protected
      *
@@ -8964,7 +8517,7 @@ PositionConstrain.prototype = {
      * @param {String} axis The axis to being constrained
      * @param {Region} nodeRegion The region of the node being constrained
      * @param {Region} constrainingRegion The region of the node (or viewport) we need to constrain to
-     * 
+     *
      * @return {Number} The constrained value
      */
     _preventOverlap : function(val, axis, nodeRegion, constrainingRegion) {
@@ -8975,7 +8528,7 @@ PositionConstrain.prototype = {
             alignRegion,
             nearEdge,
             farEdge,
-            spaceOnNearSide, 
+            spaceOnNearSide,
             spaceOnFarSide;
 
         if (align && align.points && PREVENT_OVERLAP_MAP[axis][align.points.join(EMPTY_STR)]) {
@@ -8989,7 +8542,7 @@ PositionConstrain.prototype = {
                 spaceOnNearSide = (x) ? alignRegion.left - constrainingRegion.left : alignRegion.top - constrainingRegion.top;
                 spaceOnFarSide  = (x) ? constrainingRegion.right - alignRegion.right : constrainingRegion.bottom - alignRegion.bottom;
             }
- 
+
             if (val > nearEdge) {
                 if (spaceOnFarSide < nodeSize && spaceOnNearSide > nodeSize) {
                     val = nearEdge - nodeSize;
@@ -9005,7 +8558,7 @@ PositionConstrain.prototype = {
     },
 
     /**
-     * Binds event listeners responsible for updating the UI state in response to 
+     * Binds event listeners responsible for updating the UI state in response to
      * Widget constrained positioning related state changes.
      * <p>
      * This method is invoked after bindUI is invoked for the Widget class
@@ -9035,10 +8588,10 @@ PositionConstrain.prototype = {
     /**
      * Updates the UI if enabling constraints, and sets up the xyChange event listeners
      * to constrain whenever the widget is moved. Disabling constraints removes the listeners.
-     * 
-     * @method enable or disable constraints listeners
+     *
+     * @method _enableConstraints
      * @private
-     * @param {boolean} enable Enable or disable constraints 
+     * @param {boolean} enable Enable or disable constraints
      */
     _enableConstraints : function(enable) {
         if (enable) {
@@ -9046,7 +8599,7 @@ PositionConstrain.prototype = {
             this._cxyHandle = this._cxyHandle || this.on(CONSTRAIN_XYCHANGE, this._constrainOnXYChange);
         } else if (this._cxyHandle) {
             this._cxyHandle.detach();
-            this._cxyHandle = null;    
+            this._cxyHandle = null;
         }
     },
 
@@ -9065,9 +8618,9 @@ PositionConstrain.prototype = {
     },
 
     /**
-     * Utility method to normalize region retrieval from a node instance, 
-     * or the viewport, if no node is provided. 
-     * 
+     * Utility method to normalize region retrieval from a node instance,
+     * or the viewport, if no node is provided.
+     *
      * @method _getRegion
      * @private
      * @param {Node} node Optional.
@@ -9089,8 +8642,14 @@ PositionConstrain.prototype = {
 Y.WidgetPositionConstrain = PositionConstrain;
 
 
-}, '3.8.1', {"requires": ["widget-position"]});
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
+}, '3.16.0', {"requires": ["widget-position"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
 YUI.add('panel', function (Y, NAME) {
 
 // TODO: Change this description!
@@ -9189,7 +8748,7 @@ Y.Panel = Y.Base.create('panel', Y.Widget, [
 });
 
 
-}, '3.8.1', {
+}, '3.16.0', {
     "requires": [
         "widget",
         "widget-autohide",
@@ -9203,7 +8762,13 @@ Y.Panel = Y.Base.create('panel', Y.Widget, [
     ],
     "skinnable": true
 });
-/* YUI 3.8.1 (build 5795) Copyright 2013 Yahoo! Inc. http://yuilibrary.com/license/ */
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
 YUI.add('event-simulate', function (Y, NAME) {
 
 (function() {
@@ -9216,6 +8781,7 @@ YUI.add('event-simulate', function (Y, NAME) {
 
 //shortcuts
 var L   = Y.Lang,
+    win = Y.config.win,
     isFunction  = L.isFunction,
     isString    = L.isString,
     isBoolean   = L.isBoolean,
@@ -9234,7 +8800,13 @@ var L   = Y.Lang,
         contextmenu:1
     },
 
-    msPointerEvents = {
+    pointerEvents = (win && win.PointerEvent) ? {
+        pointerover:  1,
+        pointerout:   1,
+        pointerdown:  1,
+        pointerup:    1,
+        pointermove:  1
+    } : {
         MSPointerOver:  1,
         MSPointerOut:   1,
         MSPointerDown:  1,
@@ -9271,15 +8843,15 @@ var L   = Y.Lang,
         error:      1,
         abort:      1
     },
-    
+
     //touch events supported
     touchEvents = {
         touchstart: 1,
         touchmove: 1,
-        touchend: 1, 
+        touchend: 1,
         touchcancel: 1
     },
-    
+
     gestureEvents = {
         gesturestart: 1,
         gesturechange: 1,
@@ -9304,27 +8876,25 @@ Y.mix(bubbleEvents, touchEvents);
  * @param {HTMLElement} target The target of the given event.
  * @param {String} type The type of event to fire. This can be any one of
  *      the following: keyup, keydown, and keypress.
- * @param {Boolean} bubbles (Optional) Indicates if the event can be
+ * @param {Boolean} [bubbles=true] Indicates if the event can be
  *      bubbled up. DOM Level 3 specifies that all key events bubble by
- *      default. The default is true.
- * @param {Boolean} cancelable (Optional) Indicates if the event can be
+ *      default.
+ * @param {Boolean} [cancelable=true] Indicates if the event can be
  *      canceled using preventDefault(). DOM Level 3 specifies that all
- *      key events can be cancelled. The default
- *      is true.
- * @param {Window} view (Optional) The view containing the target. This is
- *      typically the window object. The default is window.
- * @param {Boolean} ctrlKey (Optional) Indicates if one of the CTRL keys
- *      is pressed while the event is firing. The default is false.
- * @param {Boolean} altKey (Optional) Indicates if one of the ALT keys
- *      is pressed while the event is firing. The default is false.
- * @param {Boolean} shiftKey (Optional) Indicates if one of the SHIFT keys
- *      is pressed while the event is firing. The default is false.
- * @param {Boolean} metaKey (Optional) Indicates if one of the META keys
- *      is pressed while the event is firing. The default is false.
- * @param {int} keyCode (Optional) The code for the key that is in use.
- *      The default is 0.
- * @param {int} charCode (Optional) The Unicode code for the character
- *      associated with the key being used. The default is 0.
+ *      key events can be cancelled.
+ * @param {Window} [view=window] The view containing the target. This is
+ *      typically the window object.
+ * @param {Boolean} [ctrlKey=false] Indicates if one of the CTRL keys
+ *      is pressed while the event is firing.
+ * @param {Boolean} [altKey=false] Indicates if one of the ALT keys
+ *      is pressed while the event is firing.
+ * @param {Boolean} [shiftKey=false] Indicates if one of the SHIFT keys
+ *      is pressed while the event is firing.
+ * @param {Boolean} [metaKey=false] Indicates if one of the META keys
+ *      is pressed while the event is firing.
+ * @param {Number} [keyCode=0] The code for the key that is in use.
+ * @param {Number} [charCode=0] The Unicode code for the character
+ *      associated with the key being used.
  */
 function simulateKeyEvent(target /*:HTMLElement*/, type /*:String*/,
                              bubbles /*:Boolean*/,  cancelable /*:Boolean*/,
@@ -9501,15 +9071,15 @@ function simulateKeyEvent(target /*:HTMLElement*/, type /*:String*/,
  *      is false.
  * @param {Window} view (Optional) The view containing the target. This is
  *      typically the window object. The default is window.
- * @param {int} detail (Optional) The number of times the mouse button has
+ * @param {Number} detail (Optional) The number of times the mouse button has
  *      been used. The default value is 1.
- * @param {int} screenX (Optional) The x-coordinate on the screen at which
+ * @param {Number} screenX (Optional) The x-coordinate on the screen at which
  *      point the event occured. The default is 0.
- * @param {int} screenY (Optional) The y-coordinate on the screen at which
+ * @param {Number} screenY (Optional) The y-coordinate on the screen at which
  *      point the event occured. The default is 0.
- * @param {int} clientX (Optional) The x-coordinate on the client at which
+ * @param {Number} clientX (Optional) The x-coordinate on the client at which
  *      point the event occured. The default is 0.
- * @param {int} clientY (Optional) The y-coordinate on the client at which
+ * @param {Number} clientY (Optional) The y-coordinate on the client at which
  *      point the event occured. The default is 0.
  * @param {Boolean} ctrlKey (Optional) Indicates if one of the CTRL keys
  *      is pressed while the event is firing. The default is false.
@@ -9519,7 +9089,7 @@ function simulateKeyEvent(target /*:HTMLElement*/, type /*:String*/,
  *      is pressed while the event is firing. The default is false.
  * @param {Boolean} metaKey (Optional) Indicates if one of the META keys
  *      is pressed while the event is firing. The default is false.
- * @param {int} button (Optional) The button being pressed while the event
+ * @param {Number} button (Optional) The button being pressed while the event
  *      is executing. The value should be 0 for the primary mouse button
  *      (typically the left button), 1 for the terciary mouse button
  *      (typically the middle button), and 2 for the secondary mouse button
@@ -9543,14 +9113,14 @@ function simulateMouseEvent(target /*:HTMLElement*/, type /*:String*/,
         Y.error("simulateMouseEvent(): Invalid target.");
     }
 
-    
+
     if (isString(type)){
 
-        //make sure it's a supported mouse event or an msPointerEvent. 
-        if (!mouseEvents[type.toLowerCase()] && !msPointerEvents[type]){
+        //make sure it's a supported mouse event or an msPointerEvent.
+        if (!mouseEvents[type.toLowerCase()] && !pointerEvents[type]){
             Y.error("simulateMouseEvent(): Event type '" + type + "' not supported.");
         }
-    } 
+    }
     else {
         Y.error("simulateMouseEvent(): Event type must be a string.");
     }
@@ -9723,7 +9293,7 @@ function simulateMouseEvent(target /*:HTMLElement*/, type /*:String*/,
  *      is false.
  * @param {Window} view (Optional) The view containing the target. This is
  *      typically the window object. The default is window.
- * @param {int} detail (Optional) The number of times the mouse button has
+ * @param {Number} detail (Optional) The number of times the mouse button has
  *      been used. The default value is 1.
  */
 function simulateUIEvent(target /*:HTMLElement*/, type /*:String*/,
@@ -9798,7 +9368,7 @@ function simulateUIEvent(target /*:HTMLElement*/, type /*:String*/,
 /*
  * (iOS only) This is for creating native DOM gesture events which only iOS
  * v2.0+ is supporting.
- * 
+ *
  * @method simulateGestureEvent
  * @private
  * @param {HTMLElement} target The target of the given event.
@@ -9814,15 +9384,15 @@ function simulateUIEvent(target /*:HTMLElement*/, type /*:String*/,
  *      is false.
  * @param {Window} view (Optional) The view containing the target. This is
  *      typically the window object. The default is window.
- * @param {int} detail (Optional) Specifies some detail information about 
+ * @param {Number} detail (Optional) Specifies some detail information about
  *      the event depending on the type of event.
- * @param {int} screenX (Optional) The x-coordinate on the screen at which
+ * @param {Number} screenX (Optional) The x-coordinate on the screen at which
  *      point the event occured. The default is 0.
- * @param {int} screenY (Optional) The y-coordinate on the screen at which
+ * @param {Number} screenY (Optional) The y-coordinate on the screen at which
  *      point the event occured. The default is 0.
- * @param {int} clientX (Optional) The x-coordinate on the client at which
+ * @param {Number} clientX (Optional) The x-coordinate on the client at which
  *      point the event occured. The default is 0.
- * @param {int} clientY (Optional) The y-coordinate on the client at which
+ * @param {Number} clientY (Optional) The y-coordinate on the client at which
  *      point the event occured. The default is 0.
  * @param {Boolean} ctrlKey (Optional) Indicates if one of the CTRL keys
  *      is pressed while the event is firing. The default is false.
@@ -9831,13 +9401,13 @@ function simulateUIEvent(target /*:HTMLElement*/, type /*:String*/,
  * @param {Boolean} shiftKey (Optional) Indicates if one of the SHIFT keys
  *      is pressed while the event is firing. The default is false.
  * @param {Boolean} metaKey (Optional) Indicates if one of the META keys
- *      is pressed while the event is firing. The default is false. 
- * @param {float} scale (iOS v2+ only) The distance between two fingers 
- *      since the start of an event as a multiplier of the initial distance. 
+ *      is pressed while the event is firing. The default is false.
+ * @param {Number} scale (iOS v2+ only) The distance between two fingers
+ *      since the start of an event as a multiplier of the initial distance.
  *      The default value is 1.0.
- * @param {float} rotation (iOS v2+ only) The delta rotation since the start 
- *      of an event, in degrees, where clockwise is positive and 
- *      counter-clockwise is negative. The default value is 0.0.   
+ * @param {Number} rotation (iOS v2+ only) The delta rotation since the start
+ *      of an event, in degrees, where clockwise is positive and
+ *      counter-clockwise is negative. The default value is 0.0.
  */
 function simulateGestureEvent(target, type,
     bubbles,            // boolean
@@ -9856,7 +9426,7 @@ function simulateGestureEvent(target, type,
         Y.error("simulateGestureEvent(): Native gesture DOM eventframe is not available in this platform.");
     }
 
-    // check taget    
+    // check taget
     if (!target){
         Y.error("simulateGestureEvent(): Invalid target.");
     }
@@ -9875,7 +9445,7 @@ function simulateGestureEvent(target, type,
 
     // setup default values
     if (!Y.Lang.isBoolean(bubbles)) { bubbles = true; } // bubble by default
-    if (!Y.Lang.isBoolean(cancelable)) { cancelable = true; } 
+    if (!Y.Lang.isBoolean(cancelable)) { cancelable = true; }
     if (!Y.Lang.isObject(view))     { view = Y.config.win; }
     if (!Y.Lang.isNumber(detail))   { detail = 2; }     // usually not used.
     if (!Y.Lang.isNumber(screenX))  { screenX = 0; }
@@ -9917,15 +9487,15 @@ function simulateGestureEvent(target, type,
  *      is false.
  * @param {Window} view (Optional) The view containing the target. This is
  *      typically the window object. The default is window.
- * @param {int} detail (Optional) Specifies some detail information about 
+ * @param {Number} detail (Optional) Specifies some detail information about
  *      the event depending on the type of event.
- * @param {int} screenX (Optional) The x-coordinate on the screen at which
+ * @param {Number} screenX (Optional) The x-coordinate on the screen at which
  *      point the event occured. The default is 0.
- * @param {int} screenY (Optional) The y-coordinate on the screen at which
+ * @param {Number} screenY (Optional) The y-coordinate on the screen at which
  *      point the event occured. The default is 0.
- * @param {int} clientX (Optional) The x-coordinate on the client at which
+ * @param {Number} clientX (Optional) The x-coordinate on the client at which
  *      point the event occured. The default is 0.
- * @param {int} clientY (Optional) The y-coordinate on the client at which
+ * @param {Number} clientY (Optional) The y-coordinate on the client at which
  *      point the event occured. The default is 0.
  * @param {Boolean} ctrlKey (Optional) Indicates if one of the CTRL keys
  *      is pressed while the event is firing. The default is false.
@@ -9934,19 +9504,19 @@ function simulateGestureEvent(target, type,
  * @param {Boolean} shiftKey (Optional) Indicates if one of the SHIFT keys
  *      is pressed while the event is firing. The default is false.
  * @param {Boolean} metaKey (Optional) Indicates if one of the META keys
- *      is pressed while the event is firing. The default is false. 
- * @param {TouchList} touches A collection of Touch objects representing 
+ *      is pressed while the event is firing. The default is false.
+ * @param {TouchList} touches A collection of Touch objects representing
  *      all touches associated with this event.
- * @param {TouchList} targetTouches A collection of Touch objects 
+ * @param {TouchList} targetTouches A collection of Touch objects
  *      representing all touches associated with this target.
- * @param {TouchList} changedTouches A collection of Touch objects 
+ * @param {TouchList} changedTouches A collection of Touch objects
  *      representing all touches that changed in this event.
- * @param {float} scale (iOS v2+ only) The distance between two fingers 
- *      since the start of an event as a multiplier of the initial distance. 
+ * @param {Number} scale (iOS v2+ only) The distance between two fingers
+ *      since the start of an event as a multiplier of the initial distance.
  *      The default value is 1.0.
- * @param {float} rotation (iOS v2+ only) The delta rotation since the start 
- *      of an event, in degrees, where clockwise is positive and 
- *      counter-clockwise is negative. The default value is 0.0.   
+ * @param {Number} rotation (iOS v2+ only) The delta rotation since the start
+ *      of an event, in degrees, where clockwise is positive and
+ *      counter-clockwise is negative. The default value is 0.0.
  */
 function simulateTouchEvent(target, type,
     bubbles,            // boolean
@@ -9965,7 +9535,7 @@ function simulateTouchEvent(target, type,
 
     var customEvent;
 
-    // check taget    
+    // check taget
     if (!target){
         Y.error("simulateTouchEvent(): Invalid target.");
     }
@@ -10015,9 +9585,9 @@ function simulateTouchEvent(target, type,
 
     // setup default values
     if (!Y.Lang.isBoolean(bubbles)) { bubbles = true; } // bubble by default.
-    if (!Y.Lang.isBoolean(cancelable)) { 
-        cancelable = (type !== "touchcancel"); // touchcancel is not cancelled 
-    } 
+    if (!Y.Lang.isBoolean(cancelable)) {
+        cancelable = (type !== "touchcancel"); // touchcancel is not cancelled
+    }
     if (!Y.Lang.isObject(view))     { view = Y.config.win; }
     if (!Y.Lang.isNumber(detail))   { detail = 1; } // usually not used. defaulted to # of touch objects.
     if (!Y.Lang.isNumber(screenX))  { screenX = 0; }
@@ -10035,23 +9605,23 @@ function simulateTouchEvent(target, type,
     //check for DOM-compliant browsers first
     if (Y.Lang.isFunction(Y.config.doc.createEvent)) {
         if (Y.UA.android) {
-            /**
-                * Couldn't find android start version that supports touch event. 
-                * Assumed supported(btw APIs broken till icecream sandwitch) 
+            /*
+                * Couldn't find android start version that supports touch event.
+                * Assumed supported(btw APIs broken till icecream sandwitch)
                 * from the beginning.
-                */
+            */
             if(Y.UA.android < 4.0) {
-                /**
-                    * Touch APIs are broken in androids older than 4.0. We will use 
-                    * simulated touch apis for these versions. 
+                /*
+                    * Touch APIs are broken in androids older than 4.0. We will use
+                    * simulated touch apis for these versions.
                     * App developer still can listen for touch events. This events
                     * will be dispatched with touch event types.
-                    * 
+                    *
                     * (Note) Used target for the relatedTarget. Need to verify if
                     * it has a side effect.
-                    */
+                */
                 customEvent = Y.config.doc.createEvent("MouseEvents");
-                customEvent.initMouseEvent(type, bubbles, cancelable, view, detail, 
+                customEvent.initMouseEvent(type, bubbles, cancelable, view, detail,
                     screenX, screenY, clientX, clientY,
                     ctrlKey, altKey, shiftKey, metaKey,
                     0, target);
@@ -10087,7 +9657,7 @@ function simulateTouchEvent(target, type,
 
         //fire the event
         target.dispatchEvent(customEvent);
-    //} else if (Y.Lang.isObject(doc.createEventObject)){ // Windows Mobile/IE, support later 
+    //} else if (Y.Lang.isObject(doc.createEventObject)){ // Windows Mobile/IE, support later
     } else {
         Y.error('simulateTouchEvent(): No event simulation framework present.');
     }
@@ -10096,11 +9666,10 @@ function simulateTouchEvent(target, type,
 /**
  * Simulates the event or gesture with the given name on a target.
  * @param {HTMLElement} target The DOM element that's the target of the event.
- * @param {String} type The type of event or name of the supported gesture to simulate 
+ * @param {String} type The type of event or name of the supported gesture to simulate
  *      (i.e., "click", "doubletap", "flick").
- * @param {Object} options (Optional) Extra options to copy onto the event object. 
+ * @param {Object} options (Optional) Extra options to copy onto the event object.
  *      For gestures, options are used to refine the gesture behavior.
- * @return {void}
  * @for Event
  * @method simulate
  * @static
@@ -10109,7 +9678,7 @@ Y.Event.simulate = function(target, type, options){
 
     options = options || {};
 
-    if (mouseEvents[type] || msPointerEvents[type]){
+    if (mouseEvents[type] || pointerEvents[type]){
         simulateMouseEvent(target, type, options.bubbles,
             options.cancelable, options.view, options.detail, options.screenX,
             options.screenY, options.clientX, options.clientY, options.ctrlKey,
@@ -10123,28 +9692,28 @@ Y.Event.simulate = function(target, type, options){
     } else if (uiEvents[type]){
         simulateUIEvent(target, type, options.bubbles,
             options.cancelable, options.view, options.detail);
-            
-    // touch low-level event simulation        
+
+    // touch low-level event simulation
     } else if (touchEvents[type]) {
         if((Y.config.win && ("ontouchstart" in Y.config.win)) && !(Y.UA.phantomjs) && !(Y.UA.chrome && Y.UA.chrome < 6)) {
-            simulateTouchEvent(target, type, 
-                options.bubbles, options.cancelable, options.view, options.detail, 
-                options.screenX, options.screenY, options.clientX, options.clientY, 
-                options.ctrlKey, options.altKey, options.shiftKey, options.metaKey, 
+            simulateTouchEvent(target, type,
+                options.bubbles, options.cancelable, options.view, options.detail,
+                options.screenX, options.screenY, options.clientX, options.clientY,
+                options.ctrlKey, options.altKey, options.shiftKey, options.metaKey,
                 options.touches, options.targetTouches, options.changedTouches,
                 options.scale, options.rotation);
         } else {
             Y.error("simulate(): Event '" + type + "' can't be simulated. Use gesture-simulate module instead.");
         }
 
-    // ios gesture low-level event simulation (iOS v2+ only)        
+    // ios gesture low-level event simulation (iOS v2+ only)
     } else if(Y.UA.ios && Y.UA.ios >= 2.0 && gestureEvents[type]) {
-        simulateGestureEvent(target, type, 
-            options.bubbles, options.cancelable, options.view, options.detail, 
-            options.screenX, options.screenY, options.clientX, options.clientY, 
+        simulateGestureEvent(target, type,
+            options.bubbles, options.cancelable, options.view, options.detail,
+            options.screenX, options.screenY, options.clientX, options.clientY,
             options.ctrlKey, options.altKey, options.shiftKey, options.metaKey,
             options.scale, options.rotation);
-    
+
     // anything else
     } else {
         Y.error("simulate(): Event '" + type + "' can't be simulated.");
@@ -10156,4 +9725,565 @@ Y.Event.simulate = function(target, type, options){
 
 
 
-}, '3.8.1', {"requires": ["event-base"]});
+}, '3.16.0', {"requires": ["event-base"]});
+/*
+YUI 3.16.0 (build 76f0e08)
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+
+YUI.add('async-queue', function (Y, NAME) {
+
+/**
+ * <p>AsyncQueue allows you create a chain of function callbacks executed
+ * via setTimeout (or synchronously) that are guaranteed to run in order.
+ * Items in the queue can be promoted or removed.  Start or resume the
+ * execution chain with run().  pause() to temporarily delay execution, or
+ * stop() to halt and clear the queue.</p>
+ *
+ * @module async-queue
+ */
+
+/**
+ * <p>A specialized queue class that supports scheduling callbacks to execute
+ * sequentially, iteratively, even asynchronously.</p>
+ *
+ * <p>Callbacks can be function refs or objects with the following keys.  Only
+ * the <code>fn</code> key is required.</p>
+ *
+ * <ul>
+ * <li><code>fn</code> -- The callback function</li>
+ * <li><code>context</code> -- The execution context for the callbackFn.</li>
+ * <li><code>args</code> -- Arguments to pass to callbackFn.</li>
+ * <li><code>timeout</code> -- Millisecond delay before executing callbackFn.
+ *                     (Applies to each iterative execution of callback)</li>
+ * <li><code>iterations</code> -- Number of times to repeat the callback.
+ * <li><code>until</code> -- Repeat the callback until this function returns
+ *                         true.  This setting trumps iterations.</li>
+ * <li><code>autoContinue</code> -- Set to false to prevent the AsyncQueue from
+ *                        executing the next callback in the Queue after
+ *                        the callback completes.</li>
+ * <li><code>id</code> -- Name that can be used to get, promote, get the
+ *                        indexOf, or delete this callback.</li>
+ * </ul>
+ *
+ * @class AsyncQueue
+ * @extends EventTarget
+ * @constructor
+ * @param callback* {Function|Object} 0..n callbacks to seed the queue
+ */
+Y.AsyncQueue = function() {
+    this._init();
+    this.add.apply(this, arguments);
+};
+
+var Queue   = Y.AsyncQueue,
+    EXECUTE = 'execute',
+    SHIFT   = 'shift',
+    PROMOTE = 'promote',
+    REMOVE  = 'remove',
+
+    isObject   = Y.Lang.isObject,
+    isFunction = Y.Lang.isFunction;
+
+/**
+ * <p>Static default values used to populate callback configuration properties.
+ * Preconfigured defaults include:</p>
+ *
+ * <ul>
+ *  <li><code>autoContinue</code>: <code>true</code></li>
+ *  <li><code>iterations</code>: 1</li>
+ *  <li><code>timeout</code>: 10 (10ms between callbacks)</li>
+ *  <li><code>until</code>: (function to run until iterations &lt;= 0)</li>
+ * </ul>
+ *
+ * @property defaults
+ * @type {Object}
+ * @static
+ */
+Queue.defaults = Y.mix({
+    autoContinue : true,
+    iterations   : 1,
+    timeout      : 10,
+    until        : function () {
+        this.iterations |= 0;
+        return this.iterations <= 0;
+    }
+}, Y.config.queueDefaults || {});
+
+Y.extend(Queue, Y.EventTarget, {
+    /**
+     * Used to indicate the queue is currently executing a callback.
+     *
+     * @property _running
+     * @type {Boolean|Object} true for synchronous callback execution, the
+     *                        return handle from Y.later for async callbacks.
+     *                        Otherwise false.
+     * @protected
+     */
+    _running : false,
+
+    /**
+     * Initializes the AsyncQueue instance properties and events.
+     *
+     * @method _init
+     * @protected
+     */
+    _init : function () {
+        Y.EventTarget.call(this, { prefix: 'queue', emitFacade: true });
+
+        this._q = [];
+
+        /**
+         * Callback defaults for this instance.  Static defaults that are not
+         * overridden are also included.
+         *
+         * @property defaults
+         * @type {Object}
+         */
+        this.defaults = {};
+
+        this._initEvents();
+    },
+
+    /**
+     * Initializes the instance events.
+     *
+     * @method _initEvents
+     * @protected
+     */
+    _initEvents : function () {
+        this.publish({
+            'execute' : { defaultFn : this._defExecFn,    emitFacade: true },
+            'shift'   : { defaultFn : this._defShiftFn,   emitFacade: true },
+            'add'     : { defaultFn : this._defAddFn,     emitFacade: true },
+            'promote' : { defaultFn : this._defPromoteFn, emitFacade: true },
+            'remove'  : { defaultFn : this._defRemoveFn,  emitFacade: true }
+        });
+    },
+
+    /**
+     * Returns the next callback needing execution.  If a callback is
+     * configured to repeat via iterations or until, it will be returned until
+     * the completion criteria is met.
+     *
+     * When the queue is empty, null is returned.
+     *
+     * @method next
+     * @return {Function} the callback to execute
+     */
+    next : function () {
+        var callback;
+
+        while (this._q.length) {
+            callback = this._q[0] = this._prepare(this._q[0]);
+            if (callback && callback.until()) {
+                this.fire(SHIFT, { callback: callback });
+                callback = null;
+            } else {
+                break;
+            }
+        }
+
+        return callback || null;
+    },
+
+    /**
+     * Default functionality for the &quot;shift&quot; event.  Shifts the
+     * callback stored in the event object's <em>callback</em> property from
+     * the queue if it is the first item.
+     *
+     * @method _defShiftFn
+     * @param e {Event} The event object
+     * @protected
+     */
+    _defShiftFn : function (e) {
+        if (this.indexOf(e.callback) === 0) {
+            this._q.shift();
+        }
+    },
+
+    /**
+     * Creates a wrapper function to execute the callback using the aggregated
+     * configuration generated by combining the static AsyncQueue.defaults, the
+     * instance defaults, and the specified callback settings.
+     *
+     * The wrapper function is decorated with the callback configuration as
+     * properties for runtime modification.
+     *
+     * @method _prepare
+     * @param callback {Object|Function} the raw callback
+     * @return {Function} a decorated function wrapper to execute the callback
+     * @protected
+     */
+    _prepare: function (callback) {
+        if (isFunction(callback) && callback._prepared) {
+            return callback;
+        }
+
+        var config = Y.merge(
+            Queue.defaults,
+            { context : this, args: [], _prepared: true },
+            this.defaults,
+            (isFunction(callback) ? { fn: callback } : callback)),
+
+            wrapper = Y.bind(function () {
+                if (!wrapper._running) {
+                    wrapper.iterations--;
+                }
+                if (isFunction(wrapper.fn)) {
+                    wrapper.fn.apply(wrapper.context || Y,
+                                     Y.Array(wrapper.args));
+                }
+            }, this);
+
+        return Y.mix(wrapper, config);
+    },
+
+    /**
+     * Sets the queue in motion.  All queued callbacks will be executed in
+     * order unless pause() or stop() is called or if one of the callbacks is
+     * configured with autoContinue: false.
+     *
+     * @method run
+     * @return {AsyncQueue} the AsyncQueue instance
+     * @chainable
+     */
+    run : function () {
+        var callback,
+            cont = true;
+
+        if (this._executing) {
+            this._running = true;
+            return this;
+        }
+
+        for (callback = this.next();
+            callback && !this.isRunning();
+            callback = this.next())
+        {
+            cont = (callback.timeout < 0) ?
+                this._execute(callback) :
+                this._schedule(callback);
+
+            // Break to avoid an extra call to next (final-expression of the
+            // 'for' loop), because the until function of the next callback
+            // in the queue may return a wrong result if it depends on the
+            // not-yet-finished work of the previous callback.
+            if (!cont) {
+                break;
+            }
+        }
+
+        if (!callback) {
+            /**
+             * Event fired when there is no remaining callback in the running queue. Also fired after stop().
+             * @event complete
+             */
+            this.fire('complete');
+        }
+
+        return this;
+    },
+
+    /**
+     * Handles the execution of callbacks. Returns a boolean indicating
+     * whether it is appropriate to continue running.
+     *
+     * @method _execute
+     * @param callback {Object} the callback object to execute
+     * @return {Boolean} whether the run loop should continue
+     * @protected
+     */
+    _execute : function (callback) {
+
+        this._running   = callback._running = true;
+        this._executing = callback;
+
+        callback.iterations--;
+        this.fire(EXECUTE, { callback: callback });
+
+        var cont = this._running && callback.autoContinue;
+
+        this._running   = callback._running = false;
+        this._executing = false;
+
+        return cont;
+    },
+
+    /**
+     * Schedules the execution of asynchronous callbacks.
+     *
+     * @method _schedule
+     * @param callback {Object} the callback object to execute
+     * @return {Boolean} whether the run loop should continue
+     * @protected
+     */
+    _schedule : function (callback) {
+        this._running = Y.later(callback.timeout, this, function () {
+            if (this._execute(callback)) {
+                this.run();
+            }
+        });
+
+        return false;
+    },
+
+    /**
+     * Determines if the queue is waiting for a callback to complete execution.
+     *
+     * @method isRunning
+     * @return {Boolean} true if queue is waiting for a
+     *                   from any initiated transactions
+     */
+    isRunning : function () {
+        return !!this._running;
+    },
+
+    /**
+     * Default functionality for the &quot;execute&quot; event.  Executes the
+     * callback function
+     *
+     * @method _defExecFn
+     * @param e {Event} the event object
+     * @protected
+     */
+    _defExecFn : function (e) {
+        e.callback();
+    },
+
+    /**
+     * Add any number of callbacks to the end of the queue. Callbacks may be
+     * provided as functions or objects.
+     *
+     * @method add
+     * @param callback* {Function|Object} 0..n callbacks
+     * @return {AsyncQueue} the AsyncQueue instance
+     * @chainable
+     */
+    add : function () {
+        this.fire('add', { callbacks: Y.Array(arguments,0,true) });
+
+        return this;
+    },
+
+    /**
+     * Default functionality for the &quot;add&quot; event.  Adds the callbacks
+     * in the event facade to the queue. Callbacks successfully added to the
+     * queue are present in the event's <code>added</code> property in the
+     * after phase.
+     *
+     * @method _defAddFn
+     * @param e {Event} the event object
+     * @protected
+     */
+    _defAddFn : function(e) {
+        var _q = this._q,
+            added = [];
+
+        Y.Array.each(e.callbacks, function (c) {
+            if (isObject(c)) {
+                _q.push(c);
+                added.push(c);
+            }
+        });
+
+        e.added = added;
+    },
+
+    /**
+     * Pause the execution of the queue after the execution of the current
+     * callback completes.  If called from code outside of a queued callback,
+     * clears the timeout for the pending callback. Paused queue can be
+     * restarted with q.run()
+     *
+     * @method pause
+     * @return {AsyncQueue} the AsyncQueue instance
+     * @chainable
+     */
+    pause: function () {
+        if (this._running && isObject(this._running)) {
+            this._running.cancel();
+        }
+
+        this._running = false;
+
+        return this;
+    },
+
+    /**
+     * Stop and clear the queue after the current execution of the
+     * current callback completes.
+     *
+     * @method stop
+     * @return {AsyncQueue} the AsyncQueue instance
+     * @chainable
+     */
+    stop : function () {
+
+        this._q = [];
+
+        if (this._running && isObject(this._running)) {
+            this._running.cancel();
+            this._running = false;
+        }
+        // otherwise don't systematically set this._running to false, because if
+        // stop has been called from inside a queued callback, the _execute method
+        // currenty running needs to call run() one more time for the 'complete'
+        // event to be fired.
+
+        // if stop is called from outside a callback, we need to explicitely call
+        // run() once again to fire the 'complete' event.
+        if (!this._executing) {
+            this.run();
+        }
+
+        return this;
+    },
+
+    /**
+     * Returns the current index of a callback.  Pass in either the id or
+     * callback function from getCallback.
+     *
+     * @method indexOf
+     * @param callback {String|Function} the callback or its specified id
+     * @return {Number} index of the callback or -1 if not found
+     */
+    indexOf : function (callback) {
+        var i = 0, len = this._q.length, c;
+
+        for (; i < len; ++i) {
+            c = this._q[i];
+            if (c === callback || c.id === callback) {
+                return i;
+            }
+        }
+
+        return -1;
+    },
+
+    /**
+     * Retrieve a callback by its id.  Useful to modify the configuration
+     * while the queue is running.
+     *
+     * @method getCallback
+     * @param id {String} the id assigned to the callback
+     * @return {Object} the callback object
+     */
+    getCallback : function (id) {
+        var i = this.indexOf(id);
+
+        return (i > -1) ? this._q[i] : null;
+    },
+
+    /**
+     * Promotes the named callback to the top of the queue. If a callback is
+     * currently executing or looping (via until or iterations), the promotion
+     * is scheduled to occur after the current callback has completed.
+     *
+     * @method promote
+     * @param callback {String|Object} the callback object or a callback's id
+     * @return {AsyncQueue} the AsyncQueue instance
+     * @chainable
+     */
+    promote : function (callback) {
+        var payload = { callback : callback },e;
+
+        if (this.isRunning()) {
+            e = this.after(SHIFT, function () {
+                    this.fire(PROMOTE, payload);
+                    e.detach();
+                }, this);
+        } else {
+            this.fire(PROMOTE, payload);
+        }
+
+        return this;
+    },
+
+    /**
+     * <p>Default functionality for the &quot;promote&quot; event.  Promotes the
+     * named callback to the head of the queue.</p>
+     *
+     * <p>The event object will contain a property &quot;callback&quot;, which
+     * holds the id of a callback or the callback object itself.</p>
+     *
+     * @method _defPromoteFn
+     * @param e {Event} the custom event
+     * @protected
+     */
+    _defPromoteFn : function (e) {
+        var i = this.indexOf(e.callback),
+            promoted = (i > -1) ? this._q.splice(i,1)[0] : null;
+
+        e.promoted = promoted;
+
+        if (promoted) {
+            this._q.unshift(promoted);
+        }
+    },
+
+    /**
+     * Removes the callback from the queue.  If the queue is active, the
+     * removal is scheduled to occur after the current callback has completed.
+     *
+     * @method remove
+     * @param callback {String|Object} the callback object or a callback's id
+     * @return {AsyncQueue} the AsyncQueue instance
+     * @chainable
+     */
+    remove : function (callback) {
+        var payload = { callback : callback },e;
+
+        // Can't return the removed callback because of the deferral until
+        // current callback is complete
+        if (this.isRunning()) {
+            e = this.after(SHIFT, function () {
+                    this.fire(REMOVE, payload);
+                    e.detach();
+                },this);
+        } else {
+            this.fire(REMOVE, payload);
+        }
+
+        return this;
+    },
+
+    /**
+     * <p>Default functionality for the &quot;remove&quot; event.  Removes the
+     * callback from the queue.</p>
+     *
+     * <p>The event object will contain a property &quot;callback&quot;, which
+     * holds the id of a callback or the callback object itself.</p>
+     *
+     * @method _defRemoveFn
+     * @param e {Event} the custom event
+     * @protected
+     */
+    _defRemoveFn : function (e) {
+        var i = this.indexOf(e.callback);
+
+        e.removed = (i > -1) ? this._q.splice(i,1)[0] : null;
+    },
+
+    /**
+     * Returns the number of callbacks in the queue.
+     *
+     * @method size
+     * @return {Number}
+     */
+    size : function () {
+        // next() flushes callbacks that have met their until() criteria and
+        // therefore shouldn't count since they wouldn't execute anyway.
+        if (!this.isRunning()) {
+            this.next();
+        }
+
+        return this._q.length;
+    }
+});
+
+
+
+}, '3.16.0', {"requires": ["event-custom"]});

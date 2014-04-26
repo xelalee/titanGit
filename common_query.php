@@ -465,40 +465,41 @@ function logQuery( $table ) {
 
     $json[ 'interval' ] = $days;
 
-    $where = false;
-    $plus = ' WHERE severity <= 7 ';
+    $hasWhere = false;
 
-    if ( !empty( $_GET[ 's' ]) && $_GET[ 's' ] != 7 ) {
-        $where = true;
-        $plus = ' WHERE severity <= '. (int)$_GET[ 's' ];
+    if ( isset( $_GET[ 's' ] ) ) {
+        $hasWhere = true;
+        $plus = ' WHERE severity <= '. (int) $_GET[ 's' ];
+    } else {
+        $plus = ' WHERE severity <= 7 ';
     }
 
     if ( !empty( $_GET[ 'f' ] ) && $_GET[ 'f' ] != "NA" ) {
-        $where = true;
+        $hasWhere = true;
         $plus .= '   AND facility = "'. $_GET[ 'f' ] .'"';
     }
         
     if ( !empty( $_GET[ 'srcIp' ] ) ) {
-        $where = true;
+        $hasWhere = true;
         $plus .= '   AND srcIp = "'. $_GET[ 'srcIp' ] .'"';
     }
 
     if ( !empty( $_GET[ 'dstIp' ] ) ) {
-        $where = true;
+        $hasWhere = true;
         $plus .= '   AND dstIp = "'. $_GET[ 'dstIp' ] .'"';
     }
 
     if ( !empty( $_GET[ 'srcUsr' ] ) ) {
-        $where = true;
+        $hasWhere = true;
         $plus .= '   AND srcUsr = "'. $_GET[ 'srcUsr' ] .'"';
     }
 
     if ( !empty( $_GET[ 'dstUsr' ] ) ) {
-        $where = true;
+        $hasWhere = true;
         $plus .= '   AND dstUsr = "'. $_GET[ 'dstUsr' ] .'"';
     }
 
-    if ($where) {
+    if ($hasWhere) {
         for ($i=0; $i<$days; $i++)
         {
             $tmpStamp = $endStamp - $i * 86400;
@@ -554,7 +555,7 @@ function logQuery( $table ) {
                             $cntRows = $tableRows;
                             $tableRows = $tableRows + $tableCount->fetch_row()[ 0 ];
                             if ( $tableRows >= $startRow && $leftRow > 0 ) {
-                                if ( $result = $mysqli->query( 'SELECT * FROM '. $db .'.`'. $tables[ $j ] .'`'. $where .' ORDER BY seq DESC' ) ) {
+                                if ( $result = $mysqli->query( 'SELECT * FROM '. $db .'.`'. $tables[ $j ] .'`'. $plus .' ORDER BY seq DESC' ) ) {
                                     while ($obj = $result->fetch_object()) {
                                         $cntRows++;
                                         // rows we want

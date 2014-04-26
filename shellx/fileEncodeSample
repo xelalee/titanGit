@@ -1,0 +1,7 @@
+cmd : file -I $filename 
+
+result : $filename; text/plain; charset=utf-8
+
+
+
+cmd : iconv --from-code=utf-16le --to-code=utf-8 $inputFile > $outpuFile

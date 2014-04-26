@@ -49,6 +49,20 @@
       "userDns1"  : "",
       "userDns2"  : ""
     },
+    "pppoecT" : 
+    {
+      "gid"         : "0",
+      "username"    : "",
+      "password"    : "",
+      "authType"    : "0",
+      "ondemand"    : "0",
+      "maxIdelTime" : "0",
+      "mtuMode"     : "0",
+      "mtu"         : "1500",
+      "dnsMode"     : "0",
+      "userDns1"    : "",
+      "userDns2"    : ""
+    },
     "staticip6T" : 
     {
       "gid"       : "0",

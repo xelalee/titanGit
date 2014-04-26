@@ -1,0 +1,10 @@
+#!/bin/bash
+
+while true; do
+    read -p "Launch (L/l) or Unlaunch(U/u) tftpd?" se   
+    case $se in
+        [Ll]* ) sudo launchctl load -w /System/Library/LaunchDaemons/tftp.plist; break;;
+        [Uu]* ) sudo launchctl unload -w /System/Library/LaunchDaemons/tftp.plist; break;;
+        * ) echo "L/l to Launch or U/u to Unlaunch service";;
+    esac
+done

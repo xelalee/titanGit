@@ -14,7 +14,8 @@
     "reboot" : 100,
     "reset" : 100,
     "shutdown" : 20,
-    "restoreConf" : 100
+    "restoreConf" : 100,
+    "applyProfile" : 100
   },
   "div" : 
   {
@@ -267,7 +268,8 @@
     "wanProto" : 
     {
       "0" : "Static",
-      "1" : "DHCP"
+      "1" : "DHCP",
+      "2" : "PPPoE"
     },
     "interfaces" : 
     { 
@@ -486,136 +488,148 @@
   {
     "type" :
     {
-      "1" : "host",
+      "1" : "Host",
       "2" : "Network",
       "3" : "Range",
-      "4" : "Mac"
+      "4" : "MAC"
     },
     "type2" :
     {
-      "1" : "host",
+      "1" : "Host",
       "2" : "Network",
       "3" : "Range"
     },
     "type3" :
     {
-      "1" : "host",
+      "1" : "Host",
       "2" : "Network"
     },
     "type4" :
     {
-      "1" : "host"
+      "1" : "Host"
+    },
+    "type5" :
+    {
+      "4" : "MAC"
     }
   },
   "addressObj":
   {
     "type" :
     {
-      "1" : "host",
+      "1" : "Host",
       "2" : "Network",
       "3" : "Range",
-      "4" : "Mac"
+      "4" : "MAC"
     },
     "type2" :
     {
-      "1" : "host",
+      "1" : "Host",
       "2" : "Network",
       "3" : "Range"
     },
     "type3" :
     {
-      "1" : "host",
+      "1" : "Host",
       "2" : "Network"
     },
     "type4" :
     {
-      "1" : "host"
+      "1" : "Host"
+    },
+    "type5" :
+    {
+      "4" : "MAC"
     }
   },
   "common_addr_list":
   {
     "type" :
     {
-      "1" : "host",
+      "1" : "Host",
       "2" : "Network",
       "3" : "Range",
-      "4" : "Mac"
+      "4" : "MAC"
     },
     "type2" :
     {
-      "1" : "host",
+      "1" : "Host",
       "2" : "Network",
       "3" : "Range"
     },
     "type3" :
     {
-      "1" : "host",
+      "1" : "Host",
       "2" : "Network"
     },
     "type4" :
     {
-      "1" : "host"
+      "1" : "Host"
+    },
+    "type5" :
+    {
+      "4" : "MAC"
     }
   },
   "service" :
   {
     "type" :
     {
-      "0" : "both (tcp\/udp)",
-      "1" : "tcp",
-      "2" : "udp",
-      "3" : "icmp",
-      "4" : "ip"
+      "0" : "Both (TCP\/UDP)",
+      "1" : "TCP",
+      "2" : "UDP",
+      "3" : "ICMP",
+      "4" : "IP"
     },
     "type2" :
     {
-      "0" : "both (tcp\/udp)",
-      "1" : "tcp",
-      "2" : "udp"
+      "0" : "Both (TCP\/UDP)",
+      "1" : "TCP",
+      "2" : "UDP"
     }
   },
   "serviceObj" : 
   {
     "type" : 
     {
-      "0" : "both (tcp\/udp)",
-      "1" : "tcp",
-      "2" : "udp",
-      "3" : "icmp",
-      "4" : "ip"
+      "0" : "Both (TCP\/UDP)",
+      "1" : "TCP",
+      "2" : "UDP",
+      "3" : "ICMP",
+      "4" : "IP"
     },
     "type2" : 
     {
-      "0" : "both (tcp\/udp)",
-      "1" : "tcp",
-      "2" : "udp"
+      "0" : "Both (TCP\/UDP)",
+      "1" : "TCP",
+      "2" : "UDP"
     }
   },
   "common_service_list" :
   {
     "type" :
     {
-      "0" : "both (tcp\/udp)",
-      "1" : "tcp",
-      "2" : "udp",
-      "3" : "icmp",
-      "4" : "ip"
+      "0" : "Both (TCP\/UDP)",
+      "1" : "TCP",
+      "2" : "UDP",
+      "3" : "ICMP",
+      "4" : "IP"
     },
     "type2" :
     {
-      "0" : "both (tcp\/udp)",
-      "1" : "tcp",
-      "2" : "udp"
+      "0" : "Both (TCP\/UDP)",
+      "1" : "TCP",
+      "2" : "UDP"
     }
   },
   "schedule" :
   {
     "type" :
     {
-      "0" : "all days + all time",
-      "2" : "all days + spec time",
-      "3" : "spec days + all time",
-      "4" : "spec days + spec time"
+      "0" : "All Days + All Time",
+      "2" : "All Days + Spec Time",
+      "3" : "Spec Days + All Time",
+      "4" : "Spec Days + Spec Time"
     },
     "day" :
     {
@@ -643,10 +657,10 @@
   {
     "type" :
     {
-      "0" : "all days + all time",
-      "2" : "all days + spec time",
-      "3" : "spec days + all time",
-      "4" : "spec days + spec time"
+      "0" : "All Days + All Time",
+      "2" : "All Days + Spec Time",
+      "3" : "Spec Days + All Time",
+      "4" : "Spec Days + Spec Time"
     },
     "day" :
     {
@@ -691,6 +705,12 @@
       "2": "notify + destruct file"
     },
     "pop3Act": 
+    {
+      "0": "none",
+      "1": "notify",
+      "2": "notify + destruct file"
+    },
+    "imapAct": 
     {
       "0": "none",
       "1": "notify",

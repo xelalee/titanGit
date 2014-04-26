@@ -17,9 +17,9 @@
   },
   "tw":
   {
-    "hd_user" : "歡迎",
-    "hd_timer" : "時間",
-    "hd_ip" : "登入 IP",
+    "hd_user" : "登入帳號",
+    "hd_timer" : "日期時間",
+    "hd_ip" : "登入IP",
     "hd_idle" : "閒置登出",
     "hd_force" : "強制登出"
   }

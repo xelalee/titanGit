@@ -589,6 +589,46 @@ a:link { text-decoration: none;}
     right: 85px;
 }
 
+#pgRun {
+    position: absolute;
+    top: 5px;
+    right: 45px;
+}
+
+#pgRun span.ui-icon {
+    background-position: 0 -160px;
+}
+
+#pgClean {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+#pgClean span.ui-icon {
+    background-position: -176px -96px;
+}
+
+#pgStart {
+    position: absolute;
+    top: 5px;
+    right: 45px;
+}
+
+#pgStart span.ui-icon {
+    background-position: 0 -160px;
+}
+
+#pgStop {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+#pgStop span.ui-icon {
+    background-position: -96px -160px;
+}
+
 #pgExport {
     position: absolute;
     top: 5px;
@@ -601,6 +641,16 @@ a:link { text-decoration: none;}
 
 #pgExtend.Expand span.ui-icon {
     background-position: -240px -48px;
+}
+
+#newFirmware {
+    position: absolute;
+    top: 0;
+    right: 5px;
+}
+
+#newFirmware span.ui-icon {
+    background-position: -16px -144px;
 }
 
 /* dashboard controller */
@@ -772,12 +822,22 @@ span.pageHelp:hover, span.popHelp:hover {
     background-image: url('images/ui-icons_4ca300_256x240.png');
 }
 
+span.abss {
+    position: absolute;
+    background: #555555 url('images/ui-bg_highlight-hard_55_555555_1x100.png') 50% 50% repeat-x;
+    color: white;
+}
+
 #popHelp iframe {
     width: 780px;
     height: 580px;
     border: none;
     margin: 0;
     padding: 0;
+}
+
+li.rell {
+    position: relative;
 }
 
 .refreshPage {
@@ -1052,6 +1112,10 @@ span.sortable.descending {
     padding: 0 5px 0 0;
 }
 
+.alignJustify {
+    text-align: justify;
+    padding: 0 0 0 5px;
+}
 /* position class */
 .relativeClass {
     position: relative;
@@ -1255,6 +1319,14 @@ button.Create span.ui-icon {
     background-position: -64px -112px;
 }
 
+button.Duplicate span.ui-icon {
+    background-position: -48px -80px;
+}
+
+button.New span.ui-icon {
+    background-position: -64px -112px;
+}
+
 button.Forces span.ui-icon {
     background-position: 0 -176px;
 }
@@ -1297,6 +1369,10 @@ button.Disconnect span.ui-icon {
 
 button.Delete span.ui-icon {
     background-position: -64px -128px;
+}
+
+button.Download span.ui-icon {
+    background-position: -160px -96px;
 }
 
 button.Edit span.ui-icon {
@@ -1361,6 +1437,10 @@ button.Update span.ui-icon {
 
 button.LicenseRefresh span.ui-icon {
     background-position: -80px -80px;
+}
+
+button.Apply span.ui-icon {
+    background-position: -64px -144px;
 }
 
 button.Check span.ui-icon {
@@ -1527,6 +1607,11 @@ div.tblAction button.Create {
     right: 45px;
 }
 
+div.tblAction button.New {
+    position: absolute;
+    right: 45px;
+}
+
 div.tblAction button.Move2Whites {
     position: absolute;
     right: 45px;
@@ -1591,7 +1676,25 @@ div.Expand {
     width: 1200px;
 }
 
+.noData {
+    width: 250px;
+    hegith: 50px;
+    margin: 100px auto;
+    background: #efefef;
+    -mos-border-radius: 5px;
+    border-radius: 5px;
+    padding: 25px 0 0 25px;
+}
+
 /* networking */
+#div-dns_forwarder-general_configuration {
+    width: 240px;
+    background: #efefef;
+    -mos-border-radius: 5px;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+}
 
 #div-s2svpnEnable {
     background: #efefef;
@@ -1863,6 +1966,12 @@ div.Expand {
     background: #efefef url('images/i_64_pop3_00.png') top right no-repeat;
 }
 
+#div-imap {
+    position: relative;
+    width: 350px;
+    background: #efefef url('images/i_64_pop3_00.png') top right no-repeat;
+}
+
 #div-maximumFile {
     position: relative;
     height: 40px;
@@ -1888,6 +1997,8 @@ div.Expand {
     background: url('images/i_128_virus_database_00.png') top right no-repeat;
     -mos-border-radius: 10px;
     border-radius: 10px;
+    padding: 80px 0 0 0;
+    background-position: 300px 0;
 }
 
 #div-signatures h2 {
@@ -2033,33 +2144,39 @@ div.Expand {
 
 /* device > backup/restore */
 #div-backup_restore {
-    position: relative;
-    width: 600px;
-    height: 360px;
-    background: #efefef;
-    background-position: 20px 16px;
-    -mos-border-radius: 10px;
-    border-radius: 10px;
+
 }
 
 #div-backup_restore button {
     background: white;
 }
 
+#div-profile {
+    position: relative;
+    width: 760px;
+}
+
 #div-backup {
     position: relative;
-    height: 150px;
-    background: url('images/i_128_backup_00.png') center left no-repeat;
+    width: 600px;
+    height: 110px;
+    background: #efefef url('images/i_128_backup_00.png') center left no-repeat;
     background-position: 20px 16px;
     padding: 40px 0 0 160px;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
 }
 
 #div-restore {
     position: relative;
-    height: 160px;
-    background: url('images/i_128_restore_configuration_00.png') center left no-repeat;
+    width: 600px;
+    height: 110px;
+    background: #efefef url('images/i_128_restore_00.png') center left no-repeat;
     background-position: 20px 16px;
     padding: 40px 0 0 160px;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    margin: 5px 0;
 }
 
 /* device > firmware */
@@ -2077,7 +2194,7 @@ div.Expand {
     background: transparent;
 }
 
-#div-check_switch {
+#div-firmware_version {
     position: relative;
     width: 540px;
     height: 200px;
@@ -2085,11 +2202,11 @@ div.Expand {
     padding: 50px 0 0 160px;
 }
 
-#div-upgrade {
+#div-upgrade_firmware {
     position: relative;
     width: 540px;
     height: 200px;
-    background: url('images/i_128_upgrade_firmware_00.png') center left no-repeat;
+    background: url('images/i_128_upgrade_00.png') center left no-repeat;
     padding: 50px 0 0 160px;
 }
 
@@ -2304,6 +2421,14 @@ div.Expand {
     margin-top: 10px;
     padding: 10px;
 }
+/* device > diagnostics */
+.resultDiv {
+    width: 500px;
+    height: 400px;
+    padding: 10px;
+    border: 1px solid grey;
+}
+
 /* device > license */
 #div-registration {
     position: relative;
@@ -2320,7 +2445,7 @@ div.Expand {
     background-position: 30px 20px;
 }
 
-#div-registration-trail {
+#div-registration-trial {
 
 }
 

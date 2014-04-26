@@ -5843,7 +5843,7 @@
                 "wan_address_settings": [
                   {
                     "label": "WAN界面",
-                    "tab": "wanInterface",
+                    "tab": "wanName",
                     "tag": "p",
                     "align": [
                       "Left",
@@ -6271,18 +6271,6 @@
                 }
               ],
               "editor": [
-                {
-                  "label": "启用",
-                  "tab": "enable",
-                  "tag": "input",
-                  "type": "checkbox",
-                  "val": 1,
-                  "align": [
-                    "Left",
-                    "Left"
-                  ],
-                  "wiz": "100px"
-                },
                 {
                   "label": "触发服务",
                   "tab": "triggerService",
@@ -6839,7 +6827,7 @@
                   "wiz": "150px"
                 },
                 {
-                  "label" : "Log droppped packets destined to TitanWall",
+                  "label" : "在TitanWall记录被丢弃的数据包",
                   "tab" : "enableInputDropLog",
                   "tag" : "input",
                   "type" : "checkbox",
@@ -6920,7 +6908,7 @@
             "http_notification": "HTTP 通知",
             "email_notification": "Email 通知",
             "address_exceptions": "地址排除",
-            "file_extensions": "文件排除",
+            "file_exceptions": "文件排除",
             "blacklist": "黑名单",
             "whitelist": "白名单",
             "signature": "特征库"
@@ -6946,7 +6934,7 @@
               "http_notification": "av_http_notify",
               "email_notification": "av_email_notify",
               "address_exceptions": "addr_filter",
-              "file_extensions": "av_file_exception",
+              "file_exceptions": "av_file_exception",
               "blacklist": "av_blacklist",
               "whitelist": "av_whitelist",
               "signature": "av_sig"
@@ -6956,7 +6944,7 @@
               "http_notification": "av_http_notify",
               "email_notification": "av_email_notify",
               "address_exceptions": "addr_filter",
-              "file_extensions": "av_file_exception",
+              "file_exceptions": "av_file_exception",
               "blacklist": "av_blacklist",
               "whitelist": "av_whitelist",
               "signature": "av_sig"
@@ -6968,7 +6956,7 @@
             "http_notification": "Save Cancel",
             "email_notification": "Save Cancel",
             "address_exceptions": "Save Cancel",
-            "file_extensions": "Save Cancel",
+            "file_exceptions": "Save Cancel",
             "blacklist": "Save Cancel",
             "whitelist": "Save Cancel",
             "signature": "Save Cancel"
@@ -6978,7 +6966,7 @@
             "http_notification": false,
             "email_notification": false,
             "address_exceptions": "Create",
-            "file_extensions": "Create",
+            "file_extceptions": "Create",
             "whitelist": "Remove",
             "blacklist": "Move2Whites Remove",
             "signature": false
@@ -6988,7 +6976,7 @@
             "http_notification": false,
             "email_notification": false,
             "address_exceptions": "Edit Delete",
-            "file_extensions": "Edit Delete",
+            "file_exceptions": "Edit Delete",
             "whitelist": "Delete",
             "blacklist": "Delete",
             "signature": false
@@ -6998,7 +6986,7 @@
             "http_notification": false,
             "email_notification": false,
             "address_exceptions": "guiAddrFilterT",
-            "file_extensions": {
+            "file_exceptions": {
               "mime": "mimeExcepT",
               "file_exception": "fileExcepT"
             },
@@ -7011,7 +6999,7 @@
             "http_notification": false,
             "email_notification": false,
             "address_exceptions": "guiAddrFilterNum",
-            "file_extensions": {
+            "file_exceptions": {
               "mime": "mimeExcepTNum",
               "file_exception": "fileExcepTNum"
             },
@@ -7020,236 +7008,590 @@
             "signature": false
           },
           "col": {
-            "general_settings": [
+            "general_settings" :
+            [
               {
-                "label": "启用",
-                "tab": "enable",
-                "tag": "input",
-                "type": "checkbox",
-                "val": 1
+                "label" : "启用",
+                "tab" : "enable",
+                "tag" : "input",
+                "type" : "checkbox",
+                "val" : 1
               },
               {
                 "label": "扫描区域",
-                "tab": "selectedZonesT",
-                "tag": "select",
-                "type": "multiple",
-                "multiple": {
-                  "pool": {
+                "tab" : "selectedZonesT",
+                "tag" : "select",
+                "type" : "multiple",
+                "multiple" :
+                {
+                  "pool" :
+                  {
                     "label": "可选区域",
-                    "tab": "pool",
-                    "wiz": "40%"
+                    "tab" : "pool",
+                    "wiz" : "40%"
                   },
-                  "del": {
-                    "label": "删除",
-                    "tab": "Move2Del",
-                    "tag": "button",
-                    "type": "button",
-                    "wiz": "10%"
+                  "del" :
+                  {
+                    "label" : "Move to Remove",
+                    "tab" : "Move2Del",
+                    "tag" : "button",
+                    "type" : "button",
+                    "wiz" : "10%"
                   },
-                  "add": {
-                    "label": "添加",
-                    "tab": "Move2Add",
-                    "tag": "button",
-                    "type": "button",
-                    "wiz": "10%"
+                  "add" :
+                  {
+                    "label" : "Move to Add",
+                    "tab" : "Move2Add",
+                    "tag" : "button",
+                    "type" : "button",
+                    "wiz" : "10%"
                   },
-                  "pick": {
+                  "pick" :
+                  {
                     "label": "已选区域",
-                    "tab": "pick",
-                    "wiz": "40%"
+                    "tab" : "pick",
+                    "wiz" : "40%"
                   }
                 },
-                "align": [
+                "align" :
+                [
                   "Left",
                   "Left"
                 ],
-                "wiz": "100px"
+                "wiz" : "100px"
               },
               {
                 "label": "扫描的应用",
-                "tab": "applicationToScan",
-                "tag": "",
-                "col": [
+                "tab" : "applicationToScan",
+                "tag" : "tables",
+                "col" :
+                [
                   {
-                    "label": "可选区域",
-                    "tab": "selectedZonesTPool",
-                    "tag": "select",
-                    "type": "multiple"
+                    "label" : "HTTP",
+                    "tab" : "http",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" :
+                    [
+                      {
+                        "label" : "启用",
+                        "tab" : "httpEnable",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "日志",
+                        "tab" : "httpLog",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "动作",
+                        "tab" : "httpAct",
+                        "tag" : "select",
+                        "type" : "select",
+                        "option" :
+                        {
+                          "0" : "none",
+                          "1" : "notify",
+                          "2" : "notify + drop connection"
+                        }
+                      },
+                      {
+                        "label" : "端口列表",
+                        "tab" : "httpPort",
+                        "tag" : "input",
+                        "type" : "texts",
+                        "texts" : 5
+                      }
+                    ]
                   },
                   {
-                    "label": "已选区域",
-                    "tab": "selectedZonesT",
-                    "tag": "select",
-                    "type": "multiple"
+                    "label" : "FTP",
+                    "tab" : "ftp",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" :
+                    [
+                      {
+                        "label" : "启用",
+                        "tab" : "ftpEnable",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "日志",
+                        "tab" : "ftpLog",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "动作",
+                        "tab" : "ftpAct",
+                        "tag" : "select",
+                        "type" : "select",
+                        "option" :
+                        {
+                          "0" : "none",
+                          "1" : "drop connection"
+                        }
+                      },
+                      {
+                        "label" : "端口列表",
+                        "tab" : "ftpPort",
+                        "tag" : "input",
+                        "type" : "texts",
+                        "texts" : 5
+                      }
+                    ]
+                  },
+                  {
+                    "label" : "SMTP",
+                    "tab" : "smtp",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" :
+                    [
+                      {
+                        "label" : "启用",
+                        "tab" : "smtpEnable",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "日志",
+                        "tab" : "smtpLog",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "动作",
+                        "tab" : "smtpAct",
+                        "tag" : "select",
+                        "type" : "select",
+                        "option" :
+                        {
+                          "0" : "none",
+                          "1" : "notify",
+                          "2" : "notify + destruct file"
+                        }
+                      },
+                      {
+                        "label" : "端口列表",
+                        "tab" : "smtpPort",
+                        "tag" : "input",
+                        "type" : "texts",
+                        "texts" : 5
+                      }
+                    ]
+                  },
+                  {
+                    "label" : "POP3",
+                    "tab" : "pop3",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" :
+                    [
+                      {
+                        "label" : "启用",
+                        "tab" : "pop3Enable",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "日志",
+                        "tab" : "pop3Log",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "动作",
+                        "tab" : "pop3Act",
+                        "tag" : "select",
+                        "type" : "select",
+                        "option" :
+                        {
+                          "0" : "none",
+                          "1" : "notify",
+                          "2" : "notify + destruct file"
+                        }
+                      },
+                      {
+                        "label" : "端口列表",
+                        "tab" : "pop3Port",
+                        "tag" : "input",
+                        "type" : "texts",
+                        "texts" : 5
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "label": "扫描的档案上限",
+                "tab" : "maxFileSize",
+                "tag" : "input",
+                "type" : "text",
+                "note" : "(1-10240 byte, 0=不限)"
+              }
+            ],
+            "http_notification" :
+            [
+              {
+                "label": "Http通知内容",
+                "tab" : "httpNotify",
+                "tag" : "textarea",
+                "type" : "textarea"
+              }
+            ],
+            "email_notification" :
+            [
+              {
+                "label": "邮件通知状态",
+                "tab" : "mailStatus",
+                "tag" : "p"
+              },
+              {
+                "label": "发送邮箱",
+                "tab" : "fromMail",
+                "tag" : "p"
+              },
+              {
+                "label": "SMTP服务器",
+                "tab" : "smtpServer",
+                "tag" : "p"
+              },
+              {
+                "label": "SMTP认证",
+                "tab" : "smtpAuth",
+                "tag" : "p"
+              },
+              {
+                "label": "邮件标签",
+                "tab" : "mailTag",
+                "tag" : "input",
+                "type" : "text"
+              },
+              {
+                "label": "邮件内容",
+                "tab" : "mailContent",
+                "tag" : "textarea",
+                "type" : "textarea"
+              }
+            ],
+            "address_exceptions" :
+            [
+              {
+                "label": "启用",
+                "tab" : "enable"
+              },
+              {
+                "label" : "源地址",
+                "tab" : "sAddrId"
+              },
+              {
+                "label" : "目的地址",
+                "tab" : "dAddrId"
+              },
+              {
+                "label" : "日志",
+                "tab" : "logEnable"
+              },
+              {
+                "label" : "动作",
+                "tab" : "action"
+              }
+            ],
+            "file_exceptions" :
+            [
+              {
+                "label" : "MIME Exception List",
+                "label": "MIME 例外列表",
+                "tab" : "mime",
+                "tag" : "table",
+                "type" : "table",
+                "col" :
+                [
+                  {
+                    "label" : "MIME",
+                    "tab" : "mime"
+                  },
+                  {
+                    "label" : "操作",
+                    "tab" : "action"
+                  }
+                ]
+              },
+              {
+                "label": "文件扩展名例外列表",
+                "tab" : "file_exception",
+                "tag" : "table",
+                "type" : "table",
+                "col" :
+                [
+                  {
+                    "label": "文件扩展名",
+                    "tab" : "fileExt"
+                  },
+                  {
+                    "label" : "操作",
+                    "tab" : "action"
                   }
                 ]
               }
             ],
-            "http_notification": [
-              {
-                "label": "Http通知内容",
-                "tab": ""
-              }
-            ],
-            "email_notification": [
-              {
-                "label": "邮件通知状态",
-                "tab": ""
-              },
-              {
-                "label": "发送邮箱",
-                "tab": ""
-              },
-              {
-                "label": "SMTP服务器",
-                "tab": ""
-              },
-              {
-                "label": "SMTP认证",
-                "tab": ""
-              },
-              {
-                "label": "邮件标签",
-                "tab": ""
-              },
-              {
-                "label": "邮件内容",
-                "tab": ""
-              }
-            ],
-            "address_exceptions": [
-              {
-                "label": "启用",
-                "tab": ""
-              },
-              {
-                "label": "源地址",
-                "tab": ""
-              },
-              {
-                "label": "目的地址",
-                "tab": ""
-              },
-              {
-                "label": "日志",
-                "tab": ""
-              },
-              {
-                "label": "操作",
-                "tab": ""
-              }
-            ],
-            "file_extensions": [
-              {
-                "label": "MIME",
-                "tab": ""
-              },
-              {
-                "label": "操作",
-                "tab": ""
-              },
-              {
-                "label": "文件扩展名例外列表",
-                "tab": ""
-              },
-              {
-                "label": "文件扩展名",
-                "tab": ""
-              }
-            ],
-            "fileExcepT": [],
-            "blacklist": [
+            "blacklist" :
+            [
               {
                 "label": "过期时间",
-                "tab": ""
+                "tab" : "expiration_duration",
+                "tag" : "table",
+                "type" : "table",
+                "col" :
+                [
+                  {
+                    "label": "过期时间",
+                    "tab" : false
+                  },
+                  {
+                    "label" : "天",
+                    "tab" : "expiration_days",
+                    "tag" : "input",
+                    "type" : "text",
+                    "note" : "( 0-300 )"
+                  },
+                  {
+                    "label" : "小时",
+                    "tab" : "expiration_hours",
+                    "tag" : "input",
+                    "type" : "text",
+                    "note" : " ( 0-23 )"
+                  }
+                ]
               },
               {
-                "label": "天",
-                "tab": ""
-              },
-              {
-                "label": "小时",
-                "tab": ""
-              },
-              {
-                "label": "Index",
-                "tab": ""
-              },
-              {
-                "label": "URL",
-                "tab": ""
-              },
-              {
-                "label": "过期时间",
-                "tab": ""
-              },
-              {
-                "label": "操作",
-                "tab": ""
+                "label" : "黑名单",
+                "tab" : "blacklist",
+                "tag" : "table",
+                "type" : "table",
+                "col" :
+                [
+                  {
+                    "label" : "",
+                    "tab" : "blacklist_all",
+                    "tag" : "input",
+                    "type" : "checkbox"
+                  },
+                  {
+                    "label" : "Index",
+                    "tab" : "blacklist_index"
+                  },
+                  {
+                    "label" : "病毒 ID",
+                    "tab" : "virusID"
+                  },
+                  {
+                    "label" : "病毒名称",
+                    "tab" : "virusName"
+                  },
+                  {
+                    "label" : "类型",
+                    "tab" : "type"
+                  },
+                  {
+                    "label" : "资讯",
+                    "tab" : "url"
+                  },
+                  {
+                    "label" : "过期时间",
+                    "tab" : "expiration"
+                  },
+                  {
+                    "label" : "操作",
+                    "tab" : "action"
+                  }
+                ]
               }
             ],
-            "whitelist": [
+            "whitelist" :
+            [
               {
-                "label": "Index",
-                "tab": ""
-              },
-              {
-                "label": "URL",
-                "tab": ""
-              },
-              {
-                "label": "操作",
-                "tab": ""
+                "label" : "白名单",
+                "tab" : "whitelist",
+                "tag" : "table",
+                "type" : "table",
+                "col" :
+                [
+                  {
+                    "label" : "",
+                    "tab" : "whitelist_all",
+                    "tag" : "input",
+                    "type" : "checkbox"
+                  },
+                  {
+                    "label" : "Index",
+                    "tab" : "whitelist_index"
+                  },
+                  {
+                    "label" : "病毒 ID",
+                    "tab" : "virusID"
+                  },
+                  {
+                    "label" : "病毒名称",
+                    "tab" : "virusName"
+                  },
+                  {
+                    "label" : "操作",
+                    "tab" : "action"
+                  }
+                ]
               }
             ],
-            "signature": [
+            "signature" :
+            [
               {
                 "label": "病毒特征库",
-                "tab": ""
+                "tab" : "signatures",
+                "tag" : "div",
+                "type" : "div",
+                "icon" : "i_128_virus_database_00.png",
+                "col" :
+                [
+                  {
+                    "label" : "特征更新",
+                    "tab" : "signature_update",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" :
+                    [
+                      {
+                        "label" : "手动更新",
+                        "tab" : "startUpdate",
+                        "tag" : "button",
+                        "type" : "submit"
+                      },
+                      {
+                        "label" : "自动更新",
+                        "tab" : "autoUpdate",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "col" :
+                        [
+                          {
+                            "label" : "类型",
+                            "tab" : "type",
+                            "tag" : "select",
+                            "type" : "select",
+                            "option" : "cgi"
+                          },
+                          {
+                            "label" : "间隔",
+                            "tab" : "number",
+                            "tag" : "select",
+                            "type" : "select",
+                            "option" : "cgi"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "label" : "版本及样本数量",
+                    "tab" : "version_pattern",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" :
+                    [
+                      {
+                        "label" : "版本",
+                        "tab" : "version"
+                      },
+                      {
+                        "label" : "样本数量",
+                        "tab" : "ptnNum"
+                      }
+                    ]
+                  },
+                  {
+                    "label" : "检查历程",
+                    "tab" : "check_record",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" :
+                    [
+                      {
+                        "label": "最后检查日期",
+                        "tab" : "lastChecked"
+                      },
+                      {
+                        "label": "最后更新日期",
+                        "tab" : "lastUpdated"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "editor":
+          {
+            "address_exceptions" :
+            [
+              {
+                "label" : "启用",
+                "tab" : "enable",
+                "tag" : "input",
+                "type" : "checkbox"
               },
               {
-                "label": "更新",
-                "tab": ""
+                "label" : "源地址",
+                "tab" : "sAddrId",
+                "tag" : "select",
+                "type" : "select"
               },
               {
-                "label": "手动更新",
-                "tab": ""
+                "label" : "目的地址",
+                "tab" : "dAddrId",
+                "tag" : "select",
+                "type" : "select"
               },
               {
-                "label": "自动更新",
-                "tab": ""
+                "label" : "日志",
+                "tab" : "logEnable",
+                "tag" : "input",
+                "type" : "checkbox"
+              }
+            ],
+            "mime" :
+            [
+              {
+                "label" : "类型",
+                "tab" : "type",
+                "tag" : "select",
+                "type" : "select"
               },
               {
-                "label": "间隔",
-                "tab": ""
-              },
+                "label" : "子类型",
+                "tab" : "sub",
+                "tag" : "select",
+                "type" : "select"
+              }
+            ],
+            "file_extension" :
+            [
               {
-                "label": "版本",
-                "tab": ""
-              },
-              {
-                "label": "Signature",
-                "tab": ""
-              },
-              {
-                "label": "MD5",
-                "tab": ""
-              },
-              {
-                "label": "样本数量",
-                "tab": ""
-              },
-              {
-                "label": "MD5",
-                "tab": ""
-              },
-              {
-                "label": "最后检查日期",
-                "tab": ""
-              },
-              {
-                "label": "最后更新日期",
-                "tab": ""
+                "label": "文件扩展名",
+                "tab" : "fileExt",
+                "tag" : "input",
+                "type" : "text"
               }
             ]
           }
@@ -7725,66 +8067,277 @@
           "editor": {
             "group_address": [
               {
-                "label": "地址列表",
-                "tab": ""
+                "label" : "群名称",
+                "tab" : "name",
+                "tag" : "input",
+                "type" : "text",
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "colspan" : 4
               },
               {
-                "label": "已选择的地址",
-                "tab": ""
+                "label" : "成员",
+                "tab" : "idList",
+                "tag" : "select",
+                "type" : "multiple",
+                "multiple" :
+                {
+                  "pool" :
+                  {
+                    "label" : "地址列表",
+                    "tab" : "pool",
+                    "wiz" : "40%"
+                  },
+                  "del" :
+                  {
+                    "label" : "Move to Remove",
+                    "tab" : "Move2Del",
+                    "tag" : "button",
+                    "type" : "button",
+                    "wiz" : "10%"
+                  },
+                  "add" :
+                  {
+                    "label" : "Move to Add",
+                    "tab" : "Move2Add",
+                    "tag" : "button",
+                    "type" : "button",
+                    "wiz" : "10%"
+                  },
+                  "pick" :
+                  {
+                    "label" : "已选择的地址",
+                    "tab" : "pick",
+                    "wiz" : "40%"
+                  }
+                },
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "wiz" : "100px"
               },
               {
-                "label": "地址详情",
-                "tab": ""
+                "label" : "地址详情",
+                "tab" : "address_detail",
+                "tag" : "p",
+                "type" : "p",
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "colspan" : 4
               },
               {
-                "label": "名称",
-                "tab": ""
+                "label" : "名称",
+                "tab" : "addressName",
+                "tag" : "span",
+                "type" : "span",
+                "align" :
+                [
+                  "Right",
+                  "Left"
+                ],
+                "wiz" : "40px",
+                "colspan" : 3
               },
               {
-                "label": "类型",
-                "tab": ""
+                "label" : "类型",
+                "tab" : "addressType",
+                "tag" : "span",
+                "type" : "span",
+                "align" :
+                [
+                  "Right",
+                  "Left"
+                ],
+                "wiz" : "40px",
+                "colspan" : 3
               },
               {
-                "label": "值",
-                "tab": ""
+                "label" : "值",
+                "tab" : "addressValue",
+                "tag" : "span",
+                "type" : "span",
+                "align" :
+                [
+                  "Right",
+                  "Left"
+                ],
+                "wiz" : "40px",
+                "colspan" : 3
               }
             ],
             "address": [
               {
-                "label": "名称",
-                "tab": ""
+                "label" : "地址",
+                "tab" : "name",
+                "tag" : "input",
+                "type" : "text",
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "wiz" : "60px"
               },
               {
-                "label": "类型",
-                "tab": ""
-              },
-              {
-                "label": "地址",
-                "tab": ""
-              },
-              {
-                "label": "掩码",
-                "tab": ""
-              },
-              {
-                "label": "IP地址末位输入“0”表示一个IP地址段",
-                "tab": ""
-              },
-              {
-                "label": "例如：192.168.1.0表示范围192.168.1.1 到192.168.1.255",
-                "tab": ""
-              },
-              {
-                "label": "起始IP地址",
-                "tab": ""
-              },
-              {
-                "label": "结束IP地址",
-                "tab": ""
-              },
-              {
-                "label": "MAC地址",
-                "tab": ""
+                "label" : "类型",
+                "tab" : "type",
+                "tag" : "select",
+                "type" : "select",
+                "option" :
+                [
+                  {
+                    "label" : "主",
+                    "tab" : "1",
+                    "col" :
+                    [
+                      {
+                        "label" : "地址",
+                        "tab" : "startIp",
+                        "tag" : "input",
+                        "type" : "text",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "60px"
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "60px"
+                  },
+                  {
+                    "label" : "网络",
+                    "tab" : "2",
+                    "col" :
+                    [
+                      {
+                        "label" : "地址",
+                        "tab" : "startIp",
+                        "tag" : "input",
+                        "type" : "text",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "60px"
+                      },
+                      {
+                        "label" : "掩码",
+                        "tab" : "netmask",
+                        "tag" : "input",
+                        "type" : "text",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "60px"
+                      },
+                      {
+                        "label": "IP地址末位输入“0”表示一个IP地址段",
+                        "tab" : "networkNote",
+                        "tag" : "p",
+                        "type" : "p",
+                        "colspan" : 2
+                      },
+                      {
+                        "label": "例如：192.168.1.0表示范围192.168.1.1 到192.168.1.255",
+                        "tab" : "networkExample",
+                        "tag" : "p",
+                        "type" : "p",
+                        "colspan" : 2
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "60px"
+                  },
+                  {
+                    "label" : "范圍",
+                    "tab" : "3",
+                    "col" :
+                    [
+                      {
+                        "label" : "起始 IP 地址",
+                        "tab" : "startIp",
+                        "tag" : "input",
+                        "type" : "text",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "110px"
+                      },
+                      {
+                        "label" : "結束 IP 地址",
+                        "tab" : "endIp",
+                        "tag" : "input",
+                        "type" : "text",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "110px"
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "60px"
+                  },
+                  {
+                    "label" : "MAC",
+                    "tab" : "4",
+                    "col" :
+                    [
+                      {
+                        "label" : "MAC 地址",
+                        "tab" : "mac",
+                        "tag" : "input",
+                        "type" : "text",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "60px"
+                  }
+                ],
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "wiz" : "60px"
               }
             ]
           }
@@ -7986,56 +8539,312 @@
             ]
           },
           "editor": {
-            "group_service": [
+            "group_service" :
+            [
               {
-                "label": "服务列表",
-                "tab": ""
+                "label" : "群名称",
+                "tab" : "name",
+                "tag" : "input",
+                "type" : "text",
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "colspan" : 4
               },
               {
-                "label": "已选择的服务",
-                "tab": ""
+                "label" : "群成员",
+                "tab" : "idList",
+                "tag" : "select",
+                "type" : "multiple",
+                "multiple" :
+                {
+                  "pool" :
+                  {
+                    "label" : "服务列表",
+                    "tab" : "pool",
+                    "wiz" : "40%"
+                  },
+                  "del" :
+                  {
+                    "label" : "Move to Remove",
+                    "tab" : "Move2Del",
+                    "tag" : "button",
+                    "type" : "button",
+                    "wiz" : "10%"
+                  },
+                  "add" :
+                  {
+                    "label" : "Move to Add",
+                    "tab" : "Move2Add",
+                    "tag" : "button",
+                    "type" : "button",
+                    "wiz" : "10%"
+                  },
+                  "pick" :
+                  {
+                    "label" : "已选择的服务",
+                    "tab" : "pick",
+                    "wiz" : "40%"
+                  }
+                },
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "wiz" : "100px"
               },
               {
-                "label": "服务详情",
-                "tab": ""
+                "label" : "服务详情",
+                "tab" : "service_detail",
+                "tag" : "p",
+                "type" : "p",
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "colspan" : 4
               },
               {
-                "label": "名称",
-                "tab": ""
+                "label" : "名称",
+                "tab" : "serviceName",
+                "tag" : "span",
+                "type" : "span",
+                "align" :
+                [
+                  "Right",
+                  "Left"
+                ],
+                "wiz" : "40px",
+                "colspan" : 3
               },
               {
-                "label": "协议",
-                "tab": ""
+                "label" : "协议",
+                "tab" : "serviceType",
+                "tag" : "span",
+                "type" : "span",
+                "align" :
+                [
+                  "Right",
+                  "Left"
+                ],
+                "wiz" : "40px",
+                "colspan" : 3
               },
               {
-                "label": "值",
-                "tab": ""
+                "label" : "值",
+                "tab" : "serviceValue",
+                "tag" : "span",
+                "type" : "span",
+                "align" :
+                [
+                  "Right",
+                  "Left"
+                ],
+                "wiz" : "40px",
+                "colspan" : 3
               }
             ],
-            "service": [
+            "service" :
+            [
               {
-                "label": "名称",
-                "tab": ""
+                "label" : "名称",
+                "tab" : "name",
+                "tag" : "input",
+                "type" : "text",
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "colspan" : 4
               },
               {
-                "label": "协议",
-                "tab": ""
-              },
-              {
-                "label": "起始端口范围",
-                "tab": ""
-              },
-              {
-                "label": "结束端口范围",
-                "tab": ""
-              },
-              {
-                "label": "ICMP类型",
-                "tab": ""
-              },
-              {
-                "label": "IP",
-                "tab": ""
+                "label" : "协议",
+                "tab" : "type",
+                "tag" : "select",
+                "type" : "select",
+                "option" :
+                [
+                  {
+                    "label" : "Both (TCP/UDP)",
+                    "tab" : "0",
+                    "col" :
+                    [
+                      {
+                        "label" : "起始端口范围",
+                        "tab" : "param1",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-65535)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      },
+                      {
+                        "label" : "结束端口范围",
+                        "tab" : "param2",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-65535)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "80px"
+                  },
+                  {
+                    "label" : "TCP",
+                    "tab" : "1",
+                    "col" :
+                    [
+                      {
+                        "label" : "起始端口范围",
+                        "tab" : "param1",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-65535)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      },
+                      {
+                        "label" : "结束端口范围",
+                        "tab" : "param2",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-65535)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "80px"
+                  },
+                  {
+                    "label" : "UDP",
+                    "tab" : "2",
+                    "col" :
+                    [
+                      {
+                        "label" : "起始端口范围",
+                        "tab" : "param1",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-65535)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      },
+                      {
+                        "label" : "结束端口范围",
+                        "tab" : "param2",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-65535)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "80px"
+                  },
+                  {
+                    "label" : "ICMP",
+                    "tab" : "3",
+                    "col" :
+                    [
+                      {
+                        "label" : "ICMP 类型",
+                        "tab" : "param1",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-255)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "80px"
+                  },
+                  {
+                    "label" : "IP",
+                    "tab" : "4",
+                    "col" :
+                    [
+                      {
+                        "label" : "IP",
+                        "tab" : "param1",
+                        "tag" : "input",
+                        "type" : "text",
+                        "note" : "(1-255)",
+                        "align" :
+                        [
+                          "Left",
+                          "Left"
+                        ],
+                        "wiz" : "100px"
+                      }
+                    ],
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "80px"
+                  }
+                ],
+                "align" :
+                [
+                  "Left",
+                  "Left"
+                ],
+                "wiz" : "80px"
               }
             ]
           }
@@ -8117,64 +8926,191 @@
           ],
           "editor": [
             {
-              "label": "时间表",
-              "tab": ""
+              "label" : "名称",
+              "tab" : "name",
+              "tag" : "input",
+              "type" : "text",
+              "align" :
+              [
+                "Left",
+                "Left"
+              ],
+              "wiz" : "100px"
             },
             {
-              "label": "您希望将这个时间表应用到所有日期或特定日期？",
-              "tab": ""	
+              "label" : "时间表",
+              "tab" : "schedule_days",
+              "tag" : "p",
+              "type" : "note",
+              "note": "您希望将这个时间表应用到所有日期或特定日期？",
+              "align" :
+              [
+                "Left",
+                "Left"
+              ],
+              "wiz" : "100px"
             },
             {
-              "label": "日期",
-              "tab": ""
+              "label" : "日期",
+              "tab" : "days",
+              "tag" : "select",
+              "type" : "select",
+              "option" :
+              [
+                {
+                  "label" : "所有天",
+                  "tab" : "0"
+                },
+                {
+                  "label" : "特定天",
+                  "tab" : "1",
+                  "col" :
+                  [
+                    {
+                      "label" : "星期一",
+                      "tab" : "day1",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : "1"
+                    },
+                    {
+                      "label" : "星期二",
+                      "tab" : "day2",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : "2"
+                    },
+                    {
+                      "label" : "星期三",
+                      "tab" : "day4",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : "4"
+                    },
+                    {
+                      "label" : "星期四",
+                      "tab" : "day8",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : "8"
+                    },
+                    {
+                      "label" : "星期五",
+                      "tab" : "day16",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : "16"
+                    },
+                    {
+                      "label" : "星期六",
+                      "tab" : "day32",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : "32"
+                    },
+                    {
+                      "label" : "星期日",
+                      "tab" : "day64",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : "64"
+                    }
+                  ]
+                }
+              ],
+              "align" :
+              [
+                "Right",
+                "Left"
+              ],
+              "wiz" : "100px"
             },
             {
-              "label": "星期一",
-              "tab": ""
+              "label" : "时间表",
+              "tab" : "schedule_times",
+              "tag" : "p",
+              "type" : "note",
+              "note": "您希望将这个时间表应用到所有时间或特定的时间？",
+              "align" :
+              [
+                "Right",
+                "Left"
+              ],
+              "wiz" : "100px"
             },
             {
-              "label": "星期二",
-              "tab": ""
-            },
-            {
-              "label": "星期三",
-              "tab": ""
-            },
-            {
-              "label": "星期四",
-              "tab": ""
-            },
-            {
-              "label": "星期五",
-              "tab": ""
-            },
-            {
-              "label": "星期六",
-              "tab": ""
-            },
-            {
-              "label": "星期日",
-              "tab": ""
-            },
-            {
-              "label": "时间表",
-              "tab": ""
-            },
-            {
-              "label": "您希望将这个时间表应用到所有时间或特定的时间？",
-              "tab": ""
-            },
-            {
-              "label": "时间",
-              "tab": ""
-            },
-            {
-              "label": "起始时间",
-              "tab": ""
-            },
-            {
-              "label": "结束时间",
-              "tab": ""
+              "label" : "时间",
+              "tab" : "times",
+              "tag" : "select",
+              "type" : "select",
+              "option" :
+              [
+                {
+                  "label" : "所有时间",
+                  "tab" : "0"
+                },
+                {
+                  "label" : "特定时间",
+                  "tab" : "1",
+                  "col" :
+                  [
+                    {
+                      "label" : "开始时间",
+                      "tab" : "startTime",
+                      "tag" : "p",
+                      "type" : "note",
+                      "col" :
+                      [
+                        {
+                          "label" : "开始时",
+                          "tab" : "startHour",
+                          "tag" : "select",
+                          "type" : "select",
+                          "option" : "cgi"
+                        },
+                        {
+                          "label" : "开始分",
+                          "tab" : "startMin",
+                          "tag" : "select",
+                          "type" : "select",
+                          "option" : "cgi"
+                        }
+                      ],
+                      "note" : "(hh:mm)"
+                    },
+                    {
+                      "label" : "结束时间",
+                      "tab" : "endTime",
+                      "tag" : "p",
+                      "type" : "note",
+                      "col" :
+                      [
+                        {
+                          "label" : "结束时",
+                          "tab" : "endHour",
+                          "tag" : "select",
+                          "type" : "select",
+                          "option" : "cgi"
+                        },
+                        {
+                          "label" : "结束分",
+                          "tab" : "endMin",
+                          "tag" : "select",
+                          "type" : "select",
+                          "option" : "cgi"
+                        }
+                      ],
+                      "note" : "(hh:mm)"
+                    }
+                  ]
+                }
+              ],
+              "align" :
+              [
+                "Right",
+                "Left"
+              ],
+              "wiz" : "100px"
             }
           ]
         }
@@ -8208,7 +9144,7 @@
                   "tab": "administrator_name_and_password",
                   "tag": "table",
                   "type": "table",
-                  "caption": "Administrator Name and Password",
+                  "caption": "管理员名称和密码",
                   "wiz": "350px",
                   "col": [
                     {
@@ -8441,6 +9377,43 @@
                     }
                   ]
                 }
+              ],
+              "editor" :
+              [
+                {
+                  "label" : "接口",
+                  "tab" : "interfaceId",
+                  "tag" : "p",
+                  "type" : "p"
+                },
+                {
+                  "label" : "Ping",
+                  "tab" : "pingEnabled",
+                  "tag" : "input",
+                  "type" : "checkbox",
+                  "val" : "1"
+                },
+                {
+                  "label" : "HTTPS",
+                  "tab" : "httpsEnabled",
+                  "tag" : "input",
+                  "type" : "checkbox",
+                  "val" : "1"
+                },
+                {
+                  "label" : "SSH",
+                  "tab" : "sshEnabled",
+                  "tag" : "input",
+                  "type" : "checkbox",
+                  "val" : "1"
+                },
+                {
+                  "label" : "允许存取",
+                  "tab" : "accessAddressId",
+                  "tag" : "select",
+                  "type" : "select",
+                  "option" : "cgi"
+                }
               ]
             },
             {
@@ -8453,6 +9426,7 @@
                 "get": "emailAlert",
                 "post": "emailAlert"
               },
+              "pgAction" : "Check Save Cancel",
               "ext": "cgi",
               "col": [
                 {
@@ -8503,8 +9477,20 @@
                       "type": "text"
                     },
                     {
-                      "label": "接收电子邮件地址",
-                      "tab": "toEmail",
+                      "label": "接收电子邮件地址 1",
+                      "tab": "toEmail0",
+                      "tag": "input",
+                      "type": "text"
+                    },
+                    {
+                      "label": "接收电子邮件地址 2",
+                      "tab": "toEmail2",
+                      "tag": "input",
+                      "type": "text"
+                    },
+                    {
+                      "label": "接收电子邮件地址 3",
+                      "tab": "toEmail2",
                       "tag": "input",
                       "type": "text"
                     }
@@ -8514,7 +9500,124 @@
                   "label": "警报/通知",
                   "tab": "alerts",
                   "type": "tab",
-                  "col": []
+                  "col": 
+                  [
+                    {
+                      "label": "系统",
+                      "tab" : "systems",
+                      "tag" : "table",
+                      "type" : "table",
+                      "col" :
+                      [
+                        {
+                          "label" : "CPU 超载警示",
+                          "tab" : "cpuAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox",
+                          "col" :
+                          [
+                            {
+                              "label" : "CPU 门槛设定",
+                              "tab" : "cpuAlertThreshold",
+                              "tag" : "input",
+                              "type" : "text",
+                              "note" : "( 10-100% )"
+                            }
+                          ]
+                        },
+                        {
+                          "label" : "新固件警示",
+                          "tab" : "newFwAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox"
+                        },
+                        {
+                          "label" : "系统重启警示",
+                          "tab" : "restartAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox"
+                        },
+                        {
+                          "label" : "管理者登录失败警示",
+                          "tab" : "failLoginAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox"
+                        },
+                        {
+                          "label" : "硬盘空间警示",
+                          "tab" : "diskAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox",
+                          "col" :
+                          [
+                            {
+                              "label" : "门槛",
+                              "tab" : "diskAlertThreshold",
+                              "tag" : "input",
+                              "type" : "text",
+                              "note" : "( 50-100% )"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "label": "网络",
+                      "tab" : "networks",
+                      "tag" : "table",
+                      "type" : "table",
+                      "col" :
+                      [
+                        {
+                          "label" : "站点到站后 VPN 启用/关闭 警示",
+                          "tab" : "vpnAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox"
+                        },
+                        {
+                          "label" : "WAN 启用/关闭 警示",
+                          "tab" : "wanAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox",
+                          "col" :
+                          [
+                            {
+                              "label" : "警示间隔",
+                              "tab" : "wanAlertInterval",
+                              "tag" : "input",
+                              "type" : "text",
+                              "note" : "( 3-1440 minutes )"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "label": "安全威协及防范",
+                      "tab" : "email_security",
+                      "tag" : "table",
+                      "type" : "table",
+                      "col" :
+                      [
+                        {
+                          "label" : "Anti-Virus 警示",
+                          "tab" : "virusAlertEnable",
+                          "tag" : "input",
+                          "type" : "checkbox",
+                          "col" :
+                          [
+                            {
+                              "label" : "警示间隔",
+                              "tab" : "virusAlertInterval",
+                              "tag" : "input",
+                              "type" : "text",
+                              "note" : "( 3-1440 minutes )"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             },
@@ -8534,7 +9637,66 @@
                   "usb": "conf_usb_restore"
                 }
               },
-              "ext": "cgi"
+              "ext": "cgi",
+              "col" :
+              [
+                {
+                  "label" : "备份",
+                  "tab" : "backup",
+                  "icon" : "css/images/i_128_backup_00.png",
+                  "key" : "action",
+                  "val" : 1,
+                  "tag" : "input",
+                  "type" : "radio",
+                  "option" :
+                  {
+                    "0" :
+                    {
+                      "label" : "备份设定档到 PC",
+                      "tab" : "backup-1"
+                    },
+                    "1" :
+                    {
+                      "label" : "备份设定档到 USB",
+                      "tab" : "backup-2"
+                    }
+                  },
+                  "align" :
+                  [
+                    "Left",
+                    "Left"
+                  ],
+                  "wiz" : "200px"
+                },
+                {
+                  "label" : "复原",
+                  "tab" : "restore",
+                  "icon" : "css/images/i_128_restore_00.png",
+                  "key" : "action",
+                  "val" : 1,
+                  "tag" : "input",
+                  "type" : "radio",
+                  "option" :
+                  {
+                    "0" :
+                    {
+                      "label" : "复原设定档自 PC",
+                      "tab" : "restore-1"
+                    },
+                    "1" :
+                    {
+                      "label" : "复原设定档自 USB",
+                      "tab" : "restore-2"
+                    }
+                  },
+                  "align" :
+                  [
+                    "Left",
+                    "Left"
+                  ],
+                  "wiz" : "200px"
+                }
+              ]
             },
             {
               "label": "固件",
@@ -8542,28 +9704,157 @@
               "tab": "firmware",
               "tag": "div",
               "type": "submit",
-              "url": {
+              "url": 
+              {
                 "get": "dev_firmware_get",
                 "post": "dev_firmware_post",
                 "check": "common_usbFile_list"
               },
               "ext": "cgi",
-              "col": [
+              "col": 
+              [
                 {
-                  "label": "主要固件版本",
-                  "tab": "primaryVer"
+                  "label" : "固件版本",
+                  "tab" : "firmware_version",
+                  "tag" : "div",
+                  "icon" : "css/images/i_128_reset_00.png",
+                  "type" : "table",
+                  "col" :
+                  [
+                    {
+                      "label": "主要固件版本",
+                      "tab": "primaryVer",
+                      "tag" : "p",
+                      "type" : "p",
+                      "align" :
+                      [
+                        "Left",
+                        "Left"
+                      ],
+                      "wiz" : "180px"
+                    },
+                    {
+                      "label": "次要固件版本",
+                      "tab": "secondaryVer",
+                      "tag" : "p",
+                      "type" : "p",
+                      "align" :
+                      [
+                        "Left",
+                        "Left"
+                      ],
+                      "wiz" : "180px"
+                    },
+                    {
+                      "label": "服务器版本",
+                      "tab": "serverVer",
+                      "tag" : "p",
+                      "type" : "p",
+                      "align" :
+                      [
+                        "Left",
+                        "Left"
+                      ],
+                      "wiz" : "180px"
+                    },
+                    {
+                      "label": "最后检查时间",
+                      "tab": "lastCheck",
+                      "tag" : "p",
+                      "type" : "p",
+                      "align" :
+                      [
+                        "Left",
+                        "Left"
+                      ],
+                      "wiz" : "180px"
+                    },
+                    {
+                      "label" : "切换版本",
+                      "tab" : "switchFirmware",
+                      "tag" : "button",
+                      "type" : "submit",
+                      "align" :
+                      [
+                        "Left",
+                        "Left"
+                      ],
+                      "wiz" : "180px"
+                    },
+                    {
+                      "label" : "检查服务器版本",
+                      "tab" : "checkFirmware",
+                      "tag" : "button",
+                      "type" : "submit",
+                      "align" :
+                      [
+                        "Left",
+                        "Left"
+                      ],
+                      "wiz" : "180px"
+                    }
+                  ]
                 },
                 {
-                  "label": "次要固件版本",
-                  "tab": "secondaryVer"
-                },
-                {
-                  "label": "服务器版本",
-                  "tab": "serverVer"
-                },
-                {
-                  "label": "最后检查时间",
-                  "tab": "lastCheck"
+                  "label" : "升级固件",
+                  "tab" : "upgrade_firmware",
+                  "tag" : "div",
+                  "type" : "table",
+                  "icon" : "css/images/i_128_upgrade_00.png",
+                  "col" :
+                  [
+                    {
+                      "label" : "",
+                      "tab" : "type",
+                      "tag" : "input",
+                      "type" : "radio",
+                      "option" :
+                      {
+                        "0" :
+                        {
+                          "label" : "自本地升级固件",
+                          "tab" : "type-0"
+                        },
+                        "1" :
+                        {
+                          "label" : "自远程升级固件",
+                          "tab" : "type-1"
+                        },
+                        "2" :
+                        {
+                          "label" : "自U盘升级固件",
+                          "tab" : "type-2"
+                        }
+                      },
+                      "align" :
+                      [
+                        "Left",
+                        "Left"
+                      ],
+                      "wiz" : "180px"
+                    },
+                    {
+                      "label" : "",
+                      "tab" : "upgradeButtons",
+                      "tag" : "buttons",
+                      "type" : "submit",
+                      "buttons" :
+                      {
+                        "upgradeFirmware" :
+                        {
+                          "label" : "升级固件",
+                          "tab" : "upgradeFirmware"
+                        },
+                        "resetDefault" :
+                        {
+                          "label" : "升级固件及重置缺省值",
+                          "tab" : "resetDefault",
+                          "colspan" : "2"
+                        }
+                      },
+                      "wiz" : "180px"
+                    }
+                  ]
                 }
               ]
             },
@@ -8597,17 +9888,17 @@
                   {
                     "1" :
                     {
-                      "label" : "config",
+                      "label" : "设定",
                       "tab" : "resetMode-1"
                     },
                     "2" :
                     {
-                      "label" : "database",
+                      "label" : "资料",
                       "tab" : "resetMode-2"
                     },
                     "3" :
                     {
-                      "label" : "both",
+                      "label" : "设定與资料",
                       "tab" : "resetMode-3"
                     }
                   }
@@ -8787,7 +10078,7 @@
           "tabs": {
             "view_logs": "查看日志",
             "log_settings": "日志设置",
-            "logs_facility": "Logs Facilit"
+            "logs_facility": "日志设施"
           },
           "url": {
             "get": {
@@ -8870,56 +10161,138 @@
             ],
             "log_settings": [
               {
-                "label": "启用",
-                "tab": ""
+                "label" : "启用",
+                "tab" : "log_enable",
+                "tag" : "table",
+                "type" : "table",
+                "wiz" : "350px",
+                "col" :
+                [
+                  {
+                    "label" : "启用",
+                    "tab" : "enable",
+                    "tag" : "input",
+                    "type" : "checkbox",
+                    "wiz" : "10px",
+                    "align" : "Left"
+                  }
+                ]
               },
               {
                 "label": "本地日志",
-                "tab": ""
-              },
-              {
-                "label": "启用",
-                "tab": ""
-              },
-              {
-                "label": "日志等级",
-                "tab": ""
+                "tab" : "log_local",
+                "tag" : "table",
+                "type" : "table",
+                "caption": "Local Log",
+                "wiz" : "350px",
+                "col" :
+                [
+                  {
+                    "label" : "启用",
+                    "tab" : "localLogEnable",
+                    "tag" : "input",
+                    "type" : "checkbox",
+                    "wiz" : "10px",
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "日志等级",
+                    "tab" : "localLogSeverity",
+                    "tag" : "select",
+                    "type" : "select",
+                    "wiz" : "10px",
+                    "align" : "Left",
+                    "option" : "cgi"
+                  }
+                ]
               },
               {
                 "label": "远程日志",
-                "tab": ""
+                "tab" : "log_remote",
+                "tag" : "table",
+                "type" : "table",
+                "caption": "Remote Log",
+                "wiz" : "350px",
+                "col" :
+                [
+                  {
+                    "label" : "启用",
+                    "tab" : "remoteLogEnable",
+                    "tag" : "input",
+                    "type" : "checkbox",
+                    "wiz" : "10px",
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "系统日志服务器",
+                    "tab" : "remoteLogServer",
+                    "tag" : "input",
+                    "type" : "text",
+                    "wiz" : "auto",
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "日志等级",
+                    "tab" : "remoteLogSeverity",
+                    "tag" : "select",
+                    "type" : "select",
+                    "wiz" : "10px",
+                    "align" : "Left",
+                    "option" : "cgi"
+                  }
+                ]
               },
               {
-                "label": "启用",
-                "tab": ""
-              },
-              {
-                "label": "系统日志服务器",
-                "tab": ""
-              },
-              {
-                "label": "日志等级",
-                "tab": ""
-              },
-              {
-                "label": "启用定时发送邮件",
-                "tab": ""
-              },
-              {
-                "label": "频率",
-                "tab": ""
-              },
-              {
-                "label": "星期",
-                "tab": ""
-              },
-              {
-                "label": "时间",
-                "tab": ""
-              },
-              {
-                "label": "日志等级",
-                "tab": ""
+                "label": "邮件警示",
+                "tab" : "log_email",
+                "tag" : "table",
+                "type" : "table",
+                "caption": "Email Alert",
+                "wiz" : "350px",
+                "col" :
+                [
+                  {
+                    "label" : "启用定时发送邮件",
+                    "tab" : "emailLogEnable",
+                    "tag" : "input",
+                    "type" : "checkbox",
+                    "wiz" : "10px",
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "频率",
+                    "tab" : "emailSchUnit",
+                    "tag" : "select",
+                    "type" : "select",
+                    "wiz" : "auto",
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "星期",
+                    "tab" : "emailSchDay",
+                    "tag" : "select",
+                    "type" : "select",
+                    "wiz" : "auto",
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "时间",
+                    "tab" : "emailSchHour",
+                    "tag" : "select",
+                    "type" : "select",
+                    "wiz" : "auto",
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "日志等级",
+                    "tab" : "emailLogSeverity",
+                    "tag" : "select",
+                    "type" : "select",
+                    "wiz" : "10px",
+                    "align" : "Left",
+                    "option" : "cgi"
+                  }
+                ]
               }
             ],
             "logs_facility": [
@@ -8959,8 +10332,79 @@
           }
         },
         {
+          "label" : "代理",
+          "id" : "menu-8-3",
+          "tab" : "proxy",
+          "tag" : "div",
+          "type" : "form",
+          "url" :
+          {
+            "get" : "av_proxy",
+            "post" : "av_proxy"
+          },
+          "ext" : "cgi" ,
+          "pgAction" : "Save Cancel",
+          "col" :
+          [
+            {
+              "label" : "代理服务",
+              "tab" : "proxy_server",
+              "tag" : "div",
+              "type" : "div",
+              "col" :
+              [
+                {
+                  "label" : "启用代理",
+                  "tab" : "enable",
+                  "tag" : "input",
+                  "type" : "checkbox",
+                  "val" : 1,
+                  "wiz" : "150px"
+                },
+                {
+                  "label" : "代理服务器",
+                  "tab" : "serverAddr",
+                  "tag" : "input",
+                  "type" : "text",
+                  "wiz" : "150px"
+                },
+                {
+                  "label" : "代理服务端口",
+                  "tab" : "serverPort",
+                  "tag" : "input",
+                  "type" : "text",
+                  "wiz" : "150px",
+                  "note" : "( 1-65535 )"
+                },
+                {
+                  "label" : "使用代理认证",
+                  "tab" : "proxyAuthenicationMode",
+                  "tag" : "input",
+                  "type" : "checkbox",
+                  "val" : 1,
+                  "wiz" : "150px"
+                },
+                {
+                  "label" : "用户名",
+                  "tab" : "proxyUser",
+                  "tag" : "input",
+                  "type" : "text",
+                  "wiz" : "150px"
+                },
+                {
+                  "label" : "密码",
+                  "tab" : "proxyUserPwd",
+                  "tag" : "input",
+                  "type" : "password",
+                  "wiz" : "150px"
+                }
+              ]
+            }
+          ]
+        },
+        {
           "label": "授权许可",
-          "id": "menu-8-3",
+          "id": "menu-8-4",
           "tab": "license",
           "tag": "div",
           "type": "tabsForm",
@@ -8995,141 +10439,262 @@
             "services": "guiServiceExpirationTNum"
           },
           "col": {
-            "registration": [
+            "registration": 
+            [
               {
-                "label": "用户名",
-                "tab": "newUsername",
-                "tag": "input",
-                "type": "text",
-                "class": "registrationMode-0",
-                "rowAction": "CheckExists"
+                "label" : "Titan 安全中心帐户",
+                "tab" : "haveAccount",
+                "tag" : "table",
+                "type" : "table",
+                "col" :
+                [
+                  {
+                    "label" : "注册",
+                    "tab" : "haveAccount-0",
+                    "tag" : "input",
+                    "type" : "radio",
+                    "option" :
+                    {
+                      "0" :
+                      {
+                        "label" : "新帐户",
+                        "tab" : "registrationMode-0",
+                        "col" :
+                        [
+                          {
+                            "label": "用户名",
+                            "tab": "newUsername",
+                            "tag": "input",
+                            "type": "text",
+                            "class": "registrationMode-0",
+                            "rowAction": "CheckExists"
+                          },
+                          {
+                            "label": "密码",
+                            "tab": "newPassword",
+                            "tag": "input",
+                            "type": "password",
+                            "class": "registrationMode-0"
+                          },
+                          {
+                            "label": "确认密码",
+                            "tab": "confirmPassword",
+                            "tag": "input",
+                            "type": "password",
+                            "class": "registrationMode-0"
+                          },
+                          {
+                            "label": "姓氏",
+                            "tab": "firstName",
+                            "tag": "input",
+                            "type": "text",
+                            "class": "registrationMode-0"
+                          },
+                          {
+                            "label": "名称",
+                            "tab": "lastName",
+                            "tag": "input",
+                            "type": "text",
+                            "class": "registrationMode-0"
+                          },
+                          {
+                            "label": "电子邮件",
+                            "tab": "email",
+                            "tag": "input",
+                            "type": "text",
+                            "class": "registrationMode-0"
+                          },
+                          {
+                            "label": "公司",
+                            "tab": "company",
+                            "tag": "input",
+                            "type": "text",
+                            "class": "registrationMode-0"
+                          },
+                          {
+                            "label": "地址",
+                            "tab": "address",
+                            "tag": "input",
+                            "type": "text",
+                            "class": "registrationMode-0"
+                          },
+                          {
+                            "label": "城市",
+                            "tab": "city",
+                            "tag": "input",
+                            "type": "text",
+                            "class": "registrationMode-0"
+                          },
+                          {
+                            "label": "邮编",
+                            "tab": "zipCode",
+                            "tag": "input",
+                            "type": "text",
+                            "class": "registrationMode-0"
+                          },
+                          {
+                            "label": "省/自治区/直辖市",
+                            "tab": "state",
+                            "tag": "input",
+                            "type": "text",
+                            "class": "registrationMode-0"
+                          },
+                          {
+                            "label": "国家",
+                            "tab": "country",
+                            "tag": "select",
+                            "option": "txt",
+                            "class": "registrationMode-0"
+                          }
+                        ]
+                      },
+                      "1" :
+                      {
+                        "label" : "已有帐户",
+                        "tab" : "registrationMode-1",
+                        "col" :
+                        [
+                          {
+                            "label": "用户名",
+                            "tab": "oldUsername",
+                            "tag": "input",
+                            "type": "text",
+                            "class": "registrationMode-1"
+                          },
+                          {
+                            "label": "密码",
+                            "tab": "oldPassword",
+                            "tag": "input",
+                            "type": "password",
+                            "class": "registrationMode-1"
+                          }
+                        ]
+                      }
+                    },
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "250px"
+                  },
+                  {
+                    "label" : "Registered",
+                    "tab" : "haveAccount-1" ,
+                    "col" :
+                    [
+                      {
+                        "label": "用户名",
+                        "tab": "oldUsername"
+                      },
+                      {
+                        "label": "密码",
+                        "tab": "oldPassword"
+                      },
+                      {
+                        "label": "姓氏",
+                        "tab": "firstName"
+                      },
+                      {
+                        "label": "名称",
+                        "tab": "lastName"
+                      },
+                      {
+                        "label": "电子邮件",
+                        "tab": "email"
+                      },
+                      {
+                        "label": "公司",
+                        "tab": "company"
+                      },
+                      {
+                        "label": "地址",
+                        "tab": "address"
+                      },
+                      {
+                        "label": "城市",
+                        "tab": "city"
+                      },
+                      {
+                        "label": "邮编",
+                        "tab": "zipCode"
+                      },
+                      {
+                        "label": "省/自治区/直辖市",
+                        "tab": "state"
+                      },
+                      {
+                        "label": "国家",
+                        "tab": "country"
+                      }
+                    ]
+                  }
+                ]
               },
               {
-                "label": "密码",
-                "tab": "newPassword",
-                "tag": "input",
-                "type": "password",
-                "class": "registrationMode-0"
-              },
-              {
-                "label": "确认密码",
-                "tab": "confirmPassword",
-                "tag": "input",
-                "type": "password",
-                "class": "registrationMode-0"
-              },
-              {
-                "label": "用户名",
-                "tab": "oldUsername",
-                "tag": "input",
-                "type": "text",
-                "class": "registrationMode-1"
-              },
-              {
-                "label": "密码",
-                "tab": "oldPassword",
-                "tag": "input",
-                "type": "password",
-                "class": "registrationMode-1"
-              },
-              {
-                "label": "姓氏",
-                "tab": "firstName",
-                "tag": "input",
-                "type": "text",
-                "class": "registrationMode-0"
-              },
-              {
-                "label": "名称",
-                "tab": "lastName",
-                "tag": "input",
-                "type": "text",
-                "class": "registrationMode-0"
-              },
-              {
-                "label": "电子邮件",
-                "tab": "email",
-                "tag": "input",
-                "type": "text",
-                "class": "registrationMode-0"
-              },
-              {
-                "label": "公司",
-                "tab": "company",
-                "tag": "input",
-                "type": "text",
-                "class": "registrationMode-0"
-              },
-              {
-                "label": "地址",
-                "tab": "address",
-                "tag": "input",
-                "type": "text",
-                "class": "registrationMode-0"
-              },
-              {
-                "label": "城市",
-                "tab": "city",
-                "tag": "input",
-                "type": "text",
-                "class": "registrationMode-0"
-              },
-              {
-                "label": "邮编",
-                "tab": "zipCode",
-                "tag": "input",
-                "type": "text",
-                "class": "registrationMode-0"
-              },
-              {
-                "label": "省/自治区/直辖市",
-                "tab": "state",
-                "tag": "input",
-                "type": "text",
-                "class": "registrationMode-0"
-              },
-              {
-                "label": "国家",
-                "tab": "country",
-                "tag": "select",
-                "option": "txt",
-                "class": "registrationMode-0"
-              },
-              {
-                "label": "追踪激活码",
-                "tab": "trialCode",
-                "tag": "input",
-                "type": "text",
-                "class": "registrationMode-0"
+                "label" : "追踪激活码",
+                "tab" : "trial_code",
+                "tag" : "table",
+                "type" : "table",
+                "col" :
+                [
+                  {
+                    "label" : "追踪激活码",
+                    "tab" : "trialCode",
+                    "tag" : "input",
+                    "type" : "text",
+                    "align" :
+                    [
+                      "Left",
+                      "Left"
+                    ],
+                    "wiz" : "150px;"
+                  }
+                ]
               }
             ],
-            "services": [
+            "services": 
+            [
               {
-                "label": "服务",
-                "tab": "service",
-                "tag": "p"
-              },
-              {
-                "label": "状态",
-                "tab": "status",
-                "tag": "p"
-              },
-              {
-                "label": "类型",
-                "tab": "type",
-                "tag": "p"
-              },
-              {
-                "label": "截止日期",
-                "tab": "expireDate",
-                "tag": "p"
+                "label" : "服务管理列表",
+                "tab" : "service_management",
+                "tag" : "table",
+                "type" : "table",
+                "col" :
+                [
+                  {
+                    "label": "服务",
+                    "tab": "service"
+                  },
+                  {
+                    "label": "状态",
+                    "tab": "status"
+                  },
+                  {
+                    "label": "类型",
+                    "tab": "type"
+                  },
+                  {
+                    "label": "截止日期",
+                    "tab": "expireDate"
+                  }
+                ]
               },
               {
                 "label": "有效代码",
-                "tab": "activeCode",
-                "tag": "input",
-                "type": "text",
-                "rowAction": "LicenseUpgrade"
+                "tab" : "active_code",
+                "tag" : "table",
+                "type" : "table",
+                "col" :
+                [
+                  {
+                    "label": "更新有效代码",
+                    "tab" : "activeCode",
+                    "tag" : "input",
+                    "type" : "text",
+                    "rowAction" : "LicenseUpgrade"
+                  }
+                ]
               }
             ]
           }

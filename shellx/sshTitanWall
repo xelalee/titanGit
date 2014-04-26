@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "ssh to titan wall as admin@192.168.99.99"
+
+ssh admin@192.168.99.99

@@ -23,9 +23,9 @@
     "Tehran": "(GMT+03:30) Tehran",
     "Abu Dhabi, Muscat, Baku, Moscow": "(GMT+04:00) Abu Dhabi, Muscat, Baku, Moscow",
     "Kabul": "(GMT+04:30) Kabul",
-    "Ekaterinburg, Islamabad, Karachi": "(GMT+05:00) Ekaterinburg, Islamabad, Karachi",
+    "Islamabad, Karachi": "(GMT+05:00) Islamabad, Karachi",
     "Bombay, Calcutta, Madras, Delhi": "(GMT+05:30) Bombay, Calcutta, Madras, Delhi",
-    "Almaty, Dhaka, Colombo": "(GMT+06:00) Almaty, Dhaka, Colombo",
+    "Ekaterinburg, Almaty, Dhaka, Colombo": "(GMT+06:00) Ekaterinburg, Almaty, Dhaka, Colombo",
     "Burma": "(GMT+06:30) Burma",
     "Bangkok, Hanoi, Jakarta": "(GMT+07:00) Bangkok, Hanoi, Jakarta",
     "Beijing, Chongqing, Hong Kong": "(GMT+08:00) Beijing, Chongqing, Hong Kong",
@@ -33,9 +33,9 @@
     "Adelaide, Darwin": "(GMT+09:30) Adelaide, Darwin",
     "Brisbane, Guam, Port Moresby, Sydney": "(GMT+10:00) Brisbane, Guam, Port Moresby, Sydney",
     "Lord Howe Is.": "(GMT+10:30) Lord Howe Is.",
-    "Magadan, Solomon Is, New Caledonia": "(GMT+11:00) Magadan, Solomon Is, New Caledonia",
+    "Solomon Is., New Caledonia": "(GMT+11:00) Solomon Is., New Caledonia",
     "Norfolk I.": "(GMT+11:30) Norfolk I.",
-    "Auckland, Wellington, New Zealand, Fiji": "(GMT+12:00) Auckland, Wellington, New Zealand, Fiji",
+    "Magadan, Auckland, Wellington, New Zealand, Fiji": "(GMT+12:00) Magadan, Auckland, Wellington, New Zealand, Fiji",
     "Tonga": "(GMT+13:00) Tonga",
     "Kiribati, Western Samoa": "(GMT+14:00) Kiribati, Western Samoa"
   },
@@ -53,10 +53,10 @@
     "Amsterdam, Bern, Rome, Paris, Madrid",
     "Athens, Istanbul, Minsk, Cairo",
     "Tehran",
-    "Ekaterinburg, Islamabad, Karachi",
+    "Islamabad, Karachi",
     "Adelaide, Darwin",
     "Lord Howe Is.",
-    "Magadan, Solomon Is, New Caledonia",
-    "Auckland, Wellington, New Zealand, Fiji"
+    "Solomon Is., New Caledonia",
+    "Magadan, Auckland, Wellington, New Zealand, Fiji"
   ]
 }
