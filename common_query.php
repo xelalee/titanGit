@@ -8,29 +8,30 @@ if ( empty( $_GET ) ) {
 date_default_timezone_set('UTC');
 
 // switch function via param
+// connect archer first
 
 switch( $_GET[ 'param' ] )
 {
 case 'top_traffic_direction':
-    prepareTop( 'top_ZtoZ', 'trafficAmount', false );
+    prepareTop( 'network_top_ZtoZ', 'trafficAmount' );
     break;
 case 'top_source':
-    prepareTop( 'top_srcIpTraffic', 'orders', '( tx + rx ) as orders');
+    prepareTop( 'network_top_srcIpTraffic', 'txrxsum' );
     break;
 case 'top_destination':
-    prepareTop( 'top_dstIpTraffic', 'orders', '( tx + rx ) as orders');
+    prepareTop( 'network_top_dstIpTraffic', 'txrxsum' );
     break;
 case 'top_file_extension':
-    prepareTop( 'top_file_access', 'accessCount', false );
+    prepareTop( 'security_top_file_access', 'accessCount' );
     break;
 case 'top_blocked_host':
-    prepareTop( 'top_blocked_host', 'orders', '( virusCount + firewallCount ) as orders');
+    prepareTop( 'security_top_blocked_host', 'totalCount' );
     break;
 case 'top_affected_host':
-    prepareTop( 'top_affected_host', 'orders', '( virusHitCount + sigHitCount ) as orders');
+    prepareTop( 'security_top_affected_host', 'totalCount' );
     break;
 case 'top_antivirus':
-    prepareTop( 'top_antivirus', 'hitCount', false );
+    prepareTop( 'security_top_antivirus', 'hitCount' );
     break;
 // chart
 case 'wan_bandwidth_report':
@@ -120,15 +121,11 @@ case 'view_logs':
     break;
 }
 
-function prepareTop( $table, $orderBy, $state ) {
+function prepareTop( $table, $orderBy ) {
     $query  = 'SELECT * ';
-    if ( $state ) {
-        $query .= ', '. $state;
-    }
     $query .= '  FROM `'. $table .'`';
     $query .= ' ORDER BY '. ( ( empty( $_GET[ 'oby' ] ) )? $orderBy : $_GET[ 'oby' ] ) . ( ( empty( $_GET[ 'asc' ] ) )? ' DESC' : ' ASC' );
     $query .= ' LIMIT 10';
-
     archerQuery( $query );
 }
 
@@ -388,7 +385,6 @@ function reportQuery( $table ) {
         $tmpStamp = $endStamp - $i * 86400;
         $db = str_replace("-", "_", trim( shell_exec( 'date -d @'. $tmpStamp .' +%F' ) ));
         // information schema method
-        //if ( $dbCount = $mysqli->query( 'SELECT SUM(TABLE_ROWS) FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME LIKE "' . $table .'%"' ) ) {
         // stats method
         if ( $dbCount = $mysqli->query( 'SELECT SUM(TABLE_ROWS) FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME LIKE "' . $table .'%"' ) ) {
             // only if the rows are we want, scan the hourly table

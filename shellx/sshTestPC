@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "ssh to test pc as alex@192.168.0.239"
+
+ssh alex@192.168.0.239

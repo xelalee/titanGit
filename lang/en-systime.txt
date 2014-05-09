@@ -29,7 +29,7 @@
     "Burma": "(GMT+06:30) Burma",
     "Bangkok, Hanoi, Jakarta": "(GMT+07:00) Bangkok, Hanoi, Jakarta",
     "Beijing, Chongqing, Hong Kong": "(GMT+08:00) Beijing, Chongqing, Hong Kong",
-    "Osaka, Sapporo, Tokyo, Seoul": "(GMT+09:00),saka, Sapporo, Tokyo, Seoul",
+    "Osaka, Sapporo, Tokyo, Seoul": "(GMT+09:00) Osaka, Sapporo, Tokyo, Seoul",
     "Adelaide, Darwin": "(GMT+09:30) Adelaide, Darwin",
     "Brisbane, Guam, Port Moresby, Sydney": "(GMT+10:00) Brisbane, Guam, Port Moresby, Sydney",
     "Lord Howe Is.": "(GMT+10:30) Lord Howe Is.",

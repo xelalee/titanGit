@@ -6042,7 +6042,8 @@
                     "3des" : "ESP_3DES",
                     "aes128" : "ESP_AES_128",
                     "aes192" : "ESP_AES_192",
-                    "aes256" : "ESP_AES_256"
+                    "aes256" : "ESP_AES_256",
+                    "seed_cbc" : "ESP_SEED"
                   },
                   "align" :
                   [
@@ -8706,7 +8707,7 @@
                 "tab" : "checkbox",
                 "tag" : "input",
                 "type" : "checkbox",
-                "wiz" : "20px",
+                "wiz" : "40px",
                 "display" : true,
                 "sortable" : false,
                 "align" : "Center"
@@ -8717,7 +8718,7 @@
                 "wiz" : "140px",
                 "display" : true,
                 "sortable" : true,
-                "align" : "Left"
+                "align" : "Center"
               },
               {
                 "label" : "User Membership List",
@@ -8725,15 +8726,15 @@
                 "wiz" : "auto",
                 "display" : true,
                 "sortable" : true,
-                "align" : "Left"
+                "align" : "Justify"
               },
               {
                 "label" : "Services",
                 "tab" : "services",
-                "wiz" : "140px",
+                "wiz" : "150px",
                 "display" : true,
                 "sortable" : true,
-                "align" : "Left"
+                "align" : "Center"
               },
               {
                 "label" : "Action",
@@ -8752,7 +8753,7 @@
                 "tab" : "checkbox",
                 "tag" : "input",
                 "type" : "checkbox",
-                "wiz" : "20px",
+                "wiz" : "40px",
                 "display" : true,
                 "sortable" : false,
                 "align" : "Center"

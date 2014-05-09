@@ -40,6 +40,19 @@
     <script type="text/javascript" src="js/jquery-ui-1.9.2.custom.js"></script>
 <!-- custom js -->
     <script type="text/javascript" src="js/ipCalc.js"></script>
+
+<!--    <script type="text/javascript" src="js/btnClass.js"></script> -->
+<!--    <script type="text/javascript" src="js/alertClass.js"></script> -->
+<!--    <script type="text/javascript" src="js/dashboardClass.js"></script> -->
+<!--    <script type="text/javascript" src="js/reportsClass.js"></script> -->
+<!--    <script type="text/javascript" src="js/interfaceClass.js"></script> -->
+<!--    <script type="text/javascript" src="js/networkingClass.js"></script> -->
+<!--    <script type="text/javascript" src="js/firewallClass.js"></script> -->
+<!--    <script type="text/javascript" src="js/securityClass.js"></script> -->
+<!--    <script type="text/javascript" src="js/usersClass.js"></script> -->
+<!--    <script type="text/javascript" src="js/objectsClass.js"></script> -->
+<!--    <script type="text/javascript" src="js/deviceClass.js"></script> -->
+
 <!-- custom css -->
     <link rel="stylesheet" type="text/css" href="css/customCSS.css" />
 
@@ -176,6 +189,7 @@ var gRows  = {};
 gCook.main    = 'TitanWALL';
 gCook.portal  = 'TitanWALLPortal';
 // declaire obj default
+gObj.profile = '';
 gObj.active  = {};
 gObj.actived = {};
 gObj.stamper = new Date().getTime();
@@ -188,11 +202,11 @@ gObj.statusMsg = "";
 gObj.progress = 99;
 gObj.loading  = 99;
 gObj.progress = '';
-gObj.inners   = 0;
 gObj.tab;
 gObj.tabber;
 gObj.tabIndex = 0;
 gObj.tabIndexId;
+gObj.tabIndexed = 0;
 gObj.use_common_ip_list = [];
 gObj.isForm    = [];
 
@@ -210,8 +224,9 @@ gObj.idleOut = 0;
 gObj.forceOut = 0;
 gObj.delay  = 0;
 gObj.help   = 0;
-
 gObj.sigVer = 0;
+gObj.blinking = 0;
+gObj.blinkings = [ 'E', 'H', 'I', 'A' ];
 
 // if condition 
 gIf.multi   = true;
@@ -253,6 +268,10 @@ gIf.isMAC       = false;
 gIf.over90      = false;
 gIf.isCapture   = false;
 gIf.newFirmware = false;
+gIf.debug       = false;
+gIf.log         = false;
+gIf.debugger    = false;
+gIf.isNext      = false;
 
 // regexp 
 // try to reg per element instead of obj, for solve ie issues 
@@ -301,7 +320,7 @@ gReg.blacklist = /^([1-9]\d{0,2}|[1-6]?\d{3}|7[01]\d{2}|7200)$/;
 gReg.passOut   = /^((.){1,31})$/;
 gReg.userOut63 = /^((.){1,63})$/;
 gReg.passOut63 = /^((.){1,63})$/;
-gReg.email     = /^((.){1,63})$/;
+gReg.email     = /^((.){6,63})$/;
 gReg.length255 = /^((.){0,255})$/;
 
 gReg.hostname     = /^([0-9a-zA-Z]{0,31})$/;
@@ -315,10 +334,10 @@ gReg.dpddelay     = /^(300|[1-2]?[0-9]?[0-9])$/;
 gReg.dpdtimeout   = /^(1800|1[0-7]\d{2}|[1-9][0-9][0-9]|[3-9][0-9])$/;
 gReg.fallbackTime = /^([1-5][0-9]|[3-9])$/;
 gReg.maxIdleTime  = /^([5-9]|[1-9]\d{1,2})$/;
-gReg.loginInactiveTimeout = /^([1-5][0-9]|[3-9])$/;
-gReg.loginSessionLimit    = /^([1-5][0-9]|[3-9])$/;
-gReg.loginFailBlockMaxAttempts  = /^([1-5][0-9]|[3-9])$/;
-gReg.loginFailBlockTime = /^([1-5][0-9]|[3-9])$/;
+gReg.loginInactiveTimeout = /^([6-9]\d|[1-9]\d{2}|1000)$/;
+gReg.loginSessionLimit    = /^([6-9]\d|[1-9]\d{2}|1000)$/;
+gReg.loginFailBlockMaxAttempts  = /^(\d{1,3}|1000)$/;
+gReg.loginFailBlockTime = /^([3-9]\d|[1-9]\d{2}|[1-2]\d{3}|3[0-5]\d{2}|3600)$/;
 
 gReg.lifetime = /^(86400|86[0-3][0-9]{2}|[1-7][0-9]{4}|[1-9][0-9]{3}|[2-9][0-9]{2}|1[89][0-9])$/;
 gReg.password = /^((\S){1,31})$/;
@@ -450,11 +469,15 @@ gHtml.layout +=   '</div>';
 gHtml.layout += '</div>';
 
 gHtml.head = '<div class="content">';
+gHtml.head += '<div id="hd_blinkE"></div>';
+gHtml.head += '<div id="hd_blinkH"></div>';
+gHtml.head += '<div id="hd_blinkI"></div>';
+gHtml.head += '<div id="hd_blinkA"></div>';
 gHtml.head += '<div id="hd_user"></div>';
 gHtml.head += '<div id="hd_timer"></div>';
 gHtml.head += '<div id="hd_ip"></div>';
-gHtml.head += '<div id="hd_idle"></div>';
-gHtml.head += '<div id="hd_force"></div>';
+gHtml.head += '<div id="hd_timeout"></div>';
+gHtml.head += '<div id="hd_profile"></div>';
 gHtml.head += '<div id="hd_help"></div>';
 gHtml.head += '<div id="hd_home"></div>';
 gHtml.head += '<div id="hd_refresh"></div>';
@@ -467,14 +490,12 @@ gHtml.body += '<div id="main">';
 gHtml.body += '<div id="main_hd"></div>';
 gHtml.body += '<div id="main_bd"></div>';
 gHtml.body += '<div id="main_ft"></div>';
-gHtml.body += '<div id="main_hp"></div>';
 gHtml.body += '</div>';
 gHtml.body += '<div id="popBase">';
 gHtml.body += '<div id="popForm"></div>';
 gHtml.body += '<div id="popPlus"></div>';
 gHtml.body += '<div id="popMore"></div>';
 gHtml.body += '<div id="popError"></div>';
-gHtml.body += '<div id="popHelp"><iframe id="helpFrame" src=""></iframe></div>';
 gHtml.body += '</div>';
 gHtml.body += '</div>';
 
@@ -551,229 +572,292 @@ $(document).ready(function () {
     }
 
     function timerRender() {
-        if (gIf.session) { 
+        if (gIf.session) {
             gObj.counter = new Date().toLocaleString();
             $('#hd_timer').html('<h4>' + gRef.header[ gObj.lang ].hd_timer + ' : ' + gObj.counter + '</h4>');
 
-            if (gIf.loading) {
-                $('#divSec').show();
-                gObj.loading--;
-                $('#dsec').html( gObj.loading);
-                if ( 0 === gObj.loading ) {
-                    gIf.loading = false;
-                    loadingToggle( false );
-                    getCgiList(gObj.active.pid);
-                }
-            }
+            if (gIf.loading)
+                ifLoading();
 
-            if (gIf.systime) {
-                // get current systime
-                $.ajax({
-                    url: 'cgi-bin/getSystime.cgi',
-                    dataType: 'json',
-                    success: function(data) {
-                        if ($('#systime').exists())
-                            $('#systime').html(data.systime);
-                    }
-                });
-            }
+            if (gIf.systime)
+                ifSystime();
 
-            if (gIf.progressT) {
-                // get progress status
-                $.ajax({
-                    url: 'cgi-bin/common_progress_list.cgi',
-                    dataType: 'json',
-                    success: function(data) {
-                        for (var i=0, len=data.progressT.length; i<len; i++)
-                        {
-                            if ( gObj.progress == data.progressT[ i ].name) {
-                                $('.errorMsg').html( data.progressT[ i ].statusMsg );
-                                $('.processDiv').progressbar({ value: parseInt( data.progressT[ i ].percent ) });
-                                if ( 100 === parseInt( data.progressT[ i ].percent ) ) {
-                                    loadingToggle( false );
-                                    gIf.progressT = false;
-                                    gObj.progress = '';
-                                }
-                            }
+            if (gIf.progressT)
+                ifLoading();
+
+            if (gIf.delay)
+                ifLoading();
+
+            if (gIf.debugger)
+                ifLoading();
+
+            if (gIf.isStart)
+                ifStart();
+
+            ifRefresh();
+
+            ifSessInfo();
+        }
+    }
+
+    function ifLoading() {
+        $('#divSec').show();
+        gObj.loading--;
+        $('#dsec').html( gObj.loading);
+        if ( 0 === gObj.loading ) {
+            gIf.loading = false;
+            loadingToggle( false );
+            getCgiList(gObj.active.pid);
+        }
+    }
+
+    function ifSystime() {
+        $.ajax({
+            url: 'cgi-bin/getSystime.cgi',
+            dataType: 'json',
+            success: function(data) {
+                if ($('#systime').exists())
+                    $('#systime').html(data.systime);
+            }
+        });
+    }
+
+    function ifProgress() {
+        $.ajax({
+            url: 'cgi-bin/common_progress_list.cgi',
+            dataType: 'json',
+            success: function(data) {
+                for (var i=0, len=data.progressT.length; i<len; i++)
+                {
+                    if ( gObj.progress == data.progressT[ i ].name) {
+                        $('.errorMsg').html( data.progressT[ i ].statusMsg );
+                        $('.processDiv').progressbar({ value: parseInt( data.progressT[ i ].percent ) });
+                        if ( 100 === parseInt( data.progressT[ i ].percent ) ) {
+                            loadingToggle( false );
+                            gIf.progressT = false;
+                            gObj.progress = '';
                         }
                     }
-                });
+                }
             }
+        });
+    }
 
-            if (gIf.delay) {
-                switch( gObj.delay )
+    function ifDelay() {
+        if (0 === gObj.delay) {
+             gIf.delay = false;
+             loadingToggle( false );
+             getCgiList(gObj.active.pid);
+        } else 
+             gObj.delay--;
+    }
+
+    function ifDebugger() {
+        if (gIf.log) {
+            if (gIf.debug) {
+                switch( gObj.blinking )
                 {
                 case 0:
-                    gIf.delay = false;
-                    loadingToggle( false );
-                    getCgiList(gObj.active.pid);
+                    gIf.isNext = false;
+                    break;
+                case 3:
+                    gIf.isNext = true;
+                    break;
+                }
+
+                for (var i=0, len=gObj.blinkings.length; i<len; i++)
+                {
+                    if (i === gObj.blinking)
+                        $('#hd_blink' + gObj.blinkings[ i ]).show().animate({opacity:0}, 'slow', function(){ $(this).animate({opacity:1})});
+                    else
+                        $('#hd_blink' + gObj.blinkings[ i ]).hide();
+                }
+
+                if (gIf.isNext) 
+                    gObj.blinking--;
+                else
+                    gObj.blinking++;
+            } else {
+                if (0 === gObj.blinking ) 
+                    gObj.blinking = 3;
+                else
+                    gObj.blinking--;
+
+                for (var i=0, len=gObj.blinkings.length; i<len; i++)
+                {
+                    if (i === gObj.blinking)
+                        $('#hd_blink' + gObj.blinkings[ i ]).show().animate({opacity:0}, 'slow', function(){ $(this).animate({opacity:1})});
+                    else
+                        $('#hd_blink' + gObj.blinkings[ i ]).hide();
+                }
+            }
+        } else {
+            if (gIf.debug) {
+                if (3 === gObj.blinking ) 
+                    gObj.blinking = 0;
+                else
+                    gObj.blinking++;
+
+                for (var i=0, len=gObj.blinkings.length; i<len; i++)
+                {
+                    if (i === gObj.blinking)
+                        $('#hd_blink' + gObj.blinkings[ i ]).show().animate({opacity:0}, 'slow', function(){ $(this).animate({opacity:1})});
+                    else
+                        $('#hd_blink' + gObj.blinkings[ i ]).hide();
+                }
+            } else {
+                $('#hd_blink' + gObj.blinkings[ gObj.blinking ]).hide();
+                gObj.blinking = 0;
+                gIf.debugger = false;
+            }
+        }
+    }
+
+    function ifRefresh() {
+        if (gObj.active.refresh) {
+            if ( 0 === gObj.active.counting ) {
+                gIf.getSessInfo = true;
+                gObj.active.counting = gObj.active.refresh;
+                switch( gObj.active.pid )
+                {
+                case 'system_dashboard':
+                case 'network_dashboard':
+                case 'security_dashboard':
+                    refreshDashboard();
+                    break;
+                case 'show_arp_table':
+                case 'show_routing_table':
+                case 'dhcp_bindings':
+                case 'status_summary':
+                case 'traffic_statistics':
+                case 'nat_status':
+                case 'active_users':
+                case 'ipsec_vpn_statistics':
+                case 'traffic_direction':
+                case 'source_report':
+                case 'destination_report':
+                case 'file_extension':
+                case 'blocked_host':
+                case 'affected_host':
+                case 'antivirus_report':
+                    refreshReports( gObj.active.pid );
+                    break;
+                case 'active_sessions':
+                    if (gIf.progressT || gIf.delay) 
+                        gIf.getSessInfo = false;
+                    else 
+                        refreshReports( gObj.active.pid );
+                    break;
+                case 'wan_bandwidth_report':
+                case 'resource_utilization':
+                    refreshCharts( gObj.active.pid );
                     break;
                 default:
-                    gObj.delay--;
-                    break;
+gY.log('cgi refresh : ' +  gObj.active.pid );
+                    cgiRefresh( gObj.active.pid );
                 }
+            } else {
+                if (gIf.ajaxed) 
+                    gObj.active.counting--;
             }
+        }
+    }
 
-            if (gObj.active.refresh) {
-                switch( gObj.active.counting )
+    function ifStart() {
+        $.ajax({
+            url: 'cgi-bin/' + gNode.url.get + '.cgi',
+            dataType: 'json',
+            success: function(data) {
+                var arr;
+
+                switch( gNode.tab )
                 {
-                case 0:
-                    gIf.getSessInfo = true;
-                    gObj.active.counting = gObj.active.refresh;
-                    switch( gObj.active.pid )
-                    {
-                    case 'system_dashboard':
-                    case 'network_dashboard':
-                    case 'security_dashboard':
-                        refreshDashboard();
-                        break;
-                    case 'show_arp_table':
-                    case 'show_routing_table':
-                    case 'dhcp_bindings':
-                    case 'status_summary':
-                    case 'traffic_statistics':
-                    case 'nat_status':
-                    case 'active_users':
-                    case 'ipsec_vpn_statistics':
-                    case 'traffic_direction':
-                    case 'source_report':
-                    case 'destination_report':
-                    case 'file_extension':
-                    case 'blocked_host':
-                    case 'affected_host':
-                    case 'antivirus_report':
-                        refreshReports( gObj.active.pid );
-                        break;
-                    case 'active_sessions':
-                        if (gIf.progressT || gIf.delay) 
-                            gIf.getSessInfo = false;
-                        else 
-                            refreshReports( gObj.active.pid );
-                        break;
-                    case 'wan_bandwidth_report':
-                    case 'resource_utilization':
-                        refreshCharts( gObj.active.pid );
-                        break;
-                    default:
-                        cgiRefresh( gObj.active.pid );
-                    }
+                case 'ping':
+                case 'traceroute':
+                    arr = data.result.split( gReg.isMulti );
+                    if ( gReg.isEnd.test( data.result ) ) 
+                        gIf.isStart = false;
                     break;
-                default: 
-                    if (gIf.ajaxed) {
-                        switch( gObj.active.pid )
-                        {
-                        case 'system_dashboard':
-                        case 'network_dashboard':
-                        case 'security_dashboard':
-                            if (0 === gObj.inners)
-                                gObj.active.counting--;
-                            break;
-                        default:
-                            gObj.active.counting--;
-                        }
-                    }
+                case 'dns_lookup':
+                    arr = data.queryResult.split( gReg.isMulti );
+                    if ( data.queryResult.length > 0 )
+                        gIf.isStart = false;
+                    break;
+                }
+                    
+                $('.resultDiv ul').empty();
+                for (var i=0, len=arr.length; i<len; i++)
+                {
+                    $('.resultDiv ul').append('<li>' + arr[ i ] + '</li>');
                 }
             }
-    
-            if (gIf.isStart) {
-                $.ajax({
-                    url: 'cgi-bin/' + gNode.url.get + '.cgi',
-                    dataType: 'json',
-                    success: function(data) {
-                        var arr;
+        });
+    }
 
-                        switch( gNode.tab )
-                        {
-                        case 'ping':
-                        case 'traceroute':
-                            arr = data.result.split( gReg.isMulti );
-                            if ( gReg.isEnd.test( data.result ) ) 
-                                gIf.isStart = false;
-                            break;
-                        case 'dns_lookup':
-                            arr = data.queryResult.split( gReg.isMulti );
-                            if ( data.queryResult.length > 0 )
-                                gIf.isStart = false;
-                            break;
-                        }
-                            
-                        $('.resultDiv ul').empty();
-                        for (var i=0, len=arr.length; i<len; i++)
-                        {
-                            $('.resultDiv ul').append('<li>' + arr[ i ] + '</li>');
-                        }
-                    }
-                });
-            }
-
-            if (gIf.getSessInfo) {
-                // get current systime & trigger idle recount
-                $.ajax({
-                    url: 'cgi-bin/getSystime.cgi',
-                    dataType: 'json',
-                    success: function(data) {
-                        // refresh idle/force timeout
-                        $.ajax({
-                            url:'cgi-bin/getSessInfo.cgi', 
-                            dataType:'json', 
-                            success:function(data) {
-                                if (data.errormsg) {
-                                    gIf.session = false;
-                                    failAlert( data.errormsg, data.detail );
-                                }else {
-                                    gObj.idleOut = data.timeout;
-                                    gObj.forceOut = data.forcetimeout;
-                                    if (gIf.limited) {
-                                        if (0 === parseInt(data.forcetimeout)) {
-                                            gIf.session = false;
-                                            if (gIf.reboot) { 
-                                                document.location.reload(true);
-                                            }else {
-                                                failAlert( 'session_limit_reached' );
-                                            }
-                                        }
-                                        $('#hd_force').html('<h4>' + gRef.header[ gObj.lang ].hd_force + ' : ' + data.forcetimeout + '</h4>');
-                                    }else {
-                                        $('#hd_force').empty();
+    function ifSessInfo() {
+        if (gIf.getSessInfo) {
+            // get current systime & trigger idle recount
+            $.ajax({
+                url: 'cgi-bin/getSystime.cgi',
+                dataType: 'json',
+                success: function(data) {
+                    // refresh idle/force timeout
+                    $.ajax({
+                        url:'cgi-bin/getSessInfo.cgi', 
+                        dataType:'json', 
+                        success:function(data) {
+                            if (data.errormsg) {
+                                gIf.session = false;
+                                failAlert( data.errormsg, data.detail );
+                            }else {
+                                gObj.idleOut = data.timeout;
+                                gObj.forceOut = data.forcetimeout;
+                                if (gIf.limited) {
+                                    if (0 === parseInt(data.forcetimeout)) {
+                                        gIf.session = false;
+                                        if (gIf.reboot) 
+                                            document.location.reload(true);
+                                        else 
+                                            failAlert( 'session_limit_reached' );
                                     }
+                                    $('#hd_timeout').html('<h4>' + gRef.header[ gObj.lang ].hd_force + ' : ' + data.forcetimeout + '</h4>');
+                                } else {
                                     if (0 === parseInt(data.timeout)) {
                                         gIf.session = false;
-                                        if (gIf.reboot) { 
+                                        if (gIf.reboot) 
                                             document.location.reload(true);
-                                        }else {
+                                        else 
                                             failAlert( 'session_limit_reached' );
-                                        }
                                     }
-                                    $('#hd_idle').html('<h4>' + gRef.header[ gObj.lang ].hd_idle + ' : ' + data.timeout + '</h4>');
-                                    // sync once in need and back to client count
-                                    gIf.getSessInfo = false;
+                                    $('#hd_timeout').html('<h4>' + gRef.header[ gObj.lang ].hd_idle + ' : ' + data.timeout + '</h4>');
                                 }
+                                // sync once in need and back to client count
+                                gIf.getSessInfo = false;
                             }
-                        });
-                    }
-                });
-            }else {
-                gObj.idleOut--;
-                $('#hd_idle').html('<h4>' + gRef.header[ gObj.lang ].hd_idle + ' : ' + gObj.idleOut + '</h4>');
+                        }
+                    });
+                }
+            });
+        } else {
+            gObj.idleOut--;
+            if (gIf.limited) {
+                gObj.forceOut--;
+                $('#hd_timeout').html('<h4>' + gRef.header[ gObj.lang ].hd_force + ' : ' + gObj.forceOut + '</h4>');
+                if (0 === parseInt(gObj.forceOut)) {
+                    gIf.session = false;
+                    if (gIf.reboot) 
+                        document.location.reload(true);
+                    else 
+                        failAlert( 'session_limit_reached' );
+                }
+            } else {
+                $('#hd_timeout').html('<h4>' + gRef.header[ gObj.lang ].hd_idle + ' : ' + gObj.idleOut + '</h4>');
                 if (0 === parseInt(gObj.idleOut)) {
                     gIf.session = false;
-                    if (gIf.reboot) { 
+                    if (gIf.reboot) 
                         document.location.reload(true);
-                    }else {
+                    else 
                         failAlert( 'session_limit_reached' );
-                    }
-                }
-                if (gIf.limited) {
-                    gObj.forceOut--;
-                    $('#hd_force').html('<h4>' + gRef.header[ gObj.lang ].hd_force + ' : ' + gObj.forceOut + '</h4>');
-                    if (0 === parseInt(gObj.forceOut)) {
-                        gIf.session = false;
-                        if (gIf.reboot) { 
-                            document.location.reload(true);
-                        }else {
-                            failAlert( 'session_limit_reached' );
-                        }
-                    }
                 }
             }
         }
@@ -793,6 +877,13 @@ $(document).ready(function () {
     
     function ifLogin() {
     
+        // detect if lang set
+        if (gY.Cookie.getSub( gCook.main, 'lang' )) {
+            gObj.lang = gY.Cookie.getSub( gCook.main, 'lang' );
+        }else {
+            gObj.lang = 'en';
+        }
+
         // check if still session
         if (gY.Cookie.getSub( gCook.main, 'username' )) {
             // logout first before login
@@ -801,54 +892,24 @@ $(document).ready(function () {
             gY.Cookie.remove( gCook.main );
             $.post('cgi-bin/logout.cgi', gY.JSON.stringify(gObj.form));
         }
-    
-        // draw login form 
-        if (gY.Cookie.getSub( gCook.main, 'lang' )) {
-            gObj.lang = gY.Cookie.getSub( gCook.main, 'lang' );
-        }else {
-            gObj.lang = 'en';
+
+        $('#userNameLabel').html( gLogin[ gObj.lang ].userName + ' : ' );
+        $('#userPassLabel').html( gLogin[ gObj.lang ].userPass + ' : ' );
+        $('#userLangLabel').html( gLogin[ gObj.lang ].userLang + ' : ' );
+        $('#loginButton').html( '<b>' + gLogin[ gObj.lang ].loginButton + '</b>' );
+
+        if (gIf.multi) {
+            $('#userLang').append('<option value="tw">繁體中文</option>');
+            $('#userLang').append('<option value="cn">简体中文</option>');
+            $('#userLang').val(gObj.lang);
         }
 
-        gHtml.login =  '<div id="loginDiv">';
-        gHtml.login +=   '<table >';
-        gHtml.login +=     '<tr>';
-        gHtml.login +=       '<th id="userNameLabel">' + gLogin[ gObj.lang ].userName + ' : </th>';
-        gHtml.login +=       '<td><input type="text" id="userName" /></td>';
-        gHtml.login +=     '</tr>';
-        gHtml.login +=     '<tr>';
-        gHtml.login +=       '<th id="userPassLabel">' + gLogin[ gObj.lang ].userPass + ' : </th>';
-        gHtml.login +=       '<td><input type="password" id="userPass" /></td>';
-        gHtml.login +=     '</tr>';
-        gHtml.login +=     '<tr>';
-        gHtml.login +=       '<th id="userLangLabel">' + gLogin[ gObj.lang ].userLang + ' : </th>';
-        gHtml.login +=       '<td>';
-        gHtml.login +=         '<select id="userLang">';
-        gHtml.login +=           '<option value="en">English</option>';
-        if (gIf.multi) {
-            gHtml.login +=           '<option value="tw"  >繁體中文</option>';
-            gHtml.login +=           '<option value="cn"  >简体中文</option>';
-        } else {
-            gHtml.login +=           '<option value="tw" disabled >繁體中文</option>';
-            gHtml.login +=           '<option value="cn" disabled >简体中文</option>';
-        }
-        gHtml.login +=         '</select>';
-        gHtml.login +=       '</td>';
-        gHtml.login +=     '</tr>';
-        gHtml.login +=     '<tr>';
-        gHtml.login +=       '<th></th>';
-        gHtml.login +=       '<td><button id="loginButton"><b>Login</b></button></td>';
-        gHtml.login +=     '</tr>';
-        gHtml.login +=   '</table>';
-        gHtml.login +=   '<div id="popBase"></div>';
-        gHtml.login += '</div>';
-    
-        $('body').html(gHtml.login);
-    
         // listen to lang
         $('#userLang').change( function() {
             $('#userNameLabel').html( gLogin[ $(this).val() ].userName + ' : ');
             $('#userPassLabel').html( gLogin[ $(this).val() ].userPass + ' : ');
             $('#userLangLabel').html( gLogin[ $(this).val() ].userLang + ' : ');
+            $('#loginButton').html( '<b>' + gLogin[ $(this).val() ].loginButton + '</b>' );
         });
     
         $('#loginButton').addClass('yui3-button');
@@ -984,19 +1045,31 @@ $(document).ready(function () {
                                             gIf.newFirmware = true;
                                     }).done( function() {
                                         $.ajax({
-                                            url:'cgi-bin/getSessInfo.cgi', 
+                                            url:'cgi-bin/config_profile_list.cgi', 
                                             dataType:'json', 
                                             success:function(data) {
-
-                                                gRef.menu = 'lang/' + gObj.lang + '-menu.txt';
-                                                gIf.session = true;
-                                                gIf.getSessInfo = true;
-                                                gObj.userIp = data.ipAddr;
-                                                gIf.power  = (3 === parseInt( data.privilege ))? true : false;
-                                                gY.Cookie.setSub( gCook.main, 'username', gObj.user );
-                                                gY.Cookie.setSub( gCook.main, 'lang', gObj.lang );
-                                                isLogin();
+                                                for (var i=0, len=data.guiProfileTNum; i<len; i++)
+                                                {
+                                                    if (1 === parseInt( data.guiProfileT[ i ].inUsed ))
+                                                        gObj.profile = data.guiProfileT[ i ].name;
+                                                }
                                             }
+                                        }).done( function() {
+                                            $.ajax({
+                                                url:'cgi-bin/getSessInfo.cgi', 
+                                                dataType:'json', 
+                                                success:function(data) {
+
+                                                    gRef.menu = 'lang/' + gObj.lang + '-menu.txt';
+                                                    gIf.session = true;
+                                                    gIf.getSessInfo = true;
+                                                    gObj.userIp = data.ipAddr;
+                                                    gIf.power  = (3 === parseInt( data.privilege ))? true : false;
+                                                    gY.Cookie.setSub( gCook.main, 'username', gObj.user );
+                                                    gY.Cookie.setSub( gCook.main, 'lang', gObj.lang );
+                                                    isLogin();
+                                                }
+                                            });
                                         });
                                     });
                                 });
@@ -1004,11 +1077,10 @@ $(document).ready(function () {
                         });
                     });
                 }else  {
-                    if (data.errormsg) {
+                    if (data.errormsg) 
                         failAlert( data.errormsg, data.detail);
-                    }else {
+                    else 
                         failAlert( data.servermsg);
-                    }
                 }
             });
         });
@@ -1206,7 +1278,6 @@ $(document).ready(function () {
                 refreshReports( tar.ids[ 1 ] );
                 break;
             }
-
         })
 
         $('#userName').focus();
@@ -1254,6 +1325,7 @@ $(document).ready(function () {
 
         $('#hd_user').html('<h4>' + gRef.header[ gObj.lang ].hd_user + ' : ' + gObj.user + '</h4>');
         $('#hd_ip').html('<h4>' + gRef.header[ gObj.lang ].hd_ip + ' : ' + gObj.userIp + '</h4>');
+        $('#hd_profile').html('<h4>' + gRef.header[ gObj.lang ].hd_profile + ' : ' + gObj.profile + '</h4>');
     
         // draw main body 
         $('#bd').html( gHtml.body );
@@ -1280,9 +1352,7 @@ $(document).ready(function () {
                     if  (gObj.menu[i].panel) {
                         gHtml.html += '<ul class="accordion-ul-ul">';
                         for (var j=0, jlen= gObj.menu[i].panel.length; j<jlen; j++) {
-                            switch(typeof(gObj.menu[i].panel[j].panel) == 'object')
-                            {
-                            case true:
+                            if ('object' == typeof(gObj.menu[i].panel[j].panel) ) {
                                 // h5 
                                 gObj.active.h4Arr.push(gObj.menu[i].panel[j].tab);
                                 gHtml.html += '<ul class="accordion-ul-ul-ul">';
@@ -1295,11 +1365,9 @@ $(document).ready(function () {
                                 gHtml.html += '</ul>';
                                 gHtml.html += '</li>';
                                 gHtml.html += '</ul>';
-                                break;
-                            case false:
+                            } else {
                                 // h4 
                                 gHtml.html += '<li id="'+gObj.menu[i].panel[j].tab+'" class="accordion-ul-ul-li index-'+i+'-'+j+'"><h4><a href="#">'+gObj.menu[i].panel[j].label+'</a></h4></li>';
-                                break;
                             }
                         }
                         gHtml.html += '</ul>';
@@ -1321,9 +1389,7 @@ $(document).ready(function () {
                 });
         
                 $('.accordion-ul-ul-li h4').on('click', function(e) {
-                    switch(gReg.isIndex.test($(this).parents('li').attr('class')))
-                    {
-                    case true:
+                    if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
                         gIf.getSessInfo = true; 
                         gObj.actived = gObj.active;
                         gObj.active = {};
@@ -1356,7 +1422,6 @@ $(document).ready(function () {
                             alterAlert();
                         } else {
                             gObj.tabIndex = 0;
-                            gObj.inners = 0;
                             gIf.isStart = false; 
                             gIf.query = false;
                             gIf.ajaxed = false;
@@ -1380,15 +1445,11 @@ $(document).ready(function () {
                             }
                             getCgiList(gObj.active.pid);
                         }
-
-                        break;
                     }
                 });
         
                 $('.accordion-ul-ul-ul-ul-li h5').on('click', function(e) {
-                    switch(gReg.isIndex.test($(this).parents('li').attr('class')))
-                    {
-                    case true:
+                    if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
                         gIf.getSessInfo = true; 
                         gObj.actived = gObj.active;
                         gObj.active = {};
@@ -1420,7 +1481,6 @@ $(document).ready(function () {
                             alterAlert();
                         } else {
                             gObj.tabIndex = 0;
-                            gObj.inners = 0;
                             gIf.isStart = false; 
                             gIf.systime = false; 
                             gIf.ajaxed = false;
@@ -1444,8 +1504,6 @@ $(document).ready(function () {
                             }
                             getCgiList(gObj.active.pid);
                         }
-
-                        break;
                     }
                 });
     
@@ -1470,54 +1528,45 @@ $(document).ready(function () {
         // $('#ft .content').append('<p>The Next Generation Technology Appliances by Tech Titan, powerd by Kaspersky</p>');
     
         // set row limits
-        callLimit('set');
+        getLimit();
 
         // trigger timer
         timerStart();
     }
 
-    function callLimit( cmd, pid ) {
-        switch( cmd )
-        {
-        case 'set':
-            gRows.maxUserGroup = 50;
-            gRows.maxUser = 1000;
-            gRows.maxUserPerGroup = 100;
-            gRows.maxWAN = 6;
-            gRows.maxPorts = 8;
-            gRows.maxLAN = 32;
-            gRows.maxMemberPerLAN = 16;
-            gRows.maxVLAN = 128;
-            gRows.maxZone = 32;
-            gRows.maxMemberPerZone = 20;
-            gRows.maxIPAlias = 8;
-            gRows.maxIPAddress = 512;
-            gRows.maxMACAddress = 512;
-            gRows.maxGroupAddress = 64;
-            gRows.maxMemberPerGroupAddress = 64;
-            gRows.maxService = 256;
-            gRows.maxGroupService = 64;
-            gRows.maxMemberPerServiceAddress = 64;
-            break;
-        case 'get':
-            switch( pid )
-            {
-            case 'wan_settings':
-                break;
-            case 'lan':
-                break;
-            case 'vlan_interfaces':
-                break;
-            case 'ports':
-                break;
-            case 'zone':
-                break;
-            }
-            
-            break;
-        }
+    function getLimit() {
+        // users
+        gRows.maxUserGroup = 50;
+        gRows.maxUser = 1000;
+        gRows.maxUserPerGroup = 100;
+
+        // interfaces
+        gRows.maxWAN = 6;
+        gRows.maxPorts = 8;
+        gRows.maxLAN = 32;
+        gRows.maxMemberPerLAN = 16;
+        gRows.maxVLAN = 128;
+        gRows.maxZone = 32;
+        gRows.maxMemberPerZone = 20;
+        gRows.maxIPAlias = 8;
+        gRows.maxIPAddress = 512;
+        gRows.maxMACAddress = 512;
+        gRows.maxAddress = 1024;
+        gRows.maxGroupAddress = 64;
+        gRows.maxMemberPerGroupAddress = 64;
+        gRows.maxService = 256;
+        gRows.maxGroupService = 64;
+        gRows.maxMemberPerGroupService = 64;
+
+        // networking
+        gRows.maxTransformPolicy = 16;
+        gRows.maxIKEPolicy = 16;
+        gRows.maxIPSecPolicies = 100;
+
+        gRows.maxProfile = 16;
     }
     
+// btn 
     function btnCtrl( e, btClass ) {
         var tar = {};
         tar.id = $(e.currentTarget).attr('id');
@@ -1653,6 +1702,7 @@ $(document).ready(function () {
             }
             break;
         case 'Delete':
+            gIf.alter = true;
             switch( tar.pid )
             {
             case 'lan':
@@ -1706,6 +1756,7 @@ $(document).ready(function () {
             }
             break;
         case 'Remove':
+            gIf.alter = true;
             switch( tar.pid )
             {
             case 'lan':
@@ -1808,10 +1859,7 @@ $(document).ready(function () {
             btnQuery( e );
             break;
         case 'Cancel':
-            //if (gObj.active.h5Index == 'NA')
-            //    getCgiList(gObj.active.pid);
-            //else
-                getCgiList(gObj.active.pid);
+            getCgiList(gObj.active.pid);
             break;
         case 'Columns':
             btnColumns( e );
@@ -2550,11 +2598,11 @@ $(document).ready(function () {
             {
             case 'php':
                 if ( gNode.query ) {
-                    for (var i=0; i<gNode.col[ $('#query-aggregateBy').val() ].length; i++)
+                    for (var i=0; i<gNode.col[ gQuery.a ].length; i++)
                     {
-                        $('#div-columns ul').append( '<li><input type="checkbox" id="columns-' + $('#query-aggregateBy').val() + '-' + gNode.col[ $('#query-aggregateBy').val() ][ i ].tab + '" value="1" /><label for="columns-' + $('#query-aggregateBy').val() + '-' + gNode.col[ $('#query-aggregateBy').val() ][ i ].tab + '">' + gNode.col[ $('#query-aggregateBy').val() ][ i ].label + '</label></li>' );
-                        if (gColumns[ gNode.tab ][ $('#query-aggregateBy').val() ][ gNode.col[ $('#query-aggregateBy').val() ][ i ].tab ])
-                            $('#columns-' + $('#query-aggregateBy').val() + '-' + gNode.col[ $('#query-aggregateBy').val() ][ i ].tab).attr('checked', true);
+                        $('#div-columns ul').append( '<li><input type="checkbox" id="columns-' + gQuery.a + '-' + gNode.col[ gQuery.a ][ i ].tab + '" value="1" /><label for="columns-' + gQuery.a + '-' + gNode.col[ gQuery.a ][ i ].tab + '">' + gNode.col[ gQuery.a ][ i ].label + '</label></li>' );
+                        if (gColumns[ gNode.tab ][ gQuery.a ][ gNode.col[ gQuery.a ][ i ].tab ])
+                            $('#columns-' + gQuery.a + '-' + gNode.col[ gQuery.a ][ i ].tab).attr('checked', true);
                     } 
                 }
                 break;
@@ -2589,12 +2637,12 @@ $(document).ready(function () {
                 switch( gNode.ext )
                 {
                 case 'php':
-                    if (gColumns[ gNode.tab ][ $('#query-aggregateBy').val() ][ cid ]) {
-                        delete gColumns[ gNode.tab ][ $('#query-aggregateBy').val() ][ cid ];
-                        $('.' + gNode.tab + '-' + $('#query-aggregateBy').val() + '-' + cid ).hide();
+                    if (gColumns[ gNode.tab ][ gQuery.a ][ cid ]) {
+                        delete gColumns[ gNode.tab ][ gQuery.a ][ cid ];
+                        $('.' + gNode.tab + '-' + gQuery.a + '-' + cid ).hide();
                     } else {
-                        gColumns[ gNode.tab ][ $('#query-aggregateBy').val() ][ cid ] = true;
-                        $('.' + gNode.tab + '-' + $('#query-aggregateBy').val() + '-' + cid ).show();
+                        gColumns[ gNode.tab ][ gQuery.a ][ cid ] = true;
+                        $('.' + gNode.tab + '-' + gQuery.a + '-' + cid ).show();
                     }
                     break;
                 case 'mix':
@@ -2628,221 +2676,6 @@ $(document).ready(function () {
         }
     }
 
-    function dataSort( data, pid, isTab ) {
-        var arr = [];
-
-        if ( isTab ) {
-            pid = gNode.tab + '-' + pid;
-        }
-
-        if (!$('#table-' + pid + ' thead').exists())
-            return false;
-
-        var ascend = gY.one('#table-' + pid + ' thead').all('span.sortable.ascending');
-        var descend = gY.one('#table-' + pid + ' thead').all('span.sortable.descending');
-        var sortBy;
-
-        if ( 'dhcp_bindings' == pid ) {
-            if (ascend._nodes.length > 0) {
-                sortBy = ascend._nodes[ 0 ].id.split('-').pop();
-                data.sort( function( obj1, obj2 ) {
-                    var arr1 = obj1.LeaseInfo.split('|');   
-                    var arr2 = obj2.LeaseInfo.split('|');   
-                    if (arr1[ sortBy ].toString().toLowerCase() > arr2[ sortBy ].toString().toLowerCase())
-                        return 1;
-                    if (arr1[ sortBy ].toString().toLowerCase() < arr2[ sortBy ].toString().toLowerCase())
-                        return -1;
-                    return 0;
-                });
-            } else if ( descend._nodes.length > 0) {
-                sortBy = descend._nodes[ 0 ].id.split('-').pop();
-                data.sort( function( obj1, obj2 ) {
-                    var arr1 = obj1.LeaseInfo.split('|');   
-                    var arr2 = obj2.LeaseInfo.split('|');   
-                    if (arr1[ sortBy ].toString().toLowerCase() < arr2[ sortBy ].toString().toLowerCase())
-                        return 1;
-                    if (arr1[ sortBy ].toString().toLowerCase() > arr2[ sortBy ].toString().toLowerCase())
-                        return -1;
-                    return 0;
-                });
-            }
-        } else {
-            if (ascend._nodes.length > 0) {
-                sortBy = ascend._nodes[ 0 ].id.split('-').pop();
-                if (gReg.isNumeric.test( sortBy )) {
-                    data.sort( function( obj1, obj2 ) {
-                        return obj1[ sortBy ] - obj2[ sortBy ];
-                    });
-                } else {
-                    data.sort( function( obj1, obj2 ) {
-                        if (obj1[ sortBy ].toString().toLowerCase() > obj2[ sortBy ].toString().toLowerCase())
-                            return 1;
-                        if (obj1[ sortBy ].toString().toLowerCase() < obj2[ sortBy ].toString().toLowerCase())
-                            return -1;
-                        return 0;
-                    });
-                }
-            } else if ( descend._nodes.length > 0) {
-                sortBy = descend._nodes[ 0 ].id.split('-').pop();
-                if (gReg.isNumeric.test( sortBy )) {
-                    data.sort( function( obj1, obj2 ) {
-                        return obj1[ sortBy ] - obj2[ sortBy ];
-                    });
-                } else {
-                    data.sort( function( obj1, obj2 ) {
-                        if (obj1[ sortBy ].toString().toLowerCase() < obj2[ sortBy ].toString().toLowerCase())
-                            return 1;
-                        if (obj1[ sortBy ].toString().toLowerCase() > obj2[ sortBy ].toString().toLowerCase())
-                            return -1;
-                        return 0;
-                    });
-                }
-            }
-        }
-
-        arr = data;
-        return arr;
-    }
-    
-    function dataSortPhp( data, pid ) {
-        var ascend = gY.one('#theadTable-' + pid + ' thead').all('span.sortable.ascending');
-        var descend = gY.one('#theadTable-' + pid + ' thead').all('span.sortable.descending');
-        var sortBy;
-
-        if (ascend._nodes.length > 0) {
-            sortBy = ascend._nodes[ 0 ].id.split('-').pop();
-
-            if (gReg.isNumeric.test( sortBy )) {
-                data.sort( function( obj1, obj2 ) {
-                    return obj1[ sortBy ] - obj2[ sortBy ];
-                });
-            } else {
-                data.sort( function( obj1, obj2 ) {
-                    if (obj1[ sortBy ].toString().toLowerCase() > obj2[ sortBy ].toString().toLowerCase())
-                        return 1;
-                    if (obj1[ sortBy ].toString().toLowerCase() < obj2[ sortBy ].toString().toLowerCase())
-                        return -1;
-                    return 0;
-                });
-            }
-        } else if ( descend._nodes.length > 0) {
-            sortBy = descend._nodes[ 0 ].id.split('-').pop();
-
-            if (gReg.isNumeric.test( sortBy )) {
-                data.sort( function( obj1, obj2 ) {
-                    return obj2[ sortBy ] - obj1[ sortBy ];
-                });
-            } else {
-                data.sort( function( obj1, obj2 ) {
-                    if (obj1[ sortBy ].toString().toLowerCase() < obj2[ sortBy ].toString().toLowerCase())
-                        return 1;
-                    if (obj1[ sortBy ].toString().toLowerCase() > obj2[ sortBy ].toString().toLowerCase())
-                        return -1;
-                    return 0;
-                });
-            }
-        }
-
-        return data;
-    }
-
-    function autoMaskBits( netmask ) {
-        var nets = netmask.split(gReg.isDot);
-        var bits = 0;
-        var result = [];
-        for (var i=0, len=nets.length; i<len; i++)
-        {
-            result.push( h_countbitsfromleft( parseInt( nets[ i ] ) ) );
-            if (isNaN(result[ i ]) || ( i > 0 && result[ i ] > result[ i-1 ])) {
-                return false;
-            }
-            bits += result[ i ];
-        }
-        return bits;
-    }
-    
-    function autoDhcpServer(id, address, netmask) {
-        
-        gObj.calc = {};
-        var addr = address.split(gReg.isDot);
-        for (var i=0, len=addr.length; i<len; i++)
-            gObj.calc["ip_" + (i+1)] = parseInt(addr[i]);
-    
-        var nets = netmask.split(gReg.isDot);
-        for (var i=0, len=nets.length; i<len; i++)
-            gObj.calc["snm_" + (i+1)] = parseInt(nets[i]);
-    
-        calcNWbits(gObj.calc);
-    
-        if (gObj.calc.result != 'invalid') {
-            //$('#guiDhcpsT-type option').each(function() {
-            $('#dhcp_pool_settings-type option').each(function() {
-                if (parseInt($(this).val()) == 1)
-                    $(this).prop('disabled', false);
-            });
-            gObj.calc.bits = gObj.calc.result;
-            calcNBFL(gObj.calc);
-    
-            switch(gObj.calc.numofaddr)
-            {
-            case 'ERR':
-            case 'one':
-                $('#dhcp_pool_settings-type option').each(function() {
-                    if (parseInt($(this).val()) == 1)
-                        $(this).prop('disabled', true);
-                });
-                break;
-            case 'two':
-                if (gObj.calc.ip_4 == gObj.calc.firstadr_4) {
-                    gObj.calc.startIp   = gObj.calc.lastadr_1 + '.' + gObj.calc.lastadr_2 + '.' + gObj.calc.lastadr_3 + '.' + gObj.calc.lastadr_4;
-                    gObj.calc.endIp   = gObj.calc.lastadr_1 + '.' + gObj.calc.lastadr_2 + '.' + gObj.calc.lastadr_3 + '.' + gObj.calc.lastadr_4;
-                }else {
-                    gObj.calc.startIp = gObj.calc.firstadr_1 + '.' + gObj.calc.firstadr_2 + '.' + gObj.calc.firstadr_3 + '.' + gObj.calc.firstadr_4;
-                    gObj.calc.endIp = gObj.calc.firstadr_1 + '.' + gObj.calc.firstadr_2 + '.' + gObj.calc.firstadr_3 + '.' + gObj.calc.firstadr_4;
-                }
-    
-                $('#dhcp_pool_settings-1-startIp').val( gObj.calc.startIp );
-                $('#dhcp_pool_settings-1-endIp').val( gObj.calc.endIp );
-                break;
-            default:
-                // check if existing dhcp settings, based on /24  
-                var startIp = -1;
-                var endIp = -1;
-                if (gReg.isIPv4.test($('#dhcp_pool_settings-1-startIp').val()) && gReg.isIPv4.test($('#dhcp_pool_settings-1-endIp').val())) {
-                    startIp = parseInt($('#dhcp_pool_settings-1-startIp').val().split(gReg.isDot)[3]);
-                    endIp = parseInt($('#dhcp_pool_settings-1-endIp').val().split(gReg.isDot)[3]);
-                }
-    
-                if ((startIp >= gObj.calc.firstadr_4 && endIp < gObj.calc.ip_4) || (startIp > gObj.calc.ip_4 && endIp <= gObj.calc.lastadr_4)) {
-                    $('#dhcp_pool_settings-1-startIp').val( gObj.calc.ip_1 + '.' + gObj.calc.ip_2 + '.' + gObj.calc.ip_3 + '.' + startIp );
-                    $('#dhcp_pool_settings-1-endIp').val( gObj.calc.ip_1 + '.' + gObj.calc.ip_2 + '.' + gObj.calc.ip_3 + '.' + endIp );
-                } else if (gObj.calc.lastadr_4 - gObj.calc.ip_4 > gObj.calc.ip_4 - gObj.calc.firstadr_4) {
-                    if (startIp > gObj.calc.ip_4)
-                        $('#dhcp_pool_settings-1-startIp').val( gObj.calc.ip_1 + '.' + gObj.calc.ip_2 + '.' + gObj.calc.ip_3 + '.' + startIp );
-                    else
-                        $('#dhcp_pool_settings-1-startIp').val( gObj.calc.ip_1 + '.' + gObj.calc.ip_2 + '.' + gObj.calc.ip_3 + '.' + (gObj.calc.ip_4 + 1) );
-                    if (endIp > gObj.calc.ip_4 && endIp < gObj.calc.lastadr_4)
-                        $('#dhcp_pool_settings-1-endIp').val( gObj.calc.ip_1 + '.' + gObj.calc.ip_2 + '.' + gObj.calc.ip_3 + '.' + endIp );
-                    else
-                        $('#dhcp_pool_settings-1-endIp').val( gObj.calc.ip_1 + '.' + gObj.calc.ip_2 + '.' + gObj.calc.ip_3 + '.' + gObj.calc.lastadr_4 );
-                } else {
-                    if (startIp > gObj.calc.firstadr_4)
-                        $('#dhcp_pool_settings-1-startIp').val( gObj.calc.ip_1 + '.' + gObj.calc.ip_2 + '.' + gObj.calc.ip_3 + '.' + startIp );
-                    else
-                        $('#dhcp_pool_settings-1-startIp').val( gObj.calc.ip_1 + '.' + gObj.calc.ip_2 + '.' + gObj.calc.ip_3 + '.' + gObj.calc.firstadr_4 );
-    
-                    if (endIp > gObj.calc.firstadr_4 && endIp < gObj.calc.ip_4)
-                        $('#dhcp_pool_settings-1-endIp').val( gObj.calc.ip_1 + '.' + gObj.calc.ip_2 + '.' + gObj.calc.ip_3 + '.' + endIp );
-                    else
-                        $('#dhcp_pool_settings-1-endIp').val( gObj.calc.ip_1 + '.' + gObj.calc.ip_2 + '.' + gObj.calc.ip_3 + '.' + (gObj.calc.ip_4 - 1) );
-                }
-            }
-    
-            $('#dhcp_pool_settings-1-gateway').val( address );
-            $('#dhcp_pool_settings-1-dns1').val( address );
-        }
-    }
-    
     function btnClear(e) {
         $.ajax({
             url: 'logClear.php?param=view_logs',
@@ -3311,9 +3144,12 @@ $(document).ready(function () {
         tar.pid = tar.id.split('-')[ 1 ];
         tar.thisNo = tar.id.split('-')[ 2 ];
 
+        gObj.profile = gData.profile.guiProfileT[ tar.thisNo ].name;
+
         cmdAlert( tar.pid, tar.thisNo );
     }
     
+// alert 
     function successAlert( msg ) {
         if (!$('#popError').exists())
             $('#popBase').append('<div id="popError"></div>');
@@ -3664,7 +3500,6 @@ $(document).ready(function () {
                     gIf.columns = false;
                     gIf.systime = false; 
                     gObj.tabIndex = 0;
-                    gObj.inners = 0;
                     gIf.alter = false;
                     gIf.query = false;
                     gSort = {};
@@ -3775,18 +3610,6 @@ $(document).ready(function () {
         }
     }
 
-    function getAlert() {
-
-    }
-
-    function postAlert() {
-
-    }
-
-    function waitAlert() {
-
-    }
-
     function progressTAlert( progress ) {
         if (!$('#popError').exists())
             $('#popBase').append('<div id="popError"></div>');
@@ -3811,33 +3634,6 @@ $(document).ready(function () {
         $( 'a.ui-dialog-titlebar-close' ).remove();
         gObj.progress = progress;
         gIf.progressT = true;
-    }
-
-    function progressAlert( pid ) {
-        
-    }
-
-    function loadingToggle( flag ) {
-        switch(flag) 
-        {
-        case true:
-            $('#divSec').hide();
-            $('body').addClass('loadingClass');
-            break;
-        case false:
-            if (gIf.reboot) {
-                document.location.reload(true);
-                gIf.reboot = false;
-            } else if ( gIf.shutdown ) {
-                $('.titleA').html( gTerm[ gObj.lang ].wait + ' ' + gTerm[ gObj.lang ].for );
-                $('.titleB').html( gTerm[ gObj.lang ].seconds );
-                $('#divSec').hide();
-                errorAlert( 'shudown done' );
-            } else {
-                $('body').removeClass('loadingClass');
-            }
-            break;
-        } 
     }
     
     // based on template head, filter from data, with actions 
@@ -4028,7 +3824,6 @@ $(document).ready(function () {
                     //Was close clicked?
                     if (a.hasClass('dashboardX')) {
                         // reset inner counts
-                        gObj.inners = 0;
                         //Get some Node references..
                         var li = div.get('parentNode'),
                             id = li.get('id'),
@@ -4374,7 +4169,6 @@ $(document).ready(function () {
                     drag._unprep();
                     //Setup the new Drag listeners
                     setupModDD(mod, drag.get('data'), drag);
-                    gObj.inners++;
                 });
             });
         });
@@ -4388,7 +4182,6 @@ $(document).ready(function () {
 
         if (pid) {
             // id 
-            gObj.inners++;
             $('#table-' + pid + ' tbody').empty();
             switch( gSort[ pid ].ext )
             {
@@ -4397,7 +4190,6 @@ $(document).ready(function () {
                     url: 'cgi-bin/' + gSort[ pid ].url.get + '.' + gSort[ pid ].ext,
                     dataType: 'json',
                     success: function(data) {
-                        gObj.inners--;
                         data[ gSort[ pid ].guiT ] = dataSort( data[ gSort[ pid ].guiT ], pid );
                         for (var i=0, len=((pid == 'dashboard_log')? data[ gSort[ pid ].guiT ].length : data[ gSort[ pid ].guiTNum ]); i<len; i++)
                         {
@@ -4514,7 +4306,6 @@ $(document).ready(function () {
                     var list = gY.one('#' + k);
                     //Walk the items in this list
                     gY.each(v, function(v2, k2) {
-                        gObj.inners++;
                         switch( gSort[ v2.id ].ext )
                         {
                         case 'cgi':
@@ -4522,7 +4313,6 @@ $(document).ready(function () {
                                 url: 'cgi-bin/' + gSort[ v2.id ].url.get + '.' + gSort[ v2.id ].ext,
                                 dataType: 'json',
                                 success: function(data) {
-                                    gObj.inners--;
                                     if ( 'dashboard_sys_info' == v2.id ) {
                                         for (var z in data)
                                         {
@@ -4613,7 +4403,6 @@ $(document).ready(function () {
                                 url: gObj.phpQuery.php + '.php?param=' + v2.id + sortBy,
                                 dataType: 'json',
                                 success: function(data) {
-                                    gObj.inners--;
                                     if (parseInt(data.queryRows) > 0) {
                                         $('#table-' + data.param + ' tbody').empty();
                                         tmp = '';
@@ -4670,7 +4459,6 @@ $(document).ready(function () {
             } else if ( gSort ) {
                 for (var x in gSort )
                 {
-                    gObj.inners++;
                     switch( gSort[ x ].ext )
                     {
                     case 'cgi':
@@ -4678,9 +4466,9 @@ $(document).ready(function () {
                             url: 'cgi-bin/' + gSort[ x ].url.get + '.' + gSort[ x ].ext,
                             dataType: 'json',
                             success: function(data) {
-                                gObj.inners--;
                                 var y;
                                 tmp = '';
+                                
                                 if ( data.sysName ) {
                                     y = 'dashboard_sys_info';
                                     for (var z in data)
@@ -4705,6 +4493,8 @@ $(document).ready(function () {
                                     y = 'dashboard_lan';
                                     $('#table-' + y + ' tbody').empty();
                                     
+                                    if (!gSort[ y ])
+                                        return false;
                                     data[ gSort[ y ].guiT ] = dataSort( data[ gSort[ y ].guiT ], y );
                                     for (var i=0; i<data[ gSort[ y ].guiTNum ]; i++)
                                     {
@@ -4732,6 +4522,8 @@ $(document).ready(function () {
                                     y = 'dashboard_wan';
                                     $('#table-' + y + ' tbody').empty();
 
+                                    if (!gSort[ y ])
+                                        return false;
                                     data[ gSort[ y ].guiT ] = dataSort( data[ gSort[ y ].guiT ], y );
 
                                     for (var i=0; i<data[ gSort[ y ].guiTNum ]; i++)
@@ -4768,6 +4560,8 @@ $(document).ready(function () {
                                 } else if ( data.guiPortIfT ) {
                                     y = 'dashboard_port';
                                     $('#table-' + y + ' tbody').empty();
+                                    if (!gSort[ y ])
+                                        return false;
 
                                     data[ gSort[ y ].guiT ] = dataSort( data[ gSort[ y ].guiT ], y );
 
@@ -4799,6 +4593,8 @@ $(document).ready(function () {
                                 } else if ( data.newlogT ) {
                                     y = 'dashboard_log';
                                     $('#table-' + y + ' tbody').empty();
+                                    if (!gSort[ y ])
+                                        return false;
 
                                     data[ gSort[ y ].guiT ] = dataSort( data[ gSort[ y ].guiT ], y );
 
@@ -4847,7 +4643,6 @@ $(document).ready(function () {
                             url: gObj.phpQuery.php + '.php?param=' + x + sortBy, 
                             dataType: 'json',
                             success: function(data) {
-                                gObj.inners--;
                                 if (parseInt(data.queryRows) > 0) {
                                     $('#table-' + data.param + ' tbody').empty();
                                     tmp = '';
@@ -4914,7 +4709,6 @@ $(document).ready(function () {
                 url: 'cgi-bin/' + feed.url.get + '.' + feed.ext,
                 dataType: 'json',
                 success: function(data) {
-                    gObj.inners--;
                     switch(feed.tag)
                     {
                     case 'table':
@@ -5062,7 +4856,6 @@ $(document).ready(function () {
                 url: gObj.phpQuery.php + '.php?param=' + feed.id,
                 dataType: 'json',
                 success: function(data) {
-                    gObj.inners--;
                     tmp = '<div class="innerDiv">';
                     tmp += '<table id="' + tableID + '" class="' + gRef[ feed.tag ][ feed.type ] + '">';
                     tmp += '<thead>';
@@ -6026,8 +5819,8 @@ $(document).ready(function () {
                     gObj.phpQuery.pp = $('#phpPerPage').val();
                     if (gIf.query) 
                         query += gQuery.q;
-                    else 
-                        gQuery.a = $('#query-aggregateBy').val();
+                    else if (!gQuery.a)
+                        gQuery.a = 0;
                     query += '&pi=' + gObj.phpQuery.pi + '&pp=' + gObj.phpQuery.pp;
                 }
     
@@ -6276,6 +6069,158 @@ $(document).ready(function () {
                                 {
                                 case 'vlan_interfaces':
                                     gCache[ pid ].vlan[ parseInt( data[ gNode.guiT ][ i ].gid ) ] = parseInt( data[ gNode.guiT ][ i ].type );
+                                    for (var j=0, jlen=gNode.col.length; j<jlen; j++)
+                                    {
+                                        tmp += '<td>';
+                                        switch(gNode.col[ j ].tab)
+                                        {
+                                        case 'checkbox':
+                                            tmp += '<input type="checkbox" value="' + i + '" id="' + gNode.col[ j ].tab + '-' + i + '" />';
+                                            break;
+                                        case 'action':
+                                            tmp += '<button class="Edit" id="Edit-' + pid + '-' + i + '" title="Edit" ' + ((parseInt( data[ gNode.guiT ][ i ].type ) > 0)? 'disabled="disabled"' : '')+ '><span class="ui-icon"></span></button>';
+                                            tmp += '<button class="Delete" id="Delete-' + pid + '-' + i + '" title="Delete"><span class="ui-icon"></span></button>';
+                                            break;
+                                        case 'zoneId':
+                                            if ( 2 === parseInt( gCache.ports[ data[ gNode.guiT ][ i ].interface ] ) || parseInt( data[ gNode.guiT ][ i ].type ) > 0 || 0 === parseInt( data[ gNode.guiT ][ i ].zoneId ) ) {
+                                                tmp += '';
+                                            }else {
+                                                tmp += gCache.name[ parseInt( data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ) ];
+                                            }
+                                            break;
+                                        case 'address':
+                                            if (2 === gCache.ports[ data[ gNode.guiT ][ i ].interface ] || parseInt( data[ gNode.guiT ][ i ].type ) > 0) {
+                                                tmp += '';
+                                            } else {
+                                                tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                                            }
+                                            break;
+                                        case 'dhcpPool':
+                                            if (2 === gCache.ports[ data[ gNode.guiT ][ i ].interface ] || parseInt( data[ gNode.guiT ][ i ].type ) > 0) {
+                                                tmp += '';
+                                            } else {
+                                                tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                                            }
+                                            break;
+                                        case 'interface':
+                                            if (!gCache[ pid ].interface[ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ]) {
+                                                gCache[ pid ].interface[ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] = [];
+                                            }
+                                            gCache[ pid ].interface[ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ].push( parseInt( data[ gNode.guiT ][ i ].vid ));
+                                        
+                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ]
+                                            break;
+                                        case 'name':
+                                            gCache.uniq[ pid ][ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] = true;
+                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                                            break;
+                                        default:
+                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                                        }
+                                        tmp += '</td>';
+                                    }
+                                    break;
+                                case 'lan':
+                                    for (var j=0, jlen=gNode.col.length; j<jlen; j++)
+                                    {
+                                        tmp += '<td>';
+                                        switch(gNode.col[ j ].tab)
+                                        {
+                                        case 'checkbox':
+                                            if (1 === parseInt( data[ gNode.guiT ][ i ].userDefined )) {
+                                                tmp += '<input type="checkbox" value="' + i + '" id="' + gNode.col[ j ].tab + '-' + i + '" />';
+                                            } else {
+                                                tmp += '';
+                                            }
+                                            break;
+                                        case 'action':
+                                            tmp += '<button class="Edit" id="Edit-' + pid + '-' + i + '" title="Edit"><span class="ui-icon"></span></button>';
+                                            if ( 1 === parseInt( data[ gNode.guiT ][ i ].userDefined ) ) {
+                                                tmp += '<button class="Delete" id="Delete-' + pid + '-' + i + '" title="Delete"><span class="ui-icon"></span></button>';
+                                            }
+                                            break;
+                                        case 'name':
+                                            gCache.uniq[ pid ][ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] = true;
+                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                                            break;
+                                        case 'interfaces':
+                                            gCache[ pid ].interfaces[ data[ gNode.guiT ][ i ].gid ] = [];
+                                            gCache[ pid ].cache[ data[ gNode.guiT ][ i ].gid ] = [];
+                                            var arr = data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ].split(';');
+                                            for (var k=0; k<arr.length; k++)
+                                            {
+                                                if (!isNaN(parseInt(arr[k]))) {
+                                                    if ( gCache.name[ arr[ k ] ] ) {
+                                                        tmp += gCache.name[ arr[ k ] ] + ';';
+                                                        gCache[ pid ].interfaces[ data[ gNode.guiT ][ i ].gid ].push(parseInt(arr[ k ]));
+                                                        gCache[ pid ].cache[ data[ gNode.guiT ][ i ].gid ].push(parseInt(arr[ k ]));
+                                                    } else {
+                                                        tmp += arr[ k ] + ';';
+                                                    }
+                                                }
+                                            }
+                                            break;
+                                        case 'zoneId':
+                                            if ( 2 === parseInt( gCache.ports[ data[ gNode.guiT ][ i ].interface ] ) || parseInt( data[ gNode.guiT ][ i ].type ) > 0 || 0 === parseInt( data[ gNode.guiT ][ i ].zoneId ) ) {
+                                                tmp += '';
+                                            }else {
+                                                tmp += gCache.name[ parseInt( data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ) ];
+                                            }
+                                            break;
+                                        case 'address':
+                                            if (2 === gCache.ports[ data[ gNode.guiT ][ i ].interface ] || parseInt( data[ gNode.guiT ][ i ].type ) > 0) {
+                                                tmp += '';
+                                            } else {
+                                                tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                                            }
+                                            break;
+                                        default:
+                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                                        }
+                                        tmp += '</td>';
+                                    }
+                                    break;
+                                case 'ports':
+                                    for (var j=0, jlen=gNode.col.length; j<jlen; j++)
+                                    {
+                                        tmp += '<td>';
+                                        switch(gNode.col[ j ].tab)
+                                        {
+                                        case 'speed_duplex':
+                                            tmp += gRef[ gNode.url.get ].speed[ data[ gNode.guiT ][ i ].speed ] + '/' + gRef[ gNode.url.get ].duplex[ data[ gNode.guiT ][ i ].duplex ];
+                                            break;
+                                        case 'linkStatus':
+                                            tmp += gRef[ gNode.url.get ][ gNode.col[ j ].tab ][ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ];
+                                            break;
+                                        case 'zoneId':
+                                            if ( 2 === parseInt( gCache.ports[ data[ gNode.guiT ][ i ].interface ] ) || parseInt( data[ gNode.guiT ][ i ].type ) > 0 || 0 === parseInt( data[ gNode.guiT ][ i ].zoneId ) ) {
+                                                tmp += '';
+                                            }else {
+                                                tmp += gCache.name[ parseInt( data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ) ];
+                                            }
+                                            break;
+                                        case 'address':
+                                            if (2 === gCache.ports[ data[ gNode.guiT ][ i ].interface ] || parseInt( data[ gNode.guiT ][ i ].type ) > 0) {
+                                                tmp += '';
+                                            } else {
+                                                tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                                            }
+                                            break;
+                                        case 'dhcpPool':
+                                            if (2 === gCache.ports[ data[ gNode.guiT ][ i ].interface ] || parseInt( data[ gNode.guiT ][ i ].type ) > 0) {
+                                                tmp += '';
+                                            } else {
+                                                tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                                            }
+                                            break;
+                                        case 'action':
+                                            tmp += '<button class="Edit" id="Edit-' + pid + '-' + i + '" title="Edit"><span class="ui-icon"></span></button>';
+                                            break;
+                                        default:
+                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                                        }
+                                        tmp += '</td>';
+                                    }
                                     break;
                                 case 'zone':
                                     if (data[ gNode.guiT ][ i ].name == 'LAN') {
@@ -6285,113 +6230,57 @@ $(document).ready(function () {
                                     }else if (data[ gNode.guiT ][ i ].name == 'WAN') {
                                         gCache[ pid ].wanId = parseInt( data[ gNode.guiT ][ i ].gid );
                                     }
-                                    break;
-                                }
-                                for (var j=0, jlen=gNode.col.length; j<jlen; j++)
-                                {
-                                    if (gNode.col[ j ].tab == 'checkbox') {
-                                        tmp += '<td class="checkboxTD">';
-                                        if (!(typeof data[ gNode.guiT ][ i ].userDefined != 'undefined' && parseInt( data[ gNode.guiT ][ i ].userDefined ) == 0) && gIf.power) {
-                                            tmp += '<input type="checkbox" value="' + i + '" id="' + gNode.col[ j ].tab + '-' + i + '" />';
-                                        } else {
-                                            tmp += '';
-                                        }
-                                        tmp += '</td>';
-                                    } else if (gNode.col[ j ].tab == 'action') {
-                                        tmp += '<td class="buttonTD">';
-                                        if ( gIf.power ) {
-                                            for (var z=0, zlen=gObj.btn.length; z<zlen; z++)
+                                    for (var j=0, jlen=gNode.col.length; j<jlen; j++)
+                                    {
+                                        tmp += '<td>';
+                                        switch(gNode.col[ j ].tab)
+                                        {
+                                        case 'checkbox':
+                                            if (1 === parseInt( data[ gNode.guiT ][ i ].userDefined )) {
+                                                tmp += '<input type="checkbox" value="' + i + '" id="' + gNode.col[ j ].tab + '-' + i + '" />';
+                                            } else {
+                                                tmp += '';
+                                            }
+                                            break;
+                                        case 'name':
+                                            gCache.uniq[ pid ][ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] = true;
+                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                                            break;
+                                        case 'action':
+                                            tmp += '<button class="Edit" id="Edit-' + pid + '-' + i + '" title="Edit"><span class="ui-icon"></span></button>';
+                                            if ( 1 === parseInt( data[ gNode.guiT ][ i ].userDefined ) ) {
+                                                tmp += '<button class="Delete" id="Delete-' + pid + '-' + i + '" title="Delete"><span class="ui-icon"></span></button>';
+                                            }
+                                            break;
+                                        case 'member':
+                                            var arr = data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ].split(';');
+                                            gCache[ pid ].member[ parseInt( data[ gNode.guiT ][ i ].gid ) ] = [];
+                                            gCache[ pid ].cache[ parseInt( data[ gNode.guiT ][ i ].gid ) ] = [];
+                                            for (var k=0, klen=arr.length; k<klen; k++)
                                             {
-                                                if (!(gObj.btn[ z ] == 'Delete' && typeof data[ gNode.guiT ][ i ].userDefined != 'undefined' && parseInt( data[ gNode.guiT ][ i ].userDefined ) == 0)) {
-                                                    tmp += '<button class="' + gObj.btn[ z ] + '" id="' + gObj.btn[ z ] + '-' + pid + '-' + i + '" title="' + gObj.btn[ z ] + '"><span class="ui-icon"></span></button>';
+                                                if (!isNaN(parseInt(arr[k]))) {
+                                                    if ( gReg.vpn == (gReg.vpn & parseInt( arr[ k ] )) ) {
+                                                        // ignore, but cache
+                                                        gCache[ pid ].vpn.push( parseInt( arr[ k ] ) );
+                                                    } else if ( gCache.name[ arr[ k ] ] ) {
+                                                        tmp += gCache.name[ arr[ k ] ] + ';';
+                                                        gCache[ pid ].member[ parseInt( data[ gNode.guiT ][ i ].gid ) ].push(parseInt(arr[ k ]));
+                                                        gCache[ pid ].cache[ parseInt( data[ gNode.guiT ][ i ].gid ) ].push(parseInt(arr[ k ]));
+                                                    } else {
+                                                        tmp += arr[ k ] + ';';
+                                                    }
                                                 }
                                             }
-                                        } else {
-                                            tmp += '';
-                                        }
-                                        tmp += '</td>';
-                                    } else if (gNode.col[ j ].tab == 'name') {
-                                        gCache.uniq[ pid ][ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] = true;
-                                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] + '</td>';
-                                    } else if (gNode.col[ j ].tab == 'speed_duplex') {
-                                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gRef[ gNode.url.get ].speed[ data[ gNode.guiT ][ i ].speed ] + '/' + gRef[ gNode.url.get ].duplex[ data[ gNode.guiT ][ i ].duplex ] + '</td>';
-                                    } else if (gNode.col[ j ].tab == 'linkStatus') {
-                                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gRef[ gNode.url.get ][ gNode.col[ j ].tab ][ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] + '</td>';
-                                    } else if (gNode.col[ j ].tab == 'zoneId') {
-                                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">';
-                                        if ( 2 === parseInt( gCache.ports[ data[ gNode.guiT ][ i ].interface ] ) || parseInt( data[ gNode.guiT ][ i ].type ) > 0 || 0 === parseInt( data[ gNode.guiT ][ i ].zoneId ) ) {
-                                            tmp += '';
-                                        }else {
-                                            tmp += gCache.name[ parseInt( data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ) ];
-                                        }
-                                        tmp += '</td>';
-                                    } else if (gNode.col[ j ].tab == 'address') {
-                                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">';
-                                        if (2 === gCache.ports[ data[ gNode.guiT ][ i ].interface ] || parseInt( data[ gNode.guiT ][ i ].type ) > 0) {
-                                            tmp += '';
-                                        } else {
+                                            if (parseInt( data[ gNode.guiT ][ i ].gid ) == gCache[ pid ].vpnId) {
+                                               tmp += "IPSec VPN Tunnel";
+                                            }
+                                            break;
+                                        default:
                                             tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
                                         }
                                         tmp += '</td>';
-                                    } else if (gNode.col[ j ].tab == 'dhcpPool') {
-                                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">';
-                                        if (2 === gCache.ports[ data[ gNode.guiT ][ i ].interface ] || parseInt( data[ gNode.guiT ][ i ].type ) > 0) {
-                                            tmp += '';
-                                        } else {
-                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
-                                        }
-                                        tmp += '</td>';
-                                    } else if (gNode.col[ j ].tab == 'interfaces') {
-                                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">';
-                                        gCache[ pid ].interfaces[ data[ gNode.guiT ][ i ].gid ] = [];
-                                        gCache[ pid ].cache[ data[ gNode.guiT ][ i ].gid ] = [];
-                                        var arr = data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ].split(';');
-                                        for (var k=0; k<arr.length; k++)
-                                        {
-                                            if (!isNaN(parseInt(arr[k]))) {
-                                                if ( gCache.name[ arr[ k ] ] ) {
-                                                    tmp += gCache.name[ arr[ k ] ] + ';';
-                                                    gCache[ pid ].interfaces[ data[ gNode.guiT ][ i ].gid ].push(parseInt(arr[ k ]));
-                                                    gCache[ pid ].cache[ data[ gNode.guiT ][ i ].gid ].push(parseInt(arr[ k ]));
-                                                } else {
-                                                    tmp += arr[ k ] + ';';
-                                                }
-                                            }
-                                        }
-                                        tmp += '</td>';
-                                    } else if (gNode.col[ j ].tab == 'member') {
-                                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">';
-                                        var arr = data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ].split(';');
-                                        gCache[ pid ].member[ parseInt( data[ gNode.guiT ][ i ].gid ) ] = [];
-                                        gCache[ pid ].cache[ parseInt( data[ gNode.guiT ][ i ].gid ) ] = [];
-                                        for (var k=0, klen=arr.length; k<klen; k++)
-                                        {
-                                            if (!isNaN(parseInt(arr[k]))) {
-                                                if ( gReg.vpn == (gReg.vpn & parseInt( arr[ k ] )) ) {
-                                                    // ignore, but cache 
-                                                    gCache[ pid ].vpn.push( parseInt( arr[ k ] ) );
-                                                } else if ( gCache.name[ arr[ k ] ] ) {
-                                                    tmp += gCache.name[ arr[ k ] ] + ';';
-                                                    gCache[ pid ].member[ parseInt( data[ gNode.guiT ][ i ].gid ) ].push(parseInt(arr[ k ]));
-                                                    gCache[ pid ].cache[ parseInt( data[ gNode.guiT ][ i ].gid ) ].push(parseInt(arr[ k ]));
-                                                } else {
-                                                    tmp += arr[ k ] + ';';
-                                                }
-                                            }
-                                        }
-                                        if (parseInt( data[ gNode.guiT ][ i ].gid ) == gCache[ pid ].vpnId) {
-                                           tmp += "IPSec VPN Tunnel";
-                                        }
-                                    } else if (gNode.col[ j ].tab == 'interface') {
-                                        if (!gCache[ pid ].interface[ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ]) {
-                                            gCache[ pid ].interface[ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] = [];
-                                        }
-                                        gCache[ pid ].interface[ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ].push( parseInt( data[ gNode.guiT ][ i ].vid ));
-                                        
-                                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] + '</td>';
-                                    } else {
-                                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] + '</td>';
                                     }
+                                    break;
                                 }
                                 tmp += '</tr>';
                                 $('#table-' + pid + ' tbody').append(tmp);
@@ -6690,14 +6579,17 @@ $(document).ready(function () {
                 tmp = '<tr class="' + ((trNo%2==0)? 'even' : 'odd') + '">';
                 for (var j=0, jlen=gNode.col[ pid ].length; j<jlen; j++)
                 {
-                    if (gNode.col[ pid ][ j ].tab == 'checkbox') {
+                    tmp += '<td>';
+                    switch (gNode.col[ pid ][ j ].tab)
+                    {
+                    case 'checkbox':
                         if ( gIf.power ) {
-                            tmp += '<td class="checkboxTD"><input type="checkbox" value="' + i + '" id="' + gNode.col[ pid ][ j ].tab + '-' + i + '" /></td>';
+                            tmp += '<input type="checkbox" value="' + i + '" id="' + gNode.col[ pid ][ j ].tab + '-' + i + '" />';
                         } else {
                             tmp += '';
                         } 
-                    } else if (gNode.col[ pid ][ j ].tab == 'action') {
-                        tmp += '<td class="buttonTD">';
+                        break; 
+                    case 'action':
                         if ( gIf.power ) {
                             for (var z=0, zlen=gObj.btn.length; z<zlen; z++)
                             {
@@ -6706,23 +6598,20 @@ $(document).ready(function () {
                         } else {
                             tmp += '';
                         } 
-                        tmp += '</td>';
-                    } else if (gNode.col[ pid ][ j ].tab == 'name') {
-                        tmp += '<td id="' + gNode.col[ pid ][ j ].tab + '-' + i + '">' + gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ pid ][ j ].tab ] + '</td>';
-                    } else if (gNode.col[ pid ][ j ].tab == 'wanProto') {
-                        tmp += '<td id="' + gNode.col[ pid ][ j ].tab + '-' + i + '">';
+                        break;
+                    case 'name':
+                        tmp += gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ pid ][ j ].tab ];
+                        break;
+                    case 'wanProto':
                         tmp += gRef[ gNode.url.get[ pid ] ][ gNode.col[ pid ][ j ].tab ][ gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ pid ][ j ].tab ] ];
-                        tmp += '</td>';
-                    } else if (gNode.col[ pid ][ j ].tab == 'zoneId' ) {
-                        tmp += '<td id="' + gNode.col[ pid ][ j ].tab + '-' + i + '">';
+                        break;
+                    case 'zoneId':
                         tmp += gCache.name[ parseInt( gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ pid ][ j ].tab ] ) ];
-                        tmp += '</td>';
-                    } else if (gNode.col[ pid ][ j ].tab == 'portId' ) {
-                        tmp += '<td id="' + gNode.col[ pid ][ j ].tab + '-' + i + '">';
+                        break;
+                    case 'portId':
                         tmp += gCache.name[ parseInt( gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ pid ][ j ].tab ] ) ];
-                        tmp += '</td>';
-                    } else if (gNode.col[ pid ][ j ].tab == 'weight') {
-                        tmp += '<td id="' + gNode.col[ pid ][ j ].tab + '-' + i + '">';
+                        break;
+                    case 'weight':
                         for (var y in gRef.wan.weight )
                         {
                             if (parseInt( gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ pid ][ j ].tab ] ) <= y) {
@@ -6730,24 +6619,23 @@ $(document).ready(function () {
                                 break;
                             }
                         }
-                        tmp += '</td>';
-                    } else if (gNode.col[ pid ][ j ].tab == 'backupWanName') {
-                        tmp += '<td id="' + gNode.col[ pid ][ j ].tab + '-' + i + '">';
+                        break;
+                    case 'backupWanName':
                         if ( 1 === parseInt( gData[ pid ][ gNode.guiT ][ i ].failoverEnable ) ) {
                             tmp += gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ pid ][ j ].tab ];
                         }
-                        tmp += '</td>';
-                    } else if (gNode.col[ pid ][ j ].tab == 'address') {
-                        tmp += '<td id="' + gNode.col[ pid ][ j ].tab + '-' + i + '">';
+                        break;
+                    case 'address':
                         if (0 === parseInt( gData[ pid ][ gNode.guiT ][ i ].wanProto )) {
                             tmp += gData[ pid ][ gNode.staticipT ][ i ].ip + '/' + autoMaskBits( gData[ pid ][ gNode.staticipT ][ i ].netmask ); 
                         }else {
                             tmp += gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ pid ][ j ].tab ];
                         }
-                        tmp += '</td>';
-                    } else {
-                        tmp += '<td id="' + gNode.col[ pid ][ j ].tab + '-' + i + '">' + gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ pid ][ j ].tab ] + '</td>';
+                        break;
+                    default:
+                        tmp += gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ pid ][ j ].tab ];
                     }
+                    tmp += '</td>';
                 }
                 tmp += '</tr>';
                 $('#table-' + pid + ' tbody').append(tmp);
@@ -6786,46 +6674,44 @@ $(document).ready(function () {
     
                 for (var j=0; j<gNode.col.length; j++)
                 {
-                    if (gNode.col[ j ].tab == 'checkbox') {
-                        tmp += '<td class="checkboxTD">';
-                        if (!parseInt( gData[ pid ][ gNode.guiT ][ i ].userDefined ) == 0 && gIf.power) {
-                            tmp += '<input type="checkbox" value="' + i + '" id="' + gNode.col[ j ].tab + '-' + i + '" />';
-                        } else {
-                            tmp += '';
-                        }
-                        tmp += '</td>';
-                    } else if (gNode.col[ j ].tab == 'action') {
-                        tmp += '<td class="buttonTD">';
+                    tmp += '<td>';
+                    switch (gNode.col[ j ].tab)
+                    {
+                    case 'action':
                         if (gIf.power) {
                             tmp += '<button class="Edit" id="Edit-' + pid + '-' + i + '" title="Edit"><span class="ui-icon" ></span></button>';
                         } else {
                             tmp += '';
                         }
-                        tmp += '</td>';
-                    } else if (gNode.col[ j ].tab == 'name') {
-                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ] + '</td>';
-                    } else if (gNode.col[ j ].tab == 'speed_duplex') {
-                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gRef[ gNode.url.get ].speed[ gData[ pid ][ gNode.guiT ][ i ].speed ] + '/' + gRef[ gNode.url.get ].duplex[ gData[ pid ][ gNode.guiT ][ i ].duplex ] + '</td>';
-                    } else if (gNode.col[ j ].tab == 'linkStatus') {
-                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gRef[ gNode.url.get ][ gNode.col[ j ].tab ][ gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] + '</td>';
-                    } else if (gNode.col[ j ].tab == 'zoneId') {
-                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">';
+                        break;
+                    case 'name':
+                        tmp += gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                        break;
+                    case 'speed_duplex':
+                        tmp += gRef[ gNode.url.get ].speed[ gData[ pid ][ gNode.guiT ][ i ].speed ] + '/' + gRef[ gNode.url.get ].duplex[ gData[ pid ][ gNode.guiT ][ i ].duplex ];
+                        break;
+                    case 'linkStatus':
+                        tmp += gRef[ gNode.url.get ][ gNode.col[ j ].tab ][ gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ];
+                        break;
+                    case 'zoneId':
                         if ( 2 === parseInt( gCache.ports[ gData[ pid ][ gNode.guiT ][ i ].interface ] ) || parseInt( gData[ pid ][ gNode.guiT ][ i ].type ) > 0 || 0 === parseInt( gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ) ) {
                             tmp += '';
                         }else {
                             tmp += gCache.name[ parseInt( gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ) ];
                         }
-                        tmp += '</td>';
-                    } else if (gNode.col[ j ].tab == 'address' || gNode.col[ j ].tab == 'dhcpPool') {
-                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">';
+                        break;
+                    case 'address':
+                    case 'dhcpPool':
                         if (2 === gCache.ports[ gData[ pid ][ gNode.guiT ][ i ].interface ] || parseInt( gData[ pid ][ gNode.guiT ][ i ].type ) > 0) {
                             tmp += '';
                         } else {
                             tmp += gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
                         }
-                    } else {
-                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ] + '</td>';
+                        break;
+                    default:
+                        tmp += gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
                     }
+                    tmp += '</td>';
                 }
     
                 tmp += '</tr>';
@@ -6845,45 +6731,45 @@ $(document).ready(function () {
     
                 for (var j=0, jlen=gNode.col.length; j<jlen; j++)
                 {
-                    if (gNode.col[ j ].tab == 'checkbox') {
-                        tmp += '<td class="checkboxTD">';
-                        if (!parseInt( gData[ pid ][ gNode.guiT ][ i ].userDefined ) == 0 && gIf.power) { 
+                    tmp += '<td>';
+                    switch (gNode.col[ j ].tab)
+                    {
+                    case 'checkbox':
+                        if (1 === parseInt( gData[ pid ][ gNode.guiT ][ i ].userDefined ) && gIf.power) { 
                             tmp += '<input type="checkbox" value="' + i + '" id="' + gNode.col[ j ].tab + '-' + i + '" />';
+                        } else {
+                            tmp += '';
                         }
-                        tmp += '</td>';
-                    } else if (gNode.col[ j ].tab == 'action') {
-                        tmp += '<td class="buttonTD">';
+                        break;
+                    case 'action':
                         if (gIf.power) {
-                            for (var z=0, zlen=gObj.btn.length; z<zlen; z++)
-                            {
-                                if (!(gObj.btn[ z ] == 'Delete' && parseInt( gData[ pid ][ gNode.guiT ][ i ].userDefined ) == 0)) {
-                                    tmp += '<button class="' + gObj.btn[ z ] + '" id="' + gObj.btn[ z ] + '-' + pid + '-' + i + '" title="' + gObj.btn[ z ] + '"><span class="ui-icon" ></span></button>';
-                                }
+                            tmp += '<button class="Edit" id="Edit-' + pid + '-' + i + '" title="Edit"><span class="ui-icon" ></span></button>';
+                            if (1 === parseInt( gData[ pid ][ gNode.guiT ][ i ].userDefined )) {
+                                tmp += '<button class="Delete" id="Delete-' + pid + '-' + i + '" title="Delete"><span class="ui-icon" ></span></button>';
                             }
                         } else {
                             tmp += '';
                         }
-                        tmp += '</td>';
-                    } else if (gNode.col[ j ].tab == 'name') {
-                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ] + '</td>';
-                    } else if (gNode.col[ j ].tab == 'zoneId') {
-                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">';
+                        break;
+                    case 'name':
+                        tmp += gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                        break;
+                    case 'zoneId':
                         if (gCache.ports[ gData[ pid ][ gNode.guiT ][ i ].interface ] == 2 || parseInt( gData[ pid ][ gNode.guiT ][ i ].type ) > 0) {
                             tmp += '';
                         }else {
                             tmp += gCache.name[ parseInt( gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ) ];
                         }
-                        tmp += '</td>';
-                    } else if (gNode.col[ j ].tab == 'address' || gNode.col[ j ].tab == 'dhcpPool') {
-                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">';
+                        break;
+                    case 'address':
+                    case 'dhcpPool':
                         if (2 === gCache.ports[ gData[ pid ][ gNode.guiT ][ i ].interface ] || parseInt( gData[ pid ][ gNode.guiT ][ i ].type ) > 0) {
                             tmp += '';
                         } else {
                             tmp += gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
                         }
-                        tmp += '</td>';
-                    } else if (gNode.col[ j ].tab == 'interfaces') {
-                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">';
+                        break;
+                    case 'interfaces':
                         for (var k=0; k<gCache[ pid ].interfaces[ gData[ pid ][ gNode.guiT ][ i ].gid ].length; k++)
                         {
                             if (!isNaN(parseInt(gCache[ pid ].interfaces[ gData[ pid ][ gNode.guiT ][ i ].gid ][k]))) {
@@ -6894,10 +6780,11 @@ $(document).ready(function () {
                                 }
                             }
                         }
-                        tmp += '</td>';
-                    } else {
-                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ] + '</td>';
+                        break;
+                    default:
+                        tmp += gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
                     }
+                    tmp += '</td>';
                 }
     
                 tmp += '</tr>';
@@ -6932,44 +6819,46 @@ $(document).ready(function () {
                 tmp = '<tr class="' + ((trNo%2==0)? 'even' : 'odd') + '">';
                 for (var j=0, jlen=gNode.col.length; j<jlen; j++)
                 {
-                    if (gNode.col[ j ].tab == 'checkbox') {
+                    tmp += '<td>';
+                    switch (gNode.col[ j ].tab)
+                    {
+                    case 'checkbox':
                         if (gIf.power) {
-                            tmp += '<td class="checkboxTD"><input type="checkbox" value="' + i + '" id="' + gNode.col[ j ].tab + '-' + i + '" /></td>';
+                            tmp += '<input type="checkbox" value="' + i + '" id="' + gNode.col[ j ].tab + '-' + i + '" />';
                         } else {
                             tmp += '';
                         }
-                    } else if (gNode.col[ j ].tab == 'action') {
-                        tmp += '<td class="buttonTD">';
+                        break;
+                    case 'action':
                         if (gIf.power) {
-                            for (var z=0, zlen=gObj.btn.length; z<zlen; z++)
-                            {
-                                tmp += '<button class="' + gObj.btn[ z ] + '" id="' + gObj.btn[ z ] + '-' + pid + '-' + i + '" title="' + gObj.btn[ z ] + '"><span class="ui-icon"></span></button>';
-                            }
+                            tmp += '<button class="Edit" id="Edit-' + pid + '-' + i + '" title="Edit"><span class="ui-icon" ></span></button>';
+                            tmp += '<button class="Delete" id="Delete-' + pid + '-' + i + '" title="Delete"><span class="ui-icon" ></span></button>';
                         } else {
                             tmp += '';
                         }
-                        tmp += '</td>';
-                    } else if (gNode.col[ j ].tab == 'name') {
-                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ] + '</td>';
-                    } else if (gNode.col[ j ].tab == 'zoneId') {
-                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">';
+                        break;
+                    case 'name':
+                        tmp += gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                        break;
+                    case 'zoneId':
                         if (gCache.ports[ gData[ pid ][ gNode.guiT ][ i ].interface ] == 2 || parseInt( gData[ pid ][ gNode.guiT ][ i ].type ) > 0) {
                             tmp += '';
                         }else {
                             tmp += gCache.name[ parseInt( gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ) ];
                         }
-                        tmp += '</td>';
-                    } else if (gNode.col[ j ].tab == 'address' || gNode.col[ j ].tab == 'dhcpPool') {
-                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">';
+                        break;
+                    case 'address':
+                    case 'dhcpPool':
                         if (2 === gCache.ports[ gData[ pid ][ gNode.guiT ][ i ].interface ] || parseInt( gData[ pid ][ gNode.guiT ][ i ].type ) > 0) {
                             tmp += '';
                         } else {
                             tmp += gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
                         }
-                        tmp += '</td>';
-                    } else {
-                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ] + '</td>';
+                        break;
+                    default:
+                        tmp += gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
                     }
+                    tmp += '</td>';
                 }
                 tmp += '</tr>';
                 $('#table-' + pid + ' tbody').append(tmp);
@@ -7002,31 +6891,30 @@ $(document).ready(function () {
                 tmp = '<tr class="' + ((trNo%2==0)? 'even' : 'odd') + '">';
                 for (var j=0, jlen=gNode.col.length; j<jlen; j++)
                 {
-                    if (gNode.col[ j ].tab == 'checkbox') {
-                        tmp += '<td class="checkboxTD">';
-                        if (!parseInt( gData[ pid ][ gNode.guiT ][ i ].userDefined ) == 0 && gIf.power) {
+                    tmp += '<td>';
+                    switch (gNode.col[ j ].tab)
+                    {
+                    case 'checkbox':
+                        if ((1 === parseInt( gData[ pid ][ gNode.guiT ][ i ].userDefined ))  && gIf.power) {
                             tmp += '<input type="checkbox" value="' + i + '" id="' + gNode.col[ j ].tab + '-' + i + '" />';
                         } else {
                             tmp += '';
                         }
-                        tmp += '</td>';
-                    } else if (gNode.col[ j ].tab == 'action') {
-                        tmp += '<td class="buttonTD">';
+                        break;
+                    case 'action':
                         if (gIf.power) {
-                            for (var z=0, zlen=gObj.btn.length; z<zlen; z++)
-                            {
-                                if (!(gObj.btn[ z ] == 'Delete' && parseInt( gData[ pid ][ gNode.guiT ][ i ].userDefined ) == 0)) {
-                                    tmp += '<button class="' + gObj.btn[ z ] + '" id="' + gObj.btn[ z ] + '-' + pid + '-' + i + '" title="' + gObj.btn[ z ] + '"><span class="ui-icon" ></span></button>';
-                                }
+                            tmp += '<button class="Edit" id="Edit-' + pid + '-' + i + '" title="Edit"><span class="ui-icon" ></span></button>';
+                            if (1 === parseInt( gData[ pid ][ gNode.guiT ][ i ].userDefined )) {
+                                tmp += '<button class="Delete" id="Delete-' + pid + '-' + i + '" title="Delete"><span class="ui-icon" ></span></button>';
                             }
                         } else {
                             tmp += '';
                         }
-                        tmp += '</td>';
-                    } else if (gNode.col[ j ].tab == 'name') {
-                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ] + '</td>';
-                    } else if (gNode.col[ j ].tab == 'member') {
-                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">';
+                        break;
+                    case 'name':
+                        tmp += gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                        break;
+                    case 'member':
                         for (var k=0, klen=gCache[ pid ].member[ parseInt( gData[ pid ][ gNode.guiT ][ i ].gid ) ].length; k<klen; k++)
                         {
                             if ( gCache.name[ gCache[ pid ].member[ parseInt( gData[ pid ][ gNode.guiT ][ i ].gid ) ][ k ] ] ) {
@@ -7038,9 +6926,11 @@ $(document).ready(function () {
                         if ( parseInt( gData[ pid ][ gNode.guiT ][ i ].gid ) == gCache[ pid ].vpnId ) {
                             tmp += "IPSec VPN Tunnel";
                         }
-                    } else {
-                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ] + '</td>';
+                        break;
+                    default:
+                        tmp += gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
                     }
+                    tmp += '</td>';
                 }
                 tmp += '</tr>';
                 $('#table-' + pid + ' tbody').append(tmp);
@@ -10489,8 +10379,8 @@ $(document).ready(function () {
     
         var tar = {};
         gObj.calc = {};
-        gObj.calc.targetId;
         gObj.calc.targetIp;
+        gObj.calc.targetNetmask;
         gObj.calc.checkIp = {
             "checkType" : false,
             "startIp" : "",
@@ -10505,7 +10395,6 @@ $(document).ready(function () {
             tar.pid = pid;
             tar.type = 'Save';
         }else {
-    
             tar.id = $(e.currentTarget).attr('id');
             if (!tar.id)
                 return false;
@@ -10519,8 +10408,6 @@ $(document).ready(function () {
                 tar.thisNo = tar.id.split(gReg.isDash)[2];
         }
     
-        gObj.calc.targetId = tar.pid;
-
         var pass = true;
         var msg = '';
         switch(tar.pid)
@@ -10552,6 +10439,7 @@ $(document).ready(function () {
     
                 if (pass) {
                     gObj.calc.targetIp = $('#basic_settings-wanProto-0-ip').val();
+                    gObj.calc.targetNetmask = $('#basic_settings-wanProto-0-netmask').val();
                     var arr = $('#basic_settings-wanProto-0-ip').val().split(gReg.isDot);
                     for (var i=0, ilen=arr.length; i<ilen; i++)
                         gObj.calc["ip_" + (i+1)] = parseInt(arr[i]);
@@ -10591,19 +10479,40 @@ $(document).ready(function () {
                             gObj.calc.checkIp.checkType = 'wanIp';
                         }
 
+
                         if (pass) {
-                            for (var i=0; i<gData[ gObj.calc.targetId ][ gNode.guiT ].length; i++)
+                            // compare with other wan
+                            for (var i=0; i<gData[ tar.pid ][ gNode.staticipT ].length; i++)
                             {
-                                if (tar.thisNo != i && gObj.calc.targetIp == gData[ gObj.calc.targetId ][ gNode.guiT ][ i ].address) {
-                                    pass = false;
-                                    gObj.calc.checkIp.conflictType = gObj.calc.checkIp.checkType.replace('Ip', 'IfIp');
-                                    msg += '<p>' + gError[ gObj.lang ][ gObj.calc.checkIp.conflictType ] + '</p>';
+                                if (tar.thisNo != i) {
+                                    if (gObj.calc.targetIp == gData[ tar.pid ][ gNode.staticipT ][ i ].ip) {
+                                        // wanIfIp
+                                        gObj.calc.checkIp.conflictType = 'wanIfIp';
+                                        msg += '<p>' + gError[ gObj.lang ][ gObj.calc.checkIp.conflictType ] + '</p>';
+                                    } else {
+                                        var arrIP = gData[ tar.pid ][ gNode.staticipT ][ i ].ip.split('.');
+                                        var arrMask = gData[ tar.pid ][ gNode.staticipT ][ i ].netmask.split('.');
+                                    // bp 
+                                    //    gObj.calc.checkIp.conflictType = 'wanIfNetwork';
+                                    //gObj.calc.checkIp.conflictType = gObj.calc.checkIp.checkType.replace('Ip', 'IfIp');
+                                    //msg += '<p>' + gError[ gObj.lang ][ gObj.calc.checkIp.conflictType ] + '</p>';
+                                    }
                                 }
                             }
             
-                            for (var i=0; i<gData[ gObj.calc.targetId ][ gNode.aliasT ].length; i++)
+                            // compare with ip alias
+                            for (var i=0; i<gData[ tar.pid ][ gNode.aliasT ].length; i++)
                             {
-                                var arr = gData[ gObj.calc.targetId ][ gNode.aliasT ][ i ].address.split(';');
+                                if (tar.thisNo == i) {
+                                    // compare with self ip alias
+                                    //    gObj.calc.checkIp.conflictType = 'wanIfIpAlias';
+                                    
+                                } else {
+                                    // compare with others
+                                    //    gObj.calc.checkIp.conflictType = 'wanIfIpAliasNetwork';
+                                    
+                                }
+                                var arr = gData[ tar.pid ][ gNode.aliasT ][ i ].address.split(';');
                                 for (var j=0; j<arr.length; j++) 
                                 {
                                     if (!isNaN( arr[ j ] )) {
@@ -10616,6 +10525,7 @@ $(document).ready(function () {
                                 }
                             }
                         }
+
                     } 
                 }
 
@@ -10708,6 +10618,7 @@ $(document).ready(function () {
             if ($('#basic_settings-address').val().length > 0 || $('#basic_settings-netmask').val().length > 0) {
                 if (gReg.ipv4.test($('#basic_settings-address').val()) && gReg.ipv4.test($('#basic_settings-netmask').val())) {
                     gObj.calc.targetIp = $('#basic_settings-address').val();
+                    gObj.calc.targetNetmask = $('#basic_settings-netmask').val();
                     var arr = $('#basic_settings-address').val().split(gReg.isDot);
                     for (var i=0, ilen=arr.length; i<ilen; i++)
                         gObj.calc["ip_" + (i+1)] = parseInt(arr[i]);
@@ -10748,18 +10659,19 @@ $(document).ready(function () {
                         }
 
                         if (pass) {
-                            for (var i=0; i<gData[ gObj.calc.targetId ][ gNode.guiTNum ]; i++)
+
+                            for (var i=0; i<gData[ tar.pid ][ gNode.guiTNum ]; i++)
                             {
-                                if (tar.thisNo != i && gObj.calc.targetIp == gData[ gObj.calc.targetId ][ gNode.guiT ][ i ].address) {
+                                if (tar.thisNo != i && gObj.calc.targetIp == gData[ tar.pid ][ gNode.guiT ][ i ].address) {
                                     pass = false;
                                     gObj.calc.checkIp.conflictType = gObj.calc.checkIp.checkType.replace('Ip', 'IfIp');
                                     msg += '<p>' + gError[ gObj.lang ][ gObj.calc.checkIp.conflictType ] + '</p>';
                                 }
                             }
 
-                            for (var i=0; i<gData[ gObj.calc.targetId ][ gNode.aliasTNum ]; i++)
+                            for (var i=0; i<gData[ tar.pid ][ gNode.aliasTNum ]; i++)
                             {
-                                var arr = gData[ gObj.calc.targetId ][ gNode.aliasT ][ i ].address.split(';');
+                                var arr = gData[ tar.pid ][ gNode.aliasT ][ i ].address.split(';');
                                 for (var j=0; j<arr.length; j++)
                                 {
                                     if (!isNaN( arr[ j ] )) {
@@ -10806,6 +10718,7 @@ $(document).ready(function () {
             if ($('#basic_settings-address').val().length > 0 || $('#basic_settings-netmask').val().length > 0) {
                 if (gReg.ipv4.test($('#basic_settings-address').val()) && gReg.ipv4.test($('#basic_settings-netmask').val())) {
                     gObj.calc.targetIp = $('#basic_settings-address').val();
+                    gObj.calc.targetNetmask = $('#basic_settings-netmask').val();
                     var arr = $('#basic_settings-address').val().split(gReg.isDot);
                     for (var i=0, ilen=arr.length; i<ilen; i++)
                         gObj.calc["ip_" + (i+1)] = parseInt(arr[i]);
@@ -10846,17 +10759,17 @@ $(document).ready(function () {
                         }
 
                         if (pass) {
-                            for (var i=0; i<gData[ gObj.calc.targetId ][ gNode.guiTNum ]; i++)
+                            for (var i=0; i<gData[ tar.pid ][ gNode.guiTNum ]; i++)
                             {
-                                if (tar.thisNo != i && gObj.calc.targetIp == gData[ gObj.calc.targetId ][ gNode.guiT ][ i ].address) {
+                                if (tar.thisNo != i && gObj.calc.targetIp == gData[ tar.pid ][ gNode.guiT ][ i ].address) {
                                     pass = false;
                                     gObj.calc.checkIp.conflictType = gObj.calc.checkIp.checkType.replace('Ip', 'IfIp');
                                     msg += '<p>' + gError[ gObj.lang ][ gObj.calc.checkIp.conflictType ] + '</p>';
                                 }
                             }
-                            for (var i=0; i<gData[ gObj.calc.targetId ][ gNode.aliasTNum ]; i++)
+                            for (var i=0; i<gData[ tar.pid ][ gNode.aliasTNum ]; i++)
                             {
-                                var arr = gData[ gObj.calc.targetId ][ gNode.aliasT ][ i ].address.split(';');
+                                var arr = gData[ tar.pid ][ gNode.aliasT ][ i ].address.split(';');
                                 for (var j=0; j<arr.length; j++)
                                 {
                                     if (!isNaN( arr[ j ] )) {
@@ -10905,6 +10818,7 @@ $(document).ready(function () {
             if ($('#basic_settings-address').val().length > 0 || $('#basic_settings-netmask').val().length > 0) {
                 if (gReg.ipv4.test($('#basic_settings-address').val()) && gReg.ipv4.test($('#basic_settings-netmask').val())) {
                     gObj.calc.targetIp = $('#basic_settings-address').val();
+                    gObj.calc.targetNetmask = $('#basic_settings-netmask').val();
                     var arr = $('#basic_settings-address').val().split(gReg.isDot);
                     for (var i=0, ilen=arr.length; i<ilen; i++)
                         gObj.calc["ip_" + (i+1)] = parseInt(arr[i]);
@@ -10945,18 +10859,18 @@ $(document).ready(function () {
                         }
 
                         if (pass) {
-                            for (var i=0; i<gData[ gObj.calc.targetId ][ gNode.guiTNum ]; i++)
+                            for (var i=0; i<gData[ tar.pid ][ gNode.guiTNum ]; i++)
                             {
-                                if (tar.thisNo != i && gObj.calc.targetIp == gData[ gObj.calc.targetId ][ gNode.guiT ][ i ].address) {
+                                if (tar.thisNo != i && gObj.calc.targetIp == gData[ tar.pid ][ gNode.guiT ][ i ].address) {
                                     pass = false;
                                     gObj.calc.checkIp.conflictType = gObj.calc.checkIp.checkType.replace('Ip', 'IfIp');
                                     msg += '<p>' + gError[ gObj.lang ][ gObj.calc.checkIp.conflictType ] + '</p>';
                                 }
                             }
 
-                            for (var i=0; i<gData[ gObj.calc.targetId ][ gNode.aliasTNum ]; i++)
+                            for (var i=0; i<gData[ tar.pid ][ gNode.aliasTNum ]; i++)
                             {
-                                var arr = gData[ gObj.calc.targetId ][ gNode.aliasT ][ i ].address.split(';');
+                                var arr = gData[ tar.pid ][ gNode.aliasT ][ i ].address.split(';');
                                 for (var j=0; j<arr.length; j++)
                                 {
                                     if (!isNaN( arr[ j ] )) {
@@ -11072,64 +10986,14 @@ $(document).ready(function () {
         return pass;
     }
 
-    function interfaceIpChecker() {
-        var pass = true;
+    function interfaceIPChecker() {
+        // rule 1
 
-        if (pass) {
-            switch( gObj.calc.checkIp.checkType )
-            {
-            case 'lanIp':
-            case 'vlanIp':
-            case 'portIp':
-                for (var i=0; i<gData[ gObj.calc.targetId ][ gNode.guiTNum ]; i++)
-                {
-                    if (gObj.calc.targetIp == gData[ gObj.calc.targetId ][ gNode.guiT ][ i ].address) {
-                        pass = false;
-                        gObj.calc.checkIp.conflictType = gObj.calc.checkIp.checkType.replace('Ip', 'IfIp');
-                    } 
-                }
+        // rule 2
 
-                for (var i=0; i<gData[ gObj.calc.targetId ][ gNode.aliasTNum ]; i++)
-                {
-                    var arr = gData[ gObj.calc.targetId ][ gNode.aliasT ][ i ].address.split(';');
-                    for (var j=0; j<arr.length; j++) 
-                    {
-                        if (!isNaN( arr[ j ] )) {
-                            if (gObj.calc.targetIp == gCache.ipAlias[ parseInt( arr[ j ] ) ]) {
-                                pass = false;
-                                gObj.calc.checkIp.conflictType = gObj.calc.checkIp.checkType.replace('Ip', 'IfIpAlias');
-                            }
-                        }
-                    }
-                }
-                break;
-            case 'wanIp':
-                for (var i=0; i<gData[ gObj.calc.targetId ][ gNode.guiT ].length; i++)
-                {
-                    if (gObj.calc.targetIp == gData[ gObj.calc.targetId ][ gNode.guiT ][ i ].address) {
-                        pass = false;
-                        gObj.calc.checkIp.conflictType = gObj.calc.checkIp.checkType.replace('Ip', 'IfIp');
-                    }
-                }
-
-                for (var i=0; i<gData[ gObj.calc.targetId ][ gNode.aliasT ].length; i++)
-                {
-                    var arr = gData[ gObj.calc.targetId ][ gNode.aliasT ][ i ].address.split(';');
-                    for (var j=0; j<arr.length; j++) 
-                    {
-                        if (!isNaN( arr[ j ] )) {
-                            if (gObj.calc.targetIp == gCache.ipAlias[ parseInt( arr[ j ] ) ]) {
-                                pass = false;
-                                gObj.calc.checkIp.conflictType = gObj.calc.checkIp.checkType.replace('Ip', 'IfIpAlias');
-                            }
-                        }
-                    }
-                }
-                break;
-            }
-        }
+        // rule 3
     }
-    
+
     function deleteInterface(e) {
     
         var tar = {};
@@ -11522,9 +11386,10 @@ $(document).ready(function () {
                 if (poster.duration) {
                     gObj.loading = poster.duration;
                     gIf.loading = true;
-                } else 
+                } else {
                     loadingToggle( false );
-                getCgiList(gObj.active.pid);
+                    getCgiList(gObj.active.pid);
+                }
             }else {
                 loadingToggle( false );
                 if (!$('#popPlus').exists())
@@ -13904,9 +13769,10 @@ $(document).ready(function () {
                 if (poster.duration) {
                     gObj.loading = poster.duration;
                     gIf.loading = true;
-                } else
+                } else {
                     loadingToggle( false );
-                getCgiList(gObj.active.pid);
+                    getCgiList(gObj.active.pid);
+                }
             }else {
                 loadingToggle( false );
                 if (!$('#popPlus').exists())
@@ -16253,9 +16119,10 @@ $(document).ready(function () {
                 if (poster.duration) {
                     gObj.loading = poster.duration;
                     gIf.loading = true;
-                } else
+                } else {
                     loadingToggle( false );
-                getCgiList(gObj.active.pid);
+                    getCgiList(gObj.active.pid);
+                }
             }else {
                 loadingToggle( false );
                 if (!$('#popPlus').exists())
@@ -18183,16 +18050,8 @@ $(document).ready(function () {
                 case 'tabs':
                     switch(pid)
                     {
-                    case 'user':
-                    case 'group':
                     case 'users_and_groups':
-    
-                        if (pid == 'user')
-                            gObj.tabIndex = 1;
-                        else
-                            gObj.tabIndex = 0;
-                        pid = 'users_and_groups';
-    
+                        gObj.tabIndex = gObj.tabIndexed;
                         if (gIf.power) {
                             $('#main_ft').html( gHtml.pgSave + gHtml.pgCancel );
                             gY.one('#pgSave').on('click', function(e) {
@@ -18227,10 +18086,9 @@ $(document).ready(function () {
     
                                 tmp = '<div id="div-' + y + '" class="tableDiv">';
     
-                                tmp += '<table id="table-' + y + '"';
-                                if (gNode.tblAction[ y ])
-                                    tmp += 'class="' + gNode.tblAction[ y ] + '"';
-                                tmp += '>';
+                                tmp += '<div id="div-' + y + '">';
+                                tmp += '<div id="div-header-' + y + '">';
+                                tmp += '<table id="table-header-' + y + '">';
                                 tmp += '<thead>';
                                 for (var i=0, len=gNode.col[ y ].length; i<len; i++)
                                 {
@@ -18248,7 +18106,16 @@ $(document).ready(function () {
                                     tmp += '</th>';
                                 }
                                 tmp += '</thead>';
-                                tmp += '<tbody></tbody>';
+                                tmp += '</table>';
+                                tmp += '</div>';
+                                tmp += '<div id="div-bodyer-' + y + '">';
+                                tmp += '<table id="table-bodyer-' + y + '">';
+                                tmp += '</table>';
+                                tmp += '</div>';
+                                tmp += '<div id="div-footer-' + y + '">';
+                                tmp += '<table id="table-footer-' + y + '">';
+                                tmp += '</table>';
+                                tmp += '</div>';
                                 tmp += '</div>';
                                 gY.one('#panel-' + y).set('innerHTML', tmp);
                                 for (var i=0, len=data[ gNode.guiT[ y ] ].length; i<len; i++)
@@ -18270,11 +18137,8 @@ $(document).ready(function () {
                                     gY.one('.tabber').append('<div id="panel-' + y + '"></div>');
     
                                     tmp = '<div id="div-' + y + '" class="tableDiv">';
-    
-                                    tmp += '<table id="table-' + y + '"';
-                                    if (gNode.tblAction[ y ])
-                                        tmp += 'class="' + gNode.tblAction[ y ] + '"';
-                                    tmp += '>';
+                                    tmp += '<div id="div-header-' + y + '">';
+                                    tmp += '<table id="table-header-' + y + '">';
                                     tmp += '<thead>';
                                     for (var i=0, len=gNode.col[ y ].length; i<len; i++)
                                     {
@@ -18292,7 +18156,16 @@ $(document).ready(function () {
                                         tmp += '</th>';
                                     }
                                     tmp += '</thead>';
-                                    tmp += '<tbody></tbody>';
+                                    tmp += '</table>';
+                                    tmp += '</div>';
+                                    tmp += '<div id="div-bodyer-' + y + '">';
+                                    tmp += '<table id="table-bodyer-' + y + '">';
+                                    tmp += '</table>';
+                                    tmp += '</div>';
+                                    tmp += '<div id="div-footer-' + y + '">';
+                                    tmp += '<table id="table-footer-' + y + '">';
+                                    tmp += '</table>';
+                                    tmp += '</div>';
                                     tmp += '</div>';
                                     gY.one('#panel-' + y).set('innerHTML', tmp);
     
@@ -18312,44 +18185,59 @@ $(document).ready(function () {
                                     tmp = '<tr class="' + ((i%2==0)? 'even' : 'odd') + '">';
                                     for (var j=0, jlen=gNode.col[ y ].length; j<jlen; j++)
                                     {
+                                        tmp += '<td style="width: ' + gNode.col[ y ][ j ].wiz + '" class="align' + gNode.col[ y ][ j ].align + '">';
                                         if (gNode.col[ y ][ j ].tab == 'checkbox') {
-                                            tmp += '<td class="checkboxTD">';
                                             if (gIf.power) {
-                                                tmp += '<input type="checkbox" value="' + i + '" />';
+                                                tmp += '<input type="checkbox" id="' + y + '-' + i + '" value="' + i + '" />';
                                             } else {
                                                 tmp += '';
                                             }
                                         }else if (gNode.col[ y ][ j ].tab == 'action') {
-                                            tmp += '<td class="buttonTD">';
                                             if (gIf.power) {
                                                 tmp += '<button id="Edit-' + y + '-' + i + '" class="Edit"><span class="ui-icon"  title="Edit"></span></button>';
-                                                tmp += '<button id="Duplicate-' + y + '-' + i + '" class="Duplicate"><span class="ui-icon" ></span></button>';
+                                                //tmp += '<button id="Duplicate-' + y + '-' + i + '" class="Duplicate"><span class="ui-icon" ></span></button>';
                                                 tmp += '<button id="Delete-' + y + '-' + i + '" class="Delete"><span class="ui-icon"  title="Delete"></span></button>';
                                             } else {
                                                 tmp += '';
                                             }
                                         }else if (gNode.col[ y ][ j ].tab == 'groupId') {
-                                            tmp += '<td id="' + gNode.col[ y ][ j ].tab + '-' + i +'">';
                                             for (var k in gData.group.groupListT)
                                             {
                                                 if (parseInt( gData.group.groupListT[ k ].gid ) == gData[ y ][ gNode.guiT[ y ] ][ i ][ gNode.col[ y ][ j ].tab ]) 
                                                     tmp += gData.group.groupListT[ k ].name;
                                             }
                                         }else if (gNode.col[ y ][ j ].tab == 'name') {
-                                            tmp += '<td id="' + gNode.col[ y ][ j ].tab + '-' + i +'">';
-                                            tmp += gData[ y ][ gNode.guiT[ y ] ][ i ][ gNode.col[ y ][ j ].tab ];
+                                            tmp += '<label for="' + y + '-' + i + '">' + gData[ y ][ gNode.guiT[ y ] ][ i ][ gNode.col[ y ][ j ].tab ] + '</label>';
                                         }
                                         tmp += '</td>';
                                     }
                                     tmp += '</tr>';
-                                    $('#table-' + y + ' tbody').append(tmp);
+                                    $('#table-bodyer-' + y ).append(tmp);
                                 }
 
                                 if (gIf.power) {
-                                    if (gNode.tblAction[ y ])
-                                        genTblAction( y );
-                                    if (gData[ y ][ gNode.guiT[ y ] ].length >= gLimit[ gNode.url.get[ y ] ].rows)
+                                    tmp = '<div class="tblAction">';
+                                    var arr = gNode.tblAction[ y ].split(' ');
+                                    for (var i=0; i<arr.length; i++)
+                                        tmp += '<button id="' + arr[ i ] + '-' + y + '" class="' + arr[ i ] + '" title="' + arr[ i ] + '"><span class="ui-icon"></span></button>';
+                                    tmp += '</div>';
+                                    $('#table-footer-' + y ).append( tmp );
+
+                                    $('#table-bodyer-' + y + ' tr').bind('click', function(e) {
+            //tar.thisNo = $(this).find('td:eq(0) input:checkbox').val();
+            //switch($(this).find('td:eq(0) input:checkbox').is(':checked'))
+gY.log( $(this).find('td:eq(0) input:checkbox').val() );
+                                    });
+
+                                    switch (gData[ y ][ gNode.guiT[ y ] ].length)
+                                    {
+                                    case 0:
+                                        $('#Remove-' + y).prop('disabled', true);
+                                        break;
+                                    case gRows.maxUser:
                                         $('#Create-' + y).prop('disabled', true);
+                                        break;
+                                    }
                                 }
     
                                 // group 
@@ -18359,29 +18247,27 @@ $(document).ready(function () {
                                     tmp = '<tr class="' + ((i%2==0)? 'even' : 'odd') + '">';
                                     for (var j=0, jlen=gNode.col[ y ].length; j<jlen; j++)
                                     {
+                                        tmp += '<td style="width: ' + gNode.col[ y ][ j ].wiz + '" class="align' + gNode.col[ y ][ j ].align + '">';
                                         if (gNode.col[ y ][ j ].tab == 'checkbox') {
-                                            tmp += '<td class="checkboxTD">';
                                             if (gData[ y ][ gNode.guiT[ y ] ][ i ].name == 'default') {
                                                 gCache.defaultGid = parseInt( gData[ y ][ gNode.guiT[ y ] ][ i ].gid );
                                                 tmp += '';
                                             } else if (gIf.power) {
-                                                tmp += '<input type="checkbox" value="' + i + '" />';
+                                                tmp += '<input type="checkbox" id="' + y + '-' + i + '" value="' + i + '" />';
                                             } else {
                                                 tmp += '';
                                             }
                                         }else if (gNode.col[ y ][ j ].tab == 'action') {
-                                            tmp += '<td class="buttonTD">';
                                             if (gIf.power) {
                                                 tmp += '<button id="Edit-' + y + '-' + i + '" class="Edit"><span class="ui-icon"  ></span></button>';
                                                 if (gData[ y ][ gNode.guiT[ y ] ][ i ].name != 'default') {
-                                                    tmp += '<button id="Duplicate-' + y + '-' + i + '" class="Duplicate"><span class="ui-icon" ></span></button>';
+                                                    //tmp += '<button id="Duplicate-' + y + '-' + i + '" class="Duplicate"><span class="ui-icon" ></span></button>';
                                                     tmp += '<button id="Delete-' + y + '-' + i + '" class="Delete"><span class="ui-icon" ></span></button>';
                                                 }
                                             } else {
                                                 tmp += '';
                                             }
                                         }else if (gNode.col[ y ][ j ].tab == 'cgiSetListId') {
-                                            tmp += '<td id="' + gNode.col[ y ][ j ].tab + '-' + i + '" class="alignJustify">';
                                             gIf.tag = false;
                                             for (var k=0, klen=gData.user.userListT.length; k<klen; k++) 
                                             {
@@ -18390,46 +18276,35 @@ $(document).ready(function () {
                                                     gCache.user[ parseInt( gData.user.userListT[ k ].gid ) ] = parseInt( gData[ y ][ gNode.guiT[ y ] ][ i ].gid );
                                                     if (gIf.tag) 
                                                         tmp += ';';
-                                                    tmp += '&nbsp;' + gData.user.userListT[ k ].name + '&nbsp;';
+                                                    tmp += gData.user.userListT[ k ].name;
                                                     gIf.tag = true;
                                                 }
                                             }
                                         }else if (gNode.col[ y ][ j ].tab == 'services') {
-                                            tmp += '<td id="' + gNode.col[ y ][ j ].tab + '-' + i + '">';
                                             tmp += 'Web Login: ' + gRef.group.webLoginPriv[ gData[ y ][ gNode.guiT[ y ] ][ i ].webLoginPriv ];
                                         }else if (gNode.col[ y ][ j ].tab == 'name') {
-                                            tmp += '<td id="' + gNode.col[ y ][ j ].tab + '-' + i +'">';
-                                            tmp += gData[ y ][ gNode.guiT[ y ] ][ i ][ gNode.col[ y ][ j ].tab ];
+                                            tmp += '<label for="' + y + '-' + i + '">' + gData[ y ][ gNode.guiT[ y ] ][ i ][ gNode.col[ y ][ j ].tab ] + '</label>';
                                         }
                                         tmp += '</td>';
                                     }
                                     tmp += '</tr>';
-                                    $('#table-' + y + ' tbody').append(tmp);
+                                    $('#table-bodyer-' + y).append(tmp);
                                 }
                                 if (gIf.power) {
-                                    if (gNode.tblAction[ y ])
-                                        genTblAction( y );
-                                    //if (gData[ y ][ gNode.guiT[ y ] ].length >= gLimit[ gNode.url.get[ y ] ].rows)
-                                    if ('user' == y) {
-                                        switch( gData[ y ][ gNode.guiT[ y ] ].length )
-                                        {
-                                        case 0:
-                                            $('#Remove-' + y).prop('disabled', true);
-                                            break;
-                                        case gRows.maxUser:
-                                            $('#Create-' + y).prop('disabled', true);
-                                            break;
-                                        }
-                                    } else {
-                                        switch( gData[ y ][ gNode.guiT[ y ] ].length )
-                                        {
-                                        case 0:
-                                            $('#Remove-' + y).prop('disabled', true);
-                                            break;
-                                        case gRows.maxUserGroup:
-                                            $('#Create-' + y).prop('disabled', true);
-                                            break;
-                                        }
+                                    tmp = '<div class="tblAction">';
+                                    var arr = gNode.tblAction[ y ].split(' ');
+                                    for (var i=0; i<arr.length; i++)
+                                        tmp += '<button id="' + arr[ i ] + '-' + y + '" class="' + arr[ i ] + '" title="' + arr[ i ] + '"><span class="ui-icon"></span></button>';
+                                    tmp += '</div>';
+                                    $('#table-footer-' + y).append( tmp );
+                                    switch( gData[ y ][ gNode.guiT[ y ] ].length )
+                                    {
+                                    case 0:
+                                        $('#Remove-' + y).prop('disabled', true);
+                                        break;
+                                    case gRows.maxUserGroup:
+                                        $('#Create-' + y).prop('disabled', true);
+                                        break;
                                     }
                                 }
                             });
@@ -18446,7 +18321,7 @@ $(document).ready(function () {
     
     function refreshUsers(pid) {
         var tmp = '';
-        var tableBD = $('#table-' + pid + ' tbody');
+        var tableBD = $('#table-bodyer-' + pid);
         var cnt = 0;
         tableBD.empty();
         switch(pid)
@@ -18456,33 +18331,30 @@ $(document).ready(function () {
             {
                 if ( parseInt( gData[ pid ][ gNode.guiT[ pid ] ][ i ].cgiAction ) == 3 )
                     continue;
-                cnt++;
                 tmp = '<tr class="' + ((cnt%2==0)? 'even' : 'odd') + '">';
                 for (var j=0, jlen=gNode.col[ pid ].length; j<jlen; j++)
                 {
+                    tmp += '<td style="width: ' + gNode.col[ pid ][ j ].wiz + '" class="align' + gNode.col[ pid ][ j ].align + '">';
                     if (gNode.col[ pid ][ j ].tab == 'checkbox') {
-                        tmp += '<td class="checkboxTD">';
                         tmp += '<input type="checkbox" value="' + i + '" />';
                     }else if (gNode.col[ pid ][ j ].tab == 'action') {
-                        tmp += '<td class="buttonTD">';
                         tmp += '<button id="Edit-' + pid + '-' + i + '" class="Edit"><span class="ui-icon"  title="Edit"></span></button>';
-                        tmp += '<button id="Duplicate-' + pid + '-' + i + '" class="Duplicate"><span class="ui-icon" ></span></button>';
+                        //tmp += '<button id="Duplicate-' + pid + '-' + i + '" class="Duplicate"><span class="ui-icon" ></span></button>';
                         tmp += '<button id="Delete-' + pid + '-' + i + '" class="Delete"><span class="ui-icon"  title="Delete"></span></button>';
                     }else if (gNode.col[ pid ][ j ].tab == 'groupId') {
-                        tmp += '<td id="' + gNode.col[ pid ][ j ].tab + '-' + i +'">';
                         for (var k in gData.group.groupListT)
                         {
                             if (parseInt( gData.group.groupListT[ k ].gid ) == gData[ pid ][ gNode.guiT[ pid ] ][ i ][ gNode.col[ pid ][ j ].tab ])
                                 tmp += gData.group.groupListT[ k ].name
                         }
                     }else if (gNode.col[ pid ][ j ].tab == 'name') {
-                        tmp += '<td id="' + gNode.col[ pid ][ j ].tab + '-' + i +'">';
                         tmp += gData[ pid ][ gNode.guiT[ pid ] ][ i ][ gNode.col[ pid ][ j ].tab ];
                     }
                     tmp += '</td>';
                 }
                 tmp += '</tr>';
                 $(tableBD).append(tmp);
+                cnt++;
             }
     
             switch( gData[ pid ][ gNode.guiT[ pid ] ].length )
@@ -18503,25 +18375,22 @@ $(document).ready(function () {
             {
                 if ( parseInt( gData[ pid ][ gNode.guiT[ pid ] ][ i ].cgiAction ) == 3 ) 
                     continue;
-                cnt++;
                 tmp = '<tr class="' + ((cnt%2==0)? 'even' : 'odd') + '">';
                 for (var j=0, jlen=gNode.col[ pid ].length; j<jlen; j++)
                 {
+                    tmp += '<td style="width: ' + gNode.col[ pid ][ j ].wiz + '" class="align' + gNode.col[ pid ][ j ].align + '">';
                     if (gNode.col[ pid ][ j ].tab == 'checkbox') {
-                        tmp += '<td class="checkboxTD">';
                         if (gData[ pid ][ gNode.guiT[ pid ] ][ i ].name == 'default')
                             tmp += '';
                         else  
                             tmp += '<input type="checkbox" value="' + i + '" />';
                     }else if (gNode.col[ pid ][ j ].tab == 'action') {
-                        tmp += '<td class="buttonTD">';
                         tmp += '<button id="Edit-' + pid + '-' + i + '" class="Edit"><span class="ui-icon"  title="Edit"></span></button>';
                         if (gData[ pid ][ gNode.guiT[ pid ] ][ i ].name != 'default') {
-                            tmp += '<button id="Duplicate-' + pid + '-' + i + '" class="Duplicate"><span class="ui-icon" ></span></button>';
+                            //tmp += '<button id="Duplicate-' + pid + '-' + i + '" class="Duplicate"><span class="ui-icon" ></span></button>';
                             tmp += '<button id="Delete-' + pid + '-' + i + '" class="Delete"><span class="ui-icon"  title="Delete"></span></button>';
                         }
                     }else if (gNode.col[ pid ][ j ].tab == 'cgiSetListId') {
-                        tmp += '<td id="' + gNode.col[ pid ][ j ].tab + '-' + i + '" class="alignJustify">';
                         gIf.tag = false;
                         for (var k=0, klen=gData.user.userListT.length; k<klen; k++) 
                         {
@@ -18533,16 +18402,15 @@ $(document).ready(function () {
                             }
                         }
                     }else if (gNode.col[ pid ][ j ].tab == 'services') {
-                        tmp += '<td id="' + gNode.col[ pid ][ j ].tab + '-' + i + '">';
                         tmp += 'Web Login: ' + gRef.group.webLoginPriv[ gData[ pid ][ gNode.guiT[ pid ] ][ i ].webLoginPriv ];
                     }else if (gNode.col[ pid ][ j ].tab == 'name') {
-                        tmp += '<td id="' + gNode.col[ pid ][ j ].tab + '-' + i +'">';
                         tmp += gData[ pid ][ gNode.guiT[ pid ] ][ i ][ gNode.col[ pid ][ j ].tab ];
                     }
                     tmp += '</td>';
                 }
                 tmp += '</tr>';
                 $(tableBD).append(tmp);
+                cnt++;
             }
 
             switch( gData[ pid ][ gNode.guiT[ pid ] ].length )
@@ -19215,11 +19083,6 @@ $(document).ready(function () {
         switch( tar.pid )
         {
         case 'user':
-            if ( parseInt( gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ tar.thisNo ].gid ) > 0) 
-                gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ tar.thisNo ].cgiAction = 3;
-            else 
-                gData[ tar.pid ][ gNode.guiT[ tar.pid ] ].splice(tar.thisNo,1);
-    
             tar.tabDisabled = 0;
             break;
         case 'group':
@@ -19231,15 +19094,14 @@ $(document).ready(function () {
                     gData.group.groupListT[ 0 ].cgiAction = 2;
                 }
             }
-    
-            if ( parseInt( gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ tar.thisNo ].gid ) > 0) 
-                gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ tar.thisNo ].cgiAction = 3;
-            else 
-                gData[ tar.pid ][ gNode.guiT[ tar.pid ] ].splice(tar.thisNo,1);
-    
             tar.tabDisabled = 1;
             break;
         }
+        delete gCache.uniq[ tar.pid ][ gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ tar.thisNo ].name ];
+        if ( parseInt( gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ tar.thisNo ].gid ) > 0) 
+            gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ tar.thisNo ].cgiAction = 3;
+        else 
+            gData[ tar.pid ][ gNode.guiT[ tar.pid ] ].splice(tar.thisNo,1);
         gObj.tabber.tabs({"disabled": [tar.tabDisabled]});
         refreshUsers(tar.pid);
     }
@@ -19251,23 +19113,18 @@ $(document).ready(function () {
         if (!tar.id)
             return false;
         tar.pid   = tar.id.split(gReg.isDash)[1];
-        gIf.alter = true;
     
-        $('#table-' + tar.pid + ' tr').each(function() {
+        $('#table-bodyer-' + tar.pid + ' tr').each(function() {
             tar.thisNo = $(this).find('td:eq(0) input:checkbox').val();
             switch($(this).find('td:eq(0) input:checkbox').is(':checked'))
             {
             case true:
+                gIf.alter = true;
                 switch( tar.pid )
                 {
                 case 'user':
                     gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ tar.thisNo ].cgiSetPwd = 0;
                     gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ tar.thisNo ].password = "";
-    
-                    if ( parseInt( gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ tar.thisNo ].gid) > 0)
-                        gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ tar.thisNo ].cgiAction = 3;
-                    else 
-                        gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ tar.thisNo ].cgiAction = -1;
     
                     tar.tabDisabled = 0;
                     break;
@@ -19281,25 +19138,23 @@ $(document).ready(function () {
                         }
                     }
                     
-                    if ( parseInt( gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ tar.thisNo ].gid) > 0)
-                        gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ tar.thisNo ].cgiAction = 3;
-                    else 
-                        gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ tar.thisNo ].cgiAction = -1;
-    
                     tar.tabDisabled = 1;
                     break;
                 }
+
+                if ( parseInt( gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ tar.thisNo ].gid) > 0)
+                    gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ tar.thisNo ].cgiAction = 3;
+                else 
+                    gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ tar.thisNo ].cgiAction = -1;
+   
+                delete gCache.uniq[ tar.pid ][ gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ tar.thisNo ].name ];
                 break;
             }
         });
     
         gCache.tmp = [];
     
-        switch( tar.pid )
-        {
-        case 'user':
-            if (gIf.remove)
-                gObj.tab.tabs({"disabled": [0]});
+        if (gIf.alter) {
             for (var i=0, len=gData[ tar.pid ][ gNode.guiT[ tar.pid ] ].length; i<len; i++)
             {
                 if (gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ i ].cgiAction != -1)
@@ -19308,23 +19163,9 @@ $(document).ready(function () {
     
             gData[ tar.pid ][ gNode.guiT[ tar.pid ] ] = gCache.tmp;
     
-            break;
-        case 'group':
-            if (gIf.remove)
-                gObj.tab.tabs({"disabled": [1]});
-            for (var i=0, len=gData[ tar.pid ][ gNode.guiT[ tar.pid ] ].length; i<len; i++)
-            {
-                if (gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ i ].cgiAction != -1)
-                    gCache.tmp.push( gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ i ] );
-            }
-    
-            gData[ tar.pid ][ gNode.guiT[ tar.pid ] ] = gCache.tmp;
-            break;
-        }
-    
-        if (tar.tabDisabled)
             gObj.tabber.tabs({"disabled": [tar.tabDisabled]});
-        refreshUsers(tar.pid);
+            refreshUsers(tar.pid);
+        }
     }
     
     function saveUsers(pid) {
@@ -19337,6 +19178,7 @@ $(document).ready(function () {
                     gData.user.userListT[ i ].gid = 0;
             }
             cgiID = 'userList';
+            gObj.tabIndexed = 1;
             break;
         case 'group':
             cgiID = 'groupList';
@@ -19350,6 +19192,7 @@ $(document).ready(function () {
                 if (gData.group.groupListT[ i ].gid < 0)
                     gData.group.groupListT[ i ].gid = 0;
             }
+            gObj.tabIndexed = 0;
             break;
         }
     
@@ -19358,9 +19201,10 @@ $(document).ready(function () {
             if (poster.duration) {
                 gObj.loading = poster.duration;
                 gIf.loading = true;
-            } else
+            } else {
                 loadingToggle( false );
-            genUsers(pid);
+                getCgiList(gObj.active.pid);
+            }
         });
     
         gObj.tabber.tabs("enable", 0);
@@ -19642,7 +19486,7 @@ $(document).ready(function () {
                                 tmp += '<td>';
                                 if (gIf.power) {
                                     tmp += '<button id="Edit-address-' + i + '" class="Edit" title="Edit"><span class="ui-icon"></span></button>';
-                                    tmp += '<button id="Duplicate-address-' + i + '" class="Duplicate" title="Duplicate"><span class="ui-icon"></span></button>';
+                                    //tmp += '<button id="Duplicate-address-' + i + '" class="Duplicate" title="Duplicate"><span class="ui-icon"></span></button>';
                                     if (0 != parseInt(gData[ x ][ gNode.guiT[ x ] ][ i ].userDefined)) {
                                         tmp += '<button id="Delete-address-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
                                     }
@@ -19663,7 +19507,7 @@ $(document).ready(function () {
                                 tmp += '<td>';
                                 if (gIf.power) {
                                     tmp += '<button id="Edit-group_address-' + i + '" class="Edit" title="Edit"><span class="ui-icon"></span></button>';
-                                    tmp += '<button id="Duplicate-group_address-' + i + '" class="Duplicate" title="Duplicate"><span class="ui-icon"></span></button>';
+                                    //tmp += '<button id="Duplicate-group_address-' + i + '" class="Duplicate" title="Duplicate"><span class="ui-icon"></span></button>';
                                     if (0 != parseInt(gData[ x ][ gNode.guiT[ x ] ][ i ].userDefined)) {
                                         tmp += '<button id="Delete-group_address-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
                                     } 
@@ -19683,7 +19527,7 @@ $(document).ready(function () {
                                 tmp += '<td>';
                                 if (gIf.power) {
                                     tmp += '<button id="Edit-service-' + i + '" class="Edit" title="Edit"><span class="ui-icon"></span></button>';
-                                    tmp += '<button id="Duplicate-service-' + i + '" class="Duplicate" title="Duplicate"><span class="ui-icon"></span></button>';
+                                    //tmp += '<button id="Duplicate-service-' + i + '" class="Duplicate" title="Duplicate"><span class="ui-icon"></span></button>';
                                     if (0 != parseInt(gData[ x ][ gNode.guiT[ x ] ][ i ].userDefined)) {
                                         tmp += '<button id="Delete-service-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
                                     }
@@ -19704,7 +19548,7 @@ $(document).ready(function () {
                                 tmp += '<td>';
                                 if (gIf.power) {
                                     tmp += '<button id="Edit-group_service-' + i + '" class="Edit" title="Edit"><span class="ui-icon"></span></button>';
-                                    tmp += '<button id="Duplicate-group_service-' + i + '" class="Duplicate" title="Duplicate"><span class="ui-icon"></span></button>';
+                                    //tmp += '<button id="Duplicate-group_service-' + i + '" class="Duplicate" title="Duplicate"><span class="ui-icon"></span></button>';
                                     if (0 != parseInt(gData[ x ][ gNode.guiT[ x ] ][ i ].userDefined)) {
                                         tmp += '<button id="Delete-group_service-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
                                     }
@@ -19798,7 +19642,7 @@ $(document).ready(function () {
                             tmp += '<td>';
                             if (gIf.power) {
                                 tmp += '<button id="Edit-schedule-' + i + '" class="Edit" title="Edit"><span class="ui-icon"></span></button>';
-                                tmp += '<button id="Duplicate-schedule-' + i + '" class="Duplicate" title="Duplicate"><span class="ui-icon"></span></button>';
+                                //tmp += '<button id="Duplicate-schedule-' + i + '" class="Duplicate" title="Duplicate"><span class="ui-icon"></span></button>';
                                 tmp += '<button id="Delete-schedule-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
                             } else {
                                 tmp += '';
@@ -19862,7 +19706,7 @@ $(document).ready(function () {
                 tmp += '<td class="alignLeft">' + gRef.address.type[ gData[ pid ][ gNode.guiT[ pid ] ][ i ].type ] + '</td>';
                 tmp += '<td>';
                 tmp += '<button id="Edit-address-' + i + '" class="Edit" title="Edit"><span class="ui-icon"></span></button>';
-                tmp += '<button id="Duplicate-address-' + i + '" class="Duplicate" title="Duplicate"><span class="ui-icon"></span></button>';
+                //tmp += '<button id="Duplicate-address-' + i + '" class="Duplicate" title="Duplicate"><span class="ui-icon"></span></button>';
                 if (0 != parseInt(gData[ pid ][ gNode.guiT[ pid ] ][ i ].userDefined)) {
                     tmp += '<button id="Delete-address-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
                 }
@@ -19900,7 +19744,7 @@ $(document).ready(function () {
                 tmp += '</td>';
                 tmp += '<td>';
                 tmp += '<button id="Edit-group_address-' + i + '" class="Edit" title="Edit"><span class="ui-icon"></span></button>';
-                tmp += '<button id="Duplicate-group_address-' + i + '" class="Duplicate" title="Duplicate"><span class="ui-icon"></span></button>';
+                //tmp += '<button id="Duplicate-group_address-' + i + '" class="Duplicate" title="Duplicate"><span class="ui-icon"></span></button>';
                 if (0 != parseInt(gData[ pid ][ gNode.guiT[ pid ] ][ i ].userDefined)) {
                     tmp += '<button id="Delete-group_address-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
                 }
@@ -19941,7 +19785,7 @@ $(document).ready(function () {
                     tmp += '<td>N/A</td>';
                 tmp += '<td>';
                 tmp += '<button id="Edit-service-' + i + '" class="Edit" title="Edit"><span class="ui-icon"></span></button>';
-                tmp += '<button id="Duplicate-service-' + i + '" class="Duplicate" title="Duplicate"><span class="ui-icon"></span></button>';
+                //tmp += '<button id="Duplicate-service-' + i + '" class="Duplicate" title="Duplicate"><span class="ui-icon"></span></button>';
                 if (0 != parseInt(gData[ pid ][ gNode.guiT[ pid ] ][ i ].userDefined)) {
                     tmp += '<button id="Delete-service-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
                 }
@@ -19977,7 +19821,7 @@ $(document).ready(function () {
                 tmp += '</td>';
                 tmp += '<td>';
                 tmp += '<button id="Edit-group_service-' + i + '" class="Edit" title="Edit"><span class="ui-icon"></span></button>';
-                tmp += '<button id="Duplicate-group_service-' + i + '" class="Duplicate" title="Duplicate"><span class="ui-icon"></span></button>';
+                //tmp += '<button id="Duplicate-group_service-' + i + '" class="Duplicate" title="Duplicate"><span class="ui-icon"></span></button>';
                 if (0 != parseInt(gData[ pid ][ gNode.guiT[ pid ] ][ i ].userDefined)) {
                     tmp += '<button id="Delete-group_service-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
                 }
@@ -20031,7 +19875,7 @@ $(document).ready(function () {
                 tmp += '</td>';
                 tmp += '<td>';
                 tmp += '<button id="Edit-schedule-' + i + '" class="Edit" title="Edit"><span class="ui-icon"></span></button>';
-                tmp += '<button id="Duplicate-schedule-' + i + '" class="Duplicate" title="Duplicate"><span class="ui-icon"></span></button>';
+                //tmp += '<button id="Duplicate-schedule-' + i + '" class="Duplicate" title="Duplicate"><span class="ui-icon"></span></button>';
                 tmp += '<button id="Delete-schedule-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
                 tmp += '</td>';
                 tmp += '</tr>';
@@ -21929,46 +21773,48 @@ $(document).ready(function () {
                     $('#div-' + gNode.tab).append( tmp );
 
                     $.ajax({
-                        url: 'cgi-bin/' + gNode.url.check + '.' + gNode.ext,
+                        url: 'cgi-bin/' + gNode.url.get + '.' + gNode.ext,
                         dataType: 'json',
                         success: function(data) {
-                            if ( parseInt( data.diskUsage ) < 90 ) {
+                            gData[ pid ] = data;
+                            for (var i=0, len=data[ gNode.guiTNum ]; i<len; i++)
+                            {
+                                tmp = '<tr class="' + ((i%2==0)? 'even' : 'odd') + '">';
+                                for (var j=0, jlen=gNode.col.length; j<jlen; j++)
+                                {
+                                    tmp += '<td>';
+                                    if ('action' == gNode.col[ j ].tab) {
+                                        tmp += '<button type="button" id="Download-' + gNode.tab + '-' + i + '" class="Download" title="Download"><span class="ui-icon"></span></button>';
+                                        tmp += '<button type="button" id="Delete-' + gNode.tab + '-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
+                                    } else if ('index' == gNode.col[ j ].tab) {
+                                        tmp += '<input type="checkbox" value="' + i + '" />';
+                                    } else {
+                                        tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                                    }
+                                    tmp += '</td>';
+                                }
+                                tmp += '</tr>';
+                                $('#table-' + gNode.tab + ' tbody').append( tmp );
+                            }
+
+                            if (gIf.power) {
+                                genTblAction( gNode.tab );
+                                if ( data[ gNode.guiTNum ] >= gLimit[ gNode.url.get ].rows ) {
+                                    $('#New-' + gNode.tab).prop('disabled', true);
+                                }
+
                                 $.ajax({
-                                    url: 'cgi-bin/' + gNode.url.get + '.' + gNode.ext,
+                                    url: 'cgi-bin/' + gNode.url.check + '.' + gNode.ext,
                                     dataType: 'json',
                                     success: function(data) {
-                                        gData[ pid ] = data;
-                                        for (var i=0, len=data[ gNode.guiTNum ]; i<len; i++)
-                                        {
-                                            tmp = '<tr class="' + ((i%2==0)? 'even' : 'odd') + '">';
-                                            for (var j=0, jlen=gNode.col.length; j<jlen; j++)
-                                            {
-                                                tmp += '<td>';
-                                                if ('action' == gNode.col[ j ].tab) {
-                                                    tmp += '<button type="button" id="Download-' + gNode.tab + '-' + i + '" class="Download" title="Download"><span class="ui-icon"></span></button>';
-                                                    tmp += '<button type="button" id="Delete-' + gNode.tab + '-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
-                                                } else if ('index' == gNode.col[ j ].tab) {
-                                                    tmp += '<input type="checkbox" value="' + i + '" />';
-                                                } else {
-                                                    tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
-                                                }
-                                                tmp += '</td>';
-                                            }
-                                            tmp += '</tr>';
-                                            $('#table-' + gNode.tab + ' tbody').append( tmp );
-                                        }
-
-                                        if (gIf.power) {
-                                            genTblAction( gNode.tab );
-                                            if ( data[ gNode.guiTNum ] >= gLimit[ gNode.url.get ].rows ) {
-                                                $('#New-' + gNode.tab).prop('disabled', true);
-                                            }
-                                        } else {
-                                            $('#div-' + gNode.tab + ' button').prop('disabled', true);
-                                            $('#div-' + gNode.tab + ' input').prop('disabled', true);
+                                        if ( parseInt( data.diskUsage ) >= 90 ) {
+                                            $('#New-' + gNode.tab).prop('disabled', true);
                                         }
                                     }
                                 });
+                            } else {
+                                $('#div-' + gNode.tab + ' button').prop('disabled', true);
+                                $('#div-' + gNode.tab + ' input').prop('disabled', true);
                             }
                         }
                     });
@@ -21989,7 +21835,7 @@ $(document).ready(function () {
                             tmp += '<ul>';
                             for (var x in gNode.col[ i ].option)
                             {
-                                tmp += '<li><input type="radio" name="' + gNode.col[ i ].tab + 'Mode" id="' + gNode.col[ i ].tab + 'Mode-' + x + '" value="' + x + '" /><label for="resetMode-' + x + '"> ' + gNode.col[ i ].option[ x ].label + ' </label></li>'; 
+                                tmp += '<li><input type="radio" name="resetMode" id="resetMode-' + x + '" value="' + x + '" /><label for="resetMode-' + x + '"> ' + gNode.col[ i ].option[ x ].label + ' </label></li>'; 
                             }
                             tmp += '</ul>';
                             tmp += '<button class="yui3-button" id="' + gNode.col[ i ].tab + '" title="' + gNode.col[ i ].label + '" >' + gNode.col[ i ].label + '</button>';
@@ -22152,7 +21998,7 @@ $(document).ready(function () {
                                 tmp += '<tr>';
                                 for (var j=0, jlen=gNode.col[ i ].col.length; j<jlen; j++)
                                 {
-                                    tmp += '<th class="alignLeft ui-state-default" style="width: ' + gNode.col[ i ].col[ j ].wiz + '">';
+                                    tmp += '<th class="ui-state-default" style="width: ' + gNode.col[ i ].col[ j ].wiz + '">';
                                     tmp += gNode.col[ i ].col[ j ].label;
                                     tmp += '</th>';
                                 }
@@ -22219,7 +22065,7 @@ $(document).ready(function () {
                                 
                                 if (gIf.power) {
                                     genTblAction( 'profile' );
-                                    if (data[ gNode.guiTNum ] >= gLimit.profile.rows) 
+                                    if (data[ gNode.guiTNum ] >= gRows.maxProfile) 
                                         $('#Create-profile').prop('disabled', true);
                                 } else {
                                     $('#div-profile button').prop('disabled', true);
@@ -23745,12 +23591,6 @@ $(document).ready(function () {
                     }
                 });
     
-/*
-                gY.one('#pgClear').on('click', function(e) {
-                    btnClear(e);
-                });
-*/
-        
                 gY.one('#pgExport').on('click', function(e) {
                     btnExport(e);
                 });
@@ -24601,6 +24441,11 @@ $(document).ready(function () {
                 $('.newUsername').removeClass('isKO');
                 if ($('#registrationMode-0').is(':checked')) {
                     // new
+                    if (!gReg.ascii.username.test($('#newUsername').val())) {
+                        pass = false;
+                        msg += '<p>' + gError[ gObj.lang ].account20 + '</p>';
+                    }
+
                     if (gReg.ascii.userpass.test($('#newPassword').val())) {
                         if ($('#newPassword').val() != $('#confirmPassword').val()) {
                             pass = false;
@@ -24611,32 +24456,32 @@ $(document).ready(function () {
                         msg += '<p>' + gError[ gObj.lang ].password20 + '</p>';
                     }
     
-                    if (!gReg.license32.test($('#firstName').val())) {
+                    if (!gReg.ascii.license32.test($('#firstName').val())) {
                         pass = false;
                         msg += '<p>' + gError[ gObj.lang ].firstName32 + '</p>';
                     }
     
-                    if (!gReg.license32.test($('#lastName').val())) {
+                    if (!gReg.ascii.license32.test($('#lastName').val())) {
                         pass = false;
                         msg += '<p>' + gError[ gObj.lang ].lastName32 + '</p>';
                     }
     
-                    if (!gReg.isEmail.test( $('#email').val() ) || !gReg.ascii.email.test( $('#email').val() )) {
+                    if (!gReg.isEmail.test( $('#email').val() ) || !gReg.email.test( $('#email').val() )) {
                         pass = false;
                         msg += '<p>' + gError[ gObj.lang ].email + '</p>';
                     }
     
-                    if (!gReg.license064.test($('#comapny').val())) {
+                    if (!gReg.ascii.license064.test($('#comapny').val())) {
                         pass = false;
                         msg += '<p>' + gError[ gObj.lang ].company64 + '</p>';
                     }
 
-                    if (!gReg.license64.test($('#raddress').val())) {
+                    if (!gReg.ascii.license64.test($('#raddress').val())) {
                         pass = false;
                         msg += '<p>' + gError[ gObj.lang ].address64 + '</p>';
                     }
     
-                    if (!gReg.license32.test($('#city').val())) {
+                    if (!gReg.ascii.license32.test($('#city').val())) {
                         pass = false;
                         msg += '<p>' + gError[ gObj.lang ].city32 + '</p>';
                     }
@@ -24646,7 +24491,7 @@ $(document).ready(function () {
                         msg += '<p>' + gError[ gObj.lang ].zipCode + '</p>';
                     }
     
-                    if (!gReg.license32.test($('#state').val())) {
+                    if (!gReg.ascii.license32.test($('#state').val())) {
                         pass = false;
                         msg += '<p>' + gError[ gObj.lang ].state32 + '</p>';
                     }
@@ -24658,12 +24503,12 @@ $(document).ready(function () {
     
                 }else {
                     // existing
-                    if (!gReg.username.test($('#oldUsername').val())) {
+                    if (!gReg.ascii.username.test($('#oldUsername').val())) {
                         pass = false;
                         msg += '<p>' + gError[ gObj.lang ].account20 + '</p>';
                     }
     
-                    if (!gReg.userpass.test($('#oldPassword').val())) {
+                    if (!gReg.ascii.userpass.test($('#oldPassword').val())) {
                         pass = false;
                         msg += '<p>' + gError[ gObj.lang ].password20 +  '</p>';
                     }
@@ -24936,9 +24781,10 @@ $(document).ready(function () {
                                 if (poster.duration) {
                                     gObj.loading = poster.duration;
                                     gIf.loading = true;
-                                } else
+                                } else {
                                     loadingToggle( false );
-                                getCgiList(gObj.active.pid);
+                                    getCgiList(gObj.active.pid);
+                                }
                             } else {
                                 loadingToggle( false );
                             } 
@@ -24958,8 +24804,8 @@ $(document).ready(function () {
                             gIf.loading = true;
                         } else {
                             loadingToggle( false );
+                            getCgiList(gObj.active.pid);
                         } 
-                        getCgiList(gObj.active.pid);
                     } 
                 }); 
             }
@@ -24971,9 +24817,10 @@ $(document).ready(function () {
                     if (poster.duration) {
                         gObj.loading = poster.duration;
                         gIf.loading = true;
-                    } else
+                    } else {
                         loadingToggle( false );
-                    getCgiList(gObj.active.pid);
+                        getCgiList(gObj.active.pid);
+                    }
                 }else {
                     loadingToggle( false );
                     if (!$('#popPlus').exists())
@@ -28223,6 +28070,221 @@ $(document).ready(function () {
         return tmp;
     }
     
+    function dataSort( data, pid, isTab ) {
+        var arr = [];
+
+        if ( isTab ) {
+            pid = gNode.tab + '-' + pid;
+        }
+
+        if (!$('#table-' + pid + ' thead').exists())
+            return false;
+
+        var ascend = gY.one('#table-' + pid + ' thead').all('span.sortable.ascending');
+        var descend = gY.one('#table-' + pid + ' thead').all('span.sortable.descending');
+        var sortBy;
+
+        if ( 'dhcp_bindings' == pid ) {
+            if (ascend._nodes.length > 0) {
+                sortBy = ascend._nodes[ 0 ].id.split('-').pop();
+                data.sort( function( obj1, obj2 ) {
+                    var arr1 = obj1.LeaseInfo.split('|');   
+                    var arr2 = obj2.LeaseInfo.split('|');   
+                    if (arr1[ sortBy ].toString().toLowerCase() > arr2[ sortBy ].toString().toLowerCase())
+                        return 1;
+                    if (arr1[ sortBy ].toString().toLowerCase() < arr2[ sortBy ].toString().toLowerCase())
+                        return -1;
+                    return 0;
+                });
+            } else if ( descend._nodes.length > 0) {
+                sortBy = descend._nodes[ 0 ].id.split('-').pop();
+                data.sort( function( obj1, obj2 ) {
+                    var arr1 = obj1.LeaseInfo.split('|');   
+                    var arr2 = obj2.LeaseInfo.split('|');   
+                    if (arr1[ sortBy ].toString().toLowerCase() < arr2[ sortBy ].toString().toLowerCase())
+                        return 1;
+                    if (arr1[ sortBy ].toString().toLowerCase() > arr2[ sortBy ].toString().toLowerCase())
+                        return -1;
+                    return 0;
+                });
+            }
+        } else {
+            if (ascend._nodes.length > 0) {
+                sortBy = ascend._nodes[ 0 ].id.split('-').pop();
+                if (gReg.isNumeric.test( sortBy )) {
+                    data.sort( function( obj1, obj2 ) {
+                        return obj1[ sortBy ] - obj2[ sortBy ];
+                    });
+                } else {
+                    data.sort( function( obj1, obj2 ) {
+                        if (obj1[ sortBy ].toString().toLowerCase() > obj2[ sortBy ].toString().toLowerCase())
+                            return 1;
+                        if (obj1[ sortBy ].toString().toLowerCase() < obj2[ sortBy ].toString().toLowerCase())
+                            return -1;
+                        return 0;
+                    });
+                }
+            } else if ( descend._nodes.length > 0) {
+                sortBy = descend._nodes[ 0 ].id.split('-').pop();
+                if (gReg.isNumeric.test( sortBy )) {
+                    data.sort( function( obj1, obj2 ) {
+                        return obj1[ sortBy ] - obj2[ sortBy ];
+                    });
+                } else {
+                    data.sort( function( obj1, obj2 ) {
+                        if (obj1[ sortBy ].toString().toLowerCase() < obj2[ sortBy ].toString().toLowerCase())
+                            return 1;
+                        if (obj1[ sortBy ].toString().toLowerCase() > obj2[ sortBy ].toString().toLowerCase())
+                            return -1;
+                        return 0;
+                    });
+                }
+            }
+        }
+
+        arr = data;
+        return arr;
+    }
+    
+    function dataSortPhp( data, pid ) {
+        var ascend = gY.one('#theadTable-' + pid + ' thead').all('span.sortable.ascending');
+        var descend = gY.one('#theadTable-' + pid + ' thead').all('span.sortable.descending');
+        var sortBy;
+
+        if (ascend._nodes.length > 0) {
+            sortBy = ascend._nodes[ 0 ].id.split('-').pop();
+
+            if (gReg.isNumeric.test( sortBy )) {
+                data.sort( function( obj1, obj2 ) {
+                    return obj1[ sortBy ] - obj2[ sortBy ];
+                });
+            } else {
+                data.sort( function( obj1, obj2 ) {
+                    if (obj1[ sortBy ].toString().toLowerCase() > obj2[ sortBy ].toString().toLowerCase())
+                        return 1;
+                    if (obj1[ sortBy ].toString().toLowerCase() < obj2[ sortBy ].toString().toLowerCase())
+                        return -1;
+                    return 0;
+                });
+            }
+        } else if ( descend._nodes.length > 0) {
+            sortBy = descend._nodes[ 0 ].id.split('-').pop();
+
+            if (gReg.isNumeric.test( sortBy )) {
+                data.sort( function( obj1, obj2 ) {
+                    return obj2[ sortBy ] - obj1[ sortBy ];
+                });
+            } else {
+                data.sort( function( obj1, obj2 ) {
+                    if (obj1[ sortBy ].toString().toLowerCase() < obj2[ sortBy ].toString().toLowerCase())
+                        return 1;
+                    if (obj1[ sortBy ].toString().toLowerCase() > obj2[ sortBy ].toString().toLowerCase())
+                        return -1;
+                    return 0;
+                });
+            }
+        }
+
+        return data;
+    }
+
+    function autoMaskBits( netmask ) {
+        var nets = netmask.split(gReg.isDot);
+        var bits = 0;
+        var result = [];
+        for (var i=0, len=nets.length; i<len; i++)
+        {
+            result.push( h_countbitsfromleft( parseInt( nets[ i ] ) ) );
+            if (isNaN(result[ i ]) || ( i > 0 && result[ i ] > result[ i-1 ])) {
+                return false;
+            }
+            bits += result[ i ];
+        }
+        return bits;
+    }
+    
+    function autoDhcpServer(id, address, netmask) {
+        
+        gObj.calc = {};
+        var addr = address.split(gReg.isDot);
+        for (var i=0, len=addr.length; i<len; i++)
+            gObj.calc["ip_" + (i+1)] = parseInt(addr[i]);
+    
+        var nets = netmask.split(gReg.isDot);
+        for (var i=0, len=nets.length; i<len; i++)
+            gObj.calc["snm_" + (i+1)] = parseInt(nets[i]);
+    
+        calcNWbits(gObj.calc);
+    
+        if (gObj.calc.result != 'invalid') {
+            //$('#guiDhcpsT-type option').each(function() {
+            $('#dhcp_pool_settings-type option').each(function() {
+                if (parseInt($(this).val()) == 1)
+                    $(this).prop('disabled', false);
+            });
+            gObj.calc.bits = gObj.calc.result;
+            calcNBFL(gObj.calc);
+    
+            switch(gObj.calc.numofaddr)
+            {
+            case 'ERR':
+            case 'one':
+                $('#dhcp_pool_settings-type option').each(function() {
+                    if (parseInt($(this).val()) == 1)
+                        $(this).prop('disabled', true);
+                });
+                break;
+            case 'two':
+                if (gObj.calc.ip_4 == gObj.calc.firstadr_4) {
+                    gObj.calc.startIp   = gObj.calc.lastadr_1 + '.' + gObj.calc.lastadr_2 + '.' + gObj.calc.lastadr_3 + '.' + gObj.calc.lastadr_4;
+                    gObj.calc.endIp   = gObj.calc.lastadr_1 + '.' + gObj.calc.lastadr_2 + '.' + gObj.calc.lastadr_3 + '.' + gObj.calc.lastadr_4;
+                }else {
+                    gObj.calc.startIp = gObj.calc.firstadr_1 + '.' + gObj.calc.firstadr_2 + '.' + gObj.calc.firstadr_3 + '.' + gObj.calc.firstadr_4;
+                    gObj.calc.endIp = gObj.calc.firstadr_1 + '.' + gObj.calc.firstadr_2 + '.' + gObj.calc.firstadr_3 + '.' + gObj.calc.firstadr_4;
+                }
+    
+                $('#dhcp_pool_settings-1-startIp').val( gObj.calc.startIp );
+                $('#dhcp_pool_settings-1-endIp').val( gObj.calc.endIp );
+                break;
+            default:
+                // check if existing dhcp settings, based on /24  
+                var startIp = -1;
+                var endIp = -1;
+                if (gReg.isIPv4.test($('#dhcp_pool_settings-1-startIp').val()) && gReg.isIPv4.test($('#dhcp_pool_settings-1-endIp').val())) {
+                    startIp = parseInt($('#dhcp_pool_settings-1-startIp').val().split(gReg.isDot)[3]);
+                    endIp = parseInt($('#dhcp_pool_settings-1-endIp').val().split(gReg.isDot)[3]);
+                }
+    
+                if ((startIp >= gObj.calc.firstadr_4 && endIp < gObj.calc.ip_4) || (startIp > gObj.calc.ip_4 && endIp <= gObj.calc.lastadr_4)) {
+                    $('#dhcp_pool_settings-1-startIp').val( gObj.calc.ip_1 + '.' + gObj.calc.ip_2 + '.' + gObj.calc.ip_3 + '.' + startIp );
+                    $('#dhcp_pool_settings-1-endIp').val( gObj.calc.ip_1 + '.' + gObj.calc.ip_2 + '.' + gObj.calc.ip_3 + '.' + endIp );
+                } else if (gObj.calc.lastadr_4 - gObj.calc.ip_4 > gObj.calc.ip_4 - gObj.calc.firstadr_4) {
+                    if (startIp > gObj.calc.ip_4)
+                        $('#dhcp_pool_settings-1-startIp').val( gObj.calc.ip_1 + '.' + gObj.calc.ip_2 + '.' + gObj.calc.ip_3 + '.' + startIp );
+                    else
+                        $('#dhcp_pool_settings-1-startIp').val( gObj.calc.ip_1 + '.' + gObj.calc.ip_2 + '.' + gObj.calc.ip_3 + '.' + (gObj.calc.ip_4 + 1) );
+                    if (endIp > gObj.calc.ip_4 && endIp < gObj.calc.lastadr_4)
+                        $('#dhcp_pool_settings-1-endIp').val( gObj.calc.ip_1 + '.' + gObj.calc.ip_2 + '.' + gObj.calc.ip_3 + '.' + endIp );
+                    else
+                        $('#dhcp_pool_settings-1-endIp').val( gObj.calc.ip_1 + '.' + gObj.calc.ip_2 + '.' + gObj.calc.ip_3 + '.' + gObj.calc.lastadr_4 );
+                } else {
+                    if (startIp > gObj.calc.firstadr_4)
+                        $('#dhcp_pool_settings-1-startIp').val( gObj.calc.ip_1 + '.' + gObj.calc.ip_2 + '.' + gObj.calc.ip_3 + '.' + startIp );
+                    else
+                        $('#dhcp_pool_settings-1-startIp').val( gObj.calc.ip_1 + '.' + gObj.calc.ip_2 + '.' + gObj.calc.ip_3 + '.' + gObj.calc.firstadr_4 );
+    
+                    if (endIp > gObj.calc.firstadr_4 && endIp < gObj.calc.ip_4)
+                        $('#dhcp_pool_settings-1-endIp').val( gObj.calc.ip_1 + '.' + gObj.calc.ip_2 + '.' + gObj.calc.ip_3 + '.' + endIp );
+                    else
+                        $('#dhcp_pool_settings-1-endIp').val( gObj.calc.ip_1 + '.' + gObj.calc.ip_2 + '.' + gObj.calc.ip_3 + '.' + (gObj.calc.ip_4 - 1) );
+                }
+            }
+    
+            $('#dhcp_pool_settings-1-gateway').val( address );
+            $('#dhcp_pool_settings-1-dns1').val( address );
+        }
+    }
+
     function phpPager(id, page, pages) {
         if ($('#phpPerPage').exists()) {
             $('#rowsPage').html(page);
@@ -28581,6 +28643,25 @@ $(document).ready(function () {
         var e = parseInt( eArr[0] ) * 256 * 256 * 256 + parseInt( eArr[1] ) * 256 * 256 + parseInt( eArr[2] ) * 256 + parseInt( eArr[3] );
 
         return e > s;
+    }
+
+    function loadingToggle( flag ) {
+        if (flag) {
+            $('#divSec').hide();
+            $('body').addClass('loadingClass');
+        } else {
+            if (gIf.reboot) {
+                document.location.reload(true);
+                gIf.reboot = false;
+            } else if ( gIf.shutdown ) {
+                $('.titleA').html( gTerm[ gObj.lang ].wait + ' ' + gTerm[ gObj.lang ].for );
+                $('.titleB').html( gTerm[ gObj.lang ].seconds );
+                $('#divSec').hide();
+                errorAlert( 'shudown done' );
+            } else {
+                $('body').removeClass('loadingClass');
+            }
+        } 
     }
     
     function getCgiList( id ) {
@@ -29132,7 +29213,31 @@ $(document).ready(function () {
 </script>
 </head>
 <body>
-<p></p>
+    <div id="loginDiv">
+      <table >
+        <tr>
+          <th id="userNameLabel"></th>
+          <td><input type="text" id="userName" /></td>
+        </tr>
+        <tr>
+          <th id="userPassLabel"></th>
+          <td><input type="password" id="userPass" /></td>
+        </tr>
+        <tr>
+          <th id="userLangLabel"></th>
+          <td>
+            <select id="userLang">
+              <option value="en">English</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th></th>
+          <td><button id="loginButton"></button></td>
+        </tr>
+      </table>
+      <div id="popBase"></div>
+    </div>
 </body>
 </html>
 
