@@ -323,11 +323,11 @@
   {
     "cipher" : 
     {
+      "des"   : "ESP_DES", 
       "3des"   : "ESP_3DES", 
       "aes128" : "ESP_AES_128", 
       "aes192" : "ESP_AES_192", 
-      "aes256" : "ESP_AES_256",
-      "seed_cbc" : "ESP_SEED"
+      "aes256" : "ESP_AES_256"
     },
     "hash" : {
       "sha1" : "SHA_1", 

@@ -124,9 +124,10 @@ case 'view_logs':
 function prepareTop( $table, $orderBy ) {
     $query  = 'SELECT * ';
     $query .= '  FROM `'. $table .'`';
-    $query .= ' ORDER BY '. ( ( empty( $_GET[ 'oby' ] ) )? $orderBy : $_GET[ 'oby' ] ) . ( ( empty( $_GET[ 'asc' ] ) )? ' DESC' : ' ASC' );
+    $query .= ' ORDER BY '. $orderBy . ' DESC';
+    // $query .= ' ORDER BY '. ( ( empty( $_GET[ 'oby' ] ) )? $orderBy : $_GET[ 'oby' ] ) . ( ( empty( $_GET[ 'asc' ] ) )? ' DESC' : ' ASC' );
     $query .= ' LIMIT 10';
-    archerQuery( $query );
+    archerQuery( $query, $table );
 }
 
 function prepareChart() {
@@ -134,21 +135,22 @@ function prepareChart() {
     $limit = 360;
     $query  = 'SELECT * ';
     $tmp = '';
+    $tbl;
 
     switch( $_GET[ 't' ] )
     {
     case 0:
         $query .= ', (datetime DIV 10) * 10 as date';
-        $table  = 'hour';
+        $table  = 'hour_';
         break;
     case 1:
         $query .= ', (datetime DIV 500) * 500 as date';
-        $table  = 'day';
+        $table  = 'day_';
         $limit = 288;
         break;
     case 2:
         $query .= ', (datetime DIV 3000) * 3000 as date';
-        $table  = 'week';
+        $table  = 'week_';
         $limit = 336;
         break;
     case 3:
@@ -156,13 +158,11 @@ function prepareChart() {
         $table  = 'month';
         break;
     case 4:
-        $table  = 'year';
+        $table  = 'year_';
         $datetime = 'date';
         $limit = 365;
         break;
     }
-
-    $query .= '  FROM `'. $table .'_';
 
     if ( !empty ($_GET[ 'sd' ] ) ) {
         if ( !empty( $_GET[ 'ed' ] ) ) {
@@ -177,7 +177,8 @@ function prepareChart() {
     switch( $_GET[ 'param' ] )
     {
     case 'wan_bandwidth_report':
-        $query .= 'wanbandwidth`';
+        $table .= 'wanbandwidth';
+        $query .= ' FROM `'. $table .'`';
         $query .= ' WHERE wanname="'. $_GET[ 'q' ] .'"';
         if ( !empty ($_GET[ 'sd' ] ) ) {
             if ( !empty( $_GET[ 'ed' ] ) ) {
@@ -190,7 +191,8 @@ function prepareChart() {
         }
         break;
     case 'resource_utilization':
-        $query .= ( (0 == $_GET[ 'q' ])? 'cpuusage`' : 'memusage`' );
+        $table .= ( (0 == $_GET[ 'q' ])? 'cpuusage`' : 'memusage`' );
+        $query .= ' FROM `'. $table .'`';
         if ( !empty ($_GET[ 'sd' ] ) ) {
             if ( !empty( $_GET[ 'ed' ] ) ) {
                 $query .= ' WHERE '. $datetime .' BETWEEN "'. $_GET[ 'sd' ] .' '. $_GET[ 'sh' ] .':'. $_GET[ 'sm' ] .':00" AND "'. $_GET[ 'ed' ] .' '. $_GET[ 'eh' ] .':'. $_GET[ 'em' ] .':59"';
@@ -206,13 +208,13 @@ function prepareChart() {
     $query .= ' Order By date desc ';
     $query .= ' LIMIT '. $limit;
 
-    archerQuery( $query );
+    archerQuery( $query, $table );
 }
 
-function archerQuery( $query ) {
-
+function archerQuery( $query, $table ) {
     $mysqli = new mysqli( "127.0.0.1", "archer", "rehcra", 'archer', 3306 );
-    if ( $result = $mysqli->query( $query ) ) {
+    try {
+        $result = $mysqli->query( $query );
         // fetch object array
         $totalRows = $result->num_rows;
         switch( $_GET[ 'param' ] )
@@ -254,8 +256,10 @@ function archerQuery( $query ) {
         $result->close();
 
         echo json_encode( $json );
-    } else {
-        echo $query;
+    } catch ( mysqli_sql_exception $e ) {
+        echo "Error Code ". $e->getCode();
+        $query = 'REPAIR TABLE '. $table;
+        $mysqli->query($query); 
     }
 }
 
@@ -325,7 +329,8 @@ function reportAggregate( $table, $groupBy, $state ) {
             if ( 0 == $check->num_rows ) {
                 $json[ $db ] =  $db. " not exists";
             } else {
-                if ( $result = $mysqli->query( 'SELECT '. $state .' FROM '. $db .'.`'. $table .'` GROUP BY '. $groupBy .' ORDER BY '. $groupBy .' DESC') ) {
+                try { 
+                    $result = $mysqli->query( 'SELECT '. $state .' FROM '. $db .'.`'. $table .'` GROUP BY '. $groupBy .' ORDER BY '. $groupBy .' DESC');
                     $cnt = 0;
                     $totalRows = $result->num_rows;
                     while ($obj = $result->fetch_object()) {
@@ -336,6 +341,10 @@ function reportAggregate( $table, $groupBy, $state ) {
                     }
                     // free result set
                     $result->close();
+                } catch ( mysqli_sql_exception $e ) {
+                    echo "Error Code ". $e->getCode();
+                    $query = 'REPAIR TABLE '. $db .'.`'. $table .'`';
+                    $mysqli->query($query); 
                 }
             }
         }
@@ -397,7 +406,8 @@ function reportQuery( $table ) {
                         $cntRows = $tableRows;
                         $tableRows = $tableRows + $tableCount->fetch_row()[ 0 ];
                         if ( $tableRows >= $startRow && $leftRow > 0 ) {
-                            if ( $result = $mysqli->query( 'SELECT * FROM '. $db .'.`'. $tables[ $j ] .'` ORDER BY id DESC' ) ) {
+                            try {
+                                $result = $mysqli->query( 'SELECT * FROM '. $db .'.`'. $tables[ $j ] .'` ORDER BY id DESC' );
                                 while ($obj = $result->fetch_object()) {
                                     $cntRows++;
                                     // rows we want
@@ -412,6 +422,10 @@ function reportQuery( $table ) {
                                 }
                                 // free result set
                                 $result->close();
+                            } catch ( mysqli_sql_exception $e ) {
+                                echo "Error Code ". $e->getCode();
+                                $query = 'REPAIR TABLE '. $db .'.`'. $table .'`';
+                                $mysqli->query($query); 
                             }
                         }
                         // free tableCount set
@@ -508,7 +522,8 @@ function logQuery( $table ) {
                         $cntRows = $totalRows;
                         $totalRows = $totalRows + $tableCount->fetch_row()[ 0 ];
                         if ( $totalRows >= $startRow && $leftRow > 0 ) {
-                            if ( $result = $mysqli->query( 'SELECT * FROM '. $db .'.`'. $tables[ $j ] .'`'. $plus .' ORDER BY seq DESC' ) ) {
+                            try { 
+                                $result = $mysqli->query( 'SELECT * FROM '. $db .'.`'. $tables[ $j ] .'`'. $plus .' ORDER BY seq DESC' );
                                 while ($obj = $result->fetch_object()) {
                                     $cntRows++;
                                     // rows we want
@@ -524,6 +539,10 @@ function logQuery( $table ) {
 
                                 // free result set
                                 $result->close();
+                            } catch ( mysqli_sql_exception $e ) {
+                                echo "Error Code ". $e->getCode();
+                                $query = 'REPAIR TABLE '. $db .'.`'. $table .'`';
+                                $mysqli->query($query); 
                             }
                         }
                         // free tableCount set
@@ -551,7 +570,8 @@ function logQuery( $table ) {
                             $cntRows = $tableRows;
                             $tableRows = $tableRows + $tableCount->fetch_row()[ 0 ];
                             if ( $tableRows >= $startRow && $leftRow > 0 ) {
-                                if ( $result = $mysqli->query( 'SELECT * FROM '. $db .'.`'. $tables[ $j ] .'`'. $plus .' ORDER BY seq DESC' ) ) {
+                                try {
+                                    $result = $mysqli->query( 'SELECT * FROM '. $db .'.`'. $tables[ $j ] .'`'. $plus .' ORDER BY seq DESC' );
                                     while ($obj = $result->fetch_object()) {
                                         $cntRows++;
                                         // rows we want
@@ -566,6 +586,10 @@ function logQuery( $table ) {
                                     }
                                     // free result set
                                     $result->close();
+                                } catch ( mysqli_sql_exception $e ) {
+                                    echo "Error Code ". $e->getCode();
+                                    $query = 'REPAIR TABLE '. $db .'.`'. $table .'`';
+                                    $mysqli->query($query); 
                                 }
                             }
                             // free tableCount set

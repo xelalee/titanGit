@@ -2769,7 +2769,7 @@
                         "tab" : "mtuValue",
                         "tag" : "input",
                         "type" : "text",
-                        "note" : "(68-1500; IPv6 1280-1500 Bytes)",
+                        "note" : "(576-1500; IPv6 1280-1500 Bytes)",
                         "size" : 8
                       }
                     }
@@ -3198,7 +3198,7 @@
                         "tab" : "mtuValue",
                         "tag" : "input",
                         "type" : "text",
-                        "note" : "(68-1500; IPv6 1280-1500 Bytes)",
+                        "note" : "(576-1500; IPv6 1280-1500 Bytes)",
                         "size" : 8
                       }
                     }
@@ -4134,7 +4134,7 @@
                   "wiz" : "125px"
                 },
                 {
-                  "label" : "IP Assigment Method",
+                  "label" : "IP Assignment Method",
                   "tab" : "wanProto",
                   "tag" : "select",
                   "type" : "select",
@@ -4219,7 +4219,7 @@
                                 "tab" : "mtu",
                                 "tag" : "input",
                                 "type" : "text",
-                                "note" : "(68-1500; IPv6 1280-1500 Bytes)",
+                                "note" : "(576-1500; IPv6 1280-1500 Bytes)",
                                 "align" :
                                 [
                                   "Left",
@@ -4328,7 +4328,7 @@
                                 "tab" : "mtu",
                                 "tag" : "input",
                                 "type" : "text",
-                                "note" : "(68-1500; IPv6 1280-1500 Bytes)",
+                                "note" : "(576-1500; IPv6 1280-1500 Bytes)",
                                 "align" :
                                 [
                                   "Left",
@@ -4518,7 +4518,7 @@
                                 "tab" : "mtu",
                                 "tag" : "input",
                                 "type" : "text",
-                                "note" : "(68-1492; IPv6 1280-1492 Bytes)",
+                                "note" : "(576-1492; IPv6 1280-1492 Bytes)",
                                 "align" :
                                 [
                                   "Left",
@@ -6042,8 +6042,7 @@
                     "3des" : "ESP_3DES",
                     "aes128" : "ESP_AES_128",
                     "aes192" : "ESP_AES_192",
-                    "aes256" : "ESP_AES_256",
-                    "seed_cbc" : "ESP_SEED"
+                    "aes256" : "ESP_AES_256"
                   },
                   "align" :
                   [
@@ -8388,14 +8387,14 @@
             "blacklist" : 
             [
               {
-                "label" : "Expirtaion Duration",
+                "label" : "Expiration Duration",
                 "tab" : "expiration_duration",
                 "tag" : "table",
                 "type" : "table",
                 "col" : 
                 [
                   {
-                    "label" : "Expirtaion Duration",
+                    "label" : "Expiration Duration",
                     "tab" : false
                   },
                   {
@@ -11907,6 +11906,241 @@
                   ]
                 }
               ]
+            },
+            {
+              "label" : "Advanced Debug",
+              "id" : "menu-8-4-4",
+              "tab" : "advanced_debug",
+              "tag" : "div",
+              "type" : "tabsForm",
+              "tabs" :
+              {
+                "log" : "Log",
+                "debug" : "Packet Capture" 
+              },
+              "url" :
+              { 
+                "get" : "advancedDebug",
+                "post" : "advancedDebug",
+                "log" : "advanced_log_list",
+                "debug" : "advanced_pcap_list", 
+                "download" : "advancedDebugDl"
+              },
+              "tblAction" : 
+              {
+                "log" : "Remove",
+                "debug" : "Remove" 
+              },
+              "rowAction" : 
+              {
+                "log" : "Download Delete",
+                "debug" : "Download Delete" 
+              },
+              "pgAction" : 
+              {
+                "log" : "Save Cancel",
+                "debug" : "Start Stop"
+              },
+              "ext" : "cgi",
+              "guiT" : "guiFileT",
+              "guiTNum" : "guiFileTNum",
+              "col" : 
+              {
+                "log" :
+                [
+                  {
+                    "label" : "",
+                    "tab" : "log_global",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" : 
+                    [
+                      {
+                        "label" : "Enable Log",
+                        "tab" : "logEnable",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1,
+                        "wiz" : "140px"
+                      },
+                      {
+                        "label" : "Description",
+                        "tab" : "logDesc",
+                        "tag" : "input",
+                        "type" : "text",
+                        "wiz" : "auto"
+                      }
+                    ]
+                  },
+                  {
+                    "label" : "",
+                    "tab" : "log_list",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" : 
+                    [
+                      {
+                        "label" : "",
+                        "tab" : "checkbox",
+                        "wiz" : "40px"
+                      },
+                      {
+                        "label" : "File",
+                        "tab" : "filepath",
+                        "wiz" : "250px"
+                      },
+                      {
+                        "label" : "Description",
+                        "tab" : "desc",
+                        "wiz" : "auto"
+                      },
+                      {
+                        "label" : "Action",
+                        "tab" : "action",
+                        "wiz" : "100px"
+                      }
+                    ]
+                  }
+                ],
+                "debug" :
+                [
+                  {
+                    "label" : "",
+                    "tab" : "debug_global",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" : 
+                    [
+                      {
+                        "label" : "Description",
+                        "tab" : "pcapDesc",
+                        "tag" : "input",
+                        "type" : "text",
+                        "wiz" : "150px"
+                      },
+                      {
+                        "label" : "Network Interface",
+                        "tab" : "pcapIfName",
+                        "tag" : "select",
+                        "type" : "select",
+                        "option" : "cgi",
+                        "wiz" : "150px"
+                      },
+                      {
+                        "label" : "Port Range",
+                        "tab" : "port_table",
+                        "tag" : "table",
+                        "type" : "table",
+                        "col" :
+                        [
+                          {
+                            "label" : "Start",
+                            "tab" : "pcapPortStart",
+                            "tag" : "input",
+                            "type" : "text",
+                            "size" : "8",
+                            "default" : "0",
+                            "wiz" : "100px"
+                          },
+                          {
+                            "label" : "End",
+                            "tab" : "pcapPortEnd",
+                            "tag" : "input",
+                            "type" : "text",
+                            "size" : "8",
+                            "default" : "0",
+                            "wiz" : "100px"
+                          }
+                        ]
+                      },
+                      {
+                        "label" : "Host",
+                        "tab" : "host_table",
+                        "tag" : "table",
+                        "type" : "table",
+                        "col" :
+                        [
+                          {
+                            "label" : "Address",
+                            "tab" : "pcapHost",
+                            "tag" : "input",
+                            "type" : "text",
+                            "wiz" : "100px"
+                          }
+                        ]
+                      },
+                      {
+                        "label" : "Net",
+                        "tab" : "net_table",
+                        "tag" : "table",
+                        "type" : "table",
+                        "col" :
+                        [
+                          {
+                            "label" : "Address",
+                            "tab" : "pcapNetAddress",
+                            "tag" : "input",
+                            "type" : "text",
+                            "wiz" : "100px"
+                          },
+                          {
+                            "label" : "Netmask",
+                            "tab" : "pcapNetmask",
+                            "tag" : "input",
+                            "type" : "text",
+                            "wiz" : "100px"
+                          }
+                        ]
+                      },
+                      {
+                        "label" : "MAC",
+                        "tab" : "mac_table",
+                        "tag" : "table",
+                        "type" : "table",
+                        "col" :
+                        [
+                          {
+                            "label" : "MAC Address",
+                            "tab" : "pcapMac",
+                            "tag" : "input",
+                            "type" : "text",
+                            "wiz" : "100px"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "label" : "",
+                    "tab" : "debug_list",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" : 
+                    [
+                      {
+                        "label" : "",
+                        "tab" : "checkbox",
+                        "wiz" : "40px"
+                      },
+                      {
+                        "label" : "File",
+                        "tab" : "filepath",
+                        "wiz" : "250px"
+                      },
+                      {
+                        "label" : "Description",
+                        "tab" : "desc",
+                        "wiz" : "auto"
+                      },
+                      {
+                        "label" : "Action",
+                        "tab" : "action",
+                        "wiz" : "100px"
+                      }
+                    ]
+                  }
+                ]
+              }
             }
           ]
         },

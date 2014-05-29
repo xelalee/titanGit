@@ -418,6 +418,10 @@ a:link { text-decoration: none;}
     border: none;
 }
 
+#menu ul.ui-corner-bottom {
+    border-radius: 0;
+}
+
 .accordion-ul.ui-accordion-content, .accordion-ul-ul.ui-accordion-content, .accordion-ul-ul-ul.ui-accordion-content {
     width: 180px;
     background: transparent;
@@ -2111,6 +2115,10 @@ div.Expand {
     padding: 10px;
 }
 
+#div-mime, #div-file_extension {
+    min-height: 540px;
+}
+
 /* users */
 
 #div-header-user {
@@ -2550,6 +2558,24 @@ div.Expand {
     height: 400px;
     padding: 10px;
     border: 1px solid grey;
+}
+
+#div-log_global {
+    width: 250px;
+    background: #efefef;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    margin: 5px 0;
+    padding: 10px;
+}
+
+#div-debug_global {
+    width: 800px;
+    background: #efefef;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    margin: 5px 0;
+    padding: 10px;
 }
 
 /* device > license */
