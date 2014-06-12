@@ -43,7 +43,7 @@
 
 <!--    <script type="text/javascript" src="js/alertClass.js"></script> -->
 <!--    <script type="text/javascript" src="js/btnClass.js"></script> -->
-<!--    <script type="text/javascript" src="js/checkerClass.js"></script> -->
+    <script type="text/javascript" src="js/checkerClass.js"></script> 
 <!--    <script type="text/javascript" src="js/dashboardClass.js"></script> -->
 <!--    <script type="text/javascript" src="js/reportsClass.js"></script> -->
 <!--    <script type="text/javascript" src="js/interfaceClass.js"></script> -->
@@ -228,6 +228,7 @@ gObj.help   = 0;
 gObj.sigVer = 0;
 gObj.blinking = 0;
 gObj.blinkings = [ 'E', 'H', 'I', 'A' ];
+gObj.debugMode = 0;
 
 // if condition 
 gIf.multi   = true;
@@ -269,9 +270,9 @@ gIf.isMAC       = false;
 gIf.over90      = false;
 gIf.isCapture   = false;
 gIf.newFirmware = false;
-gIf.debug       = false;
+gIf.pcap        = false;
 gIf.log         = false;
-gIf.debugger    = false;
+gIf.debug       = false;
 gIf.isNext      = false;
 
 // regexp 
@@ -305,8 +306,8 @@ gReg.mac   = /^((([0-9a-f]{2}\:){5})([0-9a-z]{2}))$/i;
 gReg.vid   = /^([1-9]|\d{2,3}|[1-3]\d{3}|40[1-8]\d|409[0-6])$/;
 gReg.mtuValue  = /^(57[6-9]|5[89]\d|[6-9]\d{2}|1[0-4]\d{2}|1500)$/;
 gReg.mtuValue6 = /^(12[89]\d|1[34]\d{2}|1500)$/;
-gReg.mtuValuePPPoE  = /^(6[89]|[7-9]\d|[1-9]\d{2}|1[0-3]\d{2}|14[0-8]\d|1492)$/;
-gReg.mtuValue6PPPoE = /^(12[89]\d|1[34]\d{2}|1492)$/;
+gReg.mtuValuePPPoE  = /^(57[6-9]|5[89]\d|[6-9]\d{2}|1[0-3]\d{2}|14[0-8]\d|149[012])$/;
+gReg.mtuValue6PPPoE = /^(12[89]\d|13\d{2}|14[0-8]\d|149[012])$/;
 gReg.leaseTime = /^(1[89]\d|[2-9]\d{2}|[1-9]\d{3}|[1-7]\d{4}|8[1-5]\d{3}|86[0-3]\d{2}|86400)$/;
 gReg.ipv6PrefixLength = /^(\d{1,2}|1[01]\d|12[0-8])$/;
 gReg.securityLevel    = /^(\d{1,2}|100)$/;
@@ -324,6 +325,7 @@ gReg.passOut63 = /^((.){1,63})$/;
 gReg.email     = /^((.){6,63})$/;
 gReg.length255 = /^((.){0,255})$/;
 gReg.length127 = /^((.){1,127})$/;
+gReg.length0127 = /^((.){0,127})$/;
 
 gReg.hostname     = /^([0-9a-zA-Z]{0,31})$/;
 gReg.domainName   = /^((.){0,255})$/;
@@ -355,6 +357,7 @@ gReg.cpuAlertThreshold  = /^([1-9]\d|100)$/;
 gReg.diskAlertThreshold = /^([5-9]\d|100)$/;
 gReg.alertInterval  = /^([3-9]|[1-9]\d{1,2}|1[0-3]\d{2}|14[0-3]\d|1440)$/;
 
+gReg.isTop          = /top_/;
 gReg.isPhp          = /php/;
 gReg.isEnabled      = /Enable/i;
 gReg.invalid        = /invalid|ERR/;
@@ -408,6 +411,7 @@ gReg.isNA           = /^NA$/;
 gReg.isURL          = /[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
 
 gReg.isNumeric      = /trafficAmount|sessions|tx|rx|accessCount|virusCount|firewallCount|virusHitCount|hitCount/;
+gReg.isIPAddress    = /srcIp|dstIp/;
 
 // yui chart 
 gObj.chart = {};
@@ -590,7 +594,7 @@ $(document).ready(function () {
             if (gIf.delay)
                 ifDelay();
 
-            if (gIf.debugger)
+            if (gIf.debug)
                 ifDebugger();
 
             if (gIf.isStart)
@@ -657,7 +661,7 @@ $(document).ready(function () {
 
     function ifDebugger() {
         if (gIf.log) {
-            if (gIf.debug) {
+            if (gIf.pcap) {
                 switch( gObj.blinking )
                 {
                 case 0:
@@ -695,7 +699,7 @@ $(document).ready(function () {
                 }
             }
         } else {
-            if (gIf.debug) {
+            if (gIf.pcap) {
                 if (3 === gObj.blinking ) 
                     gObj.blinking = 0;
                 else
@@ -711,7 +715,7 @@ $(document).ready(function () {
             } else {
                 $('#hd_blink' + gObj.blinkings[ gObj.blinking ]).hide();
                 gObj.blinking = 0;
-                gIf.debugger = false;
+                gIf.debug = false;
             }
         }
     }
@@ -1055,13 +1059,25 @@ $(document).ready(function () {
                                                 }
                                             }
                                         }).done( function() {
-                                            //$.get( 'js/checkerClass.js', function(data) {
-                                            //}).done( function() {
+                                            $.ajax({
+                                                url:'cgi-bin/advancedDebug.cgi', 
+                                                dataType:'json', 
+                                                success:function(data) {
+                                                    if (1 === parseInt( data.logEnable )) {
+                                                        gIf.log = true;
+                                                        gIf.debug = true;
+                                                    }
+                                                    
+                                                    if (1 === parseInt( data.pcapEnable )) {
+                                                        gIf.pcap = true;
+                                                        gIf.debug = true;
+                                                    }
+                                                }
+                                            }).done( function() {
                                                 $.ajax({
                                                     url:'cgi-bin/getSessInfo.cgi', 
                                                     dataType:'json', 
                                                     success:function(data) {
- 
                                                         gRef.menu = 'lang/' + gObj.lang + '-menu.txt';
                                                         gIf.session = true;
                                                         gIf.getSessInfo = true;
@@ -1072,7 +1088,7 @@ $(document).ready(function () {
                                                         isLogin();
                                                     }
                                                 });
-                                            //});
+                                            });
                                         });
                                     });
                                 });
@@ -1572,7 +1588,9 @@ $(document).ready(function () {
         gRows.maxIKEPolicy = 16;
         gRows.maxIPSecPolicies = 100;
 
+        // device
         gRows.maxProfile = 16;
+        gRows.maxDebug = 400;
     }
     
 // btn 
@@ -1760,6 +1778,8 @@ $(document).ready(function () {
                 break;
             case 'profile':
             case 'packet_capture':
+            case 'debug':
+            case 'log':
                 deleteDevice( e );
                 break;
             }
@@ -1807,6 +1827,8 @@ $(document).ready(function () {
                 removeDhcpBinding( e );
                 break;
             case 'packet_capture':
+            case 'debug':
+            case 'log':
                 removeDevice( e );
                 break;
             }
@@ -2959,7 +2981,9 @@ $(document).ready(function () {
 
     function btnStart( e ) {
         var json = {};
-        if (gReg.isIPv4.test( $('#destination').val() ) || gReg.isURL.test( $('#destination').val() ) ) {
+        var checker = {};
+        var msg = '';
+        if ($('#destination').exists() && (gReg.isIPv4.test( $('#destination').val() ) || gReg.isURL.test( $('#destination').val() ) ) ) {
             loadingToggle( true );
             switch( gNode.tab )
             {   
@@ -2980,12 +3004,42 @@ $(document).ready(function () {
                 loadingToggle( false );
                 gIf.isStart = true;
             });
+        } else if ( 'advanced_debug' == gNode.tab ) {
+            checker = callCheckers( 'debug' );
+            if (checker.pass) {
+                loadingToggle( true );
+                json = gData[ gNode.tab ];
+                json.pcapEnable = 1;
+                json.pcapDesc = $('#pcapDesc').val();
+                json.pcapIfName = $('#pcapIfName').val();
+                json.pcapPortStart = $('#pcapPortStart').val();
+                json.pcapPortEnd = $('#pcapPortEnd').val();
+                json.pcapHost = $('#pcapHost').val();
+                json.pcapNetAddress = $('#pcapNetAddress').val();
+                json.pcapNetmask = $('#pcapNetmask').val();
+                json.pcapMac = $('#pcapMac').val();
+                $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(json), function(poster) {
+                    loadingToggle( false );
+                    gObj.tabIndex = 1;
+                    getCgiList(gObj.active.pid);
+                });
+            } else {
+                for (var i=0, len=checker.cols.length; i<len; i++)
+                {
+                    if (!checker.cols[ i ].pass) {
+                        msg += '<p>' + gError[ gObj.lang ][ checker.cols[ i ].id ] + '</p>';
+                    }
+                }
+                errorAlert( msg );
+                return false;
+            }
+
         }
     }
 
     function btnStop( e ) {
         var json = {};
-        if (gReg.isIPv4.test( $('#destination').val() ) || gReg.isURL.test( $('#destination').val() ) ) {
+        if ( $('#destination').exists() && (gReg.isIPv4.test( $('#destination').val() ) || gReg.isURL.test( $('#destination').val() ) ) ) { 
             switch( gNode.tab )
             {
             case 'ping':
@@ -3003,6 +3057,12 @@ $(document).ready(function () {
             gIf.isStart = false;
 
             $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(json));
+        } else if ( 'advanced_debug' == gNode.tab ) {
+            gData[ gNode.tab ].pcapEnable = 0;
+            $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ gNode.tab ]), function(poster) {
+                gObj.tabIndex = 1;
+                getCgiList(gObj.active.pid);
+            });
         }
     }
 
@@ -3044,6 +3104,8 @@ $(document).ready(function () {
 
                         $(':button:contains("Start")').prop('disabled', true);
                         $(':button:contains("Stop")').prop('disabled', false);
+
+                        $('.debugging').prop('disabled', true);
 
                         gIf.isCapture = true;                    
                         gObj.form = {};
@@ -3087,7 +3149,7 @@ $(document).ready(function () {
                             tmp += gNode.editor[ i ].col[ j ].label;
                             tmp += '</td>';
                             tmp += '<td class="alignLeft">';
-                            tmp += '<input class="ifStart" type="text" id="Editor-' + gNode.editor[ i ].col[ j ].tab + '" ' + ( (gNode.editor[ i ].col[ j ].size)? 'size="' + gNode.editor[ i ].col[ j ].size + '"' : '' ) + '/>';
+                            tmp += '<input class="debugging" type="text" id="Editor-' + gNode.editor[ i ].col[ j ].tab + '" ' + ( (gNode.editor[ i ].col[ j ].size)? 'size="' + gNode.editor[ i ].col[ j ].size + '"' : '' ) + '/>';
                             tmp += '</td>';
                             tmp += '</tr>';
                         }
@@ -3099,12 +3161,12 @@ $(document).ready(function () {
                         tmp += gNode.editor[ i ].label;
                         tmp += '</th>';
                         tmp += '<td class="alignLeft">';
-                        tmp += '<input class="ifStart" type="text" id="Editor-' + gNode.editor[ i ].tab + '" />';
+                        tmp += '<input class="debugging" type="text" id="Editor-' + gNode.editor[ i ].tab + '" />';
                         tmp += '</td>';
                         break;
                     case 'checkbox':
                         tmp += '<td class="alignRight BT120" >';
-                        tmp += '<input class="ifStart" type="checkbox" id="Editor-' + gNode.editor[ i ].tab + '" value="1" />';
+                        tmp += '<input class="debugging" type="checkbox" id="Editor-' + gNode.editor[ i ].tab + '" value="1" />';
                         tmp += '</td>';
                         tmp += '<th class="alignLeft">';
                         tmp += '<label for="Editor-' + gNode.editor[ i ].tab + '">' + gNode.editor[ i ].label + '</label>';
@@ -3115,7 +3177,7 @@ $(document).ready(function () {
                         tmp += gNode.editor[ i ].label;
                         tmp += '</th>';
                         tmp += '<td class="alignLeft">';
-                        tmp += '<select class="ifStart" id="Editor-' + gNode.editor[ i ].tab + '"></select>';
+                        tmp += '<select class="debugging" id="Editor-' + gNode.editor[ i ].tab + '"></select>';
                         tmp += '</td>';
                         break;
                     }
@@ -3138,7 +3200,7 @@ $(document).ready(function () {
                     $('#Editor-netmask').val( data.netmask );
                     $('#Editor-mac').val( data.mac );
                     $(':button:contains("Start")').prop('disabled', true);
-                    $('.ifStart').prop('disabled', true);
+                    $('.debugging').prop('disabled', true);
                     gIf.isCapture = true;                    
                 } else {
                     $('#Editor-portStart').val(0);
@@ -3169,9 +3231,11 @@ $(document).ready(function () {
         if (!tar.id)
             return false;
 
+        tar.pid = tar.id.split('-')[ 1 ];
+
         tar.thisNo = tar.id.split('-')[ 2 ];
 
-        window.open('cgi-bin/' + gNode.url.download + '.cgi?fpath=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].filepath, "_blank");
+        window.open('cgi-bin/' + gNode.url.download + '.cgi?fpath=' + gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].filepath, "_blank");
     }
 
     function btnApply( e ) {
@@ -4283,7 +4347,9 @@ $(document).ready(function () {
                     url: gObj.phpQuery.php + '.php?param=' + pid + sortBy,
                     dataType: 'json',
                     success: function(data) {
+                       
                         if (parseInt(data.queryRows) > 0) {
+                            data.queryResults = dataSortPhp( data.queryResults, pid );
                             for (var j=0; j<data.queryResults.length; j++)
                             {
                                 tmp += '<tr class="' + ( (j%2==0)? 'even': 'odd' )+ '">';
@@ -4444,6 +4510,7 @@ $(document).ready(function () {
                                 dataType: 'json',
                                 success: function(data) {
                                     if (parseInt(data.queryRows) > 0) {
+                                        data.queryResults = dataSortPhp( data.queryResults, pid );
                                         $('#table-' + data.param + ' tbody').empty();
                                         tmp = '';
                                         for (var j=0; j<data.queryResults.length; j++)
@@ -4685,6 +4752,7 @@ $(document).ready(function () {
                             dataType: 'json',
                             success: function(data) {
                                 if (parseInt(data.queryRows) > 0) {
+                                    data.queryResults = dataSortPhp( data.queryResults, data.param );
                                     $('#table-' + data.param + ' tbody').empty();
                                     tmp = '';
                                     for (var j=0; j<data.queryResults.length; j++)
@@ -7017,6 +7085,7 @@ $(document).ready(function () {
         switch(tar.pid)
         {
         case 'wan_settings':
+            tar.w = 660;
             tar.h = 600;
             $('#popForm').append('<div class="editorDiv"><div class="tabs"><ul></ul></div></div>');
     
@@ -8069,6 +8138,7 @@ $(document).ready(function () {
         switch(tar.pid)
         {
         case 'wan_settings':
+            tar.w = 660;
             tar.h = 600;
             $('#popForm').append('<div class="formDiv"><div class="tabs"><ul></ul></div></div>');
     
@@ -11087,20 +11157,22 @@ $(document).ready(function () {
                     }
                 } else {
                     // compare with other ip, netmask
-                    if (gObj.calc.targetIp == gData[ pid ].staticipT[ i ].ip) {
-                        checker.pass = false;
-                        gObj.calc.checkIp.conflictType = 'wanIfIp';
-                        checker.msg += '<p>' + gError[ gObj.lang ][ gObj.calc.checkIp.conflictType ] + '</p>';
-                    } else if ( 0 === parseInt( gData[ pid ].wanIpIfT[ i ].wanProto ) ) {
-                        checker.arrIp    = gData[ pid ].staticipT[ i ].ip.split('.');
-                        checker.arrMask  = gData[ pid ].staticipT[ i ].netmask.split('.');
-                        checker.compIp   = (checker.arrIp[ 0 ] << 24) + (checker.arrIp[ 1 ] << 16) + (checker.arrIp[ 2 ] << 8) + checker.arrIp[ 3 ];
-                        checker.compMask = (checker.arrMask[ 0 ] << 24) + (checker.arrMask[ 1 ] << 16) + (checker.arrMask[ 2 ] << 8) + checker.arrMask[ 3 ];
-
-                        if ( (checker.tarIp & checker.tarMask & checker.compMask) == (checker.compIp & checker.compMask & checker.tarMask) ) {
+                    if ( 0 === parseInt( gData[ pid ].wanIpIfT[ i ].wanProto ) ) {
+                        if (gObj.calc.targetIp == gData[ pid ].staticipT[ i ].ip) {
                             checker.pass = false;
-                            gObj.calc.checkIp.conflictType = 'wanIfNetwork';
+                            gObj.calc.checkIp.conflictType = 'wanIfIp';
                             checker.msg += '<p>' + gError[ gObj.lang ][ gObj.calc.checkIp.conflictType ] + '</p>';
+                        } else { 
+                            checker.arrIp    = gData[ pid ].staticipT[ i ].ip.split('.');
+                            checker.arrMask  = gData[ pid ].staticipT[ i ].netmask.split('.');
+                            checker.compIp   = (checker.arrIp[ 0 ] << 24) + (checker.arrIp[ 1 ] << 16) + (checker.arrIp[ 2 ] << 8) + checker.arrIp[ 3 ];
+                            checker.compMask = (checker.arrMask[ 0 ] << 24) + (checker.arrMask[ 1 ] << 16) + (checker.arrMask[ 2 ] << 8) + checker.arrMask[ 3 ];
+
+                            if ( (checker.tarIp & checker.tarMask & checker.compMask) == (checker.compIp & checker.compMask & checker.tarMask) ) {
+                                checker.pass = false;
+                                gObj.calc.checkIp.conflictType = 'wanIfNetwork';
+                                checker.msg += '<p>' + gError[ gObj.lang ][ gObj.calc.checkIp.conflictType ] + '</p>';
+                            }
                         }
                     }
                     // compare with other alias
@@ -11140,7 +11212,7 @@ $(document).ready(function () {
                             }
                         }
                     }
-                } else {
+                } else if ( gReg.ipv4.test( gData[ pid ][ gNode.guiT ][ i ].address ) ) {
                     // compare with other ip, netmask
                     if (gObj.calc.targetIp == gData[ pid ][ gNode.guiT ][ i ].address) {
                         checker.pass = false;
@@ -11154,7 +11226,7 @@ $(document).ready(function () {
 
                         if ( (checker.tarIp & checker.tarMask & checker.compMask) == (checker.compIp & checker.compMask & checker.tarMask) ) {
                             checker.pass = false;
-                            gObj.calc.checkIp.conflictType = checker.conflict + 'portIfNetwork';
+                            gObj.calc.checkIp.conflictType = checker.conflict + 'IfNetwork';
                             checker.msg += '<p>' + gError[ gObj.lang ][ gObj.calc.checkIp.conflictType ] + '</p>';
                         }
                     }
@@ -17203,7 +17275,7 @@ $(document).ready(function () {
     
                                         tmp = '<tr>';
                                         tmp += '<td class="alignLeft BT350">';
-                                        tmp += '<div id="div-mime">';
+                                        tmp += '<div id="div-mime" >';
                                         tmp += '<table id="table-mime" class="Create">';
                                         tmp += '<caption>' + gNode.col[ y ][ 0 ].label + '</caption>';
                                         tmp += '<thead>';
@@ -18041,6 +18113,7 @@ $(document).ready(function () {
             buttons: {
                 OK: function() {
                     if (securityChecker(e)) {
+                        gIf.alter = true;
                         switch( tar.pid )
                         {
                         case 'mime':
@@ -18384,7 +18457,7 @@ $(document).ready(function () {
                         // for gid might be 0 if never saved, cache uniq name instead 
                         gCache.uniq.group = {};
                         gCache.uniq.user = {};
-                        gCache.uniq.user[ gObj.adminName ] = true;
+                        //gCache.uniq.user[ gObj.adminName ] = true;
                         gCache.group = {};
                         gCache.user = {};
                         gCache.groupId = 0;
@@ -22132,9 +22205,22 @@ $(document).ready(function () {
                                         success: function(data) {
                                             if ('start' == data.action)
                                                 btnNew( data );
+                                            else {
+                                                // check if advanced debugging
+                                                $.ajax({
+                                                    url: 'cgi-bin/' + gNode.url.checkPcap + '.' + gNode.ext,
+                                                    dataType: 'json',
+                                                    success: function(data) {
+                                                        if (1 === parseInt( data.pcapEnable )) {
+                                                            errorAlert('<p>' + gError[ gObj.lang ].advancedDebugging + '</p>');
+                                                            $('#New-' + gNode.tab).prop('disabled', true);
+                                                        }
+                                                    }
+                                                });
+                                            }
                                         }
                                     });
-                                });
+                                })
                             } else {
                                 $('#div-' + gNode.tab + ' button').prop('disabled', true);
                                 $('#div-' + gNode.tab + ' input').prop('disabled', true);
@@ -22843,10 +22929,10 @@ $(document).ready(function () {
                                 tmp += '<td class="alignLeft"><input type="password" id="adminNewPwd" /></td>';
                                 tmp += '</tr>';
                                 tmp += '<td rowspan="2" class="BT100"></td>';
-                                tmp += '<td class="alignLeft"><label for="confirmNewPwd">' + gNode.col[ 0 ].col[ 3 ].label + '</label></td>';
+                                tmp += '<td class="alignLeft"><label for="adminNewPwdConfirm">' + gNode.col[ 0 ].col[ 3 ].label + '</label></td>';
                                 tmp += '</tr>';
                                 tmp += '<tr>';
-                                tmp += '<td class="alignLeft"><input type="password" id="confirmNewPwd" /></td>';
+                                tmp += '<td class="alignLeft"><input type="password" id="adminNewPwdConfirm" /></td>';
                                 tmp += '</tr>';
                                 tmp += '</table>';
                                 tmp += '</div>';
@@ -23243,6 +23329,7 @@ $(document).ready(function () {
     
                         $('.tabber ul').append('<li id="tab-email_settings"><a href="#panel-email_settings">' + gNode.col[ 0 ].label + '</a></li><li id="tab-email_alerts"><a href="#panel-email_alerts">' + gNode.col[ 1 ].label + '</a></li>');
                         $('.tabber').append('<div id="panel-email_settings"></div><div id="panel-email_alerts"></div></li>');
+                        gObj.tabber = $('.tabber').tabs();
     
                         $.ajax({
                             url: 'cgi-bin/' + gNode.url.get + '.' + gNode.ext,
@@ -23422,15 +23509,321 @@ $(document).ready(function () {
                                     $('.templateDiv select').prop('disabled', true);
                                     $('.templateDiv button').prop('disabled', true);
                                 }
-
                             }
                         });
     
                         break;
+                    case 'advanced_debug':
+                        gY.one('.tabber ul').append('<li id="tab-log"><a href="#panel-log">' + gNode.tabs.log + '</a></li><li id="tab-debug"><a href="#panel-debug">' + gNode.tabs.debug  + '</a></li>');
+                        gY.one('.tabber').append('<div id="panel-log"></div><div id="panel-debug"></div>');
+
+                        if (gIf.power) {
+                            $('#main_ft').html( gHtml.pgSave + gHtml.pgCancel + gHtml.pgStart + gHtml.pgStop );
+                            gY.one('#pgSave').on('click', function(e) {
+                                saveDevice( pid );
+                            });
+                        }
+
+                        gObj.tabber = $('.tabber').tabs({
+                            active: gObj.tabIndex,
+                            select: function (event, ui) {
+                                if (0 === parseInt( ui.index ) ) {
+                                    $('#pgSave').show();
+                                    $('#pgCancel').show();
+                                    $('#pgStart').hide();
+                                    $('#pgStop').hide();
+                                } else {
+                                    $('#pgSave').hide();
+                                    $('#pgCancel').hide();
+                                    $('#pgStart').show();
+                                    $('#pgStop').show();
+                                }
+                                gObj.tabIndex = ui.index;
+                            },
+                            create: function (event, ui) {
+                                if (0 === parseInt( gObj.tabIndex ) ) {
+                                    $('#pgSave').show();
+                                    $('#pgCancel').show();
+                                    $('#pgStart').hide();
+                                    $('#pgStop').hide();
+                                } else {
+                                    $('#pgSave').hide();
+                                    $('#pgCancel').hide();
+                                    $('#pgStart').show();
+                                    $('#pgStop').show();
+                                }
+                            }
+                        });
+
+                        $.ajax({
+                            url: 'cgi-bin/' + gNode.url.get + '.' + gNode.ext,
+                            dataType: 'json',
+                            success: function(data) {
+                                gData[ pid ] = data;
+
+                                if (1 === parseInt( data.logEnable )) {
+                                    gIf.log = true;
+                                    gIf.debug = true;
+                                }
+                                
+                                if (1 === parseInt( data.pcapEnable )) {
+                                    gIf.pcap = true;
+                                    gIf.debug = true;
+                                }
+
+                                tmp = '<div id="div-log">';
+                                tmp += '<div id="div-log_global">';
+                                tmp += '<table id="table-log_global">';
+                                tmp += '<tr><td class="alignRight BT80"><input type="checkbox" id="logEnable" value="1" /></td><th class="alignLeft"><label for="logEnable">' + gNode.col[ "log" ][ 0 ].col[ 0 ].label + '</label></th></tr>';
+                                tmp += '<tr><th class="alignRight BT80">' + gNode.col[ "log" ][ 0 ].col[ 1 ].label + '</th><td class="alignLeft"><input type="text" id="logDesc" ></td></tr>';
+                                tmp += '</table>';
+                                tmp += '</div>';
+
+                                tmp += '<div id="div-log_list">';
+                                tmp += '<table id="table-log_list">';
+                                tmp += '<thead>';
+                                tmp += '<tr>';
+                                tmp += '<th class="ui-state-default BT40"></th>';
+                                tmp += '<th class="ui-state-default BT350">' + gNode.col[ "log" ][ 1 ].col[ 1 ].label + '</th>';
+                                tmp += '<th class="ui-state-default">' + gNode.col[ "log" ][ 1 ].col[ 2 ].label + '</th>';
+                                tmp += '<th class="ui-state-default BT100">' + gNode.col[ "log" ][ 1 ].col[ 3 ].label + '</th>';
+                                tmp += '</tr>';
+                                tmp += '</thead>';
+                                tmp += '<tbody>';
+                                tmp += '</tbody>';
+                                tmp += '</table>';
+                                tmp += '<div class="tblAction">';
+                                tmp += '<button id="Remove-log" class="Remove" title="Remove"><span class="ui-icon"></span></button>';
+                                tmp += '</div>';
+                                tmp += '</div>';
+                                tmp += '</div>';
+                                $('#panel-log').html( tmp );
+
+                                tmp = '<div id="div-debug">';
+				tmp += '<div id="div-debug_global">';
+                                tmp += '<table id="table-debug_global">';
+                                tmp += '<tbody>';
+                                tmp += '<tr>';
+                                tmp += '<td class="BT40"></td>';
+                                tmp += '<th class="alignLeft BT110">Description</th>';
+                                tmp += '<td class="alignLeft BT200" colspan="2"> <input class="debugging" type="text" id="pcapDesc" /> </td>';
+                                tmp += '<td class="BT40"></td>';
+                                tmp += '<th class="alignLeft BT120"></th>';
+                                tmp += '<td class="alignLeft BT200" colspan="2"></td>';
+                                tmp += '<td class="BT100"></td>';
+                                tmp += '</tr>';
+
+                                tmp += '<tr>';
+                                tmp += '<td class="BT40"></td>';
+                                tmp += '<th class="alignLeft BT110">Network Interface </th>';
+                                tmp += '<td class="alignLeft BT200" colspan="2">';
+                                tmp += '<select id="pcapIfName" class="debugging"></select>';
+                                tmp += '</td>';
+
+                                tmp += '<td class="BT40"></td>';
+                                tmp += '<th class="alignLeft BT120"></th>';
+                                tmp += '<td class="alignLeft BT200" colspan="2"></td>';
+                                tmp += '<td class="BT100"></td>';
+                                tmp += '</tr>';
+
+                                tmp += '<tr>';
+                                tmp += '<td class="BT40"></td>';
+                                tmp += '<th class="alignLeft BT110">Port Range </th>';
+                                tmp += '<td class="alignLeft BT100">Start</td>';
+                                tmp += '<td class="alignLeft BT100"> <input class="debugging" type="text" id="pcapPortStart" size="8"> </td>';
+                
+                                tmp += '<td class="BT40"></td>';
+                                tmp += '<td class="alignLeft BT120">End</td>';
+                                tmp += '<td class="alignLeft BT200" colspan="2"> <input class="debugging" type="text" id="pcapPortEnd" size="8"> </td>';
+                                tmp += '<td class="BT100"></td>';
+                                tmp += '</tr>';
+                                tmp += '<tr>';
+                                tmp += '<td class="BT40"></td>';
+                                tmp += '<th class="alignLeft BT110">Host</th>';
+                                tmp += '<td class="alignLeft BT100">Address</td>';
+                                tmp += '<td class="alignLeft BT100"> <input class="debugging" type="text" id="pcapHost"> </td>';
+                
+                                tmp += '<td class="BT40"></td>';
+                                tmp += '<td class="BT310" colspan="3"></td>';
+                
+                                tmp += '<td class="BT100"></td>';
+                                tmp += '</tr>';
+                                tmp += '<tr>';
+                                tmp += '<td class="BT40"></td>';
+                                tmp += '<th class="alignLeft BT110">Net </th>';
+                                tmp += '<td class="alignLeft BT100">Address</td>';
+                                tmp += '<td class="alignLeft BT100"> <input class="debugging" type="text" id="pcapNetAddress"> </td>';
+                                tmp += '<td class="BT40"></td>';
+                                tmp += '<td class="alignLeft BT120" >Netmask</td>';
+                                tmp += '<td class="alignLeft" colspan="2"> <input class="debugging" type="text" id="pcapNetmask"> </td>';
+                
+                                tmp += '<td class="BT100"></td>';
+                                tmp += '</tr>';
+                                tmp += '<tr>';
+                                tmp += '<td class="BT40"></td>';
+                                tmp += '<th class="alignLeft BT110">MAC </th>';
+                                tmp += '<td class="alignLeft BT100">Address</td>';
+                                tmp += '<td class="alignLeft BT100"> <input class="debugging" type="text" id="pcapMac"> </td>';
+                
+                                tmp += '<td class="BT40"></td>';
+                                tmp += '<td class="BT320" colspan="3"></td>';
+                                tmp += '<td class="BT100">';
+                                tmp += '</td>';
+                                tmp += '</tr>';
+                                tmp += '</tbody>';
+                                tmp += '</table>';
+                                tmp += '</div>';
+
+                                tmp += '<div id="div-debug_list">';
+                                tmp += '<table id="table-debug_list">';
+                                tmp += '<thead>';
+                                tmp += '<tr>';
+                                
+                                tmp += '<th class="ui-state-default BT40"></th>';
+                                tmp += '<th class="ui-state-default BT350">' + gNode.col[ "debug" ][ 1 ].col[ 1 ].label + '</th>';
+                                tmp += '<th class="ui-state-default">' + gNode.col[ "debug" ][ 1 ].col[ 2 ].label + '</th>';
+                                tmp += '<th class="ui-state-default BT100">' + gNode.col[ "debug" ][ 1 ].col[ 3 ].label + '</th>';
+                                
+                                tmp += '</tr>';
+                                tmp += '</thead>';
+                                tmp += '<tbody>';
+                                tmp += '</tbody>';
+                                tmp += '</table>';
+                                tmp += '<div class="tblAction">';
+                                tmp += '<button id="Remove-debug" class="Remove" title="Remove"><span class="ui-icon"></span></button>';
+                                tmp += '</div>';
+                                tmp += '</div>';
+                                tmp += '</div>';
+                                $('#panel-debug').html( tmp );
+                                
+                                if (1 === parseInt( data.logEnable ))
+                                    $('#logEnable').click();
+                                
+                                $('#logDesc').val( data.logDesc );
+
+                                if (1 === parseInt( data.logEnable ))
+                                    $('#pcapEnable').click();
+                                
+                                $('#pcapDesc').val( data.pcapDesc );
+                                cgiSelectOption( 'pcapIfName', data.pcapIfName );
+                                $('#pcapPortStart').val( data.pcapPortStart );
+                                $('#pcapPortEnd').val( data.pcapPortEnd );
+                                $('#pcapHost').val( data.pcapHost );
+                                $('#pcapNetAddress').val( data.pcapNetAddress );
+                                $('#pcapNetmask').val( data.pcapNetmask );
+                                $('#pcapMac').val( data.pcapMac );
+
+                                $.ajax({
+                                    url: 'cgi-bin/' + gNode.url.log + '.' + gNode.ext,
+                                    dataType: 'json',
+                                    success: function(data) {
+                                        gData.log = data;
+                                        for (var i=0, len=data[ gNode.guiTNum ]; i<len; i++)
+                                        {
+                                            tmp = '<tr class="' + ((i%2 == 0)? 'odd' : 'even') + '">';
+                                            tmp += '<td>';
+                                            tmp += '<input type="checkbox" id="log-' + i + '" value="' + i + '" />';
+                                            tmp += '</td>';
+                                            tmp += '<td>';
+                                            tmp += data[ gNode.guiT ][ i ].filepath;
+                                            tmp += '</td>';
+                                            tmp += '<td>';
+                                            tmp += data[ gNode.guiT ][ i ].desc;
+                                            tmp += '</td>';
+                                            tmp += '<td>';
+                                            tmp += '<button id="Donwload-log-' + i + '" class="Download" title="Download"><span class="ui-icon"></span></button>';
+                                            tmp += '<button id="delete-log-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
+                                            tmp += '</td>';
+                                            tmp += '</tr>';
+                                            $('#table-log_list tbody').append( tmp );
+                                        }
+                                    }   
+                                }).done( function() {
+                                
+                                    $.ajax({
+                                        url: 'cgi-bin/' + gNode.url.debug + '.' + gNode.ext,
+                                        dataType: 'json',
+                                        success: function(data) {
+                                            gData.debug = data;
+                                            for (var i=0, len=data[ gNode.guiTNum ]; i<len; i++)
+                                            {
+                                                tmp = '<tr class="' + ((i%2 == 0)? 'odd' : 'even') + '">';
+                                                tmp += '<td>';
+                                                tmp += '<input type="checkbox" id="debug-' + i + '" value="' + i + '" />';
+                                                tmp += '</td>';
+                                                tmp += '<td>';
+                                                tmp += data[ gNode.guiT ][ i ].filepath;
+                                                tmp += '</td>';
+                                                tmp += '<td>';
+                                                tmp += data[ gNode.guiT ][ i ].desc;
+                                                tmp += '</td>';
+                                                tmp += '<td>';
+                                                tmp += '<button id="Donwload-debug-' + i + '" class="Download" title="Download"><span class="ui-icon"></span></button>';
+                                                tmp += '<button id="delete-debug-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
+                                                tmp += '</td>';
+                                                tmp += '</tr>';
+                                                $('#table-debug_list tbody').append( tmp );
+                                            }
+                                        }   
+                                    }).done( function() {
+                                        if (gIf.power) {
+                                            if ( 1 === parseInt( data.pcapEnable )) {
+                                                $('#pgStart').prop('disabled', true);
+                                                $('.debugging').prop('disabled', true);
+                                            } else {
+                                                $('#pgStop').prop('disabled', true);
+                                                $('.debugging').prop('disabled', false);
+                                            }
+                                            
+                                            if (gRows.maxDebug <= gData.log.guiFileTNum) {
+                                                $('#pgStart').prop('disabled', true);
+                                            }
+                                            
+                                            $.ajax({
+                                                url: 'cgi-bin/' + gNode.url.checkPcap + '.' + gNode.ext,
+                                                dataType: 'json',
+                                                success: function(data) {
+                                                    if ('start' == data.action) {
+                                                        errorAlert('<p>' + gError[ gObj.lang ].packetCapturing + '</p>');
+                                                        $('#pgStart').prop('disabled', true);
+                                                    }
+                                                }
+                                            });
+                                        } else {
+                                            $('.templateDiv input').prop('disabled', true);
+                                            $('.templateDiv select').prop('disabled', true);
+                                            $('.templateDiv button').prop('disabled', true);
+                                        }
+                                    });
+                                });
+                            }   
+                        });
+                        break;
                     case 'license':
                         gY.one('.tabber ul').append('<li id="tab-registration"><a href="#panel-registration">' + gNode.tabs.registration + '</a></li><li id="tab-services"><a href="#panel-services">' + gNode.tabs.services  + '</a></li>');
                         gY.one('.tabber').append('<div id="panel-registration"></div><div id="panel-services"></div>');
-                        for (var y in gNode.url.get)
+                        if (gIf.power) {
+                            $('#main_ft').html( gHtml.pgSave + gHtml.pgCancel );
+                            gY.one('#pgSave').on('click', function(e) {
+                                saveDevice( x );
+                            });
+                        }
+
+                        gObj.tabber = $('.tabber').tabs({
+                            active: gObj.tabIndex,
+                            select: function (event, ui) {
+                                if (0 === parseInt( ui.index ) ) {
+                                    $('#pgSave').show();
+                                    $('#pgCancel').show();
+                                } else {
+                                    $('#pgSave').hide();
+                                    $('#pgCancel').hide();
+                                }
+                                gObj.tabIndex = ui.index;
+                            }
+                        });
+
+                        for (var y in gNode.tabs)
                         {
                             $.ajax({
                                 url: 'cgi-bin/' + gNode.url.get[ y ] + '.' + gNode.ext,
@@ -23451,12 +23844,6 @@ $(document).ready(function () {
                                     {
                                     case 'registration':
                                         gCache[ x ] = data;
-                                        if (gIf.power) {
-                                            $('#main_ft').html( gHtml.pgSave + gHtml.pgCancel );
-                                            gY.one('#pgSave').on('click', function(e) {
-                                                saveDevice( x );
-                                            });
-                                        }
     
                                         tmp = '<div id="div-registration" >';
                                         tmp += '<div id="div-registration-general" >';
@@ -23748,7 +24135,7 @@ $(document).ready(function () {
                                         tmp +=     '<tbody>';
                                         tmp +=     '</tbody>';
                                         tmp +=   '</table>';
-                                        tmp +=   '<div class="tblAction"><button id="licenseRefresh" class="LicenseRefresh"><span class="ui-icon"></span></div>';
+                                        tmp +=   '<div class="tblAction"><button id="licenseRefresh" class="LicenseRefresh"><span class="ui-icon"></span></button></div>';
                                         tmp += '</div>';
     
                                         tmp += '<div id="div-services_active" >';
@@ -23762,7 +24149,7 @@ $(document).ready(function () {
                                         tmp +=         '<td class="alignLeft BT150">';
                                         tmp +=           '<input type="text" id="activeCode" />';
                                         tmp +=         '</td>';
-                                        tmp +=         '<td class="alignLeft"><div class="tblAction"><button id="licenseUpgrade" class="LicenseUpgrade"><span class="ui-icon"></span></div></td>';
+                                        tmp +=         '<td class="alignLeft"><div class="tblAction"><button id="licenseUpgrade" class="LicenseUpgrade"><span class="ui-icon"></span></button></div></td>';
                                         tmp +=       '</tr>';
                                         tmp +=     '</thead>';
                                         tmp +=   '</table>';
@@ -23785,7 +24172,7 @@ $(document).ready(function () {
                                                 }else {
                                                     $('.newUsername').removeClass('isOK');
                                                     $('.newUsername').addClass('isKO');
-                                                    errorAlert( poster.msg );
+                                                    errorAlert( '<p>' + poster.msg + '</p>' );
                                                 }
                                             }).fail( function(){
                                                 errorAlert( 'register server connecting failed' );
@@ -23830,7 +24217,7 @@ $(document).ready(function () {
                                             }
                                         }
     
-                                        if (data.haveAccount == 0) {
+                                        if (0 === parseInt( data.haveAccount )) {
                                             $('input[name=registrationMode]').each(function() {
                                                 if ($(this).val() == data.registrationMode)
                                                     $(this).attr('checked', true).trigger('click');
@@ -23925,6 +24312,30 @@ $(document).ready(function () {
                 gY.one('.tabber').append('<div id="panel-' + x + '"><div id="div-' + x + '"></div></div>');
             }
     
+
+                    
+            gObj.tabber = $('.tabber').tabs({
+                active: gObj.tabIndex,
+                select: function (event, ui) {
+                    if ( 0 === parseInt( ui.index ) ) {
+                        $('#pgSave').hide();
+                        $('#pgCancel').hide();
+                        $('#pgExtend').show();
+                        $('#pgExport').show();
+                        $('#pgClear').show();
+                        $('#pagerDiv').show();
+                    } else {
+                        $('#pgSave').show();
+                        $('#pgCancel').show();
+                        $('#pgExtend').hide();
+                        $('#pgExport').hide();
+                        $('#pgClear').hide();
+                        $('#pagerDiv').hide();
+                    }
+                    gObj.tabIndex = ui.index;
+                }
+            });
+
             /* view logs */
     
             gObj.phpQuery.pi = 1;
@@ -24206,38 +24617,6 @@ $(document).ready(function () {
             });
             break;
         }
-    
-        gObj.tabber = $('.tabber').tabs();
-        gObj.tabber.bind('tabsselect', function(event, ui) { 
-            switch(parseInt(ui.index)) 
-            {
-            case 0:
-                if ( 'license' == gNode.tab ) {
-                    $('#pgSave').show();
-                    $('#pgCancel').show();
-                } else if ( 'loggings' == gNode.tab ) {
-                    $('#pgSave').hide();
-                    $('#pgCancel').hide();
-                    $('#pagerDiv').show();
-                    $('#pgExtend').show();
-                    $('#pgExport').show();
-                    $('#pgClear').show();
-                }
-                break;
-            default :
-                if ( 'license' == gNode.tab ) {
-                    $('#pgSave').hide();
-                    $('#pgCancel').hide();
-                } else if ( 'loggings' == gNode.tab ) {
-                    $('#pgSave').show();
-                    $('#pgCancel').show();
-                    $('#pagerDiv').hide();
-                    $('#pgExtend').hide();
-                    $('#pgExport').hide();
-                    $('#pgClear').show();
-                }
-            }
-        });
     }
     
     function refreshDevice( pid ) {
@@ -24463,6 +24842,20 @@ $(document).ready(function () {
                 genDevice( tar.pid );
             });
             break;
+        case 'log':
+            gIf.alter = false;
+            gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].delete = 1;
+            $.post('cgi-bin/' + gNode.url.log + '.cgi', gY.JSON.stringify(gData[ tar.pid ]), function( poster ) {
+                genDevice( 'advanced_debug' );
+            });
+            break;
+        case 'debug':
+            gIf.alter = false;
+            gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].delete = 1;
+            $.post('cgi-bin/' + gNode.url.debug + '.cgi', gY.JSON.stringify(gData[ tar.pid ]), function( poster ) {
+                genDevice( 'advanced_debug' );
+            });
+            break;
         }
     }
 
@@ -24475,19 +24868,35 @@ $(document).ready(function () {
     
         gIf.alter = false;
 
-        $('#table-' + tar.pid + ' tr').each(function() {
-            tar.thisNo = $(this).find('td:eq(0) input:checkbox').val();
-            switch($(this).find('td:eq(0) input:checkbox').is(':checked'))
-            {
-            case true:
-                gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].delete = 1;
-                break;
-            }
-        });
+        if ('packet_capture' == tar.pid) {
+            $('#table-' + tar.pid + ' tr').each(function() {
+                tar.thisNo = $(this).find('td:eq(0) input:checkbox').val();
+                switch($(this).find('td:eq(0) input:checkbox').is(':checked'))
+                {
+                case true:
+                    gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].delete = 1;
+                    break;
+                }
+            });
 
-        $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ tar.pid ]), function( poster ) {
-            genDevice( tar.pid );
-        });
+            $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ tar.pid ]), function( poster ) {
+                genDevice( tar.pid );
+            });
+        } else {
+            $('#table-' + tar.pid + '_list tr').each(function() {
+                tar.thisNo = $(this).find('td:eq(0) input:checkbox').val();
+                switch($(this).find('td:eq(0) input:checkbox').is(':checked'))
+                {
+                case true:
+                    gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].delete = 1;
+                    break;
+                }
+            });
+
+            $.post('cgi-bin/' + gNode.url[ tar.pid ] + '.cgi', gY.JSON.stringify(gData[ tar.pid ]), function( poster ) {
+                genDevice( 'advanced_debug' );
+            });
+        }
     }
 
     function deviceEditor(e, w, h) {
@@ -24582,9 +24991,9 @@ $(document).ready(function () {
         switch(tar.pid)
         {
         case 'administrator_settings' :
-            if ($('#adminNewPwd').val().length > 0 || $('#confirmNewPwd').val().length > 0) {
+            if ($('#adminNewPwd').val().length > 0 || $('#adminNewPwdConfirm').val().length > 0) {
                 // pwd change, check
-                if ( $('#adminNewPwd').val() == $('#confirmNewPwd').val() ) {
+                if ( $('#adminNewPwd').val() == $('#adminNewPwdConfirm').val() ) {
                     if ($('#adminOldPwd').val().length > 0 && $('#adminName').val().length > 0) {
                         gData[ pid ].setPassword = 1;
                     }else {
@@ -24761,6 +25170,12 @@ $(document).ready(function () {
                  }
             }
             break;
+        case 'advanced_debug' :
+            if (!gReg.length0127.test($('#log-logDesc').val())) {
+                pass = false;
+                msg += '<p>' + gError[ gObj.lang ].length0127 + '</p>';
+            }
+            break;
         case 'registration' :
             if (gData[ pid ].haveAccount == 0) {
                 $('.newUsername').removeClass('isOK');
@@ -24861,17 +25276,19 @@ $(document).ready(function () {
     }
     
     function saveDevice(pid) {
-    
+        var checker = {};
+        var msg = '';
         switch(pid)
         {
         case 'administrator_settings':
-            if (deviceChecker(null, pid)) {
-                if (1 === gData[ pid ].setPassword) {
+            checker = callCheckers( pid );
+            if (checker.pass) {
+                if (1 === tar.setPassword) {
+                    gData[ pid ].setPassword = tar.setPassword;
                     gData[ pid ].adminName = $('#adminName').val();
                     gData[ pid ].adminOldPwd = $('#adminOldPwd').val();
                     gData[ pid ].adminNewPwd = $('#adminNewPwd').val();
                 }
-    
                 gData[ pid ].loginInactiveTimeout = $('#loginInactiveTimeout').val();
                 gData[ pid ].loginSessionLimitEnable = ($('#loginSessionLimitEnable').is(':checked'))? 1 : 0;
                 gData[ pid ].loginSessionLimit = $('#loginSessionLimit').val();
@@ -24879,6 +25296,16 @@ $(document).ready(function () {
                 gData[ pid ].loginFailBlockTime = $('#loginFailBlockTime').val();
                 gIf.limited = (1 === parseInt(gData.loginSessionLimitEnable) )? true : false;
             } else {
+                for (var i=0, len=checker.cols.length; i<len; i++)
+                {
+                    if (!checker.cols[ i ].pass) {
+                        msg += '<p>' + gError[ gObj.lang ][ checker.cols[ i ].id ] + '</p>';
+                    } else if (checker.cols[ i ].check && !checker.cols[ i ].check.pass) {
+gY.log( checker.cols[ i ] );
+                        msg += '<p>' + gError[ gObj.lang ][ checker.cols[ i ].check.id ] + '</p>';
+                    }
+                }
+                errorAlert( msg );
                 return false;
             }
             break;
@@ -24996,6 +25423,23 @@ $(document).ready(function () {
                 });
             }
             return false;
+            break;
+        case 'advanced_debug':
+            checker = callCheckers( 'log' );
+            if (checker.pass) {
+                if ($('#logEnable').is(':checked')) 
+                    gData.advanced_debug.logEnable = 1;
+                gData.advanced_debug.logDesc = $('#logDesc').val();
+            } else {
+                for (var i=0, len=checker.cols.length; i<len; i++)
+                {
+                    if (!checker.cols[ i ].pass) {
+                        msg += '<p>' + gError[ gObj.lang ][ checker.cols[ i ].id ] + '</p>';
+                    }
+                }
+                errorAlert( msg );
+                return false;
+            }
             break;
         case 'registration':
             if (deviceChecker(null, pid)) {
@@ -27937,6 +28381,7 @@ $(document).ready(function () {
             tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].MAC + ' ' + gTerm[ gObj.lang ].address + '</option>';
             break;
         case 'Editor-ifname' :
+        case 'pcapIfName' :
             cgiID   = 'common_if_list';
             cgiT    = 'guiIfT';
             cgiTNum = 'guiIfTNum';
@@ -28129,6 +28574,7 @@ $(document).ready(function () {
             }
             break;
         case 'Editor-ifname':
+        case 'pcapIfName' :
             for ( var i=0, len=gCache.list[ cgiID ][ cgiTNum ]; i<len; i++ ) 
             {
                 tmp += '<option value="' + gCache.list[ cgiID ][ cgiT ][ i ].name + '">' + gCache.list[ cgiID ][ cgiT ][ i ].name + '</option>';
@@ -28478,8 +28924,8 @@ $(document).ready(function () {
     }
     
     function dataSortPhp( data, pid ) {
-        var ascend = gY.one('#theadTable-' + pid + ' thead').all('span.sortable.ascending');
-        var descend = gY.one('#theadTable-' + pid + ' thead').all('span.sortable.descending');
+        var ascend = ( gReg.isTop.test( pid ) )? gY.one('#table-' + pid + ' thead').all('span.sortable.ascending') : gY.one('#theadTable-' + pid + ' thead').all('span.sortable.ascending');
+        var descend = (gReg.isTop.test( pid ) )? gY.one('#table-' + pid + ' thead').all('span.sortable.descending') : gY.one('#theadTable-' + pid + ' thead').all('span.sortable.descending');
         var sortBy;
 
         if (ascend._nodes.length > 0) {
@@ -28488,6 +28934,10 @@ $(document).ready(function () {
             if (gReg.isNumeric.test( sortBy )) {
                 data.sort( function( obj1, obj2 ) {
                     return obj1[ sortBy ] - obj2[ sortBy ];
+                });
+            } else if (gReg.isIPAddress.test( sortBy )) {
+                data.sort( function( obj1, obj2 ) {
+                    return compare_ip( obj1[ sortBy ], obj2[ sortBy ] ); 
                 });
             } else {
                 data.sort( function( obj1, obj2 ) {
@@ -28504,6 +28954,10 @@ $(document).ready(function () {
             if (gReg.isNumeric.test( sortBy )) {
                 data.sort( function( obj1, obj2 ) {
                     return obj2[ sortBy ] - obj1[ sortBy ];
+                });
+            } else if (gReg.isIPAddress.test( sortBy )) {
+                data.sort( function( obj1, obj2 ) {
+                    return compare_ip( obj2[ sortBy ], obj1[ sortBy ] ); 
                 });
             } else {
                 data.sort( function( obj1, obj2 ) {
@@ -28551,6 +29005,13 @@ $(document).ready(function () {
         return pass;
     }
 
+    function compare_ip( ip1, ip2 ) {
+        var ip1Arr = ip1.split('.');
+        var ip2Arr = ip2.split('.');
+        var ip1Int = (parseInt(ip1Arr[ 0 ]) * 256 * 256 * 256) + (parseInt(ip1Arr[ 1 ]) * 256 * 256) + (parseInt(ip1Arr[ 2 ]) * 256) + (parseInt(ip1Arr[ 3 ]));
+        var ip2Int = (parseInt(ip2Arr[ 0 ]) * 256 * 256 * 256) + (parseInt(ip2Arr[ 1 ]) * 256 * 256) + (parseInt(ip2Arr[ 2 ]) * 256) + (parseInt(ip2Arr[ 3 ]));
+        return (ip1Int - ip2Int);
+    }
 
     function dhcp_overlap( address, netmask, startIp, endIp ) {
         var pass = true;
@@ -29013,6 +29474,25 @@ $(document).ready(function () {
         return e > s;
     }
 
+    function captureStatus() {
+        if ('packet_caputre' == gNode.tab) {
+            $.ajax({
+                url: 'cgi-bin/advancedDebug.cgi',
+                dataType: 'json',
+                success: function(data) {
+                }
+            });
+        } else {
+            $.ajax({
+                url: 'cgi-bin/packetCapture.cgi',
+                dataType: 'json',
+                success: function(data) {
+                    
+                }
+            });
+        }
+    }
+
     function loadingToggle( flag ) {
         if (flag) {
             $('#divSec').hide();
@@ -29101,6 +29581,7 @@ $(document).ready(function () {
             gCache.loadline.push('common_addr_list', 'common_gAddr_list', 'common_zoneIf_list', 'arpTable');
             break;
         case 'packet_capture':
+        case 'advanced_debug':
             gCache.loadline.push('common_if_list');
             break;
         case 'management_settings':
@@ -29316,6 +29797,7 @@ $(document).ready(function () {
                     case 'static_routing':
                         genNetworking(id);
                         break;
+                    case 'advanced_debug':
                     case 'packet_capture':
                     case 'management_settings':
                         genDevice(id);

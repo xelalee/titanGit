@@ -42,6 +42,10 @@
     "destination" : "Destination",
     "address" : "Address",
     "netmask" : "Netmask",
+    "srcIp" : "Source Address",
+    "dstIp" : "Destination Address",
+    "protocol" : "Protocol",
+    "dstPort" : "Destination Port",
     "user" : "User",
     "zone" : "Zone",
     "country" : "Country",
@@ -91,6 +95,7 @@
     "list" : "List",
     "packet_capture" : "Packet Capture",
     "noData" : "no data of this interface during this period",
-    "refreshPage" : "Refresh Page : "
+    "refreshPage" : "Refresh Page : ",
+    "pppoe" : "IP Alias settings will be auto-removed"
   }
 }

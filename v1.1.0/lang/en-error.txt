@@ -2,11 +2,14 @@
   "lang" : "en",
   "error" : 
   {
+    "_comment" : "login form",
     "login_fail" : "incorrect username or password",
     "login_fail_error" : "incorrect username or password",
+    "_comment" : "system alert",
     "invalid_data_format" : "invalid data format ( this should never happen )",
     "please_login_first" : "please login first ( GUI access cgi without login first, or session timeout )",
     "session_limit_reached" : "session time exceeds the limit",
+    "_comment" : "",
     "ip_blocked" : "IP is blocked for too many failed attempts",
     "no_change_required" : "your current firmware is the newest",
     "check_failed" : "the device cannot check the server firmware",
@@ -162,7 +165,6 @@
     "account20" : "account name should be [a-zA-Z0-9@.-_] and length should between 6 to 20",
     "hostName" : "host name should be [a-zA-Z0-9] and length between 1 to 31",
     "domainName" : "domain name max length should be 255",
-    "adminPwdChange" : "admin password change failed",
     "memberLimit" : "member limit exceed",
     "restoreConf" : "restore configuration will take ",
     "checkFirmware" : "check firmware will take few seconds",
@@ -181,6 +183,28 @@
     "fail2Get": "get cgi error",
     "ifname": "please choose the Network Interface",
     "length127": "description length should between 1 to 127",
-    "dhcp_overlap" : "The DHCP range is conflicted with Address setting, please change the pool setting to avoid overlap"
+    "length0127": "description length should between 0 to 127",
+    "dhcp_overlap" : "The DHCP range is conflicted with Address setting, please change the pool setting to avoid overlap",
+
+    "_comment" : "device",
+    "_comment" : "administrator settings",
+    "adminName" : "admin name should be viewable ascii code except '`\"%? and length should between 1 to 31",
+    "adminOldPwd" : "admin password check failed",
+    "adminNewPwd" : "admin password should be viewable ascii code and length should between 1 to 31",
+    "adminNewPwdConfirm" : "admin password is not match with confirm password",
+    "adminPwdChange" : "admin password change failed",
+    "loginInactiveTimeout" : "login inactive timeout should between 60 to 1000",
+    "loginSessionLimit" : "login session limit should between 60 to 1000",
+    "loginFailBlockMaxAttempts" : "block password guessing should between 0 to 1000",
+    "loginFailBlockTime" : "block access for should between 30 to 3600",
+    "_comment" : "email alert",
+
+    "_comment" : "packet capture",
+    "advancedDebugging": "advanced debug packet capturing",
+    "_comment" : "advanced debug",
+    "packetCapturing": "packet capturing",
+    "pcapIfName": "please choose the Network Interface",
+    "logDesc": "description length should between 0 to 127",
+    "pcapDesc": "description length should between 1 to 127"
   }
 }

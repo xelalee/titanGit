@@ -4134,7 +4134,7 @@
                   "wiz" : "125px"
                 },
                 {
-                  "label" : "IP Assigment Method",
+                  "label" : "IP Assignment Method",
                   "tab" : "wanProto",
                   "tag" : "select",
                   "type" : "select",
@@ -6038,6 +6038,7 @@
                   "icon" : "css/images/i_64_encryption_00.png",
                   "option" : 
                   {
+                    "des" : "ESP_DES",
                     "3des" : "ESP_3DES",
                     "aes128" : "ESP_AES_128",
                     "aes192" : "ESP_AES_192",
@@ -10772,135 +10773,157 @@
               "type" : "submit",
               "url" :
               {
-                "get" : 
-                {
-                  "profile" : "config_profile_list",
-                  "pc" : "conf_backup",
-                  "usb" : "conf_usb_backup"
-                },
-                "post" : 
-                {
-                  "profile" : "config_profile_list",
-                  "pc" : "conf_restore",
-                  "usb" : "conf_usb_restore"
-                }
+                "get" : "config_profile_list_v2",
+                "export2pc" : "config_export_pc",
+                "export2usb" : "config_export_usb",
+                "pc4import" : "config_import_pc",
+                "usb4import" : "config_import_usb",
+                "dev4import" : "config_import_dev",
+                "create4dev" : "config_create_dev",
+                "create4pc" : "config_create_pc",
+                "create4usb" : "config_create_usb"
               },
               "ext" : "cgi",
               "tblAction" : "Create",
-              "rowAction" : "Apply Delete",
+              "rowAction" : "Apply Export Import Delete",
               "guiT" : "guiProfileT",
               "guiTNum" : "guiProfileTNum",
               "col" : 
               [
                 {
-                  "label" : "Backup",
-                  "tab" : "backup",
-                  "icon" : "css/images/i_128_backup_00.png",
-                  "key" : "action",
-                  "val" : 1,
-                  "tag" : "input",
-                  "type" : "radio",
-                  "option" :
-                  {
-                    "0" :
-                    {
-                      "label" : "Backup Configuration to PC",
-                      "tab" : "backup-1"
-                    },
-                    "1" :
-                    {
-                      "label" : "Backup Configuration to USB",
-                      "tab" : "backup-2"
-                    }
-                  },
-                  "align" :
-                  [
-                    "Left",
-                    "Left"
-                  ],
-                  "wiz" : "200px"
-                },
-                {
-                  "label" : "Restore",
-                  "tab" : "restore",
-                  "icon" : "css/images/i_128_restore_00.png",
-                  "key" : "action",
-                  "val" : 1,
-                  "tag" : "input",
-                  "type" : "radio",
-                  "option" :
-                  {
-                    "0" :
-                    {
-                      "label" : "Restore Configuration from PC",
-                      "tab" : "restore-1"
-                    },
-                    "1" :
-                    {
-                      "label" : "restore Configuration from USB",
-                      "tab" : "restore-2"
-                    }
-                  },
-                  "align" :
-                  [
-                    "Left",
-                    "Left"
-                  ],
-                  "wiz" : "200px"
-                },
-                {
-                  "label" : "Profile Table",
-                  "tab" : "profile",
-                  "tag" : "table",
-                  "type" : "table",
-                  "caption" : "Profile Table",
-                  "col" :
-                  [
-                    {
-                      "label" : "Name",
-                      "tab" : "name",
-                      "wiz" : "100px"
-                    },
-                    {
-                      "label" : "Time",
-                      "tab" : "time",
-                      "wiz" : "180px"
-                    },
-                    {
-                      "label" : "Description",
-                      "tab" : "desc",
-                      "wiz" : "auto"
-                    },
-                    {
-                      "label" : "Action",
-                      "tab" : "action",
-                      "wiz" : "100px"
-                    }
-                  ]
-                }
-              ],
-              "editor" : 
-              [
-                {
                   "label" : "Name",
                   "tab" : "name",
-                  "input" : "input",
-                  "text" : "text"
+                  "wiz" : "100px"
+                },
+                {
+                  "label" : "Time",
+                  "tab" : "time",
+                  "wiz" : "180px"
                 },
                 {
                   "label" : "Description",
                   "tab" : "desc",
-                  "tag" : "input",
-                  "type" : "text"
+                  "wiz" : "auto"
                 },
                 {
-                  "label" : "Based On",
-                  "tab" : "baseOn",
-                  "tag" : "select",
-                  "type" : "select",
-                  "option" : "cgi"
+                  "label" : "Action",
+                  "tab" : "action",
+                  "wiz" : "180px"
                 }
-              ]
+              ],
+              "editor" : 
+              {
+                "export" :
+                [
+                  {
+                    "label" : "Export to",
+                    "tab" : "export2",
+                    "tag" : "input",
+                    "type" : "radio",
+                    "option" : 
+                    {
+                      "1" : 
+                      {
+                        "label" : "pc",
+                        "tab" : "export2-1"
+                      },
+                      "2" : 
+                      {
+                        "label" : "usb",
+                        "tab" : "export2-2"
+                      }
+                    }
+                  }
+                ],
+                "import" :
+                [
+                  {
+                    "label" : "Import from",
+                    "tab" : "importFrom",
+                    "tag" : "input",
+                    "type" : "radio",
+                    "option" : 
+                    {
+                      "0" : 
+                      {
+                        "label" : "device",
+                        "tab" : "importFrom-0",
+                        "tag" : "select",
+                        "tag" : "select",
+                        "option" : "cgi"
+                      },
+                      "1" : 
+                      {
+                        "label" : "pc",
+                        "tab" : "importFrom-1",
+                        "tag" : "input",
+                        "tag" : "file"
+                      },
+                      "2" : 
+                      {
+                        "label" : "usb",
+                        "tab" : "importFrom-2",
+                        "tag" : "select",
+                        "tag" : "select",
+                        "option" : "cgi"
+                      }
+                    }
+                  }
+                ],
+                "create" :
+                [
+                  {
+                    "label" : "Name",
+                    "tab" : "name",
+                    "tag" : "input",
+                    "type" : "text",
+                    "wiz" : "100px"
+                  },
+                  {
+                    "label" : "Description",
+                    "tab" : "desc",
+                    "tag" : "input",
+                    "type" : "text",
+                    "wiz" : "100px"
+                  },
+                  {
+                    "label" : "Based On",
+                    "tab" : "baseOn",
+                    "tag" : "input",
+                    "type" : "radio",
+                    "option" : 
+                    {
+                      "0" : 
+                      {
+                        "label" : "device",
+                        "tab" : "baseOn-0",
+                        "tag" : "select",
+                        "tag" : "select",
+                        "option" : "cgi",
+                        "wiz" : "80px"
+                      },
+                      "1" :
+                      {
+                        "label" : "pc",
+                        "tab" : "baseOn-1",
+                        "tag" : "input",
+                        "tag" : "file",
+                        "wiz" : "80px"
+                      },
+                      "2" :
+                      {
+                        "label" : "usb",
+                        "tab" : "baseOn-2",
+                        "tag" : "select",
+                        "tag" : "select",
+                        "option" : "cgi",
+                        "wiz" : "80px"
+                      }
+                    },
+                    "wiz" : "100px"
+                  }
+                ]
+              }
             },
             {
               "label" : "Firmware",  
@@ -11771,6 +11794,7 @@
                 "get" : "pcap_file_list",
                 "post" : "pcap_file_list",
                 "check" : "getDiskUsage",
+                "checkPcap" : "advancedDebug",
                 "capture" : "packetCapture",
                 "download" : "packetCaptureDl"
               },
@@ -11905,6 +11929,242 @@
                   ]
                 }
               ]
+            },
+            {
+              "label" : "Advanced Debug",
+              "id" : "menu-8-4-4",
+              "tab" : "advanced_debug",
+              "tag" : "div",
+              "type" : "tabsForm",
+              "tabs" :
+              {
+                "log" : "Log",
+                "debug" : "Packet Capture" 
+              },
+              "url" :
+              { 
+                "get" : "advancedDebug",
+                "post" : "advancedDebug",
+                "checkPcap" : "packetCapture",
+                "log" : "advanced_log_list",
+                "debug" : "advanced_pcap_list", 
+                "download" : "advancedDebugDl"
+              },
+              "tblAction" : 
+              {
+                "log" : "Remove",
+                "debug" : "Remove" 
+              },
+              "rowAction" : 
+              {
+                "log" : "Download Delete",
+                "debug" : "Download Delete" 
+              },
+              "pgAction" : 
+              {
+                "log" : "Save Cancel",
+                "debug" : "Start Stop"
+              },
+              "ext" : "cgi",
+              "guiT" : "guiFileT",
+              "guiTNum" : "guiFileTNum",
+              "col" : 
+              {
+                "log" :
+                [
+                  {
+                    "label" : "",
+                    "tab" : "log_global",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" : 
+                    [
+                      {
+                        "label" : "Enable Log",
+                        "tab" : "logEnable",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1,
+                        "wiz" : "140px"
+                      },
+                      {
+                        "label" : "Description",
+                        "tab" : "logDesc",
+                        "tag" : "input",
+                        "type" : "text",
+                        "wiz" : "auto"
+                      }
+                    ]
+                  },
+                  {
+                    "label" : "",
+                    "tab" : "log_list",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" : 
+                    [
+                      {
+                        "label" : "",
+                        "tab" : "checkbox",
+                        "wiz" : "40px"
+                      },
+                      {
+                        "label" : "File",
+                        "tab" : "filepath",
+                        "wiz" : "250px"
+                      },
+                      {
+                        "label" : "Description",
+                        "tab" : "desc",
+                        "wiz" : "auto"
+                      },
+                      {
+                        "label" : "Action",
+                        "tab" : "action",
+                        "wiz" : "100px"
+                      }
+                    ]
+                  }
+                ],
+                "debug" :
+                [
+                  {
+                    "label" : "",
+                    "tab" : "debug_global",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" : 
+                    [
+                      {
+                        "label" : "Description",
+                        "tab" : "pcapDesc",
+                        "tag" : "input",
+                        "type" : "text",
+                        "wiz" : "150px"
+                      },
+                      {
+                        "label" : "Network Interface",
+                        "tab" : "pcapIfName",
+                        "tag" : "select",
+                        "type" : "select",
+                        "option" : "cgi",
+                        "wiz" : "150px"
+                      },
+                      {
+                        "label" : "Port Range",
+                        "tab" : "port_table",
+                        "tag" : "table",
+                        "type" : "table",
+                        "col" :
+                        [
+                          {
+                            "label" : "Start",
+                            "tab" : "pcapPortStart",
+                            "tag" : "input",
+                            "type" : "text",
+                            "size" : "8",
+                            "default" : "0",
+                            "wiz" : "100px"
+                          },
+                          {
+                            "label" : "End",
+                            "tab" : "pcapPortEnd",
+                            "tag" : "input",
+                            "type" : "text",
+                            "size" : "8",
+                            "default" : "0",
+                            "wiz" : "100px"
+                          }
+                        ]
+                      },
+                      {
+                        "label" : "Host",
+                        "tab" : "host_table",
+                        "tag" : "table",
+                        "type" : "table",
+                        "col" :
+                        [
+                          {
+                            "label" : "Address",
+                            "tab" : "pcapHost",
+                            "tag" : "input",
+                            "type" : "text",
+                            "wiz" : "100px"
+                          }
+                        ]
+                      },
+                      {
+                        "label" : "Net",
+                        "tab" : "net_table",
+                        "tag" : "table",
+                        "type" : "table",
+                        "col" :
+                        [
+                          {
+                            "label" : "Address",
+                            "tab" : "pcapNetAddress",
+                            "tag" : "input",
+                            "type" : "text",
+                            "wiz" : "100px"
+                          },
+                          {
+                            "label" : "Netmask",
+                            "tab" : "pcapNetmask",
+                            "tag" : "input",
+                            "type" : "text",
+                            "wiz" : "100px"
+                          }
+                        ]
+                      },
+                      {
+                        "label" : "MAC",
+                        "tab" : "mac_table",
+                        "tag" : "table",
+                        "type" : "table",
+                        "col" :
+                        [
+                          {
+                            "label" : "MAC Address",
+                            "tab" : "pcapMac",
+                            "tag" : "input",
+                            "type" : "text",
+                            "wiz" : "100px"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "label" : "",
+                    "tab" : "debug_list",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" : 
+                    [
+                      {
+                        "label" : "",
+                        "tab" : "checkbox",
+                        "wiz" : "40px"
+                      },
+                      {
+                        "label" : "File",
+                        "tab" : "filepath",
+                        "wiz" : "250px"
+                      },
+                      {
+                        "label" : "Description",
+                        "tab" : "desc",
+                        "wiz" : "auto"
+                      },
+                      {
+                        "label" : "Action",
+                        "tab" : "action",
+                        "wiz" : "100px"
+                      }
+                    ]
+                  }
+                ]
+              }
             }
           ]
         },

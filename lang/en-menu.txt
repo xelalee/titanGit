@@ -1827,47 +1827,103 @@
                   {
                     "label": "ID",
                     "tab" : "id",
+                    "wiz" : "20px" ,
                     "display" : true,
-                    "wiz" : "10%",
+                    "sortable" : false,
+                    "align" : "Center" 
+                  }, 
+                  {
+                    "label": "SAddr",
+                    "tab" : "srcIp",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center" 
+                  }, 
+                  {
+                    "label": "DAddr",
+                    "tab" : "dstIp",
+                    "wiz" : "100px" ,
+                    "display" : true,
                     "sortable" : false,
                     "align" : "Center" 
                   }, 
                   { 
-                    "label" : "From Zone",
+                    "label" : "Protocol",
+                    "tab" : "protocol",
+                    "wiz" : "60px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  { 
+                    "label" : "SPort",
+                    "tab" : "srcPort",
+                    "wiz" : "40px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  { 
+                    "label" : "DPort",
+                    "tab" : "dstPort",
+                    "wiz" : "40px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  { 
+                    "label" : "FZone",
                     "tab" : "fromZone",
-                    "wiz" : "15%" ,
+                    "wiz" : "60px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
                   },
                   {
-                    "label": "To Zone",
+                    "label": "TZone",
                     "tab" : "toZone",
-                    "wiz" : "15%" ,
+                    "wiz" : "60px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
                   }, 
                   {
-                    "label": "Traffic Amount",
-                    "tab" : "trafficAmount",
-                    "wiz" : "20%",
+                    "label": "Tx",
+                    "tab" : "txBytes",
+                    "wiz" : "50px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
                   }, 
                   {
-                    "label": "Start Datetime",
+                    "label": "Rx",
+                    "tab" : "rxBytes",
+                    "wiz" : "50px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }, 
+                  {
+                    "label": "Total",
+                    "tab" : "totalBytes",
+                    "wiz" : "50px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }, 
+                  {
+                    "label": "Start",
                     "tab" : "startDatetime",
-                    "wiz" : "20%" ,
+                    "wiz" : "125px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
                   }, 
                   {
-                    "label": "End Datetime",
+                    "label": "End",
                     "tab" : "endDatetime",
-                    "wiz" : "20%" ,
+                    "wiz" : "125px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -1878,7 +1934,270 @@
                   {
                     "label": "ID",
                     "tab" : "id",
-                    "wiz" : "10%" ,
+                    "wiz" : "40px" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label" : "Src. IP",
+                    "tab" : "srcIp",
+                    "wiz" : "auto" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "Dst. IP",
+                    "tab" : "dstIp",
+                    "wiz" : "auto" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "Tx Bytes",
+                    "tab" : "txBytes",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Rx Bytes",
+                    "tab" : "rxBytes",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Total Bytes",
+                    "tab" : "totalBytes",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Sessions",
+                    "tab" : "sessions",
+                    "wiz" : "100px",
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ],
+                "2" :
+                [
+                  {
+                    "label": "ID",
+                    "tab" : "id",
+                    "wiz" : "40px" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label" : "Src. IP",
+                    "tab" : "srcIp",
+                    "wiz" : "auto" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "Tx Bytes",
+                    "tab" : "txBytes",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Rx Bytes",
+                    "tab" : "rxBytes",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Total Bytes",
+                    "tab" : "totalBytes",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Sessions",
+                    "tab" : "sessions",
+                    "wiz" : "100px",
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ],
+                "3" :
+                [
+                  {
+                    "label": "ID",
+                    "tab" : "id",
+                    "wiz" : "40px" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label" : "Dst. IP",
+                    "tab" : "dstIp",
+                    "wiz" : "auto" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "Tx Bytes",
+                    "tab" : "txBytes",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Rx Bytes",
+                    "tab" : "rxBytes",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Total Bytes",
+                    "tab" : "totalBytes",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Sessions",
+                    "tab" : "sessions",
+                    "wiz" : "100px",
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ], 
+                "4" :
+                [
+                  {
+                    "label": "ID",
+                    "tab" : "id",
+                    "wiz" : "40px" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label" : "Protocol",
+                    "tab" : "protocol",
+                    "wiz" : "auto" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "Tx Bytes",
+                    "tab" : "txBytes",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Rx Bytes",
+                    "tab" : "rxBytes",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Total Bytes",
+                    "tab" : "totalBytes",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Sessions",
+                    "tab" : "sessions",
+                    "wiz" : "100px",
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ],
+                "5" :
+                [
+                  {
+                    "label": "ID",
+                    "tab" : "id",
+                    "wiz" : "40px" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label" : "Dst. Port",
+                    "tab" : "dstPort",
+                    "wiz" : "auto" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "Tx Bytes",
+                    "tab" : "txBytes",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Rx Bytes",
+                    "tab" : "rxBytes",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Total Bytes",
+                    "tab" : "totalBytes",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Sessions",
+                    "tab" : "sessions",
+                    "wiz" : "100px",
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ],
+                "6" :
+                [
+                  {
+                    "label": "ID",
+                    "tab" : "id",
+                    "wiz" : "40px" ,
                     "display" : true,
                     "sortable" : false,
                     "align" : "Center"
@@ -1886,137 +2205,39 @@
                   {
                     "label" : "From Zone",
                     "tab" : "fromZone",
-                    "wiz" : "20%" ,
+                    "wiz" : "auto" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
                   },
                   {
-                    "label": "To Zone",
+                    "label" : "To Zone",
                     "tab" : "toZone",
-                    "wiz" : "20%" ,
+                    "wiz" : "auto" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
                   },
                   {
-                    "label": "Traffic Amount",
-                    "tab" : "trafficAmount",
-                    "wiz" : "30%" ,
+                    "label" : "Tx Bytes",
+                    "tab" : "txBytes",
+                    "wiz" : "100px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
                   },
                   {
-                    "label": "Sessions",
-                    "tab" : "sessions",
-                    "wiz" : "20%",
-                    "display" : true,
-                    "sortable" : true,
-                    "align" : "Left"
-                  }
-                ] 
-              } 
-            },
-            {
-              "label" : "Source",
-              "id" : "menu-1-5-1",
-              "tab" : "source_report",
-              "tag" : "table",
-              "type" : "list",
-              "columns" : true,
-              "url" :
-              {
-                "get" : "common_query"
-              },
-              "ext" : "php",
-              "query" : true,
-              "pager" : true,
-              "perPage" : 20,
-              "refresh" : 10,
-              "col" :
-              {
-                "0" :
-                [
-                  {
-                    "label": "ID",
-                    "tab" : "id",
-                    "wiz" : "10%" ,
-                    "display" : true,
-                    "sortable" : false,
-                    "align" : "Center"
-                  },
-                  {
-                    "label" : "Host IP",
-                    "tab" : "srcIp",
-                    "wiz" : "20%" ,
+                    "label": "Rx Bytes",
+                    "tab" : "rxBytes",
+                    "wiz" : "100px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
                   },
                   {
-                    "label": "Upstream",
-                    "tab" : "tx",
-                    "wiz" : "15%" ,
-                    "display" : true,
-                    "sortable" : true,
-                    "align" : "Left"
-                  },
-                  {
-                    "label": "Downstream",
-                    "tab" : "rx",
-                    "wiz" : "15%" ,
-                    "display" : true,
-                    "sortable" : true,
-                    "align" : "Left"
-                  },
-                  {
-                    "label": "Start Datetime",
-                    "tab" : "startDatetime",
-                    "wiz" : "20%" ,
-                    "display" : true,
-                    "sortable" : true,
-                    "align" : "Left"
-                  },
-                  {
-                    "label": "End Datetime",
-                    "tab" : "endDatetime",
-                    "display" : true,
-                    "wiz" : "auto",
-                    "sortable" : true,
-                    "align" : "Left"
-                  }
-                ],
-                "1" :
-                [
-                  {
-                    "label": "ID",
-                    "tab" : "id",
-                    "wiz" : "10%" ,
-                    "display" : true,
-                    "sortable" : false,
-                    "align" : "Center"
-                  },
-                  {
-                    "label" : "Host IP",
-                    "tab" : "srcIp",
-                    "wiz" : "20%" ,
-                    "display" : true,
-                    "sortable" : true,
-                    "align" : "Left"
-                  },
-                  {
-                    "label": "Upstream",
-                    "tab" : "tx",
-                    "wiz" : "25%" ,
-                    "display" : true,
-                    "sortable" : true,
-                    "align" : "Left"
-                  },
-                  {
-                    "label": "Downstream",
-                    "tab" : "rx",
-                    "wiz" : "25%" ,
+                    "label": "Total Bytes",
+                    "tab" : "totalBytes",
+                    "wiz" : "100px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2024,128 +2245,14 @@
                   {
                     "label": "Sessions",
                     "tab" : "sessions",
-                    "display" : true,
-                    "sortable" : true,
-                    "align" : "Left",
-                    "wiz" : "20%" 
-                  }
-                ]
-              }
-            },
-            {
-              "label" : "Destination",
-              "id" : "menu-1-5-2",
-              "tab" : "destination_report",
-              "tag" : "table",
-              "type" : "list",
-              "columns" : true,
-              "url" :
-              {
-                "get" : "common_query"
-              },
-              "ext" : "php",
-              "query" : true,
-              "pager" : true,
-              "perPage" : 20,
-              "refresh" : 10,
-              "col" :
-              {
-                "0" :
-                [
-                  {
-                    "label": "ID",
-                    "tab" : "id",
-                    "wiz" : "10%" ,
-                    "display" : true,
-                    "sortable" : false,
-                    "align" : "Center"
-                  },
-                  {
-                    "label": "Host IP",
-                    "tab" : "dstIp",
-                    "wiz" : "20%" ,
-                    "display" : true,
-                    "sortable" : true,
-                    "align" : "Left"
-                  },
-                  {
-                    "label" : "Upstream",
-                    "tab" : "tx",
-                    "wiz" : "15%" ,
-                    "display" : true,
-                    "sortable" : true,
-                    "align" : "Left"
-                  },
-                  {
-                    "label": "Downstream",
-                    "tab" : "rx",
-                    "wiz" : "15%" ,
-                    "display" : true,
-                    "sortable" : true,
-                    "align" : "Left"
-                  },
-                  {
-                    "label": "Start Datetime",
-                    "tab" : "startDatetime",
-                    "wiz" : "20%" ,
-                    "display" : true,
-                    "sortable" : true,
-                    "align" : "Left"
-                  },
-                  {
-                    "label": "End Datetime",
-                    "tab" : "endDatetime",
-                    "wiz" : "20%" ,
-                    "display" : true,
-                    "sortable" : true,
-                    "align" : "Left"
-                  }
-                ],
-                "1" :
-                [
-                  {
-                    "label": "ID",
-                    "tab" : "id",
-                    "wiz" : "10%" ,
-                    "display" : true,
-                    "sortable" : false,
-                    "align" : "Center"
-                  },
-                  {
-                    "label" : "Host IP",
-                    "tab" : "dstIp",
-                    "wiz" : "20%" ,
-                    "display" : true,
-                    "sortable" : true,
-                    "align" : "Left"
-                  },
-                  {
-                    "label": "Upstream",
-                    "tab" : "tx",
-                    "wiz" : "25%" ,
-                    "display" : true,
-                    "sortable" : true,
-                    "align" : "Left"
-                  },
-                  {
-                    "label": "Downstream",
-                    "tab" : "rx",
-                    "wiz" : "25%" ,
-                    "display" : true,
-                    "sortable" : true,
-                    "align" : "Left"
-                  },
-                  {
-                    "label": "Sessions",
-                    "tab" : "sessions",
-                    "wiz" : "20%" ,
+                    "wiz" : "100px",
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
                   }
                 ]
               } 
-            } 
+            }
           ] 
         },
         {
@@ -10773,135 +10880,157 @@
               "type" : "submit",
               "url" :
               {
-                "get" : 
-                {
-                  "profile" : "config_profile_list",
-                  "pc" : "conf_backup",
-                  "usb" : "conf_usb_backup"
-                },
-                "post" : 
-                {
-                  "profile" : "config_profile_list",
-                  "pc" : "conf_restore",
-                  "usb" : "conf_usb_restore"
-                }
+                "get" : "config_profile_list_v2",
+                "export2pc" : "config_export_pc",
+                "export2usb" : "config_export_usb",
+                "pc4import" : "config_import_pc",
+                "usb4import" : "config_import_usb",
+                "dev4import" : "config_import_dev",
+                "create4dev" : "config_create_dev",
+                "create4pc" : "config_create_pc",
+                "create4usb" : "config_create_usb"
               },
               "ext" : "cgi",
               "tblAction" : "Create",
-              "rowAction" : "Apply Delete",
+              "rowAction" : "Apply Export Import Delete",
               "guiT" : "guiProfileT",
               "guiTNum" : "guiProfileTNum",
               "col" : 
               [
                 {
-                  "label" : "Backup",
-                  "tab" : "backup",
-                  "icon" : "css/images/i_128_backup_00.png",
-                  "key" : "action",
-                  "val" : 1,
-                  "tag" : "input",
-                  "type" : "radio",
-                  "option" :
-                  {
-                    "0" :
-                    {
-                      "label" : "Backup Configuration to PC",
-                      "tab" : "backup-1"
-                    },
-                    "1" :
-                    {
-                      "label" : "Backup Configuration to USB",
-                      "tab" : "backup-2"
-                    }
-                  },
-                  "align" :
-                  [
-                    "Left",
-                    "Left"
-                  ],
-                  "wiz" : "200px"
-                },
-                {
-                  "label" : "Restore",
-                  "tab" : "restore",
-                  "icon" : "css/images/i_128_restore_00.png",
-                  "key" : "action",
-                  "val" : 1,
-                  "tag" : "input",
-                  "type" : "radio",
-                  "option" :
-                  {
-                    "0" :
-                    {
-                      "label" : "Restore Configuration from PC",
-                      "tab" : "restore-1"
-                    },
-                    "1" :
-                    {
-                      "label" : "restore Configuration from USB",
-                      "tab" : "restore-2"
-                    }
-                  },
-                  "align" :
-                  [
-                    "Left",
-                    "Left"
-                  ],
-                  "wiz" : "200px"
-                },
-                {
-                  "label" : "Profile Table",
-                  "tab" : "profile",
-                  "tag" : "table",
-                  "type" : "table",
-                  "caption" : "Profile Table",
-                  "col" :
-                  [
-                    {
-                      "label" : "Name",
-                      "tab" : "name",
-                      "wiz" : "100px"
-                    },
-                    {
-                      "label" : "Time",
-                      "tab" : "time",
-                      "wiz" : "180px"
-                    },
-                    {
-                      "label" : "Description",
-                      "tab" : "desc",
-                      "wiz" : "auto"
-                    },
-                    {
-                      "label" : "Action",
-                      "tab" : "action",
-                      "wiz" : "100px"
-                    }
-                  ]
-                }
-              ],
-              "editor" : 
-              [
-                {
                   "label" : "Name",
                   "tab" : "name",
-                  "input" : "input",
-                  "text" : "text"
+                  "wiz" : "100px"
+                },
+                {
+                  "label" : "Time",
+                  "tab" : "time",
+                  "wiz" : "180px"
                 },
                 {
                   "label" : "Description",
                   "tab" : "desc",
-                  "tag" : "input",
-                  "type" : "text"
+                  "wiz" : "auto"
                 },
                 {
-                  "label" : "Based On",
-                  "tab" : "baseOn",
-                  "tag" : "select",
-                  "type" : "select",
-                  "option" : "cgi"
+                  "label" : "Action",
+                  "tab" : "action",
+                  "wiz" : "180px"
                 }
-              ]
+              ],
+              "editor" : 
+              {
+                "export" :
+                [
+                  {
+                    "label" : "Export to",
+                    "tab" : "export2",
+                    "tag" : "input",
+                    "type" : "radio",
+                    "option" : 
+                    {
+                      "1" : 
+                      {
+                        "label" : "pc",
+                        "tab" : "export2-1"
+                      },
+                      "2" : 
+                      {
+                        "label" : "usb",
+                        "tab" : "export2-2"
+                      }
+                    }
+                  }
+                ],
+                "import" :
+                [
+                  {
+                    "label" : "Import from",
+                    "tab" : "importFrom",
+                    "tag" : "input",
+                    "type" : "radio",
+                    "option" : 
+                    {
+                      "0" : 
+                      {
+                        "label" : "device",
+                        "tab" : "importFrom-0",
+                        "tag" : "select",
+                        "tag" : "select",
+                        "option" : "cgi"
+                      },
+                      "1" : 
+                      {
+                        "label" : "pc",
+                        "tab" : "importFrom-1",
+                        "tag" : "input",
+                        "tag" : "file"
+                      },
+                      "2" : 
+                      {
+                        "label" : "usb",
+                        "tab" : "importFrom-2",
+                        "tag" : "select",
+                        "tag" : "select",
+                        "option" : "cgi"
+                      }
+                    }
+                  }
+                ],
+                "create" :
+                [
+                  {
+                    "label" : "Name",
+                    "tab" : "name",
+                    "tag" : "input",
+                    "type" : "text",
+                    "wiz" : "100px"
+                  },
+                  {
+                    "label" : "Description",
+                    "tab" : "desc",
+                    "tag" : "input",
+                    "type" : "text",
+                    "wiz" : "100px"
+                  },
+                  {
+                    "label" : "Based On",
+                    "tab" : "baseOn",
+                    "tag" : "input",
+                    "type" : "radio",
+                    "option" : 
+                    {
+                      "0" : 
+                      {
+                        "label" : "device",
+                        "tab" : "baseOn-0",
+                        "tag" : "select",
+                        "tag" : "select",
+                        "option" : "cgi",
+                        "wiz" : "80px"
+                      },
+                      "1" :
+                      {
+                        "label" : "pc",
+                        "tab" : "baseOn-1",
+                        "tag" : "input",
+                        "tag" : "file",
+                        "wiz" : "80px"
+                      },
+                      "2" :
+                      {
+                        "label" : "usb",
+                        "tab" : "baseOn-2",
+                        "tag" : "select",
+                        "tag" : "select",
+                        "option" : "cgi",
+                        "wiz" : "80px"
+                      }
+                    },
+                    "wiz" : "100px"
+                  }
+                ]
+              }
             },
             {
               "label" : "Firmware",  
@@ -11772,6 +11901,7 @@
                 "get" : "pcap_file_list",
                 "post" : "pcap_file_list",
                 "check" : "getDiskUsage",
+                "checkPcap" : "advancedDebug",
                 "capture" : "packetCapture",
                 "download" : "packetCaptureDl"
               },
@@ -11922,6 +12052,7 @@
               { 
                 "get" : "advancedDebug",
                 "post" : "advancedDebug",
+                "checkPcap" : "packetCapture",
                 "log" : "advanced_log_list",
                 "debug" : "advanced_pcap_list", 
                 "download" : "advancedDebugDl"

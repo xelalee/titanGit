@@ -323,6 +323,7 @@
   {
     "cipher" : 
     {
+      "des"   : "ESP_DES", 
       "3des"   : "ESP_3DES", 
       "aes128" : "ESP_AES_128", 
       "aes192" : "ESP_AES_192", 

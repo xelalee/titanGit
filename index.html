@@ -306,8 +306,8 @@ gReg.mac   = /^((([0-9a-f]{2}\:){5})([0-9a-z]{2}))$/i;
 gReg.vid   = /^([1-9]|\d{2,3}|[1-3]\d{3}|40[1-8]\d|409[0-6])$/;
 gReg.mtuValue  = /^(57[6-9]|5[89]\d|[6-9]\d{2}|1[0-4]\d{2}|1500)$/;
 gReg.mtuValue6 = /^(12[89]\d|1[34]\d{2}|1500)$/;
-gReg.mtuValuePPPoE  = /^(6[89]|[7-9]\d|[1-9]\d{2}|1[0-3]\d{2}|14[0-8]\d|1492)$/;
-gReg.mtuValue6PPPoE = /^(12[89]\d|1[34]\d{2}|1492)$/;
+gReg.mtuValuePPPoE  = /^(57[6-9]|5[89]\d|[6-9]\d{2}|1[0-3]\d{2}|14[0-8]\d|149[012])$/;
+gReg.mtuValue6PPPoE = /^(12[89]\d|13\d{2}|14[0-8]\d|149[012])$/;
 gReg.leaseTime = /^(1[89]\d|[2-9]\d{2}|[1-9]\d{3}|[1-7]\d{4}|8[1-5]\d{3}|86[0-3]\d{2}|86400)$/;
 gReg.ipv6PrefixLength = /^(\d{1,2}|1[01]\d|12[0-8])$/;
 gReg.securityLevel    = /^(\d{1,2}|100)$/;
@@ -327,7 +327,8 @@ gReg.length255 = /^((.){0,255})$/;
 gReg.length127 = /^((.){1,127})$/;
 gReg.length0127 = /^((.){0,127})$/;
 
-gReg.hostname     = /^([0-9a-zA-Z]{0,31})$/;
+gReg.hostname     = /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/;
+gReg.hostname31   = /^((.){0,31})$/;
 gReg.domainName   = /^((.){0,255})$/;
 gReg.domainURL    = /^(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/i;
 gReg.domain       = /^[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$/;
@@ -1049,7 +1050,7 @@ $(document).ready(function () {
                                             gIf.newFirmware = true;
                                     }).done( function() {
                                         $.ajax({
-                                            url:'cgi-bin/config_profile_list.cgi', 
+                                            url:'cgi-bin/config_profile_list_v2.cgi', 
                                             dataType:'json', 
                                             success:function(data) {
                                                 for (var i=0, len=data.guiProfileTNum; i<len; i++)
@@ -1157,6 +1158,7 @@ $(document).ready(function () {
                     if (0 === parseInt( $('#refreshPage').val() )) {
                         gIf.refresh = false;
                     } else {
+                        gIf.refresh = true;
                         gObj.active.refresh  = parseInt( $('#refreshPage').val() );
                         gObj.active.counting = gObj.active.refresh;
                     }
@@ -1402,6 +1404,7 @@ $(document).ready(function () {
                 $('#menu').html(gHtml.html);
         
                 $('.accordion-ul').accordion({
+                    collapsible:true, 
                     autoHeight: false
                 });
         
@@ -1591,6 +1594,7 @@ $(document).ready(function () {
         // device
         gRows.maxProfile = 16;
         gRows.maxDebug = 400;
+        gRows.maxLog = 100;
     }
     
 // btn 
@@ -1652,7 +1656,7 @@ $(document).ready(function () {
             case 'ip_alias':
                 createAlias( e );
                 break;
-            case 'profile':
+            case 'backup_restore':
                 createDevice( e );
                 break;
             }
@@ -1776,7 +1780,7 @@ $(document).ready(function () {
             case 'ip_alias':
                 deleteAlias( e );
                 break;
-            case 'profile':
+            case 'backup_restore':
             case 'packet_capture':
             case 'debug':
             case 'log':
@@ -1936,6 +1940,13 @@ $(document).ready(function () {
             break;
         case 'Apply':
             btnApply( e );
+            break;
+        case 'Import':
+            btnImport( e );
+            break;
+        case 'Export':
+gY.log( '.....' );
+            btnExport( e );
             break;
         case 'NewFirmware':
             $('#device h3').click();
@@ -2629,6 +2640,8 @@ $(document).ready(function () {
             {
             case 'php':
                 if ( gNode.query ) {
+                    if (!gQuery.a) 
+                        gQuery.a = 0;
                     for (var i=0; i<gNode.col[ gQuery.a ].length; i++)
                     {
                         $('#div-columns ul').append( '<li><input type="checkbox" id="columns-' + gQuery.a + '-' + gNode.col[ gQuery.a ][ i ].tab + '" value="1" /><label for="columns-' + gQuery.a + '-' + gNode.col[ gQuery.a ][ i ].tab + '">' + gNode.col[ gQuery.a ][ i ].label + '</label></li>' );
@@ -2748,7 +2761,59 @@ $(document).ready(function () {
     }
     
     function btnExport(e) {
-        window.open("logExport.php?param=view_logs", "_blank");
+        var tar = {};
+        tar.id = $(e.currentTarget).attr('id');
+
+        if ('pgExport' == tar.id)
+            window.open("logExport.php?param=view_logs", "_blank");
+        else {
+            if (!($('#popForm').exists()))
+                $('#popBase').append('<div id="popForm"></div>');
+
+            gPop.popForm = $('#popForm').dialog({
+                width: 480,
+                height: 320,
+                position: "center",
+                resizable: false,
+                modal: true,
+                title: gTerm[ gObj.lang ].backup_restore_export,
+                buttons: {
+                    ok: function() {
+                        $( this ).dialog( "close" );
+                    }
+                },
+                open: function(event, ui) {
+                
+                }
+           });
+        }
+    }
+
+    function btnImport(e) {
+        var tar = {};
+        tar.id = $(e.currentTarget).attr('id');
+
+        if ('backup_restore' == tar.id) {
+            if (!($('#popForm').exists()))
+                $('#popBase').append('<div id="popForm"></div>');
+
+            gPop.popForm = $('#popForm').dialog({
+                width: 480,
+                height: 320,
+                position: "center",
+                resizable: false,
+                modal: true,
+                title: gTerm[ gObj.lang ].backup_restore_export,
+                buttons: {
+                    ok: function() {
+                        $( this ).dialog( "close" );
+                    }
+                },
+                open: function(event, ui) {
+                
+                }
+           });
+        }
     }
     
     function btnCheckSMTP( pid ) {
@@ -3105,6 +3170,8 @@ $(document).ready(function () {
                         $(':button:contains("Start")').prop('disabled', true);
                         $(':button:contains("Stop")').prop('disabled', false);
 
+                        $('.debugging').prop('disabled', true);
+
                         gIf.isCapture = true;                    
                         gObj.form = {};
                         gObj.form.desc = $('#Editor-desc').val();
@@ -3147,7 +3214,7 @@ $(document).ready(function () {
                             tmp += gNode.editor[ i ].col[ j ].label;
                             tmp += '</td>';
                             tmp += '<td class="alignLeft">';
-                            tmp += '<input class="ifStart" type="text" id="Editor-' + gNode.editor[ i ].col[ j ].tab + '" ' + ( (gNode.editor[ i ].col[ j ].size)? 'size="' + gNode.editor[ i ].col[ j ].size + '"' : '' ) + '/>';
+                            tmp += '<input class="debugging" type="text" id="Editor-' + gNode.editor[ i ].col[ j ].tab + '" ' + ( (gNode.editor[ i ].col[ j ].size)? 'size="' + gNode.editor[ i ].col[ j ].size + '"' : '' ) + '/>';
                             tmp += '</td>';
                             tmp += '</tr>';
                         }
@@ -3159,12 +3226,12 @@ $(document).ready(function () {
                         tmp += gNode.editor[ i ].label;
                         tmp += '</th>';
                         tmp += '<td class="alignLeft">';
-                        tmp += '<input class="ifStart" type="text" id="Editor-' + gNode.editor[ i ].tab + '" />';
+                        tmp += '<input class="debugging" type="text" id="Editor-' + gNode.editor[ i ].tab + '" />';
                         tmp += '</td>';
                         break;
                     case 'checkbox':
                         tmp += '<td class="alignRight BT120" >';
-                        tmp += '<input class="ifStart" type="checkbox" id="Editor-' + gNode.editor[ i ].tab + '" value="1" />';
+                        tmp += '<input class="debugging" type="checkbox" id="Editor-' + gNode.editor[ i ].tab + '" value="1" />';
                         tmp += '</td>';
                         tmp += '<th class="alignLeft">';
                         tmp += '<label for="Editor-' + gNode.editor[ i ].tab + '">' + gNode.editor[ i ].label + '</label>';
@@ -3175,7 +3242,7 @@ $(document).ready(function () {
                         tmp += gNode.editor[ i ].label;
                         tmp += '</th>';
                         tmp += '<td class="alignLeft">';
-                        tmp += '<select class="ifStart" id="Editor-' + gNode.editor[ i ].tab + '"></select>';
+                        tmp += '<select class="debugging" id="Editor-' + gNode.editor[ i ].tab + '"></select>';
                         tmp += '</td>';
                         break;
                     }
@@ -3198,7 +3265,7 @@ $(document).ready(function () {
                     $('#Editor-netmask').val( data.netmask );
                     $('#Editor-mac').val( data.mac );
                     $(':button:contains("Start")').prop('disabled', true);
-                    $('.ifStart').prop('disabled', true);
+                    $('.debugging').prop('disabled', true);
                     gIf.isCapture = true;                    
                 } else {
                     $('#Editor-portStart').val(0);
@@ -3246,7 +3313,7 @@ $(document).ready(function () {
         tar.pid = tar.id.split('-')[ 1 ];
         tar.thisNo = tar.id.split('-')[ 2 ];
 
-        gObj.profile = gData.profile.guiProfileT[ tar.thisNo ].name;
+        gObj.profile = gData.backup_restore.guiProfileT[ tar.thisNo ].name;
 
         cmdAlert( tar.pid, tar.thisNo );
     }
@@ -3683,10 +3750,10 @@ $(document).ready(function () {
                         gIf.shutdown = true;
                         $.post('cgi-bin/dev_reboot.cgi', gY.JSON.stringify(gObj.form));
                         break;
-                    case 'profile':
+                    case 'backup_restore':
                         gData[ cmd ][ gNode.guiT ][ thisNo ].cgiAction = 2;
                         gIf.reboot = true;
-                        $.post('cgi-bin/' + gNode.url.post.profile + '.cgi', gY.JSON.stringify(gData[ cmd ]));
+                        $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ cmd ]));
                         break;
                     }
 
@@ -3706,7 +3773,7 @@ $(document).ready(function () {
         case 'reboot':
         case 'reset':
         case 'shutdown':
-        case 'profile':
+        case 'backup_restore':
             $('.errorMsg').html( gError[ gObj.lang ][ cmd ] + gRef.rebooting[ cmd ] + ' ' + gError[ gObj.lang ].seconds);
             break;
         }
@@ -5474,9 +5541,9 @@ $(document).ready(function () {
                                             case 'id':
                                                 tmp += (j+1);
                                                 break;
-                                            case 'trafficAmount':
-                                            case 'tx':
-                                            case 'rx':
+                                            case 'totalBytes':
+                                            case 'txBytes':
+                                            case 'rxBytes':
                                                 var mkbs = parseInt( data.queryResults[ j ][ gNode.col[ 0 ][ i ].tab ] );
                                                 tmp += ( mkbs > 1000000000 )? (mkbs/1000000000).toFixed(2) + ' GB' : ( ( mkbs > 1000000 )? (mkbs/1000000).toFixed(2) + ' MB' : ( ( mkbs == 0 )? 0 : (mkbs/1000).toFixed(2) + ' KB' ) );
                                                 break;
@@ -5972,7 +6039,7 @@ $(document).ready(function () {
                                     wiz = gNode.col[ gQuery.a ][i].wiz;
                                 else
                                     wiz = 'auto';
-                                tmp += '<th id="' + gNode.tab + '-' + gQuery.a + '-' + gNode.col[ gQuery.a ][ i ].tab + '" class="ui-state-default ' + gNode.tab + '-' + gQuery.a + '-' + gNode.col[ gQuery.a ][ i ].tab + '" style="width:' + wiz;
+                                tmp += '<th id="' + gNode.tab + '-' + gQuery.a + '-' + gNode.col[ gQuery.a ][ i ].tab + '" class="ui-state-default ' + gNode.tab + '-' + gQuery.a + '-' + gNode.col[ gQuery.a ][ i ].tab + '" style="width:' + wiz + ';';
                                 if ( gNode.columns ) {
                                     if ( columns ) { 
                                         if ( gNode.col[ gQuery.a ][ i ].display ) {
@@ -5980,7 +6047,7 @@ $(document).ready(function () {
                                         } else {
                                             tmp += ' display: none;';
                                         }
-                                    } if (!gColumns[ gNode.tab ][ gQuery.a ][ gNode.col[ gQuery.a ][ i ].tab ] ) {
+                                    } else if (!gColumns[ gNode.tab ][ gQuery.a ][ gNode.col[ gQuery.a ][ i ].tab ] ) {
                                         tmp += ' display: none;';
                                     }
                                 }
@@ -6048,9 +6115,9 @@ $(document).ready(function () {
                                                 case 'id':
                                                     tmp += (j+1);
                                                     break;
-                                                case 'trafficAmount':
-                                                case 'tx':
-                                                case 'rx':
+                                                case 'totalBytes':
+                                                case 'txBytes':
+                                                case 'rxBytes':
                                                     var mkbs = parseInt( data.queryResults[ j ][ gNode.col[ 0 ][ i ].tab ] );
                                                     tmp += ( mkbs > 1000000000 )? (mkbs/1000000000).toFixed(2) + ' GB' : ( ( mkbs > 1000000 )? (mkbs/1000000).toFixed(2) + ' MB' : ( ( mkbs == 0 )? 0 : (mkbs/1000).toFixed(2) + ' KB' ) );
                                                     break;
@@ -7083,6 +7150,7 @@ $(document).ready(function () {
         switch(tar.pid)
         {
         case 'wan_settings':
+            tar.w = 660;
             tar.h = 600;
             $('#popForm').append('<div class="editorDiv"><div class="tabs"><ul></ul></div></div>');
     
@@ -7452,6 +7520,7 @@ $(document).ready(function () {
                     }else {
                         gObj.tab.tabs({"disabled": [2,3]});
                     }
+                    remindAlert( '<p>' + gTerm[ gObj.lang ].pppoe + '</p>' );
                     break;
                 }
             }).val(1).trigger('change');
@@ -8135,6 +8204,7 @@ $(document).ready(function () {
         switch(tar.pid)
         {
         case 'wan_settings':
+            tar.w = 660;
             tar.h = 600;
             $('#popForm').append('<div class="formDiv"><div class="tabs"><ul></ul></div></div>');
     
@@ -18453,7 +18523,7 @@ $(document).ready(function () {
                         // for gid might be 0 if never saved, cache uniq name instead 
                         gCache.uniq.group = {};
                         gCache.uniq.user = {};
-                        gCache.uniq.user[ gObj.adminName ] = true;
+                        //gCache.uniq.user[ gObj.adminName ] = true;
                         gCache.group = {};
                         gCache.user = {};
                         gCache.groupId = 0;
@@ -22204,7 +22274,7 @@ $(document).ready(function () {
                                             else {
                                                 // check if advanced debugging
                                                 $.ajax({
-                                                    url: 'cgi-bin/' + gNode.url.capture + '.' + gNode.ext,
+                                                    url: 'cgi-bin/' + gNode.url.checkPcap + '.' + gNode.ext,
                                                     dataType: 'json',
                                                     success: function(data) {
                                                         if (1 === parseInt( data.pcapEnable )) {
@@ -22391,93 +22461,69 @@ $(document).ready(function () {
                     switch( pid )
                     {
                     case 'backup_restore':
-                        
+                        tmp = '<div id="div-' + pid + '">';
+                        tmp += '<table id="table-' + pid + '">';
+                        tmp += '<thead>';
+                        tmp += '<tr>';
                         for (var i=0, len=gNode.col.length; i<len; i++)
                         {
-                            tmp += '<div id="div-' + gNode.col[ i ].tab + '">';
-                            tmp += '<table id="table-' + gNode.col[ i ].tab + '">';
-
-                            if ('table' == gNode.col[ i ].tag) {
-                                tmp += '<caption>' + gNode.col[ i ].caption + '</caption>';
-                                tmp += '<thead>';
-                                tmp += '<tr>';
-                                for (var j=0, jlen=gNode.col[ i ].col.length; j<jlen; j++)
-                                {
-                                    tmp += '<th class="ui-state-default" style="width: ' + gNode.col[ i ].col[ j ].wiz + '">';
-                                    tmp += gNode.col[ i ].col[ j ].label;
-                                    tmp += '</th>';
-                                }
-                                tmp += '</tr>';
-                                tmp += '</thead>';
-                                tmp += '<tbody>';
-                                tmp += '</tbody>';
-                            } else {
-                                for (var x in gNode.col[ i ].option)
-                                {
-                                     tmp += '<tr>';
-                                     tmp += '<td class="align' + gNode.col[ i ].align[ 0 ] + '" style="width: ' + gNode.col[ i ].wiz + '"><input type="radio" name="' + gNode.col[ i ].tab + '" id="' + gNode.col[ i ].tab + '-' + x + '" value="' + x + '" />&nbsp;<label for="' + gNode.col[ i ].tab + '-' + x + '">' + gNode.col[ i ].option[ x ].label + '</label><td>';
-                                     if ('restore' == gNode.col[ i ].tab) {
-                                         if ( '0' == x ) {
-                                             tmp += '<td class="alignLeft BT80"><div id="selectFileButtonContainer"></div></td>';
-                                             tmp += '<td class="alignLeft"><div id="selectFileStatus"></div></td>';
-                                         } else {
-                                             tmp += '<td colspan="2" class="alignLeft"><select id="fpath"></select></td>';
-                                         }
-                                     } else {
-                                         tmp += '<td colspan="2"></td>';
-                                     } 
-                                     tmp += '</tr>';
-                                }
-                                tmp += '<tr><td colspan="3" class="alignLeft"><button type="button" id="' + gNode.col[ i ].tab + 'Conf" class="yui3-button" style="width: 80px; height: 25px;">' + gNode.col[ i ].label + '</button></td></tr>';
-                            }
-                            tmp += '</table>';
-                            tmp += '</div>';
+                            tmp += '<th class="ui-state-default" style="width: ' + gNode.col[ i ].wiz + '">';
+                            tmp += gNode.col[ i ].label;
+                            tmp += '</th>';
                         }
-
+                        tmp += '</tr>';
+                        tmp += '</thead>';
+                        tmp += '<tbody>';
+                        tmp += '</tbody>';
+                        tmp += '</table>';
                         $('#div-' + pid).append( tmp );
     
                         $.ajax({
-                            url: 'cgi-bin/' + gNode.url.get.profile + '.cgi',
+                            url: 'cgi-bin/' + gNode.url.get + '.cgi',
                             dataType: 'json',
                             success: function(data) {
-                                gData[ 'profile' ] = data;
-                                gCache.profile = {};
-                                gCache.profile.gid = 0;
+                                gData[ pid ] = data;
+                                gCache[ pid ] = {};
+                                gCache[ pid ].gid = 0;
                                 var acts = gNode.rowAction.split(' ');
                                 for (var i=0, len=parseInt( data[ gNode.guiTNum ] ); i<len; i++)
                                 {
-                                    tmp = '<tr id="tr-profile-' + i + '" class="' + ((i%2==0)? 'even' : 'odd') + '">';
-                                    for (var j=0, jlen=gNode.col[ 2 ].col.length; j<jlen; j++)
+                                    tmp = '<tr id="tr-' + pid + '-' + i + '" class="' + ((i%2==0)? 'even' : 'odd') + '">';
+                                    for (var j=0, jlen=gNode.col.length; j<jlen; j++)
                                     {
                                         tmp += '<td>';
-                                        if ('action' == gNode.col[ 2 ].col[ j ].tab) {
-                                            tmp += '<button type="button" id="Apply-profile-' + i + '" class="Apply" title="Apply"><span class="ui-icon"></span></button>';
+                                        if ('action' == gNode.col[ j ].tab) {
+                                            tmp += '<button type="button" id="Apply-' + pid + '-' + i + '" class="Apply" title="Apply"><span class="ui-icon"></span></button>';
                                             if (1 === parseInt( data[ gNode.guiT ][ i ].userDefined )) {
-                                                tmp += '<button type="button" id="Delete-profile-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
+                                                tmp += '<button type="button" id="Import-' + pid + '-' + i + '" class="Import" title="Import"><span class="ui-icon"></span></button>';
+                                                tmp += '<button type="button" id="Export-' + pid + '-' + i + '" class="Export" title="Export"><span class="ui-icon"></span></button>';
+                                                tmp += '<button type="button" id="Delete-' + pid + '-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
                                             }
                                         } else {
-                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ 2 ].col[ j ].tab ];
+                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
                                         }
                                         tmp += '</td>';
                                     }
                                     tmp += '</tr>';
-                                    $('#table-profile tbody').append( tmp );
+                                    $('#table-' + pid + ' tbody').append( tmp );
                                     if ( 1 === parseInt( data[ gNode.guiT ][ i ].inUsed ) ) {
-                                        $('#Apply-profile-' + i).prop('disabled', true);
-                                        $('#Delete-profile-' + i).prop('disabled', true);
+                                        $('#Apply-' + pid + '-' + i).prop('disabled', true);
+                                        $('#Import-' + pid + '-' + i).prop('disabled', true);
+                                        $('#Delete-' + pid + '-' + i).prop('disabled', true);
                                     }
                                 }
                                 
                                 if (gIf.power) {
-                                    genTblAction( 'profile' );
+                                    genTblAction( pid );
                                     if (data[ gNode.guiTNum ] >= gRows.maxProfile) 
-                                        $('#Create-profile').prop('disabled', true);
+                                        $('#Create-' + pid).prop('disabled', true);
                                 } else {
-                                    $('#div-profile button').prop('disabled', true);
+                                    $('#div-' + pid + ' button').prop('disabled', true);
                                 }
                             }
                         });
 
+/*
                         $.ajax({
                             url: 'cgi-bin/common_usbFile_list.cgi',
                             dataType: 'json',
@@ -22602,6 +22648,7 @@ $(document).ready(function () {
                             $('.templateDiv input').prop('disabled', true);
                             $('.templateDiv button').prop('disabled', true);
                         }
+*/
 
                         break;
                     case 'firmware':
@@ -23413,11 +23460,11 @@ $(document).ready(function () {
                                 tmp += '<table id="table-email_networks">';
                                 tmp += '<caption>' + gNode.col[ 1 ].col[ 1 ].label + '</caption>';
                                 tmp += '<tr>';
-                                tmp += '<td class="alignLeft BT200"><input type="checkbox" id="vpnAlertEnable" />&nbsp;<label for="vpnAlertEnable">' + gNode.col[ 1 ].col[ 1 ].col[ 1 ].label + '</label></td>';
+                                tmp += '<td class="alignLeft BT200"><input type="checkbox" id="vpnAlertEnable" />&nbsp;<label for="vpnAlertEnable">' + gNode.col[ 1 ].col[ 1 ].col[ 0 ].label + '</label></td>';
                                 tmp += '<td class="alignLeft"></td>';
                                 tmp += '</tr>';
                                 tmp += '<tr>';
-                                tmp += '<td class="alignLeft BT200"><input type="checkbox" id="wanAlertEnable" />&nbsp;<label for="wanAlertEnable">' + gNode.col[ 1 ].col[ 1 ].col[ 1 ].col[ 0 ].label + '</label></td>';
+                                tmp += '<td class="alignLeft BT200"><input type="checkbox" id="wanAlertEnable" />&nbsp;<label for="wanAlertEnable">' + gNode.col[ 1 ].col[ 1 ].col[ 1 ].label + '</label></td>';
                                 tmp += '<td class="alignLeft ">' + gNode.col[ 1 ].col[ 1 ].col[ 1 ].col[ 0 ].label + '&nbsp;<input type="text" id="wanAlertInterval" size="8"/>&nbsp;' + gNode.col[ 1 ].col[ 1 ].col[ 1 ].col[ 0 ].note + '</td>';
                                 tmp += '</tr>';
                                 tmp += '</table>';
@@ -23602,7 +23649,7 @@ $(document).ready(function () {
                                 tmp += '<tr>';
                                 tmp += '<td class="BT40"></td>';
                                 tmp += '<th class="alignLeft BT110">Description</th>';
-                                tmp += '<td class="alignLeft BT200" colspan="2"> <input type="text" id="pcapDesc" /> </td>';
+                                tmp += '<td class="alignLeft BT200" colspan="2"> <input class="debugging" type="text" id="pcapDesc" /> </td>';
                                 tmp += '<td class="BT40"></td>';
                                 tmp += '<th class="alignLeft BT120"></th>';
                                 tmp += '<td class="alignLeft BT200" colspan="2"></td>';
@@ -23613,7 +23660,7 @@ $(document).ready(function () {
                                 tmp += '<td class="BT40"></td>';
                                 tmp += '<th class="alignLeft BT110">Network Interface </th>';
                                 tmp += '<td class="alignLeft BT200" colspan="2">';
-                                tmp += '<select id="pcapIfName"></select>';
+                                tmp += '<select id="pcapIfName" class="debugging"></select>';
                                 tmp += '</td>';
 
                                 tmp += '<td class="BT40"></td>';
@@ -23626,18 +23673,18 @@ $(document).ready(function () {
                                 tmp += '<td class="BT40"></td>';
                                 tmp += '<th class="alignLeft BT110">Port Range </th>';
                                 tmp += '<td class="alignLeft BT100">Start</td>';
-                                tmp += '<td class="alignLeft BT100"> <input type="text" id="pcapPortStart" size="8"> </td>';
+                                tmp += '<td class="alignLeft BT100"> <input class="debugging" type="text" id="pcapPortStart" size="8"> </td>';
                 
                                 tmp += '<td class="BT40"></td>';
                                 tmp += '<td class="alignLeft BT120">End</td>';
-                                tmp += '<td class="alignLeft BT200" colspan="2"> <input type="text" id="pcapPortEnd" size="8"> </td>';
+                                tmp += '<td class="alignLeft BT200" colspan="2"> <input class="debugging" type="text" id="pcapPortEnd" size="8"> </td>';
                                 tmp += '<td class="BT100"></td>';
                                 tmp += '</tr>';
                                 tmp += '<tr>';
                                 tmp += '<td class="BT40"></td>';
                                 tmp += '<th class="alignLeft BT110">Host</th>';
                                 tmp += '<td class="alignLeft BT100">Address</td>';
-                                tmp += '<td class="alignLeft BT100"> <input type="text" id="pcapHost"> </td>';
+                                tmp += '<td class="alignLeft BT100"> <input class="debugging" type="text" id="pcapHost"> </td>';
                 
                                 tmp += '<td class="BT40"></td>';
                                 tmp += '<td class="BT310" colspan="3"></td>';
@@ -23648,10 +23695,10 @@ $(document).ready(function () {
                                 tmp += '<td class="BT40"></td>';
                                 tmp += '<th class="alignLeft BT110">Net </th>';
                                 tmp += '<td class="alignLeft BT100">Address</td>';
-                                tmp += '<td class="alignLeft BT100"> <input type="text" id="pcapNetAddress"> </td>';
+                                tmp += '<td class="alignLeft BT100"> <input class="debugging" type="text" id="pcapNetAddress"> </td>';
                                 tmp += '<td class="BT40"></td>';
                                 tmp += '<td class="alignLeft BT120" >Netmask</td>';
-                                tmp += '<td class="alignLeft" colspan="2"> <input type="text" id="pcapNetmask"> </td>';
+                                tmp += '<td class="alignLeft" colspan="2"> <input class="debugging" type="text" id="pcapNetmask"> </td>';
                 
                                 tmp += '<td class="BT100"></td>';
                                 tmp += '</tr>';
@@ -23659,7 +23706,7 @@ $(document).ready(function () {
                                 tmp += '<td class="BT40"></td>';
                                 tmp += '<th class="alignLeft BT110">MAC </th>';
                                 tmp += '<td class="alignLeft BT100">Address</td>';
-                                tmp += '<td class="alignLeft BT100"> <input type="text" id="pcapMac"> </td>';
+                                tmp += '<td class="alignLeft BT100"> <input class="debugging" type="text" id="pcapMac"> </td>';
                 
                                 tmp += '<td class="BT40"></td>';
                                 tmp += '<td class="BT320" colspan="3"></td>';
@@ -23669,7 +23716,6 @@ $(document).ready(function () {
                                 tmp += '</tbody>';
                                 tmp += '</table>';
                                 tmp += '</div>';
-                                
 
                                 tmp += '<div id="div-debug_list">';
                                 tmp += '<table id="table-debug_list">';
@@ -23766,8 +23812,10 @@ $(document).ready(function () {
                                         if (gIf.power) {
                                             if ( 1 === parseInt( data.pcapEnable )) {
                                                 $('#pgStart').prop('disabled', true);
+                                                $('.debugging').prop('disabled', true);
                                             } else {
                                                 $('#pgStop').prop('disabled', true);
+                                                $('.debugging').prop('disabled', false);
                                             }
                                             
                                             if (gRows.maxDebug <= gData.log.guiFileTNum) {
@@ -23775,11 +23823,11 @@ $(document).ready(function () {
                                             }
                                             
                                             $.ajax({
-                                                url: 'cgi-bin/' + gNode.url.debug + '.' + gNode.ext,
+                                                url: 'cgi-bin/' + gNode.url.checkPcap + '.' + gNode.ext,
                                                 dataType: 'json',
                                                 success: function(data) {
                                                     if ('start' == data.action) {
-                                                        errorMsg('<p>' + gError[ gObj.lang ].packetCapturing + '</p>');
+                                                        errorAlert('<p>' + gError[ gObj.lang ].packetCapturing + '</p>');
                                                         $('#pgStart').prop('disabled', true);
                                                     }
                                                 }
@@ -24167,7 +24215,7 @@ $(document).ready(function () {
                                                 }else {
                                                     $('.newUsername').removeClass('isOK');
                                                     $('.newUsername').addClass('isKO');
-                                                    errorAlert( poster.msg );
+                                                    errorAlert( '<p>' + poster.msg + '</p>' );
                                                 }
                                             }).fail( function(){
                                                 errorAlert( 'register server connecting failed' );
@@ -24296,9 +24344,9 @@ $(document).ready(function () {
                     }
                 });
     
-                gY.one('#pgExport').on('click', function(e) {
-                    btnExport(e);
-                });
+                //gY.one('#pgExport').on('click', function(e) {
+                //    btnExport(e);
+                //});
             }
     
             for (var x in gNode.tabs)
@@ -24306,8 +24354,6 @@ $(document).ready(function () {
                 gY.one('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + gNode.tabs[ x ] + '</a></li>');
                 gY.one('.tabber').append('<div id="panel-' + x + '"><div id="div-' + x + '"></div></div>');
             }
-    
-
                     
             gObj.tabber = $('.tabber').tabs({
                 active: gObj.tabIndex,
@@ -24731,22 +24777,36 @@ $(document).ready(function () {
         var tmp = '';
         switch( tar.pid )
         {
-        case 'profile':
-            for (var i=0, len=gNode.editor.length; i<len; i++)
+        case 'backup_restore':
+gY.log( gNode.editor.create );
+            for (var i=0, len=gNode.editor.create.length; i<len; i++)
             {
                 tmp += '<tr>';
-                tmp += '<th class="alignLeft BT100">' + gNode.editor[ i ].label + '</th>';
+                tmp += '<th class="alignLeft BT100">' + gNode.editor.create[ i ].label + '</th>';
                 tmp += '<td class="alignLeft">';
-                if ('select' == gNode.editor[ i ].tag) { 
-                    tmp += '<select id="Editor-' + gNode.editor[ i ].tab + '"></select>';
+                if ('radio' == gNode.editor.create[ i ].type) { 
+                    tmp += '<table>';
+                    for (var j=0, jlen=gNode.editor.create[ i ].option.length; j<jlen; j++)
+                    {
+                        tmp += '<tr>';
+                        tmp += '<td class="alignLeft BT80">';
+                        
+                        tmp += '</td>';
+                        tmp += '<td class="alignLeft">';
+                        
+                        tmp += '</td>';
+                        tmp += '</tr>';
+                    }
+                    tmp += '</table>';
                 } else {
-                    tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" />';
+                    tmp += '<input type="text" id="Editor-' + gNode.editor.create[ i ].tab + '" />';
                 }
                 tmp += '</td>';
                 tmp += '</tr>';
             }
             $('#Editor-table-' + tar.pid).append( tmp );
-            cgiSelectOption( 'Editor-baseOn' );
+            cgiSelectOption( 'Editor-baseOn-0' );
+            cgiSelectOption( 'Editor-baseOn-2' );
             break;
         }
         deviceEditor( e, tar.w, tar.h );
@@ -24824,10 +24884,10 @@ $(document).ready(function () {
 
         switch( tar.pid )
         {
-        case 'profile':
+        case 'backup_restore':
             gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].cgiAction = 3;
-            $.post('cgi-bin/' + gNode.url.post.profile + '.cgi', gY.JSON.stringify(gData[ tar.pid ]), function( poster ) {
-                genDevice( 'backup_restore' );
+            $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ tar.pid ]), function( poster ) {
+                genDevice( tar.pid );
             });
             break;
         case 'packet_capture':
@@ -24923,7 +24983,7 @@ $(document).ready(function () {
                     if (deviceChecker(e)) {
                         switch( tar.pid ) 
                         {               
-                        case 'profile':               
+                        case 'backup_restore':               
                             tar.thisNo = gData[ tar.pid ][ gNode.guiTNum ];
                             gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ] = $.extend({}, gJson[ gNode.url.get[ tar.pid ] ][ gNode.guiT ][ 0 ]);
                             gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].name = $('#Editor-name').val();
@@ -24931,7 +24991,7 @@ $(document).ready(function () {
                             gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].baseOn = $('#Editor-baseOn').val();
                             gData[ tar.pid ][ gNode.guiTNum ] = gData[ tar.pid ][ gNode.guiT ].length;
 
-                            $.post('cgi-bin/' + gNode.url.post.profile + '.cgi', gY.JSON.stringify(gData[ tar.pid ]), function( poster ) {
+                            $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ tar.pid ]), function( poster ) {
                                 genDevice( 'backup_restore' );
                             });
                             break;
@@ -25124,7 +25184,7 @@ $(document).ready(function () {
             //    msg += '<p>' + gError[ gObj.lang ].ipsAlertInterval + '</p>';
             //}
             break;
-        case 'profile':
+        case 'backup_restore':
             if (!gReg.ascii.default.test($('#Editor-name').val())) {
                 pass = false;
                 msg += '<p>' + gError[ gObj.lang ].name63 + '</p>';
@@ -25252,7 +25312,7 @@ $(document).ready(function () {
             }
             break;
         case 'properties':
-            if (!gReg.hostname.test($('#' + gNode.col[ 0 ].tab).val())) {
+            if (!gReg.hostname.test($('#' + gNode.col[ 0 ].tab).val()) || !gReg.hostname31.test($('#' + gNode.col[ 0 ].tab).val())) {
                 pass = false;
                 msg += '<p>' + gError[ gObj.lang ].hostName +  '</p>';
             }
@@ -25295,6 +25355,9 @@ $(document).ready(function () {
                 {
                     if (!checker.cols[ i ].pass) {
                         msg += '<p>' + gError[ gObj.lang ][ checker.cols[ i ].id ] + '</p>';
+                    } else if (checker.cols[ i ].check && !checker.cols[ i ].check.pass) {
+gY.log( checker.cols[ i ] );
+                        msg += '<p>' + gError[ gObj.lang ][ checker.cols[ i ].check.id ] + '</p>';
                     }
                 }
                 errorAlert( msg );
@@ -28380,7 +28443,7 @@ $(document).ready(function () {
             tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].interface + ' ' + gTerm[ gObj.lang ].list + '</option>';
             break;
         case 'Editor-baseOn' :
-            cgiID   = 'profile';
+            cgiID   = 'backup_restore';
             cgiT    = 'guiProfileT';
             cgiTNum = 'guiProfileTNum';
             tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].profile + ' ' + gTerm[ gObj.lang ].list + '</option>';
@@ -29273,7 +29336,12 @@ $(document).ready(function () {
             switch(id)
             {
             case 'traffic_direction':
-                tmp += '<option value="1">' + gTerm[ gObj.lang ].zone + ' ' + gTerm[ gObj.lang ].direction + '</option>';
+                tmp += '<option value="1">' + gTerm[ gObj.lang ].address + '</option>';
+                tmp += '<option value="2">' + gTerm[ gObj.lang ].srcIp + '</option>';
+                tmp += '<option value="3">' + gTerm[ gObj.lang ].dstIp + '</option>';
+                tmp += '<option value="4">' + gTerm[ gObj.lang ].protocol + '</option>';
+                tmp += '<option value="5">' + gTerm[ gObj.lang ].dstPort + '</option>';
+                tmp += '<option value="6">' + gTerm[ gObj.lang ].zone + '</option>';
                 break;
             case 'source_report':
             case 'destination_report':

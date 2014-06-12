@@ -1773,7 +1773,7 @@ div.Expand {
 
 .noData {
     width: 250px;
-    hegith: 50px;
+    height: 40px;
     margin: 100px auto;
     background: #efefef;
     -mos-border-radius: 5px;
