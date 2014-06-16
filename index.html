@@ -1942,6 +1942,7 @@ $(document).ready(function () {
             btnApply( e );
             break;
         case 'Import':
+gY.log( '!.....' );
             btnImport( e );
             break;
         case 'Export':
@@ -2793,27 +2794,25 @@ gY.log( '.....' );
         var tar = {};
         tar.id = $(e.currentTarget).attr('id');
 
-        if ('backup_restore' == tar.id) {
-            if (!($('#popForm').exists()))
-                $('#popBase').append('<div id="popForm"></div>');
+        if (!($('#popForm').exists()))
+            $('#popBase').append('<div id="popForm"></div>');
 
-            gPop.popForm = $('#popForm').dialog({
-                width: 480,
-                height: 320,
-                position: "center",
-                resizable: false,
-                modal: true,
-                title: gTerm[ gObj.lang ].backup_restore_export,
-                buttons: {
-                    ok: function() {
-                        $( this ).dialog( "close" );
-                    }
-                },
-                open: function(event, ui) {
-                
+        gPop.popForm = $('#popForm').dialog({
+            width: 480,
+            height: 320,
+            position: "center",
+            resizable: false,
+            modal: true,
+            title: gTerm[ gObj.lang ].backup_restore_import,
+            buttons: {
+                ok: function() {
+                    $( this ).dialog( "close" );
                 }
-           });
-        }
+            },
+            open: function(event, ui) {
+              
+            }
+       });
     }
     
     function btnCheckSMTP( pid ) {
@@ -6118,7 +6117,7 @@ gY.log( '.....' );
                                                 case 'totalBytes':
                                                 case 'txBytes':
                                                 case 'rxBytes':
-                                                    var mkbs = parseInt( data.queryResults[ j ][ gNode.col[ 0 ][ i ].tab ] );
+                                                    var mkbs = parseInt( data.queryResults[ j ][ gNode.col[ gQuery.a ][ i ].tab ] );
                                                     tmp += ( mkbs > 1000000000 )? (mkbs/1000000000).toFixed(2) + ' GB' : ( ( mkbs > 1000000 )? (mkbs/1000000).toFixed(2) + ' MB' : ( ( mkbs == 0 )? 0 : (mkbs/1000).toFixed(2) + ' KB' ) );
                                                     break;
                                                 default: 
@@ -22515,140 +22514,15 @@ gY.log( '.....' );
                                 
                                 if (gIf.power) {
                                     genTblAction( pid );
-                                    if (data[ gNode.guiTNum ] >= gRows.maxProfile) 
+                                    if (data[ gNode.guiTNum ] >= gRows.maxProfile) {
                                         $('#Create-' + pid).prop('disabled', true);
+                                        $('#Import-' + pid).prop('disabled', true);
+                                    }
                                 } else {
                                     $('#div-' + pid + ' button').prop('disabled', true);
                                 }
                             }
                         });
-
-/*
-                        $.ajax({
-                            url: 'cgi-bin/common_usbFile_list.cgi',
-                            dataType: 'json',
-                            success: function(data) {
-                                gData[ pid ] = data;
-                                if (parseInt(data.status) == 1) {
-                                    $('#backup-1').prop('disabled', false);
-                                    $('#restoreMode-1').prop('disabled', false);
-                                }else {
-                                    $('#backup-1').prop('disabled', true);
-                                    $('#restoreMode-1').prop('disabled', true);
-                                }
-                                $('#fpath').append('<option value="NA">Select file from usb</select>');
-                                $('#fpath').prop('disabled', true);
-                            }
-                        });
-                
-                        gObj.uploader = new gY.Uploader({
-                                           width: "100px",
-                                           height: "25px",
-                                           multipleFiles: false,
-                                           fileFieldName: 'binary',
-                                           swfURL: "assets/flashuploader.swf?t=" + Math.random(),
-                                           uploadURL: "cgi-bin/conf_restore.cgi",
-                                           simLimit: 1,
-                                           withCredentials: false
-                                       });
-                        gIf.uploaded = false;
-                
-                        gObj.uploader.render("#selectFileButtonContainer");
-                
-                        gObj.uploader.after("fileselect", function (e) {
-                            gIf.invalid = false;
-                            gObj.uploaderFile = e.fileList[0];
-                            gY.one("#selectFileStatus").set("text", gObj.uploaderFile.get('name') );
-                        });
-                
-                        gObj.uploader.on("uploadprogress", function (e) {
-                            $('.processDiv').progressbar({ value: parseInt( e.percentLoaded ) });
-                        });
-                
-                        gObj.uploader.on("uploadstart", function (e) {
-                            gObj.uploader.set("enabled", false);
-                        });
-                        
-                        gObj.uploader.on("uploadcomplete", function (e) {
-                            var json = gY.JSON.parse(e.data);
-                            if (parseInt(json.status) == 0) {
-                                gIf.uploaded = true;
-                                gPop.popError.dialog( "close" );
-                                gObj.loading = 99;
-                                gIf.loading = true;
-                                gIf.reboot = true;
-                            } else {
-                                loadingToggle( false );
-                                gIf.uploaded = false;
-                                gIf.invalid = true;
-                                $('#restore').prop('disabled', false);
-                                $('#backup').prop('disabled', false);
-                                $('.errorMsg').html( gError[ gObj.lang ][ json.msg ]);
-                            }
-                        });
-                
-                        gY.one('#restoreConf').on('click', function (e) {
-                            rebootAlert(e);
-                        });
-                
-                        gY.one('#backupConf').on('click', function(e) {
-                            if ($('#backup-0').is(':checked'))
-                                window.open("cgi-bin/conf_backup.cgi", "_blank");
-                            else if (parseInt(gData[ pid ].status) == 1 && $('#backup-1').is(':checked')) {
-                                $.ajax({
-                                    url: 'cgi-bin/conf_usb_backup.cgi',
-                                    dataType: 'json',
-                                    success: function(data) {
-                                        if ( 0 === parseInt( data.status ) )
-                                            successAlert( data.msg );
-                                        else
-                                            errorAlert( data.msg );
-                                    }
-                                });
-                            }
-                        });
-    
-                        $('input[name=restore]').change( function() {
-                            switch( parseInt( $(this).val() ) )
-                            {
-                            case 0:
-                                $('#fpath').prop('disabled', true);
-                                break;
-                            case 1:
-                                $('#fpath').change( function() {
-                                    if ( 'NA' == $(this).val() ) {
-                                        $('#restoreConf').prop('disabled', true);
-                                    } else {
-                                        $('#restoreConf').prop('disabled', false);
-                                    }
-                                });
-    
-                                $('#fpath').html('<option value="NA">Select file from usb</select>');
-                                $('#fpath').prop('disabled', true);
-                                $.ajax({
-                                    url: 'cgi-bin/common_usbFile_list.cgi',
-                                    dataType: 'json',
-                                    success: function(data) {
-                                        gData[ pid ] = data;
-                                        if (1 === parseInt(data.status)) {
-                                            $('#fpath').prop('disabled', false);
-                                            for (var i=0, len=data.guiUsbFileT.length; i<len; i++)
-                                                $('#fpath').append('<option value="' + data.guiUsbFileT[ i ].path + '">' + data.guiUsbFileT[ i ].name + '</option>');
-                                        }
-                                    }
-                                });
-                                break;
-                            }
-                        });
-                
-                        $('#backup-0').attr('checked', true);
-                        $('#restore-0').attr('checked', true);
-
-                        if (!gIf.power) {
-                            $('.templateDiv input').prop('disabled', true);
-                            $('.templateDiv button').prop('disabled', true);
-                        }
-*/
 
                         break;
                     case 'firmware':
@@ -24767,7 +24641,7 @@ gY.log( '.....' );
             return false;
         tar.pid   = tar.id.split(gReg.isDash)[1];
 
-        tar.w = 400;
+        tar.w = 500;
         tar.h = 300;
 
         if (!($('#popForm').exists()))
@@ -24778,7 +24652,6 @@ gY.log( '.....' );
         switch( tar.pid )
         {
         case 'backup_restore':
-gY.log( gNode.editor.create );
             for (var i=0, len=gNode.editor.create.length; i<len; i++)
             {
                 tmp += '<tr>';
@@ -24786,15 +24659,24 @@ gY.log( gNode.editor.create );
                 tmp += '<td class="alignLeft">';
                 if ('radio' == gNode.editor.create[ i ].type) { 
                     tmp += '<table>';
-                    for (var j=0, jlen=gNode.editor.create[ i ].option.length; j<jlen; j++)
+                    for (var x in gNode.editor.create[ i ].option)
                     {
                         tmp += '<tr>';
                         tmp += '<td class="alignLeft BT80">';
-                        
+                        tmp += '<input type="radio" id="Editor-' + gNode.editor.create[ i ].tab + '-' + x + '" name="Editor-' + gNode.editor.create[ i ].tab + '" value="' + x + '" />&nbsp;<label for="Editor-' + gNode.editor.create[ i ].tab + '-' + x + '">' + gNode.editor.create[ i ].option[ x ].label + '</lable>';
                         tmp += '</td>';
-                        tmp += '<td class="alignLeft">';
-                        
-                        tmp += '</td>';
+                        if ( 'file' == gNode.editor.create[ i ].option[ x ].tag ) {
+                            tmp += '<td class="alignLeft BT100">';
+                            tmp += '<div id="Editor-' + gNode.editor.create[ i ].option[ x ].tab + '"></div>';
+                            tmp += '</td>';
+                            tmp += '<td class="alignLeft">';
+                            tmp += '<div id="Editor-' + gNode.editor.create[ i ].option[ x ].tab + '-status"></div>';
+                            tmp += '</td>';
+                        } else {
+                            tmp += '<td colspan="2" class="alignLeft">';
+                            tmp += '<select id="Editor-' + gNode.editor.create[ i ].option[ x ].tab + '"></select>';
+                            tmp += '</td>';
+                        }
                         tmp += '</tr>';
                     }
                     tmp += '</table>';
@@ -24805,8 +24687,7 @@ gY.log( gNode.editor.create );
                 tmp += '</tr>';
             }
             $('#Editor-table-' + tar.pid).append( tmp );
-            cgiSelectOption( 'Editor-baseOn-0' );
-            cgiSelectOption( 'Editor-baseOn-2' );
+
             break;
         }
         deviceEditor( e, tar.w, tar.h );
@@ -24882,6 +24763,7 @@ gY.log( gNode.editor.create );
         tar.pid = tar.id.split('-')[ 1 ];
         tar.thisNo = tar.id.split('-')[ 2 ];
 
+        gIf.alter = false;
         switch( tar.pid )
         {
         case 'backup_restore':
@@ -24891,21 +24773,18 @@ gY.log( gNode.editor.create );
             });
             break;
         case 'packet_capture':
-            gIf.alter = false;
             gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].delete = 1;
             $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ tar.pid ]), function( poster ) {
                 genDevice( tar.pid );
             });
             break;
         case 'log':
-            gIf.alter = false;
             gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].delete = 1;
             $.post('cgi-bin/' + gNode.url.log + '.cgi', gY.JSON.stringify(gData[ tar.pid ]), function( poster ) {
                 genDevice( 'advanced_debug' );
             });
             break;
         case 'debug':
-            gIf.alter = false;
             gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].delete = 1;
             $.post('cgi-bin/' + gNode.url.debug + '.cgi', gY.JSON.stringify(gData[ tar.pid ]), function( poster ) {
                 genDevice( 'advanced_debug' );
@@ -24964,10 +24843,8 @@ gY.log( gNode.editor.create );
         tar.pid  = tar.id.split(gReg.isDash)[1];
     
         if (gObj.active.h5Index == 'NA') {
-            //gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index];
             tar.title = gObj.menu[ gObj.active.h3Index ].label + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].label + ((gNode.tabs)? ' > ' + gNode.tabs[ tar.pid ] : '');
         }else {
-            //gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].panel[gObj.active.h5Index];
             tar.title = gObj.menu[ gObj.active.h3Index ].label + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].label + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].panel[ gObj.active.h5Index ].label + ((gNode.tabs)? ' > ' + gNode.tabs[ tar.pid ] : '');
         }
     
@@ -24981,19 +24858,36 @@ gY.log( gNode.editor.create );
             buttons: {
                 OK: function() {
                     if (deviceChecker(e)) {
+                        gObj.form = {};
                         switch( tar.pid ) 
                         {               
                         case 'backup_restore':               
-                            tar.thisNo = gData[ tar.pid ][ gNode.guiTNum ];
-                            gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ] = $.extend({}, gJson[ gNode.url.get[ tar.pid ] ][ gNode.guiT ][ 0 ]);
-                            gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].name = $('#Editor-name').val();
-                            gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].desc = $('#Editor-desc').val();
-                            gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].baseOn = $('#Editor-baseOn').val();
-                            gData[ tar.pid ][ gNode.guiTNum ] = gData[ tar.pid ][ gNode.guiT ].length;
+                            gObj.form.profileName = $('#Editor-name').val();
+                            gObj.form.profileDesc = $('#Editor-desc').val();
 
-                            $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ tar.pid ]), function( poster ) {
-                                genDevice( 'backup_restore' );
-                            });
+                            switch( parseInt( $('input[name=Editor-baseOn]').val() ) )
+                            {
+                            case 0:
+                                gObj.form.baseOn = $('#Editor-baseOn-device').val();
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: 'cgi-bin/' + gNode.url.baseOnDevice + '.cgi',
+                                    data: gObj.form,
+                                    success: function(data) {
+                                        if (0 === parseInt( data.status ) )
+                                            genDevice( 'backup_restore' );
+                                        else
+                                            errorAlert('<p>' + data.msg + '</p>');
+                                    }
+                                });
+                                break;
+                            case 1:
+                                break;
+                            case 2:
+                                break;
+                            }
+
                             break;
                         case 'management_settings':               
                             tar.thisNo  = tar.id.split(gReg.isDash)[2];
@@ -25012,6 +24906,91 @@ gY.log( gNode.editor.create );
                 },
                 Cancel: function() {
                     $( this ).dialog( "close" );
+                }
+            },
+            open: function(event, ui) {
+                switch( tar.pid )
+                {
+                case 'backup_restore':
+                    cgiSelectOption('Editor-baseOn-device'); 
+
+                    gObj.uploader = new gY.Uploader({
+                                       width: "100px",
+                                       multipleFiles: false,
+                                       fileFieldName: 'binary',
+                                       swfURL: "assets/flashuploader.swf?t=" + Math.random(),
+                                       uploadURL: "cgi-bin/conf_restore.cgi",
+                                       simLimit: 1,
+                                       withCredentials: false
+                                   });
+                    gIf.uploaded = false;
+
+                    gObj.uploader.render("#Editor-baseOn-pc");
+
+                    gObj.uploader.after("fileselect", function (e) {
+                        gIf.invalid = false;
+                        gObj.uploaderFile = e.fileList[0];
+                        gY.one("#Editor-baseOn-pc-status").set("text", gObj.uploaderFile.get('name') );
+                    });
+
+                    gObj.uploader.on("uploadprogress", function (e) {
+                        $('.processDiv').progressbar({ value: parseInt( e.percentLoaded ) });
+                    });
+
+                    gObj.uploader.on("uploadstart", function (e) {
+                        gObj.uploader.set("enabled", false);
+                    });
+
+                    gObj.uploader.on("uploadcomplete", function (e) {
+                        var json = gY.JSON.parse(e.data);
+                        if (parseInt(json.status) == 0) {
+                            gIf.uploaded = true;
+                            gPop.popError.dialog( "close" );
+                            gObj.loading = 99;
+                            gIf.loading = true;
+                            gIf.reboot = true;
+                        } else {
+                            loadingToggle( false );
+                            gIf.uploaded = false;
+                            gIf.invalid = true;
+                            $('#restore').prop('disabled', false);
+                            $('#backup').prop('disabled', false);
+                            $('.errorMsg').html( gError[ gObj.lang ][ json.msg ]);
+                        }
+                    });
+
+                    $('#Editor-baseOn-usb').html('<option value="NA">Select file from usb</option>');
+                    $.ajax({
+                        url: 'cgi-bin/common_usbFile_list.cgi',
+                        dataType: 'json',
+                        success: function(data) {
+                            gData[ 'common_usbFile_list' ] = data;
+                            if (1 === parseInt(data.status)) {
+                                for (var i=0, len=data.guiUsbFileT.length; i<len; i++)
+                                    $('#Editor-baseOn-2').append('<option value="' + data.guiUsbFileT[ i ].path + '">' + data.guiUsbFileT[ i ].name + '</option>');
+                            } else {
+                                $('#Editor-baseOn-2').prop('disabled', true);
+                                $('#Editor-baseOn-usb').prop('disabled', true);
+                            }
+                        }
+                    }); 
+                 
+                    $('input[name=Editor-baseOn]').change( function() {
+                        switch( parseInt( $(this).val() ) )
+                        {
+                        case 0:
+                            
+                            break;
+                        case 1:
+                            
+                            break;
+                        case 2:
+                            
+                            break;
+                        }   
+                    });
+                    
+                    break;
                 }
             },
             close: function(event, ui) {
@@ -25195,10 +25174,12 @@ gY.log( gNode.editor.create );
                 msg += '<p>' + gError[ gObj.lang ].desc255 + '</p>';
             }
 
+/*
             if (gReg.isNA.test($('#Editor-baseOn').val())) {
                 pass = false;
                 msg += '<p>' + gError[ gObj.lang ].profileNA + '</p>';
             }
+*/
             break;
         case 'proxy':
             if ($('#enable').is(':checked')) {
@@ -28442,7 +28423,7 @@ gY.log( checker.cols[ i ] );
             cgiTNum = 'guiIfTNum';
             tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].interface + ' ' + gTerm[ gObj.lang ].list + '</option>';
             break;
-        case 'Editor-baseOn' :
+        case 'Editor-baseOn-device' :
             cgiID   = 'backup_restore';
             cgiT    = 'guiProfileT';
             cgiTNum = 'guiProfileTNum';
@@ -28622,7 +28603,7 @@ gY.log( checker.cols[ i ] );
                 tmp += '<option value="' + gData[ cgiID ][ cgiT ][ i ].gid + '">' + gData[ cgiID ][ cgiT ][ i ].name + '</option>';
             }
             break;
-        case 'Editor-baseOn':
+        case 'Editor-baseOn-device':
             for ( var i=0, len=gData[ cgiID ][ cgiT ].length; i<len; i++ ) 
             {
                 tmp += '<option value="' + gData[ cgiID ][ cgiT ][ i ].name + '">' + gData[ cgiID ][ cgiT ][ i ].name + '</option>';

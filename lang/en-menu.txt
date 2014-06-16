@@ -1942,7 +1942,7 @@
                   {
                     "label" : "Src. IP",
                     "tab" : "srcIp",
-                    "wiz" : "auto" ,
+                    "wiz" : "180px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -1950,7 +1950,7 @@
                   {
                     "label" : "Dst. IP",
                     "tab" : "dstIp",
-                    "wiz" : "auto" ,
+                    "wiz" : "180px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -1982,7 +1982,7 @@
                   {
                     "label": "Sessions",
                     "tab" : "sessions",
-                    "wiz" : "100px",
+                    "wiz" : "120px",
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2001,7 +2001,7 @@
                   {
                     "label" : "Src. IP",
                     "tab" : "srcIp",
-                    "wiz" : "auto" ,
+                    "wiz" : "180px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2009,7 +2009,7 @@
                   {
                     "label" : "Tx Bytes",
                     "tab" : "txBytes",
-                    "wiz" : "100px" ,
+                    "wiz" : "150px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2017,7 +2017,7 @@
                   {
                     "label": "Rx Bytes",
                     "tab" : "rxBytes",
-                    "wiz" : "100px" ,
+                    "wiz" : "150px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2025,7 +2025,7 @@
                   {
                     "label": "Total Bytes",
                     "tab" : "totalBytes",
-                    "wiz" : "100px" ,
+                    "wiz" : "150px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2033,7 +2033,7 @@
                   {
                     "label": "Sessions",
                     "tab" : "sessions",
-                    "wiz" : "100px",
+                    "wiz" : "150px",
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2052,7 +2052,7 @@
                   {
                     "label" : "Dst. IP",
                     "tab" : "dstIp",
-                    "wiz" : "auto" ,
+                    "wiz" : "180px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2060,7 +2060,7 @@
                   {
                     "label" : "Tx Bytes",
                     "tab" : "txBytes",
-                    "wiz" : "100px" ,
+                    "wiz" : "150px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2068,7 +2068,7 @@
                   {
                     "label": "Rx Bytes",
                     "tab" : "rxBytes",
-                    "wiz" : "100px" ,
+                    "wiz" : "150px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2076,7 +2076,7 @@
                   {
                     "label": "Total Bytes",
                     "tab" : "totalBytes",
-                    "wiz" : "100px" ,
+                    "wiz" : "150px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2084,7 +2084,7 @@
                   {
                     "label": "Sessions",
                     "tab" : "sessions",
-                    "wiz" : "100px",
+                    "wiz" : "150px",
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2103,7 +2103,7 @@
                   {
                     "label" : "Protocol",
                     "tab" : "protocol",
-                    "wiz" : "auto" ,
+                    "wiz" : "180px",
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2111,7 +2111,7 @@
                   {
                     "label" : "Tx Bytes",
                     "tab" : "txBytes",
-                    "wiz" : "100px" ,
+                    "wiz" : "150px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2119,7 +2119,7 @@
                   {
                     "label": "Rx Bytes",
                     "tab" : "rxBytes",
-                    "wiz" : "100px" ,
+                    "wiz" : "150px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2127,7 +2127,7 @@
                   {
                     "label": "Total Bytes",
                     "tab" : "totalBytes",
-                    "wiz" : "100px" ,
+                    "wiz" : "150px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2135,7 +2135,7 @@
                   {
                     "label": "Sessions",
                     "tab" : "sessions",
-                    "wiz" : "100px",
+                    "wiz" : "150px",
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2154,7 +2154,7 @@
                   {
                     "label" : "Dst. Port",
                     "tab" : "dstPort",
-                    "wiz" : "auto" ,
+                    "wiz" : "180px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2162,7 +2162,7 @@
                   {
                     "label" : "Tx Bytes",
                     "tab" : "txBytes",
-                    "wiz" : "100px" ,
+                    "wiz" : "150px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2170,7 +2170,7 @@
                   {
                     "label": "Rx Bytes",
                     "tab" : "rxBytes",
-                    "wiz" : "100px" ,
+                    "wiz" : "150px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2178,7 +2178,7 @@
                   {
                     "label": "Total Bytes",
                     "tab" : "totalBytes",
-                    "wiz" : "100px" ,
+                    "wiz" : "150px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2186,7 +2186,7 @@
                   {
                     "label": "Sessions",
                     "tab" : "sessions",
-                    "wiz" : "100px",
+                    "wiz" : "150px",
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2205,7 +2205,7 @@
                   {
                     "label" : "From Zone",
                     "tab" : "fromZone",
-                    "wiz" : "auto" ,
+                    "wiz" : "180px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2213,7 +2213,7 @@
                   {
                     "label" : "To Zone",
                     "tab" : "toZone",
-                    "wiz" : "auto" ,
+                    "wiz" : "180px" ,
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -2245,7 +2245,7 @@
                   {
                     "label": "Sessions",
                     "tab" : "sessions",
-                    "wiz" : "100px",
+                    "wiz" : "120px",
                     "display" : true,
                     "sortable" : true,
                     "align" : "Left"
@@ -10881,14 +10881,15 @@
               "url" :
               {
                 "get" : "config_profile_list_v2",
-                "export2pc" : "config_export_pc",
-                "export2usb" : "config_export_usb",
-                "pc4import" : "config_import_pc",
-                "usb4import" : "config_import_usb",
-                "dev4import" : "config_import_dev",
-                "create4dev" : "config_create_dev",
-                "create4pc" : "config_create_pc",
-                "create4usb" : "config_create_usb"
+                "post" : "config_profile_list_v2",
+                "exportToPC" : "config_export_pc",
+                "exportToUSB" : "config_export_usb",
+                "importFromPC" : "config_import_pc",
+                "importFromUSB" : "config_import_usb",
+                "importFromDevice" : "config_import_dev",
+                "baseOnDevice" : "config_create_dev",
+                "baseOnPC" : "config_create_pc",
+                "baseOnUSB" : "config_create_usb"
               },
               "ext" : "cgi",
               "tblAction" : "Create",
@@ -10910,7 +10911,7 @@
                 {
                   "label" : "Description",
                   "tab" : "desc",
-                  "wiz" : "auto"
+                  "wiz" : "360px"
                 },
                 {
                   "label" : "Action",
@@ -10924,7 +10925,7 @@
                 [
                   {
                     "label" : "Export to",
-                    "tab" : "export2",
+                    "tab" : "exportTo",
                     "tag" : "input",
                     "type" : "radio",
                     "option" : 
@@ -10932,12 +10933,12 @@
                       "1" : 
                       {
                         "label" : "pc",
-                        "tab" : "export2-1"
+                        "tab" : "exportTo-pc"
                       },
                       "2" : 
                       {
                         "label" : "usb",
-                        "tab" : "export2-2"
+                        "tab" : "exportTo-usb"
                       }
                     }
                   }
@@ -10954,7 +10955,7 @@
                       "0" : 
                       {
                         "label" : "device",
-                        "tab" : "importFrom-0",
+                        "tab" : "importFrom-device",
                         "tag" : "select",
                         "tag" : "select",
                         "option" : "cgi"
@@ -10962,14 +10963,14 @@
                       "1" : 
                       {
                         "label" : "pc",
-                        "tab" : "importFrom-1",
+                        "tab" : "importFrom-pc",
                         "tag" : "input",
                         "tag" : "file"
                       },
                       "2" : 
                       {
                         "label" : "usb",
-                        "tab" : "importFrom-2",
+                        "tab" : "importFrom-usb",
                         "tag" : "select",
                         "tag" : "select",
                         "option" : "cgi"
@@ -11003,7 +11004,7 @@
                       "0" : 
                       {
                         "label" : "device",
-                        "tab" : "baseOn-0",
+                        "tab" : "baseOn-device",
                         "tag" : "select",
                         "tag" : "select",
                         "option" : "cgi",
@@ -11012,7 +11013,7 @@
                       "1" :
                       {
                         "label" : "pc",
-                        "tab" : "baseOn-1",
+                        "tab" : "baseOn-pc",
                         "tag" : "input",
                         "tag" : "file",
                         "wiz" : "80px"
@@ -11020,7 +11021,7 @@
                       "2" :
                       {
                         "label" : "usb",
-                        "tab" : "baseOn-2",
+                        "tab" : "baseOn-usb",
                         "tag" : "select",
                         "tag" : "select",
                         "option" : "cgi",

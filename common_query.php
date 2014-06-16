@@ -43,7 +43,6 @@ case 'traffic_direction':
     switch( $_GET[ 'q' ]) 
     {
     case 1:
-        //reportAggregate( 'daily_ZtoZ', 'fromZone, toZone', 'fromZone, toZone, SUM( trafficAmount ) as trafficAmount, SUM( sessions ) as sessions' );
         reportAggregate2( 'raw_sessions', 'srcIp', 'dstIp' );
         break;
     case 2:
@@ -62,7 +61,6 @@ case 'traffic_direction':
         reportAggregate2( 'raw_sessions', 'fromZone', 'toZone' );
         break;
     default:
-        //reportQuery( 'raw_ZtoZ' );
         reportQuery( 'raw_sessions' );
     }
     break;
@@ -141,10 +139,9 @@ case 'view_logs':
 function prepareTop( $table, $orderBy ) {
     $query  = 'SELECT * ';
     $query .= '  FROM `'. $table .'`';
-    $query .= ' ORDER BY '. $orderBy . ' DESC';
-    // $query .= ' ORDER BY '. ( ( empty( $_GET[ 'oby' ] ) )? $orderBy : $_GET[ 'oby' ] ) . ( ( empty( $_GET[ 'asc' ] ) )? ' DESC' : ' ASC' );
+    $query .= ' ORDER BY '. ( ( empty( $_GET[ 'oby' ] ) )? $orderBy : $_GET[ 'oby' ] ) . ( ( empty( $_GET[ 'asc' ] ) )? ' DESC' : ' ASC' );
     $query .= ' LIMIT 10';
-    archerQuery( $query, $table );
+    archerQuery( $query );
 }
 
 function prepareChart() {
@@ -152,22 +149,21 @@ function prepareChart() {
     $limit = 360;
     $query  = 'SELECT * ';
     $tmp = '';
-    $table = '';
 
     switch( $_GET[ 't' ] )
     {
     case 0:
         $query .= ', (datetime DIV 10) * 10 as date';
-        $table  = 'hour_';
+        $table  = 'hour';
         break;
     case 1:
         $query .= ', (datetime DIV 500) * 500 as date';
-        $table  = 'day_';
+        $table  = 'day';
         $limit = 288;
         break;
     case 2:
         $query .= ', (datetime DIV 3000) * 3000 as date';
-        $table  = 'week_';
+        $table  = 'week';
         $limit = 336;
         break;
     case 3:
@@ -175,11 +171,13 @@ function prepareChart() {
         $table  = 'month';
         break;
     case 4:
-        $table  = 'year_';
+        $table  = 'year';
         $datetime = 'date';
         $limit = 365;
         break;
     }
+
+    $query .= '  FROM `'. $table .'_';
 
     if ( !empty ($_GET[ 'sd' ] ) ) {
         if ( !empty( $_GET[ 'ed' ] ) ) {
@@ -194,8 +192,7 @@ function prepareChart() {
     switch( $_GET[ 'param' ] )
     {
     case 'wan_bandwidth_report':
-        $table .= 'wanbandwidth';
-        $query .= ' FROM `'. $table .'`';
+        $query .= 'wanbandwidth`';
         $query .= ' WHERE wanname="'. $_GET[ 'q' ] .'"';
         if ( !empty ($_GET[ 'sd' ] ) ) {
             if ( !empty( $_GET[ 'ed' ] ) ) {
@@ -208,8 +205,7 @@ function prepareChart() {
         }
         break;
     case 'resource_utilization':
-        $table .= ( (0 == $_GET[ 'q' ])? 'cpuusage' : 'memusage' );
-        $query .= ' FROM `'. $table .'`';
+        $query .= ( (0 == $_GET[ 'q' ])? 'cpuusage`' : 'memusage`' );
         if ( !empty ($_GET[ 'sd' ] ) ) {
             if ( !empty( $_GET[ 'ed' ] ) ) {
                 $query .= ' WHERE '. $datetime .' BETWEEN "'. $_GET[ 'sd' ] .' '. $_GET[ 'sh' ] .':'. $_GET[ 'sm' ] .':00" AND "'. $_GET[ 'ed' ] .' '. $_GET[ 'eh' ] .':'. $_GET[ 'em' ] .':59"';
@@ -225,10 +221,11 @@ function prepareChart() {
     $query .= ' Order By date desc ';
     $query .= ' LIMIT '. $limit;
 
-    archerQuery( $query, $table );
+    archerQuery( $query );
 }
 
-function archerQuery( $query, $table ) {
+function archerQuery( $query ) {
+
     $mysqli = new mysqli( "127.0.0.1", "archer", "rehcra", 'archer', 3306 );
     if ( $result = $mysqli->query( $query ) ) {
         // fetch object array
@@ -273,8 +270,7 @@ function archerQuery( $query, $table ) {
 
         echo json_encode( $json );
     } else {
-        $query = 'REPAIR TABLE '. $table;
-        $mysqli->query($query); 
+        echo $query;
     }
 }
 
@@ -296,7 +292,7 @@ function reportAggregate( $table, $groupBy, $state ) {
 
         $db = str_replace("-", "_", trim( shell_exec( 'date -d @'. $nowStamp .' +%F' ) ));
 
-        $tmpTable = $db .'.`'. $table .'-'. $nowStamp .'`';
+        $tmpTable = $db .'.`'. $table .'-'. $noStamp .'`';
         
         for ($i=0; $i<$days; $i++)
         {
@@ -355,9 +351,6 @@ function reportAggregate( $table, $groupBy, $state ) {
                     }
                     // free result set
                     $result->close();
-                } else {
-                    $query = 'REPAIR TABLE '. $db .'.`'. $table .'`';
-                    $mysqli->query($query); 
                 }
             }
         }
@@ -375,12 +368,12 @@ function reportAggregate2( $table, $groupBy, $groupBy2 ) {
     $mysqli = new mysqli( "127.0.0.1", "archer", "rehcra", 'archer', 3306 );
 
     $gby = $groupBy;
-    $oby = $groupBy;
+    $oby = $groupBy . " DESC";
     if ($groupBy2) {
         $gby .= ', '. $groupBy2;
-        $oby .= ', '. $groupBy2;
+        $oby .= ', '. $groupBy2 . " DESC";
     }
-    
+   
     $startDate  = str_replace("/", "-", $_GET[ 'sd' ]);
     $startStamp = trim( shell_exec( 'date -d "'. $startDate .' 00:00:00" "+%s"' ) );
     $endDate    = str_replace("/", "-", $_GET[ 'ed' ]);
@@ -392,7 +385,7 @@ function reportAggregate2( $table, $groupBy, $groupBy2 ) {
     $db = str_replace("-", "_", trim( shell_exec( 'date -d @'. $nowStamp .' +%F' ) ));
 
     $tmpTable = $db .'.`'. $table .'-'. $nowStamp .'`';
-        
+
     for ($i=0; $i<$days; $i++)
     {
         $tmpStamp = $endStamp - $i * 86400;
@@ -403,13 +396,11 @@ function reportAggregate2( $table, $groupBy, $groupBy2 ) {
                 continue;
             } else {
                 // create table now's timestamp on archer
-                // 24 hours 
-                for ($j=0; $j<24; $j++) 
+                // 24 hours
+                for ($j=0; $j<24; $j++)
                 {
-                    $stmt = 'CREATE TABLE IF NOT EXISTS '. $tmpTable .' as ( SELECT * FROM '. $db .'.`'. $table .'_'. sprintf("%02d", $j) .'` ) '; 
-                    if ( !$mysqli->query( $stmt ) ) {
-                         $json[ $i . '@' . $j . '@fail' ] = " failed : ". $mysqli->errno ." @ ". $mysqli->error;
-                    }
+                    $stmt = 'CREATE TABLE IF NOT EXISTS '. $tmpTable .' as ( SELECT * FROM '. $db .'.`'. $table .'_'. sprintf("%02d", $j) .'` ) ';
+                    $mysqli->query( $stmt );
                 }
             }
             // free check set
@@ -417,7 +408,7 @@ function reportAggregate2( $table, $groupBy, $groupBy2 ) {
         }
     }
 
-    $query = "SELECT ". $gby .", txBytes, rxBytes, totalBytes, count(*) as sessions FROM ". $tmpTable ." GROUP BY ". $gby ." ORDER BY ". $oby ." DESC";
+    $query = "SELECT ". $gby .", txBytes, rxBytes, totalBytes, count(*) as sessions FROM ". $tmpTable ." GROUP BY ". $gby ." ORDER BY ". $oby ;
 
     $json[ 'queryStr' ] = $query;
 
@@ -507,9 +498,6 @@ function reportQuery( $table ) {
                                 }
                                 // free result set
                                 $result->close();
-                            } else {
-                                $query = 'REPAIR TABLE '. $db .'.`'. $table .'`';
-                                $mysqli->query($query); 
                             }
                         }
                         // free tableCount set
@@ -622,9 +610,6 @@ function logQuery( $table ) {
 
                                 // free result set
                                 $result->close();
-                            } else {
-                                $query = 'REPAIR TABLE '. $db .'.`'. $table .'`';
-                                $mysqli->query($query); 
                             }
                         }
                         // free tableCount set
@@ -667,9 +652,6 @@ function logQuery( $table ) {
                                     }
                                     // free result set
                                     $result->close();
-                                } else {
-                                    $query = 'REPAIR TABLE '. $db .'.`'. $table .'`';
-                                    $mysqli->query($query); 
                                 }
                             }
                             // free tableCount set

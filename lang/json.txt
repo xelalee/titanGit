@@ -640,5 +640,22 @@
         "cgiAction": 1
       }
     ]
+  },
+  "config_profile_list_v2" :
+  {
+    "guiProfileT" :
+    [
+      {
+        "gid" : 0,
+        "name" : "",
+        "desc" : "",
+        "baseOn" : "",
+        "userDefined" : 1,
+        "time" : "",
+        "fileName" : "",
+        "isUsed" : 0,
+        "cgiAction": 1
+      }
+    ]
   }
 }

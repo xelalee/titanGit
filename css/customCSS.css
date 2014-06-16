@@ -30,9 +30,9 @@ html {
 
 #hd_blinkE {
     position: absolute;
-    left: 161px;
+    left: 160px;
     top: 53px;
-    width: 6px;
+    width: 7px;
     height: 6px;
     -webkit-border-radius: 25px;
     -moz-border-radius: 25px;
@@ -44,9 +44,9 @@ html {
 
 #hd_blinkH {
     position: absolute;
-    left: 199px;
+    left: 198px;
     top: 53px;
-    width: 6px;
+    width: 7px;
     height: 6px;
     -webkit-border-radius: 25px;
     -moz-border-radius: 25px;
@@ -58,9 +58,9 @@ html {
 
 #hd_blinkI {
     position: absolute;
-    left: 241px;
+    left: 240px;
     top: 45px;
-    width: 6px;
+    width: 7px;
     height: 6px;
     -webkit-border-radius: 25px;
     -moz-border-radius: 25px;
@@ -72,9 +72,9 @@ html {
 
 #hd_blinkA {
     position: absolute;
-    left: 272px;
+    left: 271px;
     top: 59px;
-    width: 6px;
+    width: 7px;
     height: 6px;
     -webkit-border-radius: 25px;
     -moz-border-radius: 25px;
@@ -1464,11 +1464,7 @@ button.Export span.ui-icon {
     background-position: -160px -96px;
 }
 
-button.ExportP span.ui-icon {
-    background-position: -32px -80px;
-}
-
-button.ImportP span.ui-icon {
+button.Import span.ui-icon {
     background-position: -48px -80px;
 }
 
@@ -2278,36 +2274,10 @@ div.Expand {
 
 }
 
-#div-backup_restore button {
-    background: white;
-}
-
-#div-profile {
-    position: relative;
-    width: 760px;
-}
-
-#div-backup {
-    position: relative;
-    width: 600px;
-    height: 110px;
-    background: #efefef url('images/i_128_backup_00.png') center left no-repeat;
-    background-position: 20px 16px;
-    padding: 40px 0 0 160px;
-    -mos-border-radius: 10px;
-    border-radius: 10px;
-}
-
-#div-restore {
-    position: relative;
-    width: 600px;
-    height: 110px;
-    background: #efefef url('images/i_128_restore_00.png') center left no-repeat;
-    background-position: 20px 16px;
-    padding: 40px 0 0 160px;
-    -mos-border-radius: 10px;
-    border-radius: 10px;
-    margin: 5px 0;
+#Editor-baseOn-pc button {
+    width: 80px;
+    height: 20px;
+    margin: 0;
 }
 
 /* device > firmware */
