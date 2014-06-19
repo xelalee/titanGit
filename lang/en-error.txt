@@ -186,6 +186,14 @@
     "length0127": "description length should between 0 to 127",
     "dhcp_overlap" : "The DHCP range is conflicted with Address setting, please change the pool setting to avoid overlap",
 
+    "_comment" : "interface",
+    "_comment" : "lan",
+    "noLanInterface" : "Pleaes remove the interface to be added from LAN/WAN or clear the address of the interface"
+
+    "_comment" : "vlan",
+    "noVlanInterface" : "To add a Vlan on GE port, please remove the GE port from LAN interface",
+
+
     "_comment" : "device",
     "_comment" : "administrator settings",
     "adminName" : "admin name should be viewable ascii code except '`\"%? and length should between 1 to 31",
@@ -201,6 +209,11 @@
 
     "_comment" : "backup restore",
     "profileName" : "please select profile",
+    "no_file_selected" : "no file selected",
+    "missing_parameters" : "missing parameters",
+    "missing_profile" : "missing profile",
+    "invalid_file" : "invalid file",
+    "restore_fail" : "restore fail",
 
     "_comment" : "diagnostics",
     "_comment" : "packet capture",

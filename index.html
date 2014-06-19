@@ -1042,7 +1042,8 @@ $(document).ready(function () {
                                     dataType:'json',
                                     success:function(data) {
                                         // check av sig version
-                                        gObj.sigVer = Number( parseFloat( data.version ) + parseFloat( data.md5Version ) - 1).toFixed(3) ;
+                                        
+                                        gObj.sigVer = Number( ( isNaN( parseFloat( data.version ) )? 0 : parseFloat( data.version ) ) + ( ( isNaN( parseFloat( data.md5Version ) )? 1 : parseFloat( data.md5Version ) ) - 1) ).toFixed(3) ;
                                     }
                                 }).done( function() {
                                     $.post('cgi-bin/dev_firmware_post.cgi', gY.JSON.stringify({"action" : 3 }), function(poster) {
@@ -2788,8 +2789,9 @@ $(document).ready(function () {
                             window.open('cgi-bin/' + gNode.url.exportToPC + '.cgi?filename=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].fileName, "_blank");
                             break;
                         case 2:
-                            $.post('cgi-bin/' + gNode.url.exportToUSB + '.cgi?filename=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].fileName);
-                            successAlert('<p>' + gTerm[ gObj.lang ].exportDone + '</p>');
+                            $.post('cgi-bin/' + gNode.url.exportToUSB + '.cgi?filename=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].fileName, function() {
+                                successAlert('<p>' + gTerm[ gObj.lang ].exportDone + '</p>');
+                            });
                             break;
                         }
                         $( this ).dialog( "close" );
@@ -2872,7 +2874,7 @@ $(document).ready(function () {
                                     if (0 === parseInt( data.status ) )
                                         genDevice( 'backup_restore' );
                                     else
-                                        errorAlert('<p>' + data.msg + '</p>');
+                                        errorAlert('<p>' + gError[ gObj.lang ][ data.msg ] + '</p>');
                                 }
                             });
                             $( this ).dialog( "close" );
@@ -2903,7 +2905,7 @@ $(document).ready(function () {
                                     if (0 === parseInt( data.status ) )
                                         genDevice( 'backup_restore' );
                                     else
-                                        errorAlert('<p>' + data.msg + '</p>');
+                                        errorAlert('<p>' + gError[ gObj.lang ][ data.msg ] + '</p>');
                                 }
                             });
                             $( this ).dialog( "close" );
@@ -6477,7 +6479,12 @@ gY.log( tar.pid );
                                             tmp += '<input type="checkbox" value="' + i + '" id="' + gNode.col[ j ].tab + '-' + i + '" />';
                                             break;
                                         case 'action':
-                                            tmp += '<button class="Edit" id="Edit-' + pid + '-' + i + '" title="Edit" ' + ((parseInt( data[ gNode.guiT ][ i ].type ) > 0)? 'disabled="disabled"' : '')+ '><span class="ui-icon"></span></button>';
+                                            //tmp += '<button class="Edit" id="Edit-' + pid + '-' + i + '" title="Edit" ' + ((parseInt( data[ gNode.guiT ][ i ].type ) > 0)? 'disabled="disabled"' : '')+ '><span class="ui-icon"></span></button>';
+                                            tmp += '<button class="Edit" id="Edit-' + pid + '-' + i + '" title="Edit" ';
+                                            if ( 2 === parseInt( gCache.ports[ data[ gNode.guiT ][ i ].interface ] ) )
+                                                tmp += 'disabled';
+                                            
+                                            tmp += '><span class="ui-icon"></span></button>';
                                             tmp += '<button class="Delete" id="Delete-' + pid + '-' + i + '" title="Delete"><span class="ui-icon"></span></button>';
                                             break;
                                         case 'zoneId':
@@ -7230,7 +7237,11 @@ gY.log( tar.pid );
                         break;
                     case 'action':
                         if (gIf.power) {
-                            tmp += '<button class="Edit" id="Edit-' + pid + '-' + i + '" title="Edit"><span class="ui-icon" ></span></button>';
+                            tmp += '<button class="Edit" id="Edit-' + pid + '-' + i + '" title="Edit"';
+                            if ( 2 === parseInt( gCache.ports[ gData[ pid ][ gNode.guiT ][ i ].interface ] ) )
+                                tmp += 'disabled';
+
+                            tmp += '><span class="ui-icon" ></span></button>';
                             tmp += '<button class="Delete" id="Delete-' + pid + '-' + i + '" title="Delete"><span class="ui-icon" ></span></button>';
                         } else {
                             tmp += '';
@@ -8112,7 +8123,8 @@ gY.log( tar.pid );
             }
     
             if (!pass) {
-                errorAlert(' To add a Vlan on GE port, please remove the GE port from LAN interface ');
+                //errorAlert(' To add a Vlan on GE port, please remove the GE port from LAN interface ');
+                errorAlert( '<p>' + gError[ gObj.lang ].noVlanInterface + '</p>' );
                 return false;
             }else {
                 $('#popForm').append('<div class="formDiv"><div class="tabs"><ul></ul></div></div>');
@@ -9780,6 +9792,16 @@ gY.log( tar.pid );
                     errorAlert( '<p>' + gError[ gObj.lang ].dhcp_overlap + '</p>' );
             });
 
+            // if bridge or wan 
+            if ( parseInt( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].type ) > 0 ) {
+                $('#popForm input').prop('disabled', true);
+                $('#popForm select').prop('disabled', true);
+                $('#popForm button').prop('disabled', true);
+                $('#basic_settings-vid').prop('disabled', false);
+                $('#basic_settings-mtuMode-0').prop('disabled', false);
+                $('#basic_settings-mtuMode-1').prop('disabled', false);
+                $('#basic_settings-mtuValue').prop('disabled', false);
+            }
             break;
         case 'zone':
             $('#popForm').append('<div class="formDiv"><table id="table-editor"></table></div>');
@@ -17871,7 +17893,7 @@ gY.log( tar.pid );
                                                 $('#signature-' + node).append( genSelectOption('signature-' + node + '-' + data.type) ).val( data[ node ]);
                                                 break;
                                             case 'version':
-                                                gObj.sigVer = Number( parseFloat( data.version ) + parseFloat( data.md5Version ) - 1).toFixed(3) ;
+                                                gObj.sigVer = Number( ( isNaN( parseFloat( data.version ) )? 0 : parseFloat( data.version ) ) + ( ( isNaN( parseFloat( data.md5Version ) )? 1 : parseFloat( data.md5Version ) ) - 1) ).toFixed(3) ;
                                                 $('#signature-version').html( gObj.sigVer );
                                                 break;
                                             case 'md5Version':
@@ -25103,7 +25125,7 @@ gY.log( tar.pid );
                                         if (0 === parseInt( data.status ) )
                                             genDevice( 'backup_restore' );
                                         else
-                                            errorAlert('<p>' + data.msg + '</p>');
+                                            errorAlert('<p>' + gError[ gObj.lang ][ data.msg ] + '</p>');
                                     }
                                 });
                                 break;
@@ -25130,7 +25152,7 @@ gY.log( tar.pid );
                                         if (0 === parseInt( data.status ) )
                                             genDevice( 'backup_restore' );
                                         else
-                                            errorAlert('<p>' + data.msg + '</p>');
+                                            errorAlert('<p>' + gError[ gObj.lang ][ data.msg ] + '</p>');
                                     }
                                 });
                                 break;
