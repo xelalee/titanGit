@@ -25,7 +25,7 @@ case 'view_logs':
     $tables = array();
     for ($i=23; $i>=0; $i--)
     {
-        array_push( $tables, $table .'_'. sprintf("%02d", $i) );
+        array_push( $tables, 'logs_'. sprintf("%02d", $i) );
     }
 
     // get daily databases
@@ -48,7 +48,7 @@ case 'view_logs':
         {
             for ($j=0; $j<count( $tables ); $j++) 
             {
-                if ( $result = $mysqli->query( 'SELECT * FROM '. $databases[ $i ]  .'.`logs'. $tables[ $j ] .'` ORDER BY seq DESC' ) ) {
+                if ( $result = $mysqli->query( 'SELECT * FROM '. $databases[ $i ]  .'.`'. $tables[ $j ] .'` ORDER BY seq DESC' ) ) {
                     while ($obj = $result->fetch_object()) {
                       $str .= $obj->date ." ". $obj->time ."-". $obj->severity ."-". $obj->facility .":". $obj->msg ."(". $obj->program .")\n";
                     }  

@@ -15,6 +15,7 @@
     "reset" : 100,
     "shutdown" : 20,
     "restoreConf" : 100,
+    "backup_restore" : 100,
     "applyProfile" : 100
   },
   "div" : 

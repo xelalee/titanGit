@@ -10922,62 +10922,58 @@
               "editor" : 
               {
                 "export" :
-                [
+                {
+                  "label" : "",
+                  "tab" : "exportTo",
+                  "tag" : "input",
+                  "type" : "radio",
+                  "option" : 
                   {
-                    "label" : "Export to",
-                    "tab" : "exportTo",
-                    "tag" : "input",
-                    "type" : "radio",
-                    "option" : 
+                    "1" : 
                     {
-                      "1" : 
-                      {
-                        "label" : "pc",
-                        "tab" : "exportTo-pc"
-                      },
-                      "2" : 
-                      {
-                        "label" : "usb",
-                        "tab" : "exportTo-usb"
-                      }
+                      "label" : "Export to PC",
+                      "tab" : "exportTo-pc"
+                    },
+                    "2" : 
+                    {
+                      "label" : "Export to USB",
+                      "tab" : "exportTo-usb"
                     }
                   }
-                ],
+                },
                 "import" :
-                [
+                {
+                  "label" : "",
+                  "tab" : "importFrom",
+                  "tag" : "input",
+                  "type" : "radio",
+                  "option" : 
                   {
-                    "label" : "Import from",
-                    "tab" : "importFrom",
-                    "tag" : "input",
-                    "type" : "radio",
-                    "option" : 
+                    "0" : 
                     {
-                      "0" : 
-                      {
-                        "label" : "device",
-                        "tab" : "importFrom-device",
-                        "tag" : "select",
-                        "tag" : "select",
-                        "option" : "cgi"
-                      },
-                      "1" : 
-                      {
-                        "label" : "pc",
-                        "tab" : "importFrom-pc",
-                        "tag" : "input",
-                        "tag" : "file"
-                      },
-                      "2" : 
-                      {
-                        "label" : "usb",
-                        "tab" : "importFrom-usb",
-                        "tag" : "select",
-                        "tag" : "select",
-                        "option" : "cgi"
-                      }
+                      "label" : "Import from Device",
+                      "tab" : "importFrom-device",
+                      "tag" : "select",
+                      "tag" : "select",
+                      "option" : "cgi"
+                    },
+                    "1" : 
+                    {
+                      "label" : "Import from PC",
+                      "tab" : "importFrom-pc",
+                      "tag" : "input",
+                      "tag" : "file"
+                    },
+                    "2" : 
+                    {
+                      "label" : "Import from USB",
+                      "tab" : "importFrom-usb",
+                      "tag" : "select",
+                      "tag" : "select",
+                      "option" : "cgi"
                     }
                   }
-                ],
+                },
                 "create" :
                 [
                   {

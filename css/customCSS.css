@@ -2280,6 +2280,12 @@ div.Expand {
     margin: 0;
 }
 
+#Editor-importFrom-pc button {
+    width: 80px;
+    height: 20px;
+    margin: 0;
+}
+
 /* device > firmware */
 #div-firmware {
     position: relative;

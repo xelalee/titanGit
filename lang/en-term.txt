@@ -98,6 +98,13 @@
     "packet_capture" : "Packet Capture",
     "noData" : "no data of this interface during this period",
     "refreshPage" : "Refresh Page : ",
-    "pppoe" : "IP Alias settings will be auto-removed"
+    "pppoe" : "IP Alias settings will be auto-removed",
+    "exportDone": "file had been exported",
+    "selectFromDevice": "Select From Existing Profile List",
+    "selectFromUSB": "File List in USB",
+    "backup_restore": "backup & restore will take",
+    "reboot" : "reboot will take ",
+    "reset" : "reset will take ",
+    "shutdown" : "shutdown will take "
   }
 }

@@ -199,6 +199,10 @@
     "loginFailBlockTime" : "block access for should between 30 to 3600",
     "_comment" : "email alert",
 
+    "_comment" : "backup restore",
+    "profileName" : "please select profile",
+
+    "_comment" : "diagnostics",
     "_comment" : "packet capture",
     "advancedDebugging": "advanced debug packet capturing",
     "_comment" : "advanced debug",
@@ -206,5 +210,6 @@
     "pcapIfName": "please choose the Network Interface",
     "logDesc": "description length should between 0 to 127",
     "pcapDesc": "description length should between 1 to 127"
+
   }
 }
