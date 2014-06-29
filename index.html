@@ -190,7 +190,7 @@ var gRows  = {};
 gCook.main    = 'TitanWALL';
 gCook.portal  = 'TitanWALLPortal';
 // declaire obj default
-gObj.profile = '';
+gObj.config = '';
 gObj.active  = {};
 gObj.actived = {};
 gObj.stamper = new Date().getTime();
@@ -485,7 +485,7 @@ gHtml.head += '<div id="hd_user"></div>';
 gHtml.head += '<div id="hd_timer"></div>';
 gHtml.head += '<div id="hd_ip"></div>';
 gHtml.head += '<div id="hd_timeout"></div>';
-gHtml.head += '<div id="hd_profile"></div>';
+gHtml.head += '<div id="hd_config"></div>';
 gHtml.head += '<div id="hd_help"></div>';
 gHtml.head += '<div id="hd_home"></div>';
 gHtml.head += '<div id="hd_refresh"></div>';
@@ -1058,7 +1058,7 @@ $(document).ready(function () {
                                                 for (var i=0, len=data.guiProfileTNum; i<len; i++)
                                                 {
                                                     if (1 === parseInt( data.guiProfileT[ i ].inUsed ))
-                                                        gObj.profile = data.guiProfileT[ i ].name;
+                                                        gObj.config = data.guiProfileT[ i ].name;
                                                 }
                                             }
                                         }).done( function() {
@@ -1352,7 +1352,7 @@ $(document).ready(function () {
 
         $('#hd_user').html('<h4>' + gRef.header[ gObj.lang ].hd_user + ' : ' + gObj.user + '</h4>');
         $('#hd_ip').html('<h4>' + gRef.header[ gObj.lang ].hd_ip + ' : ' + gObj.userIp + '</h4>');
-        $('#hd_profile').html('<h4>' + gRef.header[ gObj.lang ].hd_profile + ' : ' + gObj.profile + '</h4>');
+        $('#hd_config').html('<h4>' + gRef.header[ gObj.lang ].hd_config + ' : ' + gObj.config + '</h4>');
     
         // draw main body 
         $('#bd').html( gHtml.body );
@@ -3537,8 +3537,7 @@ $(document).ready(function () {
         tar.pid = tar.id.split('-')[ 1 ];
         tar.thisNo = tar.id.split('-')[ 2 ];
 
-gY.log( tar.pid );
-        gObj.profile = gData.backup_restore.guiProfileT[ tar.thisNo ].name;
+        gObj.config = gData.backup_restore.guiProfileT[ tar.thisNo ].name;
 
         cmdAlert( tar.pid, tar.thisNo );
     }
@@ -3976,7 +3975,7 @@ gY.log( tar.pid );
                         $.post('cgi-bin/dev_reboot.cgi', gY.JSON.stringify(gObj.form));
                         break;
                     case 'backup_restore':
-                        gData[ cmd ][ gNode.guiT ][ thisNo ].cgiAction = 2;
+                        gData[ cmd ][ gNode.guiT ][ thisNo ].cgiAction = 1;
                         gIf.reboot = true;
                         $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ cmd ]));
                         break;
@@ -25014,7 +25013,7 @@ gY.log( tar.pid );
         switch( tar.pid )
         {
         case 'backup_restore':
-            gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].cgiAction = 3;
+            gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].cgiAction = 2;
             $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ tar.pid ]), function( poster ) {
                 genDevice( tar.pid );
             });
@@ -25049,7 +25048,9 @@ gY.log( tar.pid );
     
         gIf.alter = false;
 
-        if ('packet_capture' == tar.pid) {
+        switch( tar.pid ) 
+        {
+        case 'packet_capture':
             $('#table-' + tar.pid + ' tr').each(function() {
                 tar.thisNo = $(this).find('td:eq(0) input:checkbox').val();
                 switch($(this).find('td:eq(0) input:checkbox').is(':checked'))
@@ -25063,7 +25064,10 @@ gY.log( tar.pid );
             $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ tar.pid ]), function( poster ) {
                 genDevice( tar.pid );
             });
-        } else {
+            break;
+        case 'backup_restore':
+            break;
+        case 'debug':
             $('#table-' + tar.pid + '_list tr').each(function() {
                 tar.thisNo = $(this).find('td:eq(0) input:checkbox').val();
                 switch($(this).find('td:eq(0) input:checkbox').is(':checked'))
@@ -25077,6 +25081,8 @@ gY.log( tar.pid );
             $.post('cgi-bin/' + gNode.url[ tar.pid ] + '.cgi', gY.JSON.stringify(gData[ tar.pid ]), function( poster ) {
                 genDevice( 'advanced_debug' );
             });
+        case 'log':
+            break;
         }
     }
 

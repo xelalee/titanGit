@@ -91,7 +91,7 @@
     "select" : "Select",
     "existing" : "Existing",
     "interface" : "Interface",
-    "profile" : "Profile",
+    "config" : "Configuration",
     "list" : "List",
     "backup_restore_export" : "export profile",
     "backup_restore_import" : "import profile",

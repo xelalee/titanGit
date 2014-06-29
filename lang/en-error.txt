@@ -186,16 +186,55 @@
     "length0127": "description length should between 0 to 127",
     "dhcp_overlap" : "The DHCP range is conflicted with Address setting, please change the pool setting to avoid overlap",
 
+    "_comment" : "========",
     "_comment" : "interface",
-    "_comment" : "lan",
-    "noLanInterface" : "Pleaes remove the interface to be added from LAN/WAN or clear the address of the interface"
+    "_comment" : "--------",
+    "_comment" : "port",
 
+    "_comment" : "--------",
     "_comment" : "vlan",
     "noVlanInterface" : "To add a Vlan on GE port, please remove the GE port from LAN interface",
 
+    "_comment" : "--------",
+    "_comment" : "lan",
+    "noLanInterface" : "Pleaes remove the interface to be added from LAN/WAN or clear the address of the interface"
 
+    "_comment" : "--------",
+    "_comment" : "wan",
+
+    "_comment" : "--------",
+    "_comment" : "zone",
+
+    "_comment" : "========",
+    "_comment" : "networking",
+    "_comment" : "--------",
+    "_comment" : "routing",
+
+    "_comment" : "--------",
+    "_comment" : "static routing",
+
+    "_comment" : "--------",
+    "_comment" : "ipsec policies",
+
+    "_comment" : "--------",
+    "_comment" : "ike policy",
+
+    "_comment" : "--------",
+    "_comment" : "transform policy",
+
+    "_comment" : "--------",
+    "_comment" : "dns forwarder",
+
+    "_comment" : "========",
+    "_comment" : "networking",
+    "_comment" : "--------",
+    "_comment" : "routing",
+
+    "_comment" : "========",
     "_comment" : "device",
+    "_comment" : "--------",
     "_comment" : "administrator settings",
+
     "adminName" : "admin name should be viewable ascii code except '`\"%? and length should between 1 to 31",
     "adminOldPwd" : "admin password check failed",
     "adminNewPwd" : "admin password should be viewable ascii code and length should between 1 to 31",
@@ -205,8 +244,11 @@
     "loginSessionLimit" : "login session limit should between 60 to 1000",
     "loginFailBlockMaxAttempts" : "block password guessing should between 0 to 1000",
     "loginFailBlockTime" : "block access for should between 30 to 3600",
+
+    "_comment" : "--------",
     "_comment" : "email alert",
 
+    "_comment" : "--------",
     "_comment" : "backup restore",
     "profileName" : "please select profile",
     "no_file_selected" : "no file selected",
@@ -215,9 +257,11 @@
     "invalid_file" : "invalid file",
     "restore_fail" : "restore fail",
 
-    "_comment" : "diagnostics",
+    "_comment" : "--------",
     "_comment" : "packet capture",
     "advancedDebugging": "advanced debug packet capturing",
+
+    "_comment" : "--------",
     "_comment" : "advanced debug",
     "packetCapturing": "packet capturing",
     "pcapIfName": "please choose the Network Interface",
