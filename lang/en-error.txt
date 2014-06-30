@@ -197,7 +197,7 @@
 
     "_comment" : "--------",
     "_comment" : "lan",
-    "noLanInterface" : "Pleaes remove the interface to be added from LAN/WAN or clear the address of the interface"
+    "noLanInterface" : "Pleaes remove the interface to be added from LAN/WAN or clear the address of the interface",
 
     "_comment" : "--------",
     "_comment" : "wan",

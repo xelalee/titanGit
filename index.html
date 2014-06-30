@@ -25344,12 +25344,12 @@ $(document).ready(function () {
             }
             break;
         case 'management_settings' :
-            if (!gReg.portList($('#httpsPort').val())) {
+            if (!gReg.portList.test($('#httpsPort').val())) {
                 pass = false;
                 msg += '<p>' + gError[ gObj.lang ].httpsPortRange + '</p>';
             }
     
-            if (!gReg.portList($('#sshPort').val())) {
+            if (!gReg.portList.test($('#sshPort').val())) {
                 pass = false;
                 msg += '<p>' + gError[ gObj.lang ].sshPortRange + '</p>';
             }
