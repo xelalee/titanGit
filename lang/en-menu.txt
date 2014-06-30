@@ -10892,12 +10892,17 @@
                 "baseOnUSB" : "config_create_usb"
               },
               "ext" : "cgi",
-              "tblAction" : "Create",
+              "tblAction" : "Create Remove",
               "rowAction" : "Apply Export Import Delete",
               "guiT" : "guiProfileT",
               "guiTNum" : "guiProfileTNum",
               "col" : 
               [
+                {
+                  "label" : "",
+                  "tab" : "index",
+                  "wiz" : "40px"
+                },
                 {
                   "label" : "Name",
                   "tab" : "name",

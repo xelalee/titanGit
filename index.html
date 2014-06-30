@@ -22713,7 +22713,10 @@ $(document).ready(function () {
                         for (var i=0, len=gNode.col.length; i<len; i++)
                         {
                             tmp += '<th class="ui-state-default" style="width: ' + gNode.col[ i ].wiz + '">';
-                            tmp += gNode.col[ i ].label;
+                            if ('index' == gNode.col[ i ].tab) 
+                                tmp += '<input type="checkbox" id="' + pid + '-' + gNode.col[ i ].tab + '" value="1" />';
+                            else
+                                tmp += gNode.col[ i ].label;
                             tmp += '</th>';
                         }
                         tmp += '</tr>';
@@ -22738,12 +22741,17 @@ $(document).ready(function () {
                                     {
                                         tmp += '<td>';
                                         if ('action' == gNode.col[ j ].tab) {
-                                            tmp += '<button type="button" id="Apply-' + pid + '-' + i + '" class="Apply" title="Apply"><span class="ui-icon"></span></button>';
-                                            if (1 === parseInt( data[ gNode.guiT ][ i ].userDefined )) {
+                                            if (0 === parseInt( data[ gNode.guiT ][ i ].userDefined )) {
+                                                tmp += '<button type="button" id="Export-' + pid + '-' + i + '" class="Export" title="Export"><span class="ui-icon"></span></button>';
+                                            } else if (1 === parseInt( data[ gNode.guiT ][ i ].userDefined )) {
+                                                tmp += '<button type="button" id="Apply-' + pid + '-' + i + '" class="Apply" title="Apply"><span class="ui-icon"></span></button>';
                                                 tmp += '<button type="button" id="Import-' + pid + '-' + i + '" class="Import" title="Import"><span class="ui-icon"></span></button>';
                                                 tmp += '<button type="button" id="Export-' + pid + '-' + i + '" class="Export" title="Export"><span class="ui-icon"></span></button>';
                                                 tmp += '<button type="button" id="Delete-' + pid + '-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
                                             }
+                                        } else if ('index' == gNode.col[ j ].tab) {
+                                            if ( (1 === parseInt( data[ gNode.guiT ][ i ].userDefined ) ) && (0 === parseInt( data[ gNode.guiT ][ i ].inUsed ) ) ) 
+                                            tmp += '<input type="checkbox" id="' + pid + '-' + gNode.col[ j ].tab + '-' + i + '" value="' + i + '" />';
                                         } else {
                                             tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
                                         }
@@ -22753,7 +22761,6 @@ $(document).ready(function () {
                                     $('#table-' + pid + ' tbody').append( tmp );
                                     if ( 1 === parseInt( data[ gNode.guiT ][ i ].inUsed ) ) {
                                         $('#Apply-' + pid + '-' + i).prop('disabled', true);
-                                        $('#Import-' + pid + '-' + i).prop('disabled', true);
                                         $('#Delete-' + pid + '-' + i).prop('disabled', true);
                                     }
                                 }
