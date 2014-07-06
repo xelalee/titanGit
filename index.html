@@ -210,6 +210,7 @@ gObj.tabIndexId;
 gObj.tabIndexed = 0;
 gObj.use_common_ip_list = [];
 gObj.isForm    = [];
+gObj.inUsed    = 0;
 
 gObj.calc      = {};
 gObj.reg       = '';
@@ -274,6 +275,7 @@ gIf.pcap        = false;
 gIf.log         = false;
 gIf.debug       = false;
 gIf.isNext      = false;
+gIf.inUsed      = false;
 
 // regexp 
 // try to reg per element instead of obj, for solve ie issues 
@@ -2871,9 +2873,9 @@ $(document).ready(function () {
                                 url: 'cgi-bin/' + gNode.url.importFromDevice + '.cgi',
                                 data: gObj.form,
                                 success: function(data) {
-                                    if (0 === parseInt( data.status ) )
+                                    if (0 === parseInt( data.status ) ) {
                                         genDevice( 'backup_restore' );
-                                    else
+                                    } else
                                         errorAlert('<p>' + gError[ gObj.lang ][ data.msg ] + '</p>');
                                 }
                             });
@@ -2902,9 +2904,9 @@ $(document).ready(function () {
                                 url: 'cgi-bin/' + gNode.url.importFromUSB + '.cgi',
                                 data: gObj.form,
                                 success: function(data) {
-                                    if (0 === parseInt( data.status ) )
+                                    if (0 === parseInt( data.status ) ) {
                                         genDevice( 'backup_restore' );
-                                    else
+                                    } else
                                         errorAlert('<p>' + gError[ gObj.lang ][ data.msg ] + '</p>');
                                 }
                             });
@@ -22458,7 +22460,10 @@ $(document).ready(function () {
                     for (var i=0, len=gNode.col.length; i<len; i++)
                     {
                         tmp += '<th class="ui-state-default" style="width: ' + gNode.col[ i ].wiz + '">';
-                        tmp += gNode.col[ i ].label;
+                        if ('index' == gNode.col[ i ].tab)
+                            tmp += '<input type="checkbox" id="' + pid + '-' + gNode.col[ i ].tab + '" value="1" />';
+                        else
+                            tmp += gNode.col[ i ].label;
                         tmp += '</th>';
                     }
                     tmp += '</tr>';
@@ -22761,6 +22766,7 @@ $(document).ready(function () {
                                     $('#table-' + pid + ' tbody').append( tmp );
                                     if ( 1 === parseInt( data[ gNode.guiT ][ i ].inUsed ) ) {
                                         $('#Apply-' + pid + '-' + i).prop('disabled', true);
+                                        $('#Import-' + pid + '-' + i).prop('disabled', true);
                                         $('#Delete-' + pid + '-' + i).prop('disabled', true);
                                     }
                                 }
@@ -23687,14 +23693,18 @@ $(document).ready(function () {
                         gY.one('.tabber ul').append('<li id="tab-log"><a href="#panel-log">' + gNode.tabs.log + '</a></li><li id="tab-debug"><a href="#panel-debug">' + gNode.tabs.debug  + '</a></li>');
                         gY.one('.tabber').append('<div id="panel-log"></div><div id="panel-debug"></div>');
 
+/*
                         if (gIf.power) {
                             $('#main_ft').html( gHtml.pgSave + gHtml.pgCancel + gHtml.pgStart + gHtml.pgStop );
                             gY.one('#pgSave').on('click', function(e) {
                                 saveDevice( pid );
                             });
                         }
+*/
 
                         gObj.tabber = $('.tabber').tabs({
+                            active: gObj.tabIndex
+/*
                             active: gObj.tabIndex,
                             select: function (event, ui) {
                                 if (0 === parseInt( ui.index ) ) {
@@ -23723,6 +23733,7 @@ $(document).ready(function () {
                                     $('#pgStop').show();
                                 }
                             }
+*/
                         });
 
                         $.ajax({
@@ -23744,8 +23755,8 @@ $(document).ready(function () {
                                 tmp = '<div id="div-log">';
                                 tmp += '<div id="div-log_global">';
                                 tmp += '<table id="table-log_global">';
-                                tmp += '<tr><td class="alignRight BT80"><input type="checkbox" id="logEnable" value="1" /></td><th class="alignLeft"><label for="logEnable">' + gNode.col[ "log" ][ 0 ].col[ 0 ].label + '</label></th></tr>';
-                                tmp += '<tr><th class="alignRight BT80">' + gNode.col[ "log" ][ 0 ].col[ 1 ].label + '</th><td class="alignLeft"><input type="text" id="logDesc" ></td></tr>';
+                                tmp += '<tr><td class="alignRight BT80"><input type="checkbox" id="logEnable" value="1" /></td><th class="alignLeft BT160"><label for="logEnable">' + gNode.col[ "log" ][ 0 ].col[ 0 ].label + '</label></th><td class="BT40"></td></tr>';
+                                tmp += '<tr><th class="alignRight BT80">' + gNode.col[ "log" ][ 0 ].col[ 1 ].label + '</th><td class="alignLeft BT160"><input type="text" id="logDesc" ></td><td class="BT40"><button id="pgSave" title="Save"><span class="ui-icon"></span></button></td></tr>';
                                 tmp += '</table>';
                                 tmp += '</div>';
 
@@ -23753,7 +23764,7 @@ $(document).ready(function () {
                                 tmp += '<table id="table-log_list">';
                                 tmp += '<thead>';
                                 tmp += '<tr>';
-                                tmp += '<th class="ui-state-default BT40"></th>';
+                                tmp += '<th class="ui-state-default BT40"><input type="checkbox" id="log-index" value="1" /></th>';
                                 tmp += '<th class="ui-state-default BT350">' + gNode.col[ "log" ][ 1 ].col[ 1 ].label + '</th>';
                                 tmp += '<th class="ui-state-default">' + gNode.col[ "log" ][ 1 ].col[ 2 ].label + '</th>';
                                 tmp += '<th class="ui-state-default BT100">' + gNode.col[ "log" ][ 1 ].col[ 3 ].label + '</th>';
@@ -23838,6 +23849,8 @@ $(document).ready(function () {
                                 tmp += '<td class="BT40"></td>';
                                 tmp += '<td class="BT320" colspan="3"></td>';
                                 tmp += '<td class="BT100">';
+                                tmp += '<button id="pgStart" title="Start"><span class="ui-icon"></span></button>';
+                                tmp += '<button id="pgStop" title="Stop"><span class="ui-icon"></span></button>';
                                 tmp += '</td>';
                                 tmp += '</tr>';
                                 tmp += '</tbody>';
@@ -23849,7 +23862,7 @@ $(document).ready(function () {
                                 tmp += '<thead>';
                                 tmp += '<tr>';
                                 
-                                tmp += '<th class="ui-state-default BT40"></th>';
+                                tmp += '<th class="ui-state-default BT40"><input type="checkbox" id="debug-index" value="1" /></th>';
                                 tmp += '<th class="ui-state-default BT350">' + gNode.col[ "debug" ][ 1 ].col[ 1 ].label + '</th>';
                                 tmp += '<th class="ui-state-default">' + gNode.col[ "debug" ][ 1 ].col[ 2 ].label + '</th>';
                                 tmp += '<th class="ui-state-default BT100">' + gNode.col[ "debug" ][ 1 ].col[ 3 ].label + '</th>';
@@ -23975,7 +23988,7 @@ $(document).ready(function () {
                         if (gIf.power) {
                             $('#main_ft').html( gHtml.pgSave + gHtml.pgCancel );
                             gY.one('#pgSave').on('click', function(e) {
-                                saveDevice( x );
+                                saveDevice( 'registration' );
                             });
                         }
 
@@ -25073,8 +25086,22 @@ $(document).ready(function () {
             });
             break;
         case 'backup_restore':
+            $('#table-' + tar.pid + ' tr').each(function() {
+                tar.thisNo = $(this).find('td:eq(0) input:checkbox').val();
+                switch($(this).find('td:eq(0) input:checkbox').is(':checked'))
+                {
+                case true:
+                    gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].cgiAction = 2;
+                    break;
+                }
+            });
+
+            $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ tar.pid ]), function( poster ) {
+                genDevice( tar.pid );
+            });
             break;
         case 'debug':
+        case 'log':
             $('#table-' + tar.pid + '_list tr').each(function() {
                 tar.thisNo = $(this).find('td:eq(0) input:checkbox').val();
                 switch($(this).find('td:eq(0) input:checkbox').is(':checked'))
@@ -25088,7 +25115,6 @@ $(document).ready(function () {
             $.post('cgi-bin/' + gNode.url[ tar.pid ] + '.cgi', gY.JSON.stringify(gData[ tar.pid ]), function( poster ) {
                 genDevice( 'advanced_debug' );
             });
-        case 'log':
             break;
         }
     }
@@ -25620,7 +25646,6 @@ $(document).ready(function () {
                     if (!checker.cols[ i ].pass) {
                         msg += '<p>' + gError[ gObj.lang ][ checker.cols[ i ].id ] + '</p>';
                     } else if (checker.cols[ i ].check && !checker.cols[ i ].check.pass) {
-gY.log( checker.cols[ i ] );
                         msg += '<p>' + gError[ gObj.lang ][ checker.cols[ i ].check.id ] + '</p>';
                     }
                 }
@@ -25899,6 +25924,7 @@ gY.log( checker.cols[ i ] );
                 }); 
             }
         } else {
+gY.log('post ' + pid);
             loadingToggle( true );
             $.post('cgi-bin/' + (('object' === typeof gNode.url.post)? gNode.url.post[ pid ] : gNode.url.post) + '.cgi', gY.JSON.stringify(gData[ pid ]), function( poster ) {
                 gIf.alter = false;
