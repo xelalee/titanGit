@@ -2537,12 +2537,16 @@ div.Expand {
 }
 
 #div-log_global {
-    width: 250px;
+    width: 300px;
     background: #efefef;
     -mos-border-radius: 10px;
     border-radius: 10px;
     margin: 5px 0;
     padding: 10px;
+}
+
+#div-log_global button {
+    top: 0;
 }
 
 #div-debug_global {
@@ -2554,6 +2558,9 @@ div.Expand {
     padding: 10px;
 }
 
+#div-debug_global button {
+    top: 0;
+}
 /* device > license */
 #div-registration {
     position: relative;

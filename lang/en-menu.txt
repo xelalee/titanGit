@@ -10876,8 +10876,8 @@
               "label" : "Backup/Restore",
               "id" : "menu-8-0-3",
               "tab" : "backup_restore",
-              "tag" : "div",
-              "type" : "submit",
+              "tag" : "table",
+              "type" : "table",
               "url" :
               {
                 "get" : "config_profile_list_v2",

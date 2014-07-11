@@ -43,22 +43,22 @@ case 'traffic_direction':
     switch( $_GET[ 'q' ]) 
     {
     case 1:
-        reportAggregate2( 'raw_sessions', 'srcIp', 'dstIp' );
+        reportAggregate3( 'daily_addrTraffic', 'srcIp', 'dstIp' );
         break;
     case 2:
-        reportAggregate2( 'raw_sessions', 'srcIp', false );
+        reportAggregate3( 'daily_srcAddrTraffic', 'srcIp', false );
         break;
     case 3:
-        reportAggregate2( 'raw_sessions', 'dstIp', false );
+        reportAggregate3( 'daily_dstAddrTraffic', 'dstIp', false );
         break;
     case 4:
-        reportAggregate2( 'raw_sessions', 'protocol', false );
+        reportAggregate3( 'daily_protoTraffic', 'protocol', false );
         break;
     case 5:
-        reportAggregate2( 'raw_sessions', 'dstPort', false );
+        reportAggregate3( 'daily_dstPortTraffic', 'dstPort', false );
         break;
     case 6:
-        reportAggregate2( 'raw_sessions', 'fromZone', 'toZone' );
+        reportAggregate3( 'daily_zoneTraffic', 'fromZone', 'toZone' );
         break;
     default:
         reportQuery( 'raw_sessions' );
@@ -409,6 +409,91 @@ function reportAggregate2( $table, $groupBy, $groupBy2 ) {
     }
 
     $query = "SELECT ". $gby .", txBytes, rxBytes, totalBytes, count(*) as sessions FROM ". $tmpTable ." GROUP BY ". $gby ." ORDER BY ". $oby ;
+
+    $json[ 'queryStr' ] = $query;
+
+    if ( $result = $mysqli->query( $query ) ) {
+        $totalRows = $result->num_rows;
+        while ($obj = $result->fetch_object()) {
+            $cnt++;
+            if ($cnt >= $startRow && $cnt <= $endRow) {
+                $json['queryResults'][] = $obj;
+            }
+        }
+        // free result set;
+        $result->close();
+    }
+
+    $mysqli->query( 'DROP TABLE '. $tmpTable );
+
+    $json[ 'queryRows' ] = $totalRows;
+    $json[ 'queryStamp' ] = trim( shell_exec( 'date +%s' ) ) - $nowStamp;
+    echo json_encode( $json );
+}
+
+function reportAggregate3( $table, $groupBy, $groupBy2 ) {
+    $json      = array();
+    $startRow  = empty( $_GET[ 'pi' ] )? 1 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ] + 1;
+    $endRow    = empty( $_GET[ 'pp' ] )? 20 : $_GET[ pi ] * $_GET[ 'pp' ];
+    $nowStamp = trim( shell_exec( 'date "+%s"' ) );
+    $mysqli = new mysqli( "127.0.0.1", "archer", "rehcra", 'archer', 3306 );
+
+    $gby = $groupBy;
+    $oby = $groupBy . " DESC";
+    if ($groupBy2) {
+        $gby .= ', '. $groupBy2;
+        $oby .= ', '. $groupBy2 . " DESC";
+    }
+   
+    $startDate  = str_replace("/", "-", $_GET[ 'sd' ]);
+    $startStamp = trim( shell_exec( 'date -d "'. $startDate .' 00:00:00" "+%s"' ) );
+    $endDate    = str_replace("/", "-", $_GET[ 'ed' ]);
+    $endStamp   = trim( shell_exec( 'date -d "'. $endDate .' 00:00:00" "+%s"' ) );
+
+    $days = 1 + ($endStamp - $startStamp)/86400;
+    $totalRows = 0;
+
+    $db = str_replace("-", "_", trim( shell_exec( 'date -d @'. $nowStamp .' +%F' ) ));
+
+    $tmpTable = $db .'.`'. $table .'-'. $nowStamp .'`';
+
+    // get passed data from daily statistics tables 
+
+    for ($i=0; $i<$days; $i++)
+    {
+        $tmpStamp = $endStamp - $i * 86400;
+        $db = str_replace("-", "_", trim( shell_exec( 'date -d @'. $tmpStamp .' +%F' ) ));
+
+        if ( $check = $mysqli->query( 'SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.`SCHEMATA` WHERE SCHEMA_NAME = "'. $db .'"' ) ) {
+            if ( 0 == $check->num_rows ) {
+                // free check set
+                $check->close();
+                continue;
+            } else {
+                // free check set
+                $check->close();
+
+                // create table now's timestamp on archer
+                // check if daily statistics are data_reday
+                if ( $status = $mysqli->query( 'SELECT TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "'. $table .'"' ) ) {
+                    if ( 0 == $status->num_rows || 'data_ready' != $status->fetch_row()[0]) {
+                        // 24 hours
+                        for ($j=0; $j<24; $j++)
+                        {
+                            $mysqli->query( 'CREATE TABLE IF NOT EXISTS '. $tmpTable .' as ( SELECT '. $gby .', txBytes, rxBytes, totalBytes, count(*) as sessions FROM '. $db .'.`raw_sessions_'. sprintf("%02d", $j) .'` ) ' );
+                        }
+                    } else {
+                        $mysqli->query( 'CREATE TABLE IF NOT EXISTS '. $tmpTable .' as ( SELECT '. $gby .', txBytes, rxBytes, totalBytes, sessions FROM '. $db .'.`'. $table .'` ) ' );
+                    }
+                    $status->close();
+                }
+            }
+        }
+    }
+
+    // get all data from temp table
+
+    $query = "SELECT * FROM ". $tmpTable ." where sessions > 0 GROUP BY ". $gby ." ORDER BY ". $oby ;
 
     $json[ 'queryStr' ] = $query;
 

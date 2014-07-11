@@ -1208,6 +1208,34 @@ $(document).ready(function () {
                     gCheckbox.whitelist[ tar.id ] = false;
                 $('#whitelist_all').attr('checked', false);
                 break;
+            case 'backup_restoreCheckbox':
+                if ($(this).is(':checked'))
+                    gCheckbox.backup_restore[ tar.id ] = true;
+                else 
+                    gCheckbox.backup_restore[ tar.id ] = false;
+                $('#backup_restore_all').attr('checked', false);
+                break;
+            case 'packet_captureCheckbox':
+                if ($(this).is(':checked'))
+                    gCheckbox.packet_capture[ tar.id ] = true;
+                else 
+                    gCheckbox.packet_capture[ tar.id ] = false;
+                $('#packet_capture_all').attr('checked', false);
+                break;
+            case 'logCheckbox':
+                if ($(this).is(':checked'))
+                    gCheckbox.log[ tar.id ] = true;
+                else 
+                    gCheckbox.log[ tar.id ] = false;
+                $('#log_all').attr('checked', false);
+                break;
+            case 'debugCheckbox':
+                if ($(this).is(':checked'))
+                    gCheckbox.debug[ tar.id ] = true;
+                else 
+                    gCheckbox.debug[ tar.id ] = false;
+                $('#debug_all').attr('checked', false);
+                break;
             default: 
                 switch( tar.id )
                 {
@@ -1229,14 +1257,70 @@ $(document).ready(function () {
                     if ($(this).is(':checked')) {
                         $('#table-whitelist > tbody tr').each( function() {
                             $(this).find('td:eq(0) input:checkbox').attr('checked', true);
-                            gCheckbox.blacklist[ $(this).find('td:eq(0) input:checkbox').attr('id') ] = true;
+                            gCheckbox.whitelist[ $(this).find('td:eq(0) input:checkbox').attr('id') ] = true;
                         });
                     } else {
                         for (var x in gCheckbox.whitelist)
                         {
                             $('#' + x).attr('checked', false);
                         }
-                        gCheckboxt.whitelist = {};
+                        gCheckbox.whitelist = {};
+                    }
+                    break;
+                case 'backup_restore_all':
+                    if ($(this).is(':checked')) {
+                        $('#table-backup_restore > tbody tr').each( function() {
+                            $(this).find('td:eq(0) input:checkbox').attr('checked', true);
+                            gCheckbox.backup_restore[ $(this).find('td:eq(0) input:checkbox').attr('id') ] = true;
+                        });
+                    } else {
+                        for (var x in gCheckbox.backup_restore)
+                        {
+                            $('#' + x).attr('checked', false);
+                        }
+                        gCheckbox.backup_restore = {};
+                    }
+                    break;
+                case 'packet_capture_all':
+                    if ($(this).is(':checked')) {
+                        $('#table-packet_capture > tbody tr').each( function() {
+                            $(this).find('td:eq(0) input:checkbox').attr('checked', true);
+                            gCheckbox.packet_capture[ $(this).find('td:eq(0) input:checkbox').attr('id') ] = true;
+                        });
+                    } else {
+                        for (var x in gCheckbox.packet_capture)
+                        {
+                            $('#' + x).attr('checked', false);
+                        }
+                        gCheckbox.packet_caputre = {};
+                    }
+                    break;
+                case 'log_all':
+                    if ($(this).is(':checked')) {
+                        $('#table-log_list > tbody tr').each( function() {
+                            $(this).find('td:eq(0) input:checkbox').attr('checked', true);
+                            gCheckbox.log[ $(this).find('td:eq(0) input:checkbox').attr('id') ] = true;
+                        });
+                    } else {
+                        for (var x in gCheckbox.log)
+                        {
+                            $('#' + x).attr('checked', false);
+                        }
+                        gCheckbox.log = {};
+                    }
+                    break;
+                case 'debug_all':
+                    if ($(this).is(':checked')) {
+                        $('#table-debug_list > tbody tr').each( function() {
+                            $(this).find('td:eq(0) input:checkbox').attr('checked', true);
+                            gCheckbox.debug[ $(this).find('td:eq(0) input:checkbox').attr('id') ] = true;
+                        });
+                    } else {
+                        for (var x in gCheckbox.debug)
+                        {
+                            $('#' + x).attr('checked', false);
+                        }
+                        gCheckbox.debug = {};
                     }
                     break;
                 }
@@ -1834,6 +1918,7 @@ $(document).ready(function () {
             case 'dhcp_binding':
                 removeDhcpBinding( e );
                 break;
+            case 'backup_restore':
             case 'packet_capture':
             case 'debug':
             case 'log':
@@ -2962,7 +3047,7 @@ $(document).ready(function () {
                 
                 $('#popForm').html( tmp );
 
-                cgiSelectOption( 'Editor-importFrom-device' );
+                cgiSelectOption( 'Editor-importFrom-device', tar.thisNo );
 
                 gObj.uploader = new gY.Uploader({
                                    width: "100px",
@@ -3296,7 +3381,8 @@ $(document).ready(function () {
                 gIf.isStart = true;
             });
         } else if ( 'advanced_debug' == gNode.tab ) {
-            checker = callCheckers( 'debug' );
+            //checker = callCheckers( 'debug' );
+            checker = formChecker( 'debug' );
             if (checker.pass) {
                 loadingToggle( true );
                 json = gData[ gNode.tab ];
@@ -17670,7 +17756,7 @@ $(document).ready(function () {
                                     }else if (typeof data.expiration_days != 'undefined') {
                                         y = 'blacklist';
     
-                                        gCheckbox.blacklist = [];
+                                        gCheckbox.blacklist = {};
                                         gCache.blacklist = [];
                                         gObj.stamper = new Date().getTime();
 
@@ -17765,7 +17851,7 @@ $(document).ready(function () {
     
                                         $('#table-' + y).html( tmp );
     
-                                        gCheckbox.whitelist = [];
+                                        gCheckbox.whitelist = {};
                                         gCache.whitelist = [];
 
                                         for (var i=0, len=parseInt(data.number); i<len; i++)
@@ -22452,7 +22538,82 @@ $(document).ready(function () {
             case 'table':
                 switch( pid )
                 {
+                case 'backup_restore':
+                    gCheckbox.backup_restore = {};
+                    gY.one('#main_bd').set('innerHTML', '<div class="templateDiv"><div id="div-' + pid + '"></div></div>');
+                    tmp = '<table id="table-' + pid + '">';
+                    tmp += '<thead>';
+                    tmp += '<tr>';
+                    for (var i=0, len=gNode.col.length; i<len; i++)
+                    {
+                        tmp += '<th class="ui-state-default" style="width: ' + gNode.col[ i ].wiz + '">';
+                        if ('index' == gNode.col[ i ].tab) 
+                            tmp += '<input type="checkbox" id="' + pid + '_all" value="1" />';
+                        else
+                            tmp += gNode.col[ i ].label;
+                        tmp += '</th>';
+                    }
+                    tmp += '</tr>';
+                    tmp += '</thead>';
+                    tmp += '<tbody>';
+                    tmp += '</tbody>';
+                    tmp += '</table>';
+                    $('#div-' + pid).append( tmp );
+
+                    $.ajax({
+                        url: 'cgi-bin/' + gNode.url.get + '.cgi',
+                        dataType: 'json',
+                        success: function(data) {
+                            gData[ pid ] = data;
+                            gCache[ pid ] = {};
+                            gCache[ pid ].gid = 0;
+                            var acts = gNode.rowAction.split(' ');
+                            for (var i=0, len=parseInt( data[ gNode.guiTNum ] ); i<len; i++)
+                            {
+                                tmp = '<tr id="tr-' + pid + '-' + i + '" class="' + ((i%2==0)? 'even' : 'odd') + '">';
+                                for (var j=0, jlen=gNode.col.length; j<jlen; j++)
+                                {
+                                    tmp += '<td>';
+                                    if ('action' == gNode.col[ j ].tab) {
+                                        if (0 === parseInt( data[ gNode.guiT ][ i ].userDefined )) {
+                                            tmp += '<button type="button" id="Export-' + pid + '-' + i + '" class="Export" title="Export"><span class="ui-icon"></span></button>';
+                                        } else if (1 === parseInt( data[ gNode.guiT ][ i ].userDefined )) {
+                                            tmp += '<button type="button" id="Apply-' + pid + '-' + i + '" class="Apply" title="Apply"><span class="ui-icon"></span></button>';
+                                            tmp += '<button type="button" id="Import-' + pid + '-' + i + '" class="Import" title="Import"><span class="ui-icon"></span></button>';
+                                            tmp += '<button type="button" id="Export-' + pid + '-' + i + '" class="Export" title="Export"><span class="ui-icon"></span></button>';
+                                            tmp += '<button type="button" id="Delete-' + pid + '-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
+                                        }
+                                    } else if ('index' == gNode.col[ j ].tab) {
+                                        if ( (1 === parseInt( data[ gNode.guiT ][ i ].userDefined ) ) && (0 === parseInt( data[ gNode.guiT ][ i ].inUsed ) ) ) 
+                                        tmp += '<input type="checkbox" class="' + pid + 'Checkbox" id="' + pid + '-' + i + '" value="' + i + '" />';
+                                    } else {
+                                        tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                                    }
+                                    tmp += '</td>';
+                                }
+                                tmp += '</tr>';
+                                $('#table-' + pid + ' tbody').append( tmp );
+                                if ( 1 === parseInt( data[ gNode.guiT ][ i ].inUsed ) ) {
+                                    $('#Apply-' + pid + '-' + i).prop('disabled', true);
+                                    $('#Import-' + pid + '-' + i).prop('disabled', true);
+                                    $('#Delete-' + pid + '-' + i).prop('disabled', true);
+                                }
+                            }
+                            
+                            if (gIf.power) {
+                                genTblAction( pid );
+                                if (data[ gNode.guiTNum ] >= gRows.maxProfile) {
+                                    $('#Create-' + pid).prop('disabled', true);
+                                    $('#Import-' + pid).prop('disabled', true);
+                                }
+                            } else {
+                                $('#div-' + pid + ' button').prop('disabled', true);
+                            }
+                        }
+                    });
+                    break;
                 case 'packet_capture':
+                    gCheckbox.packet_capture = {};
                     gY.one('#main_bd').set('innerHTML', '<div class="templateDiv"><div id="div-' + pid + '"></div></div>');
                     tmp = '<table id="table-' + gNode.tab + '">';
                     tmp += '<thead>';
@@ -22461,7 +22622,7 @@ $(document).ready(function () {
                     {
                         tmp += '<th class="ui-state-default" style="width: ' + gNode.col[ i ].wiz + '">';
                         if ('index' == gNode.col[ i ].tab)
-                            tmp += '<input type="checkbox" id="' + pid + '-' + gNode.col[ i ].tab + '" value="1" />';
+                            tmp += '<input type="checkbox" id="' + pid + '_all" value="1" />';
                         else
                             tmp += gNode.col[ i ].label;
                         tmp += '</th>';
@@ -22489,7 +22650,7 @@ $(document).ready(function () {
                                         tmp += '<button type="button" id="Download-' + gNode.tab + '-' + i + '" class="Download" title="Download"><span class="ui-icon"></span></button>';
                                         tmp += '<button type="button" id="Delete-' + gNode.tab + '-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
                                     } else if ('index' == gNode.col[ j ].tab) {
-                                        tmp += '<input type="checkbox" value="' + i + '" />';
+                                        tmp += '<input type="checkbox" id="' + pid + '-' + i + '" class="' + pid + 'Checkbox" value="' + i + '" />';
                                     } else {
                                         tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
                                     }
@@ -22589,6 +22750,7 @@ $(document).ready(function () {
                     }
                     break;
                 case 'tables':
+                    gY.one('#main_bd').set('innerHTML', '<div class="templateDiv"><div id="div-' + pid + '"></div></div>');
                     if (gIf.power) {
                         $('#main_ft').html( gHtml.pgSave + gHtml.pgCancel );
                         gY.one('#pgSave').on('click', function(e) {
@@ -22596,7 +22758,6 @@ $(document).ready(function () {
                         });
                     }
     
-                    gY.one('#main_bd').set('innerHTML', '<div class="templateDiv"><div id="div-' + pid + '"></div></div>');
                     $.ajax({
                         url: 'cgi-bin/' + gNode.url.get + '.' + gNode.ext,
                         dataType: 'json',
@@ -22710,80 +22871,6 @@ $(document).ready(function () {
     
                     switch( pid )
                     {
-                    case 'backup_restore':
-                        tmp = '<div id="div-' + pid + '">';
-                        tmp += '<table id="table-' + pid + '">';
-                        tmp += '<thead>';
-                        tmp += '<tr>';
-                        for (var i=0, len=gNode.col.length; i<len; i++)
-                        {
-                            tmp += '<th class="ui-state-default" style="width: ' + gNode.col[ i ].wiz + '">';
-                            if ('index' == gNode.col[ i ].tab) 
-                                tmp += '<input type="checkbox" id="' + pid + '-' + gNode.col[ i ].tab + '" value="1" />';
-                            else
-                                tmp += gNode.col[ i ].label;
-                            tmp += '</th>';
-                        }
-                        tmp += '</tr>';
-                        tmp += '</thead>';
-                        tmp += '<tbody>';
-                        tmp += '</tbody>';
-                        tmp += '</table>';
-                        $('#div-' + pid).append( tmp );
-    
-                        $.ajax({
-                            url: 'cgi-bin/' + gNode.url.get + '.cgi',
-                            dataType: 'json',
-                            success: function(data) {
-                                gData[ pid ] = data;
-                                gCache[ pid ] = {};
-                                gCache[ pid ].gid = 0;
-                                var acts = gNode.rowAction.split(' ');
-                                for (var i=0, len=parseInt( data[ gNode.guiTNum ] ); i<len; i++)
-                                {
-                                    tmp = '<tr id="tr-' + pid + '-' + i + '" class="' + ((i%2==0)? 'even' : 'odd') + '">';
-                                    for (var j=0, jlen=gNode.col.length; j<jlen; j++)
-                                    {
-                                        tmp += '<td>';
-                                        if ('action' == gNode.col[ j ].tab) {
-                                            if (0 === parseInt( data[ gNode.guiT ][ i ].userDefined )) {
-                                                tmp += '<button type="button" id="Export-' + pid + '-' + i + '" class="Export" title="Export"><span class="ui-icon"></span></button>';
-                                            } else if (1 === parseInt( data[ gNode.guiT ][ i ].userDefined )) {
-                                                tmp += '<button type="button" id="Apply-' + pid + '-' + i + '" class="Apply" title="Apply"><span class="ui-icon"></span></button>';
-                                                tmp += '<button type="button" id="Import-' + pid + '-' + i + '" class="Import" title="Import"><span class="ui-icon"></span></button>';
-                                                tmp += '<button type="button" id="Export-' + pid + '-' + i + '" class="Export" title="Export"><span class="ui-icon"></span></button>';
-                                                tmp += '<button type="button" id="Delete-' + pid + '-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
-                                            }
-                                        } else if ('index' == gNode.col[ j ].tab) {
-                                            if ( (1 === parseInt( data[ gNode.guiT ][ i ].userDefined ) ) && (0 === parseInt( data[ gNode.guiT ][ i ].inUsed ) ) ) 
-                                            tmp += '<input type="checkbox" id="' + pid + '-' + gNode.col[ j ].tab + '-' + i + '" value="' + i + '" />';
-                                        } else {
-                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
-                                        }
-                                        tmp += '</td>';
-                                    }
-                                    tmp += '</tr>';
-                                    $('#table-' + pid + ' tbody').append( tmp );
-                                    if ( 1 === parseInt( data[ gNode.guiT ][ i ].inUsed ) ) {
-                                        $('#Apply-' + pid + '-' + i).prop('disabled', true);
-                                        $('#Import-' + pid + '-' + i).prop('disabled', true);
-                                        $('#Delete-' + pid + '-' + i).prop('disabled', true);
-                                    }
-                                }
-                                
-                                if (gIf.power) {
-                                    genTblAction( pid );
-                                    if (data[ gNode.guiTNum ] >= gRows.maxProfile) {
-                                        $('#Create-' + pid).prop('disabled', true);
-                                        $('#Import-' + pid).prop('disabled', true);
-                                    }
-                                } else {
-                                    $('#div-' + pid + ' button').prop('disabled', true);
-                                }
-                            }
-                        });
-
-                        break;
                     case 'firmware':
                         for (var i=0, len=gNode.col.length; i<len; i++)
                         {
@@ -23693,47 +23780,11 @@ $(document).ready(function () {
                         gY.one('.tabber ul').append('<li id="tab-log"><a href="#panel-log">' + gNode.tabs.log + '</a></li><li id="tab-debug"><a href="#panel-debug">' + gNode.tabs.debug  + '</a></li>');
                         gY.one('.tabber').append('<div id="panel-log"></div><div id="panel-debug"></div>');
 
-/*
-                        if (gIf.power) {
-                            $('#main_ft').html( gHtml.pgSave + gHtml.pgCancel + gHtml.pgStart + gHtml.pgStop );
-                            gY.one('#pgSave').on('click', function(e) {
-                                saveDevice( pid );
-                            });
-                        }
-*/
+                        gCheckbox.log = {};
+                        gCheckbox.debug = {};
 
                         gObj.tabber = $('.tabber').tabs({
                             active: gObj.tabIndex
-/*
-                            active: gObj.tabIndex,
-                            select: function (event, ui) {
-                                if (0 === parseInt( ui.index ) ) {
-                                    $('#pgSave').show();
-                                    $('#pgCancel').show();
-                                    $('#pgStart').hide();
-                                    $('#pgStop').hide();
-                                } else {
-                                    $('#pgSave').hide();
-                                    $('#pgCancel').hide();
-                                    $('#pgStart').show();
-                                    $('#pgStop').show();
-                                }
-                                gObj.tabIndex = ui.index;
-                            },
-                            create: function (event, ui) {
-                                if (0 === parseInt( gObj.tabIndex ) ) {
-                                    $('#pgSave').show();
-                                    $('#pgCancel').show();
-                                    $('#pgStart').hide();
-                                    $('#pgStop').hide();
-                                } else {
-                                    $('#pgSave').hide();
-                                    $('#pgCancel').hide();
-                                    $('#pgStart').show();
-                                    $('#pgStop').show();
-                                }
-                            }
-*/
                         });
 
                         $.ajax({
@@ -23745,18 +23796,27 @@ $(document).ready(function () {
                                 if (1 === parseInt( data.logEnable )) {
                                     gIf.log = true;
                                     gIf.debug = true;
-                                }
+                                } else 
+                                    gIf.log = false;
                                 
                                 if (1 === parseInt( data.pcapEnable )) {
                                     gIf.pcap = true;
                                     gIf.debug = true;
-                                }
+                                } else 
+                                    gIf.pcap = false;
 
                                 tmp = '<div id="div-log">';
                                 tmp += '<div id="div-log_global">';
                                 tmp += '<table id="table-log_global">';
                                 tmp += '<tr><td class="alignRight BT80"><input type="checkbox" id="logEnable" value="1" /></td><th class="alignLeft BT160"><label for="logEnable">' + gNode.col[ "log" ][ 0 ].col[ 0 ].label + '</label></th><td class="BT40"></td></tr>';
-                                tmp += '<tr><th class="alignRight BT80">' + gNode.col[ "log" ][ 0 ].col[ 1 ].label + '</th><td class="alignLeft BT160"><input type="text" id="logDesc" ></td><td class="BT40"><button id="pgSave" title="Save"><span class="ui-icon"></span></button></td></tr>';
+                                tmp += '<tr>';
+                                tmp += '<th class="alignRight BT80">' + gNode.col[ "log" ][ 0 ].col[ 1 ].label + '</th>';
+                                tmp += '<td class="alignLeft BT160"><input type="text" id="logDesc" ></td>';
+                                tmp += '<td class="BT40">';
+                                if (gIf.power)
+                                    tmp += '<button id="pgSave" class="Save" title="Save"><span class="ui-icon"></span></button>';
+                                tmp += '</td>';
+                                tmp += '</tr>';
                                 tmp += '</table>';
                                 tmp += '</div>';
 
@@ -23764,7 +23824,7 @@ $(document).ready(function () {
                                 tmp += '<table id="table-log_list">';
                                 tmp += '<thead>';
                                 tmp += '<tr>';
-                                tmp += '<th class="ui-state-default BT40"><input type="checkbox" id="log-index" value="1" /></th>';
+                                tmp += '<th class="ui-state-default BT40"><input type="checkbox" id="log_all" value="1" /></th>';
                                 tmp += '<th class="ui-state-default BT350">' + gNode.col[ "log" ][ 1 ].col[ 1 ].label + '</th>';
                                 tmp += '<th class="ui-state-default">' + gNode.col[ "log" ][ 1 ].col[ 2 ].label + '</th>';
                                 tmp += '<th class="ui-state-default BT100">' + gNode.col[ "log" ][ 1 ].col[ 3 ].label + '</th>';
@@ -23774,7 +23834,8 @@ $(document).ready(function () {
                                 tmp += '</tbody>';
                                 tmp += '</table>';
                                 tmp += '<div class="tblAction">';
-                                tmp += '<button id="Remove-log" class="Remove" title="Remove"><span class="ui-icon"></span></button>';
+                                if (gIf.power)
+                                    tmp += '<button id="Remove-log" class="Remove" title="Remove"><span class="ui-icon"></span></button>';
                                 tmp += '</div>';
                                 tmp += '</div>';
                                 tmp += '</div>';
@@ -23849,8 +23910,10 @@ $(document).ready(function () {
                                 tmp += '<td class="BT40"></td>';
                                 tmp += '<td class="BT320" colspan="3"></td>';
                                 tmp += '<td class="BT100">';
-                                tmp += '<button id="pgStart" title="Start"><span class="ui-icon"></span></button>';
-                                tmp += '<button id="pgStop" title="Stop"><span class="ui-icon"></span></button>';
+                                if (gIf.power) {
+                                    tmp += '<button id="pgStart" class="Start" title="Start"><span class="ui-icon"></span></button>';
+                                    tmp += '<button id="pgStop" class="Stop" title="Stop"><span class="ui-icon"></span></button>';
+                                }
                                 tmp += '</td>';
                                 tmp += '</tr>';
                                 tmp += '</tbody>';
@@ -23862,7 +23925,7 @@ $(document).ready(function () {
                                 tmp += '<thead>';
                                 tmp += '<tr>';
                                 
-                                tmp += '<th class="ui-state-default BT40"><input type="checkbox" id="debug-index" value="1" /></th>';
+                                tmp += '<th class="ui-state-default BT40"><input type="checkbox" id="debug_all" value="1" /></th>';
                                 tmp += '<th class="ui-state-default BT350">' + gNode.col[ "debug" ][ 1 ].col[ 1 ].label + '</th>';
                                 tmp += '<th class="ui-state-default">' + gNode.col[ "debug" ][ 1 ].col[ 2 ].label + '</th>';
                                 tmp += '<th class="ui-state-default BT100">' + gNode.col[ "debug" ][ 1 ].col[ 3 ].label + '</th>';
@@ -23873,7 +23936,8 @@ $(document).ready(function () {
                                 tmp += '</tbody>';
                                 tmp += '</table>';
                                 tmp += '<div class="tblAction">';
-                                tmp += '<button id="Remove-debug" class="Remove" title="Remove"><span class="ui-icon"></span></button>';
+                                if (gIf.power)
+                                    tmp += '<button id="Remove-debug" class="Remove" title="Remove"><span class="ui-icon"></span></button>';
                                 tmp += '</div>';
                                 tmp += '</div>';
                                 tmp += '</div>';
@@ -23905,7 +23969,7 @@ $(document).ready(function () {
                                         {
                                             tmp = '<tr class="' + ((i%2 == 0)? 'odd' : 'even') + '">';
                                             tmp += '<td>';
-                                            tmp += '<input type="checkbox" id="log-' + i + '" value="' + i + '" />';
+                                            tmp += '<input class="logCheckbox" type="checkbox" id="log-' + i + '" value="' + i + '" />';
                                             tmp += '</td>';
                                             tmp += '<td>';
                                             tmp += data[ gNode.guiT ][ i ].filepath;
@@ -23915,7 +23979,7 @@ $(document).ready(function () {
                                             tmp += '</td>';
                                             tmp += '<td>';
                                             tmp += '<button id="Donwload-log-' + i + '" class="Download" title="Download"><span class="ui-icon"></span></button>';
-                                            tmp += '<button id="delete-log-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
+                                            tmp += '<button id="Delete-log-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
                                             tmp += '</td>';
                                             tmp += '</tr>';
                                             $('#table-log_list tbody').append( tmp );
@@ -23932,7 +23996,7 @@ $(document).ready(function () {
                                             {
                                                 tmp = '<tr class="' + ((i%2 == 0)? 'odd' : 'even') + '">';
                                                 tmp += '<td>';
-                                                tmp += '<input type="checkbox" id="debug-' + i + '" value="' + i + '" />';
+                                                tmp += '<input class="debugCheckbox" type="checkbox" id="debug-' + i + '" value="' + i + '" />';
                                                 tmp += '</td>';
                                                 tmp += '<td>';
                                                 tmp += data[ gNode.guiT ][ i ].filepath;
@@ -23950,6 +24014,10 @@ $(document).ready(function () {
                                         }   
                                     }).done( function() {
                                         if (gIf.power) {
+                                            gY.one('#pgSave').on('click', function(e) {
+                                                saveDevice( pid );
+                                            });
+
                                             if ( 1 === parseInt( data.pcapEnable )) {
                                                 $('#pgStart').prop('disabled', true);
                                                 $('.debugging').prop('disabled', true);
@@ -25287,8 +25355,7 @@ $(document).ready(function () {
                                     if (1 === parseInt(data.status)) {
                                         $('#Editor-baseOn-usb').prop('disabled', false);
                                         for (var i=0, len=data.guiUsbFileT.length; i<len; i++) {
-                                            if ( gReg.isXML.test( data.guiUsbFileT[ i ].path ) )
-                                                $('#Editor-baseOn-usb').append('<option value="' + data.guiUsbFileT[ i ].path + '">' + data.guiUsbFileT[ i ].name + '</option>');
+                                            $('#Editor-baseOn-usb').append('<option value="' + data.guiUsbFileT[ i ].path + '">' + data.guiUsbFileT[ i ].name + '</option>');
                                         }
                                     } else {
                                         $('#Editor-baseOn-2').prop('disabled', true);
@@ -25370,6 +25437,7 @@ $(document).ready(function () {
             }
             break;
         case 'management_settings' :
+gY.log('????');
             if (!gReg.portList.test($('#httpsPort').val())) {
                 pass = false;
                 msg += '<p>' + gError[ gObj.lang ].httpsPortRange + '</p>';
@@ -25483,12 +25551,12 @@ $(document).ready(function () {
                 msg += '<p>' + gError[ gObj.lang ].desc255 + '</p>';
             }
 
-/*
-            if (gReg.isNA.test($('#Editor-baseOn').val())) {
+
+            if ($('#Editor-baseOn-0').is(':checked') && gReg.isNA.test($('#Editor-baseOn-device').val())) {
                 pass = false;
                 msg += '<p>' + gError[ gObj.lang ].profileNA + '</p>';
             }
-*/
+
             break;
         case 'proxy':
             if ($('#enable').is(':checked')) {
@@ -25626,7 +25694,8 @@ $(document).ready(function () {
         switch(pid)
         {
         case 'administrator_settings':
-            checker = callCheckers( pid );
+            //checker = callCheckers( pid );
+            checker = formChecker( pid );
             if (checker.pass) {
                 if (1 === tar.setPassword) {
                     gData[ pid ].setPassword = tar.setPassword;
@@ -25769,11 +25838,15 @@ $(document).ready(function () {
             return false;
             break;
         case 'advanced_debug':
-            checker = callCheckers( 'log' );
+            //checker = callCheckers( 'log' );
+            checker = formChecker( 'log' );
             if (checker.pass) {
                 if ($('#logEnable').is(':checked')) 
                     gData.advanced_debug.logEnable = 1;
+                else
+                    gData.advanced_debug.logEnable = 0;
                 gData.advanced_debug.logDesc = $('#logDesc').val();
+                gObj.tabIndex = 0;
             } else {
                 for (var i=0, len=checker.cols.length; i<len; i++)
                 {
@@ -28914,10 +28987,16 @@ gY.log('post ' + pid);
             }
             break;
         case 'Editor-baseOn-device':
-        case 'Editor-importFrom-device':
             for ( var i=0, len=gData[ cgiID ][ cgiT ].length; i<len; i++ ) 
             {
                 tmp += '<option value="' + gData[ cgiID ][ cgiT ][ i ].name + '">' + gData[ cgiID ][ cgiT ][ i ].name + '</option>';
+            }
+            break;
+        case 'Editor-importFrom-device':
+            for ( var i=0, len=gData[ cgiID ][ cgiT ].length; i<len; i++ ) 
+            {
+                if (val != i)
+                    tmp += '<option value="' + gData[ cgiID ][ cgiT ][ i ].name + '">' + gData[ cgiID ][ cgiT ][ i ].name + '</option>';
             }
             break;
         case 'Editor-ifname':

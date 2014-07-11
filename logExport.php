@@ -20,96 +20,67 @@ if (mysqli_connect_errno()) {
 switch($param)
 {
 case 'view_logs':
+
     $json = array();
-    $databases = array();
-    $tables = array();
-    for ($i=23; $i>=0; $i--)
+
+    // those days as gz
+    $zlog  = '/tmp/logs.zip';
+    $zpath = '/mnt/hda/archer/zlog/';
+
+    shell_exec( 'rm '. $zlog );
+
+    shell_exec( '7za a -tzip '. $zlog .' '. $zpath . '*.log.txt.gz' );
+
+    // today's data
+    $db = str_replace("-", "_", trim( shell_exec( 'date +%Y-%m-%d' ) ));
+    $ftoday = '/tmp/'. $db .'.log.txt';
+    $ztoday = '/tmp/'. $db .'.log.txt.gz';
+
+    shell_exec( 'rm '. $ftoday );
+    shell_exec( 'rm '. $ztoday );
+
+    $str = '';
+
+    $fp = fopen( $ftoday, 'w' );
+
+    for ($i=23; $i>=0; $i--) 
     {
-        array_push( $tables, 'logs_'. sprintf("%02d", $i) );
-    }
-
-    // get daily databases
-    $dbQuery = 'SHOW DATABASES like "20%"';
-
-    if ( $dbQuery = $mysqli->query( 'SHOW DATABASES LIKE "20%"' ) ) {
-
-        while ($row = $dbQuery->fetch_row()) {
-            array_push( $databases, $row[ 0 ] );
-        }
-
-        // free dbQuery
-        $dbQuery->close();
-
-        // sort to get latest on top
-        rsort( $databases );
-
-        $str = '';
-        for ($i=0; $i<count( $databases ); $i++)
-        {
-            for ($j=0; $j<count( $tables ); $j++) 
+        if ($result = $mysqli->query( 'SELECT * FROM '. $db .'.`logs_'. sprintf("%02d", $i) .'` ORDER BY seq DESC' )) 
+        { 
+            while ($obj = $result->fetch_object()) 
             {
-                if ( $result = $mysqli->query( 'SELECT * FROM '. $databases[ $i ]  .'.`'. $tables[ $j ] .'` ORDER BY seq DESC' ) ) {
-                    while ($obj = $result->fetch_object()) {
-                      $str .= $obj->date ." ". $obj->time ."-". $obj->severity ."-". $obj->facility .":". $obj->msg ."(". $obj->program .")\n";
-                    }  
-                }
+                //$str .= $obj->date ." ". $obj->time ."-". $obj->severity ."-". $obj->facility .":". $obj->msg ."(". $obj->program .")\n";
+                fwrite( $fp, $obj->date ." ". $obj->time ."-". $obj->severity ."-". $obj->facility .":". $obj->msg ."(". $obj->program .")\n" );
+            
             }
         }
-    
-        header("Content-Type: text/plain"); 
-        header("Content-Disposition: attachment; filename=\"logs.txt\"");
-        header("Connection: close");
-        echo $str;
     }
+
+    fclose( $fp );
+
+    // gzip today's data
+    shell_exec( '7za a -tgzip '. $ztoday .' '. $ftoday );
+
+    // add gzip to zip
+    shell_exec( '7za a -tzip '. $zlog .' '. $ztoday );
+
+    // http headers for zip downloads
+    header("Pragma: public");
+    header("Expires: 0");
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+    header("Cache-Control: public");
+    header("Content-Description: File Transfer");
+    header("Content-type: application/octet-stream");
+    header("Content-Disposition: attachment; filename=\"logs.zip\"");
+    header("Content-Transfer-Encoding: binary");
+    header("Content-Length: ".filesize($zlog));
+    ob_end_flush();
+    @readfile($zlog);
+    header("Connection: close");
     break;
 }
 
 /* close connection */
 $mysqli->close();
+
 ?>
-
-/*
-
-/* creates a compressed zip file */
-function create_zip($files = array(),$destination = '',$overwrite = false) {
-	//if the zip file already exists and overwrite is false, return false
-	if(file_exists($destination) && !$overwrite) { return false; }
-	//vars
-	$valid_files = array();
-	//if files were passed in...
-	if(is_array($files)) {
-		//cycle through each file
-		foreach($files as $file) {
-			//make sure the file exists
-			if(file_exists($file)) {
-				$valid_files[] = $file;
-			}
-		}
-	}
-	//if we have good files...
-	if(count($valid_files)) {
-		//create the archive
-		$zip = new ZipArchive();
-		if($zip->open($destination,$overwrite ? ZIPARCHIVE::OVERWRITE : ZIPARCHIVE::CREATE) !== true) {
-			return false;
-		}
-		//add the files
-		foreach($valid_files as $file) {
-			$zip->addFile($file,$file);
-		}
-		//debug
-		//echo 'The zip archive contains ',$zip->numFiles,' files with a status of ',$zip->status;
-		
-		//close the zip -- done!
-		$zip->close();
-		
-		//check to make sure the file exists
-		return file_exists($destination);
-	}
-	else
-	{
-		return false;
-	}
-}
-
-*/
