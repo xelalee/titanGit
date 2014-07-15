@@ -475,12 +475,12 @@ function reportAggregate3( $table, $groupBy, $groupBy2 ) {
 
                 // create table now's timestamp on archer
                 // check if daily statistics are data_reday
-                if ( $status = $mysqli->query( 'SELECT TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "'. $table .'"' ) ) {
-                    if ( 0 == $status->num_rows || 'data_ready' != $status->fetch_row()[0]) {
+                if ( $status = $mysqli->query( 'SELECT TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "'. $table .'" AND TABLE_COMMENT = "data_ready" ' ) ) {
+                    if ( 0 == $status->num_rows ) {
                         // 24 hours
                         for ($j=0; $j<24; $j++)
                         {
-                            $mysqli->query( 'CREATE TABLE IF NOT EXISTS '. $tmpTable .' as ( SELECT '. $gby .', txBytes, rxBytes, totalBytes, count(*) as sessions FROM '. $db .'.`raw_sessions_'. sprintf("%02d", $j) .'` ) ' );
+                            $mysqli->query( 'CREATE TABLE IF NOT EXISTS '. $tmpTable .' as ( SELECT '. $gby .', txBytes, rxBytes, totalBytes, count(*) as sessions FROM '. $db .'.`raw_sessions_'. sprintf("%02d", $j) .'` GROUP BY '. $gby .' ORDER BY '. $oby .' ) ' );
                         }
                     } else {
                         $mysqli->query( 'CREATE TABLE IF NOT EXISTS '. $tmpTable .' as ( SELECT '. $gby .', txBytes, rxBytes, totalBytes, sessions FROM '. $db .'.`'. $table .'` ) ' );
