@@ -22547,7 +22547,7 @@ $(document).ready(function () {
                     for (var i=0, len=gNode.col.length; i<len; i++)
                     {
                         tmp += '<th class="ui-state-default" style="width: ' + gNode.col[ i ].wiz + '">';
-                        if ('index' == gNode.col[ i ].tab) 
+                        if ('checkbox' == gNode.col[ i ].tab) 
                             tmp += '<input type="checkbox" id="' + pid + '_all" value="1" />';
                         else
                             tmp += gNode.col[ i ].label;
@@ -22583,9 +22583,11 @@ $(document).ready(function () {
                                             tmp += '<button type="button" id="Export-' + pid + '-' + i + '" class="Export" title="Export"><span class="ui-icon"></span></button>';
                                             tmp += '<button type="button" id="Delete-' + pid + '-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
                                         }
-                                    } else if ('index' == gNode.col[ j ].tab) {
+                                    } else if ('checkbox' == gNode.col[ j ].tab) {
                                         if ( (1 === parseInt( data[ gNode.guiT ][ i ].userDefined ) ) && (0 === parseInt( data[ gNode.guiT ][ i ].inUsed ) ) ) 
                                         tmp += '<input type="checkbox" class="' + pid + 'Checkbox" id="' + pid + '-' + i + '" value="' + i + '" />';
+                                    } else if ('index' == gNode.col[ j ].tab) {
+                                        tmp += (i+1);
                                     } else {
                                         tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
                                     }
@@ -22621,7 +22623,7 @@ $(document).ready(function () {
                     for (var i=0, len=gNode.col.length; i<len; i++)
                     {
                         tmp += '<th class="ui-state-default" style="width: ' + gNode.col[ i ].wiz + '">';
-                        if ('index' == gNode.col[ i ].tab)
+                        if ('checkbox' == gNode.col[ i ].tab)
                             tmp += '<input type="checkbox" id="' + pid + '_all" value="1" />';
                         else
                             tmp += gNode.col[ i ].label;
@@ -22649,8 +22651,10 @@ $(document).ready(function () {
                                     if ('action' == gNode.col[ j ].tab) {
                                         tmp += '<button type="button" id="Download-' + gNode.tab + '-' + i + '" class="Download" title="Download"><span class="ui-icon"></span></button>';
                                         tmp += '<button type="button" id="Delete-' + gNode.tab + '-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
-                                    } else if ('index' == gNode.col[ j ].tab) {
+                                    } else if ('checkbox' == gNode.col[ j ].tab) {
                                         tmp += '<input type="checkbox" id="' + pid + '-' + i + '" class="' + pid + 'Checkbox" value="' + i + '" />';
+                                    } else if ('index' == gNode.col[ j ].tab) {
+                                        tmp += (i+1);
                                     } else {
                                         tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
                                     }
@@ -23825,9 +23829,10 @@ $(document).ready(function () {
                                 tmp += '<thead>';
                                 tmp += '<tr>';
                                 tmp += '<th class="ui-state-default BT40"><input type="checkbox" id="log_all" value="1" /></th>';
-                                tmp += '<th class="ui-state-default BT350">' + gNode.col[ "log" ][ 1 ].col[ 1 ].label + '</th>';
-                                tmp += '<th class="ui-state-default">' + gNode.col[ "log" ][ 1 ].col[ 2 ].label + '</th>';
-                                tmp += '<th class="ui-state-default BT100">' + gNode.col[ "log" ][ 1 ].col[ 3 ].label + '</th>';
+                                tmp += '<th class="ui-state-default BT50">' + gNode.col[ "log" ][ 1 ].col[ 1 ].label + '</th>';
+                                tmp += '<th class="ui-state-default BT350">' + gNode.col[ "log" ][ 1 ].col[ 2 ].label + '</th>';
+                                tmp += '<th class="ui-state-default">' + gNode.col[ "log" ][ 1 ].col[ 3 ].label + '</th>';
+                                tmp += '<th class="ui-state-default BT100">' + gNode.col[ "log" ][ 1 ].col[ 4 ].label + '</th>';
                                 tmp += '</tr>';
                                 tmp += '</thead>';
                                 tmp += '<tbody>';
@@ -23926,9 +23931,10 @@ $(document).ready(function () {
                                 tmp += '<tr>';
                                 
                                 tmp += '<th class="ui-state-default BT40"><input type="checkbox" id="debug_all" value="1" /></th>';
-                                tmp += '<th class="ui-state-default BT350">' + gNode.col[ "debug" ][ 1 ].col[ 1 ].label + '</th>';
-                                tmp += '<th class="ui-state-default">' + gNode.col[ "debug" ][ 1 ].col[ 2 ].label + '</th>';
-                                tmp += '<th class="ui-state-default BT100">' + gNode.col[ "debug" ][ 1 ].col[ 3 ].label + '</th>';
+                                tmp += '<th class="ui-state-default BT50">' + gNode.col[ "debug" ][ 1 ].col[ 1 ].label + '</th>';
+                                tmp += '<th class="ui-state-default BT350">' + gNode.col[ "debug" ][ 1 ].col[ 2 ].label + '</th>';
+                                tmp += '<th class="ui-state-default">' + gNode.col[ "debug" ][ 1 ].col[ 3 ].label + '</th>';
+                                tmp += '<th class="ui-state-default BT100">' + gNode.col[ "debug" ][ 1 ].col[ 4 ].label + '</th>';
                                 
                                 tmp += '</tr>';
                                 tmp += '</thead>';
@@ -23972,6 +23978,9 @@ $(document).ready(function () {
                                             tmp += '<input class="logCheckbox" type="checkbox" id="log-' + i + '" value="' + i + '" />';
                                             tmp += '</td>';
                                             tmp += '<td>';
+                                            tmp += (i+1);
+                                            tmp += '</td>';
+                                            tmp += '<td>';
                                             tmp += data[ gNode.guiT ][ i ].filepath;
                                             tmp += '</td>';
                                             tmp += '<td>';
@@ -23997,6 +24006,9 @@ $(document).ready(function () {
                                                 tmp = '<tr class="' + ((i%2 == 0)? 'odd' : 'even') + '">';
                                                 tmp += '<td>';
                                                 tmp += '<input class="debugCheckbox" type="checkbox" id="debug-' + i + '" value="' + i + '" />';
+                                                tmp += '</td>';
+                                                tmp += '<td>';
+                                                tmp += (i+1);
                                                 tmp += '</td>';
                                                 tmp += '<td>';
                                                 tmp += data[ gNode.guiT ][ i ].filepath;

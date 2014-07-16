@@ -10900,8 +10900,15 @@
               [
                 {
                   "label" : "",
-                  "tab" : "index",
+                  "tab" : "checkbox",
+                  "tag" : "input",
+                  "type" : "checkbox",
                   "wiz" : "40px"
+                },
+                {
+                  "label" : "Index",
+                  "tab" : "index",
+                  "wiz" : "50px"
                 },
                 {
                   "label" : "Name",
@@ -10916,7 +10923,7 @@
                 {
                   "label" : "Description",
                   "tab" : "desc",
-                  "wiz" : "360px"
+                  "wiz" : "310px"
                 },
                 {
                   "label" : "Action",
@@ -11917,11 +11924,15 @@
               [
                 {
                   "label" : "",
-                  "tab" : "index",
+                  "tab" : "checkbox",
                   "tag" : "input",
                   "type" : "checkbox",
-                  "val" : "cgi",
                   "wiz" : "40px"
+                },
+                {
+                  "label" : "Index",
+                  "tab" : "index",
+                  "wiz" : "50px"
                 },
                 {
                   "label" : "File",
@@ -12115,7 +12126,14 @@
                       {
                         "label" : "",
                         "tab" : "checkbox",
+                        "tag" : "input",
+                        "type" : "checkbox",
                         "wiz" : "40px"
+                      },
+                      {
+                        "label" : "Index",
+                        "tab" : "index",
+                        "wiz" : "50px"
                       },
                       {
                         "label" : "File",
@@ -12253,7 +12271,14 @@
                       {
                         "label" : "",
                         "tab" : "checkbox",
+                        "tag" : "input",
+                        "type" : "checkbox",
                         "wiz" : "40px"
+                      },
+                      {
+                        "label" : "Index",
+                        "tab" : "index",
+                        "wiz" : "50px"
                       },
                       {
                         "label" : "File",

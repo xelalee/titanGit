@@ -163,7 +163,7 @@
     "state32" : "state should be [a-zA-Z0-9@.-_] and length should between 1 to 32",
     "countryNeed" : "country should be selected",
     "account20" : "account name should be [a-zA-Z0-9@.-_] and length should between 6 to 20",
-    "hostName" : "host name should be [a-zA-Z0-9] and length between 1 to 31",
+    "hostName" : "host name should be [a-zA-Z0-9.-] and length between 1 to 31",
     "domainName" : "domain name max length should be 255",
     "memberLimit" : "member limit exceed",
     "restoreConf" : "restore configuration will take ",
