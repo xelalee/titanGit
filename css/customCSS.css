@@ -28,6 +28,10 @@ html {
     color: black;
 }
 
+#hd .content {
+
+}
+
 #hd_blinkE {
     position: absolute;
     left: 160px;
@@ -2059,6 +2063,12 @@ div.Expand {
     position: relative;
     width: 350px;
     background: #efefef url('images/i_64_pop3_00.png') top right no-repeat;
+}
+
+#div-cifs {
+    position: relative;
+    width: 350px;
+    background: #efefef url('images/i_64_cifs_00.png') top right no-repeat;
 }
 
 #div-imap {

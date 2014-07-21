@@ -5594,11 +5594,37 @@
                       "wiz" : "150px"
                     },
                     {
+                      "label" : "Local ID",
+                      "tab" : "localId",
+                      "tag" : "input",
+                      "type" : "text",
+                      "tbidx" : 7,
+                      "align" :
+                      [
+                        "Left",
+                        "Left"
+                      ],
+                      "wiz" : "150px"
+                    },
+                    {
+                      "label" : "Remote ID",
+                      "tab" : "remoteId",
+                      "tag" : "input",
+                      "type" : "text",
+                      "tbidx" : 8,
+                      "align" :
+                      [
+                        "Left",
+                        "Left"
+                      ],
+                      "wiz" : "150px"
+                    },
+                    {
                       "label" : "WAN Interface",
                       "tab" : "wanId",
                       "tag" : "select",
                       "type" : "select",
-                      "tbidx" : 7,
+                      "tbidx" : 9,
                       "option" : "cgi",
                       "align" :
                       [
@@ -5612,7 +5638,7 @@
                       "tab" : "localNetworkId",
                       "tag" : "select",
                       "type" : "select",
-                      "tbidx" : 8,
+                      "tbidx" : 10,
                       "option" : "cgi",
                       "align" :
                       [
@@ -5626,7 +5652,7 @@
                       "tab" : "remoteNetworkId",
                       "tag" : "select",
                       "type" : "select",
-                      "tbidx" : 9,
+                      "tbidx" : 11,
                       "option" : "cgi",
                       "align" :
                       [
@@ -5649,7 +5675,7 @@
                       "tab" : "pfsEnable",
                       "tag" : "input",
                       "type" : "checkbox",
-                      "tbidx" : 10,
+                      "tbidx" : 12,
                       "val" : 1,
                       "align" :
                       [
@@ -5663,7 +5689,7 @@
                       "tab" : "dpdEnable",
                       "tag" : "input",
                       "type" : "checkbox",
-                      "tbidx" : 11,
+                      "tbidx" : 13,
                       "val" : 1,
                       "align" :
                       [
@@ -5678,7 +5704,7 @@
                           "tab" : "dpddelay",
                           "tag" : "input",
                           "type" : "text",
-                          "tbidx" : 12,
+                          "tbidx" : 14,
                           "note" : "(10-300) seconds",
                           "align" :
                           [
@@ -5693,7 +5719,7 @@
                           "tab" : "dpdtimeout",
                           "tag" : "input",
                           "type" : "text",
-                          "tbidx" : 13,
+                          "tbidx" : 15,
                           "note" : "(30-1800) seconds",
                           "align" :
                           [
@@ -5708,7 +5734,7 @@
                           "tab" : "dpdaction",
                           "tag" : "select",
                           "type" : "select",
-                          "tbidx" : 14,
+                          "tbidx" : 16,
                           "option" : 
                           {
                             "1" : "hold",
@@ -5729,7 +5755,7 @@
                       "tab" : "ikePolicyId",
                       "tag" : "select",
                       "type" : "select",
-                      "tbidx" : 15,
+                      "tbidx" : 17,
                       "option" : "cgi",
                       "align" :
                       [
@@ -5743,7 +5769,7 @@
                       "tab" : "transformPolicyId",
                       "tag" : "select",
                       "type" : "select",
-                      "tbidx" : 16,
+                      "tbidx" : 18,
                       "option" : "cgi",
                       "align" :
                       [
@@ -5759,7 +5785,7 @@
                   "tab" : "vpn_failover",
                   "tag" : "div",
                   "type" : "tabs",
-                  "tbidx" : 17,
+                  "tbidx" : 19,
                   "col" :
                   [
                     {
@@ -5767,7 +5793,7 @@
                       "tab" : "wanFailoverEnable",
                       "tag" : "input",
                       "type" : "checkbox",
-                      "tbidx" : 18,
+                      "tbidx" : 20,
                       "val" : 1,
                       "align" :
                       [
@@ -5781,7 +5807,7 @@
                       "tab" : "backupPolicyEnable",
                       "tag" : "input",
                       "type" : "checkbox",
-                      "tbidx" : 19,
+                      "tbidx" : 21,
                       "val" : 1,
                       "align" :
                       [
@@ -5796,7 +5822,7 @@
                           "tab" : "backupPolicyName",
                           "tag" : "select",
                           "type" : "select",
-                          "tbidx" : 20,
+                          "tbidx" : 22,
                           "option" : "cgi",
                           "align" :
                           [
@@ -5810,7 +5836,7 @@
                           "tab" : "fallbackTime",
                           "tag" : "input",
                           "type" : "text",
-                          "tbidx" : 21,
+                          "tbidx" : 23,
                           "note" : "(3-59) seconds",
                           "align" :
                           [
@@ -8374,6 +8400,76 @@
                         "tag" : "input",
                         "type" : "texts",
                         "texts" : 5
+                      }
+                    ]
+                  },
+                  {
+                    "label" : "CIFS",
+                    "tab" : "cifs",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" :
+                    [
+                      {
+                        "label" : "Enable",
+                        "tab" : "cifsEnable",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "Log",
+                        "tab" : "cifsLog",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "Action",
+                        "tab" : "cifsAct",
+                        "tag" : "select",
+                        "type" : "select",
+                        "option" :
+                        {
+                          "0" : "none",
+                          "1" : "notify",
+                          "2" : "notify + destruct file"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "label" : "IMAP",
+                    "tab" : "imap",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" :
+                    [
+                      {
+                        "label" : "Enable",
+                        "tab" : "imapEnable",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "Log",
+                        "tab" : "imapLog",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "Action",
+                        "tab" : "imapAct",
+                        "tag" : "select",
+                        "type" : "select",
+                        "option" :
+                        {
+                          "0" : "none",
+                          "1" : "notify",
+                          "2" : "notify + destruct file"
+                        }
                       }
                     ]
                   }

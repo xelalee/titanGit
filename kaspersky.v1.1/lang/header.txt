@@ -1,0 +1,29 @@
+{
+  "en":
+  {
+    "hd_user" : "Welcome",
+    "hd_timer" : "Date",
+    "hd_ip" : "User IP",
+    "hd_idle" : "Idle Logout",
+    "hd_force" : "Force Logout",
+    "hd_config" : "Current Configuration"
+  },
+  "cn":
+  {
+    "hd_user" : "欢迎",
+    "hd_timer" : "时间",
+    "hd_ip" : "登陆IP",
+    "hd_idle" : "超时时间",
+    "hd_force" : "强制注销",
+    "hd_config" : "Current Configuration"
+  },
+  "tw":
+  {
+    "hd_user" : "登入帳號",
+    "hd_timer" : "日期時間",
+    "hd_ip" : "登入IP",
+    "hd_idle" : "閒置登出",
+    "hd_force" : "強制登出",
+    "hd_config" : "Current Configuration"
+  }
+}

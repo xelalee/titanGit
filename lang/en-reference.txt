@@ -712,6 +712,12 @@
       "1": "notify",
       "2": "notify + destruct file"
     },
+    "cifsAct": 
+    {
+      "0": "none",
+      "1": "notify",
+      "2": "notify + destruct file"
+    },
     "imapAct": 
     {
       "0": "none",

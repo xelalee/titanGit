@@ -1,0 +1,734 @@
+/* html */
+html {
+    background: url('images/bg_plain.jpg')
+}
+
+/* main layout */
+#layout {
+    position: relative;
+    margin: 0 auto; /* center in viewport */
+    width: 1024px; /* fix page width */
+    height: 600px;
+    letter-spacing: 0;
+    word-spacing: 0;
+}
+
+/* arbitrary content styling */
+
+/* content */
+#menu {
+    position: absolute;
+    width: 180px;
+    height: 600px;
+    padding: 0;
+    background-color: #625b57;
+}
+
+#main {
+    position: absolute;
+    background-color: white;
+    left: 180px;
+    width: 844px;
+    height: 600px;
+}
+
+#main_hd {
+    position: relative;
+    background: url('images/tab_bar_00.png') top left no-repeat;
+    width: 844px;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+}
+
+#main_bd {
+    position: relative;
+    width: 844px;
+    height: 568px;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+#main_ft {
+    position: relative;
+    width: 844px;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background-color: #b1422f;
+}
+
+/* nomalize */
+ul { list-style-type: none; }
+ul { margin: 0; padding: 0; }
+ul li { margin: 0; padding: 0}
+a:link { text-decoration: none;}
+
+/* menu */
+#menu h3, #menu h4, #menu h5 {
+    position:relative;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+}
+
+#menu li {
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+#menu a {
+    color: white;
+    letter-spacing: normal;
+    word-spacing: normal;
+    position: absolute;
+    top: 7px;
+    left: 30px;
+}
+
+#menu ul {
+    background: transparent;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.accordion-ul.ui-accordion-content, .accordion-ul-ul.ui-accordion-content, .accordion-ul-ul-ul.ui-accordion-content {
+    width: 180px;
+    background: transparent;
+    border: none;
+}
+
+.accordion-ul-li.ui-accordion-li-fix, .accordion-ul-ul-li.ui-accordion-li-fix, .accordion-ul-ul-ul-li.ui-accordion-li-fix {
+    width: 180px;
+    height: 100%;
+    background: transparent;
+    border: none;
+}
+
+#menu .accordion-ul-li h3.ui-state-default {
+    background: url('images/m0.jpg');
+    border: none;
+    width: 180px;
+    height: 26px;
+}
+
+#menu .accordion-ul-li h3.ui-state-default a {
+    color: black;
+}
+
+#menu .accordion-ul-li h3.ui-state-default:hover a {
+    color: white;
+    top: 10px;
+}
+
+#menu .accordion-ul-li h3.ui-state-default span.ui-icon {
+    background-image: url('images/icon_switch_m_1.png');
+    background-position: 0 0;
+    position: absolute;
+    top: 9px;
+    left: 2px;
+}
+
+#menu .accordion-ul-li h3.ui-state-active {
+    background: url('images/m1.jpg');
+    border: none;
+    height: 34px;
+}
+
+#menu .accordion-ul-li h3:hover {
+    background: url('images/m1.jpg');
+    border: none;
+    height: 34px;
+}
+
+#menu .accordion-ul-li h3.ui-state-default:hover span.ui-icon {
+    top: 12px;
+}
+
+#menu .accordion-ul-li h3.ui-state-active a {
+    color: white;
+    top: 10px;
+}
+
+#menu .accordion-ul-li h3.ui-state-active span.ui-icon {
+    background-image: url('images/icon_switch_m_0.png');
+    background-position: 0 0;
+    position: absolute;
+    top: 12px;
+    left: 3px;
+}
+
+#menu .accordion-ul-ul-li h4, #menu .accordion-ul-ul-ul-li h4.ui-state-default {
+    background: url('images/m2.jpg');
+    border: none;
+    width: 180px;
+    height: 26px;
+}
+
+#menu .accordion-ul-ul-ul-li h4.ui-state-default span.ui-icon {
+    background-image: url('images/icon_switch_s_1.png');
+    background-size: 20px 20px;
+    background-position: 0 0;
+    position: absolute;
+}
+
+#menu .accordion-ul-ul-ul-li h4.ui-state-active {
+    border: none;
+    background: url('images/m2.jpg');
+}
+#menu .accordion-ul-ul-ul-li h4.ui-state-active span.ui-icon {
+    background-image: url('images/icon_switch_s_0.png');
+    background-size: 20px 20px;
+    background-position: 0 0;
+    position: absolute;
+}
+
+#menu .accordion-ul-ul-ul-ul-li h5 {
+    background: url('images/m3.jpg');
+    border: none;
+    width: 180px;
+    height: 26px;
+}
+
+#menu .accordion-ul-ul-li h4 a {
+
+}
+
+#menu .accordion-ul-ul-ul-ul-li h5 a {
+
+}
+
+#menu .accordion-ul-ul-li h4.ui-actived {
+
+}
+
+#menu .accordion-ul-ul-ul-ul-li h5.ui-actived {
+
+}
+
+#menu h3 .ui-icon {
+    width: 26px;
+    height: 26px;
+}
+
+#activedMenu {
+    width: 16px;
+    height: 16px;
+    background-image: url('images/ui-icons_ffffff_256x240.png');
+    background-position: -208px -192px;
+    position: absolute;
+    top: 6px;
+    left: 8px;
+}
+
+#manaul h4 {
+    position:relative;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+}
+
+#manual ul {
+    background: transparent;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+#manual li {
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+#manual a {
+    color: white;
+    letter-spacing: normal;
+    word-spacing: normal;
+    position: absolute;
+    top: 7px;
+    left: 30px;
+}
+
+/* navgator bar  */
+#main_hd h3 {
+    padding: 9px 0 0 0;
+    margin: 0 0 0 25px;
+}
+
+#main_hd h3 b {
+    position: relative;
+    color: white;
+    height: 20px;
+    margin: 0 10px;
+    border: none;
+}
+
+/* table */
+table {
+    width: 100%;
+    color: black;
+}
+
+label {
+    color: black;
+}
+
+#main_bd table {
+    /* border: 1px solid silver; */
+    /* border-style: none none solid none; */
+}
+
+table caption {
+    font-weight: bold;
+    font-size: 105%;
+    text-align: left;
+}
+
+table tr {
+    height: 25px;
+    padding: 1px;
+}
+
+table td.odd {
+    background-color: #C0C0C0;
+}
+
+table tr.odd {
+    background-color: #C0C0C0;
+}
+
+table td.even {
+    background-color: #E8E8E8;
+}
+
+table tr.even {
+    background-color: #E8E8E8;
+}
+
+table tr th, table tr td {
+    position: relative;
+    vertical-align: middle;
+    text-align: center;
+    word-break:break-all;
+}
+
+/* column width class */
+
+.BT1 {
+    width: 40px;
+}
+
+.BT2 {
+    width: 80px;
+}
+
+.BT3 {
+    width: 120px;
+}
+
+.BT4 {
+    width: 160px;
+}
+
+.BT10 {
+    width: 10px;
+}
+
+.BT20 {
+    width: 20px;
+}
+
+.BT30 {
+    width: 30px;
+}
+
+.BT40 {
+    width: 40px;
+}
+
+.BT50 {
+    width: 50px;
+}
+
+.BT60 {
+    width: 60px;
+}
+
+.BT80 {
+    width: 80px;
+}
+
+.BT90 {
+    width: 90px;
+}
+
+.BT100 {
+    width: 100px;
+}
+
+.BT120 {
+    width: 120px;
+}
+
+.BT125 {
+    width: 125px;
+}
+
+.BT140 {
+    width: 140px;
+}
+
+.BT150 {
+    width: 150px;
+}
+
+.BT160 {
+    width: 160px;
+}
+
+.BT180 {
+    width: 180px;
+}
+
+.BT200 {
+    width: 200px;
+}
+
+.BT225 {
+    width: 225px;
+}
+
+.BT250 {
+    width: 250px;
+}
+
+.BT240 {
+    width: 240px;
+}
+
+.BT300 {
+    width: 300px;
+}
+
+.BT320 {
+    width: 320px;
+}
+
+.BT350 {
+    width: 350px;
+}
+
+.BT400 {
+    width: 400px;
+}
+
+.BT450 {
+    width: 450px;
+}
+
+/* column align class */
+.alignCenter {
+    text-align: center;
+    padding: 0 5px;
+}
+
+.alignLeft {
+    text-align: left;
+    padding: 0 0 0 5px;
+}
+
+.alignRight {
+    text-align: right;
+    padding: 0 5px 0 0;
+}
+
+/* position class */
+.relativeClass {
+    position: relative;
+}
+
+.absoluteClass {
+    position: absolute;
+}
+
+/* docs */
+#docDiv {
+    padding: 0 5px;
+    color: black;
+}
+
+#docH2 {
+    margin: 5px;
+    padding: 5px;
+    color: black;
+}
+
+#docDiv.ui-widget-content {
+    border: none;
+}
+
+#docDiv div.ui-widget-content {
+    border: none;
+}
+
+#docDiv h3 {
+    padding: 5px;
+}
+
+#docDiv > ul {
+    border: none;
+}
+
+#docDiv dl {
+    padding: 5px;
+}
+
+#docDiv dt {
+    font-weight: bold;
+    margin: 3px 0 0 3px;
+}
+
+#docDiv dd {
+    padding: 2px 5px 2px 15px;
+}
+
+#docDiv .docsTable {
+    margin: 5px;
+    padding: 5px;
+}
+
+table.docsTable tr th, table.docsTable tr td {
+    word-break: break-word;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    background: #555555 url('images/ui-bg_highlight-hard_55_555555_1x100.png') 50% 50% repeat-x;
+    color: white;
+}
+
+/* tabs */
+
+.tabber {
+    border: none;
+}
+
+.tabs {
+    border: none;
+}
+
+.ui-tabs {
+    padding: 0;
+}
+
+.ui-tabs .ui-tabs-panel {
+    padding: 0;
+}
+
+/* vertical tabs */
+.ui-tabs-vertical { width: 55em; }
+.ui-tabs-vertical .ui-tabs-nav { padding: .2em .1em .2em .2em; float: left; width: 12em; }
+.ui-tabs-vertical .ui-tabs-nav li { clear: left; width: 100%; border-bottom-width: 1px !important; border-right-width: 0 !important; margin: 0 -1px .2em 0; }
+.ui-tabs-vertical .ui-tabs-nav li a { display:block; }
+.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active { padding-bottom: 0; padding-right: .1em; border-right-width: 1px; border-right-width: 1px; }
+.ui-tabs-vertical .ui-tabs-panel { padding: 1em; float: right; width: 40em;}
+.ui-tabs-vertical .ui-widget-header { border: none; }
+.ui-tabs-vertical .ui-tabs-nav li { border: 1px solid grey; }
+
+/* buttons */
+button {
+    font-family: Verdana, Arial, sans-sefir;
+    padding: 2px;
+    margin: 2px;
+}
+
+.yui3-button {
+    background: transparent;
+}
+
+button:hover {
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+button:disabled {
+    opacity: 0.2;
+}
+
+button.Query span.ui-icon {
+    background-position: -160px -112px;
+}
+
+button.Save span.ui-icon {
+    background-position: -96px -112px;
+}
+
+button.Cancel span.ui-icon {
+    background-position: -80px -112px;
+}
+
+button.Create span.ui-icon {
+    background-position: -64px -112px;
+}
+
+button.Forces span.ui-icon {
+    background-position: 0 -176px;
+}
+
+button.Remove span.ui-icon {
+    background-position: -176px -96px;
+}
+
+button.Disconnects span.ui-icon {
+    background-position: 0 -176px;
+}
+
+button.Refresh span.ui-icon {
+    background-position: -128px -64px;
+}
+
+button.Move span.ui-icon {
+    background-position: -80px -96px;
+}
+
+button.MoveUp span.ui-icon {
+    background-position: 0 -16px;
+}
+
+button.MoveDown span.ui-icon {
+    background-position: -64px -16px;
+}
+
+button.Add span.ui-icon {
+    background-position: -16px -128px;
+}
+
+button.Connect span.ui-icon {
+    background-position: -16px -176px;
+}
+
+button.Disconnect span.ui-icon {
+    background-position: 0 -128px;
+}
+
+button.Delete span.ui-icon {
+    background-position: -64px -128px;
+}
+
+button.Edit span.ui-icon {
+    background-position: -176px -112px;
+}
+
+button.Mod span.ui-icon {
+    background-position: -176px -112px;
+}
+
+button.Force span.ui-icon {
+    background-position: 0 -128px;
+}
+
+button.Clear span.ui-icon {
+    background-position: -176px -96px;
+}
+
+button.Export span.ui-icon {
+    background-position: -160px -96px;
+}
+
+button.Move2White span.ui-icon {
+    background-position: -64px -96px;
+}
+
+button.Move2Whites span.ui-icon {
+    background-position: -240px -128px;
+}
+
+button.Move2Add span.ui-icon {
+    background-position: -112px -192px;
+}
+
+button.Move2Del span.ui-icon {
+    background-position: -144px -192px;
+}
+
+button.Move2First span.ui-icon {
+    background-position: -80px -160px;
+}
+
+button.Move2Prev span.ui-icon {
+    background-position: -48px -160px;
+}
+
+button.Move2Next span.ui-icon {
+    background-position: -32px -160px;
+}
+
+button.Move2Last span.ui-icon {
+    background-position: -64px -160px;
+}
+
+button.Update span.ui-icon {
+    background-position: -80px -80px;
+}
+
+button.LicenseRefresh span.ui-icon {
+    background-position: -80px -80px;
+}
+
+button.Check span.ui-icon {
+    background-position: -192px -192px;
+}
+
+button.Check {
+    margin: 0;
+    padding: 0;
+}
+
+button.LicenseUpgrade span.ui-icon {
+    background-position: -112px -80px;
+}
+
+button.registrationMode-0 span.ui-icon {
+    background-position: -192px -192px;
+}
+
+/* widget */
+.ui-widget-header {
+    background: transparent;
+    border: solid 1px silver;
+    border-style: none none solid none;
+    border-radius: 0;
+}
+
+/* overflows */
+#menu {
+    overflow: hidden;
+}
+
+#menu ul {
+    overflow: hidden;
+}
+
+#main_bd {
+    overflow: auto;
+}
+
+.templateDiv {
+    padding: 0 10px;
+}
+
+/* div */
+div {
+    /* font-family: "Lucida Grande", "Times New Roman", Times, serif; */
+}
+

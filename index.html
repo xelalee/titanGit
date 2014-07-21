@@ -1682,7 +1682,7 @@ $(document).ready(function () {
         // device
         gRows.maxProfile = 16;
         gRows.maxDebug = 400;
-        gRows.maxLog = 100;
+        gRows.maxLog = 400;
     }
     
 // btn 
@@ -2876,7 +2876,8 @@ $(document).ready(function () {
                             window.open('cgi-bin/' + gNode.url.exportToPC + '.cgi?filename=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].fileName, "_blank");
                             break;
                         case 2:
-                            $.post('cgi-bin/' + gNode.url.exportToUSB + '.cgi?filename=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].fileName, function() {
+                            //$.post('cgi-bin/' + gNode.url.exportToUSB + '.cgi?filename=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].fileName, function() {
+                            $.get('cgi-bin/' + gNode.url.exportToUSB + '.cgi?filename=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].fileName, function() {
                                 successAlert('<p>' + gTerm[ gObj.lang ].exportDone + '</p>');
                             });
                             break;
@@ -7841,7 +7842,6 @@ $(document).ready(function () {
                     }else {
                         gObj.tab.tabs({"disabled": [2,3]});
                     }
-                    remindAlert( '<p>' + gTerm[ gObj.lang ].pppoe + '</p>' );
                     break;
                 }
             }).val(1).trigger('change');
@@ -8168,7 +8168,7 @@ $(document).ready(function () {
                     }
                     $('#basic_settings-address').focus();
                 }
-            }).val('').trigger('blur');
+            });
 
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
@@ -8187,6 +8187,14 @@ $(document).ready(function () {
                     }
                 }
             });
+
+            $('#basic_settings-netmask').prop('disabled', true);
+            $('#basic_settings-zoneId').prop('disabled', true);
+            if (gObj.routing.protoType == 3) { 
+                gObj.tab.tabs({"disabled": [1,2,3]});
+            } else {
+                gObj.tab.tabs({"disabled": [1,2,3,4]});
+            }       
 
             $('#dhcp_pool_settings-1-startIp').blur( function() {
                 var pass = dhcp_overlap( $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $(this).val(), $('#dhcp_pool_settings-1-endIp').val() );
@@ -8392,7 +8400,7 @@ $(document).ready(function () {
                             gObj.tab.tabs({"disabled": [1,2,3,4]});
                         }
                     }
-                }).val('').trigger('blur');
+                });
                 
                 $('#basic_settings-netmask').blur( function() {
                     if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
@@ -8412,6 +8420,14 @@ $(document).ready(function () {
                     }
                 });
     
+                $('#basic_settings-netmask').prop('disabled', true);
+                $('#basic_settings-zoneId').prop('disabled', true);
+                if (gObj.routing.protoType == 3) {
+                    gObj.tab.tabs({"disabled": [1,2,3]});
+                } else {
+                    gObj.tab.tabs({"disabled": [1,2,3,4]});
+                }
+
                 $('#dhcp_pool_settings-1-startIp').blur( function() {
                     var pass = dhcp_overlap( $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $(this).val(), $('#dhcp_pool_settings-1-endIp').val() );
                     if (!pass) 
@@ -8930,7 +8946,9 @@ $(document).ready(function () {
                     }else {
                         gObj.tab.tabs({"disabled": [2,3]});
                     }
-                    remindAlert( '<p>' + gTerm[ gObj.lang ].pppoe + '</p>' );
+
+                    if (2 != parseInt( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].wanProto ))
+                        remindAlert( '<p>' + gTerm[ gObj.lang ].pppoe + '</p>' );
                     break;
                 }
             }).val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].wanProto ).trigger('change');
@@ -9290,14 +9308,14 @@ $(document).ready(function () {
 
             $('#basic_settings-address').on('blur', function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                    $('#basic_settings-netmask').prop('disabled', false).focus();
+                    $('#basic_settings-netmask').prop('disabled', false);
                     $('#basic_settings-zoneId').prop('disabled', false);
                     if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                         gObj.tab.tabs('enable', 1);
                         gObj.tab.tabs('enable', 3);
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
-                        autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val() );
+                        autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].address, gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
                         gObj.addressed = $('#basic_settings-address').val();
                     } 
                 } else {
@@ -9309,11 +9327,8 @@ $(document).ready(function () {
                         gObj.tab.tabs({"disabled": [1,2,3,4]});
                     }
                 }
-            }).val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].address ).trigger('blur');
+            });
             
-            if (gReg.ipv4.test( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].address )) 
-                gObj.addressed = gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].address; 
-
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
                     gObj.addressed = $('#basic_settings-address').val();
@@ -9321,7 +9336,7 @@ $(document).ready(function () {
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                         gObj.tab.tabs('enable', 2);
-                    autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val() );
+                    autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].address, gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
                 }else {
                     if (gObj.routing.protoType == 3) {
                         gObj.tab.tabs({"disabled": [1,2,3]});
@@ -9329,7 +9344,24 @@ $(document).ready(function () {
                         gObj.tab.tabs({"disabled": [1,2,3,4]});
                     }
                 }
-            }).val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask ).trigger('blur');
+            });
+
+
+            $('#basic_settings-address').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].address );
+            $('#basic_settings-netmask').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
+
+            if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
+                gObj.addressed = $('#basic_settings-address').val();
+                if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
+                    gObj.tab.tabs('enable', 1);
+                    gObj.tab.tabs('enable', 3);
+                    if (1 === parseInt($('#dhcp_pool_settings-type').val()))
+                        gObj.tab.tabs('enable', 2);
+                }
+            } else {
+                $('#basic_settings-netmask').prop('disabled', true);
+                $('#basic_settings-zoneId').prop('disabled', true);
+            }
 
             $('#dhcp_pool_settings-1-startIp').blur( function() {
                 var pass = dhcp_overlap( $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $(this).val(), $('#dhcp_pool_settings-1-endIp').val() );
@@ -9592,14 +9624,14 @@ $(document).ready(function () {
 
             $('#basic_settings-address').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                    $('#basic_settings-netmask').prop('disabled', false).focus();
+                    $('#basic_settings-netmask').prop('disabled', false);
                     $('#basic_settings-zoneId').prop('disabled', false);
                     if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                         gObj.tab.tabs('enable', 1);
                         gObj.tab.tabs('enable', 3);
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
-                        autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val() );
+                        autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].address, gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
                         gObj.addressed = $('#basic_settings-address').val();
                     } 
                 } else {
@@ -9610,13 +9642,10 @@ $(document).ready(function () {
                     } else {
                         gObj.tab.tabs({"disabled": [1,2,3,4]});
                     }
-                    $('#basic_settings-address').focus();
+                    $('#basic_settings-address');
                 }
-            }).val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].address ).trigger('blur');
+            });
 
-            if (gReg.ipv4.test( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].address )) 
-                gObj.addressed = gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].address; 
-            
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
                     gObj.addressed = $('#basic_settings-address').val();
@@ -9624,7 +9653,7 @@ $(document).ready(function () {
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                         gObj.tab.tabs('enable', 2);
-                    autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val() );
+                    autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].address, gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
                 }else {
                     if (gObj.routing.protoType == 3) {
                         gObj.tab.tabs({"disabled": [1,2,3]});
@@ -9632,7 +9661,23 @@ $(document).ready(function () {
                         gObj.tab.tabs({"disabled": [1,2,3,4]});
                     }
                 }
-            }).val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask ).trigger('blur');
+            });
+
+            $('#basic_settings-address').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].address );
+            $('#basic_settings-netmask').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
+
+            if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
+                gObj.addressed = $('#basic_settings-address').val();
+                if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
+                    gObj.tab.tabs('enable', 1);
+                    gObj.tab.tabs('enable', 3);
+                    if (1 === parseInt($('#dhcp_pool_settings-type').val()))
+                        gObj.tab.tabs('enable', 2);
+                }
+            } else {
+                $('#basic_settings-netmask').prop('disabled', true);
+                $('#basic_settings-zoneId').prop('disabled', true);
+            }
 
             $('#dhcp_pool_settings-1-startIp').blur( function() {
                 var pass = dhcp_overlap( $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $(this).val(), $('#dhcp_pool_settings-1-endIp').val() );
@@ -9826,14 +9871,14 @@ $(document).ready(function () {
 
             $('#basic_settings-address').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                    $('#basic_settings-netmask').prop('disabled', false).focus();
+                    $('#basic_settings-netmask').prop('disabled', false);
                     $('#basic_settings-zoneId').prop('disabled', false);
                     if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                         gObj.tab.tabs('enable', 1);
                         gObj.tab.tabs('enable', 3);
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
-                        autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val() );
+                        autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].address, gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
                         gObj.addressed = $('#basic_settings-address').val();
                     } 
                 } else {
@@ -9845,11 +9890,8 @@ $(document).ready(function () {
                         gObj.tab.tabs({"disabled": [1,2,3,4]});
                     }
                 }
-            }).val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].address ).trigger('blur');
+            });
 
-            if (gReg.ipv4.test( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].address )) 
-                gObj.addressed = gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].address; 
-            
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
                     gObj.addressed = $('#basic_settings-address').val();
@@ -9857,7 +9899,7 @@ $(document).ready(function () {
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                         gObj.tab.tabs('enable', 2);
-                    autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val() );
+                    autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].address, gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
                 }else {
                     if (gObj.routing.protoType == 3) {
                         gObj.tab.tabs({"disabled": [1,2,3]});
@@ -9865,7 +9907,23 @@ $(document).ready(function () {
                         gObj.tab.tabs({"disabled": [1,2,3,4]});
                     }
                 }
-            }).val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask ).trigger('blur');
+            });
+
+            $('#basic_settings-address').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].address );
+            $('#basic_settings-netmask').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
+
+            if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
+                gObj.addressed = $('#basic_settings-address').val();
+                if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
+                    gObj.tab.tabs('enable', 1);
+                    gObj.tab.tabs('enable', 3);
+                    if (1 === parseInt($('#dhcp_pool_settings-type').val()))
+                        gObj.tab.tabs('enable', 2);
+                }
+            } else {
+                $('#basic_settings-netmask').prop('disabled', true);
+                $('#basic_settings-zoneId').prop('disabled', true);
+            }
 
             $('#dhcp_pool_settings-1-startIp').blur( function() {
                 var pass = dhcp_overlap( $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $(this).val(), $('#dhcp_pool_settings-1-endIp').val() );
@@ -10947,11 +11005,8 @@ $(document).ready(function () {
         case 'vlan':
             if ('Create' == tar.type)
                 $('#basic_settings-name').focus();
-            else 
-                $('#basic_settings-address').focus();
             break;
         case 'ports':
-            $('#basic_settings-address').focus();
             break;
         case 'zone':
             $('#editor-name').focus();
@@ -13753,6 +13808,9 @@ $(document).ready(function () {
             $('#basic_settings-remoteGw').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].remoteGw );
             $('#basic_settings-remoteGwType').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].remoteGwType ).trigger('change');
     
+            $('#basic_settings-localId').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].localId );
+            $('#basic_settings-remoteId').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].remoteId );
+
             cgiSelectOption( 'basic_settings-wanId', gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].wanId );
             cgiSelectOption( 'basic_settings-localNetworkId', gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].localNetworkId );
             cgiSelectOption( 'basic_settings-remoteNetworkId', gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].remoteNetworkId );
@@ -14052,6 +14110,9 @@ $(document).ready(function () {
                                 }
                             });
                             
+                            gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].localId = $('#basic_settings-localId').val();
+                            gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].remoteId = $('#basic_settings-remoteId').val();
+
                             if ($('#basic_settings-localNetworkId').val() != 'NA') 
                                 gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].localNetworkId = $('#basic_settings-localNetworkId').val();
                             else 
@@ -17156,9 +17217,51 @@ $(document).ready(function () {
                                         tmp +=         '</td>';
                                         tmp +=       '</tr>';
 
-/*
                                         tmp +=       '<tr>';
                                         tmp +=         '<td>';
+                                        tmp +=           '<div id="div-cifs">';
+                                        tmp +=             '<table id="table-cifs">';
+                                        tmp +=               '<tr>';
+                                        tmp +=                 '<th colspan="3" class="alignLeft">';
+                                        tmp +=                   '<p>' + gNode.col[ y ][ 2 ].col[ 5 ].label + '</p>';
+                                        tmp +=                 '</th>';
+                                        tmp +=               '</tr>';
+                                        tmp +=               '<tr>';
+                                        tmp +=                 '<td class="alignLeft BT40">';
+                                        tmp +=                 '</td>';
+                                        tmp +=                 '<td class="alignLeft BT60">';
+                                        tmp +=                   '<label for="cifsEnable">' + gNode.col[ y ][ 2 ].col[ 5 ].col[ 0 ].label + '</label>';
+                                        tmp +=                 '</td>';
+                                        tmp +=                 '<td class="alignLeft">';
+                                        tmp +=                   '<input type="checkbox" id="cifsEnable" value="1">';
+                                        tmp +=                 '</td>';
+                                        tmp +=               '</tr>';
+                                        tmp +=               '<tr class="cifsEnable">';
+                                        tmp +=                 '<td class="alignLeft BT40">';
+                                        tmp +=                 '</td>';
+                                        tmp +=                 '<td class="alignLeft BT60">';
+                                        tmp +=                   '<label for="cifsLog">' + gNode.col[ y ][ 2 ].col[ 5 ].col[ 1 ].label + '</label>';
+                                        tmp +=                 '</td>';
+                                        tmp +=                 '<td class="alignLeft">';
+                                        tmp +=                   '<input type="checkbox" id="cifsLog" value="1">';
+                                        tmp +=                 '</td>';
+                                        tmp +=               '</tr>';
+                                        tmp +=               '<tr class="cifsEnable">';
+                                        tmp +=                 '<td class="alignLeft BT40">';
+                                        tmp +=                 '</td>';
+                                        tmp +=                 '<td class="alignLeft BT60">';
+                                        tmp +=                   '<label for="cifsAct">' + gNode.col[ y ][ 2 ].col[ 5 ].col[ 2 ].label + '</label>';
+                                        tmp +=                 '</td>';
+                                        tmp +=                 '<td class="alignLeft">';
+                                        tmp +=                   '<select id="cifsAct"></select>';
+                                        tmp +=                 '</td>';
+                                        tmp +=               '</tr>';
+                                        tmp +=             '</table>';
+                                        tmp +=           '</div>';
+                                        tmp +=         '</td>';
+                                        tmp +=         '<td>';
+/*
+
                                         tmp +=           '<div id="div-imap">';
                                         tmp +=             '<table id="table-imap">';
                                         tmp +=               '<tr>';
@@ -17212,65 +17315,9 @@ $(document).ready(function () {
                                         tmp +=               '</tr>';
                                         tmp +=             '</table>';
                                         tmp +=           '</div>';
-                                        tmp +=         '</td>';
-                                        tmp +=         '<td>';
-                                        tmp +=           '<div id="div-cifs">';
-                                        tmp +=             '<table id="table-cifs">';
-                                        tmp +=               '<tr>';
-                                        tmp +=                 '<th colspan="3" class="alignLeft">';
-                                        tmp +=                   '<p>' + gNode.col[ y ][ 2 ].col[ 5 ].label + '</p>';
-                                        tmp +=                 '</th>';
-                                        tmp +=               '</tr>';
-                                        tmp +=               '<tr>';
-                                        tmp +=                 '<td class="alignLeft BT40">';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="cifsEnable">' + gNode.col[ y ][ 2 ].col[ 5 ].col[ 0 ].label + '</label>';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<input type="checkbox" id="cifsEnable" value="1">';
-                                        tmp +=                 '</td>';
-                                        tmp +=               '</tr>';
-                                        tmp +=               '<tr class="cifsEnable">';
-                                        tmp +=                 '<td class="alignLeft BT40">';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="cifsLog">' + gNode.col[ y ][ 2 ].col[ 5 ].col[ 1 ].label + '</label>';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<input type="checkbox" id="cifsLog" value="1">';
-                                        tmp +=                 '</td>';
-                                        tmp +=               '</tr>';
-                                        tmp +=               '<tr class="cifsEnable">';
-                                        tmp +=                 '<td class="alignLeft BT40">';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="cifsAct">' + gNode.col[ y ][ 2 ].col[ 5 ].col[ 2 ].label + '</label>';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<select id="cifsAct"></select>';
-                                        tmp +=                 '</td>';
-                                        tmp +=               '</tr>';
-                                        tmp +=               '<tr class="cifsEnable">';
-                                        tmp +=                 '<td class="alignLeft BT40">';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="cifsPortList-0">' + gNode.col[ y ][ 2 ].col[ 5 ].col[ 3 ].label + '</label>';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<input type="text" id="cifsPortList-0" size="3" />';
-                                        tmp +=                   '<input type="text" id="cifsPortList-1" size="3" />';
-                                        tmp +=                   '<input type="text" id="cifsPortList-2" size="3" />';
-                                        tmp +=                   '<input type="text" id="cifsPortList-3" size="3" />';
-                                        tmp +=                   '<input type="text" id="cifsPortList-4" size="3" />';
-                                        tmp +=                 '</td>';
-                                        tmp +=               '</tr>';
-                                        tmp +=             '</table>';
-                                        tmp +=           '</div>';
+*/
                                         tmp +=         '</td>';
                                         tmp +=       '</tr>';
-
-*/
                                         tmp +=     '</table>';
                                         tmp +=   '</div>';
                                         tmp += '</td>';
@@ -17473,15 +17520,11 @@ $(document).ready(function () {
                                             case 'ftpPortNum':
                                             case 'smtpPortNum':
                                             case 'pop3PortNum':
-                                            case 'imapPortNum':
-                                            case 'cifsPortNum':
                                                 break;
                                             case 'httpPortListT':
                                             case 'ftpPortListT':
                                             case 'smtpPortListT':
                                             case 'pop3PortListT':
-                                            case 'imapPortListT':
-                                            case 'cifsPortListT':
                                                 for (var i=0, len=parseInt( data[ node.replace('ListT', 'Num') ]); i<len; i++)
                                                 {
                                                     $('#' + node.replace('T', '-') + i).val( data[ node ][ i ].port ); 
@@ -18811,6 +18854,12 @@ $(document).ready(function () {
                     gData.general_settings.pop3Enable = ($('#pop3Enable').is(':checked'))? 1 : 0;
                     gData.general_settings.pop3Log = ($('#pop3Log').is(':checked'))? 1 : 0;
                     gData.general_settings.pop3Act = $('#pop3Act').val();
+                    gData.general_settings.cifsEnable = ($('#cifsEnable').is(':checked'))? 1 : 0;
+                    gData.general_settings.cifsLog = ($('#cifsLog').is(':checked'))? 1 : 0;
+                    gData.general_settings.cifsAct = $('#cifsAct').val();
+                    //gData.general_settings.imapEnable = ($('#imapEnable').is(':checked'))? 1 : 0;
+                    //gData.general_settings.imapLog = ($('#imapLog').is(':checked'))? 1 : 0;
+                    //gData.general_settings.imapAct = $('#imapAct').val();
                     gData.general_settings.maxFileSize = $('#maxFileSize').val();
                     cgiID = 'av_general';
                     $.post('cgi-bin/' + cgiID + '.cgi', gY.JSON.stringify(gData.general_settings)).done( function() {
@@ -24038,7 +24087,7 @@ $(document).ready(function () {
                                                 $('.debugging').prop('disabled', false);
                                             }
                                             
-                                            if (gRows.maxDebug <= gData.log.guiFileTNum) {
+                                            if (gRows.maxDebug <= gData.debug.guiFileTNum) {
                                                 $('#pgStart').prop('disabled', true);
                                             }
                                             
@@ -25231,7 +25280,7 @@ $(document).ready(function () {
                             gObj.form.profileName = $('#Editor-name').val();
                             gObj.form.profileDesc = $('#Editor-desc').val();
 
-                            switch( parseInt( $('input[name=Editor-baseOn]').val() ) )
+                            switch( parseInt( $('input[name=Editor-baseOn]:checked').val() ) )
                             {
                             case 0:
                                 gObj.form.baseOn = $('#Editor-baseOn-device').val();
@@ -25308,7 +25357,7 @@ $(document).ready(function () {
                                        multipleFiles: false,
                                        fileFieldName: 'binary',
                                        swfURL: "assets/flashuploader.swf?t=" + Math.random(),
-                                       uploadURL: "cgi-bin/' + gNode.url.baseOnPC + '.cgi",
+                                       uploadURL: "cgi-bin/" + gNode.url.baseOnPC + ".cgi",
                                        simLimit: 1,
                                        withCredentials: false
                                    });
@@ -25335,7 +25384,6 @@ $(document).ready(function () {
                         loadingToggle( false );
                         if (parseInt(json.status) == 0) {
                             gIf.uploaded = true;
-                            gPop.popForm.dialog( "close" );
                             genDevice( 'backup_restore' );
                         } else {
                             gIf.uploaded = false;
@@ -29490,7 +29538,7 @@ gY.log('post ' + pid);
         return range;
     }
     
-    function autoDhcpServer(id, address, netmask) {
+    function autoDhcpServer(id, address, netmask, data_address, data_netmask) {
         
         gObj.calc = {};
         var addr = address.split(gReg.isDot);
@@ -29504,7 +29552,6 @@ gY.log('post ' + pid);
         calcNWbits(gObj.calc);
     
         if (gObj.calc.result != 'invalid') {
-            //$('#guiDhcpsT-type option').each(function() {
             $('#dhcp_pool_settings-type option').each(function() {
                 if (parseInt($(this).val()) == 1)
                     $(this).prop('disabled', false);
@@ -29532,7 +29579,9 @@ gY.log('post ' + pid);
                 $('#dhcp_pool_settings-1-startIp').val( gObj.calc.startIp );
                 $('#dhcp_pool_settings-1-endIp').val( gObj.calc.endIp );
                 $('#dhcp_pool_settings-1-gateway').val( address );
-                $('#dhcp_pool_settings-1-dns1').val( address );
+
+                if ( !gReg.ipv4.test( $('#dhcp_pool_settings-1-dns1').val() ) ) 
+                    $('#dhcp_pool_settings-1-dns1').val( address );
                 break;
             default:
                 // check if existing dhcp settings, based on /24  
@@ -29547,7 +29596,9 @@ gY.log('post ' + pid);
 
                 $('#dhcp_pool_settings-1-startIp').val( range.start.join('.') );
                 $('#dhcp_pool_settings-1-endIp').val( range.end.join('.') );
-                $('#dhcp_pool_settings-1-dns1').val( address );
+
+                if ( !gReg.ipv4.test( $('#dhcp_pool_settings-1-dns1').val() ) ) 
+                    $('#dhcp_pool_settings-1-dns1').val( address );
             }
         }
     }

@@ -1,0 +1,817 @@
+{
+  "pending" : 
+  {
+    "checkFirmware" : 10,
+    "upgradeFirmware" : 45,
+    "resetDefault" : 10,
+    "restoreConf" : 45
+  },
+  "rebooting" :
+  {
+    "switchFirmware" : 100,
+    "upgradeFirmware" : 100,
+    "resetDefault" : 100,
+    "reboot" : 100,
+    "reset" : 100,
+    "shutdown" : 20,
+    "restoreConf" : 100,
+    "backup_restore" : 100,
+    "applyProfile" : 100
+  },
+  "div" : 
+  {
+    "tabs": "tabsList", 
+    "tabsForm": "tabsForm" 
+  },
+  "table" : 
+  {
+    "dual": "DualList", 
+    "list": "DataList", 
+    "chart": "DataChart"
+  },
+  "cgiPerPage" : 
+  [
+    "20", 
+    "50", 
+    "100"
+  ],
+  "phpPerPage" : 
+  [
+    "20", 
+    "50", 
+    "100"
+  ],
+  "mixPerPage" :
+  [
+    "17",
+    "50",
+    "100"
+  ],
+  "dashboard_port" : 
+  {
+    "speed" : 
+    {
+      "0"   : "auto", 
+      "10"  : "10", 
+      "100" : "100", 
+      "1000": "1000"
+    },
+    "duplex" : 
+    {
+      "0": "full",
+      "1": "half"
+    },
+    "link" : 
+    {
+      "0": "Down",
+      "1": "Up"
+    }
+  },
+  "dashboard_lan" :
+  {
+    "type" : 
+    {
+      "0": "Disable",
+      "1": "DHCP Server",
+      "2": "DHCP Relay"
+    }
+  },
+  "dashboard_log" :
+  {
+    "level" : 
+    {
+      "0": "Emergency",
+      "1": "Alert",
+      "2": "Critical",
+      "3": "Error",
+      "4": "Warning",
+      "5": "Notification",
+      "6": "Information",
+      "7": "Debugging" 
+    }
+  },
+  "query" : 
+  {
+    "wan_bandwidth_report" : 
+    {
+      "0": "Hour",
+      "1": "Day",
+      "2": "Week",
+      "3": "Month",
+      "4": "Year"
+    }
+  },
+  "refreshPage" :
+  {
+    "0" : "No Refresh",
+    "10" : "10 Seconds",
+    "20" : "20 Seconds",
+    "30" : "30 Seconds",
+    "60" : "60 Seconds"
+  },
+  "privilege" : 
+  {
+    "1": "read-only",
+    "3": "admin"
+  },
+  "dhcpLeases" : 
+  {
+    "dhcpLeasesT" : 
+    [
+      "address",
+      "mac",
+      "start",
+      "end"
+    ]
+  },
+  "traffic_statistics" :
+  {
+    "linkStatus" :
+    {
+      "0" : "Down",
+      "1" : "Up"
+    }
+  },
+  "dhcpServer" : 
+  { 
+    "type" : 
+    {
+      "0": "Disable",
+      "1": "DHCP Server",
+      "2": "DHCP Relay"
+    }
+  },
+  "port" : 
+  {
+    "speed" : 
+    {
+      "0": "auto",
+      "10": "10",
+      "100": "100",
+      "1000": "1000"
+    },
+    "duplex" : 
+    {
+      "0": "full",
+      "1": "half"
+    },
+    "type" : 
+    {
+      "0": "LAN",
+      "1": "WAN",
+      "2": "Bridged"
+    },
+    "linkStatus" : 
+    {
+      "0": "Down",
+      "1": "Up"
+    },
+    "dhcpType" : 
+    {
+      "0": "Disable",
+      "1": "DHCP Server",
+      "2": "DHCP Relay"
+    }
+  },
+  "lan" : 
+  {
+    "type" : 
+    {
+      "0": "Disable",
+      "1": "DHCP Server",
+      "2": "DHCP Relay"
+    },
+    "stp" : 
+    {
+      "0": "Disabled",
+      "1": "Enabled"
+    }
+  },
+  "vlan" :
+  {
+    "dhcpType" :
+    {
+      "0": "disable",
+      "1": "dhcp server",
+      "2": "dhcp relay"
+    },
+    "type" :
+    {
+      "0": "LAN",
+      "1": "WAN",
+      "2": "Bridged"
+    },
+    "interface" :
+    {
+      "GE1" : "",
+      "GE2" : "",
+      "GE3" : "",
+      "GE4" : "",
+      "GE5" : "",
+      "GE6" : "",
+      "GE7" : "",
+      "GE8" : ""
+    }
+  },
+  "vlan_interfaces" : 
+  {
+    "dhcpType" : 
+    {
+      "0": "disable",
+      "1": "dhcp server",
+      "2": "dhcp relay"
+    },
+    "type" : 
+    {
+      "0": "LAN",
+      "1": "WAN",
+      "2": "Bridged"
+    },
+    "interface" : 
+    {
+      "GE1" : "",
+      "GE2" : "",
+      "GE3" : "",
+      "GE4" : "",
+      "GE5" : "",
+      "GE6" : "",
+      "GE7" : "",
+      "GE8" : ""
+    }
+  },
+  "wan" : 
+  {
+    "free" : 
+    {
+      "WAN1" : true,
+      "WAN2" : true,
+      "WAN3" : true,
+      "WAN4" : true,
+      "WAN5" : true,
+      "WAN6" : true
+    },
+    "weightVal" : 
+    {
+      "10" : 10,
+      "30" : 30,
+      "50" : 50,
+      "70" : 70,
+      "90" : 90
+    },
+    "weight" : 
+    {
+      "10" : "Very Low",
+      "30" : "Low",
+      "50" : "Average",
+      "70" : "High",
+      "90" : "Very High"
+    },
+    "wanProto" : 
+    {
+      "0" : "Static",
+      "1" : "DHCP",
+      "2" : "PPPoE"
+    },
+    "interfaces" : 
+    { 
+      "0": "All",
+      "1": "WAN1",
+      "2": "WAN2",
+      "3": "WAN3",
+      "4": "WAN4",
+      "5": "WAN5",
+      "6": "WAN6" 
+    }
+  },
+  "zone" : 
+  {
+    "member" : {}
+  },
+  "s2svpn" : 
+  {
+    "enable" : 
+    {
+      "0": "Disable",
+      "1": "Enable"
+    },
+    "infoStatus" : 
+    {
+      "0": "Down",
+      "1": "Up",
+      "2": "Down"
+    },
+    "remoteGwType" : 
+    {
+      "0": "Dynamic IP",
+      "1": "Static IP",
+      "2": "FQDN"
+    },
+    "phase1AuthType" : 
+    {
+      "0": "Preshare Key",
+      "1": "Certification"
+    },
+    "dpdaction" : 
+    {
+      "1": "hold",
+      "2": "clear",
+      "3": "restart"
+    },
+    "backupPolicy" : {},
+    "freez"        : []
+  },
+  "ipsectransform" : 
+  {
+    "cipher" : 
+    {
+      "des"   : "ESP_DES", 
+      "3des"   : "ESP_3DES", 
+      "aes128" : "ESP_AES_128", 
+      "aes192" : "ESP_AES_192", 
+      "aes256" : "ESP_AES_256"
+    },
+    "hash" : {
+      "sha1" : "SHA_1", 
+      "md5" : "MD5"
+    },
+    "pfsgroup" : 
+    {
+      "modp1024" : "Group 2 (1024 bits)", 
+      "modp1536" : "Group 5 (1536 bits)", 
+      "modp2048" : "Group 14 (2048 bits)", 
+      "modp3072" : "Group 15 (3072 bits)", 
+      "modp4096" : "Group 16 (4096 bits)", 
+      "modp6144" : "Group 17 (6144 bits)", 
+      "modp8192" : "Group 18 (8192 bits)"
+    }
+  },
+  "ipsecike" : 
+  {
+    "cipher" : 
+    {
+      "des"    : "ESP_DES", 
+      "3des"   : "ESP_3DES", 
+      "aes128" : "ESP_AES_128", 
+      "aes192" : "ESP_AES_192", 
+      "aes256" : "ESP_AES_256"
+    },
+    "hash" : 
+    {
+      "sha1" : "SHA_1", 
+      "md5" : "MD5"
+    },
+    "dhgroup" : 
+    {
+      "modp1024" : "Group 2 (1024 bits)", 
+      "modp1536" : "Group 5 (1536 bits)", 
+      "modp2048" : "Group 14 (2048 bits)", 
+      "modp3072" : "Group 15 (3072 bits)", 
+      "modp4096" : "Group 16 (4096 bits)", 
+      "modp6144" : "Group 17 (6144 bits)", 
+      "modp8192" : "Group 18 (8192 bits)"
+    }
+  },
+  "rules" : 
+  {
+    "enabled" : 
+    {
+      "0": "disabled", 
+      "1": "enabled" 
+    },
+    "log" : 
+    {
+      "0": "disabled", 
+      "1": "enabled" 
+    },
+    "matchAction" : 
+    { 
+      "0": "Deny", 
+      "1": "Permit", 
+      "2": "Accounting" 
+    },
+    "policy" : 
+    {
+      "0" : "Deny",
+      "1" : "Permit"
+    },
+    "query" : false,
+    "move"  : []
+  },
+  "dynamicPat" : 
+  {
+    "mode" : 
+    { 
+      "0": "Auto", 
+      "1": "Manual" 
+    }
+  },
+  "advancedNat" : 
+  {
+    "enabled" : 
+    {
+      "0": "disabled", 
+      "1": "enabled" 
+    }
+  },
+  "portForwarding" :
+  {
+    "wan" : 
+    { 
+      "0": "All", 
+      "1": "WAN1", 
+      "2": "WAN2", 
+      "3": "WAN3", 
+      "4": "WAN4", 
+      "5": "WAN5", 
+      "6": "WAN6" 
+    }
+  },
+  "staticNat" : 
+  {
+    "wanInterface" : 
+    { 
+      "WAN1": "WAN1", 
+      "WAN2": "WAN2", 
+      "WAN3": "WAN3", 
+      "WAN4": "WAN4", 
+      "WAN5": "WAN5", 
+      "WAN6": "WAN6" 
+    }
+  },
+  "dynamicPat" : 
+  {
+    "mode" : 
+    {
+      "0": "Auto", 
+      "1": "Manual"
+    }
+  },
+  "managementInterface" : 
+  {
+    "enabled" : 
+    {
+      "0": "Disable", 
+      "1": "Enable"
+    }
+  },
+  "group" : 
+  {
+    "defaultGroup" : "default",
+    "defaultGroupGid" : 0,
+    "webLoginPriv" : 
+    {
+      "0" : "Disable",
+      "1" : "Read Only",
+      "3" : "Administrator"
+    },
+    "portalPriv" : 
+    {
+      "0" : "Disable",
+      "1" : "Enable"
+    }
+  },
+  "common_gAddr_list" :
+  {
+    "defaultGroup" : "default",
+    "defaultGroupGid" : 0,
+    "webLoginPriv" :
+    {
+      "0" : "Disable",
+      "1" : "Read Only",
+      "3" : "Administrator"
+    },
+    "portalPriv" :
+    {
+      "0" : "Disable",
+      "1" : "Enable"
+    }
+  },
+  "address": 
+  {
+    "type" :
+    {
+      "1" : "Host",
+      "2" : "Network",
+      "3" : "Range",
+      "4" : "MAC"
+    },
+    "type2" :
+    {
+      "1" : "Host",
+      "2" : "Network",
+      "3" : "Range"
+    },
+    "type3" :
+    {
+      "1" : "Host",
+      "2" : "Network"
+    },
+    "type4" :
+    {
+      "1" : "Host"
+    },
+    "type5" :
+    {
+      "4" : "MAC"
+    }
+  },
+  "addressObj":
+  {
+    "type" :
+    {
+      "1" : "Host",
+      "2" : "Network",
+      "3" : "Range",
+      "4" : "MAC"
+    },
+    "type2" :
+    {
+      "1" : "Host",
+      "2" : "Network",
+      "3" : "Range"
+    },
+    "type3" :
+    {
+      "1" : "Host",
+      "2" : "Network"
+    },
+    "type4" :
+    {
+      "1" : "Host"
+    },
+    "type5" :
+    {
+      "4" : "MAC"
+    }
+  },
+  "common_addr_list":
+  {
+    "type" :
+    {
+      "1" : "Host",
+      "2" : "Network",
+      "3" : "Range",
+      "4" : "MAC"
+    },
+    "type2" :
+    {
+      "1" : "Host",
+      "2" : "Network",
+      "3" : "Range"
+    },
+    "type3" :
+    {
+      "1" : "Host",
+      "2" : "Network"
+    },
+    "type4" :
+    {
+      "1" : "Host"
+    },
+    "type5" :
+    {
+      "4" : "MAC"
+    }
+  },
+  "service" :
+  {
+    "type" :
+    {
+      "0" : "Both (TCP\/UDP)",
+      "1" : "TCP",
+      "2" : "UDP",
+      "3" : "ICMP",
+      "4" : "IP"
+    },
+    "type2" :
+    {
+      "0" : "Both (TCP\/UDP)",
+      "1" : "TCP",
+      "2" : "UDP"
+    }
+  },
+  "serviceObj" : 
+  {
+    "type" : 
+    {
+      "0" : "Both (TCP\/UDP)",
+      "1" : "TCP",
+      "2" : "UDP",
+      "3" : "ICMP",
+      "4" : "IP"
+    },
+    "type2" : 
+    {
+      "0" : "Both (TCP\/UDP)",
+      "1" : "TCP",
+      "2" : "UDP"
+    }
+  },
+  "common_service_list" :
+  {
+    "type" :
+    {
+      "0" : "Both (TCP\/UDP)",
+      "1" : "TCP",
+      "2" : "UDP",
+      "3" : "ICMP",
+      "4" : "IP"
+    },
+    "type2" :
+    {
+      "0" : "Both (TCP\/UDP)",
+      "1" : "TCP",
+      "2" : "UDP"
+    }
+  },
+  "schedule" :
+  {
+    "type" :
+    {
+      "0" : "All Days + All Time",
+      "2" : "All Days + Spec Time",
+      "3" : "Spec Days + All Time",
+      "4" : "Spec Days + Spec Time"
+    },
+    "day" :
+    {
+      "0"  : "All days",
+      "1"  : "Monday",
+      "2"  : "Tuesday",
+      "4"  : "Wednesday",
+      "8"  : "Thursday",
+      "16" : "Friday",
+      "32" : "Saturday",
+      "64" : "Sunday"
+    },
+    "days" :
+    [
+      "day1",
+      "day2",
+      "day4",
+      "day8",
+      "day16",
+      "day32",
+      "day64"
+    ]
+  },
+  "scheduleObj" :
+  {
+    "type" :
+    {
+      "0" : "All Days + All Time",
+      "2" : "All Days + Spec Time",
+      "3" : "Spec Days + All Time",
+      "4" : "Spec Days + Spec Time"
+    },
+    "day" :
+    {
+      "0"  : "All days",
+      "1"  : "Monday",
+      "2"  : "Tuesday",
+      "4"  : "Wednesday",
+      "8"  : "Thursday",
+      "16" : "Friday",
+      "32" : "Saturday",
+      "64" : "Sunday"
+    }
+  },
+  "antivirus" :
+  {
+    "addrId" : {
+      "0" : "Any"
+    },
+    "enable" : {
+      "1" : "enable",
+      "0" : "disable"
+    },
+    "logEnable" : {
+      "1" : "enable",
+      "0" : "disable"
+    },
+    "httpAct": 
+    {
+      "0": "none",
+      "1": "notify",
+      "2": "notify + drop connection"
+    },
+    "ftpAct": 
+    {
+      "0": "none",
+      "1": "drop connection"
+    },
+    "smtpAct": 
+    {
+      "0": "none",
+      "1": "notify",
+      "2": "notify + destruct file"
+    },
+    "pop3Act": 
+    {
+      "0": "none",
+      "1": "notify",
+      "2": "notify + destruct file"
+    },
+    "imapAct": 
+    {
+      "0": "none",
+      "1": "notify",
+      "2": "notify + destruct file"
+    },
+    "features" : {
+      "1" : "AV",
+      "2" : "IPS",
+      "4" : "AntiSpam"
+    },
+    "type" : {
+      "0" : "hourly",
+      "1" : "daily",
+      "2" : "weekly"
+    },
+    "number" : {
+      "min" : 
+      [
+        1,
+        1,
+        1
+      ],
+      "max" :
+      [
+        24,
+        30,
+        4
+      ]
+    },
+    "licensed":
+    {
+      "0" : "not licensed",
+      "1" : "licensed"
+    }
+  },
+  "emailAlert" :
+  {
+    "port" :
+    {
+      "25": "25",
+      "465": "465",
+      "587": "587"
+    },
+    "secureMethod" :
+    {
+      "0" : "none",
+      "1" : "TLS",
+      "2" : "SSL"
+    },
+    "enabled" :
+    {
+      "0" : "disabled",
+      "1" : "enabled"
+    }
+  },
+  "loggings" :
+  {
+    "frequency" :
+    {
+      "0" : "Hourly",
+      "1" : "Daily",
+      "2" : "Weekly"
+    },
+    "day" :
+    {
+      "1" : "Monday",
+      "2" : "Tuesday",
+      "3" : "Wednesday",
+      "4" : "Thursday",
+      "5" : "Friday",
+      "6" : "Saturday",
+      "7" : "Sunday"
+    },
+    "time":
+    {
+      "min" : 0,
+      "max" : 24
+    },
+    "severity" :
+    {
+      "0" : "Emergency",
+      "1" : "Alert",
+      "2" : "Critical",
+      "3" : "Error",
+      "4" : "Warning",
+      "5" : "Notification",
+      "6" : "Information",
+      "7" : "Debugging"
+    },
+    "facility" :
+    {
+      "Kernel"   : "Kernel",
+      "System"   : "System",
+      "Firewall" : "Firewall",
+      "NAT"      : "NAT",
+      "Network"  : "Network",
+      "VPN"      : "VPN",
+      "User"     : "User",
+      "Antivirus": "Antivirus"
+    }
+  }
+}
