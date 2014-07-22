@@ -120,7 +120,7 @@ div.mod h2 {
     zoom: 1;
     cursor: move;
     zoom: 1;
-    background-color: #b14231;
+    background-color: #007260; /* #b14231; */
     -moz-border-radius: 4px 4px 0 0;
     -webkit-border-radius: 4px 4px 0 0;
     border-radius: 4px 4px 0 0;

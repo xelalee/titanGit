@@ -479,6 +479,12 @@ gHtml.layout +=   '</div>';
 gHtml.layout += '</div>';
 
 gHtml.head = '<div class="content">';
+gHtml.head += '<div id="hd_top"></div>';
+gHtml.head += '<div id="hd_tm"></div>';
+gHtml.head += '<div id="hd_sname"></div>';
+gHtml.head += '<div id="hd_arrowD"></div>';
+gHtml.head += '<div id="hd_arrowL"></div>';
+gHtml.head += '<div id="hd_arrowU"></div>';
 gHtml.head += '<div id="hd_blinkE"></div>';
 gHtml.head += '<div id="hd_blinkH"></div>';
 gHtml.head += '<div id="hd_blinkI"></div>';
@@ -1405,6 +1411,7 @@ $(document).ready(function () {
         $('#hd').html( gHtml.head );
     
         // assign lang icon
+        $('#hd_sname').html('SecMaxWALL');
         $('#hd_help').addClass( gObj.lang + '_help' );
         $('#hd_home').addClass( gObj.lang + '_home' );
         $('#hd_refresh').addClass( gObj.lang + '_refresh' );
@@ -17233,14 +17240,14 @@ $(document).ready(function () {
                                         tmp +=             '<table id="table-cifs">';
                                         tmp +=               '<tr>';
                                         tmp +=                 '<th colspan="3" class="alignLeft">';
-                                        tmp +=                   '<p>' + gNode.col[ y ][ 2 ].col[ 5 ].label + '</p>';
+                                        tmp +=                   '<p>' + gNode.col[ y ][ 2 ].col[ 4 ].label + '</p>';
                                         tmp +=                 '</th>';
                                         tmp +=               '</tr>';
                                         tmp +=               '<tr>';
                                         tmp +=                 '<td class="alignLeft BT40">';
                                         tmp +=                 '</td>';
                                         tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="cifsEnable">' + gNode.col[ y ][ 2 ].col[ 5 ].col[ 0 ].label + '</label>';
+                                        tmp +=                   '<label for="cifsEnable">' + gNode.col[ y ][ 2 ].col[ 4 ].col[ 0 ].label + '</label>';
                                         tmp +=                 '</td>';
                                         tmp +=                 '<td class="alignLeft">';
                                         tmp +=                   '<input type="checkbox" id="cifsEnable" value="1">';
@@ -17250,7 +17257,7 @@ $(document).ready(function () {
                                         tmp +=                 '<td class="alignLeft BT40">';
                                         tmp +=                 '</td>';
                                         tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="cifsLog">' + gNode.col[ y ][ 2 ].col[ 5 ].col[ 1 ].label + '</label>';
+                                        tmp +=                   '<label for="cifsLog">' + gNode.col[ y ][ 2 ].col[ 4 ].col[ 1 ].label + '</label>';
                                         tmp +=                 '</td>';
                                         tmp +=                 '<td class="alignLeft">';
                                         tmp +=                   '<input type="checkbox" id="cifsLog" value="1">';
@@ -17260,7 +17267,7 @@ $(document).ready(function () {
                                         tmp +=                 '<td class="alignLeft BT40">';
                                         tmp +=                 '</td>';
                                         tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="cifsAct">' + gNode.col[ y ][ 2 ].col[ 5 ].col[ 2 ].label + '</label>';
+                                        tmp +=                   '<label for="cifsAct">' + gNode.col[ y ][ 2 ].col[ 4 ].col[ 2 ].label + '</label>';
                                         tmp +=                 '</td>';
                                         tmp +=                 '<td class="alignLeft">';
                                         tmp +=                   '<select id="cifsAct"></select>';
@@ -17276,14 +17283,14 @@ $(document).ready(function () {
                                         tmp +=             '<table id="table-imap">';
                                         tmp +=               '<tr>';
                                         tmp +=                 '<th colspan="3" class="alignLeft">';
-                                        tmp +=                   '<p>' + gNode.col[ y ][ 2 ].col[ 4 ].label + '</p>';
+                                        tmp +=                   '<p>' + gNode.col[ y ][ 2 ].col[ 5 ].label + '</p>';
                                         tmp +=                 '</th>';
                                         tmp +=               '</tr>';
                                         tmp +=               '<tr>';
                                         tmp +=                 '<td class="alignLeft BT40">';
                                         tmp +=                 '</td>';
                                         tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="imapEnable">' + gNode.col[ y ][ 2 ].col[ 4 ].col[ 0 ].label + '</label>';
+                                        tmp +=                   '<label for="imapEnable">' + gNode.col[ y ][ 2 ].col[ 5 ].col[ 0 ].label + '</label>';
                                         tmp +=                 '</td>';
                                         tmp +=                 '<td class="alignLeft">';
                                         tmp +=                   '<input type="checkbox" id="imapEnable" value="1">';
@@ -17293,7 +17300,7 @@ $(document).ready(function () {
                                         tmp +=                 '<td class="alignLeft BT40">';
                                         tmp +=                 '</td>';
                                         tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="imapLog">' + gNode.col[ y ][ 2 ].col[ 4 ].col[ 1 ].label + '</label>';
+                                        tmp +=                   '<label for="imapLog">' + gNode.col[ y ][ 2 ].col[ 5 ].col[ 1 ].label + '</label>';
                                         tmp +=                 '</td>';
                                         tmp +=                 '<td class="alignLeft">';
                                         tmp +=                   '<input type="checkbox" id="imapLog" value="1">';
@@ -17303,7 +17310,7 @@ $(document).ready(function () {
                                         tmp +=                 '<td class="alignLeft BT40">';
                                         tmp +=                 '</td>';
                                         tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="imapAct">' + gNode.col[ y ][ 2 ].col[ 4 ].col[ 2 ].label + '</label>';
+                                        tmp +=                   '<label for="imapAct">' + gNode.col[ y ][ 2 ].col[ 5 ].col[ 2 ].label + '</label>';
                                         tmp +=                 '</td>';
                                         tmp +=                 '<td class="alignLeft">';
                                         tmp +=                   '<select id="imapAct"></select>';
@@ -17313,7 +17320,7 @@ $(document).ready(function () {
                                         tmp +=                 '<td class="alignLeft BT40">';
                                         tmp +=                 '</td>';
                                         tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="imapPortList-0">' + gNode.col[ y ][ 2 ].col[ 4 ].col[ 3 ].label + '</label>';
+                                        tmp +=                   '<label for="imapPortList-0">' + gNode.col[ y ][ 2 ].col[ 5 ].col[ 3 ].label + '</label>';
                                         tmp +=                 '</td>';
                                         tmp +=                 '<td class="alignLeft">';
                                         tmp +=                   '<input type="text" id="imapPortList-0" size="3" />';
