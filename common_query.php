@@ -247,11 +247,11 @@ function archerQuery( $query ) {
         case 'resource_utilization':
             if ($_GET['t'] == 4) {
                 while ($obj = $result->fetch_object()) {
-                    $json['queryResults'][] = array("datetime" => str_replace("-", "/", $obj->date), "usage" => $obj->usage);
+                    $json['queryResults'][] = array("datetime" => str_replace("-", "/", $obj->date), "usage" => number_format( $obj->usage, 2, '.', '' ));
                 }
             }else {
                 while ($obj = $result->fetch_object()) {
-                    $json['queryResults'][] = array("datetime" => str_replace("-", "/", $obj->datetime), "usage" => $obj->usage);
+                    $json['queryResults'][] = array("datetime" => str_replace("-", "/", $obj->datetime), "usage" => number_format(  $obj->usage, 2, '.', '' ));
                 }
             }
             break;

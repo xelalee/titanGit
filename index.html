@@ -3126,6 +3126,9 @@ $(document).ready(function () {
                     }
                 }).eq( 0 ).trigger('click');
 
+            },
+            close: function(event, ui) {
+                $(this).dialog('destroy').remove();
             }
        });
     }
@@ -5978,6 +5981,8 @@ $(document).ready(function () {
                             gObj.chart.has = false;
                             gY.one(gObj.chart.id).setHTML('<div class="noData"><b>' + gTerm[ gObj.lang ].noData + '</b></div>');  
                         } else {
+                            if ($('.noData').exists())
+                                $(gObj.chart.id).empty();
                             gObj.chart.has = true;
                             gObj.chart.now = new gY.Chart({
                                 dataProvider: gObj.chart.data.queryResults,
@@ -6059,6 +6064,8 @@ $(document).ready(function () {
                             gObj.chart.has = false;
                             gY.one(gObj.chart.id).setHTML('<div class="noData"><b>' + gTerm[ gObj.lang ].noData + '</b></div>');  
                         } else {
+                            if ($('.noData').exists())
+                                $(gObj.chart.id).empty();
                             gObj.chart.has = true;
     
                             gObj.chart.now = new gY.Chart({
@@ -6083,6 +6090,9 @@ $(document).ready(function () {
                                             stroke: {
                                                 weight: 0.5
                                             }
+                                        },
+                                        labelFunction: function(label, format) {
+                                            return label.toFixed(2);
                                         }
                                     },
                                     dateRange: {
