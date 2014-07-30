@@ -247,11 +247,11 @@ function archerQuery( $query ) {
         case 'resource_utilization':
             if ($_GET['t'] == 4) {
                 while ($obj = $result->fetch_object()) {
-                    $json['queryResults'][] = array("datetime" => str_replace("-", "/", $obj->date), "usage" => $obj->usage);
+                    $json['queryResults'][] = array("datetime" => str_replace("-", "/", $obj->date), "usage" => number_format( $obj->usage, 2, '.', '' ));
                 }
             }else {
                 while ($obj = $result->fetch_object()) {
-                    $json['queryResults'][] = array("datetime" => str_replace("-", "/", $obj->datetime), "usage" => $obj->usage);
+                    $json['queryResults'][] = array("datetime" => str_replace("-", "/", $obj->datetime), "usage" => number_format(  $obj->usage, 2, '.', '' ));
                 }
             }
             break;
@@ -439,10 +439,8 @@ function reportAggregate3( $table, $groupBy, $groupBy2 ) {
     $mysqli = new mysqli( "127.0.0.1", "archer", "rehcra", 'archer', 3306 );
 
     $gby = $groupBy;
-    $oby = $groupBy . " DESC";
     if ($groupBy2) {
         $gby .= ', '. $groupBy2;
-        $oby .= ', '. $groupBy2 . " DESC";
     }
    
     $startDate  = str_replace("/", "-", $_GET[ 'sd' ]);
@@ -480,7 +478,7 @@ function reportAggregate3( $table, $groupBy, $groupBy2 ) {
                         // 24 hours
                         for ($j=0; $j<24; $j++)
                         {
-                            $mysqli->query( 'CREATE TABLE IF NOT EXISTS '. $tmpTable .' as ( SELECT '. $gby .', txBytes, rxBytes, totalBytes, count(*) as sessions FROM '. $db .'.`raw_sessions_'. sprintf("%02d", $j) .'` GROUP BY '. $gby .' ORDER BY '. $oby .' ) ' );
+                            $mysqli->query( 'CREATE TABLE IF NOT EXISTS '. $tmpTable .' as ( SELECT '. $gby .', txBytes, rxBytes, totalBytes, count(*) as sessions FROM '. $db .'.`raw_sessions_'. sprintf("%02d", $j) .'` GROUP BY '. $gby .' ) ' );
                         }
                     } else {
                         $mysqli->query( 'CREATE TABLE IF NOT EXISTS '. $tmpTable .' as ( SELECT '. $gby .', txBytes, rxBytes, totalBytes, sessions FROM '. $db .'.`'. $table .'` ) ' );
@@ -493,7 +491,7 @@ function reportAggregate3( $table, $groupBy, $groupBy2 ) {
 
     // get all data from temp table
 
-    $query = "SELECT * FROM ". $tmpTable ." where sessions > 0 GROUP BY ". $gby ." ORDER BY ". $oby ;
+    $query = "SELECT * FROM ". $tmpTable ." where sessions > 0 GROUP BY ". $gby ." ORDER BY sessions ";
 
     $json[ 'queryStr' ] = $query;
 

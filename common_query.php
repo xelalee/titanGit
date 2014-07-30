@@ -439,10 +439,8 @@ function reportAggregate3( $table, $groupBy, $groupBy2 ) {
     $mysqli = new mysqli( "127.0.0.1", "archer", "rehcra", 'archer', 3306 );
 
     $gby = $groupBy;
-    $oby = $groupBy . " DESC";
     if ($groupBy2) {
         $gby .= ', '. $groupBy2;
-        $oby .= ', '. $groupBy2 . " DESC";
     }
    
     $startDate  = str_replace("/", "-", $_GET[ 'sd' ]);
@@ -464,36 +462,33 @@ function reportAggregate3( $table, $groupBy, $groupBy2 ) {
         $tmpStamp = $endStamp - $i * 86400;
         $db = str_replace("-", "_", trim( shell_exec( 'date -d @'. $tmpStamp .' +%F' ) ));
 
-        if ( $check = $mysqli->query( 'SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.`SCHEMATA` WHERE SCHEMA_NAME = "'. $db .'"' ) ) {
+        // create table now's timestamp on archer
+        // check if daily statistics are data_reday
+        if ( $check = $mysqli->query( 'SELECT TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "'. $table .'" AND TABLE_COMMENT = "data_ready" ' ) ) {
+$json[ 'ready-' . $db ] = $check->num_rows;
             if ( 0 == $check->num_rows ) {
-                // free check set
-                $check->close();
-                continue;
-            } else {
-                // free check set
-                $check->close();
-
-                // create table now's timestamp on archer
-                // check if daily statistics are data_reday
-                if ( $status = $mysqli->query( 'SELECT TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "'. $table .'" AND TABLE_COMMENT = "data_ready" ' ) ) {
-                    if ( 0 == $status->num_rows ) {
-                        // 24 hours
-                        for ($j=0; $j<24; $j++)
-                        {
-                            $mysqli->query( 'CREATE TABLE IF NOT EXISTS '. $tmpTable .' as ( SELECT '. $gby .', txBytes, rxBytes, totalBytes, count(*) as sessions FROM '. $db .'.`raw_sessions_'. sprintf("%02d", $j) .'` GROUP BY '. $gby .' ORDER BY '. $oby .' ) ' );
-                        }
-                    } else {
-                        $mysqli->query( 'CREATE TABLE IF NOT EXISTS '. $tmpTable .' as ( SELECT '. $gby .', txBytes, rxBytes, totalBytes, sessions FROM '. $db .'.`'. $table .'` ) ' );
-                    }
-                    $status->close();
+                // 24 hours
+$hcnt = 0;
+                for ($j=0; $j<24; $j++)
+                {
+                    $result = $mysqli->query( 'CREATE TABLE IF NOT EXISTS '. $tmpTable .' as ( SELECT '. $gby .', txBytes, rxBytes, totalBytes, count(*) as sessions FROM '. $db .'.`raw_sessions_'. sprintf("%02d", $j) .'` GROUP BY '. $gby .' ) ' );
+                    $hcnt += $result->num_rows;
                 }
+$json[ 'hr-' . $db ] = $hcnt;
+            } else {
+                $result = $mysqli->query( 'CREATE TABLE IF NOT EXISTS '. $tmpTable .' as ( SELECT * FROM '. $db .'.`'. $table .'` ) ' );
+$json[ 'day-sql-' . $db ] = 'SELECT * FROM '. $db .'.`'. $table .'`';
+$dcnt = 0;
+$dcnt = $result->num_rows;
+$json[ 'day-' . $db ] = $dcnt;
             }
+            $check->close();
         }
     }
 
     // get all data from temp table
 
-    $query = "SELECT * FROM ". $tmpTable ." where sessions > 0 GROUP BY ". $gby ." ORDER BY ". $oby ;
+    $query = "SELECT * FROM ". $tmpTable ." where sessions > 0 GROUP BY ". $gby ." ORDER BY sessions ";
 
     $json[ 'queryStr' ] = $query;
 

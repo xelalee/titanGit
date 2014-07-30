@@ -6070,9 +6070,6 @@ $(document).ready(function () {
 
             gObj.chart.id = ( 0 === gObj.chartIndex )? '#chart-cpu' : '#chart-memory';
 
-            if ($('.noData').exists())
-                $(gObj.chart.id).empty();
-    
             gY.io( gObj.phpQuery.php + '.php?param=' + pid + q, {
                 on: {
                     complete: function(id, e) {
@@ -6085,6 +6082,10 @@ $(document).ready(function () {
                             gObj.chart.has = false;
                             gY.one(gObj.chart.id).setHTML('<div class="noData"><b>' + gTerm[ gObj.lang ].noData + '</b></div>');  
                         } else {
+                            if ($('.noData').exists()) {
+                                $(gObj.chart.id).empty();
+                            gY.log('what?');
+                            }
                             gObj.chart.has = true;
     
                             gObj.chart.now = new gY.Chart({

@@ -6064,8 +6064,10 @@ $(document).ready(function () {
                             gObj.chart.has = false;
                             gY.one(gObj.chart.id).setHTML('<div class="noData"><b>' + gTerm[ gObj.lang ].noData + '</b></div>');  
                         } else {
-                            if ($('.noData').exists())
+                            if ($('.noData').exists()) {
+gY.log('???? ...');
                                 $(gObj.chart.id).empty();
+                            }
                             gObj.chart.has = true;
     
                             gObj.chart.now = new gY.Chart({
