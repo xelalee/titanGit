@@ -36,7 +36,7 @@ html {
     width: 100%;
 }
 
-#hd_tm {
+#hd_mark {
     position: absolute;
     border-top: 50px solid #007260;
     border-left: 50px solid transparent;
@@ -47,7 +47,7 @@ html {
     left: 412px;
 }
 
-#hd_sname {
+#hd_label {
     position: absolute;
     top: 10px;
     left: 462px;
@@ -328,7 +328,7 @@ html {
     height: 665px;
     padding: 0;
     top: 0;
-    background-color: black; /*#625b57; */
+    background-color: #007260; /*#625b57; */
 }
 
 #main {
@@ -411,6 +411,7 @@ a:link { text-decoration: none;}
 
 /* login */
 #loginDiv {
+    position: relative;
     width: 361px;
     height: 229px;
     margin: 150px auto;
@@ -420,6 +421,32 @@ a:link { text-decoration: none;}
     letter-spacing: normal;
     word-spacing: normal;
     color: black;
+}
+
+#login_top {
+    background: #007260;
+    height: 5px;
+    width: 100%;
+}
+
+#login_mark {
+    position: absolute;
+    border-top: 20px solid #007260;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    height: 0;
+    width: 60px;
+    top: 0px;
+    left: 140px;
+}
+
+#login_label {
+    position: absolute;
+    top: 0;
+    left: 152px;
+    font:italic bold 8px/26px Georgia, serif;
+    color: white;
+    text-shadow: 0.4em 0.4em 0.8em #333;
 }
 
 #loginDiv table {

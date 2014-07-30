@@ -480,8 +480,8 @@ gHtml.layout += '</div>';
 
 gHtml.head = '<div class="content">';
 gHtml.head += '<div id="hd_top"></div>';
-gHtml.head += '<div id="hd_tm"></div>';
-gHtml.head += '<div id="hd_sname"></div>';
+gHtml.head += '<div id="hd_mark"></div>';
+gHtml.head += '<div id="hd_label"></div>';
 gHtml.head += '<div id="hd_arrowD"></div>';
 gHtml.head += '<div id="hd_arrowL"></div>';
 gHtml.head += '<div id="hd_arrowU"></div>';
@@ -1411,7 +1411,7 @@ $(document).ready(function () {
         $('#hd').html( gHtml.head );
     
         // assign lang icon
-        $('#hd_sname').html('SecMaxWALL');
+        $('#hd_label').html('SecMaxWALL');
         $('#hd_help').addClass( gObj.lang + '_help' );
         $('#hd_home').addClass( gObj.lang + '_home' );
         $('#hd_refresh').addClass( gObj.lang + '_refresh' );
@@ -3134,6 +3134,9 @@ $(document).ready(function () {
                     }
                 }).eq( 0 ).trigger('click');
 
+            },
+            close: function(event, ui) {
+                $(this).dialog('destroy').remove();
             }
        });
     }
@@ -5991,10 +5994,13 @@ $(document).ready(function () {
     
                         if (gObj.chart.has)
                             gObj.chart.now.destroy();
+
                         if (parseInt(gObj.chart.data.queryRows) == 0) {
                             gObj.chart.has = false;
                             gY.one(gObj.chart.id).setHTML('<div class="noData"><b>' + gTerm[ gObj.lang ].noData + '</b></div>');  
                         } else {
+                            if ($('.noData').exists())
+                                $(gObj.chart.id).empty();
                             gObj.chart.has = true;
                             gObj.chart.now = new gY.Chart({
                                 dataProvider: gObj.chart.data.queryResults,
@@ -6063,6 +6069,9 @@ $(document).ready(function () {
             }
 
             gObj.chart.id = ( 0 === gObj.chartIndex )? '#chart-cpu' : '#chart-memory';
+
+            if ($('.noData').exists())
+                $(gObj.chart.id).empty();
     
             gY.io( gObj.phpQuery.php + '.php?param=' + pid + q, {
                 on: {
@@ -6100,6 +6109,9 @@ $(document).ready(function () {
                                             stroke: {
                                                 weight: 0.5
                                             }
+                                        },
+                                        labelFunction: function(label, format) {
+                                            return label.toFixed(2);
                                         }
                                     },
                                     dateRange: {
@@ -30575,6 +30587,9 @@ gY.log('post ' + pid);
 </head>
 <body>
     <div id="loginDiv">
+      <div id="login_top"></div>
+      <div id="login_mark"></div>
+      <div id="login_label">SecMaxWALL</div>
       <table >
         <tr>
           <th id="userNameLabel"></th>
