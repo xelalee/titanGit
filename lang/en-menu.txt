@@ -11009,17 +11009,17 @@
                 {
                   "label" : "Name",
                   "tab" : "name",
-                  "wiz" : "100px"
+                  "wiz" : "150px"
                 },
                 {
                   "label" : "Time",
                   "tab" : "time",
-                  "wiz" : "180px"
+                  "wiz" : "170px"
                 },
                 {
                   "label" : "Description",
                   "tab" : "desc",
-                  "wiz" : "310px"
+                  "wiz" : "auto"
                 },
                 {
                   "label" : "Action",
