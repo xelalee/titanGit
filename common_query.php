@@ -40,48 +40,10 @@ case 'resource_utilization':
     break;
 // report
 case 'traffic_direction':
-    switch( $_GET[ 'q' ]) 
-    {
-    case 1:
-        reportAggregate3( 'daily_addrTraffic', 'srcIp', 'dstIp' );
-        break;
-    case 2:
-        reportAggregate3( 'daily_srcAddrTraffic', 'srcIp', false );
-        break;
-    case 3:
-        reportAggregate3( 'daily_dstAddrTraffic', 'dstIp', false );
-        break;
-    case 4:
-        reportAggregate3( 'daily_protoTraffic', 'protocol', false );
-        break;
-    case 5:
-        reportAggregate3( 'daily_dstPortTraffic', 'dstPort', false );
-        break;
-    case 6:
-        reportAggregate3( 'daily_zoneTraffic', 'fromZone', 'toZone' );
-        break;
-    default:
+    if ( isset( $_GET[ 'q' ] ) && !empty( $_GET[ 'q' ] ) ) {
+        reportAggregate2();
+    } else {
         reportQuery( 'raw_sessions' );
-    }
-    break;
-case 'source_report':
-    switch( $_GET[ 'q' ]) 
-    {
-    case 1:
-        reportAggregate( 'daily_srcIpTraffic', 'srcIp', 'srcIp, SUM( tx ) as tx, SUM( rx ) as rx, SUM( sessions ) as sessions' );
-        break;
-    default:
-        reportQuery( 'raw_ipTraffic' );
-    }
-    break;
-case 'destination_report':
-    switch( $_GET[ 'q' ]) 
-    {
-    case 1:
-        reportAggregate( 'daily_dstIpTraffic', 'dstIp', 'dstIp, SUM( tx ) as tx, SUM( rx ) as rx, SUM( sessions ) as sessions' );
-        break;
-    default:
-        reportQuery( 'raw_ipTraffic' );
     }
     break;
 case 'file_extension':
@@ -280,7 +242,7 @@ function reportAggregate( $table, $groupBy, $state ) {
     $endRow    = empty( $_GET[ 'pp' ] )? 20 : $_GET[ pi ] * $_GET[ 'pp' ];
     $nowStamp = trim( shell_exec( 'date "+%s"' ) );
     $mysqli = new mysqli( "127.0.0.1", "archer", "rehcra", 'archer', 3306 );
-    
+
     if ( !empty( $_GET[ 'sd' ] ) && !empty( $_GET[ 'ed' ] ) ) {
         $startDate  = str_replace("/", "-", $_GET[ 'sd' ]);
         $startStamp = trim( shell_exec( 'date -d "'. $startDate .' 00:00:00" "+%s"' ) );
@@ -293,7 +255,7 @@ function reportAggregate( $table, $groupBy, $state ) {
         $db = str_replace("-", "_", trim( shell_exec( 'date -d @'. $nowStamp .' +%F' ) ));
 
         $tmpTable = $db .'.`'. $table .'-'. $noStamp .'`';
-        
+
         for ($i=0; $i<$days; $i++)
         {
             $tmpStamp = $endStamp - $i * 86400;
@@ -304,7 +266,7 @@ function reportAggregate( $table, $groupBy, $state ) {
                     continue;
                 } else {
                     // create table now's timestamp on archer
-                    $stmt = 'CREATE TABLE IF NOT EXISTS '. $tmpTable .' as ( SELECT * FROM '. $db .'.`'. $table .'` ) ';   
+                    $stmt = 'CREATE TABLE IF NOT EXISTS '. $tmpTable .' as ( SELECT * FROM '. $db .'.`'. $table .'` ) ';
                     if ( !$mysqli->query( $stmt ) ) {
                          $json[ $i . '@fail' ] = " failed : ". $mysqli->errno ." @ ". $mysqli->error;
                     }
@@ -360,19 +322,13 @@ function reportAggregate( $table, $groupBy, $state ) {
     echo json_encode( $json );
 }
 
-function reportAggregate2( $table, $groupBy, $groupBy2 ) {
+function reportAggregate2() {
     $json      = array();
     $startRow  = empty( $_GET[ 'pi' ] )? 1 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ] + 1;
     $endRow    = empty( $_GET[ 'pp' ] )? 20 : $_GET[ pi ] * $_GET[ 'pp' ];
     $nowStamp = trim( shell_exec( 'date "+%s"' ) );
     $mysqli = new mysqli( "127.0.0.1", "archer", "rehcra", 'archer', 3306 );
 
-    $gby = $groupBy;
-    $oby = $groupBy . " DESC";
-    if ($groupBy2) {
-        $gby .= ', '. $groupBy2;
-        $oby .= ', '. $groupBy2 . " DESC";
-    }
    
     $startDate  = str_replace("/", "-", $_GET[ 'sd' ]);
     $startStamp = trim( shell_exec( 'date -d "'. $startDate .' 00:00:00" "+%s"' ) );
@@ -383,77 +339,103 @@ function reportAggregate2( $table, $groupBy, $groupBy2 ) {
     $totalRows = 0;
 
     $db = str_replace("-", "_", trim( shell_exec( 'date -d @'. $nowStamp .' +%F' ) ));
+    $table;
+    $gby;
 
-    $tmpTable = $db .'.`'. $table .'-'. $nowStamp .'`';
+    $tmpTable = $db;
 
-    for ($i=0; $i<$days; $i++)
+    switch( $_GET[ 'q' ] )
     {
-        $tmpStamp = $endStamp - $i * 86400;
-        $db = str_replace("-", "_", trim( shell_exec( 'date -d @'. $tmpStamp .' +%F' ) ));
-
-        if ( $check = $mysqli->query( 'SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.`SCHEMATA` WHERE SCHEMA_NAME = "'. $db .'"' ) ) {
-            if ( 0 == $check->num_rows ) {
-                continue;
-            } else {
-                // create table now's timestamp on archer
-                // 24 hours
-                for ($j=0; $j<24; $j++)
-                {
-                    $stmt = 'CREATE TABLE IF NOT EXISTS '. $tmpTable .' as ( SELECT * FROM '. $db .'.`'. $table .'_'. sprintf("%02d", $j) .'` ) ';
-                    $mysqli->query( $stmt );
-                }
-            }
-            // free check set
-            $check->close();
-        }
+    case 1:
+        $gby = 'srcIp, dstIp';
+        $table = 'daily_addrTraffic';
+        $tmpTable .= '.`daily_addrTraffic-'. $nowStamp .'`';
+        $createTmpTable = "CREATE TABLE IF NOT EXISTS ". $tmpTable ." (
+           `id` int(11) NOT NULL auto_increment,
+           `srcIp` varchar(16) NOT NULL default '',
+           `dstIp` varchar(16) NOT NULL default '',
+           `txBytes` BIGINT,
+           `rxBytes` BIGINT,
+           `totalBytes` BIGINT,
+           `sessions` BIGINT,
+           PRIMARY KEY  (`id`)
+        )";
+        break;
+    case 2:
+        $gby = 'srcIp';
+        $table = 'daily_srcAddrTraffic';
+        $tmpTable .= '.`daily_srcAddrTraffic-'. $nowStamp .'`';
+        $createTmpTable = "CREATE TABLE IF NOT EXISTS ". $tmpTable ." (
+           `id` int(11) NOT NULL auto_increment,
+           `srcIp` varchar(16) NOT NULL default '',
+           `txBytes` BIGINT,
+           `rxBytes` BIGINT,
+           `totalBytes` BIGINT,
+           `sessions` BIGINT,
+           PRIMARY KEY  (`id`)
+        )";
+        break;
+    case 3:
+        $gby = 'dstIp';
+        $table = 'daily_dstAddrTraffic';
+        $tmpTable .= '.`daily_dstAddrTraffic-'. $nowStamp .'`';
+        $createTmpTable = "CREATE TABLE IF NOT EXISTS ". $tmpTable ." (
+           `id` int(11) NOT NULL auto_increment,
+           `dstIp` varchar(16) NOT NULL default '',
+           `txBytes` BIGINT,
+           `rxBytes` BIGINT,
+           `totalBytes` BIGINT,
+           `sessions` BIGINT,
+           PRIMARY KEY  (`id`)
+        )";
+        break;
+    case 4:
+        $gby = 'protocol';
+        $table = 'daily_protoTraffic';
+        $tmpTable .= '.`daily_protoAddrTraffic-'. $nowStamp .'`';
+        $createTmpTable = "CREATE TABLE IF NOT EXISTS ". $tmpTable ." (
+           `id` int(11) NOT NULL auto_increment,
+           `protocol` INT,
+           `txBytes` BIGINT,
+           `rxBytes` BIGINT,
+           `totalBytes` BIGINT,
+           `sessions` BIGINT,
+           PRIMARY KEY  (`id`)
+        )";
+        break;
+    case 5:
+        $gby = 'dstPort';
+        $table = 'daily_dstPortTraffic';
+        $tmpTable .= '.`daily_dstPortAddrTraffic-'. $nowStamp .'`';
+        $createTmpTable = "CREATE TABLE IF NOT EXISTS ". $tmpTable ." (
+           `id` int(11) NOT NULL auto_increment,
+           `dstPort` INT,
+           `txBytes` BIGINT,
+           `rxBytes` BIGINT,
+           `totalBytes` BIGINT,
+           `sessions` BIGINT,
+           PRIMARY KEY  (`id`)
+        )";
+        break;
+    case 6:
+        $gby = 'fromZone, toZone';
+        $table = 'daily_zoneTraffic';
+        $tmpTable .= '.`daily_zoneTraffic-'. $nowStamp .'`';
+        $createTmpTable = "CREATE TABLE IF NOT EXISTS ". $tmpTable ." (
+           `id` int(11) NOT NULL auto_increment,
+           `fromZone` varchar(64) NOT NULL default '',
+           `toZone` varchar(64) NOT NULL default '',
+           `txBytes` BIGINT,
+           `rxBytes` BIGINT,
+           `totalBytes` BIGINT,
+           `sessions` BIGINT,
+           PRIMARY KEY  (`id`)
+        )";
+        break;
     }
 
-    $query = "SELECT ". $gby .", txBytes, rxBytes, totalBytes, count(*) as sessions FROM ". $tmpTable ." GROUP BY ". $gby ." ORDER BY ". $oby ;
-
-    $json[ 'queryStr' ] = $query;
-
-    if ( $result = $mysqli->query( $query ) ) {
-        $totalRows = $result->num_rows;
-        while ($obj = $result->fetch_object()) {
-            $cnt++;
-            if ($cnt >= $startRow && $cnt <= $endRow) {
-                $json['queryResults'][] = $obj;
-            }
-        }
-        // free result set;
-        $result->close();
-    }
-
-    $mysqli->query( 'DROP TABLE '. $tmpTable );
-
-    $json[ 'queryRows' ] = $totalRows;
-    $json[ 'queryStamp' ] = trim( shell_exec( 'date +%s' ) ) - $nowStamp;
-    echo json_encode( $json );
-}
-
-function reportAggregate3( $table, $groupBy, $groupBy2 ) {
-    $json      = array();
-    $startRow  = empty( $_GET[ 'pi' ] )? 1 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ] + 1;
-    $endRow    = empty( $_GET[ 'pp' ] )? 20 : $_GET[ pi ] * $_GET[ 'pp' ];
-    $nowStamp = trim( shell_exec( 'date "+%s"' ) );
-    $mysqli = new mysqli( "127.0.0.1", "archer", "rehcra", 'archer', 3306 );
-
-    $gby = $groupBy;
-    if ($groupBy2) {
-        $gby .= ', '. $groupBy2;
-    }
-   
-    $startDate  = str_replace("/", "-", $_GET[ 'sd' ]);
-    $startStamp = trim( shell_exec( 'date -d "'. $startDate .' 00:00:00" "+%s"' ) );
-    $endDate    = str_replace("/", "-", $_GET[ 'ed' ]);
-    $endStamp   = trim( shell_exec( 'date -d "'. $endDate .' 00:00:00" "+%s"' ) );
-
-    $days = 1 + ($endStamp - $startStamp)/86400;
-    $totalRows = 0;
-
-    $db = str_replace("-", "_", trim( shell_exec( 'date -d @'. $nowStamp .' +%F' ) ));
-
-    $tmpTable = $db .'.`'. $table .'-'. $nowStamp .'`';
+    // create temp
+    $mysqli->query( $createTmpTable );
 
     // get passed data from daily statistics tables 
 
@@ -465,22 +447,15 @@ function reportAggregate3( $table, $groupBy, $groupBy2 ) {
         // create table now's timestamp on archer
         // check if daily statistics are data_reday
         if ( $check = $mysqli->query( 'SELECT TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "'. $table .'" AND TABLE_COMMENT = "data_ready" ' ) ) {
-$json[ 'ready-' . $db ] = $check->num_rows;
             if ( 0 == $check->num_rows ) {
                 // 24 hours
-$hcnt = 0;
                 for ($j=0; $j<24; $j++)
                 {
-                    $result = $mysqli->query( 'CREATE TABLE IF NOT EXISTS '. $tmpTable .' as ( SELECT '. $gby .', txBytes, rxBytes, totalBytes, count(*) as sessions FROM '. $db .'.`raw_sessions_'. sprintf("%02d", $j) .'` GROUP BY '. $gby .' ) ' );
-                    $hcnt += $result->num_rows;
+                    $mysqli->query( 'INSERT INTO '. $tmpTable . ' SELECT 0, '. $gby .', txBytes, rxBytes, totalBytes, count(*) as sessions from '. $db .'.`raw_sessions_'. sprintf("%02d", $j) .'` GROUP BY '. $gby );
                 }
-$json[ 'hr-' . $db ] = $hcnt;
             } else {
-                $result = $mysqli->query( 'CREATE TABLE IF NOT EXISTS '. $tmpTable .' as ( SELECT * FROM '. $db .'.`'. $table .'` ) ' );
-$json[ 'day-sql-' . $db ] = 'SELECT * FROM '. $db .'.`'. $table .'`';
-$dcnt = 0;
-$dcnt = $result->num_rows;
-$json[ 'day-' . $db ] = $dcnt;
+                $mysqli->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $gby .', txBytes, rxBytes, totalBytes, sessions from '. $db .'.'. $table );;
+                
             }
             $check->close();
         }
@@ -488,7 +463,7 @@ $json[ 'day-' . $db ] = $dcnt;
 
     // get all data from temp table
 
-    $query = "SELECT * FROM ". $tmpTable ." where sessions > 0 GROUP BY ". $gby ." ORDER BY sessions ";
+    $query = "SELECT * FROM ". $tmpTable ." where sessions > 0 GROUP BY ". $gby ." ORDER BY sessions DESC";
 
     $json[ 'queryStr' ] = $query;
 

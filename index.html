@@ -3114,8 +3114,7 @@ $(document).ready(function () {
                                 if (1 === parseInt(data.status)) {
                                     $('#Editor-importFrom-usb').prop('disabled', false);
                                     for (var i=0, len=data.guiUsbFileT.length; i<len; i++) {
-                                        if ( gReg.isXML.test( data.guiUsbFileT[ i ].path ) )
-                                            $('#Editor-importFrom-usb').append('<option value="' + data.guiUsbFileT[ i ].path + '">' + data.guiUsbFileT[ i ].name + '</option>');
+                                        $('#Editor-importFrom-usb').append('<option value="' + data.guiUsbFileT[ i ].path + '">' + data.guiUsbFileT[ i ].name + '</option>');
                                     }
                                 } else {
                                     $('#Editor-importFrom-2').prop('disabled', true);
@@ -22629,37 +22628,79 @@ gY.log('???? ...');
                             gCache[ pid ] = {};
                             gCache[ pid ].gid = 0;
                             var acts = gNode.rowAction.split(' ');
+
+                            // lazy sorting ...
+                            data.guiProfileT.sort( function( obj1, obj2 ) {
+                                return obj2.inUsed - obj1.inUsed;
+                            });
+
+                            data.guiProfileT.sort( function( obj1, obj2 ) {
+                                return obj1.userDefined - obj2.userDefined;
+                            });
+
                             for (var i=0, len=parseInt( data[ gNode.guiTNum ] ); i<len; i++)
                             {
                                 tmp = '<tr id="tr-' + pid + '-' + i + '" class="' + ((i%2==0)? 'even' : 'odd') + '">';
-                                for (var j=0, jlen=gNode.col.length; j<jlen; j++)
-                                {
-                                    tmp += '<td>';
-                                    if ('action' == gNode.col[ j ].tab) {
-                                        if (0 === parseInt( data[ gNode.guiT ][ i ].userDefined )) {
-                                            tmp += '<button type="button" id="Export-' + pid + '-' + i + '" class="Export" title="Export"><span class="ui-icon"></span></button>';
-                                        } else if (1 === parseInt( data[ gNode.guiT ][ i ].userDefined )) {
+                                if ( 0 === parseInt(data[ gNode.guiT ][ i ].userDefined ) ) {
+                                    for (var j=0, jlen=gNode.col.length; j<jlen; j++)
+                                    {
+                                        tmp += '<td>';
+                                        if ('action' == gNode.col[ j ].tab) {
+                                                tmp += '<button type="button" id="Export-' + pid + '-' + i + '" class="Export" title="Export"><span class="ui-icon"></span></button>';
+                                        } else if ('checkbox' == gNode.col[ j ].tab) {
+                                            tmp += '';
+                                        } else if ('index' == gNode.col[ j ].tab) {
+                                            tmp += (i+1);
+                                        } else {
+                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                                        }
+                                        tmp += '</td>';
+                                    }
+                                    tmp += '</tr>';
+                                    $('#table-' + pid + ' tbody').append( tmp );
+                                } else if ( 1 === parseInt(data[ gNode.guiT ][ i ].inUsed ) ) {
+                                    for (var j=0, jlen=gNode.col.length; j<jlen; j++)
+                                    {
+                                        tmp += '<td>';
+                                        if ('action' == gNode.col[ j ].tab) {
                                             tmp += '<button type="button" id="Apply-' + pid + '-' + i + '" class="Apply" title="Apply"><span class="ui-icon"></span></button>';
                                             tmp += '<button type="button" id="Import-' + pid + '-' + i + '" class="Import" title="Import"><span class="ui-icon"></span></button>';
                                             tmp += '<button type="button" id="Export-' + pid + '-' + i + '" class="Export" title="Export"><span class="ui-icon"></span></button>';
                                             tmp += '<button type="button" id="Delete-' + pid + '-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
+                                        } else if ('checkbox' == gNode.col[ j ].tab) {
+                                            tmp += '';
+                                        } else if ('index' == gNode.col[ j ].tab) {
+                                            tmp += (i+1);
+                                        } else {
+                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
                                         }
-                                    } else if ('checkbox' == gNode.col[ j ].tab) {
-                                        if ( (1 === parseInt( data[ gNode.guiT ][ i ].userDefined ) ) && (0 === parseInt( data[ gNode.guiT ][ i ].inUsed ) ) ) 
-                                        tmp += '<input type="checkbox" class="' + pid + 'Checkbox" id="' + pid + '-' + i + '" value="' + i + '" />';
-                                    } else if ('index' == gNode.col[ j ].tab) {
-                                        tmp += (i+1);
-                                    } else {
-                                        tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                                        tmp += '</td>';
                                     }
-                                    tmp += '</td>';
-                                }
-                                tmp += '</tr>';
-                                $('#table-' + pid + ' tbody').append( tmp );
-                                if ( 1 === parseInt( data[ gNode.guiT ][ i ].inUsed ) ) {
+                                    tmp += '</tr>';
+                                    $('#table-' + pid + ' tbody').append( tmp );
                                     $('#Apply-' + pid + '-' + i).prop('disabled', true);
                                     $('#Import-' + pid + '-' + i).prop('disabled', true);
                                     $('#Delete-' + pid + '-' + i).prop('disabled', true);
+                                } else {
+                                    for (var j=0, jlen=gNode.col.length; j<jlen; j++)
+                                    {
+                                        tmp += '<td>';
+                                        if ('action' == gNode.col[ j ].tab) {
+                                            tmp += '<button type="button" id="Apply-' + pid + '-' + i + '" class="Apply" title="Apply"><span class="ui-icon"></span></button>';
+                                            tmp += '<button type="button" id="Import-' + pid + '-' + i + '" class="Import" title="Import"><span class="ui-icon"></span></button>';
+                                            tmp += '<button type="button" id="Export-' + pid + '-' + i + '" class="Export" title="Export"><span class="ui-icon"></span></button>';
+                                            tmp += '<button type="button" id="Delete-' + pid + '-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
+                                        } else if ('checkbox' == gNode.col[ j ].tab) {
+                                            tmp += '<input type="checkbox" class="' + pid + 'Checkbox" id="' + pid + '-' + i + '" value="' + i + '" />';
+                                        } else if ('index' == gNode.col[ j ].tab) {
+                                            tmp += (i+1);
+                                        } else {
+                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                                        }
+                                        tmp += '</td>';
+                                    }
+                                    tmp += '</tr>';
+                                    $('#table-' + pid + ' tbody').append( tmp );
                                 }
                             }
                             
@@ -29344,7 +29385,7 @@ gY.log('post ' + pid);
         }
         return tmp;
     }
-    
+
     function dataSort( data, pid, isTab ) {
         var arr = [];
 

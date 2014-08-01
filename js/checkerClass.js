@@ -102,7 +102,7 @@ function checkers( tar ) {
                }
 
                // specific field
-               if (tar.pass && ( 'administrator_settings' == pid )) {
+               if (tar.pass && ( 'administrator_settings' == tar.pid )) {
                    tar.setPassword = 1;
                }
 
