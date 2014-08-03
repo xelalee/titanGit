@@ -454,7 +454,7 @@ function reportAggregate2() {
                     $mysqli->query( 'INSERT INTO '. $tmpTable . ' SELECT 0, '. $gby .', txBytes, rxBytes, totalBytes, count(*) as sessions from '. $db .'.`raw_sessions_'. sprintf("%02d", $j) .'` GROUP BY '. $gby );
                 }
             } else {
-                $mysqli->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $gby .', txBytes, rxBytes, totalBytes, sessions from '. $db .'.'. $table );;
+                $mysqli->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $gby .', txBytes, rxBytes, totalBytes, sessions from '. $db .'.'. $table );
                 
             }
             $check->close();
@@ -463,7 +463,7 @@ function reportAggregate2() {
 
     // get all data from temp table
 
-    $query = "SELECT * FROM ". $tmpTable ." where sessions > 0 GROUP BY ". $gby ." ORDER BY sessions DESC";
+    $query = "SELECT ". $gby .", SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes, SUM(sessions) as sessions FROM ". $tmpTable ." where sessions > 0 GROUP BY ". $gby ." ORDER BY sessions DESC";
 
     $json[ 'queryStr' ] = $query;
 
