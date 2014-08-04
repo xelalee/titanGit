@@ -21,7 +21,7 @@ html {
     width: 180px;
     height: 600px;
     padding: 0;
-    background-color: #625b57;
+    background-color: #007260;
 }
 
 #main {
@@ -34,7 +34,7 @@ html {
 
 #main_hd {
     position: relative;
-    background: url('images/tab_bar_00.png') top left no-repeat;
+    background: #007260;
     width: 844px;
     height: 32px;
     margin: 0;
@@ -57,7 +57,7 @@ html {
     margin: 0;
     padding: 0;
     border: none;
-    background-color: #b1422f;
+    background-color: #007260;
 }
 
 /* nomalize */
@@ -74,6 +74,22 @@ a:link { text-decoration: none;}
     padding: 0;
     border: none;
     border-radius: 0;
+}
+
+#menu h3 a {
+    font-weight: 900;
+}
+
+#menu h4.ui-state-active a {
+    color: #ea212d;
+}
+
+#menu h4 a {
+    font-weight: 500;
+}
+
+#menu h5 a {
+    font-weight: 100;
 }
 
 #menu li {
@@ -97,6 +113,10 @@ a:link { text-decoration: none;}
     margin: 0;
     padding: 0;
     border: none;
+}
+
+#menu ul.ui-corner-bottom {
+    border-radius: 0;
 }
 
 .accordion-ul.ui-accordion-content, .accordion-ul-ul.ui-accordion-content, .accordion-ul-ul-ul.ui-accordion-content {
@@ -124,7 +144,7 @@ a:link { text-decoration: none;}
 }
 
 #menu .accordion-ul-li h3.ui-state-default:hover a {
-    color: white;
+    color: black;
     top: 10px;
 }
 
@@ -137,15 +157,31 @@ a:link { text-decoration: none;}
 }
 
 #menu .accordion-ul-li h3.ui-state-active {
-    background: url('images/m1.jpg');
+    background: #007260; /* url('images/m1.jpg'); */
     border: none;
     height: 34px;
+background: #007460;
+background: -moz-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
+background: -webkit-gradient(left top, left bottom, color-stop(0%, #007460), color-stop(51%, #f6f6f6), color-stop(100%, #007260));
+background: -webkit-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
+background: -o-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
+background: -ms-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
+background: linear-gradient(to bottom, #007460 0%, #f6f6f6 51%, #007260 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007460', endColorstr='#007260', GradientType=0 );
 }
 
 #menu .accordion-ul-li h3:hover {
-    background: url('images/m1.jpg');
+    background: #007260; /* url('images/m1.jpg'); */
     border: none;
     height: 34px;
+background: #007460;
+background: -moz-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
+background: -webkit-gradient(left top, left bottom, color-stop(0%, #007460), color-stop(51%, #f6f6f6), color-stop(100%, #007260));
+background: -webkit-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
+background: -o-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
+background: -ms-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
+background: linear-gradient(to bottom, #007460 0%, #f6f6f6 51%, #007260 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007460', endColorstr='#007260', GradientType=0 );
 }
 
 #menu .accordion-ul-li h3.ui-state-default:hover span.ui-icon {
@@ -153,7 +189,7 @@ a:link { text-decoration: none;}
 }
 
 #menu .accordion-ul-li h3.ui-state-active a {
-    color: white;
+    color: #ea212d;
     top: 10px;
 }
 
@@ -166,7 +202,7 @@ a:link { text-decoration: none;}
 }
 
 #menu .accordion-ul-ul-li h4, #menu .accordion-ul-ul-ul-li h4.ui-state-default {
-    background: url('images/m2.jpg');
+    background: #007260; /* url('images/m2.jpg'); */
     border: none;
     width: 180px;
     height: 26px;
@@ -181,7 +217,15 @@ a:link { text-decoration: none;}
 
 #menu .accordion-ul-ul-ul-li h4.ui-state-active {
     border: none;
-    background: url('images/m2.jpg');
+    background: #007260; /* url('images/m2.jpg'); */
+background: #008270;
+background: -moz-linear-gradient(top, #008270 0%, #d1d1d1 51%, #008270 100%);
+background: -webkit-gradient(left top, left bottom, color-stop(0%, #008270), color-stop(51%, #d1d1d1), color-stop(100%, #008270));
+background: -webkit-linear-gradient(top, #008270 0%, #d1d1d1 51%, #008270 100%);
+background: -o-linear-gradient(top, #008270 0%, #d1d1d1 51%, #008270 100%);
+background: -ms-linear-gradient(top, #008270 0%, #d1d1d1 51%, #008270 100%);
+background: linear-gradient(to bottom, #008270 0%, #d1d1d1 51%, #008270 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#008270', endColorstr='#008270', GradientType=0 );
 }
 #menu .accordion-ul-ul-ul-li h4.ui-state-active span.ui-icon {
     background-image: url('images/icon_switch_s_0.png');
@@ -191,7 +235,7 @@ a:link { text-decoration: none;}
 }
 
 #menu .accordion-ul-ul-ul-ul-li h5 {
-    background: url('images/m3.jpg');
+    background: #008270; /* url('images/m3.jpg') */;
     border: none;
     width: 180px;
     height: 26px;

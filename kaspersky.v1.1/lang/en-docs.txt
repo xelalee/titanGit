@@ -74,7 +74,7 @@
           {
             "label" : "Tunnel Number", 
             "tab" : "tunnel_number",
-            "description" : "The number of site-to-site VPN tunnels eastablished between this TitanWall and remote devices."
+            "description" : "The number of site-to-site VPN tunnels eastablished between this SecMaxWALL and remote devices."
            }
         ]
       },
@@ -165,7 +165,7 @@
           {
             "label" : "Name",
             "tab" : "name",
-            "description" : "The name of a physical port on this TitanWall."
+            "description" : "The name of a physical port on this SecMaxWALL."
           },
           {
             "label" : "Link",
@@ -323,7 +323,7 @@
           {
             "label" : "Hit Count",
             "tab" : "hit_count",
-            "description" : "The number of times the TitanWall has detected the virus."
+            "description" : "The number of times the SecMaxWALL has detected the virus."
           }
         ]
       },
@@ -342,7 +342,7 @@
           {
             "label" : "Virus Hit Count",
             "tab" : "virus_hit_count",
-            "description" : "The number of virus sent by the host and was detected by the TitanWall's anti-virus feature."
+            "description" : "The number of virus sent by the host and was detected by the SecMaxWALL's anti-virus feature."
           }
         ]
       },
@@ -382,7 +382,7 @@
       {
         "label" : "Flag",
         "tab" : "flag",
-        "description" : "This shows the status of the connected host.\n Reachable - the host can be reached. \n State - the TitanWall is waiting for a response from the connected host.\n Failed - the host cannot be reached.\n Delay - the TitanWall delays sending the request to determine whether the host is reachable."
+        "description" : "This shows the status of the connected host.\n Reachable - the host can be reached. \n State - the SecMaxWALL is waiting for a response from the connected host.\n Failed - the host cannot be reached.\n Delay - the SecMaxWALL delays sending the request to determine whether the host is reachable."
       },
       {
         "label" : "MAC Address",
@@ -2478,7 +2478,7 @@
           {
             "label" : "Fallback Time to Switch From Backup to Primary",
             "tab" : "fallback_time",
-            "description" : "The SecMaxWALL periodically checks whether the primary remote router becomes active.\n Enter the number of seconds that must pass for the SecMaxWALL to confirm that the primary tunnel has recovered from a failure. If the primary tunnel is up for the specified time period, the Titanwall will switch to the primary tunnel by disabling the backup tunnel. Enter a value between 3 and 59 seconds. The default value is 5 seconds.\n Note: DPD should be enabled if you want to use the Redundant Gateway feature for IPsec VPN connections."
+            "description" : "The SecMaxWALL periodically checks whether the primary remote router becomes active.\n Enter the number of seconds that must pass for the SecMaxWALL to confirm that the primary tunnel has recovered from a failure. If the primary tunnel is up for the specified time period, the SecMaxWALL will switch to the primary tunnel by disabling the backup tunnel. Enter a value between 3 and 59 seconds. The default value is 5 seconds.\n Note: DPD should be enabled if you want to use the Redundant Gateway feature for IPsec VPN connections."
           }
         ]
       },
@@ -2491,7 +2491,7 @@
           {
             "label" : "To Zone List",
             "tab" : "to_zone_list",
-            "description" : "Thie is the name of the zone created on the TitanWall."
+            "description" : "Thie is the name of the zone created on the SecMaxWALL."
           },
           {
             "label" : "Access Setting",
@@ -3657,7 +3657,7 @@
           {
             "label" : "Services",
             "tab" : "services",
-            "description" : "This shows the service policy applied to this user group.\nDisable: All the user member are not allowed to log into the web configurator. \nRead Only: The user members can vie the TitanWall's settings through web configurator, but are not allowed to configure any settings.\nAdministrator: The users members can view and configure the TitanWall through the web configurator."
+            "description" : "This shows the service policy applied to this user group.\nDisable: All the user member are not allowed to log into the web configurator. \nRead Only: The user members can vie the SecMaxWALL's settings through web configurator, but are not allowed to configure any settings.\nAdministrator: The users members can view and configure the SecMaxWALL through the web configurator."
           },
           {
             "label" : "Action",
@@ -3681,7 +3681,7 @@
               {
                 "label" : "Services",
                 "tab" : "services",
-                "description" : "Select Disable to forbid this group's users from accessing the web configurator. Select Read Only to allow the user members to be able to view the TitanWall's settings through the web configurator. But the users cannot configure the TitanWall through the web configurator. Select Administrator to allow the user members to view and configure the TitanWall's settings through web configurator."
+                "description" : "Select Disable to forbid this group's users from accessing the web configurator. Select Read Only to allow the user members to be able to view the SecMaxWALL's settings through the web configurator. But the users cannot configure the SecMaxWALL through the web configurator. Select Administrator to allow the user members to view and configure the SecMaxWALL's settings through web configurator."
               }
             ]
           },

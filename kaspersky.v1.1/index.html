@@ -228,7 +228,7 @@ gObj.delay  = 0;
 gObj.help   = 0;
 gObj.sigVer = 0;
 gObj.blinking = 0;
-gObj.blinkings = [ 'E', 'H', 'I', 'A' ];
+gObj.blinkings = [ 'D', 'L', 'U' ];
 gObj.debugMode = 0;
 
 // if condition 
@@ -482,13 +482,9 @@ gHtml.head = '<div class="content">';
 gHtml.head += '<div id="hd_top"></div>';
 gHtml.head += '<div id="hd_mark"></div>';
 gHtml.head += '<div id="hd_label"></div>';
-gHtml.head += '<div id="hd_arrowD"></div>';
-gHtml.head += '<div id="hd_arrowL"></div>';
-gHtml.head += '<div id="hd_arrowU"></div>';
-gHtml.head += '<div id="hd_blinkE"></div>';
-gHtml.head += '<div id="hd_blinkH"></div>';
-gHtml.head += '<div id="hd_blinkI"></div>';
-gHtml.head += '<div id="hd_blinkA"></div>';
+gHtml.head += '<div id="hd_blinkD"></div>';
+gHtml.head += '<div id="hd_blinkL"></div>';
+gHtml.head += '<div id="hd_blinkU"></div>';
 gHtml.head += '<div id="hd_user"></div>';
 gHtml.head += '<div id="hd_timer"></div>';
 gHtml.head += '<div id="hd_ip"></div>';
@@ -677,7 +673,7 @@ $(document).ready(function () {
                 case 0:
                     gIf.isNext = false;
                     break;
-                case 3:
+                case 2:
                     gIf.isNext = true;
                     break;
                 }
@@ -696,7 +692,7 @@ $(document).ready(function () {
                     gObj.blinking++;
             } else {
                 if (0 === gObj.blinking ) 
-                    gObj.blinking = 3;
+                    gObj.blinking = 2;
                 else
                     gObj.blinking--;
 
@@ -710,7 +706,7 @@ $(document).ready(function () {
             }
         } else {
             if (gIf.pcap) {
-                if (3 === gObj.blinking ) 
+                if (2 === gObj.blinking ) 
                     gObj.blinking = 0;
                 else
                     gObj.blinking++;
@@ -890,7 +886,9 @@ $(document).ready(function () {
     }
     
     function ifLogin() {
-    
+        // login label
+        $('#login_label').html( gCook.main );
+
         // detect if lang set
         if (gY.Cookie.getSub( gCook.main, 'lang' )) {
             gObj.lang = gY.Cookie.getSub( gCook.main, 'lang' );
@@ -1411,7 +1409,7 @@ $(document).ready(function () {
         $('#hd').html( gHtml.head );
     
         // assign lang icon
-        $('#hd_label').html('SecMaxWALL');
+        $('#hd_label').html( gCook.main );
         $('#hd_help').addClass( gObj.lang + '_help' );
         $('#hd_home').addClass( gObj.lang + '_home' );
         $('#hd_refresh').addClass( gObj.lang + '_refresh' );
@@ -1647,9 +1645,7 @@ $(document).ready(function () {
         });
                 
         $('#ft').html( gHtml.foot );
-        $('#ft .content').append('<p>Copyright &copy; 2014 TitanARC</p>');
-        //$('#ft .content').append('<p>Copyright &copy; 2014 TECH TITAN</p>');
-        // $('#ft .content').append('<p>The Next Generation Technology Appliances by Tech Titan, powerd by Kaspersky</p>');
+        $('#ft .content').append('<p>Copyright &copy; 2014 Titan ARC Corp.</p>');
     
         // set row limits
         getLimit();
@@ -3122,8 +3118,7 @@ $(document).ready(function () {
                                 if (1 === parseInt(data.status)) {
                                     $('#Editor-importFrom-usb').prop('disabled', false);
                                     for (var i=0, len=data.guiUsbFileT.length; i<len; i++) {
-                                        if ( gReg.isXML.test( data.guiUsbFileT[ i ].path ) )
-                                            $('#Editor-importFrom-usb').append('<option value="' + data.guiUsbFileT[ i ].path + '">' + data.guiUsbFileT[ i ].name + '</option>');
+                                        $('#Editor-importFrom-usb').append('<option value="' + data.guiUsbFileT[ i ].path + '">' + data.guiUsbFileT[ i ].name + '</option>');
                                     }
                                 } else {
                                     $('#Editor-importFrom-2').prop('disabled', true);
@@ -4813,9 +4808,6 @@ $(document).ready(function () {
                                         {
                                             switch( z )
                                             {
-                                            case 'sysName':
-                                                $('#' + v2.id + '-' + z).html( 'SecMaxWALL' );
-                                                break;
                                             case 'sigVer':
                                                 $('#' + v2.id + '-' + z).html( gObj.sigVer );
                                                 break;
@@ -4973,10 +4965,7 @@ $(document).ready(function () {
                                     y = 'dashboard_sys_info';
                                     for (var z in data)
                                     {
-                                        if ('sysName' == z)
-                                            $('#' + y + '-' + z).html( 'SecMaxWALL' );
-                                        else
-                                            $('#' + y + '-' + z).html( data[ z ] );
+                                        $('#' + y + '-' + z).html( data[ z ] );
                                     }
                                 } else if ( data.dramSize ) {
                                     y = 'dashboard_resource';
@@ -5231,9 +5220,6 @@ $(document).ready(function () {
                                 tmp += '<td id="' + feed.id + '-' + feed.col[ i ].tab + '">';
                                 switch (feed.col[ i ].tab) 
                                 {
-                                case 'sysName':
-                                    tmp += 'SecMaxWALL';
-                                    break;
                                 case 'sigVer':
                                     tmp += gObj.sigVer;
                                     break;
@@ -5994,7 +5980,6 @@ $(document).ready(function () {
     
                         if (gObj.chart.has)
                             gObj.chart.now.destroy();
-
                         if (parseInt(gObj.chart.data.queryRows) == 0) {
                             gObj.chart.has = false;
                             gY.one(gObj.chart.id).setHTML('<div class="noData"><b>' + gTerm[ gObj.lang ].noData + '</b></div>');  
@@ -6069,7 +6054,7 @@ $(document).ready(function () {
             }
 
             gObj.chart.id = ( 0 === gObj.chartIndex )? '#chart-cpu' : '#chart-memory';
-
+    
             gY.io( gObj.phpQuery.php + '.php?param=' + pid + q, {
                 on: {
                     complete: function(id, e) {
@@ -6083,8 +6068,8 @@ $(document).ready(function () {
                             gY.one(gObj.chart.id).setHTML('<div class="noData"><b>' + gTerm[ gObj.lang ].noData + '</b></div>');  
                         } else {
                             if ($('.noData').exists()) {
+gY.log('???? ...');
                                 $(gObj.chart.id).empty();
-                            gY.log('what?');
                             }
                             gObj.chart.has = true;
     
@@ -22647,37 +22632,79 @@ $(document).ready(function () {
                             gCache[ pid ] = {};
                             gCache[ pid ].gid = 0;
                             var acts = gNode.rowAction.split(' ');
+
+                            // lazy sorting ...
+                            data.guiProfileT.sort( function( obj1, obj2 ) {
+                                return obj2.inUsed - obj1.inUsed;
+                            });
+
+                            data.guiProfileT.sort( function( obj1, obj2 ) {
+                                return obj1.userDefined - obj2.userDefined;
+                            });
+
                             for (var i=0, len=parseInt( data[ gNode.guiTNum ] ); i<len; i++)
                             {
                                 tmp = '<tr id="tr-' + pid + '-' + i + '" class="' + ((i%2==0)? 'even' : 'odd') + '">';
-                                for (var j=0, jlen=gNode.col.length; j<jlen; j++)
-                                {
-                                    tmp += '<td>';
-                                    if ('action' == gNode.col[ j ].tab) {
-                                        if (0 === parseInt( data[ gNode.guiT ][ i ].userDefined )) {
-                                            tmp += '<button type="button" id="Export-' + pid + '-' + i + '" class="Export" title="Export"><span class="ui-icon"></span></button>';
-                                        } else if (1 === parseInt( data[ gNode.guiT ][ i ].userDefined )) {
+                                if ( 0 === parseInt(data[ gNode.guiT ][ i ].userDefined ) ) {
+                                    for (var j=0, jlen=gNode.col.length; j<jlen; j++)
+                                    {
+                                        tmp += '<td>';
+                                        if ('action' == gNode.col[ j ].tab) {
+                                                tmp += '<button type="button" id="Export-' + pid + '-' + i + '" class="Export" title="Export"><span class="ui-icon"></span></button>';
+                                        } else if ('checkbox' == gNode.col[ j ].tab) {
+                                            tmp += '';
+                                        } else if ('index' == gNode.col[ j ].tab) {
+                                            tmp += (i+1);
+                                        } else {
+                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                                        }
+                                        tmp += '</td>';
+                                    }
+                                    tmp += '</tr>';
+                                    $('#table-' + pid + ' tbody').append( tmp );
+                                } else if ( 1 === parseInt(data[ gNode.guiT ][ i ].inUsed ) ) {
+                                    for (var j=0, jlen=gNode.col.length; j<jlen; j++)
+                                    {
+                                        tmp += '<td>';
+                                        if ('action' == gNode.col[ j ].tab) {
                                             tmp += '<button type="button" id="Apply-' + pid + '-' + i + '" class="Apply" title="Apply"><span class="ui-icon"></span></button>';
                                             tmp += '<button type="button" id="Import-' + pid + '-' + i + '" class="Import" title="Import"><span class="ui-icon"></span></button>';
                                             tmp += '<button type="button" id="Export-' + pid + '-' + i + '" class="Export" title="Export"><span class="ui-icon"></span></button>';
                                             tmp += '<button type="button" id="Delete-' + pid + '-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
+                                        } else if ('checkbox' == gNode.col[ j ].tab) {
+                                            tmp += '';
+                                        } else if ('index' == gNode.col[ j ].tab) {
+                                            tmp += (i+1);
+                                        } else {
+                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
                                         }
-                                    } else if ('checkbox' == gNode.col[ j ].tab) {
-                                        if ( (1 === parseInt( data[ gNode.guiT ][ i ].userDefined ) ) && (0 === parseInt( data[ gNode.guiT ][ i ].inUsed ) ) ) 
-                                        tmp += '<input type="checkbox" class="' + pid + 'Checkbox" id="' + pid + '-' + i + '" value="' + i + '" />';
-                                    } else if ('index' == gNode.col[ j ].tab) {
-                                        tmp += (i+1);
-                                    } else {
-                                        tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                                        tmp += '</td>';
                                     }
-                                    tmp += '</td>';
-                                }
-                                tmp += '</tr>';
-                                $('#table-' + pid + ' tbody').append( tmp );
-                                if ( 1 === parseInt( data[ gNode.guiT ][ i ].inUsed ) ) {
+                                    tmp += '</tr>';
+                                    $('#table-' + pid + ' tbody').append( tmp );
                                     $('#Apply-' + pid + '-' + i).prop('disabled', true);
                                     $('#Import-' + pid + '-' + i).prop('disabled', true);
                                     $('#Delete-' + pid + '-' + i).prop('disabled', true);
+                                } else {
+                                    for (var j=0, jlen=gNode.col.length; j<jlen; j++)
+                                    {
+                                        tmp += '<td>';
+                                        if ('action' == gNode.col[ j ].tab) {
+                                            tmp += '<button type="button" id="Apply-' + pid + '-' + i + '" class="Apply" title="Apply"><span class="ui-icon"></span></button>';
+                                            tmp += '<button type="button" id="Import-' + pid + '-' + i + '" class="Import" title="Import"><span class="ui-icon"></span></button>';
+                                            tmp += '<button type="button" id="Export-' + pid + '-' + i + '" class="Export" title="Export"><span class="ui-icon"></span></button>';
+                                            tmp += '<button type="button" id="Delete-' + pid + '-' + i + '" class="Delete" title="Delete"><span class="ui-icon"></span></button>';
+                                        } else if ('checkbox' == gNode.col[ j ].tab) {
+                                            tmp += '<input type="checkbox" class="' + pid + 'Checkbox" id="' + pid + '-' + i + '" value="' + i + '" />';
+                                        } else if ('index' == gNode.col[ j ].tab) {
+                                            tmp += (i+1);
+                                        } else {
+                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                                        }
+                                        tmp += '</td>';
+                                    }
+                                    tmp += '</tr>';
+                                    $('#table-' + pid + ' tbody').append( tmp );
                                 }
                             }
                             
@@ -29362,7 +29389,7 @@ gY.log('post ' + pid);
         }
         return tmp;
     }
-    
+
     function dataSort( data, pid, isTab ) {
         var arr = [];
 
@@ -30590,7 +30617,7 @@ gY.log('post ' + pid);
     <div id="loginDiv">
       <div id="login_top"></div>
       <div id="login_mark"></div>
-      <div id="login_label">SecMaxWALL</div>
+      <div id="login_label"></div>
       <table >
         <tr>
           <th id="userNameLabel"></th>

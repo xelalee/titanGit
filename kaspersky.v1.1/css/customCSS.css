@@ -32,31 +32,30 @@ html {
 
 #hd_top {
     background: #007260;
-    height: 10px;
+    height: 4px;
     width: 100%;
 }
 
 #hd_mark {
     position: absolute;
-    border-top: 50px solid #007260;
-    border-left: 50px solid transparent;
-    border-right: 50px solid transparent;
-    height: 0;
-    width: 100px;
-    top: 0px;
+    background: #007260;
+    border-radius: 50%;
+    height: 100px;
+    width: 200px;
+    top: -30px;
     left: 412px;
 }
 
 #hd_label {
     position: absolute;
-    top: 10px;
-    left: 462px;
-    font:italic bold 14px/36px Georgia, serif;
+    top: 5px;
+    left: 443px;
+    font:italic bold 14pt/36pt Georgia, serif;
     color: white;
     text-shadow: 0.4em 0.4em 0.8em #333;
 }
 
-#hd_arrowD {
+#hd_blinkD {
     position: absolute;
     left: 45px;
     top: 64px;
@@ -69,7 +68,7 @@ html {
     opacity: 0;
 }
 
-#hd_arrowL {
+#hd_blinkL {
     position: absolute;
     left: 103px;
     top: 55px;
@@ -82,7 +81,7 @@ html {
     opacity: 0;
 }
 
-#hd_arrowU {
+#hd_blinkU {
     position: absolute;
     left: 180px;
     top: 66px;
@@ -421,30 +420,31 @@ a:link { text-decoration: none;}
     letter-spacing: normal;
     word-spacing: normal;
     color: black;
+    overflow: hidden;
 }
 
 #login_top {
     background: #007260;
-    height: 5px;
+    height: 2px;
     width: 100%;
 }
 
 #login_mark {
-    position: absolute;
-    border-top: 20px solid #007260;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    height: 0;
-    width: 60px;
-    top: 0px;
-    left: 140px;
+    /* position: absolute; */
+    height: 60px;
+    width: 120px;
+    /* top: -20px; */
+    /* left: 125px; */
+    margin: -20px auto;
+    background: #007260;
+    border-radius: 50%;
 }
 
 #login_label {
     position: absolute;
-    top: 0;
-    left: 152px;
-    font:italic bold 8px/26px Georgia, serif;
+    top: 2px;
+    left: 141px;
+    font:italic bold 8pt/20pt Georgia, serif;
     color: white;
     text-shadow: 0.4em 0.4em 0.8em #333;
 }
@@ -1882,7 +1882,6 @@ span.linkStatus.linkDown {
 }
 
 div {
-    /* font-family: "Lucida Grande", "Times New Roman", Times, serif; */
 
 }
 
