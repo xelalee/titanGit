@@ -341,6 +341,7 @@ function reportAggregate2() {
     $db = str_replace("-", "_", trim( shell_exec( 'date -d @'. $nowStamp .' +%F' ) ));
     $table;
     $gby;
+    $oby = ( isset( $_GET[ 'oby' ] ) && !empty( $_GET[ 'oby' ] ) )? $_GET[ 'oby' ] . ( (isset( $_GET[ 'asc' ] ) )? ' ASC' : ' DESC' ) : 'sessions DESC';
 
     $tmpTable = $db;
 
@@ -451,7 +452,7 @@ function reportAggregate2() {
                 // 24 hours
                 for ($j=0; $j<24; $j++)
                 {
-                    $mysqli->query( 'INSERT INTO '. $tmpTable . ' SELECT 0, '. $gby .', txBytes, rxBytes, totalBytes, count(*) as sessions from '. $db .'.`raw_sessions_'. sprintf("%02d", $j) .'` GROUP BY '. $gby );
+                    $mysqli->query( 'INSERT INTO '. $tmpTable . ' SELECT 0, '. $gby .', txBytes, rxBytes, totalBytes, 1 as sessions from '. $db .'.`raw_sessions_'. sprintf("%02d", $j) .'`' );
                 }
             } else {
                 $mysqli->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $gby .', txBytes, rxBytes, totalBytes, sessions from '. $db .'.'. $table );
@@ -463,7 +464,7 @@ function reportAggregate2() {
 
     // get all data from temp table
 
-    $query = "SELECT ". $gby .", SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes, SUM(sessions) as sessions FROM ". $tmpTable ." where sessions > 0 GROUP BY ". $gby ." ORDER BY sessions DESC";
+    $query = "SELECT ". $gby .", SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes, SUM(sessions) as sessions FROM ". $tmpTable ." GROUP BY ". $gby ." ORDER BY sessions DESC";
 
     $json[ 'queryStr' ] = $query;
 
