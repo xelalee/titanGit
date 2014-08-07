@@ -451,7 +451,7 @@ function reportAggregate2() {
                 // 24 hours
                 for ($j=0; $j<24; $j++)
                 {
-                    $mysqli->query( 'INSERT INTO '. $tmpTable . ' SELECT 0, '. $gby .', txBytes, rxBytes, totalBytes, count(*) as sessions from '. $db .'.`raw_sessions_'. sprintf("%02d", $j) .'` GROUP BY '. $gby );
+                    $mysqli->query( 'INSERT INTO '. $tmpTable . ' SELECT 0, '. $gby .', txBytes, rxBytes, totalBytes, count(*) as sessions from '. $db .'.`raw_sessions_'. sprintf("%02d", $j) .'`' );
                 }
             } else {
                 $mysqli->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $gby .', txBytes, rxBytes, totalBytes, sessions from '. $db .'.'. $table );

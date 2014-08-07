@@ -11009,7 +11009,7 @@
                 {
                   "label" : "Name",
                   "tab" : "name",
-                  "wiz" : "170px"
+                  "wiz" : "180px"
                 },
                 {
                   "label" : "Time",
