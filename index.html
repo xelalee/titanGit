@@ -360,6 +360,8 @@ gReg.cpuAlertThreshold  = /^([1-9]\d|100)$/;
 gReg.diskAlertThreshold = /^([5-9]\d|100)$/;
 gReg.alertInterval  = /^([3-9]|[1-9]\d{1,2}|1[0-3]\d{2}|14[0-3]\d|1440)$/;
 
+gReg.profileImport  = /^[0-9a-zA-Z._-]+$/;
+
 gReg.isTop          = /top_/;
 gReg.isPhp          = /php/;
 gReg.isEnabled      = /Enable/i;
@@ -2930,6 +2932,7 @@ $(document).ready(function () {
 
     function btnImport(e) {
         var tar = {};
+        var checker;
         tar.id = $(e.currentTarget).attr('id');
 
         if (!($('#popForm').exists()))
@@ -2984,19 +2987,23 @@ $(document).ready(function () {
                         break;
                     case 2:
                         if ('NA' != $('#Editor-importFrom-usb').val()) {
-                            gObj.form.fpath = $('#Editor-importFrom-usb').val();
-                            $.ajax({
-                                type: "POST",
-                                url: 'cgi-bin/' + gNode.url.importFromUSB + '.cgi',
-                                data: gObj.form,
-                                success: function(data) {
-                                    if (0 === parseInt( data.status ) ) {
-                                        genDevice( 'backup_restore' );
-                                    } else
-                                        errorAlert('<p>' + gError[ gObj.lang ][ data.msg ] + '</p>');
-                                }
-                            });
-                            $( this ).dialog( "close" );
+                            if (gReg.profileImport.test( $('#Editor-importFrom-usb').val())) {
+                                gObj.form.fpath = $('#Editor-importFrom-usb').val();
+                                $.ajax({
+                                    type: "POST",
+                                    url: 'cgi-bin/' + gNode.url.importFromUSB + '.cgi',
+                                    data: gObj.form,
+                                    success: function(data) {
+                                        if (0 === parseInt( data.status ) ) {
+                                            genDevice( 'backup_restore' );
+                                        } else
+                                            errorAlert('<p>' + gError[ gObj.lang ][ data.msg ] + '</p>');
+                                    }
+                                });
+                                $( this ).dialog( "close" );
+                            } else {
+                                errorAlert('<p>' + gError[ gObj.lang ].profileImport + '</p>');
+                            }
                         } else {
                             errorAlert('<p>' + gError[ gObj.lang ].profileName + '</p>');
                         }
@@ -3064,9 +3071,15 @@ $(document).ready(function () {
                 gObj.uploader.render("#Editor-importFrom-pc");
 
                 gObj.uploader.after("fileselect", function (e) {
-                    gIf.invalid = false;
                     gObj.uploaderFile = e.fileList[0];
-                    gY.one("#Editor-importFrom-pc-status").set("text", gObj.uploaderFile.get('name') );
+                    gY.log ( gObj.uploaderFile.get('name') ); 
+                    gY.log (gReg.profileImport.test( gObj.uploaderFile.get('name') )) ;
+                    if (gReg.profileImport.test( gObj.uploaderFile.get('name') )) {
+                        gIf.invalid = false;
+                        gY.one("#Editor-importFrom-pc-status").set("text", gObj.uploaderFile.get('name') );
+                    } else {
+                        errorAlert( '<p>' + gError[ gObj.lang ].profileImport + '</p>' );
+                    }
                 });
 
                 gObj.uploader.on("uploadprogress", function (e) {
@@ -3096,6 +3109,7 @@ $(document).ready(function () {
                     $('#Editor-importFrom-device').prop('disabled', true);
                     $('#Editor-importFrom-pc button').prop('disabled', true);
                     $('#Editor-importFrom-usb').prop('disabled', true);
+                    $('#Editor-importFrom-2').prop('disabled', true);
                     switch( parseInt( $(this).val() ) )
                     {
                     case 0:
@@ -3112,6 +3126,7 @@ $(document).ready(function () {
                                 gData[ 'common_usbFile_list' ] = data;
                                 $('#Editor-importFrom-usb').html('<option value="NA">' + gTerm[ gObj.lang ].selectFromUSB + '</option>');
                                 if (1 === parseInt(data.status)) {
+                                    $('#Editor-importFrom-2').prop('disabled', false);
                                     $('#Editor-importFrom-usb').prop('disabled', false);
                                     for (var i=0, len=data.guiUsbFileT.length; i<len; i++) {
                                         $('#Editor-importFrom-usb').append('<option value="' + data.guiUsbFileT[ i ].path + '">' + data.guiUsbFileT[ i ].name + '</option>');

@@ -251,6 +251,7 @@
     "_comment" : "--------",
     "_comment" : "backup restore",
     "profileName" : "please select profile",
+    "profileImport" : "profile name can only with [0-9a-zA-Z.-_]",
     "no_file_selected" : "no file selected",
     "missing_parameters" : "missing parameters",
     "missing_profile" : "missing profile",

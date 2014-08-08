@@ -1,0 +1,11 @@
+/**
+* tftp on mac
+**/
+
+/System/Library/LaunchDaemons/tftp.plist <-- tftp config
+
+sudo launchctl load -F /System/Library/LaunchDaemons/tftp.plist
+
+sudo launchctl start com.appl.tftpd
+
+

@@ -37,7 +37,7 @@ function formChecker( pid ) {
 
 // device
     case 'administrator_settings':
-        //tar.cols.push( { id: 'adminNewPwd', type: 'exists',  min: 1, max: 31, regex : /^[\x21\x23\x24\x26\x28-\x3E\x40-\x5F\x61-\x7E]{1,31}$/, pass: true } );
+        //tar.cols.push( { id: 'adminNewPwd', type: 'exists',  min: 1, max: 31, regex: /^[\x21\x23\x24\x26\x28-\x3E\x40-\x5F\x61-\x7E]{1,31}$/, pass: true } );
         tar.cols.push( { id: 'adminNewPwd', type: 'exists', length: { min: 1, max: 31 }, check: { id: 'adminName', type: 'regex', regex: /^[\x21\x23\x24\x26\x28-\x3E\x40-\x5F\x61-\x7E]{1,31}$/, pass: true }, pass: true } );
         tar.cols.push( { id: 'adminNewPwdConfirm', type: 'confirm', exists: 'adminNewPwd', pass: true } );
         tar.cols.push( { id: 'loginInactiveTimeout', type: 'range', min: 60, max: 1000, pass: true } );
@@ -48,6 +48,10 @@ function formChecker( pid ) {
     case 'management_settings':
         tar.cols.push( {id: 'httpsPort', type: 'range', min: 1, max: 65535, pass: true} );
         tar.cols.push( {id: 'sshPort', type: 'range', min: 1, max: 65535, pass: true} );
+        break;
+    case 'backup_restore':
+        tar.cols.push( { id: 'Editor-importFrom-1', type: 'checked', check: { id: 'Editor-importFrom-pc', type: 'regex', regex: /^[\x2D\x2E\x30-\x39\x41-\x5A\x5F\x61-\x7A]$/, pass: true }, pass: true } );
+        tar.cols.push( { id: 'Editor-importFrom-2', type: 'checked', check: { id: 'Editor-importFrom-usb', type: 'regex', regex: /^[\x2D\x2E\x30-\x39\x41-\x5A\x5F\x61-\x7A]$/, pass: true }, pass: true } );
         break;
     case 'email_alert':
         tar.cols.push( { id: 'server', type: 'regexs', regexs: { ipaddr: { regex: /^((((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3})(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))$/, pass: true}, domain : { regex: /[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/, min: 1, max: 63, pass: true } }, pass: true } );
@@ -74,6 +78,14 @@ function checkers( tar ) {
     {
        switch( tar.cols[ i ].type )
        {
+       case 'checked':
+           if ( $('#' + tar.cols[ i ].id).is(':checked') ) {
+               if ( !tar.cols[ i ].check.regex.test( $('#' + tar.cols[ i ].check.id).val()) ) {
+                   tar.cols[ i ].pass = false;
+                   tar.pass = false;
+               }
+           }
+           break; 
        case 'confirm':
            if ( $('#' + tar.cols[ i ].exists).val().length > 0 ) {
                if ( $('#' + tar.cols[ i ].id).val() != $('#' + tar.cols[ i ].exists).val() ) {
