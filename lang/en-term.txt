@@ -99,6 +99,7 @@
     "noData" : "no data of this interface during this period",
     "refreshPage" : "Refresh Page : ",
     "pppoe" : "IP Alias settings will be auto-removed",
+    "mtuValue6" : "MTU setting lower than minimum IPv6 link MTU, IPv6 function won't work",
     "exportDone": "file had been exported",
     "selectFromDevice": "Select From Existing Profile List",
     "selectFromUSB": "File List in USB",

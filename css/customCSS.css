@@ -389,6 +389,22 @@ a:link { text-decoration: none;}
     display: none;
 }
 
+/* popup */
+#popForm {
+    z-index: 1000;
+}
+
+#popPlus {
+    z-index: 1010;
+}
+
+#popMore {
+    z-index: 1020;
+}
+
+#popError {
+    z-index: 1030;
+}
 /* menu */
 #menu h3, #menu h4, #menu h5 {
     position:relative;
@@ -1636,7 +1652,7 @@ input:focus, select:focus {
     width: 200px;
     top: 25px;
     right: 10px;
-    z-index: 9876;
+    z-index: 1999;
     background: #EEE ;
     border: 1px solid #D4D8EB;
     -moz-border-radius: 4px;
