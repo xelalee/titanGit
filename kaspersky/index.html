@@ -1430,7 +1430,7 @@ $(document).ready(function () {
         $('#hd').html( gHtml.head );
     
         // assign lang icon
-        $('#hd_label').html( gCook.main );
+        // $('#hd_label').html( gCook.main );
         $('#hd_help').addClass( gObj.lang + '_help' );
         $('#hd_home').addClass( gObj.lang + '_home' );
         $('#hd_refresh').addClass( gObj.lang + '_refresh' );
@@ -8925,6 +8925,7 @@ $(document).ready(function () {
                     break;
                 case 1:
                     $('#basic_settings-wanProto-0-mtu').prop('disabled', false);
+                    $(this).click();
                     if (3 == gObj.routing.protoType) {
                         if (!gReg.mtuValue6.test( $('#basic_settings-wanProto-0-mtu').val() ))
                             remindAlert( '<p>' + gTerm[ gObj.lang ].mtuValue6 + '</p>' );
@@ -8949,6 +8950,7 @@ $(document).ready(function () {
                     break;
                 case 1:
                     $('#basic_settings-wanProto-1-mtu').prop('disabled', false);
+                    $(this).click();
                     if (3 == gObj.routing.protoType) {
                         if (!gReg.mtuValue6.test( $('#basic_settings-wanProto-1-mtu').val() ))
                             remindAlert( '<p>' + gTerm[ gObj.lang ].mtuValue6 + '</p>' );
@@ -8973,6 +8975,7 @@ $(document).ready(function () {
                     break;
                 case 1:
                     $('#basic_settings-wanProto-2-mtu').prop('disabled', false);
+                    $(this).click();
                     if (3 == gObj.routing.protoType) {
                         if (!gReg.mtuValue6PPPoE.test( $('#basic_settings-wanProto-2-mtu').val() ))
                             remindAlert( '<p>' + gTerm[ gObj.lang ].mtuValue6 + '</p>' );
@@ -9483,9 +9486,11 @@ $(document).ready(function () {
 
             if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
                 gObj.addressed = $('#basic_settings-address').val();
+                $('#basic_settings-netmask').prop('disabled', false);
                 if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
+                    $('#basic_settings-zoneId').prop('disabled', false);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                         gObj.tab.tabs('enable', 2);
                 }
@@ -9754,6 +9759,7 @@ $(document).ready(function () {
             }).val( gData[ tar.pid ][ gNode.dhcpT ][ tar.thisNo ].type ).trigger('change');
 
             $('#basic_settings-address').blur( function() {
+gY.log( '...' );
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
                     $('#basic_settings-netmask').prop('disabled', false);
                     $('#basic_settings-zoneId').prop('disabled', false);
@@ -9799,9 +9805,11 @@ $(document).ready(function () {
 
             if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
                 gObj.addressed = $('#basic_settings-address').val();
+                $('#basic_settings-netmask').prop('disabled', false);
                 if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
+                    $('#basic_settings-zoneId').prop('disabled', false);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                         gObj.tab.tabs('enable', 2);
                 }
@@ -10056,9 +10064,11 @@ $(document).ready(function () {
 
             if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
                 gObj.addressed = $('#basic_settings-address').val();
+                $('#basic_settings-netmask').prop('disabled', false);
                 if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
+                    $('#basic_settings-zoneId').prop('disabled', false);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                         gObj.tab.tabs('enable', 2);
                 }

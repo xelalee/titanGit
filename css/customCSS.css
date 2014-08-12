@@ -389,22 +389,6 @@ a:link { text-decoration: none;}
     display: none;
 }
 
-/* popup */
-#popForm {
-    z-index: 1000;
-}
-
-#popPlus {
-    z-index: 1010;
-}
-
-#popMore {
-    z-index: 1020;
-}
-
-#popError {
-    z-index: 1030;
-}
 /* menu */
 #menu h3, #menu h4, #menu h5 {
     position:relative;
