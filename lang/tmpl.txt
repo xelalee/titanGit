@@ -432,6 +432,15 @@
     "features"      : "1",
     "cgiAction"     : "0"
   },
+  "ipMacBinding": 
+  {
+    "gid"           : "0",
+    "enable"        : "0",
+    "dscrpt"        : "",
+    "ipAddr"        : "",
+    "macAddr"       : "",
+    "cgiAction"     : "0"
+  },
   "accountRegistration" :
   {
     "registrationMode": "",

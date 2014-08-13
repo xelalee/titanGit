@@ -454,6 +454,14 @@
       "1": "Enable"
     }
   },
+  "ipMacBinding" : 
+  {
+    "mode" : 
+    {
+      "0": "permit and others drop", 
+      "1": "drop and other permit"
+    }
+  },
   "group" : 
   {
     "defaultGroup" : "default",

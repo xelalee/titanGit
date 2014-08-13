@@ -584,6 +584,21 @@
       }
     ]
   },
+  {
+    "enable": 0,
+    "mode": 0,
+    "ipMacBindingT": 
+    [
+      {
+        "gid": 0,
+        "enable": 1,
+        "dscrpt": "",
+        "ipAddr": "",
+        "macAddr": "",
+        "cgiAction": 0
+      }
+    ]
+  },
   "groupList" :
   {
     "groupListT" :
