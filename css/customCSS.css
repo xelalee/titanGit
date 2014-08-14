@@ -1783,7 +1783,7 @@ div.Expand {
 
 /* networking */
 #div-dns_forwarder-general_configuration {
-    width: 240px;
+    width: 260px;
     background: #efefef;
     -mos-border-radius: 5px;
     border-radius: 5px;
@@ -1853,7 +1853,7 @@ div.Expand {
 
 #div-routeMode {
     position: relative;
-    width: 240px;
+    width: 260px;
     height: 100px;
     background: #efefef;
     -mos-border-radius: 10px;
@@ -1862,7 +1862,7 @@ div.Expand {
 
 #div-protoType {
     position: relative;
-    width: 240px;
+    width: 260px;
     height: 100px;
     background: #efefef;
     -mos-border-radius: 10px;
@@ -1872,7 +1872,7 @@ div.Expand {
 
 #div-alg {
     position: relative;
-    width: 140px;
+    width: 160px;
     height: 100px;
     background: #efefef;
     -mos-border-radius: 10px;
@@ -1911,7 +1911,7 @@ div.Expand {
 #div-tcp_udp {
     position: relative;
     height: 160px;
-    width: 480px;
+    width: 500px;
     background: #efefef url('images/i_64_tcp_timeout_00.png') center center no-repeat;
     -mos-border-radius: 5px;
     border-radius: 5px;
@@ -1920,7 +1920,7 @@ div.Expand {
 #div-other {
     position: relative;
     height: 100px;
-    width: 480px;
+    width: 500px;
     background: #efefef url('images/i_64_other_sessioin_timeout_duration_00.png') center center no-repeat;
     -mos-border-radius: 5px;
     border-radius: 5px;
@@ -2389,13 +2389,13 @@ div.Expand {
 /* device > properties */
 #div-properties {
     position: relative;
-    width: 420px;
+    width: 440px;
     height: 420px;
 }
 
 #div-hostname {
     position: relative;
-    width: 400px;
+    width: 420px;
     height: 160px;
     background: #efefef url('images/i_128_host_time_00.png') center left no-repeat;
     background-position: 20px 16px;
@@ -2405,7 +2405,7 @@ div.Expand {
 
 #div-domainname {
     position: relative;
-    width: 400px;
+    width: 420px;
     height: 160px;
     background: #efefef url('images/i_128_domain_name_00.png') center left no-repeat;
     background-position: 20px 16px;
@@ -2441,7 +2441,7 @@ div.Expand {
 /* device > date and time */
 #div-systime_tzName {
     position: relative;
-    width: 660px;
+    width: 680px;
     height: 150px;
     background: #efefef url('images/i_128_time_zone_00.png') center left no-repeat;
     background-position: 15px 15px;
@@ -2452,7 +2452,7 @@ div.Expand {
 
 #div-system_time {
     position: relative;
-    width: 660px;
+    width: 680px;
     height: 360px;
     background: #efefef;
     -mos-border-radius: 10px;
@@ -2485,7 +2485,7 @@ div.Expand {
 /* device > loggings */
 #div-log_enable {
     position: relative;
-    width: 300px;
+    width: 320px;
     height: 20px;
     background: #efefef ;
     -mos-border-radius: 10px;
@@ -2496,7 +2496,7 @@ div.Expand {
 
 #div-log_local {
     position: relative;
-    width: 300px;
+    width: 320px;
     height: 80px;
     background: #efefef url('images/i_64_local_log_00.png') center left no-repeat;
     background-position: 15px 15px;
@@ -2508,7 +2508,7 @@ div.Expand {
 
 #div-log_remote {
     position: relative;
-    width: 300px;
+    width: 320px;
     height: 100px;
     background: #efefef url('images/i_64_remote_log_00.png') center left no-repeat;
     background-position: 15px 15px;
@@ -2520,7 +2520,7 @@ div.Expand {
 
 #div-log_email {
     position: relative;
-    width: 300px;
+    width: 320px;
     height: 140px;
     background: #efefef url('images/i_64_email_alert_00.png') center left no-repeat;
     background-position: 15px 15px;
@@ -2532,7 +2532,7 @@ div.Expand {
 
 /* device > proxy */
 #div-proxy {
-    width: 350px;
+    width: 380px;
     background: #efefef;
     -mos-border-radius: 10px;
     border-radius: 10px;

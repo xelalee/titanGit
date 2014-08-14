@@ -331,7 +331,7 @@ gReg.length127 = /^((.){1,127})$/;
 gReg.length0127 = /^((.){0,127})$/;
 
 //gReg.hostname     = /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/;
-gReg.hostname   = /^(([a-zA-Z0-9\._]){0,31})$/;
+gReg.hostname   = /^([a-zA-Z0-9\._]{0,31})$/;
 gReg.domainName   = /^((.){0,255})$/;
 gReg.domainURL    = /^(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/i;
 gReg.domain       = /^[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$/;
@@ -12414,7 +12414,9 @@ gY.log( '...' );
                                 tmp = '<tr class="' + ((i%2==0)? 'even' : 'odd') + '">';
                                 for (var j=0, jlen=gNode.col.length; j<jlen; j++) 
                                 {
-                                    if (gNode.col[ j ].tab == 'checkbox') {
+                                    switch (gNode.col[ j ].tab)
+                                    {
+                                    case 'checkbox':
                                         tmp += '<td>';
                                         if (parseInt( data[ gNode.guiT ][ i ].userDefined ) != 0 && gIf.power) {
                                             tmp += '<input type="checkbox" value="' + i + '" id="' + gNode.col[ j ].tab + '-' + i + '" />';
@@ -12422,7 +12424,8 @@ gY.log( '...' );
                                             tmp += '';
                                         }
                                         tmp += '</td>';
-                                    } else if (gNode.col[ j ].tab == 'action') {
+                                        break;
+                                    case 'action':
                                         tmp += '<td>'; 
                                         if (gIf.power) {
                                             for (var k=0, klen=gObj.btn.length; k<klen; k++)
@@ -12435,7 +12438,8 @@ gY.log( '...' );
                                             tmp += '';
                                         }
                                         tmp += '</td>';
-                                    } else if (gNode.col[ j ].tab == 'destinatedNetwork') {
+                                        break;
+                                    case 'destinatedNetwork':
                                         tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">'; 
                                         if (1 === parseInt( data[ gNode.guiT ][ i ].isDefaultRt )) {
                                             tmp += 'default' ;
@@ -12445,7 +12449,8 @@ gY.log( '...' );
                                             gCache[ pid ].dstIpId.push( parseInt( data[ gNode.guiT ][ i ].dstIpId ) );
                                         }
                                         tmp += '</td>'; 
-                                    } else if (gNode.col[ j ].tab == 'nextHop') {
+                                        break;
+                                    case 'nextHop':
                                         tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">'; 
                                         switch( parseInt(data[ gNode.guiT ][ i ].nhType) )
                                         {
@@ -12457,11 +12462,19 @@ gY.log( '...' );
                                             break;
                                         }
                                         tmp += '</td>';
-                                    } else if (gNode.col[ j ].tab == 'name') {
+                                        break;
+                                    case 'cipher':
+                                    case 'hash':
+                                    case 'dhgroup':
+                                    case 'pfsgroup':
+                                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gRef[ gNode.url.get ][ gNode.col[ j ].tab ][ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] + '</td>';
+                                    case 'name':
                                         gCache.uniq[ pid ][ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] = true;
                                         tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] + '</td>'; 
-                                    } else 
+                                        break;
+                                    default:
                                         tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] + '</td>'; 
+                                    }
                                 }
                                 tmp += '</tr>';
                                 $('#table-' + pid + ' tbody').append(tmp);
@@ -12832,7 +12845,9 @@ gY.log( '...' );
                 tmp = '<tr class="' + ((trNo%2==0)? 'even' : 'odd') + '">';
                 for (var j=0, jlen=gNode.col.length; j<jlen; j++)
                 {
-                    if (gNode.col[ j ].tab == 'checkbox') {
+                    switch (gNode.col[ j ].tab)
+                    { 
+                    case 'checkbox':
                         tmp += '<td class="checkboxTD">';
                         if (gIf.power && 1 === parseInt( gData[ pid ][ gNode.guiT ][ i ].userDefined )) {
                             tmp += '<input type="checkbox" value="' + i + '" id="' + gNode.col[ j ].tab + '-' + i + '" />';
@@ -12840,7 +12855,8 @@ gY.log( '...' );
                             tmp += '';
                         }
                         tmp += '</td>';
-                    } else if (gNode.col[ j ].tab == 'action') {
+                        break;
+                    case 'action':
                         tmp += '<td class="buttonTD">';
                         if (gIf.power) {
                             for (var z=0, zlen=gObj.btn.length; z<zlen; z++) 
@@ -12853,7 +12869,8 @@ gY.log( '...' );
                             tmp += '';
                         }
                         tmp += '</td>';
-                    } else if (gNode.col[ j ].tab == 'destinatedNetwork') {
+                        break;
+                    case 'destinatedNetwork':
                         tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">'; 
                         if (parseInt( gData[ pid ][ gNode.guiT ][ i ].isDefaultRt ) == 1) {
                             tmp += 'default' ;
@@ -12862,7 +12879,8 @@ gY.log( '...' );
                             tmp += gCache.address[ parseInt( gData[ pid ][ gNode.guiT ][ i ].dstIpId ) ];
                         }
                         tmp += '</td>'; 
-                    } else if (gNode.col[ j ].tab == 'nextHop') {
+                        break;
+                    case 'nextHop':
                         tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">'; 
                         switch( parseInt(gData[ pid ][ gNode.guiT ][ i ].nhType) )
                         {
@@ -12874,8 +12892,16 @@ gY.log( '...' );
                             break;
                         }
                         tmp += '</td>';
-                    } else 
+                        break;
+                    case 'cipher':
+                    case 'hash':
+                    case 'dhgroup':
+                    case 'pfsgroup':
+                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gRef[ gNode.url.get ][ gNode.col[ j ].tab ][ gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] + '</td>';
+                        break;
+                    default:
                         tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ] + '</td>'; 
+                    }
                 }
                 tmp += '</tr>';
                 $('#table-' + pid + ' tbody').append(tmp);
@@ -20874,7 +20900,7 @@ gY.log( '...' );
         if (!($('#popForm').exists()))
             $('#popBase').append('<div id="popForm"></div>');
     
-        tar.w = 480;
+        tar.w = 600;
     
         var tmp;
     

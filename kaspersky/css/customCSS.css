@@ -1,6 +1,6 @@
 /* html */
 html {
-    background: url('images/bg_plain.jpg');
+    background: url('images/bg_plain.jpg')
 }
 
 /* layout outline */
@@ -59,8 +59,8 @@ html {
     position: absolute;
     left: 45px;
     top: 64px;
-    width: 0; 
-    height: 0; 
+    width: 0;
+    height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
     border-top: 7px solid #007260;
@@ -72,8 +72,8 @@ html {
     position: absolute;
     left: 103px;
     top: 55px;
-    width: 0; 
-    height: 0; 
+    width: 0;
+    height: 0;
     border-top: 5px solid transparent;
     border-bottom: 5px solid transparent;
     border-right: 7px solid #007260;
@@ -85,8 +85,8 @@ html {
     position: absolute;
     left: 180px;
     top: 66px;
-    width: 0; 
-    height: 0; 
+    width: 0;
+    height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
     border-bottom: 7px solid #007260;
@@ -324,10 +324,10 @@ html {
 #menu {
     position: absolute;
     width: 180px;
-    height: 665px;
+    height: 667px;
     padding: 0;
-    top: 0;
-    background-color: #007260; /*#625b57; */
+    top: -2px;
+    background-color: #007260;
 }
 
 #main {
@@ -340,7 +340,7 @@ html {
 
 #main_hd {
     position: relative;
-    background: #007260; /*url('images/tab_bar_00.png') top left no-repeat; */
+    background: #007260;
     width: 824px;
     height: 29px;
     margin: 3px 10px 0 10px;
@@ -379,7 +379,7 @@ html {
     margin: 0;
     padding: 0;
     border: none;
-    background-color: #007260; /*#b1422f; */
+    background-color: #007260;
 }
 
 /* footer */
@@ -390,13 +390,13 @@ html {
     width: 844px;
     height: 20px;
     padding: 0;
-    background-color: black; /*#625b57;*/
+    background-color: black;
 }
 
 #ft div {
     font-size:80%;
-    width: 844px;
-    padding: 5px 0 0 0;
+    width: 842px;
+    padding: 1px;
     letter-spacing: normal;
     text-align: center;
     color: white;
@@ -550,7 +550,7 @@ a:link { text-decoration: none;}
 }
 
 #menu .accordion-ul-li h3.ui-state-default {
-    background: url('images/m0.jpg'); 
+    background: url('images/m0.jpg');
     border: none;
     width: 180px;
     height: 26px;
@@ -574,7 +574,7 @@ a:link { text-decoration: none;}
 }
 
 #menu .accordion-ul-li h3.ui-state-active {
-    background: #007260; /* url('images/m1.jpg'); */
+    background: #007460;
     border: none;
     height: 34px;
 background: #007460;
@@ -588,7 +588,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007460', end
 }
 
 #menu .accordion-ul-li h3:hover {
-    background: #007260; /* url('images/m1.jpg'); */
+    background: #007260;
     border: none;
     height: 34px;
 background: #007460;
@@ -619,7 +619,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007460', end
 }
 
 #menu .accordion-ul-ul-li h4, #menu .accordion-ul-ul-ul-li h4.ui-state-default {
-    background: #007260; /* url('images/m2.jpg'); */
+    background: #007260;
     border: none;
     width: 180px;
     height: 26px;
@@ -634,7 +634,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007460', end
 
 #menu .accordion-ul-ul-ul-li h4.ui-state-active {
     border: none;
-    background: #007260; /* url('images/m2.jpg'); */
 background: #008270;
 background: -moz-linear-gradient(top, #008270 0%, #d1d1d1 51%, #008270 100%);
 background: -webkit-gradient(left top, left bottom, color-stop(0%, #008270), color-stop(51%, #d1d1d1), color-stop(100%, #008270));
@@ -652,7 +651,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#008270', end
 }
 
 #menu .accordion-ul-ul-ul-ul-li h5 {
-    background: #008270; /* url('images/m3.jpg'); */
+    background: #008270;
     border: none;
     width: 180px;
     height: 26px;
@@ -941,7 +940,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#008270', end
     font-family: Arial;
     font-size: 34px;
     font-weight: normal;    /* options are normal, bold, bolder, lighter */
-    color: #ea212d;
+    color: red;
 }
 
 .titleA {    /* the styles below will affect the title under the numbers, i.e., “Days”, “Hours”, etc. */
@@ -1770,7 +1769,7 @@ input:focus, select:focus {
     width: 200px;
     top: 25px;
     right: 10px;
-    z-index: 9876;
+    z-index: 1999;
     background: #EEE ;
     border: 1px solid #D4D8EB;
     -moz-border-radius: 4px;
@@ -1882,6 +1881,7 @@ span.linkStatus.linkDown {
 }
 
 div {
+    /* font-family: "Lucida Grande", "Times New Roman", Times, serif; */
 
 }
 
@@ -1916,7 +1916,7 @@ div.Expand {
 
 /* networking */
 #div-dns_forwarder-general_configuration {
-    width: 240px;
+    width: 260px;
     background: #efefef;
     -mos-border-radius: 5px;
     border-radius: 5px;
@@ -1986,7 +1986,7 @@ div.Expand {
 
 #div-routeMode {
     position: relative;
-    width: 240px;
+    width: 260px;
     height: 100px;
     background: #efefef;
     -mos-border-radius: 10px;
@@ -1995,7 +1995,7 @@ div.Expand {
 
 #div-protoType {
     position: relative;
-    width: 240px;
+    width: 260px;
     height: 100px;
     background: #efefef;
     -mos-border-radius: 10px;
@@ -2005,7 +2005,7 @@ div.Expand {
 
 #div-alg {
     position: relative;
-    width: 140px;
+    width: 160px;
     height: 100px;
     background: #efefef;
     -mos-border-radius: 10px;
@@ -2044,7 +2044,7 @@ div.Expand {
 #div-tcp_udp {
     position: relative;
     height: 160px;
-    width: 480px;
+    width: 500px;
     background: #efefef url('images/i_64_tcp_timeout_00.png') center center no-repeat;
     -mos-border-radius: 5px;
     border-radius: 5px;
@@ -2053,7 +2053,7 @@ div.Expand {
 #div-other {
     position: relative;
     height: 100px;
-    width: 480px;
+    width: 500px;
     background: #efefef url('images/i_64_other_sessioin_timeout_duration_00.png') center center no-repeat;
     -mos-border-radius: 5px;
     border-radius: 5px;
@@ -2522,13 +2522,13 @@ div.Expand {
 /* device > properties */
 #div-properties {
     position: relative;
-    width: 420px;
+    width: 440px;
     height: 420px;
 }
 
 #div-hostname {
     position: relative;
-    width: 400px;
+    width: 420px;
     height: 160px;
     background: #efefef url('images/i_128_host_time_00.png') center left no-repeat;
     background-position: 20px 16px;
@@ -2538,7 +2538,7 @@ div.Expand {
 
 #div-domainname {
     position: relative;
-    width: 400px;
+    width: 420px;
     height: 160px;
     background: #efefef url('images/i_128_domain_name_00.png') center left no-repeat;
     background-position: 20px 16px;
@@ -2574,7 +2574,7 @@ div.Expand {
 /* device > date and time */
 #div-systime_tzName {
     position: relative;
-    width: 660px;
+    width: 680px;
     height: 150px;
     background: #efefef url('images/i_128_time_zone_00.png') center left no-repeat;
     background-position: 15px 15px;
@@ -2585,7 +2585,7 @@ div.Expand {
 
 #div-system_time {
     position: relative;
-    width: 660px;
+    width: 680px;
     height: 360px;
     background: #efefef;
     -mos-border-radius: 10px;
@@ -2618,7 +2618,7 @@ div.Expand {
 /* device > loggings */
 #div-log_enable {
     position: relative;
-    width: 300px;
+    width: 320px;
     height: 20px;
     background: #efefef ;
     -mos-border-radius: 10px;
@@ -2629,7 +2629,7 @@ div.Expand {
 
 #div-log_local {
     position: relative;
-    width: 300px;
+    width: 320px;
     height: 80px;
     background: #efefef url('images/i_64_local_log_00.png') center left no-repeat;
     background-position: 15px 15px;
@@ -2641,7 +2641,7 @@ div.Expand {
 
 #div-log_remote {
     position: relative;
-    width: 300px;
+    width: 320px;
     height: 100px;
     background: #efefef url('images/i_64_remote_log_00.png') center left no-repeat;
     background-position: 15px 15px;
@@ -2653,7 +2653,7 @@ div.Expand {
 
 #div-log_email {
     position: relative;
-    width: 300px;
+    width: 320px;
     height: 140px;
     background: #efefef url('images/i_64_email_alert_00.png') center left no-repeat;
     background-position: 15px 15px;
@@ -2665,7 +2665,7 @@ div.Expand {
 
 /* device > proxy */
 #div-proxy {
-    width: 350px;
+    width: 380px;
     background: #efefef;
     -mos-border-radius: 10px;
     border-radius: 10px;
