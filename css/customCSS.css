@@ -344,10 +344,10 @@ ul { margin: 0; padding: 0; }
 ul li { margin: 0; padding: 0}
 a:link { text-decoration: none;}
 
-/* login */
-#loginDiv {
-    width: 361px;
-    height: 229px;
+/* login, redirect */
+#loginDiv, #redirectDiv {
+    width: 400px;
+    height: 230px;
     margin: 150px auto;
     background: url('images/bg_upper_06.png') top center no-repeat;
     border: 1px solid gray;
@@ -357,7 +357,7 @@ a:link { text-decoration: none;}
 }
 
 #loginDiv table {
-    margin: 70px 0 0 50px;
+    margin: 70px 0 0 70px;
 }
 
 #loginDiv table tr {
@@ -1818,7 +1818,7 @@ div.Expand {
 
 #div-multiwan_settings {
     position: relative;
-    width: 300px;
+    width: 320px;
     height: 120px;
     background: #efefef;
     -mos-border-radius: 10px;
@@ -1829,7 +1829,7 @@ div.Expand {
 
 #div-default_dns_settings {
     position: relative;
-    width: 260px;
+    width: 280px;
     height: 70px;
     background: #efefef;
     -mos-border-radius: 10px;
@@ -1964,9 +1964,9 @@ div.Expand {
 }
 
 #div-attack_protection {
-    width: 800px;
-    heigth: 500px;
+    width: 820px;
     color: black;
+    margin-top: 5px;
 }
 
 #div-wan_security_checks {

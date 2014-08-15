@@ -8376,6 +8376,76 @@
                         "texts" : 5
                       }
                     ]
+                  },
+                  {
+                    "label" : "CIFS",
+                    "tab" : "cifs",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" :
+                    [
+                      {
+                        "label" : "Enable",
+                        "tab" : "cifsEnable",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "Log",
+                        "tab" : "cifsLog",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "Action",
+                        "tab" : "cifsAct",
+                        "tag" : "select",
+                        "type" : "select",
+                        "option" :
+                        {
+                          "0" : "none",
+                          "1" : "notify",
+                          "2" : "notify + destruct file"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "label" : "IMAP",
+                    "tab" : "imap",
+                    "tag" : "table",
+                    "type" : "table",
+                    "col" :
+                    [
+                      {
+                        "label" : "Enable",
+                        "tab" : "imapEnable",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "Log",
+                        "tab" : "imapLog",
+                        "tag" : "input",
+                        "type" : "checkbox",
+                        "val" : 1
+                      },
+                      {
+                        "label" : "Action",
+                        "tab" : "imapAct",
+                        "tag" : "select",
+                        "type" : "select",
+                        "option" :
+                        {
+                          "0" : "none",
+                          "1" : "notify",
+                          "2" : "notify + destruct file"
+                        }
+                      }
+                    ]
                   }
                 ]
               },

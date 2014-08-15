@@ -3500,10 +3500,8 @@ $(document).ready(function () {
     }
 
     function btnSearch( e ) {
-gY.log('....');
         var tar = {};
         tar.id = $(e.currentTarget).attr('id');
-gY.log( tar.id );
 
     }
 
@@ -5913,7 +5911,10 @@ gY.log( tar.id );
                                                 tmp += (j+1);
                                                 break;
                                             case 'protocol':
-                                                tmp += gRef.protocol[ data.queryResults[ j ][ gNode.col[ 0 ][ i ].tab ] ];;
+                                                if ('traffic_direction' == pid)
+                                                    tmp += gRef.protocol[ data.queryResults[ j ][ gNode.col[ 0 ][ i ].tab ] ];
+                                                else
+                                                    tmp += data.queryResults[ j ][ gNode.col[ 0 ][ i ].tab ];
                                                 break;
                                             case 'totalBytes':
                                             case 'txBytes':
@@ -6498,7 +6499,10 @@ gY.log( tar.id );
                                                     tmp += (j+1);
                                                     break;
                                                 case 'protocol':
-                                                    tmp += gRef.protocol[ data.queryResults[ j ][ gNode.col[ gQuery.a ][ i ].tab ] ];;
+                                                    if ('traffic_direction' == pid)
+                                                        tmp += gRef.protocol[ data.queryResults[ j ][ gNode.col[ gQuery.a ][ i ].tab ] ];
+                                                    else
+                                                        tmp += data.queryResults[ j ][ gNode.col[ gQuery.a ][ i ].tab ];
                                                     break;
                                                 case 'totalBytes':
                                                 case 'txBytes':
@@ -8264,14 +8268,11 @@ gY.log( tar.id );
                         gObj.addressed = $('#basic_settings-address').val();
                     }
                 } else {
-                    $('#basic_settings-netmask').prop('disabled', true);
-                    $('#basic_settings-zoneId').prop('disabled', true);
                     if (3 == gObj.routing.protoType) {
                         gObj.tab.tabs({"disabled": [1,2,3]});
                     } else {
                         gObj.tab.tabs({"disabled": [1,2,3,4]});
                     }
-                    $('#basic_settings-address').focus();
                 }
             });
 
@@ -8511,8 +8512,6 @@ gY.log( tar.id );
                             gObj.addressed = $('#basic_settings-address').val();
                         } 
                     } else {
-                        $('#basic_settings-netmask').prop('disabled', true);
-                        $('#basic_settings-zoneId').prop('disabled', true);
                         if (3 == gObj.routing.protoType) {
                             gObj.tab.tabs({"disabled": [1,2,3]});
                         } else {
@@ -9475,8 +9474,6 @@ gY.log( tar.id );
                         gObj.addressed = $('#basic_settings-address').val();
                     } 
                 } else {
-                    $('#basic_settings-netmask').prop('disabled', true);
-                    $('#basic_settings-zoneId').prop('disabled', true);
                     if (gObj.routing.protoType == 3) {
                         gObj.tab.tabs({"disabled": [1,2,3]});
                     } else {
@@ -9750,8 +9747,6 @@ gY.log( tar.id );
     
             genAlias( tar.pid, gData[ tar.pid ][ gNode.aliasT ][ tar.thisNo ] );
             genDhcpBinding( tar.thisNo );
-            $('#basic_settings-netmask').prop('disabled', true);
-            $('#basic_settings-zoneId').prop('disabled', true);
             if (3 == gObj.routing.protoType)
                 gObj.tab.tabs({"disabled": [1,2,3]});
             else
@@ -9793,8 +9788,6 @@ gY.log( tar.id );
                         gObj.addressed = $('#basic_settings-address').val();
                     } 
                 } else {
-                    $('#basic_settings-netmask').prop('disabled', true);
-                    $('#basic_settings-zoneId').prop('disabled', true);
                     if (gObj.routing.protoType == 3) {
                         gObj.tab.tabs({"disabled": [1,2,3]});
                     } else {
@@ -10053,8 +10046,6 @@ gY.log( tar.id );
                         gObj.addressed = $('#basic_settings-address').val();
                     } 
                 } else {
-                    $('#basic_settings-netmask').prop('disabled', true);
-                    $('#basic_settings-zoneId').prop('disabled', true);
                     if (gObj.routing.protoType == 3) {
                         gObj.tab.tabs({"disabled": [1,2,3]});
                     } else {
@@ -17140,7 +17131,6 @@ gY.log( tar.id );
                                         if (gNode.tblAction && gIf.power) {
                                             genTblAction( pid );
 
-                                            gY.log( data[ gNode.guiT ].length )
                                             switch( data[ gNode.guiT ].length )
                                             {
                                             case 0:
@@ -30061,17 +30051,17 @@ gY.log( tar.id );
                 // check if existing dhcp settings, based on /24  
                 var range = pick_bigger( address, netmask );
                 
-                if (gReg.isIPv4.test($('#dhcp_pool_settings-1-startIp').val()) && gReg.isIPv4.test($('#dhcp_pool_settings-1-endIp').val())) {
-                    if (address == gObj.addressed) 
-                        $('#dhcp_pool_settings-1-gateway').val( address );
-                } else {
+                //if (gReg.isIPv4.test($('#dhcp_pool_settings-1-startIp').val()) && gReg.isIPv4.test($('#dhcp_pool_settings-1-endIp').val())) {
+                //    if (address == gObj.addressed) 
+                //        $('#dhcp_pool_settings-1-gateway').val( address );
+                //} else {
                     $('#dhcp_pool_settings-1-gateway').val( address );
-                }
+                //}
 
                 $('#dhcp_pool_settings-1-startIp').val( range.start.join('.') );
                 $('#dhcp_pool_settings-1-endIp').val( range.end.join('.') );
 
-                if ( !gReg.ipv4.test( $('#dhcp_pool_settings-1-dns1').val() ) ) 
+                //if ( !gReg.ipv4.test( $('#dhcp_pool_settings-1-dns1').val() ) ) 
                     $('#dhcp_pool_settings-1-dns1').val( address );
             }
         }

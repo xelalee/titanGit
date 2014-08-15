@@ -51,15 +51,15 @@
   {
     "speed" : 
     {
-      "0"   : "auto", 
-      "10"  : "10", 
-      "100" : "100", 
-      "1000": "1000"
+      "0"   : "Auto", 
+      "10"  : "10Mb", 
+      "100" : "100Mb", 
+      "1000": "1000Mb"
     },
     "duplex" : 
     {
-      "0": "full",
-      "1": "half"
+      "0": "Full",
+      "1": "Half"
     },
     "link" : 
     {
@@ -111,8 +111,8 @@
   },
   "privilege" : 
   {
-    "1": "read-only",
-    "3": "admin"
+    "1": "Read-Only",
+    "3": "Admin"
   },
   "dhcpLeases" : 
   {
@@ -145,15 +145,15 @@
   {
     "speed" : 
     {
-      "0": "auto",
-      "10": "10",
-      "100": "100",
-      "1000": "1000"
+      "0": "Auto",
+      "10": "10Mb",
+      "100": "100Mb",
+      "1000": "1000Mb"
     },
     "duplex" : 
     {
-      "0": "full",
-      "1": "half"
+      "0": "Full",
+      "1": "Half"
     },
     "type" : 
     {
@@ -191,9 +191,9 @@
   {
     "dhcpType" :
     {
-      "0": "disable",
-      "1": "dhcp server",
-      "2": "dhcp relay"
+      "0": "Disable",
+      "1": "Dhcp Server",
+      "2": "Dhcp Relay"
     },
     "type" :
     {
@@ -217,9 +217,9 @@
   {
     "dhcpType" : 
     {
-      "0": "disable",
-      "1": "dhcp server",
-      "2": "dhcp relay"
+      "0": "Disable",
+      "1": "Dhcp Server",
+      "2": "Dhcp Relay"
     },
     "type" : 
     {
@@ -313,9 +313,9 @@
     },
     "dpdaction" : 
     {
-      "1": "hold",
-      "2": "clear",
-      "3": "restart"
+      "1": "Hold",
+      "2": "Clear",
+      "3": "Restart"
     },
     "backupPolicy" : {},
     "freez"        : []
@@ -375,13 +375,13 @@
   {
     "enabled" : 
     {
-      "0": "disabled", 
-      "1": "enabled" 
+      "0": "Disabled", 
+      "1": "Enabled" 
     },
     "log" : 
     {
-      "0": "disabled", 
-      "1": "enabled" 
+      "0": "Disabled", 
+      "1": "Enabled" 
     },
     "matchAction" : 
     { 
@@ -409,8 +409,8 @@
   {
     "enabled" : 
     {
-      "0": "disabled", 
-      "1": "enabled" 
+      "0": "Disabled", 
+      "1": "Enabled" 
     }
   },
   "portForwarding" :
@@ -682,41 +682,47 @@
       "0" : "Any"
     },
     "enable" : {
-      "1" : "enable",
-      "0" : "disable"
+      "1" : "Enable",
+      "0" : "Disable"
     },
     "logEnable" : {
-      "1" : "enable",
-      "0" : "disable"
+      "1" : "Enable",
+      "0" : "Disable"
     },
     "httpAct": 
     {
-      "0": "none",
-      "1": "notify",
-      "2": "notify + drop connection"
+      "0": "None",
+      "1": "Notify",
+      "2": "Notify + Drop connection"
     },
     "ftpAct": 
     {
-      "0": "none",
-      "1": "drop connection"
+      "0": "None",
+      "1": "Drop connection"
     },
     "smtpAct": 
     {
-      "0": "none",
-      "1": "notify",
-      "2": "notify + destruct file"
+      "0": "None",
+      "1": "Notify",
+      "2": "Notify + Destruct file"
     },
     "pop3Act": 
     {
-      "0": "none",
-      "1": "notify",
-      "2": "notify + destruct file"
+      "0": "None",
+      "1": "Notify",
+      "2": "Notify + Destruct file"
+    },
+    "cifsAct":
+    {
+      "0": "None",
+      "1": "Notify",
+      "2": "Notify + Destruct file"
     },
     "imapAct": 
     {
-      "0": "none",
-      "1": "notify",
-      "2": "notify + destruct file"
+      "0": "None",
+      "1": "Notify",
+      "2": "Notify + Destruct file"
     },
     "features" : {
       "1" : "AV",
@@ -724,9 +730,9 @@
       "4" : "AntiSpam"
     },
     "type" : {
-      "0" : "hourly",
-      "1" : "daily",
-      "2" : "weekly"
+      "0" : "Hourly",
+      "1" : "Daily",
+      "2" : "Weekly"
     },
     "number" : {
       "min" : 
@@ -744,8 +750,8 @@
     },
     "licensed":
     {
-      "0" : "not licensed",
-      "1" : "licensed"
+      "0" : "Not licensed",
+      "1" : "Licensed"
     }
   },
   "emailAlert" :
@@ -758,14 +764,14 @@
     },
     "secureMethod" :
     {
-      "0" : "none",
+      "0" : "None",
       "1" : "TLS",
       "2" : "SSL"
     },
     "enabled" :
     {
-      "0" : "disabled",
-      "1" : "enabled"
+      "0" : "Disabled",
+      "1" : "Enabled"
     }
   },
   "loggings" :

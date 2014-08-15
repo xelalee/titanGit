@@ -342,8 +342,9 @@ html {
     position: relative;
     background: #007260;
     width: 824px;
-    height: 29px;
-    margin: 3px 10px 0 10px;
+    height: 26px;
+    padding: 0 3px 3px 3px;
+    margin: 3px 10px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
@@ -408,11 +409,11 @@ ul { margin: 0; padding: 0; }
 ul li { margin: 0; padding: 0}
 a:link { text-decoration: none;}
 
-/* login */
-#loginDiv {
+/* login, redirect */
+#loginDiv, #redirectDiv {
     position: relative;
-    width: 361px;
-    height: 229px;
+    width: 400px;
+    height: 230px;
     margin: 150px auto;
     background: url('images/kaspersky.png') -15px -30px no-repeat, url('images/map.gif') center center no-repeat;
     background-size: 50%, 500px;
@@ -443,14 +444,14 @@ a:link { text-decoration: none;}
 #login_label {
     position: absolute;
     top: 2px;
-    left: 141px;
+    left: 162px;
     font:italic bold 8pt/20pt Georgia, serif;
     color: white;
     text-shadow: 0.4em 0.4em 0.8em #333;
 }
 
 #loginDiv table {
-    margin: 70px 0 0 50px;
+    margin: 70px 0 0 70px;
 }
 
 #loginDiv table tr {
@@ -1951,7 +1952,7 @@ div.Expand {
 
 #div-multiwan_settings {
     position: relative;
-    width: 300px;
+    width: 320px;
     height: 120px;
     background: #efefef;
     -mos-border-radius: 10px;
@@ -1962,7 +1963,7 @@ div.Expand {
 
 #div-default_dns_settings {
     position: relative;
-    width: 260px;
+    width: 280px;
     height: 70px;
     background: #efefef;
     -mos-border-radius: 10px;
@@ -2097,9 +2098,9 @@ div.Expand {
 }
 
 #div-attack_protection {
-    width: 800px;
-    heigth: 500px;
+    width: 820px;
     color: black;
+    margin-top: 5px;
 }
 
 #div-wan_security_checks {
