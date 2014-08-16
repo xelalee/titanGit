@@ -8244,7 +8244,6 @@ $(document).ready(function () {
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
                         autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val() );
-                        gObj.addressed = $('#basic_settings-address').val();
                     }
                 } else {
                     if (3 == gObj.routing.protoType) {
@@ -8257,7 +8256,6 @@ $(document).ready(function () {
 
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
-                    gObj.addressed = $('#basic_settings-address').val();
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
@@ -8488,7 +8486,6 @@ $(document).ready(function () {
                             if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                                 gObj.tab.tabs('enable', 2);
                             autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val() );
-                            gObj.addressed = $('#basic_settings-address').val();
                         } 
                     } else {
                         if (3 == gObj.routing.protoType) {
@@ -8501,7 +8498,6 @@ $(document).ready(function () {
                 
                 $('#basic_settings-netmask').blur( function() {
                     if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
-                        gObj.addressed = $('#basic_settings-address').val();
                         gObj.tab.tabs('enable', 1);
                         gObj.tab.tabs('enable', 3);
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
@@ -9449,8 +9445,7 @@ $(document).ready(function () {
                         gObj.tab.tabs('enable', 3);
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
-                        autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val() );
-                        gObj.addressed = $('#basic_settings-address').val();
+                        autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $('#dhcp_pool_settings-1-startIp').val(), $('#dhcp_pool_settings-1-endIp').val() );
                     } 
                 } else {
                     if (gObj.routing.protoType == 3) {
@@ -9463,12 +9458,11 @@ $(document).ready(function () {
             
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
-                    gObj.addressed = $('#basic_settings-address').val();
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                         gObj.tab.tabs('enable', 2);
-                    autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val() );
+                    autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $('#dhcp_pool_settings-1-startIp').val(), $('#dhcp_pool_settings-1-endIp').val() );
                 }else {
                     if (gObj.routing.protoType == 3) {
                         gObj.tab.tabs({"disabled": [1,2,3]});
@@ -9483,7 +9477,6 @@ $(document).ready(function () {
             $('#basic_settings-netmask').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
 
             if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                gObj.addressed = $('#basic_settings-address').val();
                 $('#basic_settings-netmask').prop('disabled', false);
                 if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                     gObj.tab.tabs('enable', 1);
@@ -9763,8 +9756,7 @@ $(document).ready(function () {
                         gObj.tab.tabs('enable', 3);
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
-                        autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val() );
-                        gObj.addressed = $('#basic_settings-address').val();
+                        autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $('#dhcp_pool_settings-1-startIp').val(), $('#dhcp_pool_settings-1-endIp').val() );
                     } 
                 } else {
                     if (gObj.routing.protoType == 3) {
@@ -9778,12 +9770,11 @@ $(document).ready(function () {
 
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
-                    gObj.addressed = $('#basic_settings-address').val();
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                         gObj.tab.tabs('enable', 2);
-                    autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val() );
+                    autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $('#dhcp_pool_settings-1-startIp').val(), $('#dhcp_pool_settings-1-endIp').val() );
                 }else {
                     if (gObj.routing.protoType == 3) {
                         gObj.tab.tabs({"disabled": [1,2,3]});
@@ -9797,7 +9788,6 @@ $(document).ready(function () {
             $('#basic_settings-netmask').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
 
             if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                gObj.addressed = $('#basic_settings-address').val();
                 $('#basic_settings-netmask').prop('disabled', false);
                 if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                     gObj.tab.tabs('enable', 1);
@@ -10021,8 +10011,7 @@ $(document).ready(function () {
                         gObj.tab.tabs('enable', 3);
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
-                        autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val() );
-                        gObj.addressed = $('#basic_settings-address').val();
+                        autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $('#dhcp_pool_settings-1-startIp').val(), $('#dhcp_pool_settings-1-endIp').val() );
                     } 
                 } else {
                     if (gObj.routing.protoType == 3) {
@@ -10035,12 +10024,11 @@ $(document).ready(function () {
 
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
-                    gObj.addressed = $('#basic_settings-address').val();
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                         gObj.tab.tabs('enable', 2);
-                    autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val() );
+                    autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $('#dhcp_pool_settings-1-startIp').val(), $('#dhcp_pool_settings-1-endIp').val() );
                 }else {
                     if (gObj.routing.protoType == 3) {
                         gObj.tab.tabs({"disabled": [1,2,3]});
@@ -10054,7 +10042,6 @@ $(document).ready(function () {
             $('#basic_settings-netmask').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
 
             if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                gObj.addressed = $('#basic_settings-address').val();
                 $('#basic_settings-netmask').prop('disabled', false);
                 if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                     gObj.tab.tabs('enable', 1);
@@ -29783,19 +29770,16 @@ $(document).ready(function () {
                 // check if existing dhcp settings, based on /24  
                 var range = pick_bigger( address, netmask );
                 
-                if (gReg.ipv4.test( startIp ) && gReg.ipv4.test( endIp )) {
-                    range.oldStart = startIp.split('.')[3];
-                    range.oldEnd = endIp.split('.')[3];
-                    if ( (range.oldStart > range.start[ 3 ] ) && (range.oldStart < range.end[ 3 ]) ) 
-                        $('#dhcp_pool_settings-1-startIp').val( startIp );
-                    else 
+                if ((gReg.ipv4.test( startIp ) && gReg.ipv4.test( endIp )) &&  (compareIf( address, startIp, netmask ) && compareIf( address, endIp, netmask ))) {
+                    range.oldStart = parseInt( startIp.split('.')[3] );
+                    range.oldEnd = parseInt( endIp.split('.')[3] );
+                    if ( parseInt( addr[ 3 ] ) >= range.oldStart && parseInt( addr[ 3 ] ) <= range.oldEnd ) {
                         $('#dhcp_pool_settings-1-startIp').val( range.start.join('.') );
-
-                    if ( (range.oldEnd > range.start[ 3 ] ) && (range.oldEnd < range.end[ 3 ]) ) 
-                        $('#dhcp_pool_settings-1-endIp').val( endIp );
-                    else 
                         $('#dhcp_pool_settings-1-endIp').val( range.end.join('.') );
-                    
+                    } else {
+                        $('#dhcp_pool_settings-1-startIp').val( startIp );
+                        $('#dhcp_pool_settings-1-endIp').val( endIp );
+                    }
                 } else {
                     $('#dhcp_pool_settings-1-startIp').val( range.start.join('.') );
                     $('#dhcp_pool_settings-1-endIp').val( range.end.join('.') );
