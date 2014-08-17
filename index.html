@@ -2899,7 +2899,9 @@ $(document).ready(function () {
                         switch( parseInt( $('input[name=Editor-exportTo]:checked').val() ) )
                         {
                         case 1:
-                            window.open('cgi-bin/' + gNode.url.exportToPC + '.cgi?config_name=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].fileName, "_blank");
+                            $.get('cgi-bin/' + gNode.url.exportToPC + '.cgi?config_name=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].fileName).done( function() {
+                                successAlert('<p>' + gTerm[ gObj.lang ].exportDone + '</p>');
+                            });
                             break;
                         case 2:
                             $.get('cgi-bin/' + gNode.url.exportToUSB + '.cgi?config_name=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].fileName, function() {
@@ -8236,7 +8238,10 @@ $(document).ready(function () {
     
             $('#basic_settings-address').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                    $('#basic_settings-netmask').prop('disabled', false);
+                    if ( $('#basic_settings-netmask').is(':disabled') ) 
+                        $('#basic_settings-netmask').prop('disabled', false).focus();
+                    else
+                        $('#basic_settings-netmask').prop('disabled', false);
                     $('#basic_settings-zoneId').prop('disabled', false);
                     if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                         gObj.tab.tabs('enable', 1);
@@ -8478,6 +8483,9 @@ $(document).ready(function () {
 
                 $('#basic_settings-address').blur( function() {
                     if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
+                        if ( $('#basic_settings-netmask').is(':disabled') ) 
+                            $('#basic_settings-netmask').prop('disabled', false).focus();
+                        else
                         $('#basic_settings-netmask').prop('disabled', false);
                         $('#basic_settings-zoneId').prop('disabled', false);
                         if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
@@ -8497,7 +8505,7 @@ $(document).ready(function () {
                 });
                 
                 $('#basic_settings-netmask').blur( function() {
-                    if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
+                    if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                         gObj.tab.tabs('enable', 1);
                         gObj.tab.tabs('enable', 3);
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))

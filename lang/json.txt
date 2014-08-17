@@ -584,6 +584,7 @@
       }
     ]
   },
+  "ipMacBinding" :
   {
     "enable": 0,
     "mode": 0,
