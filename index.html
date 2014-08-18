@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="css/datatable-base.css" />
     <link rel="stylesheet" type="text/css" href="css/datatable-sort.css" />
     <link rel="stylesheet" type="text/css" href="css/panel.css" />
-    <link rel="stylesheet" type="text/css" href="css/portal.css" />
+    <link rel="stylesheet" type="text/css" href="css/portal.v1.2.css" />
     <link rel="stylesheet" type="text/css" href="css/screen.css" /> 
     <link rel="stylesheet" type="text/css" href="css/widget-base.css" />
     <link rel="stylesheet" type="text/css" href="css/widget-stack.css" />
@@ -55,7 +55,7 @@
 <!--    <script type="text/javascript" src="js/deviceClass.js"></script> -->
 
 <!-- custom css -->
-    <link rel="stylesheet" type="text/css" href="css/customCSS.css" />
+    <link rel="stylesheet" type="text/css" href="css/customCSS.v1.2.css" />
 
 <!-- JS Start -->
 <script type="text/javascript">
@@ -277,6 +277,7 @@ gIf.log         = false;
 gIf.debug       = false;
 gIf.isNext      = false;
 gIf.inUsed      = false;
+gIf.searched    = false;
 
 // regexp 
 // try to reg per element instead of obj, for solve ie issues 
@@ -456,6 +457,8 @@ gHtml.pgCheck   = '<button id="pgCheck" class="CheckSMTP" title="Check SMTP"><sp
 gHtml.pgExtend  = '<button id="pgExtend" class="Extend" title="Extend"><span class="ui-icon"></span></button>';
 gHtml.pgClear   = '<button id="pgClear" class="Clear" title="Clear"><span class="ui-icon"></span></button>';
 gHtml.pgExport  = '<button id="pgExport" class="Export" title="Export"><span class="ui-icon"></span></button>';
+gHtml.pgExport2 = '<button id="pgExport2" class="Export" title="Export"><span class="ui-icon"></span></button>';
+gHtml.pgImport  = '<button id="pgImport" class="Import" title="Import"><span class="ui-icon"></span></button>';
 gHtml.pgColumns = '<button id="pgColumns" class="Columns" title="Columns"><span class="ui-icon"></span></button>';
 gHtml.pgRun     = '<button id="pgRun" class="Run" title="Run"><span class="ui-icon"></span></button>';
 gHtml.pgClean   = '<button id="pgClean" class="Clean" title="Clean"><span class="ui-icon"></span></button>';
@@ -1108,7 +1111,7 @@ $(document).ready(function () {
                                                     url:'cgi-bin/getSessInfo.cgi', 
                                                     dataType:'json', 
                                                     success:function(data) {
-                                                        gRef.menu = 'lang/' + gObj.lang + '-menu.txt';
+                                                        gRef.menu = 'lang/' + gObj.lang + '-menu.v1.2.txt';
                                                         gIf.session = true;
                                                         gIf.getSessInfo = true;
                                                         gObj.userIp = data.ipAddr;
@@ -1705,6 +1708,10 @@ $(document).ready(function () {
         gRows.maxIKEPolicy = 16;
         gRows.maxIPSecPolicies = 100;
 
+
+        // security
+        gRows.ipMacBinding = 500;
+      
         // device
         gRows.maxProfile = 16;
         gRows.maxDebug = 400;
@@ -1751,6 +1758,7 @@ $(document).ready(function () {
             case 'address_exceptions':
             case 'mime':
             case 'file_extension':
+            case 'ip_mac_binding':
                 createSecurity( e );
                 break;
             case 'user':
@@ -1822,6 +1830,7 @@ $(document).ready(function () {
             case 'address_exceptions':
             case 'mime':
             case 'file_extension':
+            case 'ip_mac_binding':
                 editSecurity( e );
                 break;
             case 'user':
@@ -1875,6 +1884,7 @@ $(document).ready(function () {
             case 'file_extension':
             case 'blacklist':
             case 'whitelist':
+            case 'ip_mac_binding':
                 deleteSecurity( e );
                 break;
             case 'user':
@@ -1928,6 +1938,7 @@ $(document).ready(function () {
                 break;
             case 'blacklist':
             case 'whitelist':
+            case 'ip_mac_binding':
                 removeSecurity( e );
                 break;
             case 'user':
@@ -2049,6 +2060,9 @@ $(document).ready(function () {
             break;
         case 'Stop':
             btnStop( e ); 
+            break;
+        case 'Search':
+            btnSearch( e ); 
             break;
         case 'Clean':
             btnClean( e ); 
@@ -2899,9 +2913,7 @@ $(document).ready(function () {
                         switch( parseInt( $('input[name=Editor-exportTo]:checked').val() ) )
                         {
                         case 1:
-                            $.get('cgi-bin/' + gNode.url.exportToPC + '.cgi?config_name=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].fileName).done( function() {
-                                successAlert('<p>' + gTerm[ gObj.lang ].exportDone + '</p>');
-                            });
+                            window.open('cgi-bin/' + gNode.url.exportToPC + '.cgi?config_name=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].fileName, "_blank");
                             break;
                         case 2:
                             $.get('cgi-bin/' + gNode.url.exportToUSB + '.cgi?config_name=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].fileName, function() {
@@ -3485,6 +3497,12 @@ $(document).ready(function () {
     function btnClean( e ) {
         $('#queryString').empty();
         $('#queryResult').empty();
+    }
+
+    function btnSearch( e ) {
+        var tar = {};
+        tar.id = $(e.currentTarget).attr('id');
+
     }
 
     function btnNew( data ) {
@@ -8238,10 +8256,8 @@ $(document).ready(function () {
     
             $('#basic_settings-address').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                    if ( $('#basic_settings-netmask').is(':disabled') ) 
-                        $('#basic_settings-netmask').prop('disabled', false).focus();
-                    else
-                        $('#basic_settings-netmask').prop('disabled', false);
+                    
+                    $('#basic_settings-netmask').prop('disabled', false).focus();
                     $('#basic_settings-zoneId').prop('disabled', false);
                     if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                         gObj.tab.tabs('enable', 1);
@@ -8249,6 +8265,7 @@ $(document).ready(function () {
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
                         autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val() );
+                        gObj.addressed = $('#basic_settings-address').val();
                     }
                 } else {
                     if (3 == gObj.routing.protoType) {
@@ -8261,6 +8278,7 @@ $(document).ready(function () {
 
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
+                    gObj.addressed = $('#basic_settings-address').val();
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
@@ -8483,10 +8501,7 @@ $(document).ready(function () {
 
                 $('#basic_settings-address').blur( function() {
                     if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                        if ( $('#basic_settings-netmask').is(':disabled') ) 
-                            $('#basic_settings-netmask').prop('disabled', false).focus();
-                        else
-                        $('#basic_settings-netmask').prop('disabled', false);
+                        $('#basic_settings-netmask').prop('disabled', false).focus();
                         $('#basic_settings-zoneId').prop('disabled', false);
                         if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                             gObj.tab.tabs('enable', 1);
@@ -8494,6 +8509,7 @@ $(document).ready(function () {
                             if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                                 gObj.tab.tabs('enable', 2);
                             autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val() );
+                            gObj.addressed = $('#basic_settings-address').val();
                         } 
                     } else {
                         if (3 == gObj.routing.protoType) {
@@ -8505,7 +8521,8 @@ $(document).ready(function () {
                 });
                 
                 $('#basic_settings-netmask').blur( function() {
-                    if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
+                    if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
+                        gObj.addressed = $('#basic_settings-address').val();
                         gObj.tab.tabs('enable', 1);
                         gObj.tab.tabs('enable', 3);
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
@@ -9454,6 +9471,7 @@ $(document).ready(function () {
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
                         autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $('#dhcp_pool_settings-1-startIp').val(), $('#dhcp_pool_settings-1-endIp').val() );
+                        gObj.addressed = $('#basic_settings-address').val();
                     } 
                 } else {
                     if (gObj.routing.protoType == 3) {
@@ -9466,6 +9484,7 @@ $(document).ready(function () {
             
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
+                    gObj.addressed = $('#basic_settings-address').val();
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
@@ -9485,6 +9504,7 @@ $(document).ready(function () {
             $('#basic_settings-netmask').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
 
             if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
+                gObj.addressed = $('#basic_settings-address').val();
                 $('#basic_settings-netmask').prop('disabled', false);
                 if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                     gObj.tab.tabs('enable', 1);
@@ -9765,6 +9785,7 @@ $(document).ready(function () {
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
                         autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $('#dhcp_pool_settings-1-startIp').val(), $('#dhcp_pool_settings-1-endIp').val() );
+                        gObj.addressed = $('#basic_settings-address').val();
                     } 
                 } else {
                     if (gObj.routing.protoType == 3) {
@@ -9778,6 +9799,7 @@ $(document).ready(function () {
 
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
+                    gObj.addressed = $('#basic_settings-address').val();
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
@@ -9796,6 +9818,7 @@ $(document).ready(function () {
             $('#basic_settings-netmask').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
 
             if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
+                gObj.addressed = $('#basic_settings-address').val();
                 $('#basic_settings-netmask').prop('disabled', false);
                 if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                     gObj.tab.tabs('enable', 1);
@@ -10020,6 +10043,7 @@ $(document).ready(function () {
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
                         autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $('#dhcp_pool_settings-1-startIp').val(), $('#dhcp_pool_settings-1-endIp').val() );
+                        gObj.addressed = $('#basic_settings-address').val();
                     } 
                 } else {
                     if (gObj.routing.protoType == 3) {
@@ -10032,6 +10056,7 @@ $(document).ready(function () {
 
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
+                    gObj.addressed = $('#basic_settings-address').val();
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
@@ -10050,6 +10075,7 @@ $(document).ready(function () {
             $('#basic_settings-netmask').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
 
             if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
+                gObj.addressed = $('#basic_settings-address').val();
                 $('#basic_settings-netmask').prop('disabled', false);
                 if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                     gObj.tab.tabs('enable', 1);
@@ -12453,7 +12479,7 @@ $(document).ready(function () {
                                     case 'hash':
                                     case 'dhgroup':
                                     case 'pfsgroup':
-                                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gRef[ gNode.url.get ][ gNode.col[ j ].tab ][ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] + '</td>'; 
+                                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gRef[ gNode.url.get ][ gNode.col[ j ].tab ][ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] + '</td>';
                                         break;
                                     case 'name':
                                         gCache.uniq[ pid ][ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] = true;
@@ -12857,7 +12883,7 @@ $(document).ready(function () {
                         }
                         tmp += '</td>';
                         break;
-                    case 'destinatedNetwork':
+                    case 'detinatedNetwork':
                         tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">'; 
                         if (parseInt( gData[ pid ][ gNode.guiT ][ i ].isDefaultRt ) == 1) {
                             tmp += 'default' ;
@@ -12886,9 +12912,9 @@ $(document).ready(function () {
                     case 'pfsgroup':
                         tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gRef[ gNode.url.get ][ gNode.col[ j ].tab ][ gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] + '</td>';
                         break;
-                    default: 
+                    default:
                         tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ] + '</td>'; 
-                    } 
+                    }
                 }
                 tmp += '</tr>';
                 $('#table-' + pid + ' tbody').append(tmp);
@@ -17056,6 +17082,140 @@ $(document).ready(function () {
             case 'div':
                 switch(gNode.type)
                 {
+                case 'tables':
+                    switch(pid)
+                    {
+                    case 'ip_mac_binding':
+                        gCache[ pid ] = {};
+                        gIf.searched = false;
+                        if (gIf.power) {
+                            $('#main_ft').html( gHtml.pgImport + gHtml.pgExport2 + gHtml.pgSave + gHtml.pgCancel );
+                            gY.one('#pgSave').on('click', function(e) {
+                                saveSecurity( pid );
+                            });
+                        }
+
+                        $('#main_bd').html('<div class="templateDiv"><div id="div-' + pid + '-group"><div class="searchDiv"></div><div id="div-' + pid + '-global"><table id="table-' + pid + '-global"><tr></tr></table></div><div id="div-' + pid + '"><table id="table-' + pid + '"></table></div></div></div>');
+
+                        $.ajax({
+                            url: 'cgi-bin/ipMacBinding.cgi',
+                            dataType: 'json',
+                            success: function(data) {
+                                gData[ pid ] = data;
+
+                                cgiSearch( pid );
+
+                                for (var i=0, len=gNode.col.length; i<len; i++)
+                                {
+                                    switch( gNode.col[ i ].type ) 
+                                    {
+                                    case 'table':
+                                        tmp = '<thead>';
+                                        tmp += '<tr>';
+                                        for (var j=0, jlen=gNode.col[ i ].col.length; j<jlen; j++)
+                                        {
+                                            tmp += '<th id="' + gNode.col[ i ].col[ j ].tab + '" class="ui-state-default " style="width: ' + gNode.col[ i ].col[ j ].wiz + '">';
+                                            if (gNode.col[ i ].col[ j ].sortable) {
+                                                tmp += '<div id="div-' + gNode.tab + '-' + gNode.col[ i ].col[ j ].tab + '" class=" sortable">' + gNode.col[ i ].col[ j ].label + '<span id="span-' + gNode.tab + '-' + gNode.col[ i ].col[ j ].tab + '" class="sortable" ></span></div>';
+                                            } else {
+                                                tmp += gNode.col[ i ].col[ j ].label;
+                                            }
+                                            tmp += '</th>';
+                                        }
+                                        tmp += '</tr>';
+                                        tmp += '</thead>';
+                                        tmp += '<tbody>';
+                                        tmp += '</tbody>';
+                                        $('#table-' + pid ).html( tmp );
+
+                                        if (gNode.tblAction && gIf.power) {
+                                            genTblAction( pid );
+
+                                            switch( data[ gNode.guiT ].length )
+                                            {
+                                            case 0:
+                                                $('#Remove-' + pid ).prop('disabled', true);
+                                                break;
+                                            case gRows[ gNode.url.get ]:
+                                                $('#Create-' + pid ).prop('disabled', true);
+                                                break;
+                                            default:
+                                                $('#Create-' + pid ).prop('disabled', false);
+                                                $('#Remove-' + pid ).prop('disabled', false);
+                                            }
+                                        }
+                                        break;
+                                    case 'checkbox':
+                                        tmp = '<td class="alignCenter BT40">';
+                                        tmp += '<input type="checkbox" id="' + gNode.col[ i ].tab + '" value="1" />';
+                                        tmp += '</td>';
+                                        tmp += '<td class="alignLeft BT40">';
+                                        tmp += '<label for="' + gNode.col[ i ].tab + '">' + gNode.col[ i ].label + '</label>';
+                                        tmp += '</td>'; 
+                                        tmp += '<td class="alignCenter BT10">|</td>'; 
+                                        $('#table-' + pid + '-global tr').append( tmp );
+                                        break;
+                                    case 'select':
+                                        tmp = '<td class="alignLeft BT40">';
+                                        tmp += gNode.col[ i ].label;
+                                        tmp += '</td>';
+                                        tmp += '<td class="alignLeft">';
+                                        tmp += '<select id="' + gNode.col[ i ].tab + '">';
+                                        for (var x in gNode.col[ i ].option)
+                                        {
+                                            tmp += '<option value="' + x + '">' + gNode.col[ i ].option[ x ] + '</option>';
+                                        }
+                                        tmp += '</select>'; 
+                                        tmp += '</td>'; 
+                                        $('#table-' + pid + '-global tr').append( tmp );
+                                        break;
+                                    }
+                                }
+
+                                if ( 1 === parseInt( data.enable ) )
+                                    $('#enable').click();
+                                $('#mode').val( parseInt( data.mode ) );
+                                for (var i=0, len=data[ gNode.guiT ].length; i<len; i++)
+                                {
+                                    tmp = '<tr class="' + ((i%2 == 0)? 'odd' : 'even') + '">>';
+                                    for (var j=0, jlen=gNode.col[ 2 ].col.length; j<jlen; j++)
+                                    {
+                                        switch( gNode.col[ 2 ].col[ j ].tab )
+                                        {
+                                        case 'checkbox':
+                                            tmp += '<td class="checkboxTD">';
+                                            tmp += '<input type="checkbox" id="' + pid + '-' + i + '" value="' + i + '" />';
+                                            tmp += '</td>';
+                                            break;
+                                        case 'index':
+                                            tmp += '<td>';
+                                            tmp += (i+1);
+                                            tmp += '</td>';
+                                            break;
+                                        case 'action':
+                                            tmp += '<td class="buttonTD">';
+                                            if (gIf.power) {
+                                                tmp += '<button id="Edit-' + pid + '-' + i + '" class="Edit"><span class="ui-icon"  title="Edit"></span></button>';
+                                                tmp += '<button id="Delete-' + pid + '-' + i + '" class="Delete"><span class="ui-icon"  title="Edit"></span></button>';
+                                            } else {
+                                                tmp += '';
+                                            }
+                                            tmp += '</td>';
+                                            break;
+                                        default: 
+                                            tmp += '<td>';
+                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ 2 ].col[ j ].tab ];
+                                            tmp += '</td>';
+                                        }
+                                    }
+                                    tmp += '</tr>';
+                                    $('#table-' + pid).append( tmp );
+                                }
+                            }
+                        });
+                        break;
+                    }
+                    break;
                 case 'chainTabs':
                     switch(pid) 
                     {
@@ -17064,7 +17224,7 @@ $(document).ready(function () {
                         if (gIf.power) {
                             $('#main_ft').html( gHtml.pgSave + gHtml.pgCancel );
                             gY.one('#pgSave').on('click', function(e) {
-                                saveSecurity('antivirus');
+                                saveSecurity( pid );
                             });
                         }
     
@@ -18332,6 +18492,44 @@ $(document).ready(function () {
                 tbody.append( tmp );
             }
             break;
+        case 'ip_mac_binding':
+            for (var i=0, len=gData[ pid ][ gNode.guiT ].length; i<len; i++)
+            {
+                tmp = '<tr class="' + ((i%2 == 0)? 'odd' : 'even') + '">>';
+                for (var j=0, jlen=gNode.col[ 2 ].col.length; j<jlen; j++)
+                {
+                    switch( gNode.col[ 2 ].col[ j ].tab )
+                    {
+                    case 'checkbox':
+                        tmp += '<td class="checkboxTD">';
+                        tmp += '<input type="checkbox" id="' + pid + '-' + i + '" value="' + i + '" />';
+                        tmp += '</td>';
+                        break;
+                    case 'index':
+                        tmp += '<td>';
+                        tmp += (i+1);
+                        tmp += '</td>';
+                        break;
+                    case 'action':
+                        tmp += '<td class="buttonTD">';
+                        if (gIf.power) {
+                            tmp += '<button id="Edit-' + pid + '-' + i + '" class="Edit"><span class="ui-icon"  title="Edit"></span></button>';
+                            tmp += '<button id="Delete-' + pid + '-' + i + '" class="Delete"><span class="ui-icon"  title="Edit"></span></button>';
+                        } else {
+                            tmp += '';
+                        }
+                        tmp += '</td>';
+                        break;
+                    default:
+                        tmp += '<td>';
+                        tmp += gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ 2 ].col[ j ].tab ];
+                        tmp += '</td>';
+                    }
+                }
+                tmp += '</tr>';
+                $('#table-' + pid).append( tmp );
+            }
+            break;
         }
     }
     
@@ -18347,7 +18545,7 @@ $(document).ready(function () {
     
         $('#popForm').append('<div class="formDiv"><div id="Editor-div-' + tar.pid + '"><table id="Editor-table-' + tar.pid + '"></table></div>');
     
-        var tmp;
+        var tmp = '';
         tar.w = 360;
         tar.h = 240;
         switch(tar.pid)
@@ -18401,6 +18599,27 @@ $(document).ready(function () {
             cgiSelectOption( 'Editor-dAddrId' );
     
             break;
+        case 'ip_mac_binding':
+            for (var i=0, len=gNode.editor.length; i<len; i++)
+            {
+                tmp += '<tr>';
+                if ('checkbox' == gNode.editor[ i ].type) {
+                    tmp += '<th colspan="2" class="alignLeft">';
+                    tmp += '<input type="checkbox" id="Editor-' + gNode.editor[ i ].tab + '" />';
+                    tmp += '&nbsp;<label for="Editor-' + gNode.editor[ i ].tab + '">' + gNode.editor[ i ].label + '</label>';
+                    tmp += '</th>';
+                } else {
+                    tmp += '<th class="alignLeft BT100">';
+                    tmp += gNode.editor[ i ].label;
+                    tmp += '</th>';
+                    tmp += '<td class="alignLeft">';
+                    tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" />';
+                    tmp += '</td>';
+                }
+                tmp += '</tr>';
+            }
+            $('#Editor-table-' + tar.pid).append( tmp );
+            break;
         }
         
         securityEditor(e, tar.w, tar.h);
@@ -18419,7 +18638,7 @@ $(document).ready(function () {
     
         $('#popForm').append('<div class="formDiv"><div id="Editor-div-' + tar.pid + '"><table id="Editor-table-' + tar.pid + '"></table></div>');
     
-        var tmp;
+        var tmp = '';
         tar.w = 360;
         tar.h = 240;
         switch(tar.pid)
@@ -18488,6 +18707,34 @@ $(document).ready(function () {
             if ( 1 === parseInt( gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ tar.thisNo ].logEnable ) ) {
                 $('#Editor-logEnable').click();
             }
+            break;
+        case 'ip_mac_binding':
+            for (var i=0, len=gNode.editor.length; i<len; i++)
+            {
+                tmp += '<tr>';
+                if ('checkbox' == gNode.editor[ i ].type) {
+                    tmp += '<th colspan="2" class="alignLeft">';
+                    tmp += '<input type="checkbox" id="Editor-' + gNode.editor[ i ].tab + '" />';
+                    tmp += '&nbsp;<label for="Editor-' + gNode.editor[ i ].tab + '">' + gNode.editor[ i ].label + '</label>';
+                    tmp += '</th>';
+                } else {
+                    tmp += '<th class="alignLeft BT100">';
+                    tmp += gNode.editor[ i ].label;
+                    tmp += '</th>';
+                    tmp += '<td class="alignLeft">';
+                    tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" />';
+                    tmp += '</td>';
+                }
+                tmp += '</tr>';
+            }
+
+            if (1 === parseInt( gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].enable )) 
+                $('#Editor-enable').click();
+            $('#Editor-dscrpt').val( gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].dscrpt );
+            $('#Editor-ipAddr').val( gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].ipAddr );
+            $('#Editor-macAddr').val( gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].macAddr );
+
+            $('#Editor-table-' + tar.pid).append( tmp );
             break;
         }
         
@@ -18741,6 +18988,19 @@ $(document).ready(function () {
                                 gData[ tar.pid ].guiAddrFilterT[ tar.thisNo ].logEnable = ($('#Editor-logEnable').is(':checked'))? 1 : 0 ;
                             }
                             gCache.tabber[ 3 ] = true;
+                            break;
+                        case 'ip_mac_binding':
+                            if ('Create' == tar.type) {
+                                gCache.ip_mac_binding.gid --;
+                                gData[ tar.pid ].ipMacBindingT.push( {'gid': gCache.ip_mac_binding.gid, 'enable': (($('#Editor-enable').is(':checked'))? 1 : 0), 'dscrpt': $('#Editor-dscrpt').val(), 'ipAddr': $('#Editor-ipAddr').val(), 'macAddr': $('#Editor-macAddr').val(), 'cgiAction': 1} );
+                            } else {
+                                if ( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].gid > 0 )
+                                    gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].cgiAction = 2;
+                                gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].enable = ($('#Editor-enable').is(':checked'))? 1 : 0 ;
+                                gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].dscrpt = $('#Editor-dscrpt').val();
+                                gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].ipAddr = $('#Editor-ipAddr').val();
+                                gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].macAddr = $('#Editor-macAddr').val();
+                            }
                             break;
                         }
                         refreshSecurity( tar.pid );
@@ -19020,6 +19280,19 @@ $(document).ready(function () {
     
                 gIf.alter = false;
             }
+            break;
+        case 'ip_mac_binding':
+
+            if ($('#enable').is(':checked'))
+                gData[ pid ].enable = 1;
+            else
+                gData[ pid ].enable = 0;
+            gData[ pid ].mode = $('#mode').val();
+            $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ pid ]), function( poster ) {
+                gIf.alter = false;
+                genSecurity( pid ); 
+            });
+            
             break;
         }
     }
@@ -29777,7 +30050,6 @@ $(document).ready(function () {
             default:
                 // check if existing dhcp settings, based on /24  
                 var range = pick_bigger( address, netmask );
-                
                 if ((gReg.ipv4.test( startIp ) && gReg.ipv4.test( endIp )) &&  (compareIf( address, startIp, netmask ) && compareIf( address, endIp, netmask ))) {
                     range.oldStart = parseInt( startIp.split('.')[3] );
                     range.oldEnd = parseInt( endIp.split('.')[3] );
@@ -29830,6 +30102,25 @@ $(document).ready(function () {
                     refreshReports( id );
             });
         }
+    }
+
+    function cgiSearch(id) {
+        var tmp = '<table id="table-search">';
+        switch(id) 
+        {
+        case 'ip_mac_binding':
+            tmp += '<tr>';
+            tmp += '<td class="alignLeft BT100">';
+            tmp += '<input type="text" id="searchCols" />';
+            tmp += '</td>';
+            tmp += '<td class="alignLeft">';
+            tmp += '<button class="Search" id="Search-' + id + '"><span class="ui-icon" title="Search"></span></button>';
+            tmp += '</td>';
+            tmp += '</tr>';
+            break;
+        }
+        tmp += '</table>';
+        $('.searchDiv').append(tmp);
     }
     
     function cgiQuery(id) {
@@ -30328,6 +30619,8 @@ $(document).ready(function () {
                 genFirewall(id);
                 break;
             // security
+            case 'ip_mac_binding':
+                genSecurity(id);
                 break;
             // users 
             case 'users_and_groups':

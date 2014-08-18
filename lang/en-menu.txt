@@ -211,7 +211,7 @@
                   "align" : "Left"
                 },
                 {
-                  "label": "Link Status",
+                  "label": "Link",
                   "tab" : "link",                  
                   "sortable" : true,
                   "wiz" : "auto",
@@ -8834,6 +8834,146 @@
               }
             ]
           }
+        },
+        {   
+          "label" : "IP MAC Binding",
+          "id" : "menu-5-1",
+          "tab" : "ip_mac_binding",
+          "tag" : "div",
+          "type" : "tables",
+          "url" :
+          {
+            "get" : "ipMacBinding",
+            "post" : "ipMacBinding",
+            "export" : "ipMacBindingExport",
+            "import" : "ipMacBindingImport"
+          },
+          "ext" : "cgi",
+          "query" : true,
+          "pager" : true,
+          "perPage" : 20,
+          "pgAction" : "Export Imoprt Save Cancel",
+          "tblAction" : "Create Remove",
+          "rowAction" : "Edit Delete",
+          "guiT" : "ipMacBindingT",
+          "guiTNum" : "guiT",
+          "col" :
+          [
+            {
+              "label": "Enable",
+              "tab" : "enable",
+              "tag" : "input",
+              "type" : "checkbox",
+              "wiz" : "100px"
+            },
+            {
+              "label": "Mode",
+              "tab" : "mode",
+              "tag" : "select",
+              "type" : "select",
+              "option" :
+              {
+                "0": "permit and others drop",
+                "1": "drop and others permit"
+              },
+              "wiz" : "100px"
+            },
+            {
+              "label": "",
+              "tab" : "ipMacBindingTable",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label": "",
+                  "tab" : "checkbox",
+                  "tag" : "input",
+                  "type" : "checkbox",
+                  "wiz" : "40px",
+                  "display" : true,
+                  "sortable" : false,
+                  "align" : "Center"
+                },
+                {
+                  "label": "Index",
+                  "tab" : "index",
+                  "wiz" : "50px",
+                  "display" : true,
+                  "sortable" : false,
+                  "align" : "Center"
+                },
+                {
+                  "label": "Description",
+                  "tab" : "dscrpt",
+                  "wiz" : "auto",
+                  "display" : true,
+                  "sortable" : true,
+                  "searchable" : true,
+                  "align" : "Center"
+                },
+                {
+                  "label": "IP",
+                  "tab" : "ipAddr",
+                  "wiz" : "150px",
+                  "display" : true,
+                  "sortable" : true,
+                  "searchable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label": "MAC",
+                  "tab" : "macAddr",
+                  "wiz" : "200px",
+                  "display" : true,
+                  "sortable" : true,
+                  "searchable" : true,
+                  "align" : "Center"
+                },
+                {
+                  "label": "Action",
+                  "tab" : "action",
+                  "tag" : "button",
+                  "type" : "button",
+                  "wiz" : "100px",
+                  "display" : true,
+                  "sortable" : false,
+                  "align" : "Center"
+                }
+              ]
+            }
+          ],
+          "editor" :
+          [
+            {
+              "label": "Enable",
+              "tab" : "enable",
+              "tag" : "input",
+              "type" : "checkbox",
+              "wiz" : "100px"
+            },
+            {
+              "label": "Description",
+              "tab" : "dscrpt",
+              "tag" : "input",
+              "type" : "text",
+              "wiz" : "100px"
+            },
+            {
+              "label": "IP",
+              "tab" : "ipAddr",
+              "tag" : "input",
+              "type" : "text",
+              "wiz" : "100px"
+            },
+            {
+              "label": "MAC",
+              "tab" : "macAddr",
+              "tag" : "input",
+              "type" : "text",
+              "wiz" : "100px"
+            }
+          ]
         }
       ]
     },

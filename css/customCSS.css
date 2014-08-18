@@ -700,6 +700,18 @@ a:link { text-decoration: none;}
     right: 5px;
 }
 
+#pgExport2 {
+    position: absolute;
+    top: 5px;
+    right: 85px;
+}
+
+#pgImort {
+    position: absolute;
+    top: 5px;
+    right: 125px;
+}
+
 #pgExtend span.ui-icon {
     background-position: -208px -48px;
 }
@@ -1464,6 +1476,10 @@ button.Clear span.ui-icon {
     background-position: -176px -96px;
 }
 
+button.Clean span.ui-icon {
+    background-position: -176px -96px;
+}
+
 button.Export span.ui-icon {
     background-position: -160px -96px;
 }
@@ -1543,6 +1559,10 @@ button.LicenseUpgrade span.ui-icon {
 
 button.registrationMode-0 span.ui-icon {
     background-position: -192px -192px;
+}
+
+button.Search span.ui-icon {
+    background-position: -160px -112px;
 }
 
 span.newUsername.isOK {
@@ -1627,6 +1647,16 @@ input:focus, select:focus {
     border-radius: 3px;
     padding: 5px;
     margin: 3px;
+}
+
+.searchDiv {
+    position: absolute;
+    z-index: 999;
+    background: #efefef;
+    -mos-border-radius: 5px;
+    border-radius: 5px;
+    padding: 5px;
+    right: 10px;
 }
 
 /* div */
@@ -2120,6 +2150,15 @@ div.Expand {
     border-radius: 10px;
     margin-top: 10px;
     padding: 10px;
+}
+
+#div-ip_mac_binding-global {
+    width: 320px;
+    background: #efefef;
+    -mos-border-radius: 5px;
+    border-radius: 5px;
+    margin: 0 0 3px 0;
+    padding: 5px;
 }
 
 #div-mime, #div-file_extension {
