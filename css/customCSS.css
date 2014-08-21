@@ -1392,6 +1392,10 @@ button.Query span.ui-icon {
     background-position: -160px -112px;
 }
 
+button.Weekly span.ui-icon {
+    background-position: -192px -128px;
+}
+
 button.Save span.ui-icon {
     background-position: -96px -112px;
 }

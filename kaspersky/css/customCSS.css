@@ -41,9 +41,9 @@ html {
     background: #007260;
     border-radius: 50%;
     height: 100px;
-    width: 200px;
+    width: 160px;
     top: -30px;
-    left: 412px;
+    left: 422px;
 }
 
 #hd_label {
@@ -433,9 +433,7 @@ a:link { text-decoration: none;}
 #login_mark {
     /* position: absolute; */
     height: 60px;
-    width: 120px;
-    /* top: -20px; */
-    /* left: 125px; */
+    width: 90px;
     margin: -20px auto;
     background: #007260;
     border-radius: 50%;
@@ -444,7 +442,7 @@ a:link { text-decoration: none;}
 #login_label {
     position: absolute;
     top: 2px;
-    left: 162px;
+    left: 167px;
     font:italic bold 8pt/20pt Georgia, serif;
     color: white;
     text-shadow: 0.4em 0.4em 0.8em #333;
@@ -1512,6 +1510,10 @@ button:disabled {
 
 button.Query span.ui-icon {
     background-position: -160px -112px;
+}
+
+button.Weekly span.ui-icon {
+    background-position: -192px -128px;
 }
 
 button.Save span.ui-icon {

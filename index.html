@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="css/datatable-base.css" />
     <link rel="stylesheet" type="text/css" href="css/datatable-sort.css" />
     <link rel="stylesheet" type="text/css" href="css/panel.css" />
-    <link rel="stylesheet" type="text/css" href="css/portal.v1.2.css" />
+    <link rel="stylesheet" type="text/css" href="css/portal.css" />
     <link rel="stylesheet" type="text/css" href="css/screen.css" /> 
     <link rel="stylesheet" type="text/css" href="css/widget-base.css" />
     <link rel="stylesheet" type="text/css" href="css/widget-stack.css" />
@@ -55,7 +55,7 @@
 <!--    <script type="text/javascript" src="js/deviceClass.js"></script> -->
 
 <!-- custom css -->
-    <link rel="stylesheet" type="text/css" href="css/customCSS.v1.2.css" />
+    <link rel="stylesheet" type="text/css" href="css/customCSS.css" />
 
 <!-- JS Start -->
 <script type="text/javascript">
@@ -220,7 +220,6 @@ gObj.phpQuery.pi  = 1;
 gObj.phpQuery.ps  = 1;
 gObj.phpQuery.pp  = 20;
 gObj.phpQuery.id  = '';
-gObj.systime = '';
 
 gObj.idleOut = 0;
 gObj.forceOut = 0;
@@ -824,6 +823,9 @@ $(document).ready(function () {
                 url: 'cgi-bin/getSystime.cgi',
                 dataType: 'json',
                 success: function(data) {
+                    gObj.sysTime = new Date( data.systime );
+                    gObj.sysHour = gObj.sysTime.getHours();
+                    
                     // refresh idle/force timeout
                     $.ajax({
                         url:'cgi-bin/getSessInfo.cgi', 
@@ -1111,7 +1113,7 @@ $(document).ready(function () {
                                                     url:'cgi-bin/getSessInfo.cgi', 
                                                     dataType:'json', 
                                                     success:function(data) {
-                                                        gRef.menu = 'lang/' + gObj.lang + '-menu.v1.2.txt';
+                                                        gRef.menu = 'lang/' + gObj.lang + '-menu.txt';
                                                         gIf.session = true;
                                                         gIf.getSessInfo = true;
                                                         gObj.userIp = data.ipAddr;
@@ -2114,6 +2116,8 @@ $(document).ready(function () {
                 gQuery.q += '&sd=' + $('#query-startDate').val();
             if (gReg.isDate.test($('#query-endDate').val()))
                 gQuery.q += '&ed=' + $('#query-endDate').val();
+            gQuery.q += '&sh=' + $('#query-startHour').val();
+            gQuery.q += '&eh=' + $('#query-endHour').val();
             gObj.phpQuery.pi = 1;
             refreshReports(tar.pid);
             break;
@@ -2913,7 +2917,7 @@ $(document).ready(function () {
                         switch( parseInt( $('input[name=Editor-exportTo]:checked').val() ) )
                         {
                         case 1:
-                            window.open('cgi-bin/' + gNode.url.exportToPC + '.cgi?config_name=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].fileName, "_blank");
+                            window.open('cgi-bin/' + gNode.url.exportToPC + '.cgi?config_name=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].name, "_blank");
                             break;
                         case 2:
                             $.get('cgi-bin/' + gNode.url.exportToUSB + '.cgi?config_name=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].fileName, function() {
@@ -2949,6 +2953,8 @@ $(document).ready(function () {
                     tmp += '</table>';
                     tmp += '</div>';
                     $('#popForm').html( tmp );
+
+                    $('#Editor-exportTo-1').click();
 
                     $.ajax({
                         url: 'cgi-bin/common_usbFile_list.cgi',
@@ -5500,6 +5506,26 @@ $(document).ready(function () {
             break;
         }
     }
+
+    function genPhpReports( pid )
+    {
+        switch( pid )
+        {
+        case 'traffic_direction':
+          
+            break;
+        }
+    }
+    
+    function refreshPhpReports( pid )
+    {
+        switch( pid )
+        {
+        case 'traffic_direction':
+          
+            break;
+        }
+    }
     
     function genReports(pid)
     {
@@ -5813,7 +5839,7 @@ $(document).ready(function () {
                     gY.one('#main_bd').set('innerHTML', '<div class="templateDiv"></div>');
                     tmp = '';
                     $.ajax({
-                        url: gObj.phpQuery.php + '.php?param=' + pid + '&pp=20&pi=1',
+                        url: gObj.phpQuery.php + '.php?param=' + pid + '&pp=20&pi=1&sh=' + gObj.sysHour + '&eh=' + gObj.sysHour,
                         dataType: 'json',
                         success: function(data) {
                             gIf.ajaxed = true;
@@ -6377,8 +6403,11 @@ $(document).ready(function () {
                     gObj.phpQuery.pp = $('#phpPerPage').val();
                     if (gIf.query) 
                         query += gQuery.q;
-                    else if (!gQuery.a)
+                    else if (!gQuery.a) {
+                        query += '&sh=' + gObj.sysHour + '&eh=' + gObj.sysHour;
                         gQuery.a = 0;
+                    }
+                    
                     query += '&pi=' + gObj.phpQuery.pi + '&pp=' + gObj.phpQuery.pp;
                 }
     
@@ -30245,12 +30274,12 @@ $(document).ready(function () {
         default:
             tmp += '<tr>';
             tmp += '<td class="BT250">';
-            tmp += gTerm[ gObj.lang ].start + ' ' + gTerm[ gObj.lang ].date + ': <input type="text" id="query-startDate" />';
+            tmp += gTerm[ gObj.lang ].startDatetime + ': <input type="text" id="query-startDate" size="12" />&nbsp;<select id="query-startHour"></select>';
             tmp += '</td>';
             tmp += '<td class="BT250">';
-            tmp += gTerm[ gObj.lang ].end + ' ' + gTerm[ gObj.lang ].date + ': <input type="text" id="query-endDate" />';
+            tmp += gTerm[ gObj.lang ].endDatetime + ': <input type="text" id="query-endDate" size="12" />&nbsp;<select id="query-endHour"></select>';
             tmp += '</td>';
-            tmp += '<td class="BT250">';
+            tmp += '<td class="BT230">';
             tmp += gTerm[ gObj.lang ].aggregateBy + ' <select id="query-aggregateBy">';
             tmp += '<option value="0">None</option>';
             switch(id)
@@ -30262,10 +30291,6 @@ $(document).ready(function () {
                 tmp += '<option value="4">' + gTerm[ gObj.lang ].protocol + '</option>';
                 tmp += '<option value="5">' + gTerm[ gObj.lang ].dstPort + '</option>';
                 tmp += '<option value="6">' + gTerm[ gObj.lang ].zone + '</option>';
-                break;
-            case 'source_report':
-            case 'destination_report':
-                tmp += '<option value="1">' + gTerm[ gObj.lang ].host + ' ' + gTerm[ gObj.lang ].IP + '</option>';
                 break;
             case 'file_extension':
                 tmp += '<option value="1">' + gTerm[ gObj.lang ].extension + '</option>';
@@ -30284,6 +30309,7 @@ $(document).ready(function () {
             tmp += '</td>';
             tmp += '<td class="alignCenter">';
             tmp += '<button class="Query" id="Query-' + id + '"><span class="ui-icon" title="query"></span></button>';
+            tmp += '<button class="Weekly" id="Weekly-' + id + '"><span class="ui-icon" title="weekly"></span></button>';
             tmp += '</td>';
             tmp += '</tr>';
         }
@@ -30352,7 +30378,7 @@ $(document).ready(function () {
                         $('#query-endDate').datepicker("setDate", theMax);
                     } 
                 }
-            }).datepicker("setDate", "-7d");
+            }).datepicker("setDate", "+0d");
        
             $('#query-endDate').datepicker({
                 minDate: -365,
@@ -30375,6 +30401,11 @@ $(document).ready(function () {
                     } 
                 }
             }).datepicker("setDate", "+0d");
+
+gY.log( gObj.sysHour );
+
+            $('#query-startHour').html( genSelectOption('query-startHour') ).val( gObj.sysHour );
+            $('#query-endHour').html( genSelectOption('query-endHour') ).val( gObj.sysHour );
         }
     }
     

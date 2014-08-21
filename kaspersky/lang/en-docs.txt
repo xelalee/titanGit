@@ -74,7 +74,7 @@
           {
             "label" : "Tunnel Number", 
             "tab" : "tunnel_number",
-            "description" : "The number of site-to-site VPN tunnels eastablished between this SecMaxWALL and remote devices."
+            "description" : "The number of site-to-site VPN tunnels eastablished between this TitanWALL and remote devices."
            }
         ]
       },
@@ -165,7 +165,7 @@
           {
             "label" : "Name",
             "tab" : "name",
-            "description" : "The name of a physical port on this SecMaxWALL."
+            "description" : "The name of a physical port on this TitanWALL."
           },
           {
             "label" : "Link",
@@ -323,7 +323,7 @@
           {
             "label" : "Hit Count",
             "tab" : "hit_count",
-            "description" : "The number of times the SecMaxWALL has detected the virus."
+            "description" : "The number of times the TitanWALL has detected the virus."
           }
         ]
       },
@@ -342,7 +342,7 @@
           {
             "label" : "Virus Hit Count",
             "tab" : "virus_hit_count",
-            "description" : "The number of virus sent by the host and was detected by the SecMaxWALL's anti-virus feature."
+            "description" : "The number of virus sent by the host and was detected by the TitanWALL's anti-virus feature."
           }
         ]
       },
@@ -371,7 +371,7 @@
   {
     "label" : "Show ARP Table",
     "tab" : "show_arp_table",
-    "description" : "Use this screen to see your SecMaxWALL’s ARP (Address Resolution Protocol) table. An ARP entry maps an IP address to a connected host’s hardware address or MAC address. \nThe information in this table is updated automatically at the time interval you select in the Refresh Page field. Click the Refresh button to update the table information immediately.",
+    "description" : "Use this screen to see your TitanWALL’s ARP (Address Resolution Protocol) table. An ARP entry maps an IP address to a connected host’s hardware address or MAC address. \nThe information in this table is updated automatically at the time interval you select in the Refresh Page field. Click the Refresh button to update the table information immediately.",
     "content" : 
     [
       {
@@ -382,7 +382,7 @@
       {
         "label" : "Flag",
         "tab" : "flag",
-        "description" : "This shows the status of the connected host.\n Reachable - the host can be reached. \n State - the SecMaxWALL is waiting for a response from the connected host.\n Failed - the host cannot be reached.\n Delay - the SecMaxWALL delays sending the request to determine whether the host is reachable."
+        "description" : "This shows the status of the connected host.\n Reachable - the host can be reached. \n State - the TitanWALL is waiting for a response from the connected host.\n Failed - the host cannot be reached.\n Delay - the TitanWALL delays sending the request to determine whether the host is reachable."
       },
       {
         "label" : "MAC Address",
@@ -400,7 +400,7 @@
   {
     "label" : "Show Routing Table",
     "tab" : "show_routing_table",
-    "description" : "Use this screen to view your SecMaxWALL’s routing table, which contains entries for both default routes and static routes. A static route has priority over the default route. The information in this table is updated automatically at the time interval you select in the Refresh Page field. Click the Refresh button to update the table information immediately.",
+    "description" : "Use this screen to view your TitanWALL’s routing table, which contains entries for both default routes and static routes. A static route has priority over the default route. The information in this table is updated automatically at the time interval you select in the Refresh Page field. Click the Refresh button to update the table information immediately.",
     "content" : 
     [
       {
@@ -431,7 +431,7 @@
       {
         "label" : "Interface",
         "tab" : "interface",
-        "description" : "This is the name of the SecMaxWALL’s physical interface through which traffic is sent using this route."
+        "description" : "This is the name of the TitanWALL’s physical interface through which traffic is sent using this route."
       }
     ]
   },
@@ -481,7 +481,7 @@
           {
             "label" : "Name",
             "tab" : "name",
-            "description" : "This is the name of each physical port on the SecMaxWALL."
+            "description" : "This is the name of each physical port on the TitanWALL."
           },
           {
             "label" : "LAN",
@@ -491,7 +491,7 @@
           {
             "label" : "DHCP Pool",
             "tab" : "dhcp_pool",
-            "description" : "This shows the name of a DHCP pool object, which defines the range of IP addresses that the SecMaxWALL can allocate and assign to hosts connected to this port."
+            "description" : "This shows the name of a DHCP pool object, which defines the range of IP addresses that the TitanWALL can allocate and assign to hosts connected to this port."
           },
           {
             "label" : "Address",
@@ -535,7 +535,7 @@
           {
             "label" : "DHCP Pool",
             "tab" : "dhcp_pool",
-            "description" : "This shows the name of a DHCP pool object, which defines the range of IP addresses that the SecMaxWALL can allocate and assign to hosts connected to this VLAN interface"
+            "description" : "This shows the name of a DHCP pool object, which defines the range of IP addresses that the TitanWALL can allocate and assign to hosts connected to this VLAN interface"
           },
           {
             "label" : "Address",
@@ -658,7 +658,7 @@
           {
             "label" : "DHCP Pool",
             "tab" : "dhcp_pool",
-            "description" : "This shows the name of a DHCP pool object, which defines the range of IP addresses that the SecMaxWALL can allocate and assign to hosts connected to this LAN interface. "
+            "description" : "This shows the name of a DHCP pool object, which defines the range of IP addresses that the TitanWALL can allocate and assign to hosts connected to this LAN interface. "
           },
           {
             "label" : "Address",
@@ -701,7 +701,7 @@
           {
             "label" : "Name",
             "tab" : "name",
-            "description" : "This is the name of each physical port on the SecMaxWALL."
+            "description" : "This is the name of each physical port on the TitanWALL."
           },
           {
             "label" : "Link Status",
@@ -979,7 +979,7 @@
   {
     "label" : "Active Users",
     "tab" : "active_users",
-    "description" : "Use this screen to view status of users who currently logged into the SecMaxWALL.\n The information in this table is updated automatically at the time interval you select in the Refresh Page field. Click the Refresh button to update the table information immediately. Click the Columns button in the upper right corner to hide or display a column.",
+    "description" : "Use this screen to view status of users who currently logged into the TitanWALL.\n The information in this table is updated automatically at the time interval you select in the Refresh Page field. Click the Refresh button to update the table information immediately. Click the Columns button in the upper right corner to hide or display a column.",
     "content" :
     [
       {
@@ -995,7 +995,7 @@
       {
         "label" : "Login Method",
         "tab" : "login_method",
-        "description" : "This shows how the user logged in. Users can log into the SecMaxWALL using either HTTPs or Telnet."
+        "description" : "This shows how the user logged in. Users can log into the TitanWALL using either HTTPs or Telnet."
       },
       {
         "label" : "Session Time",
@@ -1034,7 +1034,7 @@
       {
         "label" : "Local Network",
         "tab" : "local_network",
-        "description" : "This shows the IP address and subnet mask of the network behind your SecMaxWALL."
+        "description" : "This shows the IP address and subnet mask of the network behind your TitanWALL."
       },
       {
         "label" : "Remote Network",
@@ -1073,7 +1073,7 @@
       {
         "label" : "Local Netowrk",
         "tab" : "local_network",
-        "description" : "This shows the IP address and subnet mask of the network behind your SecMaxWALL."
+        "description" : "This shows the IP address and subnet mask of the network behind your TitanWALL."
       },
       {
         "label" : "Remote Network",
@@ -1234,7 +1234,7 @@
       {
         "label" : "Extension",
         "tab" : "extension",
-        "description" : "This is the filename extension of the file that the SecMaxWALL scanned and detected a virus."
+        "description" : "This is the filename extension of the file that the TitanWALL scanned and detected a virus."
       },
       {
         "label" : "Access Count",
@@ -1268,12 +1268,12 @@
       {
         "label" : "Virus Count",
         "tab" : "virus_count",
-        "description" : "This shows how many times the host’s traffic has been blocked by the SecMaxWALL’s anti-virus feature."
+        "description" : "This shows how many times the host’s traffic has been blocked by the TitanWALL’s anti-virus feature."
       },
       {
         "label" : "Firewall Count",
         "tab" : "firewall_count",
-        "description" : "This shows how many times the host’s traffic has been blocked by the SecMaxWALL’s firewall feature."
+        "description" : "This shows how many times the host’s traffic has been blocked by the TitanWALL’s firewall feature."
       },
       {
         "label" : "Datetime",
@@ -1302,7 +1302,7 @@
       {
         "label" : "Virus Hit Count",
         "tab" : "virus_hit_count",
-        "description" : "This shows how many times the virus sent by the host was detected by the SecMaxWALL’s anti-virus feature."
+        "description" : "This shows how many times the virus sent by the host was detected by the TitanWALL’s anti-virus feature."
       },
       {
         "label" : "Datetime",
@@ -1341,7 +1341,7 @@
       {
         "label" : "Virus Name",
         "tab" : "virus_name",
-        "description" : "This is the name of the virus that the SecMaxWALL has detected."
+        "description" : "This is the name of the virus that the TitanWALL has detected."
       },
       {
         "label" : "Datetime",
@@ -1351,7 +1351,7 @@
       {
         "label" : "Hit Count",
         "tab" : "hit_count",
-        "description" : "This shows how many times the virus sent/received by the host was detected by the SecMaxWALL’s anti-virus feature. This can also show how many times a virus has been detected in total when you group the records by the virus name."
+        "description" : "This shows how many times the virus sent/received by the host was detected by the TitanWALL’s anti-virus feature. This can also show how many times a virus has been detected in total when you group the records by the virus name."
       }
     ]
   },
@@ -1359,7 +1359,7 @@
   {
     "label" : "Port",
     "tab" : "ports",
-    "description" : "Use this screen to view the settings and status of the SecMaxWALL’s physical Ethernet ports to which you connect cables. If you have assigned an Ethernet port to a LAN or WAN interface, you can only change its speed and MTU settings.",
+    "description" : "Use this screen to view the settings and status of the TitanWALL’s physical Ethernet ports to which you connect cables. If you have assigned an Ethernet port to a LAN or WAN interface, you can only change its speed and MTU settings.",
     "content" :
     [
       {
@@ -1457,17 +1457,17 @@
           {
             "label" : "DHCP Type",
             "tab" : "dhcp_type",
-            "description" : "Select Disable to not provide DHCP service on this port. You need to have a DHCP server in your network already or manually configure the IP address of the computer which is connected to this port.\n Select DHCP Server and configure the following fields to have the SecMaxWALL act as a DHCP server.\n Select DHCP Relay to have the SecMaxWALL forward DHCP requests from the connected clients to a remote DHCP server which is not in your network."
+            "description" : "Select Disable to not provide DHCP service on this port. You need to have a DHCP server in your network already or manually configure the IP address of the computer which is connected to this port.\n Select DHCP Server and configure the following fields to have the TitanWALL act as a DHCP server.\n Select DHCP Relay to have the TitanWALL forward DHCP requests from the connected clients to a remote DHCP server which is not in your network."
           },
           {
             "label" : "Start IP Address",
             "tab" : "start_ip_address",
-            "description" : "Enter the first IPv4 address of the DHCP pool, from which the SecMaxWALL allocates IP addresses to the DHCP clients."
+            "description" : "Enter the first IPv4 address of the DHCP pool, from which the TitanWALL allocates IP addresses to the DHCP clients."
           },
           {
             "label" : "End IP Address",
             "tab" : "end_ip_address",
-            "description" : "Enter the last IPv4 address of the DHCP pool, from which the SecMaxWALL allocates IP addresses to the DHCP clients."
+            "description" : "Enter the last IPv4 address of the DHCP pool, from which the TitanWALL allocates IP addresses to the DHCP clients."
           },
           {
             "label" : "Lease Time",
@@ -1515,7 +1515,7 @@
           {
             "label" : "IPv6 Address",
             "tab" : "ipv6_address",
-            "description" : "This shows the link local IPv6 address of the port, which is generated by the SecMaxWALL automatically. You can also manually enter a static IPv6 address for the port."
+            "description" : "This shows the link local IPv6 address of the port, which is generated by the TitanWALL automatically. You can also manually enter a static IPv6 address for the port."
           },
           {
             "label" : "IPv6 Prefix Length",
@@ -1651,17 +1651,17 @@
           {
             "label" : "DHCP Type",
             "tab" : "dhcp_type",
-            "description" : "Select Disable to not provide DHCP service on this port. You need to have a DHCP server in your network already or manually configure the IP address of the computer which is connected to this port.\n Select DHCP Server and configure the following fields to have the SecMaxWALL act as a DHCP server.\n Select DHCP Relay to have the SecMaxWALL forward DHCP requests from the connected clients to a remote DHCP server which is not in your network."
+            "description" : "Select Disable to not provide DHCP service on this port. You need to have a DHCP server in your network already or manually configure the IP address of the computer which is connected to this port.\n Select DHCP Server and configure the following fields to have the TitanWALL act as a DHCP server.\n Select DHCP Relay to have the TitanWALL forward DHCP requests from the connected clients to a remote DHCP server which is not in your network."
           },
           {
             "label" : "Start IP Address",
             "tab" : "start_ip_address",
-            "description" : "Enter the first IPv4 address of the DHCP pool, from which the SecMaxWALL allocates IP addresses to the DHCP clients."
+            "description" : "Enter the first IPv4 address of the DHCP pool, from which the TitanWALL allocates IP addresses to the DHCP clients."
           },
           {
             "label" : "End IP Address",
             "tab" : "end_ip_address",
-            "description" : "Enter the last IPv4 address of the DHCP pool, from which the SecMaxWALL allocates IP addresses to the DHCP clients."
+            "description" : "Enter the last IPv4 address of the DHCP pool, from which the TitanWALL allocates IP addresses to the DHCP clients."
           },
           {
             "label" : "Lease Time",
@@ -1709,7 +1709,7 @@
           {
             "label" : "IPv6 Address",
             "tab" : "ipv6_address",
-            "description" : "This shows the link local IPv6 address of the port, which is generated by the SecMaxWALL automatically. You can also manually enter a static IPv6 address for the port."
+            "description" : "This shows the link local IPv6 address of the port, which is generated by the TitanWALL automatically. You can also manually enter a static IPv6 address for the port."
           },
           {
             "label" : "IPv6 Prefix Length",
@@ -1812,7 +1812,7 @@
           {
             "label" : "Interface List",
             "tab" : "interface_list",
-            "description" : "This lists the available physical Ethernet ports of the SecMaxWALL."
+            "description" : "This lists the available physical Ethernet ports of the TitanWALL."
           },
           {
             "label" : "Left/Right Arrow",
@@ -1822,7 +1822,7 @@
           {
             "label" : "Selected Interface List",
             "tab" : "selected_interface_list",
-            "description" : "This lists the physical Ethernet ports of the SecMaxWALL, which are selected to be associated with the LAN interface."
+            "description" : "This lists the physical Ethernet ports of the TitanWALL, which are selected to be associated with the LAN interface."
           },
           {
             "label" : "Zone",
@@ -1840,17 +1840,17 @@
           {
             "label" : "DHCP Type",
             "tab" : "dhcp_type",
-            "description" : "Select Disable to not provide DHCP service on this port. You need to have a DHCP server in your network already or manually configure the IP address of the computer which is connected to this port.\n Select DHCP Server and configure the following fields to have the SecMaxWALL act as a DHCP server.\n Select DHCP Relay to have the SecMaxWALL forward DHCP requests from the connected clients to a remote DHCP server which is not in your network."
+            "description" : "Select Disable to not provide DHCP service on this port. You need to have a DHCP server in your network already or manually configure the IP address of the computer which is connected to this port.\n Select DHCP Server and configure the following fields to have the TitanWALL act as a DHCP server.\n Select DHCP Relay to have the TitanWALL forward DHCP requests from the connected clients to a remote DHCP server which is not in your network."
           },
           {
             "label" : "Start IP Address",
             "tab" : "start_ip_address",
-            "description" : "Enter the first IPv4 address of the DHCP pool, from which the SecMaxWALL allocates IP addresses to the DHCP clients."
+            "description" : "Enter the first IPv4 address of the DHCP pool, from which the TitanWALL allocates IP addresses to the DHCP clients."
           },
           {
             "label" : "End IP Address",
             "tab" : "end_ip_address",
-            "description" : "Enter the last IPv4 address of the DHCP pool, from which the SecMaxWALL allocates IP addresses to the DHCP clients."
+            "description" : "Enter the last IPv4 address of the DHCP pool, from which the TitanWALL allocates IP addresses to the DHCP clients."
           },
           {
             "label" : "Lease Time",
@@ -1898,7 +1898,7 @@
           {
             "label" : "IPv6 Address",
             "tab" : "ipv6_address",
-            "description" : "This shows the link local IPv6 address of the port, which is generated by the SecMaxWALL automatically. You can also manually enter a static IPv6 address for the port."
+            "description" : "This shows the link local IPv6 address of the port, which is generated by the TitanWALL automatically. You can also manually enter a static IPv6 address for the port."
           },
           {
             "label" : "IPv6 Prefix Length",
@@ -2003,7 +2003,7 @@
               {
                 "label" : "Name",
                 "tab" : "name",
-                "description" : "This shows the name of the WAN interface. The name is generated automatically by the SecMaxWALL and is not changeable."
+                "description" : "This shows the name of the WAN interface. The name is generated automatically by the TitanWALL and is not changeable."
               },
               {
                 "label" : "Description",
@@ -2060,7 +2060,7 @@
           {
             "label" : "Multiple WAN Settings",
             "tab" : "multiple_wan_settings",
-            "description" : "Use this screen to configure the priority of the WAN interface and how the SecMaxWALL",
+            "description" : "Use this screen to configure the priority of the WAN interface and how the TitanWALL",
             "content" :
             [
               {
@@ -2089,7 +2089,7 @@
               {
                 "label" : "IP Address Assignment",
                 "tab" : "ip_address_assignment",
-                "description" : "Select SLAAC (StateLess Address Auto Configuration) to have the SecMaxWALL automatically creates a link-local address on the WAN interface.\n Select Static IP and configure a static IP address, prefix length, default gateway and DNS server address for the WAN interface."
+                "description" : "Select SLAAC (StateLess Address Auto Configuration) to have the TitanWALL automatically creates a link-local address on the WAN interface.\n Select Static IP and configure a static IP address, prefix length, default gateway and DNS server address for the WAN interface."
               },
               {
                 "label" : "IPv6 Address",
@@ -2147,28 +2147,28 @@
       {
         "label" : "Multiple WAN Setting",
         "tab" : "multiwan_setting",
-        "description" : "Use this screen to configure how the SecMaxWALL does load balancing between multiple WAN interfaces.",
+        "description" : "Use this screen to configure how the TitanWALL does load balancing between multiple WAN interfaces.",
         "content" : 
         [
           {
             "label" : "Weighted Load Balancing and Failover",
             "tab" : "load_balance",
-            "description" : "Select this option to have the SecMaxWALL send traffic through each WAN interface according its weight. The WAN interface has a larger weight get more traffic than a WAN interface has a smaller weight. If a WAN interface fails, the backup WAN interface will be enabled."
+            "description" : "Select this option to have the TitanWALL send traffic through each WAN interface according its weight. The WAN interface has a larger weight get more traffic than a WAN interface has a smaller weight. If a WAN interface fails, the backup WAN interface will be enabled."
           },
           {
             "label" : "Detection Period",
             "tab" : "detection_period",
-            "description" : "Specify how often (in seconds) the SecMaxWALL tests a WAN connection by sending a ping or a DNS query (configured in the Multiple WAN Settings screen)."
+            "description" : "Specify how often (in seconds) the TitanWALL tests a WAN connection by sending a ping or a DNS query (configured in the Multiple WAN Settings screen)."
           },
           {
             "label" : "Detection Relay Count",
             "tab" : "detection_relay",
-            "description" : "Specify how many times the SecMaxWALL tests the connection by sending a ping or a DNS query before considering the connection is down and the WAN interface failed."
+            "description" : "Specify how many times the TitanWALL tests the connection by sending a ping or a DNS query before considering the connection is down and the WAN interface failed."
           },
           {
             "label" : "Routing Table Mode",
             "tab" : "routing_mode",
-            "description" : "Select this option to have the SecMaxWALL forward traffic according to your settings in the Networking > Routing > Static Routing screen. The SecMaxWALL will not use any default routes which are created when the WAN connection is up."
+            "description" : "Select this option to have the TitanWALL forward traffic according to your settings in the Networking > Routing > Static Routing screen. The TitanWALL will not use any default routes which are created when the WAN connection is up."
           }
         ]
       },
@@ -2176,7 +2176,7 @@
       {
         "label" : "Default DNS Settings",
         "tab" : "default_dns",
-        "description" : "Use this screen to configure the IP address of the default primary and secondary DNS servers for WAN interfaces. Click Save to apply your changes. The SecMaxWALL uses the DNS settings here to query a domain name when there is no any WAN interface.\n Note: When the SecMaxWALL is acting as a bridge, you must configure the DNS settings in this screen."
+        "description" : "Use this screen to configure the IP address of the default primary and secondary DNS servers for WAN interfaces. Click Save to apply your changes. The TitanWALL uses the DNS settings here to query a domain name when there is no any WAN interface.\n Note: When the TitanWALL is acting as a bridge, you must configure the DNS settings in this screen."
       }
     }
   },
@@ -2184,7 +2184,7 @@
   {
     "label" : "Zone",
     "tab" : "zone",
-    "description" : "Use this screen to view the zone settings of the SecMaxWALL and configure or create a zone.",
+    "description" : "Use this screen to view the zone settings of the TitanWALL and configure or create a zone.",
     "content" :
     [
       {
@@ -2223,7 +2223,7 @@
       {
         "label" : "Member List",
         "tab" : "member_list",
-        "description" : "This lists the available physical Ethernet ports or interfaces on the SecMaxWALL."
+        "description" : "This lists the available physical Ethernet ports or interfaces on the TitanWALL."
       },
       {
         "label" : "Left/Right Arrow",
@@ -2241,13 +2241,13 @@
   {
     "label" : "Routing",
     "tab" : "routing",
-    "description" : "Use this screen to select the routing mode for traffic between the WAN and the LAN.\n Select NAT if your ISP assigns you one IP address only and more than one host in your LAN needs to share it.\n Select Classical Routing mode if each host in your network can get an individual IP address from the ISP.\n You can also use this screen to set the SecMaxWALL to transmit the IPv4 packets only or allow the SecMaxWALL to connect to either IPv4 or IPv6 networks. \n IPv6 (Internet Protocol version 6) increases the IP address size from 32 bits to 128 bits and provides larger IP address space than IPv4. But the SecMaxWALL does not support the firewall, VPN, and other security services for IPv6 in the current firmware release.\n Click Save to apply your new settings"
+    "description" : "Use this screen to select the routing mode for traffic between the WAN and the LAN.\n Select NAT if your ISP assigns you one IP address only and more than one host in your LAN needs to share it.\n Select Classical Routing mode if each host in your network can get an individual IP address from the ISP.\n You can also use this screen to set the TitanWALL to transmit the IPv4 packets only or allow the TitanWALL to connect to either IPv4 or IPv6 networks. \n IPv6 (Internet Protocol version 6) increases the IP address size from 32 bits to 128 bits and provides larger IP address space than IPv4. But the TitanWALL does not support the firewall, VPN, and other security services for IPv6 in the current firmware release.\n Click Save to apply your new settings"
   },
   "menu-3-0-1" :
   {
     "label" : "Static Routing",
     "tab" : "static_routing",
-    "description" : "Use this screen to view and manage static routes on the SecMaxWALL.",
+    "description" : "Use this screen to view and manage static routes on the TitanWALL.",
     "content" :
     [
       {
@@ -2297,7 +2297,7 @@
           {
             "label" : "Metric",
             "tab" : "metric",
-            "description" : "Enter a number to set the priority of a route. When more than one route is created for the same destination, the SecMaxWALL uses the route that has the lowest metric value. The lower the value, the higher the priority."
+            "description" : "Enter a number to set the priority of a route. When more than one route is created for the same destination, the TitanWALL uses the route that has the lowest metric value. The lower the value, the higher the priority."
           }
         ]
       }
@@ -2307,13 +2307,13 @@
   {
     "label" : "IPSec Policies",
     "tab" : "ipsec_policies",
-    "description" : "A VPN (Virtual Private Network) tunnel connects two routers to secure traffic transmitted between the separate networks behind the two routers.\n A VPN tunnel is established in two phases. In the first phase (phase-1), an IKE (Internet Key Exchange) negotiation is performed to authenticate the VPN routers to each other. In the second phase (phase-2), another negotiation is performed to negotiate parameters for the VPN tunnel and generate a phase-2 key from the phase-1 key to protect VPN traffic.\n A VPN policy defines the settings used to set up a VPN tunnel. \n Use this screen to view and manage the IPSec VPN policies created on the SecMaxWALL.",
+    "description" : "A VPN (Virtual Private Network) tunnel connects two routers to secure traffic transmitted between the separate networks behind the two routers.\n A VPN tunnel is established in two phases. In the first phase (phase-1), an IKE (Internet Key Exchange) negotiation is performed to authenticate the VPN routers to each other. In the second phase (phase-2), another negotiation is performed to negotiate parameters for the VPN tunnel and generate a phase-2 key from the phase-1 key to protect VPN traffic.\n A VPN policy defines the settings used to set up a VPN tunnel. \n Use this screen to view and manage the IPSec VPN policies created on the TitanWALL.",
     "content" :
     [
       {
         "label" : "Enable (checkbox)",
         "tab" : "enable",
-        "description" : "Select this check box to turn on the site-to-site VPN function on the SecMaxWALL."
+        "description" : "Select this check box to turn on the site-to-site VPN function on the TitanWALL."
       },
       {
         "label" : "Name",
@@ -2333,17 +2333,17 @@
       {
         "label" : "WAN",
         "tab" : "wan",
-        "description" : "This shows the WAN interface of the SecMaxWALL, through which the VPN traffic passes over this VPN tunnel."
+        "description" : "This shows the WAN interface of the TitanWALL, through which the VPN traffic passes over this VPN tunnel."
       },
       {
         "label" : "Peers",
         "tab" : "peers",
-        "description" : "This shows the IP address of the remote router to which the SecMaxWALL connects to set up the VPN tunnel."
+        "description" : "This shows the IP address of the remote router to which the TitanWALL connects to set up the VPN tunnel."
       },
       {
         "label" : "Local",
         "tab" : "local",
-        "description" : "This shows the name of the address object of the local network behind the SecMaxWALL to send traffic over the VPN tunnel."
+        "description" : "This shows the name of the address object of the local network behind the TitanWALL to send traffic over the VPN tunnel."
       },
       {
         "label" : "Remote",
@@ -2387,12 +2387,12 @@
           {
             "label" : "Remote Type",
             "tab" : "remote_type",
-            "description" : "Select Dynamic IP if the remote router receives a dynamic IP address from a DHCP server.\n Select Static IP if the remote router has a static IP address. Enter the static IP address in the Remote Address field.\n Select FQDN if the remote router uses the IP address of a domain name (vpn.titan.com for example) to connect to the SecMaxWALL. Enter the domain name in the Remote Address field."
+            "description" : "Select Dynamic IP if the remote router receives a dynamic IP address from a DHCP server.\n Select Static IP if the remote router has a static IP address. Enter the static IP address in the Remote Address field.\n Select FQDN if the remote router uses the IP address of a domain name (vpn.titan.com for example) to connect to the TitanWALL. Enter the domain name in the Remote Address field."
           },
           {
             "label" : "Authentication Method",
             "tab" : "authentication_method",
-            "description" : "Enter a key of up to 255 alphanumeric characters for the remote route to authenticate with the SecMaxWALL. The SecMaxWALL and the remote router must use the same key in order to establish a VPN connection."
+            "description" : "Enter a key of up to 255 alphanumeric characters for the remote route to authenticate with the TitanWALL. The TitanWALL and the remote router must use the same key in order to establish a VPN connection."
           },
           {
             "label" : "WAN Interface",
@@ -2402,7 +2402,7 @@
           {
             "label" : "Local Network",
             "tab" : "local_network",
-            "description" : "Select an address object to specify the local network behind the SecMaxWALL that is allowed to use the VPN tunnel.\n Select Any and you can use the Access Control screen to control the incoming traffic from the remote network to a zone over the VPN tunnel."
+            "description" : "Select an address object to specify the local network behind the TitanWALL that is allowed to use the VPN tunnel.\n Select Any and you can use the Access Control screen to control the incoming traffic from the remote network to a zone over the VPN tunnel."
           },
           {
             "label" : "Remote Network",
@@ -2420,7 +2420,7 @@
           {
             "label" : "PFS",
             "tab" : "pfs",
-            "description" : "Select this option to enable Perfect Forward Secrecy (PFS) to improve VPN security. When PFS is enabled, a new Diffie-Hellman key exchange is performed to generate a new set of phase-1 key for every new phase-2 negotiation.\n Both the SecMaxWALL and the remote router must support PFS for it to work."
+            "description" : "Select this option to enable Perfect Forward Secrecy (PFS) to improve VPN security. When PFS is enabled, a new Diffie-Hellman key exchange is performed to generate a new set of phase-1 key for every new phase-2 negotiation.\n Both the TitanWALL and the remote router must support PFS for it to work."
           },
           {
             "label" : "DPD",
@@ -2430,17 +2430,17 @@
           {
             "label" : "Delay Time",
             "tab" : "delay_time",
-            "description" : "Specify the time interval (in seconds) between DPD R-U-THERE messages. The SecMaxWALL sends the DPD R-U-THERE messages only when the VPN tunnel is idle and there is no VPN traffic from the remote peer.  "
+            "description" : "Specify the time interval (in seconds) between DPD R-U-THERE messages. The TitanWALL sends the DPD R-U-THERE messages only when the VPN tunnel is idle and there is no VPN traffic from the remote peer.  "
           },
           {
             "label" : "Detection Timeout",
             "tab" : "detection_timeout",
-            "description" : "Enter the number of seconds for the SecMaxWALL to wait for a response or VPN traffic from the remote peer before considering the remote peer is dead."
+            "description" : "Enter the number of seconds for the TitanWALL to wait for a response or VPN traffic from the remote peer before considering the remote peer is dead."
           },
           {
             "label" : "DPD Action",
             "tab" : "dpd_action",
-            "description" : "Select an action the SecMaxWALL takes when the remote peer is considered dead.\n Select hold to wait for the peer to become active again. VPN traffic from the local network behind the SecMaxWALL can trigger the SecMaxWALL to restart the VPN connection. It is recommended that you select this option when the remote peer has a static IP address.\n Select clear to remove the VPN tunnel. You need to manually restart the VPN tunnel. It is recommended that you select this option when the remote peer has a dynamic IP address.\n Select restart to have the SecMaxWALL try to restart the VPN tunnel three times."
+            "description" : "Select an action the TitanWALL takes when the remote peer is considered dead.\n Select hold to wait for the peer to become active again. VPN traffic from the local network behind the TitanWALL can trigger the TitanWALL to restart the VPN connection. It is recommended that you select this option when the remote peer has a static IP address.\n Select clear to remove the VPN tunnel. You need to manually restart the VPN tunnel. It is recommended that you select this option when the remote peer has a dynamic IP address.\n Select restart to have the TitanWALL try to restart the VPN tunnel three times."
           },
           {
             "label" : "IKE",
@@ -2463,12 +2463,12 @@
           {
             "label" : "WAN Failover Enable",
             "tab" : "wan_failover_enable",
-            "description" : "Select this option to use the backup WAN interface to forward VPN traffic when the primary WAN interface fails. In order to support this function, you need to configure dynamic DNS on the SecMaxWALL or set the remote route to use a dynamic IP address (see the Remote Type field in the Basic Settings screen)."
+            "description" : "Select this option to use the backup WAN interface to forward VPN traffic when the primary WAN interface fails. In order to support this function, you need to configure dynamic DNS on the TitanWALL or set the remote route to use a dynamic IP address (see the Remote Type field in the Basic Settings screen)."
           },
           {
             "label" : "Redundant Gateway",
             "tab" : "redundant_gateway",
-            "description" : "Select this option to have the SecMaxWALL uses an alternative IPSec policy to connect to the backup remote router and set up a new VPN connection when the primary remote router fails. You must enable DPD in order to use this function."
+            "description" : "Select this option to have the TitanWALL uses an alternative IPSec policy to connect to the backup remote router and set up a new VPN connection when the primary remote router fails. You must enable DPD in order to use this function."
           },
           {
             "label" : "Select Backup Policy",
@@ -2478,7 +2478,7 @@
           {
             "label" : "Fallback Time to Switch From Backup to Primary",
             "tab" : "fallback_time",
-            "description" : "The SecMaxWALL periodically checks whether the primary remote router becomes active.\n Enter the number of seconds that must pass for the SecMaxWALL to confirm that the primary tunnel has recovered from a failure. If the primary tunnel is up for the specified time period, the SecMaxWALL will switch to the primary tunnel by disabling the backup tunnel. Enter a value between 3 and 59 seconds. The default value is 5 seconds.\n Note: DPD should be enabled if you want to use the Redundant Gateway feature for IPsec VPN connections."
+            "description" : "The TitanWALL periodically checks whether the primary remote router becomes active.\n Enter the number of seconds that must pass for the TitanWALL to confirm that the primary tunnel has recovered from a failure. If the primary tunnel is up for the specified time period, the TitanWALL will switch to the primary tunnel by disabling the backup tunnel. Enter a value between 3 and 59 seconds. The default value is 5 seconds.\n Note: DPD should be enabled if you want to use the Redundant Gateway feature for IPsec VPN connections."
           }
         ]
       },
@@ -2491,7 +2491,7 @@
           {
             "label" : "To Zone List",
             "tab" : "to_zone_list",
-            "description" : "Thie is the name of the zone created on the SecMaxWALL."
+            "description" : "Thie is the name of the zone created on the TitanWALL."
           },
           {
             "label" : "Access Setting",
@@ -2641,7 +2641,7 @@
           {
             "label" : "D-H Group",
             "tab" : "d_h_group",
-            "description" : "The SecMaxWALL uses Perfect Forward Secrecy (PFS) to ensure that the IPSec SA key is not derived from an IKE SA key that has been used to generate a key already. Select a D-H key group used by the IPSec routers to derive a shared secret key.\n Options are Group2 (1024 bits), Group5 (1536 bits), Group14 (2048 bits), Group15 (3072 bits), Group16 (4096 bits), Group17 (6144 bits) and Group18 (8192 bits). A longer key provides more secure encryption than a shorter key. But a shorter key takes a shorter time to encrypt and decrypt data."
+            "description" : "The TitanWALL uses Perfect Forward Secrecy (PFS) to ensure that the IPSec SA key is not derived from an IKE SA key that has been used to generate a key already. Select a D-H key group used by the IPSec routers to derive a shared secret key.\n Options are Group2 (1024 bits), Group5 (1536 bits), Group14 (2048 bits), Group15 (3072 bits), Group16 (4096 bits), Group17 (6144 bits) and Group18 (8192 bits). A longer key provides more secure encryption than a shorter key. But a shorter key takes a shorter time to encrypt and decrypt data."
           },
           {
             "label" : "Lifetime",
@@ -2656,20 +2656,20 @@
   {
     "label" : "Rules",
     "tab" : "rules",
-    "description" : "The firewall allows you to set access control for a zone. The firewall rules are applied according to the order they appear in the list. A user-defined firewall rule has priority over the default firewall rule.\n The SecMaxWALL applies the default firewall rule to traffic that does not match any user-defined firewall rule. You cannot delete or re-order a default firewall rule or a firewall rule that is generated automatically by the system. See the table below for the default firewall policies.",
+    "description" : "The firewall allows you to set access control for a zone. The firewall rules are applied according to the order they appear in the list. A user-defined firewall rule has priority over the default firewall rule.\n The TitanWALL applies the default firewall rule to traffic that does not match any user-defined firewall rule. You cannot delete or re-order a default firewall rule or a firewall rule that is generated automatically by the system. See the table below for the default firewall policies.",
     "tabs" :
     {
       "rule" :
       {
         "label" : "Rule",
         "tab" : "rule",
-        "description" : "Use this screen to view all the firewall rules on the SecMaxWALL, manage user-defined firewall rules or add a new firewall rule. Click the Columns button in the upper right corner to hide or show a column.",
+        "description" : "Use this screen to view all the firewall rules on the TitanWALL, manage user-defined firewall rules or add a new firewall rule. Click the Columns button in the upper right corner to hide or show a column.",
         "content" : 
         [
           {
             "label" : "Select Criterion For Rule Table",
             "tab" : "criterion",
-            "description" : "Set the following criteria and click the Query button to search and only display the firewall rules you want to see in this screen. User-defined rules are displayed always.\n From Zone – Select a zone from which the matched traffic comes.\n To Zone – select a zone to which the matched traffic goes.\n Default Rule – Select this option to show the default firewall rules.\n VPN Rule – Select this option to show the firewall rules for traffic that is transmitted through a VPN tunnel.\n NAT Rule – Select this option to show the firewall rules that the SecMaxWALL automatically creates for each NAT entry."
+            "description" : "Set the following criteria and click the Query button to search and only display the firewall rules you want to see in this screen. User-defined rules are displayed always.\n From Zone – Select a zone from which the matched traffic comes.\n To Zone – select a zone to which the matched traffic goes.\n Default Rule – Select this option to show the default firewall rules.\n VPN Rule – Select this option to show the firewall rules for traffic that is transmitted through a VPN tunnel.\n NAT Rule – Select this option to show the firewall rules that the TitanWALL automatically creates for each NAT entry."
           },
           {
             "label" : "Priority",
@@ -2684,27 +2684,27 @@
           {
             "label" : "From Zone",
             "tab" : "fromZone",
-            "description" : "This shows the name of the source zone. The SecMaxWALL applies this rule to traffic that comes from this zone."
+            "description" : "This shows the name of the source zone. The TitanWALL applies this rule to traffic that comes from this zone."
           },
           {
             "label" : "To Zone",
             "tab" : "toZone",
-            "description" : "This shows the name of the destination zone. The SecMaxWALL applies this rule to traffic that goes to this zone."
+            "description" : "This shows the name of the destination zone. The TitanWALL applies this rule to traffic that goes to this zone."
           },
           {
             "label" : "Src Addr",
             "tab" : "src_addr",
-            "description" : "This shows the name of the source address object. The SecMaxWALL applies this rule to packets that have the matched source address."
+            "description" : "This shows the name of the source address object. The TitanWALL applies this rule to packets that have the matched source address."
           },
           {
             "label" : "Dst Addr",
             "tab" : "dst_addr",
-            "description" : "This shows the name of the destination address object. The SecMaxWALL applies this rule to packets that have the matched destination address."
+            "description" : "This shows the name of the destination address object. The TitanWALL applies this rule to packets that have the matched destination address."
           },
           {
             "label" : "Service",
             "tab" : "service",
-            "description" : "This shows the name of the service to which the SecMaxWALL applies this rule."
+            "description" : "This shows the name of the service to which the TitanWALL applies this rule."
           },
           {
             "label" : "Schedule",
@@ -2719,12 +2719,12 @@
           {
             "label" : "Log",
             "tab" : "log",
-            "description" : "This shows whether the SecMaxWALL will create a log when any traffic matches this rule."
+            "description" : "This shows whether the TitanWALL will create a log when any traffic matches this rule."
           },
           {
             "label" : "Match Action",
             "tab" : "match_action",
-            "description" : "This shows the action the SecMaxWALL takes when any traffic matches this rule."
+            "description" : "This shows the action the TitanWALL takes when any traffic matches this rule."
           },
           {
             "label" : "Action",
@@ -2772,12 +2772,12 @@
           {
             "label" : "Log",
             "tab" : "log",
-            "description" : "Select this option to have the SecMaxWALL create a log when the rule is applied."
+            "description" : "Select this option to have the TitanWALL create a log when the rule is applied."
           },
           {
             "label" : "Match Action",
             "tab" : "match_action",
-            "description" : "Select Permit to have the SecMaxWALL allow the matched traffic.\n Select Deny to have the SecMaxWALL block the matched traffic.\n Select Accounting to have the SecMaxWALL count how many times the rule has been applied. The number displays in the Block Count field of the Security Dashbaord. The number will be reset to 0 if you modified the rule settings"
+            "description" : "Select Permit to have the TitanWALL allow the matched traffic.\n Select Deny to have the TitanWALL block the matched traffic.\n Select Accounting to have the TitanWALL count how many times the rule has been applied. The number displays in the Block Count field of the Security Dashbaord. The number will be reset to 0 if you modified the rule settings"
           }
         ]
       },
@@ -2791,17 +2791,17 @@
           {
             "label" : "From Zone",
             "tab" : "from_zone",
-            "description" : "This shows the name of the source zone. The SecMaxWALL applies this rule to traffic that comes from this zone."
+            "description" : "This shows the name of the source zone. The TitanWALL applies this rule to traffic that comes from this zone."
           },
           {
             "label" : "To Zone",
             "tab" : "to_zone",
-            "description" : "This shows the name of the destination zone. The SecMaxWALL applies this rule to traffic that goes to this zone."
+            "description" : "This shows the name of the destination zone. The TitanWALL applies this rule to traffic that goes to this zone."
           },
           {
             "label" : "Match Action",
             "tab" : "match_action",
-            "description" : "Select Permit to have the SecMaxWALL allow the matched traffic.\n Select Deny to have the SecMaxWALL block the matched traffic."
+            "description" : "Select Permit to have the TitanWALL allow the matched traffic.\n Select Deny to have the TitanWALL block the matched traffic."
           }
         ]
       }
@@ -2811,7 +2811,7 @@
   {
     "label" : "Dynamic PAT",
     "tab" : "dynamic_pat",
-    "description" : "Dynamic Port Address Translation (Dynamic PAT) lets you translate multiple private addresses and the source port to one public address and a unique dynamic port. Each connection has the same mapped address but uses a different source port. The remote side can initiate a connection to the host behind the SecMaxWALL when the firewall allows it and the mapped source port does not change.",
+    "description" : "Dynamic Port Address Translation (Dynamic PAT) lets you translate multiple private addresses and the source port to one public address and a unique dynamic port. Each connection has the same mapped address but uses a different source port. The remote side can initiate a connection to the host behind the TitanWALL when the firewall allows it and the mapped source port does not change.",
     "tabs" :
     {
       "pat_settings" :
@@ -2853,7 +2853,7 @@
           {
             "label" : "Mode",
             "tab" : "mode",
-            "description" : "This shows whether the SecMaxWALL maps a LAN interface IP address to the original IP address of the WAN interface (Auto) or a specified IP address (Manual)."
+            "description" : "This shows whether the TitanWALL maps a LAN interface IP address to the original IP address of the WAN interface (Auto) or a specified IP address (Manual)."
           },
           {
             "label" : "Address",
@@ -2876,7 +2876,7 @@
           {
             "label" : "Mode",
             "tab" : "mode",
-            "description" : "Select Auto to have the SecMaxWALL maps the source IP address of packets coming from a LAN interface to the original IP address of the WAN Interface.\n Select Manual and then specify a pre-defined address object."
+            "description" : "Select Auto to have the TitanWALL maps the source IP address of packets coming from a LAN interface to the original IP address of the WAN Interface.\n Select Manual and then specify a pre-defined address object."
           }
         ]
       }
@@ -2886,7 +2886,7 @@
   {
     "label" : "Static NAT",
     "tab" : "static_nat",
-    "description" : "Use this screen to view and manage static address mapping rules. The private IP address of the packets from a local host will be translated to a specified public IP address before the SecMaxWALL forwards them to a public network, and vice versa. A remote side can always use the mapped public IP address to access the host with the specified private IP address.",
+    "description" : "Use this screen to view and manage static address mapping rules. The private IP address of the packets from a local host will be translated to a specified public IP address before the TitanWALL forwards them to a public network, and vice versa. A remote side can always use the mapped public IP address to access the host with the specified private IP address.",
     "content" :
     [
       {
@@ -2902,7 +2902,7 @@
       {
         "label" : "Public IP",
         "tab" : "public_ip",
-        "description" : "This is the name of the address object, which defines the IP address to which the private IP address will be mapped when the SecMaxWALL forwards the packets to a WAN interface."
+        "description" : "This is the name of the address object, which defines the IP address to which the private IP address will be mapped when the TitanWALL forwards the packets to a WAN interface."
       },
       {
         "label" : "Private IP",
@@ -2938,7 +2938,7 @@
   {
     "label" : "Port Forwarding",
     "tab" : "port_forwarding",
-    "description" : "Port forwarding allows you to forward an application (or service) using a specific port number or a range of port numbers to an internal server, such as the FTP server, mail server or web server, which has a private IP address and is deployed in your local network behind the NAT router (the SecMaxWALL).\n Use this screen to view and manage port forwarding rules that assign a port number to a service and specify the internal IP address to which the service is forwards.",
+    "description" : "Port forwarding allows you to forward an application (or service) using a specific port number or a range of port numbers to an internal server, such as the FTP server, mail server or web server, which has a private IP address and is deployed in your local network behind the NAT router (the TitanWALL).\n Use this screen to view and manage port forwarding rules that assign a port number to a service and specify the internal IP address to which the service is forwards.",
     "content" :
     [
       {
@@ -2959,12 +2959,12 @@
       {
         "label" : "Trans Service",
         "tab" : "trans_service",
-        "description" : "This shows the service to which you want the SecMaxWALL to translate the incoming service."
+        "description" : "This shows the service to which you want the TitanWALL to translate the incoming service."
       },
       {
         "label" : "Trans Private IP",
         "tab" : "trans_private_ip",
-        "description" : "This shows the private IP address of your internal server to which the SecMaxWALL forwards the incoming service."
+        "description" : "This shows the private IP address of your internal server to which the TitanWALL forwards the incoming service."
       },
       {
         "label" : "WAN",
@@ -2992,7 +2992,7 @@
       {
         "label" : "Translated Service",
         "tab" : "trans_service",
-        "description" : "Select a service object to specify the service and port(s) to which you want the SecMaxWALL to translate the incoming service and port(s)."
+        "description" : "Select a service object to specify the service and port(s) to which you want the TitanWALL to translate the incoming service and port(s)."
       },
       {
         "label" : "Translated Private IP",
@@ -3015,7 +3015,7 @@
   {
     "label" : "Port Trigger",
     "tab" : "port_trigger",
-    "description" : "Port triggering lets the SecMaxWALL open a specified incoming port when it receives a response to the outgoing traffic that is sent bya host in the LAN using a specific port number and protocol (TCP or UDP). The SecMaxWALL then forwards the traffic to the local host’s IP address on the specified incoming port and closes the port 600 seconds (10 minutes) after the data exchange is done.\n Use this screen to view and manage port triggering rules.",
+    "description" : "Port triggering lets the TitanWALL open a specified incoming port when it receives a response to the outgoing traffic that is sent bya host in the LAN using a specific port number and protocol (TCP or UDP). The TitanWALL then forwards the traffic to the local host’s IP address on the specified incoming port and closes the port 600 seconds (10 minutes) after the data exchange is done.\n Use this screen to view and manage port triggering rules.",
     "content" :
     [
       {
@@ -3031,12 +3031,12 @@
       {
         "label" : "Trigger Service",
         "tab" : "trigger_service",
-        "description" : "This shows the service that is sent by the local host behind the SecMaxWALL."
+        "description" : "This shows the service that is sent by the local host behind the TitanWALL."
       },
       {
         "label" : "Opened Service",
         "tab" : "opened_service",
-        "description" : "This shows the service that comes from a remote host and triggers the SecMaxWALL to open the ports."
+        "description" : "This shows the service that comes from a remote host and triggers the TitanWALL to open the ports."
       },
       {
         "label" : "Action",
@@ -3184,35 +3184,35 @@
   {
     "label" : "ALG",
     "tab" : "alg",
-    "description" : "An Application Level Gateway (ALG) allows NAT incompatible applications, such as SIP or H.323, to go through NAT. The SecMaxWALL supports the SIP, H.323 and FTP ALGs.\n Use this screen to enable an ALG on the SecMaxWALL. For example, to allow VoIP traffic to pass through the SecMaxWALL, you need to select either SIP Protocol Support or H.323 Support depending on the protocol used by the VoIP devices/applications. The SecMaxWALL then opens the ports necessary for VoIP traffic. Click Save to apply your new settings.\n FTP ALG works only in FTP active mode, in which the FTP client sends a command to the FTP server to provide its IP address and port number. The FTP server then uses the address information to establish a data channel with the FTP client."
+    "description" : "An Application Level Gateway (ALG) allows NAT incompatible applications, such as SIP or H.323, to go through NAT. The TitanWALL supports the SIP, H.323 and FTP ALGs.\n Use this screen to enable an ALG on the TitanWALL. For example, to allow VoIP traffic to pass through the TitanWALL, you need to select either SIP Protocol Support or H.323 Support depending on the protocol used by the VoIP devices/applications. The TitanWALL then opens the ports necessary for VoIP traffic. Click Save to apply your new settings.\n FTP ALG works only in FTP active mode, in which the FTP client sends a command to the FTP server to provide its IP address and port number. The FTP server then uses the address information to establish a data channel with the FTP client."
   },
   "menu-4-3" :
   {
     "label" : "VPN Passthrough",
     "tab" : "vpn_passthrough",
-    "description" : "Use this screen to turn on the VPN passthrough function, which allows VPN traffic to pass through the SecMaxWALL, especially when a host behind the SecMaxWALL wants to set up a VPN tunnel with a remote security router on the WAN. Select the type of VPN traffic (L2TP, PPTP or IPSec) you want to allow. Click Save to apply your new settings."
+    "description" : "Use this screen to turn on the VPN passthrough function, which allows VPN traffic to pass through the TitanWALL, especially when a host behind the TitanWALL wants to set up a VPN tunnel with a remote security router on the WAN. Select the type of VPN traffic (L2TP, PPTP or IPSec) you want to allow. Click Save to apply your new settings."
   },
   "menu-4-4" :
   {
     "label" : "Session Settings",
     "tab" : "session_settings",
-    "description" : "The SecMaxWALL allows up to 1350000 sessions at a time. When the limit is reached, any new sessions would be dropped.\n Use this screen to specify when to remove an inactive session.",
+    "description" : "The TitanWALL allows up to 1350000 sessions at a time. When the limit is reached, any new sessions would be dropped.\n Use this screen to specify when to remove an inactive session.",
     "content" :
     [
       {
         "label" : "TCP Timeout",
         "tab" : "tcp_timeout",
-        "description" : "Enter a timeout value (in seconds) to specify how long an idle TCP session can stay open before the SecMaxWALL closes it."
+        "description" : "Enter a timeout value (in seconds) to specify how long an idle TCP session can stay open before the TitanWALL closes it."
       },
       {
         "label" : "UDP Timeout",
         "tab" : "udp_timeout",
-        "description" : "Enter a timeout value (in seconds) to specify how long an idle UDP session can stay open before the SecMaxWALL closes it."
+        "description" : "Enter a timeout value (in seconds) to specify how long an idle UDP session can stay open before the TitanWALL closes it."
       },
       {
         "label" : "Other Sessions Timeout Duration",
         "tab" : "other_timeout",
-        "description" : "Enter a timeout value (in seconds) to specify how long any idle session other than TCP or UDP sessions can stay open before the SecMaxWALL closes it"
+        "description" : "Enter a timeout value (in seconds) to specify how long any idle session other than TCP or UDP sessions can stay open before the TitanWALL closes it"
       }
     ]
   },
@@ -3220,33 +3220,33 @@
   {
     "label" : "Attack Protection",
     "tab" : "attack_protection",
-    "description" : "Use this screen to protect your SecMaxWALL and networks from attacks, such as port scanning, network flooding, and so on.",
+    "description" : "Use this screen to protect your TitanWALL and networks from attacks, such as port scanning, network flooding, and so on.",
     "content" :
     [
       {
         "label" : "Block Ping to WAN Interface",
         "tab" : "block_ping",
-        "description" : "Select the check box to not allow the SecMaxWALL to respond to pings received on the WAN interfaces. This prevents attackers from discover your networks using ICMP Echo (ping) requests. It is recommended that you allow responses to pings only when it is for diagnostic purposes."
+        "description" : "Select the check box to not allow the TitanWALL to respond to pings received on the WAN interfaces. This prevents attackers from discover your networks using ICMP Echo (ping) requests. It is recommended that you allow responses to pings only when it is for diagnostic purposes."
       },
       {
         "label" : "Enable Port Scan Protection",
         "tab" : "enable_port_scan_protection",
-        "description" : "Select the check box to stop the SecMaxWALL from responding to any connection requests that come from the WAN interfaces to probe for open ports."
+        "description" : "Select the check box to stop the TitanWALL from responding to any connection requests that come from the WAN interfaces to probe for open ports."
       },
       {
         "label" : "Enable TCP Flooding Protection",
         "tab" : "enable_tcp_flooding_protection",
-        "description" : "Your SecMaxWALL can process up to 200 TCP packets per second simultaneously. Select the check box to have the SecMaxWALL drop further TCP packets received on the WAN interfaces. This helps prevent TCP SYN flood attacks. A SYN flood is a type of DoS (denial of Service) attack. Attackers send SYN (synchronize) packets (connection requests) faster than a device can process and make the device unable to respond to valid traffic."
+        "description" : "Your TitanWALL can process up to 200 TCP packets per second simultaneously. Select the check box to have the TitanWALL drop further TCP packets received on the WAN interfaces. This helps prevent TCP SYN flood attacks. A SYN flood is a type of DoS (denial of Service) attack. Attackers send SYN (synchronize) packets (connection requests) faster than a device can process and make the device unable to respond to valid traffic."
       },
       {
         "label" : "Enable UDP Flooding Protection",
         "tab" : "enable_udp_flooding_protection",
-        "description" : "Your SecMaxWALL can process up to 200 UDP packets per second simultaneously. Select the check box to have the SecMaxWALL drop further UDP packets received on the WAN interfaces. This helps prevent UDP SYN flood attacks. "
+        "description" : "Your TitanWALL can process up to 200 UDP packets per second simultaneously. Select the check box to have the TitanWALL drop further UDP packets received on the WAN interfaces. This helps prevent UDP SYN flood attacks. "
       },
       {
         "label" : "Block ICMP Notification",
         "tab" : "block_icmp_notification",
-        "description" : "Select the check box to have the SecMaxWALL silently drop packets that match a firewall rule and not send an ICMP notification to the sender. Some protocols, such as MTU Path Discovery, require ICMP notifications."
+        "description" : "Select the check box to have the TitanWALL silently drop packets that match a firewall rule and not send an ICMP notification to the sender. Some protocols, such as MTU Path Discovery, require ICMP notifications."
       },
       {
         "label" : "Block Fragmented Packets",
@@ -3261,17 +3261,17 @@
       {
         "label" : "SYN Flood Threshold",
         "tab" : "syn_flood_threshold",
-        "description" : "Enter the maximum number of SYN packets that are allowed per second. When the threshold is reached, the SecMaxWALL considers a SYN flood Intrusion to have occurred and drops any new SYN packets. Enter 0 to disable this feature."
+        "description" : "Enter the maximum number of SYN packets that are allowed per second. When the threshold is reached, the TitanWALL considers a SYN flood Intrusion to have occurred and drops any new SYN packets. Enter 0 to disable this feature."
       },
       {
         "label" : "Echo Storm Threshold",
         "tab" : "echo_storm_threshold",
-        "description" : "Enter the maximum number of ping requests that are allowed per second. When the threshold is reached, the SecMaxWALL considers an echo storm intrusion event to have occurred and drops any new ping requests. Enter 0 to disable this feature."
+        "description" : "Enter the maximum number of ping requests that are allowed per second. When the threshold is reached, the TitanWALL considers an echo storm intrusion event to have occurred and drops any new ping requests. Enter 0 to disable this feature."
       },
       {
         "label" : "ICMP Flood Threshold",
         "tab" : "icmp_flood_threshold",
-        "description" : "Enter the maximum number of ICMP packets that are allowed per second. When the threshold is reached, the SecMaxWALL considers an ICMP flood attack to have occurred and drops any new ICMP packets. Enter 0 to disable this feature."
+        "description" : "Enter the maximum number of ICMP packets that are allowed per second. When the threshold is reached, the TitanWALL considers an ICMP flood attack to have occurred and drops any new ICMP packets. Enter 0 to disable this feature."
       }
     ]
   },
@@ -3292,7 +3292,7 @@
           {
             "label" : "Enable",
             "tab" : "enable",
-            "description" : "Select the check box to turn on the anti-virus service on the SecMaxWALL"
+            "description" : "Select the check box to turn on the anti-virus service on the TitanWALL"
           },
           {
             "label" : "Zone to Scan",
@@ -3302,17 +3302,17 @@
           {
             "label" : "HTTP/FTP/SMTP/POP3 ENABLE",
             "tab" : "app_enable",
-            "description" : "Select the check box to have the SecMaxWALL check the traffic of the corresponding type."
+            "description" : "Select the check box to have the TitanWALL check the traffic of the corresponding type."
           },
           {
             "label" : "HTTP/FTP/SMTP/POP3 Logging",
             "tab" : "app_logging",
-            "description" : "elect the check box to have the SecMaxWALL create a log when viruses are detected. You also need to configure the log settings in the Device > Loggings screens."
+            "description" : "elect the check box to have the TitanWALL create a log when viruses are detected. You also need to configure the log settings in the Device > Loggings screens."
           },
           {
             "label" : "HTTP/FTP/SMTP/POP3 Action",
             "tab" : "app_action",
-            "description" : "Select the action the SecMaxWALL takes when viruses are detected.\n none - The SecMaxWALL takes no action.\n notify - For HTTP, the SecMaxWALL does nothing to the virus the first time a virus is detected. When the virus is detected for the second time, it sends an alert message via the web page to the users who try to access the infected files or web pages.  For SMTP or POP3, when a virus is detected in the attachment(s), it still sends the original e-mail to the receiver and also sends an e-mail alert to both the mail sender and receiver.\n notify + drop connection – The SecMaxWALL denies access to the infected web pages the first time a virus is detected. When the virus is detected for the second time, it sends an alert via the web page to the users who try to access the infected files or web pages.\n notify + destruct file – The SecMaxWALL destroys the infected portion in a file when a virus is detected in the attachment(s). It also uses commands to inform the mail server that the mail is forwarded correctly, and sends an e-mail alert to both the mail sender and receiver.\n drop connection – The SecMaxWALL FTP terminates the connections when a virus is detected. \n Note: If you select notify or notify + drop connection for HTTP, set the alert message in the Security > AntiVirus > HTTP Notify screen. \n Note: If you select notify or notify + destruct file for SMTP or POP3, set the alert message in the Security > AntiVirus > Email Notify screen. You also need to configure the SMTP server address in the Device > Administration > Email Alert > Settings screen and enable anti-virus Alert in the Device > Administration > Email Alert > Alerts screen."
+            "description" : "Select the action the TitanWALL takes when viruses are detected.\n none - The TitanWALL takes no action.\n notify - For HTTP, the TitanWALL does nothing to the virus the first time a virus is detected. When the virus is detected for the second time, it sends an alert message via the web page to the users who try to access the infected files or web pages.  For SMTP or POP3, when a virus is detected in the attachment(s), it still sends the original e-mail to the receiver and also sends an e-mail alert to both the mail sender and receiver.\n notify + drop connection – The TitanWALL denies access to the infected web pages the first time a virus is detected. When the virus is detected for the second time, it sends an alert via the web page to the users who try to access the infected files or web pages.\n notify + destruct file – The TitanWALL destroys the infected portion in a file when a virus is detected in the attachment(s). It also uses commands to inform the mail server that the mail is forwarded correctly, and sends an e-mail alert to both the mail sender and receiver.\n drop connection – The TitanWALL FTP terminates the connections when a virus is detected. \n Note: If you select notify or notify + drop connection for HTTP, set the alert message in the Security > AntiVirus > HTTP Notify screen. \n Note: If you select notify or notify + destruct file for SMTP or POP3, set the alert message in the Security > AntiVirus > Email Notify screen. You also need to configure the SMTP server address in the Device > Administration > Email Alert > Settings screen and enable anti-virus Alert in the Device > Administration > Email Alert > Alerts screen."
           },
           {
             "label" : "HTTP/FTP/SMTP/POP3 Port List",
@@ -3322,7 +3322,7 @@
           {
             "label" : "Maximum File Size to Scan",
             "tab" : "max_file_size",
-            "description" : "SecMaxWALL won't scan the file size over this value, \"0\" means disable."
+            "description" : "TitanWALL won't scan the file size over this value, \"0\" means disable."
           }
         ]
       },
@@ -3330,7 +3330,7 @@
       {
         "label" : "HTTP Notify",
         "tab" : "http",
-        "description" : "Use this screen to enter the alert messages you want the SecMaxWALL to send when a virus is detected in a web page or file. You can enter up to 255 characters. Click the Save button to apply your changes. The alert message is sent only when you set Action for HTTP to notify or notify + drop connection in the General Setting screen. "
+        "description" : "Use this screen to enter the alert messages you want the TitanWALL to send when a virus is detected in a web page or file. You can enter up to 255 characters. Click the Save button to apply your changes. The alert message is sent only when you set Action for HTTP to notify or notify + drop connection in the General Setting screen. "
       },
       "email" :
       {
@@ -3342,7 +3342,7 @@
           {
             "label" : "From Email",
             "tab" : "from_email",
-            "description" : "This is the e-mail address that the SecMaxWALL uses to send e-mail alerts."
+            "description" : "This is the e-mail address that the TitanWALL uses to send e-mail alerts."
           },
           {
             "label" : "SMTP Server",
@@ -3362,7 +3362,7 @@
           {
             "label" : "Mail Content",
             "tab" : "mail_content",
-            "description" : "Enter the e-mail alert messages you want the SecMaxWALL to send via e-mail when a virus is detected in an e-mail attachment. You can enter up to 255 characters."
+            "description" : "Enter the e-mail alert messages you want the TitanWALL to send via e-mail when a virus is detected in an e-mail attachment. You can enter up to 255 characters."
           }
         ]
       },
@@ -3381,17 +3381,17 @@
           {
             "label" : "Source",
             "tab" : "source",
-            "description" : "This shows the source IP address of the packets which would not be scanned by the SecMaxWALL anti-virus engine."
+            "description" : "This shows the source IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
           },
           {
             "label" : "Destination",
             "tab" : "destination",
-            "description" : "This shows the destination IP address of the packets which would not be scanned by the SecMaxWALL anti-virus engine."
+            "description" : "This shows the destination IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
           },
           {
             "label" : "Log",
             "tab" : "log",
-            "description" : "This shows whether a log will be generated when the SecMaxWALL receives a packet that has the specified source or destination IP address."
+            "description" : "This shows whether a log will be generated when the TitanWALL receives a packet that has the specified source or destination IP address."
           },
           {
             "label" : "Action",
@@ -3409,17 +3409,17 @@
           {
             "label" : "Source",
             "tab" : "source",
-            "description" : "Select an address object to specify the source IP address of the packets which would not be scanned by the SecMaxWALL anti-virus engine."
+            "description" : "Select an address object to specify the source IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
           },
           {
             "label" : "Destination",
             "tab" : "destination",
-            "description" : "Select an address object to specify the destination IP address of the packets which would not be scanned by the SecMaxWALL anti-virus engine."
+            "description" : "Select an address object to specify the destination IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
           },
           {
             "label" : "Log",
             "tab" : "log",
-            "description" : "Select the check to generate a log when the SecMaxWALL receives a packet that matches this rule."
+            "description" : "Select the check to generate a log when the TitanWALL receives a packet that matches this rule."
           },
           {
             "label" : "OK",
@@ -3515,7 +3515,7 @@
       {
         "label" : "Blacklist",
         "tab" : "blacklist",
-        "description" : "When a virus is detected by the SecMaxWALL’s anti-virus, the SecMaxWALL records the infected site’s URL into its blacklist database and blocks users from accessing it. Each blacklist entry has its own lifetime in this database.\n Use this screen to specify the lifetime for all blacklist entries. The SecMaxWALL removes a blacklist entry from this database once the entry expires, the system is restarted, or anti-virus signatures are updated. The SecMaxWALL can record up to 4096 blacklist entries. You can manually move blacklist entries to the whitelist database if you find they are false positives.",
+        "description" : "When a virus is detected by the TitanWALL’s anti-virus, the TitanWALL records the infected site’s URL into its blacklist database and blocks users from accessing it. Each blacklist entry has its own lifetime in this database.\n Use this screen to specify the lifetime for all blacklist entries. The TitanWALL removes a blacklist entry from this database once the entry expires, the system is restarted, or anti-virus signatures are updated. The TitanWALL can record up to 4096 blacklist entries. You can manually move blacklist entries to the whitelist database if you find they are false positives.",
         "content" :
         [
           {
@@ -3531,12 +3531,12 @@
           {
             "label" : "URL",
             "tab" : "url",
-            "description" : "This is the URL (Uniform Resource Locator) where a virus is detected by the SecMaxWALL’s anti-virus. For example, http://www.eicar.org/download/eicar.com.txt and ftp://1.1.1.1/aaa.com."
+            "description" : "This is the URL (Uniform Resource Locator) where a virus is detected by the TitanWALL’s anti-virus. For example, http://www.eicar.org/download/eicar.com.txt and ftp://1.1.1.1/aaa.com."
           },
           {
             "label" : "Expiration Date",
             "tab" : "expire_date",
-            "description" : "This is the remaining time the SecMaxWALL keeps the URL in the blacklist before the entry expires and is being removed from this database. "
+            "description" : "This is the remaining time the TitanWALL keeps the URL in the blacklist before the entry expires and is being removed from this database. "
           },
           {
             "label" : "Action",
@@ -3549,7 +3549,7 @@
       {
         "label" : "Whitelist",
         "tab" : "whitelist",
-        "description" : "If you find a URL in the blacklist database is actually a non-virus web or FTP site, you can manually move it to the whitelist database. The anti-virus function does not take any action on connections accessing URLs in the whitelist database but just records them in the system log. The SecMaxWALL can store up to 4096 whitelist entries.\n Use this screen to the view and remove whitelist entries.",
+        "description" : "If you find a URL in the blacklist database is actually a non-virus web or FTP site, you can manually move it to the whitelist database. The anti-virus function does not take any action on connections accessing URLs in the whitelist database but just records them in the system log. The TitanWALL can store up to 4096 whitelist entries.\n Use this screen to the view and remove whitelist entries.",
         "content" :
         [
           {
@@ -3573,13 +3573,13 @@
       {
         "label" : "Signature",
         "tab" : "sig",
-        "description" : "Use this screen to configure anti-virus signature settings and view the signature information. You can update the signatures manually or have the SecMaxWALL automatically update the signatures by a schedule. ",
+        "description" : "Use this screen to configure anti-virus signature settings and view the signature information. You can update the signatures manually or have the TitanWALL automatically update the signatures by a schedule. ",
         "content" :
         [
           {
             "label" : "Manually Update",
             "tab" : "manually_update",
-            "description" : "Click the Update button to have the SecMaxWALL check the signature server immediately. If a new signature file is available on the server, the SecMaxWALL downloads the file."
+            "description" : "Click the Update button to have the TitanWALL check the signature server immediately. If a new signature file is available on the server, the TitanWALL downloads the file."
           },
           {
             "label" : "Auto Update",
@@ -3589,12 +3589,12 @@
           {
             "label" : "Type",
             "tab" : "type",
-            "description" : "Select how often (weekly, daily, hourly) the SecMaxWALL automatically checks the signature server."
+            "description" : "Select how often (weekly, daily, hourly) the TitanWALL automatically checks the signature server."
           },
           {
             "label" : "Interval",
             "tab" : "interval",
-            "description" : "Select the corresponding time interval the SecMaxWALL automatically checks the signature server. For example, if you select weekly in the Type field and 3 here, it means the SecMaxWALL automatically checks the signature server once per 3 weeks."
+            "description" : "Select the corresponding time interval the TitanWALL automatically checks the signature server. For example, if you select weekly in the Type field and 3 here, it means the TitanWALL automatically checks the signature server once per 3 weeks."
           },
           {
             "label" : "Signature Version",
@@ -3619,12 +3619,12 @@
           {
             "label" : "Last Checked",
             "tab" : "last_checked",
-            "description" : "This shows when the last time was the SecMaxWALL checked the signature update server for new signatures."
+            "description" : "This shows when the last time was the TitanWALL checked the signature update server for new signatures."
           },
           {
             "label" : "Last Successful Updated",
             "tab" : "last_updated",
-            "description" : "This shows when the last time was the SecMaxWALL successfully updated the signatures"
+            "description" : "This shows when the last time was the TitanWALL successfully updated the signatures"
           }
         ]
       }
@@ -3634,7 +3634,7 @@
   {
     "label" : "Users & Groups",
     "tab" : "users_and_groups", 
-    "description" : "Click Users > Users & Groups to view and configure user group table and user table on the SecMaxWALL.",
+    "description" : "Click Users > Users & Groups to view and configure user group table and user table on the TitanWALL.",
     "tabs" :
     {
       "group" :
@@ -3657,7 +3657,7 @@
           {
             "label" : "Services",
             "tab" : "services",
-            "description" : "This shows the service policy applied to this user group.\nDisable: All the user member are not allowed to log into the web configurator. \nRead Only: The user members can vie the SecMaxWALL's settings through web configurator, but are not allowed to configure any settings.\nAdministrator: The users members can view and configure the SecMaxWALL through the web configurator."
+            "description" : "This shows the service policy applied to this user group.\nDisable: All the user member are not allowed to log into the web configurator. \nRead Only: The user members can vie the TitanWALL's settings through web configurator, but are not allowed to configure any settings.\nAdministrator: The users members can view and configure the TitanWALL through the web configurator."
           },
           {
             "label" : "Action",
@@ -3681,7 +3681,7 @@
               {
                 "label" : "Services",
                 "tab" : "services",
-                "description" : "Select Disable to forbid this group's users from accessing the web configurator. Select Read Only to allow the user members to be able to view the SecMaxWALL's settings through the web configurator. But the users cannot configure the SecMaxWALL through the web configurator. Select Administrator to allow the user members to view and configure the SecMaxWALL's settings through web configurator."
+                "description" : "Select Disable to forbid this group's users from accessing the web configurator. Select Read Only to allow the user members to be able to view the TitanWALL's settings through the web configurator. But the users cannot configure the TitanWALL through the web configurator. Select Administrator to allow the user members to view and configure the TitanWALL's settings through web configurator."
               }
             ]
           },
@@ -3709,7 +3709,7 @@
       {
         "label" : "User Table",
         "tab" : "user_table",
-        "description" : "Click the User Table tab in the Users > User & Group screen to open the following screen. Use this screen to view and manage user accounts on this SecMaxWALL.",
+        "description" : "Click the User Table tab in the Users > User & Group screen to open the following screen. Use this screen to view and manage user accounts on this TitanWALL.",
         "content" :
         [
           {
@@ -3773,7 +3773,7 @@
       {
         "label" : "Group Address Table",
         "tab" : "group_address",
-        "description" : "A group address object consists of multiple address objects and other group addresses. The SecMaxWALL supports up to 64 group address objects. An group address can include a maximum of 64 address members. The Group Address Table screen provides a summary of all group addresses in the SecMaxWALL. You can add, edit, or remove group address objects in this screen. The address type can be Host, Range, Network, or MAC.\n In the Group Address Table screen, click on the name of the group address object to show its detailed information.",
+        "description" : "A group address object consists of multiple address objects and other group addresses. The TitanWALL supports up to 64 group address objects. An group address can include a maximum of 64 address members. The Group Address Table screen provides a summary of all group addresses in the TitanWALL. You can add, edit, or remove group address objects in this screen. The address type can be Host, Range, Network, or MAC.\n In the Group Address Table screen, click on the name of the group address object to show its detailed information.",
         "content" : 
         [
           {
@@ -3840,7 +3840,7 @@
       {
         "label" : "Address Table",
         "tab" : "address",
-        "description" : "Address objects can be a single IP address or a range of IP addresses. The SecMaxWALL’s address table is configured with a list of common addresses so that you can use to configure the firewall rules, port forwarding rules, or other features. You also can configure a customized address object. The address type can be Host, Range, Network, or MAC.",
+        "description" : "Address objects can be a single IP address or a range of IP addresses. The TitanWALL’s address table is configured with a list of common addresses so that you can use to configure the firewall rules, port forwarding rules, or other features. You also can configure a customized address object. The address type can be Host, Range, Network, or MAC.",
         "content" : 
         [
           {
@@ -3916,7 +3916,7 @@
       {
         "label" : "Group Service Table",
         "tab" : "group_service",
-        "description" : "Instead of creating separate rules for each individual service, you can use group service objects when you want to create the same rule for several services. Group service may consist of multiple services and other service groups but it is regarded as a single service. The SecMaxWALL supports up to 64 service groups. A service group can include up to 64 service members.\n In the Group Service Table screen, click on the name of the group address object to show its detailed information.",
+        "description" : "Instead of creating separate rules for each individual service, you can use group service objects when you want to create the same rule for several services. Group service may consist of multiple services and other service groups but it is regarded as a single service. The TitanWALL supports up to 64 service groups. A service group can include up to 64 service members.\n In the Group Service Table screen, click on the name of the group address object to show its detailed information.",
         "content" :
         [
           {
@@ -3988,7 +3988,7 @@
       {
         "label" : "Service Table",
         "tab" : "service",
-        "description" : "Use the Service screens to maintain the service objects. They are used to define ICMP messages, TCP, and UDP applications. The SecMaxWALL’s service table is configured with a list of common services so that you can use to configure the firewall rules, port forwarding rules, or other features. If you want to configure a feature for a custom service that is not in the standard list, you must define the service object first.",
+        "description" : "Use the Service screens to maintain the service objects. They are used to define ICMP messages, TCP, and UDP applications. The TitanWALL’s service table is configured with a list of common services so that you can use to configure the firewall rules, port forwarding rules, or other features. If you want to configure a feature for a custom service that is not in the standard list, you must define the service object first.",
         "content" :
         [
           {
@@ -4062,7 +4062,7 @@
   {
     "label" : "Schedule",
     "tab" : "scheduleObj",
-    "description" : "The SecMaxWALL supports onetime and recurring schedules. One-time schedules are effective only during the specified time and date. Recurring schedules repeat at a certain time and day(s) of a week. For example, if you want a firewall rule to run on the weekends only, you can create a schedule called “Weekend” that is only active on each Saturdays and Sundays.",
+    "description" : "The TitanWALL supports onetime and recurring schedules. One-time schedules are effective only during the specified time and date. Recurring schedules repeat at a certain time and day(s) of a week. For example, if you want a firewall rule to run on the weekends only, you can create a schedule called “Weekend” that is only active on each Saturdays and Sundays.",
     "content" :
     [
       {
@@ -4139,7 +4139,7 @@
   {
     "label" : "Administrator Settings",
     "tab" : "administrator_settings",
-    "description" : "se this screen to configure the SecMaxWALL’s login user name, password, and session settings.",
+    "description" : "se this screen to configure the TitanWALL’s login user name, password, and session settings.",
     "content" :
     [
       {
@@ -4165,12 +4165,12 @@
       {
         "label" : "Inactivity Timeout",
         "tab" : "inactive_timeout",
-        "description" : "Enter the time (in seconds) that the SecMaxWALL automatically logs out the user if remains idle for longer than this time period."
+        "description" : "Enter the time (in seconds) that the TitanWALL automatically logs out the user if remains idle for longer than this time period."
       },
       {
         "label" : "Limit Login Sessions for Web Login",
         "tab" : "login_web",
-        "description" : "Select the checkbox to limit the time that the user can be logged into the SecMaxWALL through a web browser."
+        "description" : "Select the checkbox to limit the time that the user can be logged into the TitanWALL through a web browser."
       },
       {
         "label" : "Login_session_limit",
@@ -4180,12 +4180,12 @@
       {
         "label" : "Max Attempts",
         "tab" : "max_attempts",
-        "description" : "Enter the maximum attempts that the user is allowed to guess the login password. If the user fails to login with the correct password within this number of attempts, the IP address of the user will be blocked from the SecMaxWALL for the period of time you have configured in the field below."
+        "description" : "Enter the maximum attempts that the user is allowed to guess the login password. If the user fails to login with the correct password within this number of attempts, the IP address of the user will be blocked from the TitanWALL for the period of time you have configured in the field below."
       },
       {
         "label" : "Limit Login Session for Web Logins",
         "tab" : "logins_web",
-        "description" : "Enter the period of time (in seconds) that the user’s IP address will be blocked from the SecMaxWALL after enter the wrong password for the number of times set in Max Attempts. "
+        "description" : "Enter the period of time (in seconds) that the user’s IP address will be blocked from the TitanWALL after enter the wrong password for the number of times set in Max Attempts. "
       }
     ]
   },
@@ -4193,23 +4193,23 @@
   {
     "label" : "Management Settings",
     "tab" : "management_settings",
-    "description" : "Use the Management Settings screen to allow or set conditions for the connections from different interfaces. You can allow connections through Ping (ICMP echo request), HTTPS (HTTP over SSL) and SSH. When this feature is enabled, users from other interfaces can access the SecMaxWALL by using a web browser or tools such as command line interface, and then accessing the IP address (with correct port number) of the interface.",
+    "description" : "Use the Management Settings screen to allow or set conditions for the connections from different interfaces. You can allow connections through Ping (ICMP echo request), HTTPS (HTTP over SSL) and SSH. When this feature is enabled, users from other interfaces can access the TitanWALL by using a web browser or tools such as command line interface, and then accessing the IP address (with correct port number) of the interface.",
     "content" :
     [
       {
         "label" : "HTTPS Listen Port Number",
         "tab" : "https_port",
-        "description" : "Enter the HTTPS port number for connecting to the SecMaxWALL. Users who are trying to access the SecMaxWALL’s web configurator must enter this port number. For example, if the port number is set to 1234, the user should enter https://192.168.1.1:1234 in the browser."
+        "description" : "Enter the HTTPS port number for connecting to the TitanWALL. Users who are trying to access the TitanWALL’s web configurator must enter this port number. For example, if the port number is set to 1234, the user should enter https://192.168.1.1:1234 in the browser."
       },
       {
         "label" : "SSH Listen Port Number",
         "tab" : "ssh_port",
-        "description" : "Enter the SSH port number for connecting to the SecMaxWALL. Users must enter this port number when trying to access the SecMaxWALL with their SSH client."
+        "description" : "Enter the SSH port number for connecting to the TitanWALL. Users must enter this port number when trying to access the TitanWALL with their SSH client."
       },
       {
         "label" : "Interface",
         "tab" : "interface",
-        "description" : "This shows the interfaces that users can use to access the SecMaxWALL. The interface types include Ping (ICMP echo request), HTTPS (HTTP over SSL) and SSH."
+        "description" : "This shows the interfaces that users can use to access the TitanWALL. The interface types include Ping (ICMP echo request), HTTPS (HTTP over SSL) and SSH."
       },
       {
         "label" : "Ping",
@@ -4229,7 +4229,7 @@
       {
         "label" : "Allow Access",
         "tab" : "allow_access",
-        "description" : "This shows the devices from a certain IP address or group address that can access the SecMaxWALL through the interface. Any means devices all sources are allowed to access the SecMaxWALL."
+        "description" : "This shows the devices from a certain IP address or group address that can access the TitanWALL through the interface. Any means devices all sources are allowed to access the TitanWALL."
       },
       {
         "label" : "Action",
@@ -4262,7 +4262,7 @@
       {
         "label" : "Allow Access",
         "tab" : "allow_access",
-        "description" : "Specify the devices that can access the SecMaxWALL through the interface. You can choose from an existing address, group address or create a new one if it’s not in the list. Choose Any if you want to allow devices from all sources to access the SecMaxWALL."
+        "description" : "Specify the devices that can access the TitanWALL through the interface. You can choose from an existing address, group address or create a new one if it’s not in the list. Choose Any if you want to allow devices from all sources to access the TitanWALL."
       }
     ]
   },
@@ -4377,69 +4377,69 @@
   {
     "label" : "Backup/Restore",
     "tab" : "backup_restore",
-    "description" : "Use this screen to back up the configuration or restore a configuration file to the SecMaxWALL. You can back up the current configuration to a local PC or to a USB device connected to the SecMaxWALL’s USB port. Select an option and click the Backup button.\n To upload a configuration file to the SecMaxWALL, you can select Restore Configuration From PC Path and click Select Files to locate the file. You can also restore a configuration file from a USB device connected to the SecMaxWALL’s USB port. Select Restore Configuration From USB and a file from the drop-down list box, then click Restore. "
+    "description" : "Use this screen to back up the configuration or restore a configuration file to the TitanWALL. You can back up the current configuration to a local PC or to a USB device connected to the TitanWALL’s USB port. Select an option and click the Backup button.\n To upload a configuration file to the TitanWALL, you can select Restore Configuration From PC Path and click Select Files to locate the file. You can also restore a configuration file from a USB device connected to the TitanWALL’s USB port. Select Restore Configuration From USB and a file from the drop-down list box, then click Restore. "
   },
   "menu-8-0-4" :
   {
     "label" : "Firmware",
     "tab" : "firmware",
-    "description" : "Your SecMaxWALL can store up to two firmware versions and runs one firmware image at a time. The other firmware which is not in use becomes the secondary firmware. You can use this Firmware screen to do the following:\n View the current firmware information.\n Switch from the current firmware to the secondary firmware.\n Check the latest firmware version from the Internet and upgrade the firmware.\n Upload a firmware image file from your PC or a connected USB device to the SecMaxWALL.\n You SecMaxWALL supports Auto Fall Back that enables the SecMaxWALL to automatically switch the firmware image to the secondary one when the primary firmware has a CRC (Cyclic Redundancy Check) error or when the SecMaxWALL fails to boot up for three times.\n Caution: Keep the upgrading screen open during a firmware upgrade. Do NOT turn off the SecMaxWALL, shut down the PC, remove the Ethernet cable, or do anything that may interrupt the process until the firmware uploading completes. The whole process takes several minutes including a system reboot. Interrupting the firmware uploading process may corrupt your SecMaxWALL’s memory and render the SecMaxWALL inoperable.",
+    "description" : "Your TitanWALL can store up to two firmware versions and runs one firmware image at a time. The other firmware which is not in use becomes the secondary firmware. You can use this Firmware screen to do the following:\n View the current firmware information.\n Switch from the current firmware to the secondary firmware.\n Check the latest firmware version from the Internet and upgrade the firmware.\n Upload a firmware image file from your PC or a connected USB device to the TitanWALL.\n You TitanWALL supports Auto Fall Back that enables the TitanWALL to automatically switch the firmware image to the secondary one when the primary firmware has a CRC (Cyclic Redundancy Check) error or when the TitanWALL fails to boot up for three times.\n Caution: Keep the upgrading screen open during a firmware upgrade. Do NOT turn off the TitanWALL, shut down the PC, remove the Ethernet cable, or do anything that may interrupt the process until the firmware uploading completes. The whole process takes several minutes including a system reboot. Interrupting the firmware uploading process may corrupt your TitanWALL’s memory and render the TitanWALL inoperable.",
     "content" :
     [
       {
         "label" : "Primary Firmware Version",
         "tab" : "primary",
-        "description" : "This is the firmware version the SecMaxWALL is currently running."
+        "description" : "This is the firmware version the TitanWALL is currently running."
       },
       {
         "label" : "Secondary Firmware Version",
         "tab" : "secondary",
-        "description" : "This is the other firmware version the SecMaxWALL stores and it is not in use."
+        "description" : "This is the other firmware version the TitanWALL stores and it is not in use."
       },
       {
         "label" : "Server Version",
         "tab" : "server",
-        "description" : "This is the latest firmware version on the server provided by the SecMaxWALL. no change requi displays if your current firmware is the latest one. The SecMaxWALL automatically checks the server for the latest firmware version every 24 hours. Make sure your SecMaxWALL can access the Internet to get this version being updated."
+        "description" : "This is the latest firmware version on the server provided by the TitanWALL. no change requi displays if your current firmware is the latest one. The TitanWALL automatically checks the server for the latest firmware version every 24 hours. Make sure your TitanWALL can access the Internet to get this version being updated."
       },
       {
         "label" : "Last Check Time",
         "tab" : "last_check",
-        "description" : "This is the date and time the SecMaxWALL checked the server for the latest firmware version."
+        "description" : "This is the date and time the TitanWALL checked the server for the latest firmware version."
       },
       {
         "label" : "Switch Firmware",
         "tab" : "switch",
-        "description" : "Click this button to have the SecMaxWALL change to use the other firmware image. It is recommended to back up your configuration before you switch the firmware to the other."
+        "description" : "Click this button to have the TitanWALL change to use the other firmware image. It is recommended to back up your configuration before you switch the firmware to the other."
       },
       {
         "label" : "Check Server Version",
         "tab" : "check",
-        "description" : "Click this button to have the SecMaxWALL check the server for the latest firmware version immediately and update the version on this screen."
+        "description" : "Click this button to have the TitanWALL check the server for the latest firmware version immediately and update the version on this screen."
       },
       {
         "label" : "Upgrade Firmware from Local",
         "tab" : "upgrade_local",
-        "description" : "Select this to upload a firmware image file from your PC to the SecMaxWALL. Click the Select Files button to locate the file."
+        "description" : "Select this to upload a firmware image file from your PC to the TitanWALL. Click the Select Files button to locate the file."
       },
       {
         "label" : "Upgrade Firemware from Server",
         "tab" : "upgrade_server",
-        "description" : "Select this to always upload the latest firmware to the SecMaxWALL from the server when the SecMaxWALL is connected to the Internet and a new firmware is available on the server."
+        "description" : "Select this to always upload the latest firmware to the TitanWALL from the server when the TitanWALL is connected to the Internet and a new firmware is available on the server."
       },
       {
         "label" : "Upgrade Firmware from USB",
         "tab" : "upgrade_usb",
-        "description" : "Select this and select a file from the drop-down list box to upload a firmware image file from a connected USB storage device to the SecMaxWALL. "
+        "description" : "Select this and select a file from the drop-down list box to upload a firmware image file from a connected USB storage device to the TitanWALL. "
       },
       {
         "label" : "Upgrade Firmware",
         "tab" : "upgrade",
-        "description" : "Click this button to upload the specified firmware to the SecMaxWALL."
+        "description" : "Click this button to upload the specified firmware to the TitanWALL."
       },
       {
         "label" : "Upgrade and Factory Reset",
         "tab" : "reset",
-        "description" : "Click this button to upload the specified firmware to the SecMaxWALL. Once the firmware is uploaded completely, the SecMaxWALL resets the configuration to the factory defaults."
+        "description" : "Click this button to upload the specified firmware to the TitanWALL. Once the firmware is uploaded completely, the TitanWALL resets the configuration to the factory defaults."
       }
     ]
   },
@@ -4447,19 +4447,19 @@
   {
     "label" : "Reboot/Reset/Shutdown",
     "tab" : "reboot_reset_shutdown",
-    "description" : "This screen allows you to restart the SecMaxWALL by clicking the Reboot button, reset all settings to the factory defaults by clicking the Reset button, and turn this SecMaxWALL off by clicking the Shutdown button."
+    "description" : "This screen allows you to restart the TitanWALL by clicking the Reboot button, reset all settings to the factory defaults by clicking the Reset button, and turn this TitanWALL off by clicking the Shutdown button."
   },
   "menu-8-0-6" :
   {
     "label" : "Properties",
     "tab" : "properties",
-    "description" : "Use this screen to configure the host name and domain name for this SecMaxWALL."
+    "description" : "Use this screen to configure the host name and domain name for this TitanWALL."
   },
   "menu-8-1" :
   {
     "label" : "Date and Time",
     "tab" : "date_and_time",
-    "description" : "Use the Date and Time screen to configure the SecMaxWALL’s system time manually or synchronize the system time with the Network Time Protocol (NTP) server based on your local time zone and date.",
+    "description" : "Use the Date and Time screen to configure the TitanWALL’s system time manually or synchronize the system time with the Network Time Protocol (NTP) server based on your local time zone and date.",
     "content" :
     [
       {
@@ -4565,7 +4565,7 @@
           {
             "label" : "Enable",
             "tab" : "enable",
-            "description" : "Select this checkbox to enable the log feature on the SecMaxWALL."
+            "description" : "Select this checkbox to enable the log feature on the TitanWALL."
           },
           {
             "label" : "Local Log",
@@ -4619,7 +4619,7 @@
   {
     "label" : "Proxy",
     "tab" : "proxy",
-    "description" : "If your company uses a proxy server that handles client requests for seeking some services (ex. FTP, web pages) from other server, you have to configure the proxy server settings on the SecMaxWALL. Otherwise, the anti-virus license and signature updates on the SecMaxWALL may fail.\n Use this screen to configure the proxy server settings. You don’t need to configure this screen if you don’t use a proxy server.",
+    "description" : "If your company uses a proxy server that handles client requests for seeking some services (ex. FTP, web pages) from other server, you have to configure the proxy server settings on the TitanWALL. Otherwise, the anti-virus license and signature updates on the TitanWALL may fail.\n Use this screen to configure the proxy server settings. You don’t need to configure this screen if you don’t use a proxy server.",
     "content" :
     [
       {
@@ -4665,7 +4665,7 @@
       {
         "label" : "Registration",
         "tab" : "registration",
-        "description" : "Use the License screen to view the license information and activate the Trial License. The security functions can be used once Trial License is activated. The screen shows information of the SecMaxWALL’s current license. ",
+        "description" : "Use the License screen to view the license information and activate the Trial License. The security functions can be used once Trial License is activated. The screen shows information of the TitanWALL’s current license. ",
         "content" : 
         [
           {
@@ -4679,7 +4679,7 @@
       {
         "label" : "Service",
         "tab" : "services",
-        "description" : "After the SecMaxWALL is registered, you can see the service list in the Service screen. You can click the Manual Update button to update it from the server. If you want register the license, enter the code from the license center into the Upgrade Active Code field and click the Register button."
+        "description" : "After the TitanWALL is registered, you can see the service list in the Service screen. You can click the Manual Update button to update it from the server. If you want register the license, enter the code from the license center into the Upgrade Active Code field and click the Register button."
       }
     }
   }

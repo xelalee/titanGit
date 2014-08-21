@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>SecMaxWALL web manager</title>
+    <title>TitanWALL web manager</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta http-equiv="Pragma" content="no-cache"> 
     <meta http-equiv="Cache-Control" content="no-cache"> 
@@ -187,8 +187,8 @@ var gCook  = {};
 var gRows  = {};
 
 // cookie 
-gCook.main    = 'SecMaxWALL';
-gCook.portal  = 'SecMaxWALLPortal';
+gCook.main    = 'TitanWALL';
+gCook.portal  = 'TitanWALLPortal';
 // declaire obj default
 gObj.config = '';
 gObj.active  = {};
@@ -2899,7 +2899,7 @@ $(document).ready(function () {
                         switch( parseInt( $('input[name=Editor-exportTo]:checked').val() ) )
                         {
                         case 1:
-                            window.open('cgi-bin/' + gNode.url.exportToPC + '.cgi?config_name=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].fileName, "_blank");
+                            window.open('cgi-bin/' + gNode.url.exportToPC + '.cgi?config_name=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].name, "_blank");
                             break;
                         case 2:
                             $.get('cgi-bin/' + gNode.url.exportToUSB + '.cgi?config_name=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].fileName, function() {
@@ -2935,6 +2935,8 @@ $(document).ready(function () {
                     tmp += '</table>';
                     tmp += '</div>';
                     $('#popForm').html( tmp );
+
+                    $('#Editor-exportTo-1').click();
 
                     $.ajax({
                         url: 'cgi-bin/common_usbFile_list.cgi',
@@ -6357,8 +6359,10 @@ $(document).ready(function () {
                     gObj.phpQuery.pp = $('#phpPerPage').val();
                     if (gIf.query) 
                         query += gQuery.q;
-                    else if (!gQuery.a)
+                    else if (!gQuery.a) {
+                        query += '&sh=' + gObj.sysHour + '&eh=' + gObj.sysHour;
                         gQuery.a = 0;
+                    }
                     query += '&pi=' + gObj.phpQuery.pi + '&pp=' + gObj.phpQuery.pp;
                 }
     
@@ -29960,12 +29964,13 @@ $(document).ready(function () {
         default:
             tmp += '<tr>';
             tmp += '<td class="BT250">';
-            tmp += gTerm[ gObj.lang ].start + ' ' + gTerm[ gObj.lang ].date + ': <input type="text" id="query-startDate" />';
+            tmp += gTerm[ gObj.lang ].startDatetime + ': <input type="text" id="query-startDate" size="12" />&nbsp;<select id="query-startHour"></select>';
             tmp += '</td>';
             tmp += '<td class="BT250">';
-            tmp += gTerm[ gObj.lang ].end + ' ' + gTerm[ gObj.lang ].date + ': <input type="text" id="query-endDate" />';
+            tmp += gTerm[ gObj.lang ].endDatetime + ': <input type="text" id="query-endDate" size="12" />&nbsp;<select id="query-endHour"></select>';
             tmp += '</td>';
-            tmp += '<td class="BT250">';
+
+            tmp += '<td class="BT230">';
             tmp += gTerm[ gObj.lang ].aggregateBy + ' <select id="query-aggregateBy">';
             tmp += '<option value="0">None</option>';
             switch(id)
@@ -29977,10 +29982,6 @@ $(document).ready(function () {
                 tmp += '<option value="4">' + gTerm[ gObj.lang ].protocol + '</option>';
                 tmp += '<option value="5">' + gTerm[ gObj.lang ].dstPort + '</option>';
                 tmp += '<option value="6">' + gTerm[ gObj.lang ].zone + '</option>';
-                break;
-            case 'source_report':
-            case 'destination_report':
-                tmp += '<option value="1">' + gTerm[ gObj.lang ].host + ' ' + gTerm[ gObj.lang ].IP + '</option>';
                 break;
             case 'file_extension':
                 tmp += '<option value="1">' + gTerm[ gObj.lang ].extension + '</option>';
@@ -29999,6 +30000,7 @@ $(document).ready(function () {
             tmp += '</td>';
             tmp += '<td class="alignCenter">';
             tmp += '<button class="Query" id="Query-' + id + '"><span class="ui-icon" title="query"></span></button>';
+            tmp += '<button class="Weekly" id="Weekly-' + id + '"><span class="ui-icon" title="weekly"></span></button>';
             tmp += '</td>';
             tmp += '</tr>';
         }
@@ -30067,7 +30069,7 @@ $(document).ready(function () {
                         $('#query-endDate').datepicker("setDate", theMax);
                     } 
                 }
-            }).datepicker("setDate", "-7d");
+            }).datepicker("setDate", "+0d");
        
             $('#query-endDate').datepicker({
                 minDate: -365,
@@ -30090,6 +30092,9 @@ $(document).ready(function () {
                     } 
                 }
             }).datepicker("setDate", "+0d");
+
+            $('#query-startHour').html( genSelectOption('query-startHour') ).val( gObj.sysHour );
+            $('#query-endHour').html( genSelectOption('query-endHour') ).val( gObj.sysHour );
         }
     }
     

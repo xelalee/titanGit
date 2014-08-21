@@ -26,6 +26,8 @@
     "Edit" : "Edit",
     "editor" : "Editor",
     "Editor" : "Editor",
+    "startDatetime" : "Start Datetime",
+    "endDatetime" : "End Datetime",
     "start" : "Start",
     "end" : "End",
     "date" : "Date",

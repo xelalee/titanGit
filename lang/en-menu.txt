@@ -1816,6 +1816,7 @@
                 "get" : "common_query"
               },
               "ext" : "php",
+              "weekly" : true,
               "query" : true,
               "pager" : true,
               "perPage" : 20,
