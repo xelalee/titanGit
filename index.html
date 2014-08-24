@@ -220,6 +220,7 @@ gObj.phpQuery.pi  = 1;
 gObj.phpQuery.ps  = 1;
 gObj.phpQuery.pp  = 20;
 gObj.phpQuery.id  = '';
+gObj.systime = '';
 
 gObj.idleOut = 0;
 gObj.forceOut = 0;
@@ -276,7 +277,6 @@ gIf.log         = false;
 gIf.debug       = false;
 gIf.isNext      = false;
 gIf.inUsed      = false;
-gIf.searched    = false;
 
 // regexp 
 // try to reg per element instead of obj, for solve ie issues 
@@ -456,8 +456,6 @@ gHtml.pgCheck   = '<button id="pgCheck" class="CheckSMTP" title="Check SMTP"><sp
 gHtml.pgExtend  = '<button id="pgExtend" class="Extend" title="Extend"><span class="ui-icon"></span></button>';
 gHtml.pgClear   = '<button id="pgClear" class="Clear" title="Clear"><span class="ui-icon"></span></button>';
 gHtml.pgExport  = '<button id="pgExport" class="Export" title="Export"><span class="ui-icon"></span></button>';
-gHtml.pgExport2 = '<button id="pgExport2" class="Export" title="Export"><span class="ui-icon"></span></button>';
-gHtml.pgImport  = '<button id="pgImport" class="Import" title="Import"><span class="ui-icon"></span></button>';
 gHtml.pgColumns = '<button id="pgColumns" class="Columns" title="Columns"><span class="ui-icon"></span></button>';
 gHtml.pgRun     = '<button id="pgRun" class="Run" title="Run"><span class="ui-icon"></span></button>';
 gHtml.pgClean   = '<button id="pgClean" class="Clean" title="Clean"><span class="ui-icon"></span></button>';
@@ -825,7 +823,7 @@ $(document).ready(function () {
                 success: function(data) {
                     gObj.sysTime = new Date( data.systime );
                     gObj.sysHour = gObj.sysTime.getHours();
-                    
+
                     // refresh idle/force timeout
                     $.ajax({
                         url:'cgi-bin/getSessInfo.cgi', 
@@ -1710,10 +1708,6 @@ $(document).ready(function () {
         gRows.maxIKEPolicy = 16;
         gRows.maxIPSecPolicies = 100;
 
-
-        // security
-        gRows.ipMacBinding = 500;
-      
         // device
         gRows.maxProfile = 16;
         gRows.maxDebug = 400;
@@ -2063,9 +2057,6 @@ $(document).ready(function () {
         case 'Stop':
             btnStop( e ); 
             break;
-        case 'Search':
-            btnSearch( e ); 
-            break;
         case 'Clean':
             btnClean( e ); 
             break;
@@ -2116,8 +2107,6 @@ $(document).ready(function () {
                 gQuery.q += '&sd=' + $('#query-startDate').val();
             if (gReg.isDate.test($('#query-endDate').val()))
                 gQuery.q += '&ed=' + $('#query-endDate').val();
-            gQuery.q += '&sh=' + $('#query-startHour').val();
-            gQuery.q += '&eh=' + $('#query-endHour').val();
             gObj.phpQuery.pi = 1;
             refreshReports(tar.pid);
             break;
@@ -2920,7 +2909,7 @@ $(document).ready(function () {
                             window.open('cgi-bin/' + gNode.url.exportToPC + '.cgi?config_name=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].name, "_blank");
                             break;
                         case 2:
-                            $.get('cgi-bin/' + gNode.url.exportToUSB + '.cgi?config_name=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].fileName, function() {
+                            $.get('cgi-bin/' + gNode.url.exportToUSB + '.cgi?config_name=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].name, function() {
                                 successAlert('<p>' + gTerm[ gObj.lang ].exportDone + '</p>');
                             });
                             break;
@@ -3503,12 +3492,6 @@ $(document).ready(function () {
     function btnClean( e ) {
         $('#queryString').empty();
         $('#queryResult').empty();
-    }
-
-    function btnSearch( e ) {
-        var tar = {};
-        tar.id = $(e.currentTarget).attr('id');
-
     }
 
     function btnNew( data ) {
@@ -5506,26 +5489,6 @@ $(document).ready(function () {
             break;
         }
     }
-
-    function genPhpReports( pid )
-    {
-        switch( pid )
-        {
-        case 'traffic_direction':
-          
-            break;
-        }
-    }
-    
-    function refreshPhpReports( pid )
-    {
-        switch( pid )
-        {
-        case 'traffic_direction':
-          
-            break;
-        }
-    }
     
     function genReports(pid)
     {
@@ -5839,7 +5802,7 @@ $(document).ready(function () {
                     gY.one('#main_bd').set('innerHTML', '<div class="templateDiv"></div>');
                     tmp = '';
                     $.ajax({
-                        url: gObj.phpQuery.php + '.php?param=' + pid + '&pp=20&pi=1&sh=' + gObj.sysHour + '&eh=' + gObj.sysHour,
+                        url: gObj.phpQuery.php + '.php?param=' + pid + '&pp=20&pi=1',
                         dataType: 'json',
                         success: function(data) {
                             gIf.ajaxed = true;
@@ -6403,11 +6366,8 @@ $(document).ready(function () {
                     gObj.phpQuery.pp = $('#phpPerPage').val();
                     if (gIf.query) 
                         query += gQuery.q;
-                    else if (!gQuery.a) {
-                        query += '&sh=' + gObj.sysHour + '&eh=' + gObj.sysHour;
+                    else if (!gQuery.a)
                         gQuery.a = 0;
-                    }
-                    
                     query += '&pi=' + gObj.phpQuery.pi + '&pp=' + gObj.phpQuery.pp;
                 }
     
@@ -8285,8 +8245,10 @@ $(document).ready(function () {
     
             $('#basic_settings-address').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                    
-                    $('#basic_settings-netmask').prop('disabled', false).focus();
+                    if ( $('#basic_settings-netmask').is(':disabled') ) 
+                        $('#basic_settings-netmask').prop('disabled', false).focus();
+                    else
+                        $('#basic_settings-netmask').prop('disabled', false);
                     $('#basic_settings-zoneId').prop('disabled', false);
                     if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                         gObj.tab.tabs('enable', 1);
@@ -8294,7 +8256,6 @@ $(document).ready(function () {
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
                         autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val() );
-                        gObj.addressed = $('#basic_settings-address').val();
                     }
                 } else {
                     if (3 == gObj.routing.protoType) {
@@ -8307,7 +8268,6 @@ $(document).ready(function () {
 
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
-                    gObj.addressed = $('#basic_settings-address').val();
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
@@ -8530,7 +8490,10 @@ $(document).ready(function () {
 
                 $('#basic_settings-address').blur( function() {
                     if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                        $('#basic_settings-netmask').prop('disabled', false).focus();
+                        if ( $('#basic_settings-netmask').is(':disabled') ) 
+                            $('#basic_settings-netmask').prop('disabled', false).focus();
+                        else
+                        $('#basic_settings-netmask').prop('disabled', false);
                         $('#basic_settings-zoneId').prop('disabled', false);
                         if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                             gObj.tab.tabs('enable', 1);
@@ -8538,7 +8501,6 @@ $(document).ready(function () {
                             if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                                 gObj.tab.tabs('enable', 2);
                             autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val() );
-                            gObj.addressed = $('#basic_settings-address').val();
                         } 
                     } else {
                         if (3 == gObj.routing.protoType) {
@@ -8550,8 +8512,7 @@ $(document).ready(function () {
                 });
                 
                 $('#basic_settings-netmask').blur( function() {
-                    if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
-                        gObj.addressed = $('#basic_settings-address').val();
+                    if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                         gObj.tab.tabs('enable', 1);
                         gObj.tab.tabs('enable', 3);
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
@@ -9500,7 +9461,6 @@ $(document).ready(function () {
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
                         autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $('#dhcp_pool_settings-1-startIp').val(), $('#dhcp_pool_settings-1-endIp').val() );
-                        gObj.addressed = $('#basic_settings-address').val();
                     } 
                 } else {
                     if (gObj.routing.protoType == 3) {
@@ -9513,7 +9473,6 @@ $(document).ready(function () {
             
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
-                    gObj.addressed = $('#basic_settings-address').val();
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
@@ -9533,7 +9492,6 @@ $(document).ready(function () {
             $('#basic_settings-netmask').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
 
             if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                gObj.addressed = $('#basic_settings-address').val();
                 $('#basic_settings-netmask').prop('disabled', false);
                 if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                     gObj.tab.tabs('enable', 1);
@@ -9814,7 +9772,6 @@ $(document).ready(function () {
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
                         autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $('#dhcp_pool_settings-1-startIp').val(), $('#dhcp_pool_settings-1-endIp').val() );
-                        gObj.addressed = $('#basic_settings-address').val();
                     } 
                 } else {
                     if (gObj.routing.protoType == 3) {
@@ -9828,7 +9785,6 @@ $(document).ready(function () {
 
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
-                    gObj.addressed = $('#basic_settings-address').val();
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
@@ -9847,7 +9803,6 @@ $(document).ready(function () {
             $('#basic_settings-netmask').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
 
             if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                gObj.addressed = $('#basic_settings-address').val();
                 $('#basic_settings-netmask').prop('disabled', false);
                 if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                     gObj.tab.tabs('enable', 1);
@@ -10072,7 +10027,6 @@ $(document).ready(function () {
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
                         autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $('#dhcp_pool_settings-1-startIp').val(), $('#dhcp_pool_settings-1-endIp').val() );
-                        gObj.addressed = $('#basic_settings-address').val();
                     } 
                 } else {
                     if (gObj.routing.protoType == 3) {
@@ -10085,7 +10039,6 @@ $(document).ready(function () {
 
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
-                    gObj.addressed = $('#basic_settings-address').val();
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
@@ -10104,7 +10057,6 @@ $(document).ready(function () {
             $('#basic_settings-netmask').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
 
             if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                gObj.addressed = $('#basic_settings-address').val();
                 $('#basic_settings-netmask').prop('disabled', false);
                 if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                     gObj.tab.tabs('enable', 1);
@@ -12508,7 +12460,7 @@ $(document).ready(function () {
                                     case 'hash':
                                     case 'dhgroup':
                                     case 'pfsgroup':
-                                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gRef[ gNode.url.get ][ gNode.col[ j ].tab ][ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] + '</td>';
+                                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gRef[ gNode.url.get ][ gNode.col[ j ].tab ][ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] + '</td>'; 
                                         break;
                                     case 'name':
                                         gCache.uniq[ pid ][ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] = true;
@@ -12912,7 +12864,7 @@ $(document).ready(function () {
                         }
                         tmp += '</td>';
                         break;
-                    case 'detinatedNetwork':
+                    case 'destinatedNetwork':
                         tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">'; 
                         if (parseInt( gData[ pid ][ gNode.guiT ][ i ].isDefaultRt ) == 1) {
                             tmp += 'default' ;
@@ -12941,9 +12893,9 @@ $(document).ready(function () {
                     case 'pfsgroup':
                         tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gRef[ gNode.url.get ][ gNode.col[ j ].tab ][ gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] + '</td>';
                         break;
-                    default:
+                    default: 
                         tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ] + '</td>'; 
-                    }
+                    } 
                 }
                 tmp += '</tr>';
                 $('#table-' + pid + ' tbody').append(tmp);
@@ -17136,7 +17088,7 @@ $(document).ready(function () {
 
                                 for (var i=0, len=gNode.col.length; i<len; i++)
                                 {
-                                    switch( gNode.col[ i ].type ) 
+                                    switch( gNode.col[ i ].type )
                                     {
                                     case 'table':
                                         tmp = '<thead>';
@@ -17156,7 +17108,6 @@ $(document).ready(function () {
                                         tmp += '<tbody>';
                                         tmp += '</tbody>';
                                         $('#table-' + pid ).html( tmp );
-
                                         if (gNode.tblAction && gIf.power) {
                                             genTblAction( pid );
 
@@ -17180,8 +17131,8 @@ $(document).ready(function () {
                                         tmp += '</td>';
                                         tmp += '<td class="alignLeft BT40">';
                                         tmp += '<label for="' + gNode.col[ i ].tab + '">' + gNode.col[ i ].label + '</label>';
-                                        tmp += '</td>'; 
-                                        tmp += '<td class="alignCenter BT10">|</td>'; 
+                                        tmp += '</td>';
+                                        tmp += '<td class="alignCenter BT10">|</td>';
                                         $('#table-' + pid + '-global tr').append( tmp );
                                         break;
                                     case 'select':
@@ -17194,8 +17145,8 @@ $(document).ready(function () {
                                         {
                                             tmp += '<option value="' + x + '">' + gNode.col[ i ].option[ x ] + '</option>';
                                         }
-                                        tmp += '</select>'; 
-                                        tmp += '</td>'; 
+                                        tmp += '</select>';
+                                        tmp += '</td>';
                                         $('#table-' + pid + '-global tr').append( tmp );
                                         break;
                                     }
@@ -17231,7 +17182,7 @@ $(document).ready(function () {
                                             }
                                             tmp += '</td>';
                                             break;
-                                        default: 
+                                        default:
                                             tmp += '<td>';
                                             tmp += data[ gNode.guiT ][ i ][ gNode.col[ 2 ].col[ j ].tab ];
                                             tmp += '</td>';
@@ -17253,7 +17204,7 @@ $(document).ready(function () {
                         if (gIf.power) {
                             $('#main_ft').html( gHtml.pgSave + gHtml.pgCancel );
                             gY.one('#pgSave').on('click', function(e) {
-                                saveSecurity( pid );
+                                saveSecurity('antivirus');
                             });
                         }
     
@@ -18574,7 +18525,7 @@ $(document).ready(function () {
     
         $('#popForm').append('<div class="formDiv"><div id="Editor-div-' + tar.pid + '"><table id="Editor-table-' + tar.pid + '"></table></div>');
     
-        var tmp = '';
+        var tmp;
         tar.w = 360;
         tar.h = 240;
         switch(tar.pid)
@@ -18649,6 +18600,28 @@ $(document).ready(function () {
             }
             $('#Editor-table-' + tar.pid).append( tmp );
             break;
+        case 'ip_mac_binding':
+            for (var i=0, len=gNode.editor.length; i<len; i++)
+            {
+                tmp += '<tr>';
+                if ('checkbox' == gNode.editor[ i ].type) {
+                    tmp += '<th colspan="2" class="alignLeft">';
+                    tmp += '<input type="checkbox" id="Editor-' + gNode.editor[ i ].tab + '" />';
+                    tmp += '&nbsp;<label for="Editor-' + gNode.editor[ i ].tab + '">' + gNode.editor[ i ].label + '</label>';
+                    tmp += '</th>';
+                } else {
+                    tmp += '<th class="alignLeft BT100">';
+                    tmp += gNode.editor[ i ].label;
+                    tmp += '</th>';
+                    tmp += '<td class="alignLeft">';
+                    tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" />';
+                    tmp += '</td>';
+                }
+                tmp += '</tr>';
+            }
+
+            $('#Editor-table-' + tar.pid).append( tmp );
+            break;
         }
         
         securityEditor(e, tar.w, tar.h);
@@ -18667,7 +18640,7 @@ $(document).ready(function () {
     
         $('#popForm').append('<div class="formDiv"><div id="Editor-div-' + tar.pid + '"><table id="Editor-table-' + tar.pid + '"></table></div>');
     
-        var tmp = '';
+        var tmp;
         tar.w = 360;
         tar.h = 240;
         switch(tar.pid)
@@ -18757,13 +18730,14 @@ $(document).ready(function () {
                 tmp += '</tr>';
             }
 
-            if (1 === parseInt( gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].enable )) 
+            $('#Editor-table-' + tar.pid).append( tmp );
+
+            if (1 === parseInt( gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].enable ))
                 $('#Editor-enable').click();
             $('#Editor-dscrpt').val( gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].dscrpt );
             $('#Editor-ipAddr').val( gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].ipAddr );
             $('#Editor-macAddr').val( gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].macAddr );
 
-            $('#Editor-table-' + tar.pid).append( tmp );
             break;
         }
         
@@ -19319,9 +19293,9 @@ $(document).ready(function () {
             gData[ pid ].mode = $('#mode').val();
             $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ pid ]), function( poster ) {
                 gIf.alter = false;
-                genSecurity( pid ); 
+                genSecurity( pid );
             });
-            
+
             break;
         }
     }
@@ -30079,6 +30053,7 @@ $(document).ready(function () {
             default:
                 // check if existing dhcp settings, based on /24  
                 var range = pick_bigger( address, netmask );
+                
                 if ((gReg.ipv4.test( startIp ) && gReg.ipv4.test( endIp )) &&  (compareIf( address, startIp, netmask ) && compareIf( address, endIp, netmask ))) {
                     range.oldStart = parseInt( startIp.split('.')[3] );
                     range.oldEnd = parseInt( endIp.split('.')[3] );
@@ -30135,7 +30110,7 @@ $(document).ready(function () {
 
     function cgiSearch(id) {
         var tmp = '<table id="table-search">';
-        switch(id) 
+        switch(id)
         {
         case 'ip_mac_binding':
             tmp += '<tr>';
@@ -30274,12 +30249,12 @@ $(document).ready(function () {
         default:
             tmp += '<tr>';
             tmp += '<td class="BT250">';
-            tmp += gTerm[ gObj.lang ].startDatetime + ': <input type="text" id="query-startDate" size="12" />&nbsp;<select id="query-startHour"></select>';
+            tmp += gTerm[ gObj.lang ].start + ' ' + gTerm[ gObj.lang ].date + ': <input type="text" id="query-startDate" />';
             tmp += '</td>';
             tmp += '<td class="BT250">';
-            tmp += gTerm[ gObj.lang ].endDatetime + ': <input type="text" id="query-endDate" size="12" />&nbsp;<select id="query-endHour"></select>';
+            tmp += gTerm[ gObj.lang ].end + ' ' + gTerm[ gObj.lang ].date + ': <input type="text" id="query-endDate" />';
             tmp += '</td>';
-            tmp += '<td class="BT230">';
+            tmp += '<td class="BT250">';
             tmp += gTerm[ gObj.lang ].aggregateBy + ' <select id="query-aggregateBy">';
             tmp += '<option value="0">None</option>';
             switch(id)
@@ -30291,6 +30266,10 @@ $(document).ready(function () {
                 tmp += '<option value="4">' + gTerm[ gObj.lang ].protocol + '</option>';
                 tmp += '<option value="5">' + gTerm[ gObj.lang ].dstPort + '</option>';
                 tmp += '<option value="6">' + gTerm[ gObj.lang ].zone + '</option>';
+                break;
+            case 'source_report':
+            case 'destination_report':
+                tmp += '<option value="1">' + gTerm[ gObj.lang ].host + ' ' + gTerm[ gObj.lang ].IP + '</option>';
                 break;
             case 'file_extension':
                 tmp += '<option value="1">' + gTerm[ gObj.lang ].extension + '</option>';
@@ -30309,7 +30288,6 @@ $(document).ready(function () {
             tmp += '</td>';
             tmp += '<td class="alignCenter">';
             tmp += '<button class="Query" id="Query-' + id + '"><span class="ui-icon" title="query"></span></button>';
-            tmp += '<button class="Weekly" id="Weekly-' + id + '"><span class="ui-icon" title="weekly"></span></button>';
             tmp += '</td>';
             tmp += '</tr>';
         }
@@ -30401,8 +30379,6 @@ $(document).ready(function () {
                     } 
                 }
             }).datepicker("setDate", "+0d");
-
-gY.log( gObj.sysHour );
 
             $('#query-startHour').html( genSelectOption('query-startHour') ).val( gObj.sysHour );
             $('#query-endHour').html( genSelectOption('query-endHour') ).val( gObj.sysHour );

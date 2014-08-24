@@ -509,78 +509,62 @@ function reportQuery( $table ) {
 
     if ( !empty( $_GET[ 'sd' ] ) && !empty( $_GET[ 'ed' ] ) ) {
         $startDate = str_replace("/", "-", $_GET[ 'sd' ]);
-        $startStamp = trim( shell_exec( 'date -d "'. $startDate .' '. $_GET[ 'sh' ] .':00:00" "+%s"' ) );
+        $startStamp = trim( shell_exec( 'date -d "'. $startDate .' 00:00:00" "+%s"' ) );
         $endDate = str_replace("/", "-", $_GET[ 'ed' ]);
-        $endStamp = trim( shell_exec( 'date -d "'. $endDate .' '. $_GET[ 'eh' ] .':00:00" "+%s"' ) );
+        $endStamp = trim( shell_exec( 'date -d "'. $endDate .' 00:00:00" "+%s"' ) );
         $days = 1 + ($endStamp - $startStamp)/86400;
-        $json[ 'interval' ] = $days . ' days';
-
-        for ($i=0; $i<$days; $i++)
-        {
-            $tmpStamp = $endStamp - $i * 86400;
-            $db = str_replace("-", "_", trim( shell_exec( 'date -d @'. $tmpStamp .' +%F' ) ));
-            // information schema method
-            // stats method
-            if ( $dbCount = $mysqli->query( 'SELECT SUM(TABLE_ROWS) FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME LIKE "' . $table .'%"' ) ) {
-                // only if the rows are we want, scan the hourly table
-                $tableRows = $totalRows;
-                $totalRows = $totalRows + $dbCount->fetch_row()[ 0 ];
-                if ( $totalRows >= $startRow && $leftRow > 0 ) {
-                    for ($j=0; $j<sizeof( $tables ); $j++)
-                    {
-                        if ( $tableCount = $mysqli->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "'. $tables[ $j ] .'"' ) ) {
-                            $cntRows = $tableRows;
-                            $tableRows = $tableRows + $tableCount->fetch_row()[ 0 ];
-                            if ( $tableRows >= $startRow && $leftRow > 0 ) {
-                                if ( $result = $mysqli->query( 'SELECT * FROM '. $db .'.`'. $tables[ $j ] .'` ORDER BY id DESC' ) ) {
-                                    while ($obj = $result->fetch_object()) {
-                                        $cntRows++;
-                                        // rows we want
-                                        if ($cntRows >= $startRow && $cntRows <= $endRow) {
-                                            $json['queryResults'][] = $obj;
-                                            $leftRow--;
-                                        }
-        
-                                        if (0 == $leftRow) {
-                                            break;
-                                        }
-                                    }
-                                    // free result set
-                                    $result->close();
-                                }
-                            }
-                            // free tableCount set
-                            $tableCount->close();
-                        }
-                    }
-                }
-                // free dbCount set
-                $dbCount->close();
-            }
-        }
     } else {
-        // this hour
-        $json[ 'interval' ] = 'this hour: '. $_GET[ 'sh' ];
-        $days = 0;
-        $db = str_replace("-", "_", trim( shell_exec( 'date -d @'. $nowStamp .' +%F' ) ));
-        $tb = $table .'_'. sprintf("%02d", $_GET[ 'sh' ]);
-        if ( $tableCount = $mysqli->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "'. $tb .'"') ) {
-            $totalRows = $tableCount->fetch_row()[ 0 ];
-            if ($totalRows > 0) {
-                if ($result = $mysqli->query( 'SELECT * FROM '. $db .'.`'. $tb .'` ORDER BY id DESC LIMIT '. ($startRow - 1) .', '. $leftRow ) ) {
-
-                    while ($obj = $result->fetch_object()) {
-                        $json['queryResults'][] = $obj;
-                    }
-                    // free result set
-                    $result->close();
-                }
-            }
-            // free tableCount set
-            $tableCount->close();
-        }
+        // one week
+        $days = 7;
+        $endDate = trim( shell_exec( 'date +%Y-%m-%d' ) );
+        $endStamp = trim( shell_exec( 'date -d "'. $endDate .' 00:00:00" "+%s"' ) );
     }
 
+    $json[ 'interval' ] = $days;
+
+    for ($i=0; $i<$days; $i++)
+    {
+        $tmpStamp = $endStamp - $i * 86400;
+        $db = str_replace("-", "_", trim( shell_exec( 'date -d @'. $tmpStamp .' +%F' ) ));
+        // information schema method
+        // stats method
+        if ( $dbCount = $mysqli->query( 'SELECT SUM(TABLE_ROWS) FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME LIKE "' . $table .'%"' ) ) {
+            // only if the rows are we want, scan the hourly table
+            $tableRows = $totalRows;
+            $totalRows = $totalRows + $dbCount->fetch_row()[ 0 ];
+            if ( $totalRows >= $startRow && $leftRow > 0 ) {
+                for ($j=0; $j<sizeof( $tables ); $j++)
+                {
+                    if ( $tableCount = $mysqli->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "'. $tables[ $j ] .'"' ) ) {
+                        $cntRows = $tableRows;
+                        $tableRows = $tableRows + $tableCount->fetch_row()[ 0 ];
+                        if ( $tableRows >= $startRow && $leftRow > 0 ) {
+                            if ( $result = $mysqli->query( 'SELECT * FROM '. $db .'.`'. $tables[ $j ] .'` ORDER BY id DESC' ) ) {
+                                while ($obj = $result->fetch_object()) {
+                                    $cntRows++;
+                                    // rows we want
+                                    if ($cntRows >= $startRow && $cntRows <= $endRow) {
+                                        $json['queryResults'][] = $obj;
+                                        $leftRow--;
+                                    }
+                                    
+                                    if (0 == $leftRow) { 
+                                        break;
+                                    }
+                                }
+                                // free result set
+                                $result->close();
+                            }
+                        }
+                        // free tableCount set
+                        $tableCount->close();
+                    }
+                }
+            }
+            // free dbCount set
+            $dbCount->close();
+        }
+    }
     $json[ 'queryRows' ] = $totalRows;
     $json[ 'queryStamp' ] = trim( shell_exec( 'date +%s' ) ) - $nowStamp;
     echo json_encode( $json );

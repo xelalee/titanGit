@@ -821,6 +821,8 @@ $(document).ready(function () {
                 url: 'cgi-bin/getSystime.cgi',
                 dataType: 'json',
                 success: function(data) {
+                    gObj.sysTime = new Date( data.systime );
+                    gObj.sysHour = gObj.sysTime.getHours();
                     // refresh idle/force timeout
                     $.ajax({
                         url:'cgi-bin/getSessInfo.cgi', 
