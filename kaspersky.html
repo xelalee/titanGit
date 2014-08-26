@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="css/datatable-base.css" />
     <link rel="stylesheet" type="text/css" href="css/datatable-sort.css" />
     <link rel="stylesheet" type="text/css" href="css/panel.css" />
-    <link rel="stylesheet" type="text/css" href="css/portal.css" />
+    <link rel="stylesheet" type="text/css" href="css/portalK.css" />
     <link rel="stylesheet" type="text/css" href="css/screen.css" /> 
     <link rel="stylesheet" type="text/css" href="css/widget-base.css" />
     <link rel="stylesheet" type="text/css" href="css/widget-stack.css" />
@@ -55,7 +55,7 @@
 <!--    <script type="text/javascript" src="js/deviceClass.js"></script> -->
 
 <!-- custom css -->
-    <link rel="stylesheet" type="text/css" href="css/customCSS.css" />
+    <link rel="stylesheet" type="text/css" href="css/customCSSK.css" />
 
 <!-- JS Start -->
 <script type="text/javascript">
@@ -228,8 +228,8 @@ gObj.delay  = 0;
 gObj.help   = 0;
 gObj.sigVer = 0;
 gObj.blinking = 0;
-//gObj.blinkings = [ 'D', 'L', 'U' ];
-gObj.blinkings = [ 'E', 'H', 'I', 'A' ];
+gObj.blinkings = [ 'D', 'L', 'U' ];
+//gObj.blinkings = [ 'E', 'H', 'I', 'A' ];
 gObj.debugMode = 0;
 
 // if condition 
@@ -484,16 +484,16 @@ gHtml.layout +=   '</div>';
 gHtml.layout += '</div>';
 
 gHtml.head = '<div class="content">';
-//gHtml.head += '<div id="hd_top"></div>';
-//gHtml.head += '<div id="hd_mark"></div>';
-//gHtml.head += '<div id="hd_label"></div>';
-//gHtml.head += '<div id="hd_blinkD"></div>';
-//gHtml.head += '<div id="hd_blinkL"></div>';
-//gHtml.head += '<div id="hd_blinkU"></div>';
-gHtml.head += '<div id="hd_blinkE"></div>';
-gHtml.head += '<div id="hd_blinkH"></div>';
-gHtml.head += '<div id="hd_blinkI"></div>';
-gHtml.head += '<div id="hd_blinkA"></div>';
+gHtml.head += '<div id="hd_top"></div>';
+gHtml.head += '<div id="hd_mark"></div>';
+gHtml.head += '<div id="hd_label"></div>';
+gHtml.head += '<div id="hd_blinkD"></div>';
+gHtml.head += '<div id="hd_blinkL"></div>';
+gHtml.head += '<div id="hd_blinkU"></div>';
+//gHtml.head += '<div id="hd_blinkE"></div>';
+//gHtml.head += '<div id="hd_blinkH"></div>';
+//gHtml.head += '<div id="hd_blinkI"></div>';
+//gHtml.head += '<div id="hd_blinkA"></div>';
 gHtml.head += '<div id="hd_user"></div>';
 gHtml.head += '<div id="hd_timer"></div>';
 gHtml.head += '<div id="hd_ip"></div>';
@@ -682,8 +682,8 @@ $(document).ready(function () {
                 case 0:
                     gIf.isNext = false;
                     break;
-                //case 2:
-                case 3:
+                case 2:
+                //case 3:
                     gIf.isNext = true;
                     break;
                 }
@@ -702,8 +702,8 @@ $(document).ready(function () {
                     gObj.blinking++;
             } else {
                 if (0 === gObj.blinking ) 
-                    //gObj.blinking = 2;
-                    gObj.blinking = 3;
+                    gObj.blinking = 2;
+                    //gObj.blinking = 3;
                 else
                     gObj.blinking--;
 
@@ -717,8 +717,8 @@ $(document).ready(function () {
             }
         } else {
             if (gIf.pcap) {
-                //if (2 === gObj.blinking ) 
-                if (3 === gObj.blinking ) 
+                if (2 === gObj.blinking ) 
+                //if (3 === gObj.blinking ) 
                     gObj.blinking = 0;
                 else
                     gObj.blinking++;
@@ -825,7 +825,6 @@ $(document).ready(function () {
                 success: function(data) {
                     gObj.sysTime = new Date( data.systime );
                     gObj.sysHour = gObj.sysTime.getHours();
-
                     // refresh idle/force timeout
                     $.ajax({
                         url:'cgi-bin/getSessInfo.cgi', 
@@ -902,7 +901,7 @@ $(document).ready(function () {
     
     function ifLogin() {
         // login label
-        //$('#login_label').html( gCook.main );
+        $('#login_label').html( gCook.main + '<span>&reg;</span>');
     
         // detect if lang set
         if (gY.Cookie.getSub( gCook.main, 'lang' )) {
@@ -1435,7 +1434,7 @@ $(document).ready(function () {
         $('#hd').html( gHtml.head );
     
         // assign lang icon
-        // $('#hd_label').html( gCook.main );
+        $('#hd_label').html( gCook.main + '<span>&reg;</span>');
         $('#hd_help').addClass( gObj.lang + '_help' );
         $('#hd_home').addClass( gObj.lang + '_home' );
         $('#hd_refresh').addClass( gObj.lang + '_refresh' );
@@ -1671,7 +1670,7 @@ $(document).ready(function () {
         });
                 
         $('#ft').html( gHtml.foot );
-        $('#ft .content').append('<p>Copyright &copy; 2014 TECH TITAN</p>');
+        $('#ft .content').append('<p>Copyright &copy; 2014 Titan ARC Corp.</p>');
         // $('#ft .content').append('<p>The Next Generation Technology Appliances by Tech Titan, powerd by Kaspersky</p>');
     
         // set row limits
@@ -2887,13 +2886,13 @@ $(document).ready(function () {
         var tar = {};
         tar.id = $(e.currentTarget).attr('id');
 
-        switch( tar.id )
+        switch (tar.id)
         {
         case 'pgExport':
             window.open("logExport.php?param=view_logs", "_blank");
-           break; 
+            break;
         case 'pgExport2':
-           break; 
+            break;
         default:
             if (!($('#popForm').exists()))
                 $('#popBase').append('<div id="popForm"></div>');
@@ -2916,7 +2915,7 @@ $(document).ready(function () {
                             window.open('cgi-bin/' + gNode.url.exportToPC + '.cgi?config_name=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].name, "_blank");
                             break;
                         case 2:
-                            $.get('cgi-bin/' + gNode.url.exportToUSB + '.cgi?config_name=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].name, function() {
+                            $.get('cgi-bin/' + gNode.url.exportToUSB + '.cgi?config_name=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].fileName, function() {
                                 successAlert('<p>' + gTerm[ gObj.lang ].exportDone + '</p>');
                             });
                             break;
@@ -2980,7 +2979,7 @@ $(document).ready(function () {
         tar.pid = tar.id.split('-')[1];
         tar.thisNo = tar.id.split('-')[2];
 
-        switch( tar.id )
+        switch (tar.id)
         {
         case 'pgImport':
             break;
@@ -6379,8 +6378,10 @@ $(document).ready(function () {
                     gObj.phpQuery.pp = $('#phpPerPage').val();
                     if (gIf.query) 
                         query += gQuery.q;
-                    else if (!gQuery.a)
+                    else if (!gQuery.a) {
+                        query += '&sh=' + gObj.sysHour + '&eh=' + gObj.sysHour;
                         gQuery.a = 0;
+                    }
                     query += '&pi=' + gObj.phpQuery.pi + '&pp=' + gObj.phpQuery.pp;
                 }
     
@@ -8258,10 +8259,8 @@ $(document).ready(function () {
     
             $('#basic_settings-address').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                    if ( $('#basic_settings-netmask').is(':disabled') ) 
-                        $('#basic_settings-netmask').prop('disabled', false).focus();
-                    else
-                        $('#basic_settings-netmask').prop('disabled', false);
+                    
+                    $('#basic_settings-netmask').prop('disabled', false).focus();
                     $('#basic_settings-zoneId').prop('disabled', false);
                     if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                         gObj.tab.tabs('enable', 1);
@@ -8269,6 +8268,7 @@ $(document).ready(function () {
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
                         autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val() );
+                        gObj.addressed = $('#basic_settings-address').val();
                     }
                 } else {
                     if (3 == gObj.routing.protoType) {
@@ -8281,6 +8281,7 @@ $(document).ready(function () {
 
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
+                    gObj.addressed = $('#basic_settings-address').val();
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
@@ -8503,10 +8504,7 @@ $(document).ready(function () {
 
                 $('#basic_settings-address').blur( function() {
                     if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                        if ( $('#basic_settings-netmask').is(':disabled') ) 
-                            $('#basic_settings-netmask').prop('disabled', false).focus();
-                        else
-                        $('#basic_settings-netmask').prop('disabled', false);
+                        $('#basic_settings-netmask').prop('disabled', false).focus();
                         $('#basic_settings-zoneId').prop('disabled', false);
                         if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                             gObj.tab.tabs('enable', 1);
@@ -8514,6 +8512,7 @@ $(document).ready(function () {
                             if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                                 gObj.tab.tabs('enable', 2);
                             autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val() );
+                            gObj.addressed = $('#basic_settings-address').val();
                         } 
                     } else {
                         if (3 == gObj.routing.protoType) {
@@ -8525,7 +8524,8 @@ $(document).ready(function () {
                 });
                 
                 $('#basic_settings-netmask').blur( function() {
-                    if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
+                    if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
+                        gObj.addressed = $('#basic_settings-address').val();
                         gObj.tab.tabs('enable', 1);
                         gObj.tab.tabs('enable', 3);
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
@@ -9474,6 +9474,7 @@ $(document).ready(function () {
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
                         autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $('#dhcp_pool_settings-1-startIp').val(), $('#dhcp_pool_settings-1-endIp').val() );
+                        gObj.addressed = $('#basic_settings-address').val();
                     } 
                 } else {
                     if (gObj.routing.protoType == 3) {
@@ -9486,6 +9487,7 @@ $(document).ready(function () {
             
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
+                    gObj.addressed = $('#basic_settings-address').val();
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
@@ -9505,6 +9507,7 @@ $(document).ready(function () {
             $('#basic_settings-netmask').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
 
             if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
+                gObj.addressed = $('#basic_settings-address').val();
                 $('#basic_settings-netmask').prop('disabled', false);
                 if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                     gObj.tab.tabs('enable', 1);
@@ -9785,6 +9788,7 @@ $(document).ready(function () {
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
                         autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $('#dhcp_pool_settings-1-startIp').val(), $('#dhcp_pool_settings-1-endIp').val() );
+                        gObj.addressed = $('#basic_settings-address').val();
                     } 
                 } else {
                     if (gObj.routing.protoType == 3) {
@@ -9798,6 +9802,7 @@ $(document).ready(function () {
 
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
+                    gObj.addressed = $('#basic_settings-address').val();
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
@@ -9816,6 +9821,7 @@ $(document).ready(function () {
             $('#basic_settings-netmask').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
 
             if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
+                gObj.addressed = $('#basic_settings-address').val();
                 $('#basic_settings-netmask').prop('disabled', false);
                 if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                     gObj.tab.tabs('enable', 1);
@@ -10040,6 +10046,7 @@ $(document).ready(function () {
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
                         autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $('#dhcp_pool_settings-1-startIp').val(), $('#dhcp_pool_settings-1-endIp').val() );
+                        gObj.addressed = $('#basic_settings-address').val();
                     } 
                 } else {
                     if (gObj.routing.protoType == 3) {
@@ -10052,6 +10059,7 @@ $(document).ready(function () {
 
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
+                    gObj.addressed = $('#basic_settings-address').val();
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
@@ -10070,6 +10078,7 @@ $(document).ready(function () {
             $('#basic_settings-netmask').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
 
             if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
+                gObj.addressed = $('#basic_settings-address').val();
                 $('#basic_settings-netmask').prop('disabled', false);
                 if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                     gObj.tab.tabs('enable', 1);
@@ -12473,7 +12482,7 @@ $(document).ready(function () {
                                     case 'hash':
                                     case 'dhgroup':
                                     case 'pfsgroup':
-                                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gRef[ gNode.url.get ][ gNode.col[ j ].tab ][ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] + '</td>'; 
+                                        tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gRef[ gNode.url.get ][ gNode.col[ j ].tab ][ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] + '</td>';
                                         break;
                                     case 'name':
                                         gCache.uniq[ pid ][ data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] = true;
@@ -12853,7 +12862,7 @@ $(document).ready(function () {
                 for (var j=0, jlen=gNode.col.length; j<jlen; j++)
                 {
                     switch (gNode.col[ j ].tab)
-                    {
+                    { 
                     case 'checkbox':
                         tmp += '<td class="checkboxTD">';
                         if (gIf.power && 1 === parseInt( gData[ pid ][ gNode.guiT ][ i ].userDefined )) {
@@ -12906,9 +12915,9 @@ $(document).ready(function () {
                     case 'pfsgroup':
                         tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gRef[ gNode.url.get ][ gNode.col[ j ].tab ][ gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ] ] + '</td>';
                         break;
-                    default: 
+                    default:
                         tmp += '<td id="' + gNode.col[ j ].tab + '-' + i + '">' + gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ] + '</td>'; 
-                    } 
+                    }
                 }
                 tmp += '</tr>';
                 $('#table-' + pid + ' tbody').append(tmp);
@@ -17164,7 +17173,6 @@ $(document).ready(function () {
                                         break;
                                     }
                                 }
-
                                 if ( 1 === parseInt( data.enable ) )
                                     $('#enable').click();
                                 $('#mode').val( parseInt( data.mode ) );
@@ -18591,6 +18599,7 @@ $(document).ready(function () {
             cgiSelectOption( 'Editor-sAddrId' );
             cgiSelectOption( 'Editor-dAddrId' );
     
+            break;
             break;
         case 'ip_mac_binding':
             for (var i=0, len=gNode.editor.length; i<len; i++)
@@ -30098,7 +30107,7 @@ $(document).ready(function () {
             });
         }
     }
-
+    
     function cgiSearch(id) {
         var tmp = '<table id="table-search">';
         switch(id)
@@ -30117,7 +30126,7 @@ $(document).ready(function () {
         tmp += '</table>';
         $('.searchDiv').append(tmp);
     }
-    
+
     function cgiQuery(id) {
         var tmp = '<table id="table-query">';
         switch(id) 
@@ -30240,12 +30249,13 @@ $(document).ready(function () {
         default:
             tmp += '<tr>';
             tmp += '<td class="BT250">';
-            tmp += gTerm[ gObj.lang ].start + ' ' + gTerm[ gObj.lang ].date + ': <input type="text" id="query-startDate" />';
+            tmp += gTerm[ gObj.lang ].startDatetime + ': <input type="text" id="query-startDate" size="12" />&nbsp;<select id="query-startHour"></select>';
             tmp += '</td>';
             tmp += '<td class="BT250">';
-            tmp += gTerm[ gObj.lang ].end + ' ' + gTerm[ gObj.lang ].date + ': <input type="text" id="query-endDate" />';
+            tmp += gTerm[ gObj.lang ].endDatetime + ': <input type="text" id="query-endDate" size="12" />&nbsp;<select id="query-endHour"></select>';
             tmp += '</td>';
-            tmp += '<td class="BT250">';
+
+            tmp += '<td class="BT230">';
             tmp += gTerm[ gObj.lang ].aggregateBy + ' <select id="query-aggregateBy">';
             tmp += '<option value="0">None</option>';
             switch(id)
@@ -30257,10 +30267,6 @@ $(document).ready(function () {
                 tmp += '<option value="4">' + gTerm[ gObj.lang ].protocol + '</option>';
                 tmp += '<option value="5">' + gTerm[ gObj.lang ].dstPort + '</option>';
                 tmp += '<option value="6">' + gTerm[ gObj.lang ].zone + '</option>';
-                break;
-            case 'source_report':
-            case 'destination_report':
-                tmp += '<option value="1">' + gTerm[ gObj.lang ].host + ' ' + gTerm[ gObj.lang ].IP + '</option>';
                 break;
             case 'file_extension':
                 tmp += '<option value="1">' + gTerm[ gObj.lang ].extension + '</option>';
@@ -30279,6 +30285,7 @@ $(document).ready(function () {
             tmp += '</td>';
             tmp += '<td class="alignCenter">';
             tmp += '<button class="Query" id="Query-' + id + '"><span class="ui-icon" title="query"></span></button>';
+            tmp += '<button class="Weekly" id="Weekly-' + id + '"><span class="ui-icon" title="weekly"></span></button>';
             tmp += '</td>';
             tmp += '</tr>';
         }
@@ -30439,7 +30446,7 @@ $(document).ready(function () {
     function helpPop() {
         if ( gRef.docs[ gNode.id ] ) {
             gY.Cookie.setSub(gCook.main, 'node', gNode.id);
-            gHelp = window.open("onlineHelp.html", "gHelp", "width=800,height=600,top=200,left=300");
+            gHelp = window.open("onlineHelpK.html", "gHelp", "width=800,height=600,top=200,left=300");
         }
     }
 
@@ -31044,9 +31051,9 @@ $(document).ready(function () {
 </head>
 <body>
     <div id="loginDiv">
-<!--      <div id="login_top"></div>   -->
-<!--      <div id="login_mark"></div>  -->
-<!--      <div id="login_label"></div> -->
+      <div id="login_top"></div>   
+      <div id="login_mark"></div>  
+      <div id="login_label"></div> 
       <table >
         <tr>
           <th id="userNameLabel"></th>

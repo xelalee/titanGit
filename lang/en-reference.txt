@@ -723,8 +723,7 @@
     "cifsAct": 
     {
       "0": "None",
-      "1": "Notify",
-      "2": "Notify + Destruct file"
+      "1": "Drop connection"
     },
     "imapAct": 
     {

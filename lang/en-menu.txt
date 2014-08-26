@@ -8265,9 +8265,9 @@
                         "type" : "select",
                         "option" : 
                         {
-                          "0" : "none",
-                          "1" : "notify",
-                          "2" : "notify + drop connection"
+                          "0" : "None",
+                          "1" : "Notify",
+                          "2" : "Notify + Drop connection"
                         }
                       },
                       {
@@ -8307,8 +8307,8 @@
                         "type" : "select",
                         "option" : 
                         {
-                          "0" : "none",
-                          "1" : "drop connection"
+                          "0" : "None",
+                          "1" : "Drop connection"
                         }
                       },
                       {
@@ -8348,9 +8348,9 @@
                         "type" : "select",
                         "option" : 
                         {
-                          "0" : "none",
-                          "1" : "notify",
-                          "2" : "notify + destruct file"
+                          "0" : "None",
+                          "1" : "Notify",
+                          "2" : "Notify + Destruct file"
                         }
                       },
                       {
@@ -8390,9 +8390,9 @@
                         "type" : "select",
                         "option" :
                         {
-                          "0" : "none",
-                          "1" : "notify",
-                          "2" : "notify + destruct file"
+                          "0" : "None",
+                          "1" : "Notify",
+                          "2" : "Notify + Destruct file"
                         }
                       },
                       {
@@ -8432,9 +8432,8 @@
                         "type" : "select",
                         "option" :
                         {
-                          "0" : "none",
-                          "1" : "notify",
-                          "2" : "notify + destruct file"
+                          "0" : "None",
+                          "1" : "Drop connection"
                         }
                       }
                     ]
@@ -8467,9 +8466,9 @@
                         "type" : "select",
                         "option" :
                         {
-                          "0" : "none",
-                          "1" : "notify",
-                          "2" : "notify + destruct file"
+                          "0" : "None",
+                          "1" : "Notify",
+                          "2" : "Notify + Destruct file"
                         }
                       }
                     ]
