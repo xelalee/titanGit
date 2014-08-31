@@ -97,6 +97,7 @@
     "list" : "List",
     "backup_restore_export" : "export profile",
     "backup_restore_import" : "import profile",
+    "ip_mac_binding_import" : "import ip mac binding",
     "packet_capture" : "Packet Capture",
     "noData" : "no data of this interface during this period",
     "refreshPage" : "Refresh Page : ",

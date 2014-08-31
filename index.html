@@ -144,7 +144,7 @@ Object.size = function(obj) {
 }
 
 // yui instance 
-var gY = YUI({filter:"raw", defaultGraphicEngine: "canvas"}).use('anim', 'charts', 'charts-legend', 'console', 'cookie', 'datasource', 'datasource-get', 'datasource-io', 'datasource-jsonschema', 'datatable-base', 'datatable-sort', 'datatable-datasource', 'dd', 'dd-plugin', 'dump', 'event', 'get', 'io-base', 'io-upload-iframe', 'json', 'json-parse', 'json-stringify', 'node', 'panel', 'uploader', 'yui');
+var gY = YUI({filter:"raw", defaultGraphicEngine: "canvas"}).use('anim', 'charts', 'charts-legend', 'console', 'cookie', 'datasource', 'datasource-get', 'datasource-io', 'datasource-jsonschema', 'datatable-base', 'datatable-sort', 'datatable-datasource', 'dd', 'dd-plugin', 'dump', 'event', 'get', 'io-base', 'io-upload-iframe', 'json', 'json-parse', 'json-stringify', 'node', 'node-event-simulate', 'panel', 'uploader', 'yui');
 
 // define global vars 
 var gLang = ['en', 'cn', 'tw']; // languages
@@ -215,7 +215,6 @@ gObj.inUsed    = 0;
 gObj.calc      = {};
 gObj.reg       = '';
 gObj.phpQuery  = {};
-gObj.phpQuery.php = 'common_query';
 gObj.phpQuery.pi  = 1;
 gObj.phpQuery.ps  = 1;
 gObj.phpQuery.pp  = 20;
@@ -416,6 +415,7 @@ gReg.isEnd          = /--END--/;
 gReg.isNA           = /^NA$/;
 gReg.isURL          = /[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
 gReg.isXML          = /\.xml$/i;
+gReg.isCSV          = /\.csv$/i;
 
 gReg.isNumeric      = /trafficAmount|sessions|tx|rx|accessCount|virusCount|firewallCount|virusHitCount|hitCount/;
 gReg.isIPAddress    = /srcIp|dstIp/;
@@ -757,14 +757,14 @@ $(document).ready(function () {
             case 'nat_status':
             case 'active_users':
             case 'ipsec_vpn_statistics':
+                refreshReports( gObj.active.pid );
+                break;
             case 'traffic_direction':
-            case 'source_report':
-            case 'destination_report':
             case 'file_extension':
             case 'blocked_host':
             case 'affected_host':
             case 'antivirus_report':
-                refreshReports( gObj.active.pid );
+                refreshReports( gObj.active.pid, gObj.tabIndex );
                 break;
             case 'active_sessions':
                 if (gIf.progressT || gIf.delay) 
@@ -1172,7 +1172,7 @@ $(document).ready(function () {
 
         // select change, deal only create object
         // input event to refresh idle timeout
-        $('select').live('change', function(e) {
+        $(document).on('change', 'select', function(e) {
             e.preventDefault();
             gIf.getSessInfo = true; 
             switch($(this).val())
@@ -1204,19 +1204,19 @@ $(document).ready(function () {
     
         // button click, tell by btnCtrl
         // input event to refresh idle timeout
-        $('button').live('click', function(e) {
+        $(document).on('click', 'button', function(e) {
             e.preventDefault();
             gIf.getSessInfo = true; 
             btnCtrl( e );
         });
     
         // input event to refresh idle timeout
-        $('input:radio').live('click', function(e) {
+        $(document).on('click', 'input:radio', function(e) {
             gIf.getSessInfo = true; 
         });
     
         // input event to refresh idle timeout
-        $('input:checkbox').live('click', function(e) {
+        $(document).on('click', 'input:checkbox', function(e) {
             gIf.getSessInfo = true; 
             var tar = {};
             
@@ -1359,17 +1359,17 @@ $(document).ready(function () {
     
         // achor click, for menu & accordions
         // input event to refresh idle timeout
-        $('a').live('click', function(e) {
+        $(document).on('click', 'a', function(e) {
             e.preventDefault();
         });
     
         // img click, for dashboard
         // input event to refresh idle timeout
-        $('img').live('click', function(e) {
+        $(document).on('click', 'img', function(e) {
             e.preventDefault();
         });
     
-        $('div.sortable').live('click', function(e) {
+        $(document).on('click', 'div.sortable', function(e) {
             e.preventDefault();
             gIf.getSessInfo = true; 
             var tar = {};
@@ -1412,13 +1412,11 @@ $(document).ready(function () {
                 refreshReports( tar.ids[ 1 ] );
                 break;
             case 'traffic_direction':
-            case 'source_report':
-            case 'destination_report':
             case 'file_extension':
             case 'blocked_host':
             case 'affected_host':
             case 'antivirus_report':
-                refreshReports( tar.ids[ 1 ] );
+                refreshReports( tar.ids[ 1 ], gObj.tabIndex );
                 break;
             }
         })
@@ -1977,8 +1975,10 @@ $(document).ready(function () {
             case 'trafficStatisticsLan':
             case 'nat_status':
             case 'active_users':
-            case 'traffic_direction':
                 refreshReports(tar.pid);
+                break;
+            case 'traffic_direction':
+                refreshReports(tar.pid, gObj.tabIndex);
                 break;
             default:
                 cgiRefresh( tar.pid );
@@ -2059,6 +2059,9 @@ $(document).ready(function () {
         case 'Stop':
             btnStop( e ); 
             break;
+        case 'Search':
+            btnSearch( e ); 
+            break;
         case 'Clean':
             btnClean( e ); 
             break;
@@ -2096,13 +2099,13 @@ $(document).ready(function () {
             refreshFirewall(tar.pid);
             break;
         case 'traffic_direction':
-        case 'source_report':
-        case 'destination_report':
         case 'file_extension':
         case 'blocked_host':
         case 'affected_host':
         case 'antivirus_report':
             // cache query status
+            window.open('reporter.html?param=' + tar.pid + '&q=' + gObj.tabIndexId + '&sd=' + $('#query-startDate').val() + '&sh=' + $('#query-startHour').val() + '&ed=' + $('#query-endDate').val() + '&eh=' + $('#query-endHour').val(), '_blank');
+/*
             gQuery.a = $('#query-aggregateBy').val();
             gQuery.q = '&q=' + gQuery.a;
             if (gReg.isDate.test($('#query-startDate').val()))
@@ -2111,6 +2114,7 @@ $(document).ready(function () {
                 gQuery.q += '&ed=' + $('#query-endDate').val();
             gObj.phpQuery.pi = 1;
             refreshReports(tar.pid);
+*/
             break;
         case 'view_logs':
             // cache query status
@@ -2407,7 +2411,7 @@ $(document).ready(function () {
                 if ( tar.pid == 'view_logs' )
                     refreshDevice( tar.pid );
                 else 
-                    refreshReports( tar.pid );
+                    refreshReports( tar.pid, gObj.tabIndex );
             }
             break;
         case 'Move2Prev':
@@ -2416,7 +2420,7 @@ $(document).ready(function () {
                 if ( tar.pid == 'view_logs' )
                     refreshDevice( tar.pid );
                 else 
-                    refreshReports( tar.pid );
+                    refreshReports( tar.pid, gObj.tabIndex );
             }
             break;
         case 'Move2Next':
@@ -2425,7 +2429,7 @@ $(document).ready(function () {
                 if ( tar.pid == 'view_logs' )
                     refreshDevice( tar.pid );
                 else 
-                    refreshReports( tar.pid );
+                    refreshReports( tar.pid, gObj.tabIndex );
             }
             break;
         case 'Move2Last':
@@ -2434,7 +2438,7 @@ $(document).ready(function () {
                 if ( tar.pid == 'view_logs' )
                     refreshDevice( tar.pid );
                 else 
-                    refreshReports( tar.pid );
+                    refreshReports( tar.pid, gObj.tabIndex );
             }
             break;
         }
@@ -2887,13 +2891,15 @@ $(document).ready(function () {
         var tar = {};
         tar.id = $(e.currentTarget).attr('id');
 
+
         switch( tar.id )
         {
         case 'pgExport':
             window.open("logExport.php?param=view_logs", "_blank");
-           break; 
+            break; 
         case 'pgExport2':
-           break; 
+            window.open('cgi-bin/' + gNode.url.export + '.cgi', "_blank");
+            break; 
         default:
             if (!($('#popForm').exists()))
                 $('#popBase').append('<div id="popForm"></div>');
@@ -2977,14 +2983,95 @@ $(document).ready(function () {
         if (!($('#popForm').exists()))
             $('#popBase').append('<div id="popForm"></div>');
 
-        tar.pid = tar.id.split('-')[1];
-        tar.thisNo = tar.id.split('-')[2];
-
-        switch( tar.id )
-        {
-        case 'pgImport':
-            break;
-        default:
+        if ('pgImport' == tar.id) {
+            gPop.popForm = $('#popForm').dialog({
+                width: 300,
+                height: 150,
+                position: "center",
+                resizable: false,
+                modal: true,
+                title: gTerm[ gObj.lang ].ip_mac_binding_import,
+                buttons: {
+                    ok: function() {
+                        if (!gIf.uploaded && gObj.uploader.get("fileList").length > 0) {
+                            if (gIf.invalid) {
+                                $('.errorMsg').html( gError[ gObj.lang ].please_check_file );
+                            } else {
+                                loadingToggle( true );
+                                gObj.uploader.upload(gObj.uploaderFile, gObj.uploader.uploadURL);
+                            }
+                        }
+                    }
+                },
+                open: function(event, ui) {
+                    var tmp = '<div>'; 
+                    tmp += '<table>';
+                    tmp += '<tr>';
+                    tmp += '<td class="alignLeft BT120">';
+                    tmp += '<div id="Editor-import"></div>';
+                    tmp += '</td>';
+                    tmp += '<td class="alignLeft">';
+                    tmp += '<div id="Editor-import-status"></div>';
+                    tmp += '</td>';
+                    tmp += '</tr>';
+                    tmp += '</table>';
+                    tmp += '</div>';
+                    
+                    $('#popForm').html( tmp );
+    
+                    gObj.uploader = new gY.Uploader({
+                                       width: "100px",
+                                       multipleFiles: false,
+                                       fileFieldName: 'binary',
+                                       swfURL: "assets/flashuploader.swf?t=" + Math.random(),
+                                       uploadURL: "cgi-bin/" + gNode.url.import + ".cgi",
+                                       simLimit: 1,
+                                       withCredentials: false
+                                   });
+                    gIf.uploaded = false;
+    
+                    gObj.uploader.render("#Editor-import");
+    
+                    gObj.uploader.after("fileselect", function (e) {
+                        gObj.uploaderFile = e.fileList[0];
+                        if (gReg.isCSV.test( gObj.uploaderFile.get('name') )) {
+                            gIf.invalid = false;
+                            gY.one("#Editor-import-status").set("text", gObj.uploaderFile.get('name') );
+                        } else {
+                            errorAlert( '<p>' + gError[ gObj.lang ].ipMacBindingImport + '</p>' );
+                        }
+                    });
+    
+                    gObj.uploader.on("uploadprogress", function (e) {
+                        $('.processDiv').progressbar({ value: parseInt( e.percentLoaded ) });
+                    });
+    
+                    gObj.uploader.on("uploadstart", function (e) {
+                        gObj.uploader.set("enabled", false);
+                    });
+    
+                    gObj.uploader.on("uploadcomplete", function (e) {
+                        var json = gY.JSON.parse(e.data);
+                        loadingToggle( false );
+                        if (parseInt(json.status) == 0) {
+                            gIf.uploaded = true;
+                            gPop.popForm.dialog( "close" );
+                            genSecurity( 'ip_mac_binding' );
+                        } else {
+                            gIf.uploaded = false;
+                            gIf.invalid = true;
+                            errorAlert( '<p>' + json.msg + '</p>' );
+                        }
+                    });
+                },
+                close: function(event, ui) {
+                    $(this).dialog('destroy').remove();
+                }
+            });
+        } else {
+            tar.pid = tar.id.split('-')[1];
+            tar.thisNo = tar.id.split('-')[2];
+    
             gPop.popForm = $('#popForm').dialog({
                 width: 500,
                 height: 250,
@@ -3687,6 +3774,19 @@ $(document).ready(function () {
         gObj.config = gData.backup_restore.guiProfileT[ tar.thisNo ].name;
 
         cmdAlert( tar.pid, tar.thisNo );
+    }
+
+    function btnSearch( e ) {
+        var tar = {};
+        tar.id = $(e.currentTarget).attr('id');
+
+        if (!tar.id)
+            return false;
+
+        tar.pid = tar.id.split('-')[ 1 ];
+
+        if ('ip_mac_binding' == tar.pid) 
+            refreshSecurity( tar.pid );
     }
     
 // alert 
@@ -4780,7 +4880,7 @@ $(document).ready(function () {
                 }
                 
                 $.ajax({
-                    url: gObj.phpQuery.php + '.php?param=' + pid + sortBy,
+                    url: 'topQuery.php?param=' + pid + sortBy,
                     dataType: 'json',
                     success: function(data) {
                        
@@ -4942,7 +5042,7 @@ $(document).ready(function () {
                             }
                             
                             $.ajax({
-                                url: gObj.phpQuery.php + '.php?param=' + v2.id + sortBy,
+                                url: 'topQuery.php?param=' + v2.id + sortBy,
                                 dataType: 'json',
                                 success: function(data) {
                                     if (parseInt(data.queryRows) > 0) {
@@ -5184,7 +5284,7 @@ $(document).ready(function () {
                         }
 
                         $.ajax({
-                            url: gObj.phpQuery.php + '.php?param=' + x + sortBy, 
+                            url: 'topQuery.php?param=' + x + sortBy, 
                             dataType: 'json',
                             success: function(data) {
                                 if (parseInt(data.queryRows) > 0) {
@@ -5399,7 +5499,7 @@ $(document).ready(function () {
             break;
         case 'php':
             $.ajax({
-                url: gObj.phpQuery.php + '.php?param=' + feed.id,
+                url: 'topQuery.php?param=' + feed.id,
                 dataType: 'json',
                 success: function(data) {
                     tmp = '<div class="innerDiv">';
@@ -5774,17 +5874,113 @@ $(document).ready(function () {
             }
             break;
         case 'php':
-            loadingToggle( true );
             switch(gNode.tag)
             {
             case 'div':
                 switch(gNode.type)
                 {
+                case 'tabs':
+                    gY.one('#main_bd').set('innerHTML', '<div class="templateDiv"><div class="queryDiv"></div><div class="tabber"><ul></ul></div></div>');
+                    phpQuery(pid);
+                    
+                    gObj.phpQuery.pi = 1;
+                    gObj.phpQuery.ps = 1;
+                    gObj.phpQuery.pp = 20;
+                    gObj.phpQuery.id = pid;
+
+                    for (var x in gNode.tabs)
+                    {
+                        gY.one('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + gNode.tabs[ x ] + '</a></li>');
+                        gY.one('.tabber').append('<div id="panel-' + x + '"></div>');
+                        switch( parseInt( x ))
+                        {
+                        case 0:
+                            $('#panel-' + x).html( '<div id="div-' + x + '"></div>');
+                            break;
+                        default:
+                            $('#panel-' + x).html( '<div id="chart-' + x + '"></div>');
+                        }
+                    }
+
+                    gObj.tabber = $('.tabber').tabs({
+                        create: function( event, ui ) {
+                            gObj.tabIndexId = ui.tab[ 0 ].id.split('-').pop();
+
+                            loadingToggle( true );
+
+                            tmp = '<table id="table-0"><thead><tr>';
+                            for (var i=0, len=gNode.col[ 0 ].length; i<len; i++)
+                            {
+                                tmp += '<th class="ui-state-default" style="width: ' + gNode.col[ 0 ][ i ].wiz + '">'; 
+                                tmp += gNode.col[ 0 ][ i ].label;
+                                tmp += '</th>';
+                            }
+                            tmp += '</tr></thead></table>'; 
+                            $('#div-0').html( tmp );
+    
+                            $.ajax({
+                                url: 'reportQuery.php?param=' + pid + '&q=0&pp=20&pi=1',
+                                dataType: 'json',
+                                success: function(data) {
+                                    gIf.ajaxed = true;
+                                    loadingToggle( false );
+                                    if (parseInt( data.queryRows ) > 0 ) {
+                                        tmp = '<tbody>';
+                                        for (var i=0, len=data.queryResults.length; i<len; i++)
+                                        {
+                                            tmp += '<tr class="' + ((i%2 == 0)? 'odd' : 'even') + '">';
+                                            for (var j=0, jlen=gNode.col[ 0 ].length; j<jlen; j++)
+                                            {
+                                                tmp += '<td>';
+                                                switch( gNode.col[ '0' ][ j ].tab )
+                                                {
+                                                case 'id':
+                                                    tmp += (i+1);
+                                                    break;
+                                                case 'protocol':
+                                                    if ('traffic_direction' == pid)
+                                                        tmp += gRef.protocol[ data.queryResults[ i ][ gNode.col[ 0 ][ j ].tab ] ];
+                                                    else
+                                                        tmp += data.queryResults[ i ][ gNode.col[ 0 ][ j ].tab ];
+                                                    break;
+                                                case 'totalBytes':
+                                                case 'txBytes':
+                                                case 'rxBytes':
+                                                    var mkbs = parseInt( data.queryResults[ i ][ gNode.col[ 0 ][ j ].tab ] );
+                                                    tmp += ( mkbs > 1000000000 )? (mkbs/1000000000).toFixed(2) + ' GB' : ( ( mkbs > 1000000 )? (mkbs/1000000).toFixed(2) + ' MB' : ( ( 0 == mkbs )? 0 : (mkbs/1000).toFixed(2) + ' KB' ) );
+                                                    break;
+                                                default:
+                                                    tmp += data.queryResults[ i ][ gNode.col[ 0 ][ j ].tab ];
+                                                }
+                                                tmp += '</td>';
+                                            }
+                                            tmp += '</tr>';
+                                        }
+                                        tmp += '</tbody>';
+                                        $('#table-0').append( tmp );
+    
+                                    }
+                                    gObj.phpQuery.ps = Math.ceil(data.queryRows/gObj.phpQuery.pp);
+                                    phpPager( pid , gObj.phpQuery.pi, gObj.phpQuery.ps );
+                                }
+                            });
+                        },
+                        select: function( event, ui ) { 
+                            if ( 0 == ui.index ) 
+                                $('#pagerDiv').show();
+                            else
+                                $('#pagerDiv').hide();
+                            gObj.tabIndex = ui.index;
+                            refreshReports( pid, ui.index );
+                        }
+                    });
+                    break;
                 case 'tabsChart':
                     // create chart gNode
                     gY.one('#main_bd').set('innerHTML', '<div class="templateDiv"><div class="queryDiv"></div><div class="tabber"><ul></ul></div></div>');
                     phpQuery(pid);
     
+                    loadingToggle( true );
                     for (var x in gNode.tabs)
                     {
                         gY.one('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + gNode.tabs[ x ] + '</a></li>');
@@ -5796,11 +5992,9 @@ $(document).ready(function () {
     
                     $('.tabber').tabs().on('tabsactivate', function(event, ui) { 
                         gObj.chartIndex = $(this).tabs("option", "active");
-                        refreshCharts(pid, gObj.chartIndex);
+                        refreshCharts(pid);
                     });
     
-                    break;
-                case 'tabs':
                     break;
                 }
                 break;
@@ -5815,7 +6009,7 @@ $(document).ready(function () {
                     gY.one('#main_bd').set('innerHTML', '<div class="templateDiv"></div>');
                     tmp = '';
                     $.ajax({
-                        url: gObj.phpQuery.php + '.php?param=' + pid + '&pp=20&pi=1',
+                        url: 'reportQuery.php?param=' + pid + '&pp=20&pi=1',
                         dataType: 'json',
                         success: function(data) {
                             gIf.ajaxed = true;
@@ -6003,7 +6197,8 @@ $(document).ready(function () {
             }
             gObj.chart.id = '#chart-wan' + (gObj.chartIndex+1);
     
-            gY.io( gObj.phpQuery.php + '.php?param=' + pid + q, {
+            loadingToggle( true );
+            gY.io( 'chartQuery.php?param=' + pid + q, {
                 on: {
                     complete: function(id, e) {
                         gIf.ajaxed = true;
@@ -6113,7 +6308,8 @@ $(document).ready(function () {
 
             gObj.chart.id = ( 0 === gObj.chartIndex )? '#chart-cpu' : '#chart-memory';
     
-            gY.io( gObj.phpQuery.php + '.php?param=' + pid + q, {
+            loadingToggle( true );
+            gY.io( 'chartQuery.php?param=' + pid + q, {
                 on: {
                     complete: function(id, e) {
                         gIf.ajaxed = true;
@@ -6198,7 +6394,7 @@ $(document).ready(function () {
     
     }
     
-    function refreshReports(pid)
+    function refreshReports(pid, tabIndex)
     {
         var tmp = '';
         var query = '';
@@ -6373,7 +6569,7 @@ $(document).ready(function () {
                 });
                 break;
             case 'php':
-                query = '';
+		query = '';
     
                 if (gNode.pager) {
                     gObj.phpQuery.pp = $('#phpPerPage').val();
@@ -6386,6 +6582,217 @@ $(document).ready(function () {
     
                 switch(gNode.tag)
                 {
+                case 'div':
+                    switch(gNode.type)
+                    {
+                    case 'tabs':
+                        switch( tabIndex )
+                        {
+                        case 0:
+                            $.ajax({
+                                url: 'reportQuery.php?param=' + pid + '&q=0' + query,
+                                dataType: 'json',
+                                success: function(data) {
+                                    gIf.ajaxed = true;
+                                    loadingToggle( false );
+                                    $('#table-0 tbody').empty();
+
+                                    if (parseInt( data.queryRows ) > 0) {
+                                        for (var i=0, len=data.queryResults.length; i<len; i++)
+                                        {
+                                            tmp = '<tr class="' + ((i%2 == 0)? 'odd' : 'even') + '">';
+                                            for (var j=0, jlen=gNode.col[ '0' ].length; j<jlen; j++)
+                                            {
+                                                tmp += '<td>';
+                                                switch( gNode.col[ '0' ][ j ].tab )
+                                                {
+                                                case 'id':
+                                                    tmp += (i+1);
+                                                    break;
+                                                case 'protocol':
+                                                    if ('traffic_direction' == pid)
+                                                        tmp += gRef.protocol[ data.queryResults[ i ][ gNode.col[ 0 ][ j ].tab ] ];
+                                                    else
+                                                        tmp += data.queryResults[ i ][ gNode.col[ 0 ][ j ].tab ];
+                                                    break;
+                                                case 'totalBytes':
+                                                case 'txBytes':
+                                                case 'rxBytes':
+                                                    var mkbs = parseInt( data.queryResults[ i ][ gNode.col[ 0 ][ j ].tab ] );
+                                                    tmp += ( mkbs > 1000000000 )? (mkbs/1000000000).toFixed(2) + ' GB' : ( ( mkbs > 1000000 )? (mkbs/1000000).toFixed(2) + ' MB' : ( ( mkbs == 0 )? 0 : (mkbs/1000).toFixed(2) + ' KB' ) );
+                                                    break;
+                                                default:
+                                                    tmp += data.queryResults[ i ][ gNode.col[ '0' ][ j ].tab ];
+                                                }
+                                                tmp += '</td>';
+                                            }
+                                            tmp += '</tr>';
+                                            $('#table-0 tbody').append( tmp );
+                                        }
+                                    }
+
+                                    gObj.phpQuery.ps = Math.ceil(data.queryRows/gObj.phpQuery.pp);
+                                    phpPager( pid , gObj.phpQuery.pi, gObj.phpQuery.ps );
+                                }
+                            });
+                            break;
+                        default:
+                            gY.io( 'reportQuery.php?param=' + pid + '&q=' + tabIndex, {
+                                on: {
+                                    complete: function(id, e) {
+                                        gIf.ajaxed = true;
+                                        loadingToggle( false );
+                                        var data = new gY.JSON.parse(e.responseText);
+                                        if (gObj.chart[ tabIndex ])
+                                            gObj.chart[ tabIndex ].destroy();
+                                        if (0 === parseInt( data.queryRows )) {
+                                            $('#chart-' + tabIndex).html('<div class="noData"><b>' + gTerm[ gObj.lang ].noData + '</b></div>');
+                                        } else {
+                                            if ($('.noData').exists()) 
+                                                $('#chart-' + tabIndex).empty();
+                                            var cateKey, cateAxe;
+                                            var axe = {};
+
+                                            switch( pid )
+                                            {
+                                            case 'traffic_direction':
+                                                
+                                                switch( tabIndex )
+                                                {
+                                                case 1:
+                                                    cateKey = 'srcIp,dstIp';
+                                                    cateAxe = {
+                                                        address : { 
+                                                            keys:["srcIp","dstIp"],
+                                                            position:"left"
+                                                        },
+                                                        sess : { 
+                                                            keys:["sessions"],
+                                                            position:"bottom",
+                                                            type:"numeric"
+                                                        }
+                                                    }
+                                                    break;
+                                                case 2:
+                                                    cateKey = 'srcIp';
+                                                    cateAxe = {
+                                                        srcIp : { 
+                                                            keys:["srcIp"],
+                                                            position:"left"
+                                                        },
+                                                        sess : { 
+                                                            keys:["sessions"],
+                                                            position:"bottom",
+                                                            type:"numeric" 
+                                                        }
+                                                    }
+                                                    break;
+                                                case 3:
+                                                    cateKey = 'dstIp';
+                                                    cateAxe = {
+                                                        dstIp : { 
+                                                            keys:["dstIp"],
+                                                            position:"left"
+                                                        },
+                                                        sess : { 
+                                                            keys:["sessions"],
+                                                            position:"bottom",
+                                                            type:"numeric" 
+                                                        }
+                                                    }
+                                                    break;
+                                                case 4:
+                                                    cateKey = 'protocol';
+                                                    cateAxe = {
+                                                        protocol : { 
+                                                            keys:["protocol"],
+                                                            position:"left"
+                                                        },
+                                                        sess : { 
+                                                            keys:["sessions"],
+                                                            position:"bottom",
+                                                            type:"numeric" 
+                                                        }
+                                                    }
+                                                    break;
+                                                case 5:
+                                                    cateKey = 'dstPort';
+                                                    cateAxe = {
+                                                        dstPort : { 
+                                                            keys:["dstPort"],
+                                                            position:"left"
+                                                        },
+                                                        sess : { 
+                                                            keys:["sessions"],
+                                                            position:"bottom",
+                                                            type:"numeric" 
+                                                        }
+                                                    }
+                                                    break;
+                                                case 6:
+                                                    cateKey = 'fromZone,toZone';
+                                                    cateAxe = {
+                                                        zone : { 
+                                                            keys:["fromZone","toZone"],
+                                                            position:"left"
+                                                        },
+                                                        sess : { 
+                                                            keys:["sessions"],
+                                                            position:"bottom",
+                                                            type:"numeric" 
+                                                        }
+                                                    }
+                                                    break;
+                                                }
+                                                break;
+                                            case 'file_extension':
+                                                cateKey = 'accessCount';
+                                                axe.ext = { keys:["extension"],position:"left",type:"string" };
+                                                axe.cnt = { keys:["accessCount"],position:"bottom",type:"numeric" };
+                                                break;
+                                            case 'blocked_host':
+                                                cateKey = 'firewallCount';
+                                                axe.ip = { keys:["ip"],position:"left",type:"string" };
+                                                axe.cnt = { keys:["firewall"],position:"bottom",type:"numeric" };
+                                                break;
+                                            case 'affected_host':
+                                                cateKey = 'sigHitCount';
+                                                axe.ip = { keys:["ip"],position:"left",type:"string" };
+                                                axe.cnt = { keys:["sigHitCount"],position:"bottom",type:"numeric" };
+                                                break;
+                                            case 'antivirus':
+                                                cateKey = 'hitCount';
+                                                switch( tabIndex )
+                                                {
+                                                case 1:
+                                                    axe.ip = { keys:["srcIp"],position:"left",type:"string" };
+                                                    break;
+                                                case 2:
+                                                    axe.ip = { keys:["dstIp"],position:"left",type:"string" };
+                                                    break;
+                                                case 3:
+                                                    axe.name = { keys:["virusName"],position:"left",type:"string" };
+                                                    break;
+                                                }
+                                                axe.cnt =  { keys:["hitCount"],position:"bottom",type:"numeric" };
+                                                break;
+                                            }
+
+                                            gObj.chart[ tabIndex ] = new gY.Chart({
+                                                dataProvider:data.queryResults,
+                                                categoryKey:cateKey, 
+                                                type:"bar",
+                                                axes:cateAxe,
+                                                horizontalGridlines: true
+                                            }).render('#chart-' + tabIndex);
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                        break;
+                    }
+                    break;
                 case 'table':
                     switch(gNode.type)
                     {
@@ -6459,7 +6866,7 @@ $(document).ready(function () {
 
                         loadingToggle( true );
                         $.ajax({
-                            url: gObj.phpQuery.php + '.php?param=' + pid + query + sortBy,
+                            url: 'reportQuery.php?param=' + pid + query + sortBy,
                             dataType: 'json',
                             success: function(data) {
                                 gIf.ajaxed = true;
@@ -17081,7 +17488,8 @@ $(document).ready(function () {
                     {
                     case 'ip_mac_binding':
                         gCache[ pid ] = {};
-                        gIf.searched = false;
+                        gCache[ pid ].gid = 0;
+                        gCache[ pid ].ipMacPair = {};
                         if (gIf.power) {
                             $('#main_ft').html( gHtml.pgImport + gHtml.pgExport2 + gHtml.pgSave + gHtml.pgCancel );
                             gY.one('#pgSave').on('click', function(e) {
@@ -17194,6 +17602,12 @@ $(document).ready(function () {
                                                 tmp += '';
                                             }
                                             tmp += '</td>';
+                                            break;
+                                        case 'ipAddr':
+                                            tmp += '<td>';
+                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ 2 ].col[ j ].tab ];
+                                            tmp += '</td>';
+                                            gCache[ pid ][ data[ gNode.guiT ][ i ][ gNode.col[ 2 ].col[ j ].tab ] ] = data[ gNode.guiT ][ i ].macAddr;
                                             break;
                                         default:
                                             tmp += '<td>';
@@ -18370,6 +18784,7 @@ $(document).ready(function () {
     
     function refreshSecurity(pid) {
         var tmp = '';
+        var cnt = 0;
         var tbody = $('#table-' + pid + '> tbody');
         tbody.empty();
         switch( pid )
@@ -18464,7 +18879,7 @@ $(document).ready(function () {
                 if ( 3 === parseInt( gData[ pid ].guiAddrFilterT[ i ].cgiAction ) ) {
                     continue;
                 }
-                tmp = '<tr class="' + ((i%2 == 0)? 'even' : 'odd') + '">';
+                tmp = '<tr class="' + ((cnt%2 == 0)? 'even' : 'odd') + '">';
                 tmp += '<td >';
                 tmp += gRef.antivirus.enable[ gData[ pid ].guiAddrFilterT[ i ].enable ];
                 tmp += '</td>';
@@ -18483,12 +18898,26 @@ $(document).ready(function () {
                 tmp += '</td>';
                 tmp += '</tr>';
                 tbody.append( tmp );
+                cnt++;
             }
             break;
         case 'ip_mac_binding':
             for (var i=0, len=gData[ pid ][ gNode.guiT ].length; i<len; i++)
             {
-                tmp = '<tr class="' + ((i%2 == 0)? 'odd' : 'even') + '">>';
+                if ( 3 === parseInt( gData[ pid ][ gNode.guiT ][ i ].cgiAction ) ) {
+                    continue;
+                }
+
+                // if searched
+                if ($('#searchCol').val()) {
+                    if (!( ( gData[ pid ][ gNode.guiT ][ i ].dscrpt.indexOf( $('#searchCol').val() ) != -1 ) 
+                         ||( gData[ pid ][ gNode.guiT ][ i ].ipAddr.indexOf( $('#searchCol').val() ) != -1 ) 
+                         ||( gData[ pid ][ gNode.guiT ][ i ].macAddr.indexOf( $('#searchCol').val() ) != -1 )
+                    ))
+                    continue;
+                }
+
+                tmp = '<tr class="' + ((cnt%2 == 0)? 'odd' : 'even') + '">>';
                 for (var j=0, jlen=gNode.col[ 2 ].col.length; j<jlen; j++)
                 {
                     switch( gNode.col[ 2 ].col[ j ].tab )
@@ -18500,7 +18929,7 @@ $(document).ready(function () {
                         break;
                     case 'index':
                         tmp += '<td>';
-                        tmp += (i+1);
+                        tmp += (cnt+1);
                         tmp += '</td>';
                         break;
                     case 'action':
@@ -18521,6 +18950,7 @@ $(document).ready(function () {
                 }
                 tmp += '</tr>';
                 $('#table-' + pid).append( tmp );
+                cnt++;
             }
             break;
         }
@@ -18826,6 +19256,16 @@ $(document).ready(function () {
             gCache.tabber[ 4 ] = true;
             refreshSecurity( tar.pid );
             break;
+        case 'ip_mac_binding':
+            gIf.alter = true;
+            delete gCache[ tar.pid ].ipMacPair[ gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].ipAddr ];
+            if (gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].gid > 0) {
+                gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].cgiAction = 3;
+            }else {
+                gData[ tar.pid ][ gNode.guiT ].splice(tar.thisNo,1);
+            }
+            refreshSecurity( tar.pid );
+            break;
         }
     }
     
@@ -18916,6 +19356,27 @@ $(document).ready(function () {
             gData[ tar.pid ][ gNode.guiTNum[ tar.pid ] ] = gData[ tar.pid ][ gNode.guiT[ tar.pid ] ].length;
             $('#whitelist_all').attr('checked', false);
             gCheckbox[ tar.pid ] = {};
+            refreshSecurity( tar.pid );
+            break;
+        case 'ip_mac_binding':
+            $('#table-' + tar.pid + ' tr').each(function() {
+                tar.thisNo = $(this).find('td:eq(0) input:checkbox').val();
+                if ($(this).find('td:eq(0) input:checkbox').is(':checked')) {
+                    gIf.alter = true;
+                    gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].cgiAction = 3;
+                    delete gCache[ tar.pid ].ipMacPair[ gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].ipAddr ];
+                }
+            });
+
+            for (var i=0, len=gData[ tar.pid ][ gNode.guiT ].length; i<len; i++)
+            {
+                if ( (3 == gData[ tar.pid ][ gNode.guiT ][ i ].cgiAction)  && (gData[ tar.pid ][ gNode.guiT ][ i ].gid < 0) ) 
+                    continue;
+                tar.arr.push( gData[ tar.pid ][ gNode.guiT ][ i ] );
+            }
+ 
+            gData[ tar.pid ][ gNode.guiT ] = tar.arr;
+
             refreshSecurity( tar.pid );
             break;
         }
@@ -19117,6 +19578,29 @@ $(document).ready(function () {
             }
 
             break;
+        case 'ip_mac_binding':
+            if (!gReg.ipv4.test( $('#Editor-ipAddr').val() )) {
+                pass = false;
+                msg += '<p>' + gError[ gObj.lang ].ipAddr + '</p>';
+            }
+
+            if (!gReg.mac.test( $('#Editor-macAddr').val() )) {
+                pass = false;
+                msg += '<p>' + gError[ gObj.lang ].macAddr + '</p>';
+            }
+
+            if (pass) {
+                if ($('#Editor-macAddr').val() == gCache[ pid ].ipMacPair[ $('#Editor-ipAddr').val() ]) {
+                    pass = false;
+                    msg += '<p>' + gError[ gObj.lang ].ipMacPair + '</p>';
+                }
+            }
+
+            if (!gReg.ascii.default.test( $('#Editor-dscrpt').val() )) {
+                pass = false;
+                msg += '<p>' + gError[ gObj.lang ].dscrpt + '</p>';
+            }
+            break;
         }
     
         if (!pass) {
@@ -19282,6 +19766,15 @@ $(document).ready(function () {
             else
                 gData[ pid ].enable = 0;
             gData[ pid ].mode = $('#mode').val();
+
+            for (var i=0, len=gData[ pid ][ gNode.guiT ].length; i<len; i++)
+            {
+                if (3 == gData[ pid ][ gNode.guiT ][ i ].cgiAction)
+                    continue;
+                if (gData[ pid ][ gNode.guiT ][ i ].gid < 0)
+                    gData[ pid ][ gNode.guiT ][ i ].gid = 0;
+            }
+
             $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ pid ]), function( poster ) {
                 gIf.alter = false;
                 genSecurity( pid );
@@ -25072,10 +25565,6 @@ $(document).ready(function () {
                         $('#tbodyDiv-view_logs').addClass('Expand');
                     }
                 });
-    
-                //gY.one('#pgExport').on('click', function(e) {
-                //    btnExport(e);
-                //});
             }
     
             for (var x in gNode.tabs)
@@ -25115,7 +25604,7 @@ $(document).ready(function () {
     
             loadingToggle( true );
             $.ajax({
-                url: gObj.phpQuery.php + '.php?param=' + gObj.phpQuery.id + '&pi=1&pp=' + gObj.phpQuery.pp,
+                url: 'logQuery.php?param=' + gObj.phpQuery.id + '&pi=1&pp=' + gObj.phpQuery.pp,
                 dataType: 'json',
                 success: function(data) {
                     loadingToggle( false );
@@ -25444,7 +25933,7 @@ $(document).ready(function () {
             
             loadingToggle( true );
             $.ajax({
-                url: gObj.phpQuery.php + '.php?param=' + pid + query,
+                url: 'logQuery.php?param=' + pid + query,
                 dataType: 'json',
                 success: function(data) {
                     loadingToggle( false );
@@ -30094,7 +30583,7 @@ $(document).ready(function () {
                 if ( id == 'view_logs' )
                     refreshDevice( id );
                 else
-                    refreshReports( id );
+                    refreshReports( id, 0 );
             });
         }
     }
@@ -30106,7 +30595,7 @@ $(document).ready(function () {
         case 'ip_mac_binding':
             tmp += '<tr>';
             tmp += '<td class="alignLeft BT100">';
-            tmp += '<input type="text" id="searchCols" />';
+            tmp += '<input type="text" id="searchCol" />';
             tmp += '</td>';
             tmp += '<td class="alignLeft">';
             tmp += '<button class="Search" id="Search-' + id + '"><span class="ui-icon" title="Search"></span></button>';
@@ -30154,10 +30643,10 @@ $(document).ready(function () {
         case 'resource_utilization':
             tmp += '<tr>';
             tmp += '<td>';
-            tmp += gTerm[ gObj.lang ].start + ' ' + gTerm[ gObj.lang ].date + ': <input type="text" id="query-startDate" /> ' + gTerm[ gObj.lang ].hour + ': <select id="query-startHour"></select> ' + gTerm[ gObj.lang ].minute + ': <select id="query-startMin"></select>';
+            tmp += gTerm[ gObj.lang ].startDatetime + ': <input type="text" id="query-startDate" /> ' + gTerm[ gObj.lang ].hour + ': <select id="query-startHour"></select> ' + gTerm[ gObj.lang ].minute + ': <select id="query-startMin"></select>';
             tmp += '</td>';
             tmp += '<td>';
-            tmp += gTerm[ gObj.lang ].end + ' ' + gTerm[ gObj.lang ].date + ': <input type="text" id="query-endDate" /> ' + gTerm[ gObj.lang ].hour + ': <select id="query-endHour"></select> ' + gTerm[ gObj.lang ].minute + ': <select id="query-endMin"></select>';
+            tmp += gTerm[ gObj.lang ].endDatetime + ': <input type="text" id="query-endDate" /> ' + gTerm[ gObj.lang ].hour + ': <select id="query-endHour"></select> ' + gTerm[ gObj.lang ].minute + ': <select id="query-endMin"></select>';
             tmp += '</td>';
             tmp += '<td class="alignCenter">';
             tmp += '<button class="Query" id="Query-' + id + '"><span class="ui-icon" title="query"></span></button>';
@@ -30216,7 +30705,7 @@ $(document).ready(function () {
             tmp += '<img src="css/images/i_16_date_00.png" />';
             tmp += '</td>';
             tmp += '<th class="alignLeft BT150">';
-            tmp += gTerm[ gObj.lang ].start + ' ' + gTerm[ gObj.lang ].date;
+            tmp += gTerm[ gObj.lang ].startDatetime;
             tmp += '</th>';
             tmp += '<td class="alignLeft BT200">';
             tmp += '<input type="text" id="query-startDate"/>';
@@ -30226,7 +30715,7 @@ $(document).ready(function () {
             tmp += '<img src="css/images/i_16_date_00.png" />';
             tmp += '</td>';
             tmp += '<th class="alignLeft BT150">';
-            tmp += gTerm[ gObj.lang ].end + ' ' + gTerm[ gObj.lang ].date;
+            tmp += gTerm[ gObj.lang ].endDatetime;
             tmp += '</th>';
             tmp += '<td class="alignLeft BT180">';
             tmp += '<input type="text" id="query-endDate"/>';
@@ -30239,12 +30728,19 @@ $(document).ready(function () {
             break;
         default:
             tmp += '<tr>';
-            tmp += '<td class="BT250">';
-            tmp += gTerm[ gObj.lang ].start + ' ' + gTerm[ gObj.lang ].date + ': <input type="text" id="query-startDate" />';
+            tmp += '<td class="BT240">';
+            tmp += gTerm[ gObj.lang ].startDatetime + ': <input type="text" id="query-startDate" />';
             tmp += '</td>';
-            tmp += '<td class="BT250">';
-            tmp += gTerm[ gObj.lang ].end + ' ' + gTerm[ gObj.lang ].date + ': <input type="text" id="query-endDate" />';
+            tmp += '<td class="alignLeft BT100">';
+            tmp += gTerm[ gObj.lang ].hour + ': <select id="query-startHour"></select>';
             tmp += '</td>';
+            tmp += '<td class="BT240">';
+            tmp += gTerm[ gObj.lang ].endDatetime + ': <input type="text" id="query-endDate" />';
+            tmp += '</td>';
+            tmp += '<td class="alignLeft BT100">';
+            tmp += gTerm[ gObj.lang ].hour + ': <select id="query-endHour"></select>';
+            tmp += '</td>';
+/*
             tmp += '<td class="BT250">';
             tmp += gTerm[ gObj.lang ].aggregateBy + ' <select id="query-aggregateBy">';
             tmp += '<option value="0">None</option>';
@@ -30277,6 +30773,7 @@ $(document).ready(function () {
             }
             tmp += '</select>';
             tmp += '</td>';
+*/
             tmp += '<td class="alignCenter">';
             tmp += '<button class="Query" id="Query-' + id + '"><span class="ui-icon" title="query"></span></button>';
             tmp += '</td>';

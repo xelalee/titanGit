@@ -1009,7 +1009,7 @@ table caption {
 }
 
 table tr {
-    height: 25px;
+    height: 24px;
     padding: 1px;
 }
 
@@ -1617,6 +1617,13 @@ select[multiple] {
     margin:10px 10px 10px 10px;
     width: 750px;
     height:480px;
+}
+
+#chart-1, #chart-2, #chart-3, #chart-4, #chart-5, #chart-6 {
+    margin:10px 10px 10px 10px;
+    width: 750px;
+    height:480px;
+    overflow: hidden;
 }
 
 /* widget */

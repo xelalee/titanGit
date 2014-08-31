@@ -1808,13 +1808,19 @@
               "label" : "Traffic Direction",
               "id" : "menu-1-5-0",
               "tab" : "traffic_direction",
-              "tag" : "table",
-              "type" : "list",
-              "columns" : true,
-              "url" :
-              { 
-                "get" : "common_query"
+              "tag" : "div",
+              "type" : "tabs",
+              "tabs" :
+              {
+                "0" : "Traffic Log",
+                "1" : "By Addr.",
+                "2" : "By Src. IP",
+                "3" : "By Dst. IP",
+                "4" : "By Protocol",
+                "5" : "By Dst. Port",
+                "6" : "By Zone"
               },
+              "url" : "reportQuery",
               "ext" : "php",
               "weekly" : true,
               "query" : true,
@@ -2266,13 +2272,14 @@
               "label" : "File Extension",
               "id" : "menu-1-6-0",
               "tab" : "file_extension",
-              "tag" : "table",
-              "columns" : true,
-              "type" : "list",
-              "url" :
+              "tag" : "div",
+              "type" : "tabs",
+              "tabs" :
               {
-                "get" : "common_query"
+                "0" : "File Extension Log",
+                "1" : "By File Extension"
               },
+              "url" : "reportQuery",
               "ext" : "php",
               "query" : true,
               "pager" : true,
@@ -2348,13 +2355,14 @@
               "label" : "Blocked Host",
               "id" : "menu-1-6-1",
               "tab" : "blocked_host",
-              "tag" : "table",
-              "type" : "list",
-              "columns" : true,
-              "url" :
+              "tag" : "div",
+              "type" : "tabs",
+              "tabs" :
               {
-                "get" : "common_query"
+                "0" : "Blocked Host Log",
+                "1" : "By Blocked Host"
               },
+              "url" : "reportQuery",
               "ext" : "php",
               "query" : true,
               "pager" : true,
@@ -2446,13 +2454,14 @@
               "label" : "Affected Host",
               "id" : "menu-1-6-2",
               "tab" : "affected_host",
-              "tag" : "table",
-              "type" : "list",
-              "columns" : true,
-              "url" :
+              "tag" : "div",
+              "type" : "tabs",
+              "tabs" :
               {
-                "get" : "common_query"
+                "0" : "Affected Host Log",
+                "1" : "By Affected Host"
               },
+              "url" : "reportQuery",
               "ext" : "php",
               "query" : true,
               "pager" : true,
@@ -2528,13 +2537,16 @@
               "label" : "Antivirus",
               "id" : "menu-1-6-3",
               "tab" : "antivirus_report",
-              "tag" : "table",
-              "type" : "list",
-              "columns" : true,
-              "url" :
+              "tag" : "div",
+              "type" : "tabs",
+              "tabs" :
               {
-                "get" : "common_query"
+                "0" : "Anitivirus Log",
+                "1" : "By Src. IP",
+                "2" : "By Dst. IP",
+                "3" : "By Virus Name"
               },
+              "url" : "reportQuery",
               "ext" : "php",
               "query" : true,
               "pager" : true,

@@ -49,8 +49,7 @@ case 'view_logs':
         { 
             while ($obj = $result->fetch_object()) 
             {
-                //$str .= $obj->date ." ". $obj->time ."-". $obj->severity ."-". $obj->facility .":". $obj->msg ."(". $obj->program .")\n";
-                fwrite( $fp, $obj->date ." ". $obj->time ."-". $obj->severity ."-". $obj->facility .":". $obj->msg ."(". $obj->program .")\n" );
+                fwrite( $fp, $obj->date ." ". $obj->time ."-". $obj->severity ."-". $obj->facility .":SrcAddr=". $obj->srcIp .";DstAddr=". $obj->dstIp .";". $obj->msg ."(". $obj->program .")\n" );
             
             }
         }
