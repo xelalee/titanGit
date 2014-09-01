@@ -1185,7 +1185,7 @@ table caption {
 }
 
 table tr {
-    height: 25px;
+    height: 24px;
     padding: 1px;
 }
 
@@ -1668,6 +1668,10 @@ button.Clear span.ui-icon {
     background-position: -176px -96px;
 }
 
+button.Clean span.ui-icon {
+    background-position: -176px -96px;
+}
+
 button.Export span.ui-icon {
     background-position: -160px -96px;
 }
@@ -1791,6 +1795,11 @@ select[multiple] {
     height:480px;
 }
 
+#chart-1, #chart-2, #chart-3, #chart-4, #chart-5, #chart-6 {
+    margin:10px 10px 10px 10px;
+    width: 800px;
+    height:480px;
+}
 /* widget */
 .ui-widget-header {
     background: transparent;

@@ -8445,7 +8445,7 @@
                         "option" :
                         {
                           "0" : "None",
-                          "1" : "Drop connection"
+                          "1" : "Notify"
                         }
                       }
                     ]

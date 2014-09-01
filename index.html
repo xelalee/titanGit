@@ -2105,16 +2105,6 @@ $(document).ready(function () {
         case 'antivirus_report':
             // cache query status
             window.open('reporter.html?param=' + tar.pid + '&q=' + gObj.tabIndexId + '&sd=' + $('#query-startDate').val() + '&sh=' + $('#query-startHour').val() + '&ed=' + $('#query-endDate').val() + '&eh=' + $('#query-endHour').val(), '_blank');
-/*
-            gQuery.a = $('#query-aggregateBy').val();
-            gQuery.q = '&q=' + gQuery.a;
-            if (gReg.isDate.test($('#query-startDate').val()))
-                gQuery.q += '&sd=' + $('#query-startDate').val();
-            if (gReg.isDate.test($('#query-endDate').val()))
-                gQuery.q += '&ed=' + $('#query-endDate').val();
-            gObj.phpQuery.pi = 1;
-            refreshReports(tar.pid);
-*/
             break;
         case 'view_logs':
             // cache query status
@@ -6650,139 +6640,299 @@ $(document).ready(function () {
                                         } else {
                                             if ($('.noData').exists()) 
                                                 $('#chart-' + tabIndex).empty();
-                                            var cateKey, cateAxe;
-                                            var axe = {};
+                                            var catKey, styleDef;
 
                                             switch( pid )
                                             {
                                             case 'traffic_direction':
-                                                
                                                 switch( tabIndex )
                                                 {
                                                 case 1:
-                                                    cateKey = 'srcIp,dstIp';
-                                                    cateAxe = {
-                                                        address : { 
-                                                            keys:["srcIp","dstIp"],
-                                                            position:"left"
+                                                    catKey = 'address';
+                                                    styleDef = {
+                                                        axes : {
+                                                            address : { 
+                                                                keys:["address"],
+                                                                position:"left"
+                                                            },
+                                                            totalBytes : { 
+                                                                keys:["totalBytes"],
+                                                                position:"bottom",
+                                                                type:"numeric"
+                                                            }
                                                         },
-                                                        sess : { 
-                                                            keys:["sessions"],
-                                                            position:"bottom",
-                                                            type:"numeric"
+                                                        series:  {
+                                                            txBytes: {
+                                                                line: { color: "#eeeeee" }
+                                                            },
+                                                            rxBytes : {
+                                                                line: { color: "#ffffff" }
+                                                            }
                                                         }
                                                     }
                                                     break;
                                                 case 2:
-                                                    cateKey = 'srcIp';
-                                                    cateAxe = {
-                                                        srcIp : { 
-                                                            keys:["srcIp"],
-                                                            position:"left"
-                                                        },
-                                                        sess : { 
-                                                            keys:["sessions"],
-                                                            position:"bottom",
-                                                            type:"numeric" 
-                                                        }
+                                                    catKey = 'srcIp';
+                                                    styleDef = {
+                                                        axes : {
+                                                            srcIp : {
+                                                                keys:["srcIp"],
+                                                                position:"left"
+                                                            },
+                                                            totalBytes : {
+                                                                keys:["totalBytes"],
+                                                                position:"bottom",
+                                                                type:"numeric"
+                                                            }
+                                                        },  
+                                                        series:  {
+                                                            txBytes: {
+                                                                line: { color: "#eeeeee" }
+                                                            },
+                                                            rxBytes : {
+                                                                line: { color: "#ffffff" }
+                                                            }
+                                                        }   
                                                     }
                                                     break;
                                                 case 3:
-                                                    cateKey = 'dstIp';
-                                                    cateAxe = {
-                                                        dstIp : { 
-                                                            keys:["dstIp"],
-                                                            position:"left"
-                                                        },
-                                                        sess : { 
-                                                            keys:["sessions"],
-                                                            position:"bottom",
-                                                            type:"numeric" 
-                                                        }
+                                                    catKey = 'dstIp';
+                                                    styleDef = {
+                                                        axes : {
+                                                            dstIp : {
+                                                                keys:["dstIp"],
+                                                                position:"left"
+                                                            },
+                                                            totalBytes : {
+                                                                keys:["totalBytes"],
+                                                                position:"bottom",
+                                                                type:"numeric"
+                                                            }
+                                                        },  
+                                                        series:  {
+                                                            txBytes: {
+                                                                line: { color: "#eeeeee" }
+                                                            },
+                                                            rxBytes : {
+                                                                line: { color: "#ffffff" }
+                                                            }
+                                                        }   
                                                     }
                                                     break;
                                                 case 4:
-                                                    cateKey = 'protocol';
-                                                    cateAxe = {
-                                                        protocol : { 
-                                                            keys:["protocol"],
-                                                            position:"left"
+                                                    for (var i=0, len=data.queryRows; i<len; i++)
+                                                        data.queryResults[ i ].protocol = gRef.protocol[ data.queryResults[ i ].protocol ];
+                                                    catKey = 'protocol';
+                                                    styleDef = {
+                                                        axes : {
+                                                            protocol : {
+                                                                keys:["protocol"],
+                                                                position:"left"
+                                                            },
+                                                            totalBytes : {
+                                                                keys:["totalBytes"],
+                                                                position:"bottom",
+                                                                type:"numeric"
+                                                            }
                                                         },
-                                                        sess : { 
-                                                            keys:["sessions"],
-                                                            position:"bottom",
-                                                            type:"numeric" 
+                                                        series:  {
+                                                            txBytes: {
+                                                                line: { color: "#eeeeee" }
+                                                            },
+                                                            rxBytes : {
+                                                                line: { color: "#ffffff" }
+                                                            }
                                                         }
                                                     }
                                                     break;
                                                 case 5:
-                                                    cateKey = 'dstPort';
-                                                    cateAxe = {
-                                                        dstPort : { 
-                                                            keys:["dstPort"],
-                                                            position:"left"
+                                                    catKey = 'dstPort';
+                                                    styleDef = {
+                                                        axes : {
+                                                            dstPort : {
+                                                                keys:["dstPort"],
+                                                                position:"left"
+                                                            },
+                                                            totalBytes : {
+                                                                keys:["totalBytes"],
+                                                                position:"bottom",
+                                                                type:"numeric"
+                                                            }
                                                         },
-                                                        sess : { 
-                                                            keys:["sessions"],
-                                                            position:"bottom",
-                                                            type:"numeric" 
+                                                        series:  {
+                                                            txBytes: {
+                                                                line: { color: "#eeeeee" }
+                                                            },
+                                                            rxBytes : {
+                                                                line: { color: "#ffffff" }
+                                                            }
                                                         }
                                                     }
                                                     break;
                                                 case 6:
-                                                    cateKey = 'fromZone,toZone';
-                                                    cateAxe = {
-                                                        zone : { 
-                                                            keys:["fromZone","toZone"],
-                                                            position:"left"
+                                                    catKey = 'zone';
+                                                    styleDef = {
+                                                        axes : {
+                                                            zone : {
+                                                                keys:["zone"],
+                                                                position:"left"
+                                                            },
+                                                            totalBytes : {
+                                                                keys:["totalBytes"],
+                                                                position:"bottom",
+                                                                type:"numeric"
+                                                            }
                                                         },
-                                                        sess : { 
-                                                            keys:["sessions"],
-                                                            position:"bottom",
-                                                            type:"numeric" 
+                                                        series:  {
+                                                            txBytes: {
+                                                                line: { color: "#eeeeee" }
+                                                            },
+                                                            rxBytes : {
+                                                                line: { color: "#ffffff" }
+                                                            }
                                                         }
                                                     }
                                                     break;
                                                 }
                                                 break;
                                             case 'file_extension':
-                                                cateKey = 'accessCount';
-                                                axe.ext = { keys:["extension"],position:"left",type:"string" };
-                                                axe.cnt = { keys:["accessCount"],position:"bottom",type:"numeric" };
+                                                catKey = 'extension';
+                                                styleDef = {
+                                                    axes : {
+                                                        extension : {
+                                                            keys:["extension"],
+                                                            position:"left"
+                                                        },
+                                                        accessCount : {
+                                                            keys:["accessCount"],
+                                                            position:"bottom",
+                                                            type:"numeric"
+                                                        }
+                                                    },
+                                                    series:  {
+                                                        accessCount: {
+                                                            line: { color: "#eeeeee" }
+                                                        }
+                                                    }
+                                                }
                                                 break;
                                             case 'blocked_host':
-                                                cateKey = 'firewallCount';
-                                                axe.ip = { keys:["ip"],position:"left",type:"string" };
-                                                axe.cnt = { keys:["firewall"],position:"bottom",type:"numeric" };
+                                                catKey = 'ip';
+                                                styleDef = {
+                                                    axes : {
+                                                        ip : {
+                                                            keys:["ip"],
+                                                            position:"left"
+                                                        },
+                                                        firewallCount : {
+                                                            keys:["firewallCount"],
+                                                            position:"bottom",
+                                                            type:"numeric"
+                                                        }
+                                                    },
+                                                    series:  {
+                                                        firewallCount: {
+                                                            line: { color: "#eeeeee" }
+                                                        }
+                                                    }
+                                                }
                                                 break;
                                             case 'affected_host':
-                                                cateKey = 'sigHitCount';
-                                                axe.ip = { keys:["ip"],position:"left",type:"string" };
-                                                axe.cnt = { keys:["sigHitCount"],position:"bottom",type:"numeric" };
+                                                catKey = 'ip';
+                                                styleDef = {
+                                                    axes : {
+                                                        ip : {
+                                                            keys:["ip"],
+                                                            position:"left"
+                                                        },
+                                                        sigHitCount : {
+                                                            keys:["sigHitCount"],
+                                                            position:"bottom",
+                                                            type:"numeric"
+                                                        }
+                                                    },
+                                                    series:  {
+                                                        sigHitCount: {
+                                                            line: { color: "#eeeeee" }
+                                                        }
+                                                    }
+                                                }
                                                 break;
                                             case 'antivirus':
-                                                cateKey = 'hitCount';
                                                 switch( tabIndex )
                                                 {
                                                 case 1:
-                                                    axe.ip = { keys:["srcIp"],position:"left",type:"string" };
+                                                    catKey = 'srcIp';
+                                                    styleDef = {
+                                                        axes : {
+                                                            srcIp : {
+                                                                keys:["srcIp"],
+                                                                position:"left"
+                                                            },
+                                                            hitCount : {
+                                                                keys:["hitCount"],
+                                                                position:"bottom",
+                                                                type:"numeric"
+                                                            }
+                                                        },
+                                                        series:  {
+                                                            hitCount: {
+                                                                line: { color: "#eeeeee" }
+                                                            }
+                                                        }
+                                                    }
                                                     break;
                                                 case 2:
-                                                    axe.ip = { keys:["dstIp"],position:"left",type:"string" };
+                                                    catKey = 'dstIp';
+                                                    styleDef = {
+                                                        axes : {
+                                                            dstIp : {
+                                                                keys:["dstIp"],
+                                                                position:"left"
+                                                            },
+                                                            hitCount : {
+                                                                keys:["hitCount"],
+                                                                position:"bottom",
+                                                                type:"numeric"
+                                                            }
+                                                        },
+                                                        series:  {
+                                                            hitCount : {
+                                                                line: { color: "#eeeeee" }
+                                                            }
+                                                        }
+                                                    }
                                                     break;
                                                 case 3:
-                                                    axe.name = { keys:["virusName"],position:"left",type:"string" };
+                                                    catKey = 'virusName';
+                                                    styleDef = {
+                                                        axes : {
+                                                            virusName : {
+                                                                keys:["virusName"],
+                                                                position:"left"
+                                                            },
+                                                            hitCount : {
+                                                                keys:["hitCount"],
+                                                                position:"bottom",
+                                                                type:"numeric"
+                                                            }
+                                                        },
+                                                        series:  {
+                                                            hitCount: {
+                                                                line: { color: "#eeeeee" }
+                                                            }
+                                                        }
+                                                    }
                                                     break;
                                                 }
-                                                axe.cnt =  { keys:["hitCount"],position:"bottom",type:"numeric" };
                                                 break;
                                             }
 
                                             gObj.chart[ tabIndex ] = new gY.Chart({
                                                 dataProvider:data.queryResults,
-                                                categoryKey:cateKey, 
+                                                categoryKey:catKey, 
                                                 type:"bar",
-                                                axes:cateAxe,
+                                                styles: styleDef,
                                                 horizontalGridlines: true
                                             }).render('#chart-' + tabIndex);
                                         }
@@ -8667,9 +8817,8 @@ $(document).ready(function () {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
                     if ( $('#basic_settings-netmask').is(':disabled') ) 
                         $('#basic_settings-netmask').prop('disabled', false).focus();
-                    else
-                        $('#basic_settings-netmask').prop('disabled', false);
-                    $('#basic_settings-zoneId').prop('disabled', false);
+                    if ( $('#basic_settings-zoneId').is(':disabled') ) 
+                        $('#basic_settings-zoneId').prop('disabled', false);
                     if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                         gObj.tab.tabs('enable', 1);
                         gObj.tab.tabs('enable', 3);
@@ -8910,11 +9059,10 @@ $(document).ready(function () {
 
                 $('#basic_settings-address').blur( function() {
                     if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                        if ( $('#basic_settings-netmask').is(':disabled') ) 
+                        if ( $('#basic_settings-netmask').is(':disabled') )
                             $('#basic_settings-netmask').prop('disabled', false).focus();
-                        else
-                        $('#basic_settings-netmask').prop('disabled', false);
-                        $('#basic_settings-zoneId').prop('disabled', false);
+                        if ( $('#basic_settings-zoneId').is(':disabled') )
+                            $('#basic_settings-zoneId').prop('disabled', false);
                         if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                             gObj.tab.tabs('enable', 1);
                             gObj.tab.tabs('enable', 3);
@@ -9873,8 +10021,10 @@ $(document).ready(function () {
 
             $('#basic_settings-address').on('blur', function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                    $('#basic_settings-netmask').prop('disabled', false);
-                    $('#basic_settings-zoneId').prop('disabled', false);
+                    if ( $('#basic_settings-netmask').is(':disabled') )
+                        $('#basic_settings-netmask').prop('disabled', false).focus();
+                    if ( $('#basic_settings-zoneId').is(':disabled') )
+                        $('#basic_settings-zoneId').prop('disabled', false);
                     if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                         gObj.tab.tabs('enable', 1);
                         gObj.tab.tabs('enable', 3);
@@ -10184,8 +10334,10 @@ $(document).ready(function () {
 
             $('#basic_settings-address').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                    $('#basic_settings-netmask').prop('disabled', false);
-                    $('#basic_settings-zoneId').prop('disabled', false);
+                    if ( $('#basic_settings-netmask').is(':disabled') )
+                        $('#basic_settings-netmask').prop('disabled', false).focus();
+                    if ( $('#basic_settings-zoneId').is(':disabled') )
+                        $('#basic_settings-zoneId').prop('disabled', false);
                     if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                         gObj.tab.tabs('enable', 1);
                         gObj.tab.tabs('enable', 3);
@@ -10439,8 +10591,10 @@ $(document).ready(function () {
 
             $('#basic_settings-address').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                    $('#basic_settings-netmask').prop('disabled', false);
-                    $('#basic_settings-zoneId').prop('disabled', false);
+                    if ( $('#basic_settings-netmask').is(':disabled') )
+                        $('#basic_settings-netmask').prop('disabled', false).focus();
+                    if ( $('#basic_settings-zoneId').is(':disabled') )
+                        $('#basic_settings-zoneId').prop('disabled', false);
                     if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                         gObj.tab.tabs('enable', 1);
                         gObj.tab.tabs('enable', 3);
@@ -17607,7 +17761,7 @@ $(document).ready(function () {
                                             tmp += '<td>';
                                             tmp += data[ gNode.guiT ][ i ][ gNode.col[ 2 ].col[ j ].tab ];
                                             tmp += '</td>';
-                                            gCache[ pid ][ data[ gNode.guiT ][ i ][ gNode.col[ 2 ].col[ j ].tab ] ] = data[ gNode.guiT ][ i ].macAddr;
+                                            gCache[ pid ].ipMacPair[ data[ gNode.guiT ][ i ][ gNode.col[ 2 ].col[ j ].tab ] ] = data[ gNode.guiT ][ i ].macAddr;
                                             break;
                                         default:
                                             tmp += '<td>';
@@ -18917,7 +19071,7 @@ $(document).ready(function () {
                     continue;
                 }
 
-                tmp = '<tr class="' + ((cnt%2 == 0)? 'odd' : 'even') + '">>';
+                tmp = '<tr class="' + ((cnt%2 == 0)? 'odd' : 'even') + '">';
                 for (var j=0, jlen=gNode.col[ 2 ].col.length; j<jlen; j++)
                 {
                     switch( gNode.col[ 2 ].col[ j ].tab )
@@ -19407,7 +19561,7 @@ $(document).ready(function () {
             title: tar.title + ' > ' + gTerm[ gObj.lang ][ tar.type ],
             buttons: {
                 OK: function() {
-                    if (securityChecker(e)) {
+                    if (securityChecker(tar.pid, e)) {
                         gIf.alter = true;
                         switch( tar.pid )
                         {
@@ -19456,6 +19610,7 @@ $(document).ready(function () {
                                 gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].ipAddr = $('#Editor-ipAddr').val();
                                 gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].macAddr = $('#Editor-macAddr').val();
                             }
+                            gCache[ tar.pid ].ipMacPair[ $('#Editor-ipAddr').val() ] = $('#Editor-macAddr').val();
                             break;
                         }
                         refreshSecurity( tar.pid );
@@ -19472,7 +19627,7 @@ $(document).ready(function () {
         });
     }
     
-    function securityChecker( pid ) {
+    function securityChecker( pid, e ) {
         var pass = true;
         var flag = false;
         var msg = '';
@@ -19579,6 +19734,14 @@ $(document).ready(function () {
 
             break;
         case 'ip_mac_binding':
+            var tar = {};
+
+            tar.id = $(e.currentTarget).attr('id');
+            if (!tar.id)
+                return false;
+            tar.type  = tar.id.split(gReg.isDash)[0];
+            tar.thisNo  = tar.id.split(gReg.isDash)[2];
+
             if (!gReg.ipv4.test( $('#Editor-ipAddr').val() )) {
                 pass = false;
                 msg += '<p>' + gError[ gObj.lang ].ipAddr + '</p>';
@@ -19590,7 +19753,17 @@ $(document).ready(function () {
             }
 
             if (pass) {
-                if ($('#Editor-macAddr').val() == gCache[ pid ].ipMacPair[ $('#Editor-ipAddr').val() ]) {
+                if ( ('Edit' == tar.type) ) {
+                    if ( gData[ pid ][ gNode.guiT ][ tar.thisNo ].ipAddr == $('#Editor-ipAddr').val() ) {
+                        if ( ( gData[ pid ][ gNode.guiT ][ tar.thisNo ].macAddr != $('#Editor-macAddr').val() ) && ($('#Editor-macAddr').val() == gCache[ pid ].ipMacPair[ $('#Editor-ipAddr').val() ]) ) {
+                            pass = false;
+                            msg += '<p>' + gError[ gObj.lang ].ipMacPair + '</p>';
+                        }
+                    } else if ($('#Editor-macAddr').val() == gCache[ pid ].ipMacPair[ $('#Editor-ipAddr').val() ]) {
+                        pass = false;
+                        msg += '<p>' + gError[ gObj.lang ].ipMacPair + '</p>';
+                    }
+                } else if ($('#Editor-macAddr').val() == gCache[ pid ].ipMacPair[ $('#Editor-ipAddr').val() ]) {
                     pass = false;
                     msg += '<p>' + gError[ gObj.lang ].ipMacPair + '</p>';
                 }
@@ -19769,8 +19942,6 @@ $(document).ready(function () {
 
             for (var i=0, len=gData[ pid ][ gNode.guiT ].length; i<len; i++)
             {
-                if (3 == gData[ pid ][ gNode.guiT ][ i ].cgiAction)
-                    continue;
                 if (gData[ pid ][ gNode.guiT ][ i ].gid < 0)
                     gData[ pid ][ gNode.guiT ][ i ].gid = 0;
             }
@@ -30740,42 +30911,9 @@ $(document).ready(function () {
             tmp += '<td class="alignLeft BT100">';
             tmp += gTerm[ gObj.lang ].hour + ': <select id="query-endHour"></select>';
             tmp += '</td>';
-/*
-            tmp += '<td class="BT250">';
-            tmp += gTerm[ gObj.lang ].aggregateBy + ' <select id="query-aggregateBy">';
-            tmp += '<option value="0">None</option>';
-            switch(id)
-            {
-            case 'traffic_direction':
-                tmp += '<option value="1">' + gTerm[ gObj.lang ].address + '</option>';
-                tmp += '<option value="2">' + gTerm[ gObj.lang ].srcIp + '</option>';
-                tmp += '<option value="3">' + gTerm[ gObj.lang ].dstIp + '</option>';
-                tmp += '<option value="4">' + gTerm[ gObj.lang ].protocol + '</option>';
-                tmp += '<option value="5">' + gTerm[ gObj.lang ].dstPort + '</option>';
-                tmp += '<option value="6">' + gTerm[ gObj.lang ].zone + '</option>';
-                break;
-            case 'source_report':
-            case 'destination_report':
-                tmp += '<option value="1">' + gTerm[ gObj.lang ].host + ' ' + gTerm[ gObj.lang ].IP + '</option>';
-                break;
-            case 'file_extension':
-                tmp += '<option value="1">' + gTerm[ gObj.lang ].extension + '</option>';
-                break;
-            case 'blocked_host':
-            case 'affected_host':
-                tmp += '<option value="1">' + gTerm[ gObj.lang ].host + ' ' + gTerm[ gObj.lang ].IP + '/' + gTerm[ gObj.lang ].user + '</option>';
-                break;
-            case 'antivirus_report':
-                tmp += '<option value="1">' + gTerm[ gObj.lang ].source + ' ' + gTerm[ gObj.lang ].IP + '/' + gTerm[ gObj.lang ].user + '</option>';
-                tmp += '<option value="2">' + gTerm[ gObj.lang ].destination + ' ' + gTerm[ gObj.lang ].IP + '/' + gTerm[ gObj.lang ].user + '</option>';
-                tmp += '<option value="3">' + gTerm[ gObj.lang ].virusName + '</option>';
-                break;
-            }
-            tmp += '</select>';
-            tmp += '</td>';
-*/
             tmp += '<td class="alignCenter">';
             tmp += '<button class="Query" id="Query-' + id + '"><span class="ui-icon" title="query"></span></button>';
+            tmp += '<button class="Weekly" id="Weekly-' + id + '"><span class="ui-icon" title="weekly"></span></button>';
             tmp += '</td>';
             tmp += '</tr>';
         }
@@ -31091,8 +31229,6 @@ $(document).ready(function () {
             case 'active_sessions':
             case 'ipsec_vpn_statistics':
             case 'traffic_direction':
-            case 'source_report':
-            case 'destination_report':
             case 'file_extension':
             case 'blocked_host':
             case 'affected_host':

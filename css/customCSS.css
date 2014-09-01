@@ -1621,7 +1621,7 @@ select[multiple] {
 
 #chart-1, #chart-2, #chart-3, #chart-4, #chart-5, #chart-6 {
     margin:10px 10px 10px 10px;
-    width: 750px;
+    width: 800px;
     height:480px;
     overflow: hidden;
 }

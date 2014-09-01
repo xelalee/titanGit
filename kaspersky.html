@@ -215,7 +215,6 @@ gObj.inUsed    = 0;
 gObj.calc      = {};
 gObj.reg       = '';
 gObj.phpQuery  = {};
-gObj.phpQuery.php = 'common_query';
 gObj.phpQuery.pi  = 1;
 gObj.phpQuery.ps  = 1;
 gObj.phpQuery.pp  = 20;
@@ -757,14 +756,14 @@ $(document).ready(function () {
             case 'nat_status':
             case 'active_users':
             case 'ipsec_vpn_statistics':
+                refreshReports( gObj.active.pid );
+                break;
             case 'traffic_direction':
-            case 'source_report':
-            case 'destination_report':
             case 'file_extension':
             case 'blocked_host':
             case 'affected_host':
             case 'antivirus_report':
-                refreshReports( gObj.active.pid );
+                refreshReports( gObj.active.pid, gObj.tabIndex );
                 break;
             case 'active_sessions':
                 if (gIf.progressT || gIf.delay) 
@@ -1171,7 +1170,7 @@ $(document).ready(function () {
 
         // select change, deal only create object
         // input event to refresh idle timeout
-        $('select').live('change', function(e) {
+        $(document).on('change', 'select', function(e) {
             e.preventDefault();
             gIf.getSessInfo = true; 
             switch($(this).val())
@@ -1203,19 +1202,19 @@ $(document).ready(function () {
     
         // button click, tell by btnCtrl
         // input event to refresh idle timeout
-        $('button').live('click', function(e) {
+        $(document).on('click', 'button', function(e) {
             e.preventDefault();
             gIf.getSessInfo = true; 
             btnCtrl( e );
         });
     
         // input event to refresh idle timeout
-        $('input:radio').live('click', function(e) {
+        $(document).on('click', 'input:radio', function(e) {
             gIf.getSessInfo = true; 
         });
     
         // input event to refresh idle timeout
-        $('input:checkbox').live('click', function(e) {
+        $(document).on('click', 'input:checkbox', function(e) {
             gIf.getSessInfo = true; 
             var tar = {};
             
@@ -1358,17 +1357,17 @@ $(document).ready(function () {
     
         // achor click, for menu & accordions
         // input event to refresh idle timeout
-        $('a').live('click', function(e) {
+        $(document).on('click', 'a', function(e) {
             e.preventDefault();
         });
     
         // img click, for dashboard
         // input event to refresh idle timeout
-        $('img').live('click', function(e) {
+        $(document).on('click', 'img', function(e) {
             e.preventDefault();
         });
     
-        $('div.sortable').live('click', function(e) {
+        $(document).on('click', 'div.sortable', function(e) {
             e.preventDefault();
             gIf.getSessInfo = true; 
             var tar = {};
@@ -1411,13 +1410,11 @@ $(document).ready(function () {
                 refreshReports( tar.ids[ 1 ] );
                 break;
             case 'traffic_direction':
-            case 'source_report':
-            case 'destination_report':
             case 'file_extension':
             case 'blocked_host':
             case 'affected_host':
             case 'antivirus_report':
-                refreshReports( tar.ids[ 1 ] );
+                refreshReports( tar.ids[ 1 ], gObj.tabIndex );
                 break;
             }
         })
@@ -1976,8 +1973,10 @@ $(document).ready(function () {
             case 'trafficStatisticsLan':
             case 'nat_status':
             case 'active_users':
-            case 'traffic_direction':
                 refreshReports(tar.pid);
+                break;
+            case 'traffic_direction':
+                refreshReports(tar.pid, gObj.tabIndex);
                 break;
             default:
                 cgiRefresh( tar.pid );
@@ -2058,6 +2057,9 @@ $(document).ready(function () {
         case 'Stop':
             btnStop( e ); 
             break;
+        case 'Search':
+            btnSearch( e );
+            break;
         case 'Clean':
             btnClean( e ); 
             break;
@@ -2095,21 +2097,12 @@ $(document).ready(function () {
             refreshFirewall(tar.pid);
             break;
         case 'traffic_direction':
-        case 'source_report':
-        case 'destination_report':
         case 'file_extension':
         case 'blocked_host':
         case 'affected_host':
         case 'antivirus_report':
             // cache query status
-            gQuery.a = $('#query-aggregateBy').val();
-            gQuery.q = '&q=' + gQuery.a;
-            if (gReg.isDate.test($('#query-startDate').val()))
-                gQuery.q += '&sd=' + $('#query-startDate').val();
-            if (gReg.isDate.test($('#query-endDate').val()))
-                gQuery.q += '&ed=' + $('#query-endDate').val();
-            gObj.phpQuery.pi = 1;
-            refreshReports(tar.pid);
+            window.open('reporter.html?param=' + tar.pid + '&q=' + gObj.tabIndexId + '&sd=' + $('#query-startDate').val() + '&sh=' + $('#query-startHour').val() + '&ed=' + $('#query-endDate').val() + '&eh=' + $('#query-endHour').val(), '_blank');
             break;
         case 'view_logs':
             // cache query status
@@ -2406,7 +2399,7 @@ $(document).ready(function () {
                 if ( tar.pid == 'view_logs' )
                     refreshDevice( tar.pid );
                 else 
-                    refreshReports( tar.pid );
+                    refreshReports( tar.pid, gObj.tabIndex );
             }
             break;
         case 'Move2Prev':
@@ -2415,7 +2408,7 @@ $(document).ready(function () {
                 if ( tar.pid == 'view_logs' )
                     refreshDevice( tar.pid );
                 else 
-                    refreshReports( tar.pid );
+                    refreshReports( tar.pid, gObj.tabIndex );
             }
             break;
         case 'Move2Next':
@@ -2424,7 +2417,7 @@ $(document).ready(function () {
                 if ( tar.pid == 'view_logs' )
                     refreshDevice( tar.pid );
                 else 
-                    refreshReports( tar.pid );
+                    refreshReports( tar.pid, gObj.tabIndex );
             }
             break;
         case 'Move2Last':
@@ -2433,7 +2426,7 @@ $(document).ready(function () {
                 if ( tar.pid == 'view_logs' )
                     refreshDevice( tar.pid );
                 else 
-                    refreshReports( tar.pid );
+                    refreshReports( tar.pid, gObj.tabIndex );
             }
             break;
         }
@@ -2892,6 +2885,7 @@ $(document).ready(function () {
             window.open("logExport.php?param=view_logs", "_blank");
             break;
         case 'pgExport2':
+            window.open('cgi-bin/' + gNode.url.export + '.cgi', "_blank");
             break;
         default:
             if (!($('#popForm').exists()))
@@ -2979,11 +2973,92 @@ $(document).ready(function () {
         tar.pid = tar.id.split('-')[1];
         tar.thisNo = tar.id.split('-')[2];
 
-        switch (tar.id)
-        {
-        case 'pgImport':
-            break;
-        default:
+        if ('pgImport' == tar.id) {
+            gPop.popForm = $('#popForm').dialog({
+                width: 300,
+                height: 150,
+                position: "center",
+                resizable: false,
+                modal: true,
+                title: gTerm[ gObj.lang ].ip_mac_binding_import,
+                buttons: {
+                    ok: function() {
+                        if (!gIf.uploaded && gObj.uploader.get("fileList").length > 0) {
+                            if (gIf.invalid) {
+                                $('.errorMsg').html( gError[ gObj.lang ].please_check_file );
+                            } else {
+                                loadingToggle( true );
+                                gObj.uploader.upload(gObj.uploaderFile, gObj.uploader.uploadURL);
+                            }
+                        }
+                    }
+                },
+                open: function(event, ui) {
+                    var tmp = '<div>';
+                    tmp += '<table>';
+                    tmp += '<tr>';
+                    tmp += '<td class="alignLeft BT120">';
+                    tmp += '<div id="Editor-import"></div>';
+                    tmp += '</td>';
+                    tmp += '<td class="alignLeft">';
+                    tmp += '<div id="Editor-import-status"></div>';
+                    tmp += '</td>';
+                    tmp += '</tr>';
+                    tmp += '</table>';
+                    tmp += '</div>';
+
+                    $('#popForm').html( tmp );
+
+                    gObj.uploader = new gY.Uploader({
+                                       width: "100px",
+                                       multipleFiles: false,
+                                       fileFieldName: 'binary',
+                                       swfURL: "assets/flashuploader.swf?t=" + Math.random(),
+                                       uploadURL: "cgi-bin/" + gNode.url.import + ".cgi",
+                                       simLimit: 1,
+                                       withCredentials: false
+                                   });
+                    gIf.uploaded = false;
+
+                    gObj.uploader.render("#Editor-import");
+
+                    gObj.uploader.after("fileselect", function (e) {
+                        gObj.uploaderFile = e.fileList[0];
+                        if (gReg.isCSV.test( gObj.uploaderFile.get('name') )) {
+                            gIf.invalid = false;
+                            gY.one("#Editor-import-status").set("text", gObj.uploaderFile.get('name') );
+                        } else {
+                            errorAlert( '<p>' + gError[ gObj.lang ].ipMacBindingImport + '</p>' );
+                        }
+                    });
+
+                    gObj.uploader.on("uploadprogress", function (e) {
+                        $('.processDiv').progressbar({ value: parseInt( e.percentLoaded ) });
+                    });
+
+                    gObj.uploader.on("uploadstart", function (e) {
+                        gObj.uploader.set("enabled", false);
+                    });
+
+                    gObj.uploader.on("uploadcomplete", function (e) {
+                        var json = gY.JSON.parse(e.data);
+                        loadingToggle( false );
+                        if (parseInt(json.status) == 0) {
+                            gIf.uploaded = true;
+                            gPop.popForm.dialog( "close" );
+                            genSecurity( 'ip_mac_binding' );
+                        } else {
+                            gIf.uploaded = false;
+                            gIf.invalid = true;
+                            errorAlert( '<p>' + json.msg + '</p>' );
+                        }
+                    });
+                },
+                close: function(event, ui) {
+                    $(this).dialog('destroy').remove();
+                }
+            });
+        } else {
             gPop.popForm = $('#popForm').dialog({
                 width: 500,
                 height: 250,
@@ -3686,6 +3761,19 @@ $(document).ready(function () {
         gObj.config = gData.backup_restore.guiProfileT[ tar.thisNo ].name;
 
         cmdAlert( tar.pid, tar.thisNo );
+    }
+
+    function btnSearch( e ) {
+        var tar = {};
+        tar.id = $(e.currentTarget).attr('id');
+
+        if (!tar.id)
+            return false;
+
+        tar.pid = tar.id.split('-')[ 1 ];
+
+        if ('ip_mac_binding' == tar.pid)
+            refreshSecurity( tar.pid );
     }
     
 // alert 
@@ -4779,7 +4867,7 @@ $(document).ready(function () {
                 }
                 
                 $.ajax({
-                    url: gObj.phpQuery.php + '.php?param=' + pid + sortBy,
+                    url: 'topQuery.php?param=' + pid + sortBy,
                     dataType: 'json',
                     success: function(data) {
                        
@@ -4941,7 +5029,7 @@ $(document).ready(function () {
                             }
                             
                             $.ajax({
-                                url: gObj.phpQuery.php + '.php?param=' + v2.id + sortBy,
+                                url: 'topQuery.php?param=' + v2.id + sortBy,
                                 dataType: 'json',
                                 success: function(data) {
                                     if (parseInt(data.queryRows) > 0) {
@@ -5183,7 +5271,7 @@ $(document).ready(function () {
                         }
 
                         $.ajax({
-                            url: gObj.phpQuery.php + '.php?param=' + x + sortBy, 
+                            url: 'topQuery.php?param=' + x + sortBy, 
                             dataType: 'json',
                             success: function(data) {
                                 if (parseInt(data.queryRows) > 0) {
@@ -5398,7 +5486,7 @@ $(document).ready(function () {
             break;
         case 'php':
             $.ajax({
-                url: gObj.phpQuery.php + '.php?param=' + feed.id,
+                url: 'topQuery.php?param=' + feed.id,
                 dataType: 'json',
                 success: function(data) {
                     tmp = '<div class="innerDiv">';
@@ -5773,17 +5861,113 @@ $(document).ready(function () {
             }
             break;
         case 'php':
-            loadingToggle( true );
             switch(gNode.tag)
             {
             case 'div':
                 switch(gNode.type)
                 {
+                case 'tabs':
+                    gY.one('#main_bd').set('innerHTML', '<div class="templateDiv"><div class="queryDiv"></div><div class="tabber"><ul></ul></div></div>');
+                    phpQuery(pid);
+
+                    gObj.phpQuery.pi = 1;
+                    gObj.phpQuery.ps = 1;
+                    gObj.phpQuery.pp = 20;
+                    gObj.phpQuery.id = pid;
+
+                    for (var x in gNode.tabs)
+                    {
+                        gY.one('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + gNode.tabs[ x ] + '</a></li>');
+                        gY.one('.tabber').append('<div id="panel-' + x + '"></div>');
+                        switch( parseInt( x ))
+                        {
+                        case 0:
+                            $('#panel-' + x).html( '<div id="div-' + x + '"></div>');
+                            break;
+                        default:
+                            $('#panel-' + x).html( '<div id="chart-' + x + '"></div>');
+                        }
+                    }
+
+                    gObj.tabber = $('.tabber').tabs({
+                        create: function( event, ui ) {
+                            gObj.tabIndexId = ui.tab[ 0 ].id.split('-').pop();
+
+                            loadingToggle( true );
+
+                            tmp = '<table id="table-0"><thead><tr>';
+                            for (var i=0, len=gNode.col[ 0 ].length; i<len; i++)
+                            {
+                                tmp += '<th class="ui-state-default" style="width: ' + gNode.col[ 0 ][ i ].wiz + '">'; 
+                                tmp += gNode.col[ 0 ][ i ].label;
+                                tmp += '</th>';
+                            }
+                            tmp += '</tr></thead></table>';
+                            $('#div-0').html( tmp );
+
+                            $.ajax({
+                                url: 'reportQuery.php?param=' + pid + '&q=0&pp=20&pi=1',
+                                dataType: 'json',
+                                success: function(data) {
+                                    gIf.ajaxed = true;
+                                    loadingToggle( false );
+                                    if (parseInt( data.queryRows ) > 0 ) {
+                                        tmp = '<tbody>';
+                                        for (var i=0, len=data.queryResults.length; i<len; i++)
+                                        {
+                                            tmp += '<tr class="' + ((i%2 == 0)? 'odd' : 'even') + '">';
+                                            for (var j=0, jlen=gNode.col[ 0 ].length; j<jlen; j++)
+                                            {
+                                                tmp += '<td>';
+                                                switch( gNode.col[ '0' ][ j ].tab )
+                                                {
+                                                case 'id':
+                                                    tmp += (i+1);
+                                                    break;
+                                                case 'protocol':
+                                                    if ('traffic_direction' == pid)
+                                                        tmp += gRef.protocol[ data.queryResults[ i ][ gNode.col[ 0 ][ j ].tab ] ];
+                                                    else
+                                                        tmp += data.queryResults[ i ][ gNode.col[ 0 ][ j ].tab ];
+                                                    break;
+                                                case 'totalBytes':
+                                                case 'txBytes':
+                                                case 'rxBytes':
+                                                    var mkbs = parseInt( data.queryResults[ i ][ gNode.col[ 0 ][ j ].tab ] );
+                                                    tmp += ( mkbs > 1000000000 )? (mkbs/1000000000).toFixed(2) + ' GB' : ( ( mkbs > 1000000 )? (mkbs/1000000).toFixed(2) + ' MB' : ( ( 0 == mkbs )? 0 : (mkbs/1000).toFixed(2) + ' KB' ) );
+                                                    break;
+                                                default:
+                                                    tmp += data.queryResults[ i ][ gNode.col[ 0 ][ j ].tab ];
+                                                }
+                                                tmp += '</td>';
+                                            }
+                                            tmp += '</tr>';
+                                        }
+                                        tmp += '</tbody>';
+                                        $('#table-0').append( tmp );
+
+                                    }
+                                    gObj.phpQuery.ps = Math.ceil(data.queryRows/gObj.phpQuery.pp);
+                                    phpPager( pid , gObj.phpQuery.pi, gObj.phpQuery.ps );
+                                }
+                            });
+                        },
+                        select: function( event, ui ) {
+                            if ( 0 == ui.index )
+                                $('#pagerDiv').show();
+                            else
+                                $('#pagerDiv').hide();
+                            gObj.tabIndex = ui.index;
+                            refreshReports( pid, ui.index );
+                        }
+                    });
+                    break;
                 case 'tabsChart':
                     // create chart gNode
                     gY.one('#main_bd').set('innerHTML', '<div class="templateDiv"><div class="queryDiv"></div><div class="tabber"><ul></ul></div></div>');
                     phpQuery(pid);
     
+                    loadingToggle( true );
                     for (var x in gNode.tabs)
                     {
                         gY.one('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + gNode.tabs[ x ] + '</a></li>');
@@ -5795,11 +5979,9 @@ $(document).ready(function () {
     
                     $('.tabber').tabs().on('tabsactivate', function(event, ui) { 
                         gObj.chartIndex = $(this).tabs("option", "active");
-                        refreshCharts(pid, gObj.chartIndex);
+                        refreshCharts(pid);
                     });
     
-                    break;
-                case 'tabs':
                     break;
                 }
                 break;
@@ -5814,7 +5996,7 @@ $(document).ready(function () {
                     gY.one('#main_bd').set('innerHTML', '<div class="templateDiv"></div>');
                     tmp = '';
                     $.ajax({
-                        url: gObj.phpQuery.php + '.php?param=' + pid + '&pp=20&pi=1',
+                        url: 'reportQuery.php?param=' + pid + '&pp=20&pi=1',
                         dataType: 'json',
                         success: function(data) {
                             gIf.ajaxed = true;
@@ -6002,7 +6184,7 @@ $(document).ready(function () {
             }
             gObj.chart.id = '#chart-wan' + (gObj.chartIndex+1);
     
-            gY.io( gObj.phpQuery.php + '.php?param=' + pid + q, {
+            gY.io( 'chartQuery.php?param=' + pid + q, {
                 on: {
                     complete: function(id, e) {
                         gIf.ajaxed = true;
@@ -6112,7 +6294,7 @@ $(document).ready(function () {
 
             gObj.chart.id = ( 0 === gObj.chartIndex )? '#chart-cpu' : '#chart-memory';
     
-            gY.io( gObj.phpQuery.php + '.php?param=' + pid + q, {
+            gY.io( 'chartQuery.php?param=' + pid + q, {
                 on: {
                     complete: function(id, e) {
                         gIf.ajaxed = true;
@@ -6197,7 +6379,7 @@ $(document).ready(function () {
     
     }
     
-    function refreshReports(pid)
+    function refreshReports(pid, tabIndex)
     {
         var tmp = '';
         var query = '';
@@ -6379,7 +6561,6 @@ $(document).ready(function () {
                     if (gIf.query) 
                         query += gQuery.q;
                     else if (!gQuery.a) {
-                        query += '&sh=' + gObj.sysHour + '&eh=' + gObj.sysHour;
                         gQuery.a = 0;
                     }
                     query += '&pi=' + gObj.phpQuery.pi + '&pp=' + gObj.phpQuery.pp;
@@ -6387,6 +6568,377 @@ $(document).ready(function () {
     
                 switch(gNode.tag)
                 {
+                case 'div':
+                    switch(gNode.type)
+                    {
+                    case 'tabs':
+                        switch( tabIndex )
+                        {
+                        case 0:
+                            $.ajax({
+                                url: 'reportQuery.php?param=' + pid + '&q=0' + query,
+                                dataType: 'json',
+                                success: function(data) {
+                                    gIf.ajaxed = true;
+                                    loadingToggle( false );
+                                    $('#table-0 tbody').empty();
+
+                                    if (parseInt( data.queryRows ) > 0) {
+                                        for (var i=0, len=data.queryResults.length; i<len; i++)
+                                        {
+                                            tmp = '<tr class="' + ((i%2 == 0)? 'odd' : 'even') + '">';
+                                            for (var j=0, jlen=gNode.col[ '0' ].length; j<jlen; j++)
+                                            {
+                                                tmp += '<td>';
+                                                switch( gNode.col[ '0' ][ j ].tab )
+                                                {
+                                                case 'id':
+                                                    tmp += (i+1);
+                                                    break;
+                                                case 'protocol':
+                                                    if ('traffic_direction' == pid)
+                                                        tmp += gRef.protocol[ data.queryResults[ i ][ gNode.col[ 0 ][ j ].tab ] ];
+                                                    else
+                                                        tmp += data.queryResults[ i ][ gNode.col[ 0 ][ j ].tab ];
+                                                    break;
+                                                case 'totalBytes':
+                                                case 'txBytes':
+                                                case 'rxBytes':
+                                                    var mkbs = parseInt( data.queryResults[ i ][ gNode.col[ 0 ][ j ].tab ] );
+                                                    tmp += ( mkbs > 1000000000 )? (mkbs/1000000000).toFixed(2) + ' GB' : ( ( mkbs > 1000000 )? (mkbs/1000000).toFixed(2) + ' MB' : ( ( mkbs == 0 )? 0 : (mkbs/1000).toFixed(2) + ' KB' ) );
+                                                    break;
+                                                default:
+                                                    tmp += data.queryResults[ i ][ gNode.col[ '0' ][ j ].tab ];
+                                                }
+                                                tmp += '</td>';
+                                            }
+                                            tmp += '</tr>';
+                                            $('#table-0 tbody').append( tmp );
+                                        }
+                                    }
+
+                                    gObj.phpQuery.ps = Math.ceil(data.queryRows/gObj.phpQuery.pp);
+                                    phpPager( pid , gObj.phpQuery.pi, gObj.phpQuery.ps );
+                                }
+                            });
+                            break;
+                        default:
+                            gY.io( 'reportQuery.php?param=' + pid + '&q=' + tabIndex, {
+                                on: {
+                                    complete: function(id, e) {
+                                        gIf.ajaxed = true;
+                                        loadingToggle( false );
+                                        var data = new gY.JSON.parse(e.responseText);
+                                        if (gObj.chart[ tabIndex ])
+                                            gObj.chart[ tabIndex ].destroy();
+                                        if (0 === parseInt( data.queryRows )) {
+                                            $('#chart-' + tabIndex).html('<div class="noData"><b>' + gTerm[ gObj.lang ].noData + '</b></div>');
+                                        } else {
+                                            if ($('.noData').exists())
+                                                $('#chart-' + tabIndex).empty();
+                                            var catKey, styleDef;
+
+                                            switch( pid )
+                                            {
+                                            case 'traffic_direction':
+                                                switch( tabIndex )
+                                                {
+                                                case 1:
+                                                    catKey = 'address';
+                                                    styleDef = {
+                                                        axes : {
+                                                            address : {
+                                                                keys:["address"],
+                                                                position:"left"
+                                                            },
+                                                            totalBytes : {
+                                                                keys:["totalBytes"],
+                                                                position:"bottom",
+                                                                type:"numeric"
+                                                            }
+                                                        },
+                                                        series:  {
+                                                            txBytes: {
+                                                                line: { color: "#eeeeee" }
+                                                            },
+                                                            rxBytes : {
+                                                                line: { color: "#ffffff" }
+                                                            }
+                                                        }
+                                                    }
+                                                    break;
+                                                case 2:
+                                                    catKey = 'srcIp';
+                                                    styleDef = {
+                                                        axes : {
+                                                            srcIp : {
+                                                                keys:["srcIp"],
+                                                                position:"left"
+                                                            },
+                                                            totalBytes : {
+                                                                keys:["totalBytes"],
+                                                                position:"bottom",
+                                                                type:"numeric"
+                                                            }
+                                                        },
+                                                        series:  {
+                                                            txBytes: {
+                                                                line: { color: "#eeeeee" }
+                                                            },
+                                                            rxBytes : {
+                                                                line: { color: "#ffffff" }
+                                                            }
+                                                        }
+                                                    }
+                                                    break;
+                                                case 3:
+                                                    catKey = 'dstIp';
+                                                    styleDef = {
+                                                        axes : {
+                                                            dstIp : {
+                                                                keys:["dstIp"],
+                                                                position:"left"
+                                                            },
+                                                            totalBytes : {
+                                                                keys:["totalBytes"],
+                                                                position:"bottom",
+                                                                type:"numeric"
+                                                            }
+                                                        },
+                                                        series:  {
+                                                            txBytes: {
+                                                                line: { color: "#eeeeee" }
+                                                            },
+                                                            rxBytes : {
+                                                                line: { color: "#ffffff" }
+                                                            }
+                                                        }
+                                                    }
+                                                    break;
+                                                case 4:
+                                                    for (var i=0, len=data.queryRows; i<len; i++)
+                                                        data.queryResults[ i ].protocol = gRef.protocol[ data.queryResults[ i ].protocol ];
+                                                    catKey = 'protocol';
+                                                    styleDef = {
+                                                        axes : {
+                                                            protocol : {
+                                                                keys:["protocol"],
+                                                                position:"left"
+                                                            },
+                                                            totalBytes : {
+                                                                keys:["totalBytes"],
+                                                                position:"bottom",
+                                                                type:"numeric"
+                                                            }
+                                                        },
+                                                        series:  {
+                                                            txBytes: {
+                                                                line: { color: "#eeeeee" }
+                                                            },
+                                                            rxBytes : {
+                                                                line: { color: "#ffffff" }
+                                                            }
+                                                        }
+                                                    }
+                                                    break;
+                                                case 5:
+                                                    catKey = 'dstPort';
+                                                    styleDef = {
+                                                        axes : {
+                                                            dstPort : {
+                                                                keys:["dstPort"],
+                                                                position:"left"
+                                                            },
+                                                            totalBytes : {
+                                                                keys:["totalBytes"],
+                                                                position:"bottom",
+                                                                type:"numeric"
+                                                            }
+                                                        },
+                                                        series:  {
+                                                            txBytes: {
+                                                                line: { color: "#eeeeee" }
+                                                            },
+                                                            rxBytes : {
+                                                                line: { color: "#ffffff" }
+                                                            }
+                                                        }
+                                                    }
+                                                    break;
+                                                case 6:
+                                                    catKey = 'zone';
+                                                    styleDef = {
+                                                        axes : {
+                                                            zone : {
+                                                                keys:["zone"],
+                                                                position:"left"
+                                                            },
+                                                            totalBytes : {
+                                                                keys:["totalBytes"],
+                                                                position:"bottom",
+                                                                type:"numeric"
+                                                            }
+                                                        },
+                                                        series:  {
+                                                            txBytes: {
+                                                                line: { color: "#eeeeee" }
+                                                            },
+                                                            rxBytes : {
+                                                                line: { color: "#ffffff" }
+                                                            }
+                                                        }
+                                                    }
+                                                    break;
+                                                }
+                                                break;
+                                            case 'file_extension':
+                                                catKey = 'extension';
+                                                styleDef = {
+                                                    axes : {
+                                                        extension : {
+                                                            keys:["extension"],
+                                                            position:"left"
+                                                        },
+                                                        accessCount : {
+                                                            keys:["accessCount"],
+                                                            position:"bottom",
+                                                            type:"numeric"
+                                                        }
+                                                    },
+                                                    series:  {
+                                                        accessCount: {
+                                                            line: { color: "#eeeeee" }
+                                                        }
+                                                    }
+                                                }
+                                                break;
+                                            case 'blocked_host':
+                                                catKey = 'ip';
+                                                styleDef = {
+                                                    axes : {
+                                                        ip : {
+                                                            keys:["ip"],
+                                                            position:"left"
+                                                        },
+                                                        firewallCount : {
+                                                            keys:["firewallCount"],
+                                                            position:"bottom",
+                                                            type:"numeric"
+                                                        }
+                                                    },
+                                                    series:  {
+                                                        firewallCount: {
+                                                            line: { color: "#eeeeee" }
+                                                        }
+                                                    }
+                                                }
+                                                break;
+                                            case 'affected_host':
+                                                catKey = 'ip';
+                                                styleDef = {
+                                                    axes : {
+                                                        ip : {
+                                                            keys:["ip"],
+                                                            position:"left"
+                                                        },
+                                                        sigHitCount : {
+                                                            keys:["sigHitCount"],
+                                                            position:"bottom",
+                                                            type:"numeric"
+                                                        }
+                                                    },
+                                                    series:  {
+                                                        sigHitCount: {
+                                                            line: { color: "#eeeeee" }
+                                                        }
+                                                    }
+                                                }
+                                                break;
+                                            case 'antivirus':
+                                                switch( tabIndex )
+                                                {
+                                                case 1:
+                                                    catKey = 'srcIp';
+                                                    styleDef = {
+                                                        axes : {
+                                                            srcIp : {
+                                                                keys:["srcIp"],
+                                                                position:"left"
+                                                            },
+                                                            hitCount : {
+                                                                keys:["hitCount"],
+                                                                position:"bottom",
+                                                                type:"numeric"
+                                                            }
+                                                        },
+                                                        series:  {
+                                                            hitCount: {
+                                                                line: { color: "#eeeeee" }
+                                                            }
+                                                        }
+                                                    }
+                                                    break;
+                                                case 2:
+                                                    catKey = 'dstIp';
+                                                    styleDef = {
+                                                        axes : {
+                                                            dstIp : {
+                                                                keys:["dstIp"],
+                                                                position:"left"
+                                                            },
+                                                            hitCount : {
+                                                                keys:["hitCount"],
+                                                                position:"bottom",
+                                                                type:"numeric"
+                                                            }
+                                                        },
+                                                        series:  {
+                                                            hitCount : {
+                                                                line: { color: "#eeeeee" }
+                                                            }
+                                                        }
+                                                    }
+                                                    break;
+                                                case 3:
+                                                    catKey = 'virusName';
+                                                    styleDef = {
+                                                        axes : {
+                                                            virusName : {
+                                                                keys:["virusName"],
+                                                                position:"left"
+                                                            },
+                                                            hitCount : {
+                                                                keys:["hitCount"],
+                                                                position:"bottom",
+                                                                type:"numeric"
+                                                            }
+                                                        },
+                                                        series:  {
+                                                            hitCount: {
+                                                                line: { color: "#eeeeee" }
+                                                            }
+                                                        }
+                                                    }
+                                                    break;
+                                                }
+                                                break;
+                                            }
+
+                                            gObj.chart[ tabIndex ] = new gY.Chart({
+                                                dataProvider:data.queryResults,
+                                                categoryKey:catKey,
+                                                type:"bar",
+                                                styles: styleDef,
+                                                horizontalGridlines: true
+                                            }).render('#chart-' + tabIndex);
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                        break;
+                    }
+                    break;
                 case 'table':
                     switch(gNode.type)
                     {
@@ -6460,7 +7012,7 @@ $(document).ready(function () {
 
                         loadingToggle( true );
                         $.ajax({
-                            url: gObj.phpQuery.php + '.php?param=' + pid + query + sortBy,
+                            url: 'reportQuery.php?param=' + pid + query + sortBy,
                             dataType: 'json',
                             success: function(data) {
                                 gIf.ajaxed = true;
@@ -8259,16 +8811,16 @@ $(document).ready(function () {
     
             $('#basic_settings-address').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                    
-                    $('#basic_settings-netmask').prop('disabled', false).focus();
-                    $('#basic_settings-zoneId').prop('disabled', false);
+                    if ( $('#basic_settings-netmask').is(':disabled') )
+                        $('#basic_settings-netmask').prop('disabled', false).focus();
+                    if ( $('#basic_settings-zoneId').is(':disabled') )
+                        $('#basic_settings-zoneId').prop('disabled', false);
                     if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                         gObj.tab.tabs('enable', 1);
                         gObj.tab.tabs('enable', 3);
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
                         autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val() );
-                        gObj.addressed = $('#basic_settings-address').val();
                     }
                 } else {
                     if (3 == gObj.routing.protoType) {
@@ -8281,7 +8833,6 @@ $(document).ready(function () {
 
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
-                    gObj.addressed = $('#basic_settings-address').val();
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
@@ -8504,15 +9055,16 @@ $(document).ready(function () {
 
                 $('#basic_settings-address').blur( function() {
                     if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                        $('#basic_settings-netmask').prop('disabled', false).focus();
-                        $('#basic_settings-zoneId').prop('disabled', false);
+                        if ( $('#basic_settings-netmask').is(':disabled') )
+                            $('#basic_settings-netmask').prop('disabled', false).focus();
+                        if ( $('#basic_settings-zoneId').is(':disabled') )
+                            $('#basic_settings-zoneId').prop('disabled', false);
                         if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                             gObj.tab.tabs('enable', 1);
                             gObj.tab.tabs('enable', 3);
                             if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                                 gObj.tab.tabs('enable', 2);
                             autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val() );
-                            gObj.addressed = $('#basic_settings-address').val();
                         } 
                     } else {
                         if (3 == gObj.routing.protoType) {
@@ -8525,7 +9077,6 @@ $(document).ready(function () {
                 
                 $('#basic_settings-netmask').blur( function() {
                     if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
-                        gObj.addressed = $('#basic_settings-address').val();
                         gObj.tab.tabs('enable', 1);
                         gObj.tab.tabs('enable', 3);
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
@@ -9466,15 +10017,16 @@ $(document).ready(function () {
 
             $('#basic_settings-address').on('blur', function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                    $('#basic_settings-netmask').prop('disabled', false);
-                    $('#basic_settings-zoneId').prop('disabled', false);
+                    if ( $('#basic_settings-netmask').is(':disabled') )
+                        $('#basic_settings-netmask').prop('disabled', false).focus();
+                    if ( $('#basic_settings-zoneId').is(':disabled') )
+                        $('#basic_settings-zoneId').prop('disabled', false);
                     if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                         gObj.tab.tabs('enable', 1);
                         gObj.tab.tabs('enable', 3);
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
                         autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $('#dhcp_pool_settings-1-startIp').val(), $('#dhcp_pool_settings-1-endIp').val() );
-                        gObj.addressed = $('#basic_settings-address').val();
                     } 
                 } else {
                     if (gObj.routing.protoType == 3) {
@@ -9487,7 +10039,6 @@ $(document).ready(function () {
             
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
-                    gObj.addressed = $('#basic_settings-address').val();
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
@@ -9507,7 +10058,6 @@ $(document).ready(function () {
             $('#basic_settings-netmask').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
 
             if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                gObj.addressed = $('#basic_settings-address').val();
                 $('#basic_settings-netmask').prop('disabled', false);
                 if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                     gObj.tab.tabs('enable', 1);
@@ -9780,15 +10330,16 @@ $(document).ready(function () {
 
             $('#basic_settings-address').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                    $('#basic_settings-netmask').prop('disabled', false);
-                    $('#basic_settings-zoneId').prop('disabled', false);
+                    if ( $('#basic_settings-netmask').is(':disabled') )
+                        $('#basic_settings-netmask').prop('disabled', false).focus();
+                    if ( $('#basic_settings-zoneId').is(':disabled') )
+                        $('#basic_settings-zoneId').prop('disabled', false);
                     if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                         gObj.tab.tabs('enable', 1);
                         gObj.tab.tabs('enable', 3);
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
                         autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $('#dhcp_pool_settings-1-startIp').val(), $('#dhcp_pool_settings-1-endIp').val() );
-                        gObj.addressed = $('#basic_settings-address').val();
                     } 
                 } else {
                     if (gObj.routing.protoType == 3) {
@@ -9802,7 +10353,6 @@ $(document).ready(function () {
 
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
-                    gObj.addressed = $('#basic_settings-address').val();
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
@@ -9821,7 +10371,6 @@ $(document).ready(function () {
             $('#basic_settings-netmask').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
 
             if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                gObj.addressed = $('#basic_settings-address').val();
                 $('#basic_settings-netmask').prop('disabled', false);
                 if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                     gObj.tab.tabs('enable', 1);
@@ -10038,15 +10587,16 @@ $(document).ready(function () {
 
             $('#basic_settings-address').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                    $('#basic_settings-netmask').prop('disabled', false);
-                    $('#basic_settings-zoneId').prop('disabled', false);
+                    if ( $('#basic_settings-netmask').is(':disabled') )
+                        $('#basic_settings-netmask').prop('disabled', false).focus();
+                    if ( $('#basic_settings-zoneId').is(':disabled') )
+                        $('#basic_settings-zoneId').prop('disabled', false);
                     if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                         gObj.tab.tabs('enable', 1);
                         gObj.tab.tabs('enable', 3);
                         if (1 === parseInt($('#dhcp_pool_settings-type').val()))
                             gObj.tab.tabs('enable', 2);
                         autoDhcpServer( tar.pid, $('#basic_settings-address').val(), $('#basic_settings-netmask').val(), $('#dhcp_pool_settings-1-startIp').val(), $('#dhcp_pool_settings-1-endIp').val() );
-                        gObj.addressed = $('#basic_settings-address').val();
                     } 
                 } else {
                     if (gObj.routing.protoType == 3) {
@@ -10059,7 +10609,6 @@ $(document).ready(function () {
 
             $('#basic_settings-netmask').blur( function() {
                 if (gReg.ipv4.test( $('#basic_settings-address').val() ) && gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {      
-                    gObj.addressed = $('#basic_settings-address').val();
                     gObj.tab.tabs('enable', 1);
                     gObj.tab.tabs('enable', 3);
                     if (1 === parseInt($('#dhcp_pool_settings-type').val()))
@@ -10078,7 +10627,6 @@ $(document).ready(function () {
             $('#basic_settings-netmask').val( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask );
 
             if (gReg.ipv4.test( $('#basic_settings-address').val() ) ) {
-                gObj.addressed = $('#basic_settings-address').val();
                 $('#basic_settings-netmask').prop('disabled', false);
                 if (gReg.ipv4.test( $('#basic_settings-netmask').val() ) ) {
                     gObj.tab.tabs('enable', 1);
@@ -17090,7 +17638,8 @@ $(document).ready(function () {
                     {
                     case 'ip_mac_binding':
                         gCache[ pid ] = {};
-                        gIf.searched = false;
+                        gCache[ pid ].gid = 0;
+                        gCache[ pid ].ipMacPair = {};
                         if (gIf.power) {
                             $('#main_ft').html( gHtml.pgImport + gHtml.pgExport2 + gHtml.pgSave + gHtml.pgCancel );
                             gY.one('#pgSave').on('click', function(e) {
@@ -17202,6 +17751,12 @@ $(document).ready(function () {
                                                 tmp += '';
                                             }
                                             tmp += '</td>';
+                                            break;
+                                        case 'ipAddr':
+                                            tmp += '<td>';
+                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ 2 ].col[ j ].tab ];
+                                            tmp += '</td>';
+                                            gCache[ pid ].ipMacPair[ data[ gNode.guiT ][ i ][ gNode.col[ 2 ].col[ j ].tab ] ] = data[ gNode.guiT ][ i ].macAddr;
                                             break;
                                         default:
                                             tmp += '<td>';
@@ -18378,6 +18933,7 @@ $(document).ready(function () {
     
     function refreshSecurity(pid) {
         var tmp = '';
+        var cnt = 0;
         var tbody = $('#table-' + pid + '> tbody');
         tbody.empty();
         switch( pid )
@@ -18472,7 +19028,7 @@ $(document).ready(function () {
                 if ( 3 === parseInt( gData[ pid ].guiAddrFilterT[ i ].cgiAction ) ) {
                     continue;
                 }
-                tmp = '<tr class="' + ((i%2 == 0)? 'even' : 'odd') + '">';
+                tmp = '<tr class="' + ((cnt%2 == 0)? 'even' : 'odd') + '">';
                 tmp += '<td >';
                 tmp += gRef.antivirus.enable[ gData[ pid ].guiAddrFilterT[ i ].enable ];
                 tmp += '</td>';
@@ -18491,12 +19047,26 @@ $(document).ready(function () {
                 tmp += '</td>';
                 tmp += '</tr>';
                 tbody.append( tmp );
+                cnt++;
             }
             break;
         case 'ip_mac_binding':
             for (var i=0, len=gData[ pid ][ gNode.guiT ].length; i<len; i++)
             {
-                tmp = '<tr class="' + ((i%2 == 0)? 'odd' : 'even') + '">>';
+                if ( 3 === parseInt( gData[ pid ][ gNode.guiT ][ i ].cgiAction ) ) {
+                    continue;
+                }
+
+                // if searched
+                if ($('#searchCol').val()) {
+                    if (!( ( gData[ pid ][ gNode.guiT ][ i ].dscrpt.indexOf( $('#searchCol').val() ) != -1 )
+                         ||( gData[ pid ][ gNode.guiT ][ i ].ipAddr.indexOf( $('#searchCol').val() ) != -1 )
+                         ||( gData[ pid ][ gNode.guiT ][ i ].macAddr.indexOf( $('#searchCol').val() ) != -1 )
+                    ))
+                    continue;
+                }
+
+                tmp = '<tr class="' + ((cnt%2 == 0)? 'odd' : 'even') + '">';
                 for (var j=0, jlen=gNode.col[ 2 ].col.length; j<jlen; j++)
                 {
                     switch( gNode.col[ 2 ].col[ j ].tab )
@@ -18508,7 +19078,7 @@ $(document).ready(function () {
                         break;
                     case 'index':
                         tmp += '<td>';
-                        tmp += (i+1);
+                        tmp += (cnt+1);
                         tmp += '</td>';
                         break;
                     case 'action':
@@ -18529,6 +19099,7 @@ $(document).ready(function () {
                 }
                 tmp += '</tr>';
                 $('#table-' + pid).append( tmp );
+                cnt++;
             }
             break;
         }
@@ -18835,6 +19406,16 @@ $(document).ready(function () {
             gCache.tabber[ 4 ] = true;
             refreshSecurity( tar.pid );
             break;
+        case 'ip_mac_binding':
+            gIf.alter = true;
+            delete gCache[ tar.pid ].ipMacPair[ gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].ipAddr ];
+            if (gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].gid > 0) {
+                gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].cgiAction = 3;
+            }else {
+                gData[ tar.pid ][ gNode.guiT ].splice(tar.thisNo,1);
+            }
+            refreshSecurity( tar.pid );
+            break;
         }
     }
     
@@ -18927,6 +19508,27 @@ $(document).ready(function () {
             gCheckbox[ tar.pid ] = {};
             refreshSecurity( tar.pid );
             break;
+        case 'ip_mac_binding':
+            $('#table-' + tar.pid + ' tr').each(function() {
+                tar.thisNo = $(this).find('td:eq(0) input:checkbox').val();
+                if ($(this).find('td:eq(0) input:checkbox').is(':checked')) {
+                    gIf.alter = true;
+                    gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].cgiAction = 3;
+                    delete gCache[ tar.pid ].ipMacPair[ gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].ipAddr ];
+                }
+            });
+
+            for (var i=0, len=gData[ tar.pid ][ gNode.guiT ].length; i<len; i++)
+            {
+                if ( (3 == gData[ tar.pid ][ gNode.guiT ][ i ].cgiAction)  && (gData[ tar.pid ][ gNode.guiT ][ i ].gid < 0) )
+                    continue;
+                tar.arr.push( gData[ tar.pid ][ gNode.guiT ][ i ] );
+            }
+
+            gData[ tar.pid ][ gNode.guiT ] = tar.arr;
+
+            refreshSecurity( tar.pid );
+            break;
         }
     }
     
@@ -18955,7 +19557,7 @@ $(document).ready(function () {
             title: tar.title + ' > ' + gTerm[ gObj.lang ][ tar.type ],
             buttons: {
                 OK: function() {
-                    if (securityChecker(e)) {
+                    if (securityChecker(tar.pid, e)) {
                         gIf.alter = true;
                         switch( tar.pid )
                         {
@@ -19004,6 +19606,7 @@ $(document).ready(function () {
                                 gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].ipAddr = $('#Editor-ipAddr').val();
                                 gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].macAddr = $('#Editor-macAddr').val();
                             }
+                            gCache[ tar.pid ].ipMacPair[ $('#Editor-ipAddr').val() ] = $('#Editor-macAddr').val();
                             break;
                         }
                         refreshSecurity( tar.pid );
@@ -19020,7 +19623,7 @@ $(document).ready(function () {
         });
     }
     
-    function securityChecker( pid ) {
+    function securityChecker( pid, e ) {
         var pass = true;
         var flag = false;
         var msg = '';
@@ -19125,6 +19728,47 @@ $(document).ready(function () {
                 } 
             }
 
+            break;
+        case 'ip_mac_binding':
+            var tar = {};
+
+            tar.id = $(e.currentTarget).attr('id');
+            if (!tar.id)
+                return false;
+            tar.type  = tar.id.split(gReg.isDash)[0];
+            tar.thisNo  = tar.id.split(gReg.isDash)[2];
+
+            if (!gReg.ipv4.test( $('#Editor-ipAddr').val() )) {
+                pass = false;
+                msg += '<p>' + gError[ gObj.lang ].ipAddr + '</p>';
+            }
+
+            if (!gReg.mac.test( $('#Editor-macAddr').val() )) {
+                pass = false;
+                msg += '<p>' + gError[ gObj.lang ].macAddr + '</p>';
+            }
+
+            if (pass) {
+                if ( ('Edit' == tar.type) ) {
+                    if ( gData[ pid ][ gNode.guiT ][ tar.thisNo ].ipAddr == $('#Editor-ipAddr').val() ) {
+                        if ( ( gData[ pid ][ gNode.guiT ][ tar.thisNo ].macAddr != $('#Editor-macAddr').val() ) && ($('#Editor-macAddr').val() == gCache[ pid ].ipMacPair[ $('#Editor-ipAddr').val() ]) ) {
+                            pass = false;
+                            msg += '<p>' + gError[ gObj.lang ].ipMacPair + '</p>';
+                        }
+                    } else if ($('#Editor-macAddr').val() == gCache[ pid ].ipMacPair[ $('#Editor-ipAddr').val() ]) {
+                        pass = false;
+                        msg += '<p>' + gError[ gObj.lang ].ipMacPair + '</p>';
+                    }
+                } else if ($('#Editor-macAddr').val() == gCache[ pid ].ipMacPair[ $('#Editor-ipAddr').val() ]) {
+                    pass = false;
+                    msg += '<p>' + gError[ gObj.lang ].ipMacPair + '</p>';
+                }
+            }
+
+            if (!gReg.ascii.default.test( $('#Editor-dscrpt').val() )) {
+                pass = false;
+                msg += '<p>' + gError[ gObj.lang ].dscrpt + '</p>';
+            }
             break;
         }
     
@@ -19291,6 +19935,13 @@ $(document).ready(function () {
             else
                 gData[ pid ].enable = 0;
             gData[ pid ].mode = $('#mode').val();
+
+            for (var i=0, len=gData[ pid ][ gNode.guiT ].length; i<len; i++)
+            {
+                if (gData[ pid ][ gNode.guiT ][ i ].gid < 0)
+                    gData[ pid ][ gNode.guiT ][ i ].gid = 0;
+            }
+
             $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ pid ]), function( poster ) {
                 gIf.alter = false;
                 genSecurity( pid );
@@ -25082,9 +25733,6 @@ $(document).ready(function () {
                     }
                 });
     
-                //gY.one('#pgExport').on('click', function(e) {
-                //    btnExport(e);
-                //});
             }
     
             for (var x in gNode.tabs)
@@ -25124,7 +25772,7 @@ $(document).ready(function () {
     
             loadingToggle( true );
             $.ajax({
-                url: gObj.phpQuery.php + '.php?param=' + gObj.phpQuery.id + '&pi=1&pp=' + gObj.phpQuery.pp,
+                url: 'logQuery.php?param=' + gObj.phpQuery.id + '&pi=1&pp=' + gObj.phpQuery.pp,
                 dataType: 'json',
                 success: function(data) {
                     loadingToggle( false );
@@ -25453,7 +26101,7 @@ $(document).ready(function () {
             
             loadingToggle( true );
             $.ajax({
-                url: gObj.phpQuery.php + '.php?param=' + pid + query,
+                url: 'logQuery.php?param=' + pid + query,
                 dataType: 'json',
                 success: function(data) {
                     loadingToggle( false );
@@ -30103,7 +30751,7 @@ $(document).ready(function () {
                 if ( id == 'view_logs' )
                     refreshDevice( id );
                 else
-                    refreshReports( id );
+                    refreshReports( id, 0 );
             });
         }
     }
@@ -30115,7 +30763,7 @@ $(document).ready(function () {
         case 'ip_mac_binding':
             tmp += '<tr>';
             tmp += '<td class="alignLeft BT100">';
-            tmp += '<input type="text" id="searchCols" />';
+            tmp += '<input type="text" id="searchCol" />';
             tmp += '</td>';
             tmp += '<td class="alignLeft">';
             tmp += '<button class="Search" id="Search-' + id + '"><span class="ui-icon" title="Search"></span></button>';
@@ -30163,10 +30811,10 @@ $(document).ready(function () {
         case 'resource_utilization':
             tmp += '<tr>';
             tmp += '<td>';
-            tmp += gTerm[ gObj.lang ].start + ' ' + gTerm[ gObj.lang ].date + ': <input type="text" id="query-startDate" /> ' + gTerm[ gObj.lang ].hour + ': <select id="query-startHour"></select> ' + gTerm[ gObj.lang ].minute + ': <select id="query-startMin"></select>';
+            tmp += gTerm[ gObj.lang ].startDatetime + ': <input type="text" id="query-startDate" /> ' + gTerm[ gObj.lang ].hour + ': <select id="query-startHour"></select> ' + gTerm[ gObj.lang ].minute + ': <select id="query-startMin"></select>';
             tmp += '</td>';
             tmp += '<td>';
-            tmp += gTerm[ gObj.lang ].end + ' ' + gTerm[ gObj.lang ].date + ': <input type="text" id="query-endDate" /> ' + gTerm[ gObj.lang ].hour + ': <select id="query-endHour"></select> ' + gTerm[ gObj.lang ].minute + ': <select id="query-endMin"></select>';
+            tmp += gTerm[ gObj.lang ].endDatetime + ': <input type="text" id="query-endDate" /> ' + gTerm[ gObj.lang ].hour + ': <select id="query-endHour"></select> ' + gTerm[ gObj.lang ].minute + ': <select id="query-endMin"></select>';
             tmp += '</td>';
             tmp += '<td class="alignCenter">';
             tmp += '<button class="Query" id="Query-' + id + '"><span class="ui-icon" title="query"></span></button>';
@@ -30225,7 +30873,7 @@ $(document).ready(function () {
             tmp += '<img src="css/images/i_16_date_00.png" />';
             tmp += '</td>';
             tmp += '<th class="alignLeft BT150">';
-            tmp += gTerm[ gObj.lang ].start + ' ' + gTerm[ gObj.lang ].date;
+            tmp += gTerm[ gObj.lang ].startDatetime;
             tmp += '</th>';
             tmp += '<td class="alignLeft BT200">';
             tmp += '<input type="text" id="query-startDate"/>';
@@ -30235,7 +30883,7 @@ $(document).ready(function () {
             tmp += '<img src="css/images/i_16_date_00.png" />';
             tmp += '</td>';
             tmp += '<th class="alignLeft BT150">';
-            tmp += gTerm[ gObj.lang ].end + ' ' + gTerm[ gObj.lang ].date;
+            tmp += gTerm[ gObj.lang ].endDatetime;
             tmp += '</th>';
             tmp += '<td class="alignLeft BT180">';
             tmp += '<input type="text" id="query-endDate"/>';
@@ -30248,40 +30896,17 @@ $(document).ready(function () {
             break;
         default:
             tmp += '<tr>';
-            tmp += '<td class="BT250">';
-            tmp += gTerm[ gObj.lang ].startDatetime + ': <input type="text" id="query-startDate" size="12" />&nbsp;<select id="query-startHour"></select>';
+            tmp += '<td class="BT240">';
+            tmp += gTerm[ gObj.lang ].startDatetime + ': <input type="text" id="query-startDate" />';
             tmp += '</td>';
-            tmp += '<td class="BT250">';
-            tmp += gTerm[ gObj.lang ].endDatetime + ': <input type="text" id="query-endDate" size="12" />&nbsp;<select id="query-endHour"></select>';
+            tmp += '<td class="alignLeft BT100">';
+            tmp += gTerm[ gObj.lang ].hour + ': <select id="query-startHour"></select>';
             tmp += '</td>';
-
-            tmp += '<td class="BT230">';
-            tmp += gTerm[ gObj.lang ].aggregateBy + ' <select id="query-aggregateBy">';
-            tmp += '<option value="0">None</option>';
-            switch(id)
-            {
-            case 'traffic_direction':
-                tmp += '<option value="1">' + gTerm[ gObj.lang ].address + '</option>';
-                tmp += '<option value="2">' + gTerm[ gObj.lang ].srcIp + '</option>';
-                tmp += '<option value="3">' + gTerm[ gObj.lang ].dstIp + '</option>';
-                tmp += '<option value="4">' + gTerm[ gObj.lang ].protocol + '</option>';
-                tmp += '<option value="5">' + gTerm[ gObj.lang ].dstPort + '</option>';
-                tmp += '<option value="6">' + gTerm[ gObj.lang ].zone + '</option>';
-                break;
-            case 'file_extension':
-                tmp += '<option value="1">' + gTerm[ gObj.lang ].extension + '</option>';
-                break;
-            case 'blocked_host':
-            case 'affected_host':
-                tmp += '<option value="1">' + gTerm[ gObj.lang ].host + ' ' + gTerm[ gObj.lang ].IP + '/' + gTerm[ gObj.lang ].user + '</option>';
-                break;
-            case 'antivirus_report':
-                tmp += '<option value="1">' + gTerm[ gObj.lang ].source + ' ' + gTerm[ gObj.lang ].IP + '/' + gTerm[ gObj.lang ].user + '</option>';
-                tmp += '<option value="2">' + gTerm[ gObj.lang ].destination + ' ' + gTerm[ gObj.lang ].IP + '/' + gTerm[ gObj.lang ].user + '</option>';
-                tmp += '<option value="3">' + gTerm[ gObj.lang ].virusName + '</option>';
-                break;
-            }
-            tmp += '</select>';
+            tmp += '<td class="BT240">';
+            tmp += gTerm[ gObj.lang ].endDatetime + ': <input type="text" id="query-endDate" />';
+            tmp += '</td>';
+            tmp += '<td class="alignLeft BT100">';
+            tmp += gTerm[ gObj.lang ].hour + ': <select id="query-endHour"></select>';
             tmp += '</td>';
             tmp += '<td class="alignCenter">';
             tmp += '<button class="Query" id="Query-' + id + '"><span class="ui-icon" title="query"></span></button>';
@@ -30601,8 +31226,6 @@ $(document).ready(function () {
             case 'active_sessions':
             case 'ipsec_vpn_statistics':
             case 'traffic_direction':
-            case 'source_report':
-            case 'destination_report':
             case 'file_extension':
             case 'blocked_host':
             case 'affected_host':

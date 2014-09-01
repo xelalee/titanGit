@@ -17,22 +17,22 @@ case 'traffic_direction':
     switch( $_GET[ 'q' ] ) 
     {
     case 1:
-        aggregateQuery( 'raw_sessions', 'srcIp, dstIp', 'SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes, count(*) as sessions', 'sessions' );
+        aggregateQuery( 'raw_sessions', 'srcIp, dstIp', 'CONCAT_WS("-", srcIp, dstIp) as address, SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes', 'totalBytes' );
         break;
     case 2:
-        aggregateQuery( 'raw_sessions', 'srcIp', 'SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes, count(*) as sessions', 'sessions' );
+        aggregateQuery( 'raw_sessions', 'srcIp', 'SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes', 'totalBytes' );
         break;
     case 3:
-        aggregateQuery( 'raw_sessions', 'dstIp', 'SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes, count(*) as sessions', 'sessions' );
+        aggregateQuery( 'raw_sessions', 'dstIp', 'SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes', 'totalBytes' );
         break;
     case 4:
-        aggregateQuery( 'raw_sessions', 'protocol', 'SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes, count(*) as sessions', 'sessions' );
+        aggregateQuery( 'raw_sessions', 'protocol', 'SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes', 'totalBytes' );
         break;
     case 5:
-        aggregateQuery( 'raw_sessions', 'dstPort', 'SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes, count(*) as sessions', 'sessions' );
+        aggregateQuery( 'raw_sessions', 'dstPort', 'SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes', 'totalBytes' );
         break;
     case 6:
-        aggregateQuery( 'raw_sessions', 'fromZone, toZone', 'SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes, count(*) as sessions', 'sessions' );
+        aggregateQuery( 'raw_sessions', 'fromZone, toZone', 'CONCAT_WS("-", fromZone, toZone) as zone, SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes', 'totalBytes' );
         break;
     default:
         reportQuery( 'raw_sessions' );
@@ -89,23 +89,16 @@ case 'antivirus_report':
 function aggregateQuery( $table, $gby, $sum, $oby ) {
     $json      = array();
     $json[ 'q' ] = $_GET[ 'q' ];
-    $startRow  = empty( $_GET[ 'pi' ] )? 1 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ] + 1;
-    $endRow    = empty( $_GET[ 'pp' ] )? 20 : $_GET[ pi ] * $_GET[ 'pp' ];
-    $leftRow   = empty( $_GET[ 'pp' ] )? 20 : (int) $_GET[ 'pp' ];
 
     $nowStamp  = trim( shell_exec( 'date "+%s"' ) );
     $now       = explode( '-', trim( shell_exec( 'date "+%Y-%m-%d-%H"' ) ) );
     $db        = $now[ 0 ] .'_'. $now[ 1 ] .'_'. $now[ 2 ];
     $mysqli    = new mysqli( "127.0.0.1", "", "", $db, 3306 );
 
-    $json[ 'queryStr' ] =  "SELECT ". $gby .", ". $sum ." FROM ". $db .".`". $table ."_". sprintf("%02d", $now[ 3 ]) ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC" ;
-    if ( $result = $mysqli->query( "SELECT ". $gby .", ". $sum ." FROM ". $db .".`". $table ."_". sprintf("%02d", $now[ 3 ]) ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC" ) ) {
-        $cnt = 0;
+    $json[ 'queryStr' ] =  "SELECT ". $gby .", ". $sum ." FROM ". $db .".`". $table ."_". sprintf("%02d", $now[ 3 ]) ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 10" ;
+    if ( $result = $mysqli->query( "SELECT ". $gby .", ". $sum ." FROM ". $db .".`". $table ."_". sprintf("%02d", $now[ 3 ]) ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 10" ) ) {
         while ($obj = $result->fetch_object()) {
-            if ( $cnt >= $startRow && $cnt <= $endRow ) {
-                $json['queryResults'][] = $obj;
-            }
-            $cnt++;
+            $json['queryResults'][] = $obj;
         }
         $json[ 'queryRows' ]  = $result->num_rows;
         // free result set
