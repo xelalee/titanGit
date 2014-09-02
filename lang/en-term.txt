@@ -109,6 +109,8 @@
     "backup_restore": "backup & restore will take",
     "reboot" : "reboot will take ",
     "reset" : "reset will take ",
-    "shutdown" : "shutdown will take "
+    "shutdown" : "shutdown will take ",
+    "btnOK" : "Okay",
+    "btnNO" : "Cancel"
   }
 }

@@ -937,6 +937,10 @@ $(document).ready(function () {
             $('#userPassLabel').html( gLogin[ $(this).val() ].userPass + ' : ');
             $('#userLangLabel').html( gLogin[ $(this).val() ].userLang + ' : ');
             $('#loginButton').html( '<b>' + gLogin[ $(this).val() ].loginButton + '</b>' );
+            // set button
+            gObj.btnOK = gTerm[ gObj.lang ].btnOK;
+            gObj.btnNO = gTerm[ gObj.lang ].btnNO;
+
         });
     
         $('#loginButton').addClass('yui3-button');
@@ -1148,6 +1152,16 @@ $(document).ready(function () {
                 if ($('#loginButton').exists())
                     $('#loginButton').click();
                 else {
+/*
+                    if ($('#popError').hasClass('ui-dialog-content'))
+                        $('#popError').dialog('close');
+                    else if ($('#popMore').hasClass('ui-dialog-content'))
+                        $('#popMore').dialog('close');
+                    else if ($('#popPlus').hasClass('ui-dialog-content'))
+                        $('#popPlus').dialog('close');
+                    else if ($('#popForm').hasClass('ui-dialog-content'))
+                        $('#popForm').dialog('close');
+*/
                     if ($(':button:contains("okay")').exists())
                         $(':button:contains("okay")').click();
                     else if ($(':button:contains("ok")').exists())
@@ -2017,6 +2031,9 @@ $(document).ready(function () {
         case 'Query':
             btnQuery( e );
             break;
+        case 'Weekly':
+            btnWeekly( e );
+            break;
         case 'Cancel':
             getCgiList(gObj.active.pid);
             break;
@@ -2190,6 +2207,28 @@ $(document).ready(function () {
             }
 
             refreshCharts(tar.pid);
+            break;
+        }
+    }
+
+    function btnWeekly(e) {
+        var tar = {};
+        tar.id = $(e.currentTarget).attr('id');
+        if (!tar.id)
+            return false;
+
+        tar.pid = tar.id.split(gReg.isDash)[1];
+        tar.thisNo = tar.id.split(gReg.isDash)[2];
+
+        switch( tar.pid )
+        {
+        case 'traffic_direction':
+        case 'file_extension':
+        case 'blocked_host':
+        case 'affected_host':
+        case 'antivirus_report':
+            // cache query status
+            window.open('reporter.html?param=weekly' + '&sd=' + $('#query-startDate').val() + '&sh=' + $('#query-startHour').val() + '&ed=' + $('#query-endDate').val() + '&eh=' + $('#query-endHour').val(), '_blank');
             break;
         }
     }
@@ -11710,6 +11749,7 @@ $(document).ready(function () {
                     $( this ).dialog( "close" );
                 }
             },
+            dialogClass: 'lang-dialog',
             close: function(event, ui) {
                 $(this).dialog('destroy').remove();
             }
