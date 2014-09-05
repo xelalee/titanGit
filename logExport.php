@@ -40,6 +40,16 @@ case 'view_logs':
     shell_exec( 'rm '. $ztoday );
 
     $str = '';
+    $severity = array(
+      "0" => "Emergency",
+      "1" => "Alert",
+      "2" => "Critical",
+      "3" => "Error",
+      "4" => "Warning",
+      "5" => "Notification",
+      "6" => "Information",
+      "7" => "Debugging"
+    );
 
     $fp = fopen( $ftoday, 'w' );
 
@@ -49,7 +59,16 @@ case 'view_logs':
         { 
             while ($obj = $result->fetch_object()) 
             {
-                fwrite( $fp, $obj->date ." ". $obj->time ."-". $obj->severity ."-". $obj->facility .":SrcAddr=". $obj->srcIp .";DstAddr=". $obj->dstIp .";". $obj->msg ."(". $obj->program .")\n" );
+                $addr = '';
+                if ( $obj->srcIp ) {
+                    $addr = 'SrcAddr='. $obj->srcIp .';';
+                }
+
+                if ( $obj->dstIp ) {
+                    $addr = 'DstAddr='. $obj->dstIp .';';
+                }
+
+                fwrite( $fp, $obj->date ." ". $obj->time ."-". $severity[ $obj->severity ] ."-". $obj->facility .":". $addr . $obj->msg ."(". $obj->program .")\n" );
             
             }
         }

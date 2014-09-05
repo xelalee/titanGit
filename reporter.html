@@ -13,6 +13,8 @@
     <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
     <script type="text/javascript" src="js/jquery.bgiframe.js"></script>
     <script type="text/javascript" src="js/jquery-ui-1.9.2.custom.js"></script>
+<!-- custom -->
+    <link rel="stylesheet" type="text/css" href="css/reporter.css" />
 
     <script>
 
@@ -34,21 +36,28 @@ $.extend({
 });
 
 $(document).ready(function () {
+
+/* 
+    //param info
     function logArrayE(element, index, array) {
         console.log("a[" + index + "] = " + element);
+        console.log( element + "=" + $.getUrlVar( element ) );
     }
 
     if (!$.getUrlVars()) {
         $('#wtf').html( 'sorry' );
     } else {
-        $.getUrlVars().forEach( logArryE );
+        $.getUrlVars().forEach( logArrayE );
     }
+*/
+
+
 
 });
 
     </script>
   </head>
   <body>
-    <div id="wtf"></div>
+
   </body>
 </html>

@@ -638,8 +638,9 @@ $(document).ready(function () {
             url: 'cgi-bin/getSystime.cgi',
             dataType: 'json',
             success: function(data) {
-                if ($('#systime').exists())
+                if ($('#systime').exists()) {
                     $('#systime').html(data.systime);
+                }
             }
         });
     }
@@ -824,7 +825,10 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function(data) {
                     gObj.sysTime = new Date( data.systime );
+                    gObj.sysDate = gObj.sysTime.getFullYear() + '/' + ( gObj.sysTime.getMonth() + 1 ) + '/' + gObj.sysTime.getDate();
                     gObj.sysHour = gObj.sysTime.getHours();
+                    gObj.sysMin = gObj.sysTime.getMinutes();
+                    gObj.sysSec = gObj.sysTime.getSeconds();
 
                     // refresh idle/force timeout
                     $.ajax({
@@ -24570,9 +24574,13 @@ $(document).ready(function () {
                                     {
                                     case 0:
                                         $('#sysDate').prop('disabled', false);
+                                        $('#sysDate').val( gObj.sysDate );
                                         $('#hour').prop('disabled', false);
+                                        $('#hour').val( gObj.sysHour );
                                         $('#minute').prop('disabled', false);
+                                        $('#minute').val( gObj.sysMin );
                                         $('#second').prop('disabled', false);
+                                        $('#second').val( gObj.sysSec );
                                         $('#dstEnable').prop('disabled', true);
                                         $('#ntpServerType-0').prop('disabled', true);
                                         $('#ntpServerType-1').prop('disabled', true);
