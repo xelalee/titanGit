@@ -36,19 +36,20 @@ body {
 /* logo */
 #hd {
     width: 100%;
-    height: 100px;
+    height: 123px;
 }
 
 /* content */
 #bd {
     width: 100%;
+    background: white;
 }
 
 /* title */
 #bd_hd {
     width: 100%;
-    height: 30px;
-    background: #E60523;
+    height: 20px;
+    background: #EB2128;
 }
 
 #bd_hd p {
@@ -67,7 +68,7 @@ body {
 #bd_ft {
     width: 100%;
     height: 30px;
-    background: #E60523;
+    background: #EB2128;
 }
 
 /* copyright */
