@@ -45,8 +45,8 @@ body {
     -moz-border-radius: 25px;
     border-radius: 25px;
     overflow: hidden;
-    border: 5px solid #EB2128;
-    border-style: none solid none solid;
+    /* border: 5px solid #EB2128; */ 
+    /* border-style: none solid none solid; */
 }
 
 /* title */
@@ -74,6 +74,21 @@ body {
     overflow: auto;
 }
 
+.tabber ul {
+    background: transparent;
+    border: 2px solid #EB2128;
+    border-style: none none solid none;
+}
+
+.tabber ul li {
+    margin: 0;
+    pading: 0;
+}
+
+.tabber ul li a {
+    font-family: Verdana, Arial, sans-serif;
+}
+
 /* control */
 #bd_ft {
     position: relative;
@@ -83,6 +98,51 @@ body {
     margin: 0 auto;
     padding: 0 10px;
 }
+
+#pagerDiv {
+    position: absolute;
+    right: 60px;
+}
+
+#pagerDiv td {
+    text-align: center;
+    vertical-align: middle;
+    width: 40px;
+    padding: 5px;
+}
+
+#pagerDiv button {
+    padding: 2px;
+}
+
+button:hover {
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+button:disabled {
+    opacity: 0.2;
+}
+
+button.Move2First span.ui-icon {
+    background-position: -80px -160px;
+}
+
+button.Move2Prev span.ui-icon {
+    background-position: -48px -160px;
+}
+
+button.Move2Next span.ui-icon {
+    background-position: -32px -160px;
+}
+
+button.Move2Last span.ui-icon {
+    background-position: -64px -160px;
+}		
+
+button.ExportPDF span.ui-icon {
+    background-position: -208px -128px;
+}		
 
 /* copyright */
 #ft {

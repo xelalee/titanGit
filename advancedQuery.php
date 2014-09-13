@@ -150,8 +150,8 @@ function advQuery( $table ) {
                         while ( $obj = $result->fetch_object() ) {
                             $GLOBALS[ 'rows' ][ 'cnt' ]++;
                             // rows we want
-                            if ( ( $GLOBALS[ 'rows' ][ 'cnt' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'cnt' ] <= $GLOBALS[ 'end' ] ) ) {
-                                $json['queryResults'][] = $obj;
+                            if ( ( $GLOBALS[ 'rows' ][ 'cnt' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'cnt' ] <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                $GLOBALS[ 'json' ]['queryResults'][] = $obj;
                                 $GLOBALS[ 'rows' ][ 'left' ]--;
                             }
 
@@ -182,8 +182,8 @@ function advQuery( $table ) {
                                 while ( $obj = $result->fetch_object() ) {
                                     $GLOBALS[ 'rows' ][ 'cnt' ]++;
                                     // rows we want
-                                    if ( ( $GLOBALS[ 'rows' ][ 'cnt' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'cnt' ] <= $GLOBALS[ 'end' ] ) ) {
-                                        $json['queryResults'][] = $obj;
+                                    if ( ( $GLOBALS[ 'rows' ][ 'cnt' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'cnt' ] <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                        $GLOBALS[ 'json' ]['queryResults'][] = $obj;
                                         $GLOBALS[ 'rows' ][ 'left' ]--;
                                     }
         
@@ -213,8 +213,8 @@ function advQuery( $table ) {
                                 while ( $obj = $result->fetch_object() ) {
                                     $GLOBALS[ 'rows' ][ 'cnt' ]++;
                                     // rows we want
-                                    if ( ( $GLOBALS[ 'rows' ][ 'cnt' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'cnt' ] <= $GLOBALS[ 'end' ] ) ) {
-                                        $json['queryResults'][] = $obj;
+                                    if ( ( $GLOBALS[ 'rows' ][ 'cnt' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'cnt' ] <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                        $GLOBALS[ 'json' ]['queryResults'][] = $obj;
                                         $GLOBALS[ 'rows' ][ 'left' ]--;
                                     }
         
@@ -241,8 +241,8 @@ function advQuery( $table ) {
                                 while ( $obj = $result->fetch_object() ) {
                                     $GLOBALS[ 'rows' ][ 'cnt' ]++;
                                     // rows we want
-                                    if ( ( $GLOBALS[ 'rows' ][ 'cnt' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'cnt' ] <= $GLOBALS[ 'end' ] ) ) {
-                                        $json['queryResults'][] = $obj;
+                                    if ( ( $GLOBALS[ 'rows' ][ 'cnt' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'cnt' ] <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                        $GLOBALS[ 'json' ]['queryResults'][] = $obj;
                                         $GLOBALS[ 'rows' ][ 'left' ]--;
                                     }
         

@@ -8,6 +8,30 @@
 <!--[if IE 8]>
     <meta http-equiv="X-UA-Compatible" content="IE=7">
 <![endif]-->
+<!-- css -->
+    <link rel="stylesheet" type="text/css" href="css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="css/console.css" />
+    <link rel="stylesheet" type="text/css" href="css/cssbutton-min.css" />
+    <link rel="stylesheet" type="text/css" href="css/datatable-base.css" />
+    <link rel="stylesheet" type="text/css" href="css/datatable-sort.css" />
+    <link rel="stylesheet" type="text/css" href="css/panel.css" />
+    <link rel="stylesheet" type="text/css" href="css/portal.css" />
+    <link rel="stylesheet" type="text/css" href="css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="css/widget-base.css" />
+    <link rel="stylesheet" type="text/css" href="css/widget-stack.css" />
+    <link rel="stylesheet" type="text/css" href="css/widget-modality.css" />
+<!-- yui -->
+    <script type="text/javascript" src="js/yui-min.js"></script>
+    <script type="text/javascript" src="js/yuiCombo1.js"></script>
+    <script type="text/javascript" src="js/yuiCombo2.js"></script>
+    <script type="text/javascript" src="js/yuiCombo3.js"></script>
+    <script type="text/javascript" src="js/yuiCombo4.js"></script>
+    <script type="text/javascript" src="js/yuiCombo5.js"></script>
+    <script type="text/javascript" src="js/yuiCombo6.js"></script>
+    <script type="text/javascript" src="js/yuiCombo7.js"></script>
+    <script type="text/javascript" src="js/yuiCombo8.js"></script>
+    <script type="text/javascript" src="js/yuiCombo9.js"></script>
+    <script type="text/javascript" src="js/widget-base-ie.js"></script>
 <!-- jquery -->
     <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.9.2.custom.css" />
     <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
@@ -39,50 +63,132 @@ $.extend({
 
 $(document).ready(function () {
 
-    var param = 'param=' + $.getUrlVar( 'param' );
-    param += '&sd=' + $.getUrlVar( 'sd' );
-    param += '&sh=' + $.getUrlVar( 'sh' );
-    param += '&ed=' + $.getUrlVar( 'ed' );
-    param += '&eh=' + $.getUrlVar( 'eh' );
-    if (!isNaN( parseInt( $.getUrlVar( 'q' ) ) ))
-        param += '&q=' + $.getUrlVar( 'q' );
-
-    var title = '';
-    switch( $.getUrlVar('param') )
-    {
-    case 'traffic_direction':
-        title = 'Traffic Direction';
-        break;
-    case 'file_extension':
-        title = 'File Extension';
-        break;
-    case 'blocked_host':
-        title = 'Blocked Host';
-        break;
-    case 'affected_host':
-        title = 'Affected Host';
-        break;
-    case 'antivirus_report':
-        title = 'Antivurs';
-        break;
-    case 'weekly':
-        title = 'Weekly Report';
-        break;
+    function getData( param, url ) {
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            success: function(data) {
+                setData( param, data );
+            }
+        });
     }
 
-    $('#bd_hd').html('<p>' + title + '</p>');
+    function setData( param, data ) {
+console.log( param );
+console.log( data );
+    }
 
-    $.ajax({
-        url: 'advancedQuery.php?' + param,
-        dataType: 'json',
-        success: function(data) {
+    function genHd( content ) {
+        $('#bd_hd').html( '<p>' + content + '</p>' );
+    }
 
+    function genBd( param, sd, sh, ed, eh, q, lang ) {
+        $('#bd_bd').append('<div id="bd_bd_' + param + '" class="tabber"><ul></ul></div>');
+        // frame
+        var tabs = {};
+        tabs.en = {};
+        tabs.en.traffic_direction = { 
+            "0": "Traffic Log",
+            "1": "By Address",
+            "2": "By Source IP",
+            "3": "By Destination IP",
+            "4": "By Protocol",
+            "5": "By Destination Port",
+            "6": "By Zone"
         }
-    });
 
-    $('#bd_ft').html();
+        tabs.en.file_extension = {
+            "0": "File Extension Log",
+            "1": "By File Extension"
+        }
 
-    $('#ft').html('<p>Copyright &copy; 2014 TECH TITAN</p>');
+        tabs.en.blocked_host = {
+            "0": "Blocked Host Log",
+            "1": "By Blocked Host"
+        }
+
+        tabs.en.affected_host = {
+            "0": "Affected Host Log",
+            "1": "By Affected Host"
+        }
+
+        tabs.en.antivirus_report = {
+            "0": "Antivirus Log",
+            "1": "By Source IP",
+            "2": "By Destination IP",
+            "3": "By Virus Name"
+        }
+
+        for ( var x in tabs[ lang ][ param ] )
+        {
+            $('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + tabs[ lang ][ param ][ x ] + '</a></li>');
+            $('.tabber').append('<div id="panel-' + x + '"></div>');
+        }
+
+        $('.tabber').tabs().on('tabsactivate', function(event, ui) {
+            $('.pager').hide();
+            $('.pdfer').hide();
+            if ( 0 == $(this).tabs( "option", "active" ) )     
+                $('.pager').show();
+            else
+                $('.pdfer').show();
+        }).tabs( { active: q } );
+
+        // data
+        getData( param, 'advancedQuery.php?param=' + param + '&sd=' + sd + '&sh=' + sh + '&ed=' + ed + '&eh=' + eh + '&q=' + q );
+    }
+
+    function genFt( param ) {
+        var tmp = '<div id="pagerDiv">';
+        tmp += '<table id="pagerTable-' + param + '" class="BorderNone">';
+        tmp += '<tr>';
+        tmp += '<td class="pager"><button Class="Move2First" id="Move2First-' + param + '"><span class="ui-icon"></span></button></td>';
+        tmp += '<td class="pager"><button Class="Move2Prev" id="Move2Prev-' + param + '"><span class="ui-icon"></span></button></td>';
+        tmp += '<td class="pager"><span id="rowsPage">1</span> / <span id="rowsPages">1</span></td>';
+        tmp += '<td class="pager"><button Class="Move2Next" id="Move2Next-' + param + '"><span class="ui-icon"></span></button></td>';
+        tmp += '<td class="pager"><button Class="Move2Last" id="Move2Last-' + param + '"><span class="ui-icon"></span></button></td>';
+        tmp += '<td class="pager"><select id="phpPerPage"><option value="20">20</option><option value="50">50</option><option value="100">100</option></select>';
+   
+        tmp += '<td class="pdfer"><button Class="ExportPDF" id="ExportPDF-' + param + '"><span class="ui-icon"></span></button></td>';
+        tmp += '</tr>';
+        tmp += '</table>';
+        tmp += '</div>';
+
+        $('#bd_ft').html( tmp );
+    }
+
+    function genFooter() {
+        $('#ft').html('<p>Copyright &copy; 2014 TECH TITAN</p>');
+    }
+
+    function init( lang ) {
+        var title = {};
+        title.en = {};
+        title.en.traffic_direction = 'Traffic Direction';
+        title.en.file_extension = 'File Extension';
+        title.en.blocked_host = 'Blocked Host';
+        title.en.affected_host = 'Affected Host';
+        title.en.antivirus_report = 'Antivirus';
+        title.en.weekly = 'Weekly Report';
+
+        genHd( title[ lang ][ $.getUrlVar( 'param' ) ] );
+
+        if ( 'weekly' == $.getUrlVar( 'param' ) ) {
+/*
+            for (var x in title[ lang ] )
+            {
+                if (x != 'weekly')
+                    genBd( x, sd, sh, ed, eh, q );
+            }
+*/
+        } else {
+            genFt( $.getUrlVar( 'param' ) );
+            genBd( $.getUrlVar( 'param' ), $.getUrlVar( 'sd' ), $.getUrlVar( 'sh' ), $.getUrlVar( 'ed' ), $.getUrlVar( 'eh' ), $.getUrlVar( 'q' ), lang );
+        }
+        genFooter();
+    }
+
+    init( 'en' );
 
 });
 
