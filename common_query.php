@@ -254,7 +254,7 @@ function reportAggregate( $table, $groupBy, $state ) {
 
         $db = str_replace("-", "_", trim( shell_exec( 'date -d @'. $nowStamp .' +%F' ) ));
 
-        $tmpTable = $db .'.`'. $table .'-'. $noStamp .'`';
+        $tmpTable = $db .'.`'. $table .'-'. $nowStamp .'`';
 
         for ($i=0; $i<$days; $i++)
         {
