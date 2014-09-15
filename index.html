@@ -1726,6 +1726,9 @@ $(document).ready(function () {
         gRows.maxIKEPolicy = 16;
         gRows.maxIPSecPolicies = 100;
 
+        // security
+        gRows.maxIPMACBinding = 500;
+
         // device
         gRows.maxProfile = 16;
         gRows.maxDebug = 400;
@@ -19675,11 +19678,11 @@ $(document).ready(function () {
         var pass = true;
         var flag = false;
         var msg = '';
+        var cnt = 0;
         switch( pid ) 
         {
         case 'antivirus':
             // general setting
-            var cnt = 0;
             flag = false;
             if ($('#enabled').is(':checked')) {
                 cnt = 0;
@@ -19977,6 +19980,13 @@ $(document).ready(function () {
             }
             break;
         case 'ip_mac_binding':
+            for (var i=0, len=gData[ pid ][ gNode.guiT ].length; i<len; i++)
+            {
+                if (gData[ pid ][ gNode.guiT ][ i ].cgiAction != 3)
+                    cnt++;
+                if (gData[ pid ][ gNode.guiT ][ i ].gid < 0)
+                    gData[ pid ][ gNode.guiT ][ i ].gid = 0;
+            }
 
             if ($('#enable').is(':checked'))
                 gData[ pid ].enable = 1;
@@ -19984,17 +19994,14 @@ $(document).ready(function () {
                 gData[ pid ].enable = 0;
             gData[ pid ].mode = $('#mode').val();
 
-            for (var i=0, len=gData[ pid ][ gNode.guiT ].length; i<len; i++)
-            {
-                if (gData[ pid ][ gNode.guiT ][ i ].gid < 0)
-                    gData[ pid ][ gNode.guiT ][ i ].gid = 0;
+            if ( ( cnt == 0 && 1 == gData[ pid ].enable) || ( gRows.maxIPMACBinding < gData[ pid ][ gNode.guiT ].length ))
+                errorAlert( '<p>' + gError[ gObj.lang ].ipMacBindingLength + '</p>' );
+            else {
+                $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ pid ]), function( poster ) {
+                    gIf.alter = false;
+                    genSecurity( pid );
+                });
             }
-
-            $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ pid ]), function( poster ) {
-                gIf.alter = false;
-                genSecurity( pid );
-            });
-
             break;
         }
     }

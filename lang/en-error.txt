@@ -238,6 +238,7 @@
     "ipMACPair": "The {IP, MAC} pair should be unique",
     "ipAddr"   : "IP Address should be IPv4 spec",
     "macAddr"  : "MAC Address should be MAC spec",
+    "ipMacBindingLength" : "The {IP, MAC} pair should between 1 to 500",
     "_comment" : "========",
     "_comment" : "device",
     "_comment" : "--------",

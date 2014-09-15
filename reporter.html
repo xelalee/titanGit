@@ -62,80 +62,316 @@ $.extend({
 });
 
 $(document).ready(function () {
+    // define vars
+    var lang = 'en';
+    var gData = {};
+    var gReady = {};
+    var gObj = {
+        "traffic_direction" : {
+            "title" : {
+                "en" : "Traffic Direction"
+            },
+            "tabs" : {
+                "en" : {
+                    "0": "Traffic Log",
+                    "1": "By Address",
+                    "2": "By Source IP",
+                    "3": "By Destination IP",
+                    "4": "By Protocol",
+                    "5": "By Destination Port",
+                    "6": "By Zone"
+                }
+            },
+            "table" : {
+                "en" : {
+                    "0" : {
+                        "id" : "ID",
+                        "srcIp" : "Source Address",
+                        "dstIp" : "Destination Address",
+                        "protocol" : "Protocol",
+                        "srcPort" : "Source Port",
+                        "dstPort" : "Destination Port",
+                        "fromZone" : "From Zone",
+                        "toZone" : "To Zone",
+                        "txBytes" : "Tx Bytes",
+                        "rxBytes" : "Rx Bytes",
+                        "totalBytes" : "Total Bytes",
+                        "startDatetime" : "Start Datetime",
+                        "endDatetime" : "End Datetime"
+                    },
+                    "1" : {
+                        "id" : "ID",
+                        "srcIp" : "Source Address",
+                        "dstIp" : "Destination Address",
+                        "txBytes" : "Tx Bytes",
+                        "rxBytes" : "Rx Bytes",
+                        "totalBytes" : "Total Bytes",
+                        "sessions" : "Sessions"
+                    },
+                    "2" : {
+                        "id" : "ID",
+                        "srcIp" : "Source Address",
+                        "txBytes" : "Tx Bytes",
+                        "rxBytes" : "Rx Bytes",
+                        "totalBytes" : "Total Bytes",
+                        "sessions" : "Sessions"
+                    },
+                    "3" : {
+                        "id" : "ID",
+                        "dstIp" : "Destination Address",
+                        "txBytes" : "Tx Bytes",
+                        "rxBytes" : "Rx Bytes",
+                        "totalBytes" : "Total Bytes",
+                        "sessions" : "Sessions"
+                    },
+                    "4" : {
+                        "id" : "ID",
+                        "protocol" : "Protocol",
+                        "txBytes" : "Tx Bytes",
+                        "rxBytes" : "Rx Bytes",
+                        "totalBytes" : "Total Bytes",
+                        "sessions" : "Sessions"
+                    },
+                    "5" : {
+                        "id" : "ID",
+                        "dstPort" : "Destination Port",
+                        "txBytes" : "Tx Bytes",
+                        "rxBytes" : "Rx Bytes",
+                        "totalBytes" : "Total Bytes",
+                        "sessions" : "Sessions"
+                    },
+                    "6" : {
+                        "id" : "ID",
+                        "fromZone" : "From Zone",
+                        "toZone" : "To Zone",
+                        "txBytes" : "Tx Bytes",
+                        "rxBytes" : "Rx Bytes",
+                        "totalBytes" : "Total Bytes",
+                        "sessions" : "Sessions"
+                    }
+                }
+            }
+        },
+        "file_extension" : {
+            "title" : {
+                "en" : "File Extension"
+            },
+            "tabs" : {
+                "en" : {
+                    "0": "File Extension Log",
+                    "1": "By File Extension"
+                 }
+            },
+            "table" : {
+                "en" : {
+                    "0" : {
+                        "id" : "ID",
+                        "extension" : "Extension",
+                        "accessCount" : "Access Count",
+                        "datetime" : "Datetime"
+                    },
+                    "1" : {
+                        "id" : "ID",
+                        "extension" : "Extension",
+                        "accessCount" : "Access Count"
+                    }
+                }
+            }
+        },
+        "blocked_host" : {
+            "title" : {
+                "en" : "Bloceck Host"
+            },
+            "tabs" : {
+                "en" : {
+                    "0": "Blocked Host Log",
+                    "1": "By Blocked Host"
+                }
+            },
+            "table" : {
+                "en" : {
+                    "0" : {
+                        "id" : "ID",
+                        "ip" : "IP",
+                        "virusCount" : "Virus Count",
+                        "firewallCount" : "Firewall Count",
+                        "datetime" : "Datetime"
+                    },
+                    "1" : {
+                        "id" : "ID",
+                        "ip" : "IP",
+                        "virusCount" : "Virus Count",
+                        "firewallCount" : "Firewall Count"
+                    }
+                }
+            }
+        },
+        "affected_host" : {
+            "title" : {
+                "en" : "Affected Host"
+            },
+            "tabs" : {
+                "en" : {
+                    "0": "Affected Host Log",
+                    "1": "By Affected Host"
+                }
+            },
+            "table" : {
+                "en" : {
+                    "0" : {
+                        "id" : "ID",
+                        "ip" : "IP",
+                        "virusHitCount" : "Virus Hit Count",
+                        "datetime" : "Datetime"
+                    },
+                    "1" : {
+                        "id" : "ID",
+                        "ip" : "IP",
+                        "virusHitCount" : "Virus Hit Count"
+                    }
+                }
+            }
+        },
+        "antivirus_report" : {
+            "title" : {
+                "en" : "Antivirus Report"
+            },
+            "tabs" : {
+                "en" : {
+                    "0": "Antivirus Log",
+                    "1": "By Source IP",
+                    "2": "By Destination IP",
+                    "3": "By Virus Name"
 
-    function getData( param, url ) {
+                }
+            },
+            "table" : {
+                "en" : {
+                    "0" : {
+                        "id" : "ID",
+                        "srcIp" : "Source IP",
+                        "dstIp" : "Destination IP",
+                        "protocol" : "Protocol",
+                        "virusName" : "Virus Name",
+                        "datetime" : "Datetime"
+                    },
+                    "1" : {
+                        "id" : "ID",
+                        "srcIp" : "Source IP",
+                        "hitCount" : "Hit Count"
+                    },
+                    "2" : {
+                        "id" : "ID",
+                        "dstIp" : "Destination IP",
+                        "hitCount" : "Hit Count"
+                    },
+                    "3" : {
+                        "id" : "ID",
+                        "virusName" : "Virus Name",
+                        "hitCount" : "Hit Count"
+                    }
+                }
+            }
+        }
+    }
+
+    function getData( param, sd, sh, ed, eh, q ) {
         $.ajax({
-            url: url,
+            url: 'advancedQuery.php?param=' + param + '&sd=' + sd + '&sh=' + sh + '&ed=' + ed + '&eh=' + eh + '&q=' + q,
             dataType: 'json',
             success: function(data) {
-                setData( param, data );
+console.log( q + ' data got ');
+                gReady[ q ] = true;
+                gData[ q ] = data;
+                // draw frame here
+
+                if ( 0 == q ) {
+                    // table with rows
+                    $('#panel-' + q).html('<div id="div-table-' + q + '"><table id="table-' + q + '"><thead></thead><tbody></tbody></table></div>');
+                } else {
+                    // chart 
+                    $('#panel-' + q).html('<div id="div-chart-' + q + '"></div>');
+                    
+                    // table 
+                    $('#panel-' + q).append('<div id="div-table-' + q + '"><table id="table-' + q + '"><thead></thead><tbody></tbody></table></div>');
+                }
+
+                setData( param, sd, sh, ed, eh, q, data );
             }
         });
     }
 
-    function setData( param, data ) {
-console.log( param );
-console.log( data );
+    function setData( param, sd, sh, ed, eh, q, data ) {
+        // draw table
+        $('#table-' + q + ' thead').html('<tr></tr>');
+        for ( var x in gObj[ param ][ 'table' ][ lang ][ q ] )
+            $('#table-' + q + ' thead tr').append( '<th class="ui-state-default">' + gObj[ param ][ 'table' ][ lang ][ q ][ x ] + '</th>' );
+
+        if ( data.queryRows > 0 ) {
+            for (var i=0, len=data.queryResults.length; i<len; i++)
+            {
+                var tmp = '<tr class="' + ((i%2==0)? 'odd' : 'even') + '">';
+                for ( var x in gObj[ param ][ 'table' ][ lang ][ q ] )
+                {
+                    if ('id' == x)
+                        tmp += '<td>' + (i+1)  + '</td>';
+                    else 
+                        tmp += '<td>' + data.queryResults[ i ][ x ] + '</td>';
+                }
+                tmp += '</tr>';
+                $('#table-' + q + ' tbody').append( tmp );
+            }
+        }
+
+        if ( 0 != q ) {
+            // draw chart
+        
+        }
+    }
+
+    function genWeekly() {
+
     }
 
     function genHd( content ) {
         $('#bd_hd').html( '<p>' + content + '</p>' );
     }
 
-    function genBd( param, sd, sh, ed, eh, q, lang ) {
+    function genBd( param, sd, sh, ed, eh, q ) {
         $('#bd_bd').append('<div id="bd_bd_' + param + '" class="tabber"><ul></ul></div>');
-        // frame
-        var tabs = {};
-        tabs.en = {};
-        tabs.en.traffic_direction = { 
-            "0": "Traffic Log",
-            "1": "By Address",
-            "2": "By Source IP",
-            "3": "By Destination IP",
-            "4": "By Protocol",
-            "5": "By Destination Port",
-            "6": "By Zone"
-        }
 
-        tabs.en.file_extension = {
-            "0": "File Extension Log",
-            "1": "By File Extension"
-        }
-
-        tabs.en.blocked_host = {
-            "0": "Blocked Host Log",
-            "1": "By Blocked Host"
-        }
-
-        tabs.en.affected_host = {
-            "0": "Affected Host Log",
-            "1": "By Affected Host"
-        }
-
-        tabs.en.antivirus_report = {
-            "0": "Antivirus Log",
-            "1": "By Source IP",
-            "2": "By Destination IP",
-            "3": "By Virus Name"
-        }
-
-        for ( var x in tabs[ lang ][ param ] )
+        for ( var x in gObj[ param ][ 'tabs' ][ lang ] )
         {
-            $('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + tabs[ lang ][ param ][ x ] + '</a></li>');
+            $('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + gObj[ param ][ 'tabs' ][ lang ][ x ] + '</a></li>');
             $('.tabber').append('<div id="panel-' + x + '"></div>');
+            // data ready falg
+            gReady[ x ] = false;
         }
 
-        $('.tabber').tabs().on('tabsactivate', function(event, ui) {
-            $('.pager').hide();
-            $('.pdfer').hide();
-            if ( 0 == $(this).tabs( "option", "active" ) )     
-                $('.pager').show();
-            else
-                $('.pdfer').show();
-        }).tabs( { active: q } );
+        $('.tabber').tabs({
+            active: q,
+            create: function( event, ui ) {
+                if ( 0 == q ) {
+                    $('.pdfer').hide();
+                    $('.pager').show();
+                } else {
+                    $('.pdfer').show();
+                    $('.pager').hide();
+                }
+            },
+            select: function( event, ui ) {
+                if ( 0 === parseInt( ui.index ) ) {
+                    $('.pdfer').hide();
+                    $('.pager').show();
+                } else {
+                    $('.pdfer').show();
+                    $('.pager').hide();
+                }
+            }
+        });
 
         // data
-        getData( param, 'advancedQuery.php?param=' + param + '&sd=' + sd + '&sh=' + sh + '&ed=' + ed + '&eh=' + eh + '&q=' + q );
+        getData( param, sd, sh, ed, eh, q );
     }
 
     function genFt( param ) {
@@ -161,34 +397,19 @@ console.log( data );
         $('#ft').html('<p>Copyright &copy; 2014 TECH TITAN</p>');
     }
 
-    function init( lang ) {
-        var title = {};
-        title.en = {};
-        title.en.traffic_direction = 'Traffic Direction';
-        title.en.file_extension = 'File Extension';
-        title.en.blocked_host = 'Blocked Host';
-        title.en.affected_host = 'Affected Host';
-        title.en.antivirus_report = 'Antivirus';
-        title.en.weekly = 'Weekly Report';
-
-        genHd( title[ lang ][ $.getUrlVar( 'param' ) ] );
+    function init() {
 
         if ( 'weekly' == $.getUrlVar( 'param' ) ) {
-/*
-            for (var x in title[ lang ] )
-            {
-                if (x != 'weekly')
-                    genBd( x, sd, sh, ed, eh, q );
-            }
-*/
+            genWeekly();
         } else {
+            genHd( gObj[ $.getUrlVar( 'param' ) ][ 'title' ][ lang ] );
             genFt( $.getUrlVar( 'param' ) );
-            genBd( $.getUrlVar( 'param' ), $.getUrlVar( 'sd' ), $.getUrlVar( 'sh' ), $.getUrlVar( 'ed' ), $.getUrlVar( 'eh' ), $.getUrlVar( 'q' ), lang );
+            genBd( $.getUrlVar( 'param' ), $.getUrlVar( 'sd' ), $.getUrlVar( 'sh' ), $.getUrlVar( 'ed' ), $.getUrlVar( 'eh' ), $.getUrlVar( 'q' ) );
         }
         genFooter();
     }
 
-    init( 'en' );
+    init();
 
 });
 

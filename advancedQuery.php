@@ -21,7 +21,7 @@ $sdStamp = strtotime( $sd .' 00:00:00');
 $shStamp = $sdStamp + ( $_GET[ 'sh' ] * 3600 );
 
 $db      = str_replace("-", "_", $GLOBALS[ 'nd' ]);
-$mysqli  = new mysqli( "127.0.0.1", "", "", $db, 3306 );
+$mysqli  = new mysqli( "127.0.0.1", "archer", "rehcra", "archer", 3306 );
 $json    = array();
 $rows    = array();
 
@@ -114,8 +114,8 @@ function advAggregate( $table, $gby, $state, $oby ) {
             switch( $_GET[ 'q' ] )
             {
             case 1:
-                $tmpTable = $GLOBALS[ 'db' ] .'`daily_addrTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
-                $createTmp = "CREATE TABLE IF NOT EXISTS ". $tmpTable ." (
+                $tmpTable = $GLOBALS[ 'db' ] .'.`daily_addrTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
+                $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
                     `id` int(11) NOT NULL AUTO_INCREMENT,
                     `srcIp` varchar(16) NOT NULL DEFAULT '',
                     `dstIp` varchar(16) NOT NULL DEFAULT '',
@@ -123,60 +123,60 @@ function advAggregate( $table, $gby, $state, $oby ) {
                     `rxBytes` bigint(20) DEFAULT NULL,
                     `totalBytes` bigint(20) DEFAULT NULL,
                     `sessions` bigint(20) DEFAULT NULL,
-                    PRIMARY KEY (`id`),
+                    PRIMARY KEY (`id`)
                 )";
                 break;
             case 2:
-                $tmpTable = $GLOBALS[ 'db' ] .'`daily_srcIpTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
-                $createTmp = "CREATE TABLE IF NOT EXISTS ". $tmpTable ." (
+                $tmpTable = $GLOBALS[ 'db' ] .'.`daily_srcIpTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
+                $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
                     `id` int(11) NOT NULL AUTO_INCREMENT,
                     `date` datetime NOT NULL,
                     `srcIp` varchar(16) NOT NULL DEFAULT '',
                     `tx` bigint(20) DEFAULT NULL,
                     `rx` bigint(20) DEFAULT NULL,
                     `sessions` int(11) DEFAULT NULL,
-                    PRIMARY KEY (`id`),
+                    PRIMARY KEY (`id`)
                 )";
                 break;
             case 3:
-                $tmpTable = $GLOBALS[ 'db' ] .'`daily_dstIpTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
-                $createTmp = "CREATE TABLE IF NOT EXISTS ". $tmpTable ." (
+                $tmpTable = $GLOBALS[ 'db' ] .'.`daily_dstIpTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
+                $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
                     `id` int(11) NOT NULL AUTO_INCREMENT,
                     `date` datetime NOT NULL,
                     `dstIp` varchar(16) NOT NULL DEFAULT '',
                     `tx` bigint(20) DEFAULT NULL,
                     `rx` bigint(20) DEFAULT NULL,
                     `sessions` int(11) DEFAULT NULL,
-                    PRIMARY KEY (`id`),
+                    PRIMARY KEY (`id`)
                 )";
                 break;
             case 4:
-                $tmpTable = $GLOBALS[ 'db' ] .'`daily_protoTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
-                $createTmp = "CREATE TABLE IF NOT EXISTS ". $tmpTable ." (
+                $tmpTable = $GLOBALS[ 'db' ] .'.`daily_protoTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
+                $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
                     `id` int(11) NOT NULL AUTO_INCREMENT,
                     `protocol` int(11) DEFAULT NULL,
                     `txBytes` bigint(20) DEFAULT NULL,
                     `rxBytes` bigint(20) DEFAULT NULL,
                     `totalBytes` bigint(20) DEFAULT NULL,
                     `sessions` bigint(20) DEFAULT NULL,
-                    PRIMARY KEY (`id`),
+                    PRIMARY KEY (`id`)
                 )";
                 break;
             case 5:
-                $tmpTable = $GLOBALS[ 'db' ] .'`daily_dstPortTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
-                $createTmp = "CREATE TABLE IF NOT EXISTS ". $tmpTable ." (
+                $tmpTable = $GLOBALS[ 'db' ] .'.`daily_dstPortTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
+                $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
                     `id` int(11) NOT NULL AUTO_INCREMENT,
                     `dstPort` int(11) DEFAULT NULL,
                     `txBytes` bigint(20) DEFAULT NULL,
                     `rxBytes` bigint(20) DEFAULT NULL,
                     `totalBytes` bigint(20) DEFAULT NULL,
                     `sessions` bigint(20) DEFAULT NULL,
-                    PRIMARY KEY (`id`),
+                    PRIMARY KEY (`id`)
                 )";
                 break;
             case 6:
-                $tmpTable = $GLOBALS[ 'db' ] .'`daily_zoneTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
-                $createTmp = "CREATE TABLE IF NOT EXISTS ". $tmpTable ." (
+                $tmpTable = $GLOBALS[ 'db' ] .'.`daily_zoneTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
+                $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
                     `id` int(11) NOT NULL AUTO_INCREMENT,
                     `fromZone` varchar(64) NOT NULL DEFAULT '',
                     `toZone` varchar(64) NOT NULL DEFAULT '',
@@ -184,53 +184,52 @@ function advAggregate( $table, $gby, $state, $oby ) {
                     `rxBytes` bigint(20) DEFAULT NULL,
                     `totalBytes` bigint(20) DEFAULT NULL,
                     `sessions` bigint(20) DEFAULT NULL,
-                    PRIMARY KEY (`id`),
+                    PRIMARY KEY (`id`)
                 )";
                 break;
             }
 
             $tmpState = $gby .', txBytes, rxBytes, totalBytes, 1 as sessions';
-
             break;
         case 'file_access':
-            $tmpTable = $GLOBALS[ 'db' ] .'`daily_'. $table .'-'. $GLOBALS[ 'nowStamp' ] .'`';
-            $createTmp = "CREATE TABLE IF NOT EXISTS ". $tmpTable ." (
+            $tmpTable = $GLOBALS[ 'db' ] .'.`daily_'. $table .'-'. $GLOBALS[ 'nowStamp' ] .'`';
+            $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
                 `id` int(11) NOT NULL AUTO_INCREMENT,
                 `extension` varchar(64) NOT NULL DEFAULT '',
                 `accessCount` int(11) DEFAULT NULL,
                 `date` datetime NOT NULL,
-                PRIMARY KEY (`id`),
+                PRIMARY KEY (`id`)
             )";
 
             $tmpState = $gby .', accessCount, datetime as date';
             break;
         case 'blocked_host':
-            $tmpTable = $GLOBALS[ 'db' ] .'`daily_'. $table .'-'. $GLOBALS[ 'nowStamp' ] .'`';
-            $createTmp = "CREATE TABLE IF NOT EXISTS ". $tmpTable ." (
+            $tmpTable = $GLOBALS[ 'db' ] .'.`daily_'. $table .'-'. $GLOBALS[ 'nowStamp' ] .'`';
+            $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
                 `id` int(11) NOT NULL AUTO_INCREMENT,
                 `ip` varchar(16) NOT NULL DEFAULT '',
                 `virusCount` int(11) DEFAULT NULL,
                 `firewallCount` int(11) DEFAULT NULL,
                 `date` datetime NOT NULL,
-                PRIMARY KEY (`id`),
+                PRIMARY KEY (`id`)
             )";
             $tmpState = $gby .', virusCount, firewallCount, datetime as date';
             break;
         case 'affected_host':
-            $tmpTable = $GLOBALS[ 'db' ] .'`daily_'. $table .'-'. $GLOBALS[ 'nowStamp' ] .'`';
-            $createTmp = "CREATE TABLE IF NOT EXISTS ". $tmpTable ." (
+            $tmpTable = $GLOBALS[ 'db' ] .'.`daily_'. $table .'-'. $GLOBALS[ 'nowStamp' ] .'`';
+            $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
                 `id` int(11) NOT NULL AUTO_INCREMENT,
                 `ip` varchar(16) NOT NULL DEFAULT '',
                 `virusHitCount` int(11) DEFAULT NULL,
                 `sigHitCount` int(11) DEFAULT NULL,
                 `date` datetime NOT NULL,
-                PRIMARY KEY (`id`),
+                PRIMARY KEY (`id`)
             )";
             $tmpState = $gby .', virusHitCount, sigHitCount, datetime as date';
             break;
         case 'antivirus':
-            $tmpTable = $GLOBALS[ 'db' ] .'`daily_'. $table .'-'. $GLOBALS[ 'nowStamp' ] .'`';
-            $createTmp = "CREATE TABLE IF NOT EXISTS ". $tmpTable ." (
+            $tmpTable = $GLOBALS[ 'db' ] .'.`daily_'. $table .'-'. $GLOBALS[ 'nowStamp' ] .'`';
+            $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
                 `id` int(11) NOT NULL AUTO_INCREMENT,
                 `srcIp` varchar(16) NOT NULL DEFAULT '',
                 `dstIp` varchar(16) NOT NULL DEFAULT '',
@@ -238,7 +237,7 @@ function advAggregate( $table, $gby, $state, $oby ) {
                 `virusName` varchar(64) NOT NULL DEFAULT '',
                 `date` datetime NOT NULL,
                 `hitCount` int(11) DEFAULT NULL,
-                PRIMARY KEY (`id`),
+                PRIMARY KEY (`id`)
             )";
             $tmpState = 'srcIp, dstIp, protocol, virusName, hitCount, datetime as date';
             break;
@@ -256,17 +255,7 @@ function advAggregate( $table, $gby, $state, $oby ) {
 
             for ( $i=$_GET[ 'eh' ]; $i>=$_GET[ 'sh' ]; $i-- )
             {
-                $GLOBLAS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $tmpState .' FROM '. $db .'`raw_'. $table .'_'. sprintf( "%02d", $i ) .'`' );
-            }
-
-            $query = "SELECT ". $state ." FROM ". $tmpTable ." GROUP BY ". $gby ." ORDER BY ". $oby ." DESC";
-
-            if ( $result = $GLOBALS[ 'mysqli' ]->query( $query ) ) {
-                while ( $obj = $result->fetch_object() ) {
-                    $GLOBALS[ 'json' ]['queryResults'][] = $obj;
-                }
-                // free result set
-                $result->close();
+                $GLOBLAS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $tmpState .' FROM '. $db .'.`raw_'. $table .'_'. sprintf( "%02d", $i ) .'`' );
             }
         } else {
             for ( $i=0; $i<=$days; $i++ )
@@ -278,7 +267,7 @@ function advAggregate( $table, $gby, $state, $oby ) {
 
                     for ( $j=$_GET[ 'eh' ]; $j>=0; $j-- )
                     {
-                        $GLOBLAS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $tmpState .' FROM '. $db .'`raw_'. $table .'_'. sprintf( "%02d", $j ) .'`' );
+                        $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $tmpState .' FROM '. $db .'.`raw_'. $table .'_'. sprintf( "%02d", $j ) .'`' );
                     }
                     break;
                 case $days:
@@ -289,32 +278,42 @@ function advAggregate( $table, $gby, $state, $oby ) {
 
                     for ( $j=23; $j>=$_GET[ 'sh' ]; $j-- )
                     {
-                        $GLOBLAS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $tmpState .' FROM '. $db .'`raw_'. $table .'_'. sprintf( "%02d", $j ) .'`' );
+                        $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $tmpState .' FROM '. $db .'.`raw_'. $table .'_'. sprintf( "%02d", $j ) .'`' );
                     }
                     break;
                 default:
                     $db = '';
                     if ( 'sessions' == $table ) {
                         // check if daily statistics are data_reday
-                        if ( $check = $mysqli->query( 'SELECT TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "daily_'. $table .'" AND TABLE_COMMENT = "data_ready" ' ) ) {
+                        if ( $check = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "daily_'. $table .'" AND TABLE_COMMENT = "data_ready" ' ) ) {
                             if ( 0 == $check->num_rows ) {
                                 // 24 hours
                                 for ($j=0; $j<24; $j++)
                                 {
-                                    $GLOBLAS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $tmpState .' FROM '. $db .'`raw_'. $table .'_'. sprintf( "%02d", $j ) .'`' );
+                                    $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $tmpState .' FROM '. $db .'.`raw_'. $table .'_'. sprintf( "%02d", $j ) .'`' );
                                 }
                             } else {
-                                $GLOBLAS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $tmpState .' FROM '. $db .'`daily_'. $table .'`' );
+                                $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $tmpState .' FROM '. $db .'.`daily_'. $table .'`' );
                 
                             }
                             $check->close();
                         }
                     } else {
                         // use daily
-                        $GLOBLAS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $tmpState .' FROM '. $db .'`daily_'. $table .'`' );
+                        $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $tmpState .' FROM '. $db .'.`daily_'. $table .'`' );
                     }
                 }
             }
+        }
+
+        $query = "SELECT ". $state ." FROM ". $tmpTable ." GROUP BY ". $gby ." ORDER BY ". $oby ." DESC";
+
+        if ( $result = $GLOBALS[ 'mysqli' ]->query( $query ) ) {
+            while ( $obj = $result->fetch_object() ) {
+                $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+            }
+            // free result set
+            $result->close();
         }
         echo json_encode( $GLOBALS[ 'json' ] );
     } else {

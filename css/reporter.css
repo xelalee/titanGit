@@ -74,6 +74,10 @@ body {
     overflow: auto;
 }
 
+.tabber {
+    border: none;
+}
+
 .tabber ul {
     background: transparent;
     border: 2px solid #EB2128;
@@ -87,6 +91,53 @@ body {
 
 .tabber ul li a {
     font-family: Verdana, Arial, sans-serif;
+}
+
+#panel-0, #panel-1, #panel-2, #panel-3, #panel-4, #panel-5, #panel-6 {
+    min-height: 500px;
+}
+
+table {
+    width: 100%;
+    color: black;
+}
+
+label {
+    color: black;
+}
+
+table caption {
+    font-weight: bold;
+    font-size: 105%;
+    text-align: left;
+}
+
+table tr {
+    height: 25px;
+    padding: 1px;
+}
+
+table td.odd {
+    background-color: #C0C0C0;
+}
+
+table tr.odd {
+    background-color: #C0C0C0;
+}
+
+table td.even {
+    background-color: #E8E8E8;
+}
+
+table tr.even {
+    background-color: #E8E8E8;
+}
+
+table tr th, table tr td {
+    position: relative;
+    vertical-align: middle;
+    text-align: center;
+    word-break:break-all;
 }
 
 /* control */
