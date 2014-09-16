@@ -39,8 +39,19 @@
     <script type="text/javascript" src="js/jquery-ui-1.9.2.custom.js"></script>
 <!-- jspdf -->
     <script type="text/javascript" src="assets/jspdf/jspdf.js"></script>
+    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.addimage.js"></script>
+    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.cell.js"></script>
+    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.from_html.js"></script>
+    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.ie_below_9_shim.js"></script>
+    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.javascript.js"></script>
+    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.sillysvgrenderer.js"></script>
+    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.split_text_to_size.js"></script>
+    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.standard_fonts_metrics.js"></script>
+    <script type="text/javascript" src="assets/jspdf/adler32cs.js"></script>
+    <script type="text/javascript" src="assets/jspdf/FileSaver.js"></script>
+    <script type="text/javascript" src="assets/jspdf/BlobBuilder.js"></script>
 <!-- custom -->
-    <link rel="stylesheet" type="text/css" href="css/reporter.css" />
+    <link rel="stylesheet" type="text/css" href="css/reporterK.css" />
 
     <script>
 
@@ -613,6 +624,8 @@ $(document).ready(function () {
                 resetData();
             }
             break;
+        case 'ExportPDF':
+            break;
         }
     });
 
@@ -855,7 +868,7 @@ console.log( idx );
     }
 
     function genFooter() {
-        $('#ft').html('<p>Copyright &copy; 2014 TECH TITAN</p>');
+        $('#ft').html('<p>Copyright &copy; 2014 Titan ARC corp.</p>');
     }
 
     function init() {
@@ -893,7 +906,10 @@ console.log( idx );
   </head>
   <body>
     <div id="layout">
-      <div id="hd"></div>
+      <div id="hd">
+        <div id="hd_top"></div>
+        <div id="hd_mark"><div id="hd_label">TitanWALL <span>&reg;</span></div></div>
+      </div>
       <div id="bd">
         <div id="bd_hd"></div>
         <div id="bd_bd"></div>

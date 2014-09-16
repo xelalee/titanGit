@@ -543,6 +543,9 @@ gHtml.dashboard += '</div>';
 gHtml.dashmenu = '<div id="dashmenu"></div>';
 
 $(document).ready(function () {
+    jQuery.fn.exists = function() {
+        return this.length > 0;
+    }
     
     function failAlert( msg, detail ) {
         if (!$('#popError').exists() )
@@ -827,8 +830,8 @@ $(document).ready(function () {
                     gObj.sysTime = new Date( data.systime );
                     gObj.sysDate = gObj.sysTime.getFullYear() + '/' + ( gObj.sysTime.getMonth() + 1 ) + '/' + gObj.sysTime.getDate();
                     gObj.sysHour = gObj.sysTime.getHours();
-                    gObj.sysMin = gObj.sysTime.getMinutes();
-                    gObj.sysSec = gObj.sysTime.getSeconds();
+                    gObj.sysMin  = gObj.sysTime.getMinutes();
+                    gObj.sysSec  = gObj.sysTime.getSeconds();
 
                     // refresh idle/force timeout
                     $.ajax({
@@ -898,10 +901,6 @@ $(document).ready(function () {
 
     function timerStop() {
         clearInterval(gObj.timer);
-    }
-    
-    jQuery.fn.exists = function() {
-        return this.length > 0;
     }
     
     function ifLogin() {
@@ -6001,13 +6000,13 @@ $(document).ready(function () {
                                 }
                             });
                         },
-                        select: function( event, ui ) { 
-                            if ( 0 == ui.index ) 
+                        activate: function( event, ui ) { 
+                            if ( 0 == ui.newTab.index() ) 
                                 $('#pagerDiv').show();
                             else
                                 $('#pagerDiv').hide();
-                            gObj.tabIndex = ui.index;
-                            refreshReports( pid, ui.index );
+                            gObj.tabIndex = ui.newTab.index();
+                            refreshReports( pid, gObj.tabIndex );
                         }
                     });
                     break;
@@ -25302,15 +25301,15 @@ $(document).ready(function () {
 
                         gObj.tabber = $('.tabber').tabs({
                             active: gObj.tabIndex,
-                            select: function (event, ui) {
-                                if (0 === parseInt( ui.index ) ) {
+                            activate: function (event, ui) {
+                                if (0 === parseInt( ui.newTab.index() ) ) {
                                     $('#pgSave').show();
                                     $('#pgCancel').show();
                                 } else {
                                     $('#pgSave').hide();
                                     $('#pgCancel').hide();
                                 }
-                                gObj.tabIndex = ui.index;
+                                gObj.tabIndex = ui.newTab.index();
                             }
                         });
 
@@ -25801,8 +25800,8 @@ $(document).ready(function () {
                     
             gObj.tabber = $('.tabber').tabs({
                 active: gObj.tabIndex,
-                select: function (event, ui) {
-                    if ( 0 === parseInt( ui.index ) ) {
+                activate: function (event, ui) {
+                    if ( 0 === parseInt( ui.newTab.index() ) ) {
                         $('#pgSave').hide();
                         $('#pgCancel').hide();
                         $('#pgExtend').show();
@@ -25817,7 +25816,7 @@ $(document).ready(function () {
                         $('#pgClear').hide();
                         $('#pagerDiv').hide();
                     }
-                    gObj.tabIndex = ui.index;
+                    gObj.tabIndex = ui.newTab.index();
                 }
             });
 

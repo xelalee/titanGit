@@ -543,6 +543,9 @@ gHtml.dashboard += '</div>';
 gHtml.dashmenu = '<div id="dashmenu"></div>';
 
 $(document).ready(function () {
+    jQuery.fn.exists = function() {
+        return this.length > 0;
+    }
     
     function failAlert( msg, detail ) {
         if (!$('#popError').exists() )
@@ -824,7 +827,10 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function(data) {
                     gObj.sysTime = new Date( data.systime );
+                    gObj.sysDate = gObj.sysTime.getFullYear() + '/' + ( gObj.sysTime.getMonth() + 1 ) + '/' + gObj.sysTime.getDate();
                     gObj.sysHour = gObj.sysTime.getHours();
+                    gObj.sysMin  = gObj.sysTime.getMinutes();
+                    gObj.sysSec  = gObj.sysTime.getSeconds();
                     // refresh idle/force timeout
                     $.ajax({
                         url:'cgi-bin/getSessInfo.cgi', 
@@ -893,10 +899,6 @@ $(document).ready(function () {
 
     function timerStop() {
         clearInterval(gObj.timer);
-    }
-    
-    jQuery.fn.exists = function() {
-        return this.length > 0;
     }
     
     function ifLogin() {
@@ -2103,7 +2105,7 @@ $(document).ready(function () {
         case 'affected_host':
         case 'antivirus_report':
             // cache query status
-            window.open('reporter.html?param=' + tar.pid + '&q=' + gObj.tabIndexId + '&sd=' + $('#query-startDate').val() + '&sh=' + $('#query-startHour').val() + '&ed=' + $('#query-endDate').val() + '&eh=' + $('#query-endHour').val(), '_blank');
+            window.open('reporterK.html?param=' + tar.pid + '&q=' + gObj.tabIndexId + '&sd=' + $('#query-startDate').val() + '&sh=' + $('#query-startHour').val() + '&ed=' + $('#query-endDate').val() + '&eh=' + $('#query-endHour').val(), '_blank');
             break;
         case 'view_logs':
             // cache query status
@@ -5953,13 +5955,13 @@ $(document).ready(function () {
                                 }
                             });
                         },
-                        select: function( event, ui ) {
-                            if ( 0 == ui.index )
+                        activate: function( event, ui ) {
+                            if ( 0 == ui.newTab.index() )
                                 $('#pagerDiv').show();
                             else
                                 $('#pagerDiv').hide();
-                            gObj.tabIndex = ui.index;
-                            refreshReports( pid, ui.index );
+                            gObj.tabIndex = ui.newTab.index();
+                            refreshReports( pid, ui.newTab.index() );
                         }
                     });
                     break;
@@ -19930,6 +19932,13 @@ $(document).ready(function () {
             }
             break;
         case 'ip_mac_binding':
+            for (var i=0, len=gData[ pid ][ gNode.guiT ].length; i<len; i++)
+            {
+                if (gData[ pid ][ gNode.guiT ][ i ].cgiAction != 3)
+                    cnt++;
+                if (gData[ pid ][ gNode.guiT ][ i ].gid < 0)
+                    gData[ pid ][ gNode.guiT ][ i ].gid = 0;
+            }
 
             if ($('#enable').is(':checked'))
                 gData[ pid ].enable = 1;
@@ -19937,17 +19946,14 @@ $(document).ready(function () {
                 gData[ pid ].enable = 0;
             gData[ pid ].mode = $('#mode').val();
 
-            for (var i=0, len=gData[ pid ][ gNode.guiT ].length; i<len; i++)
-            {
-                if (gData[ pid ][ gNode.guiT ][ i ].gid < 0)
-                    gData[ pid ][ gNode.guiT ][ i ].gid = 0;
+            if ( ( cnt == 0 && 1 == gData[ pid ].enable) || ( gRows.maxIPMACBinding < gData[ pid ][ gNode.guiT ].length ))
+                errorAlert( '<p>' + gError[ gObj.lang ].ipMacBindingLength + '</p>' );
+            else {
+                $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ pid ]), function( poster ) {
+                    gIf.alter = false;
+                    genSecurity( pid );
+                });
             }
-
-            $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ pid ]), function( poster ) {
-                gIf.alter = false;
-                genSecurity( pid );
-            });
-
             break;
         }
     }
@@ -24527,9 +24533,13 @@ $(document).ready(function () {
                                     {
                                     case 0:
                                         $('#sysDate').prop('disabled', false);
+                                        $('#sysDate').val( gObj.sysDate );
                                         $('#hour').prop('disabled', false);
+                                        $('#hour').val( gObj.sysHour );
                                         $('#minute').prop('disabled', false);
+                                        $('#minute').val( gObj.sysMin );
                                         $('#second').prop('disabled', false);
+                                        $('#second').val( gObj.sysSec );
                                         $('#dstEnable').prop('disabled', true);
                                         $('#ntpServerType-0').prop('disabled', true);
                                         $('#ntpServerType-1').prop('disabled', true);
@@ -25244,15 +25254,15 @@ $(document).ready(function () {
 
                         gObj.tabber = $('.tabber').tabs({
                             active: gObj.tabIndex,
-                            select: function (event, ui) {
-                                if (0 === parseInt( ui.index ) ) {
+                            activate: function (event, ui) {
+                                if (0 === parseInt( ui.newTab.index() ) ) {
                                     $('#pgSave').show();
                                     $('#pgCancel').show();
                                 } else {
                                     $('#pgSave').hide();
                                     $('#pgCancel').hide();
                                 }
-                                gObj.tabIndex = ui.index;
+                                gObj.tabIndex = ui.newTab.index();
                             }
                         });
 
@@ -25744,8 +25754,8 @@ $(document).ready(function () {
                     
             gObj.tabber = $('.tabber').tabs({
                 active: gObj.tabIndex,
-                select: function (event, ui) {
-                    if ( 0 === parseInt( ui.index ) ) {
+                activate: function (event, ui) {
+                    if ( 0 === parseInt( ui.newTab.index() ) ) {
                         $('#pgSave').hide();
                         $('#pgCancel').hide();
                         $('#pgExtend').show();
@@ -25760,7 +25770,7 @@ $(document).ready(function () {
                         $('#pgClear').hide();
                         $('#pagerDiv').hide();
                     }
-                    gObj.tabIndex = ui.index;
+                    gObj.tabIndex = ui.newTab.index();
                 }
             });
 

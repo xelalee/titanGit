@@ -127,26 +127,26 @@ function advAggregate( $table, $gby, $state, $oby ) {
                 )";
                 break;
             case 2:
-                $tmpTable = $GLOBALS[ 'db' ] .'.`daily_srcIpTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
+                $tmpTable = $GLOBALS[ 'db' ] .'.`daily_srcAddrTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
                 $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
                     `id` int(11) NOT NULL AUTO_INCREMENT,
-                    `date` datetime NOT NULL,
                     `srcIp` varchar(16) NOT NULL DEFAULT '',
-                    `tx` bigint(20) DEFAULT NULL,
-                    `rx` bigint(20) DEFAULT NULL,
-                    `sessions` int(11) DEFAULT NULL,
+                    `txBytes` bigint(20) DEFAULT NULL,
+                    `rxBytes` bigint(20) DEFAULT NULL,
+                    `totalBytes` bigint(20) DEFAULT NULL,
+                    `sessions` bigint(20) DEFAULT NULL,
                     PRIMARY KEY (`id`)
                 )";
                 break;
             case 3:
-                $tmpTable = $GLOBALS[ 'db' ] .'.`daily_dstIpTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
+                $tmpTable = $GLOBALS[ 'db' ] .'.`daily_dstAddrTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
                 $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
                     `id` int(11) NOT NULL AUTO_INCREMENT,
-                    `date` datetime NOT NULL,
                     `dstIp` varchar(16) NOT NULL DEFAULT '',
-                    `tx` bigint(20) DEFAULT NULL,
-                    `rx` bigint(20) DEFAULT NULL,
-                    `sessions` int(11) DEFAULT NULL,
+                    `txBytes` bigint(20) DEFAULT NULL,
+                    `rxBytes` bigint(20) DEFAULT NULL,
+                    `totalBytes` bigint(20) DEFAULT NULL,
+                    `sessions` bigint(20) DEFAULT NULL,
                     PRIMARY KEY (`id`)
                 )";
                 break;
@@ -255,7 +255,7 @@ function advAggregate( $table, $gby, $state, $oby ) {
 
             for ( $i=$_GET[ 'eh' ]; $i>=$_GET[ 'sh' ]; $i-- )
             {
-                $GLOBLAS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $tmpState .' FROM '. $db .'.`raw_'. $table .'_'. sprintf( "%02d", $i ) .'`' );
+                $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $tmpState .' FROM '. $db .'.`raw_'. $table .'_'. sprintf( "%02d", $i ) .'`' );
             }
         } else {
             for ( $i=0; $i<=$days; $i++ )
@@ -306,7 +306,9 @@ function advAggregate( $table, $gby, $state, $oby ) {
             }
         }
 
-        $query = "SELECT ". $state ." FROM ". $tmpTable ." GROUP BY ". $gby ." ORDER BY ". $oby ." DESC";
+        // limit 50 back, filter via reporter
+        $query = "SELECT ". $state .", SUM(sessions) as sessions FROM ". $tmpTable ." GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50"; 
+$GLOBALS[ 'json' ][ 'queryStr' ] = $query;
 
         if ( $result = $GLOBALS[ 'mysqli' ]->query( $query ) ) {
             while ( $obj = $result->fetch_object() ) {
@@ -323,7 +325,7 @@ function advAggregate( $table, $gby, $state, $oby ) {
 }
 
 function aggregateQuery( $table, $gby, $state, $oby ) {
-    if ( $result = $GLOBALS[ 'mysqli' ]->query( "SELECT ". $state ." FROM ". $GLOBALS[ 'db' ] .".`". $table ."_". $GLOBALS[ 'nh' ] ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 10" ) ) {
+    if ( $result = $GLOBALS[ 'mysqli' ]->query( "SELECT ". $state .", count(*) as sessions FROM ". $GLOBALS[ 'db' ] .".`". $table ."_". $GLOBALS[ 'nh' ] ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50" ) ) {
         while ( $obj = $result->fetch_object() ) {
             $json["queryResults"][] = $obj;
         }
