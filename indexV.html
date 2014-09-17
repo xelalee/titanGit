@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="css/datatable-base.css" />
     <link rel="stylesheet" type="text/css" href="css/datatable-sort.css" />
     <link rel="stylesheet" type="text/css" href="css/panel.css" />
-    <link rel="stylesheet" type="text/css" href="css/portalK.css" />
+    <link rel="stylesheet" type="text/css" href="css/portalV.css" />
     <link rel="stylesheet" type="text/css" href="css/screen.css" /> 
     <link rel="stylesheet" type="text/css" href="css/widget-base.css" />
     <link rel="stylesheet" type="text/css" href="css/widget-stack.css" />
@@ -55,7 +55,7 @@
 <!--    <script type="text/javascript" src="js/deviceClass.js"></script> -->
 
 <!-- custom css -->
-    <link rel="stylesheet" type="text/css" href="css/customCSSK.css" />
+    <link rel="stylesheet" type="text/css" href="css/customCSSV.css" />
 
 <!-- JS Start -->
 <script type="text/javascript">
@@ -375,7 +375,7 @@ gReg.isTable        = /(Create|Save|Remove|Refresh|Query|Forces|Clear|Export|Dis
 gReg.isBtn          = /(Add|Edit|Mod|Delete|MoveUp|MoveDown|Move2Add|Move2Del|Force|Active|Connect|Disconnect|Create|Save|Cancel|Remove|Refresh|Query|Forces|Clear|Export|Disconnects|Reboot|Reset|Shutdown|Check|LicenseUpgrade|LicenseRefresh|Move2First|Move2Prev|Move2Next|Move2Last|Update|Move2White|Move2Whites)/;
 
 gReg.isPercent      = /%/;
-gReg.isIndex        = /index-(\d)-(\d)(-)?(\d)?/;
+gReg.isIndex        = /index-(\d{1,2})(-(\d))?(-(\d))?/;
 gReg.isJoin         = /\&/;
 gReg.isPipe         = /\|/;
 gReg.isSemicolon    = /;/;
@@ -499,7 +499,7 @@ gHtml.head += '<div id="hd_timer"></div>';
 gHtml.head += '<div id="hd_ip"></div>';
 gHtml.head += '<div id="hd_timeout"></div>';
 gHtml.head += '<div id="hd_config"></div>';
-gHtml.head += '<div id="hd_help"></div>';
+//gHtml.head += '<div id="hd_help"></div>';
 gHtml.head += '<div id="hd_home"></div>';
 gHtml.head += '<div id="hd_refresh"></div>';
 gHtml.head += '<div id="hd_logout"></div>';
@@ -747,9 +747,7 @@ $(document).ready(function () {
             gObj.active.counting = gObj.active.refresh;
             switch( gObj.active.pid )
             {
-            case 'system_dashboard':
-            case 'network_dashboard':
-            case 'security_dashboard':
+            case 'dashboard':
                 refreshDashboard();
                 break;
             case 'show_arp_table':
@@ -1114,13 +1112,15 @@ $(document).ready(function () {
                                                     url:'cgi-bin/getSessInfo.cgi', 
                                                     dataType:'json', 
                                                     success:function(data) {
-                                                        gRef.menu = 'lang/' + gObj.lang + '-menu.txt';
+                                                        gRef.menu = 'lang/' + gObj.lang + '-menuV.txt';
                                                         gIf.session = true;
                                                         gIf.getSessInfo = true;
                                                         gObj.userIp = data.ipAddr;
                                                         gIf.power  = (3 === parseInt( data.privilege ))? true : false;
                                                         gY.Cookie.setSub( gCook.main, 'username', gObj.user );
                                                         gY.Cookie.setSub( gCook.main, 'lang', gObj.lang );
+                                                        // if licensed
+                                                        
                                                         isLogin();
                                                     }
                                                 });
@@ -1394,9 +1394,7 @@ $(document).ready(function () {
 
             switch( gObj.active.pid )
             {
-            case 'system_dashboard':
-            case 'network_dashboard':
-            case 'security_dashboard':
+            case 'dashboard':
                 refreshDashboard( tar.ids[ 1 ], tar.id );
                 break;
             case 'status_summary':
@@ -1435,7 +1433,7 @@ $(document).ready(function () {
     
         // assign lang icon
         $('#hd_label').html( gCook.main + '<span>&reg;</span>');
-        $('#hd_help').addClass( gObj.lang + '_help' );
+        //$('#hd_help').addClass( gObj.lang + '_help' );
         $('#hd_home').addClass( gObj.lang + '_home' );
         $('#hd_refresh').addClass( gObj.lang + '_refresh' );
         $('#hd_logout').addClass( gObj.lang + '_logout' );
@@ -1452,7 +1450,7 @@ $(document).ready(function () {
         $('#hd_home').on('click', function(e) {
             e.preventDefault();
             // trigger system_dashboard as default
-            $('#system_dashboard h4').click();
+            $('#dashboard h3').click();
         });
     
         $('#hd_refresh').on('click', function(e) {
@@ -1486,15 +1484,15 @@ $(document).ready(function () {
                 gObj.active.index  = null;
                 gObj.active.h3Arr  = [];
                 gObj.active.h4Arr  = [];
-                gHtml.html = '<ul class="accordion-ul">';
 
+                gHtml.html = '<ul class="accordion-ul">';
                 for (var i=0, ilen=gObj.menu.length; i<ilen; i++) {
                     gObj.active.h3Arr.push(gObj.menu[i].tab);
-                    gHtml.html += '<li id="'+gObj.menu[i].tab+'" class="accordion-ul-li"><h3><a href="#">'+gObj.menu[i].label+'</a></h3>';
                      
                     if  (gObj.menu[i].panel) {
+                        gHtml.html += '<li id="'+gObj.menu[i].tab+'" class="accordion-ul-li"><h3><a href="#">'+gObj.menu[i].label+'</a></h3>';
                         gHtml.html += '<ul class="accordion-ul-ul">';
-                        for (var j=0, jlen= gObj.menu[i].panel.length; j<jlen; j++) {
+                        for (var j=0, jlen=gObj.menu[i].panel.length; j<jlen; j++) {
                             if ('object' == typeof(gObj.menu[i].panel[j].panel) ) {
                                 // h5 
                                 gObj.active.h4Arr.push(gObj.menu[i].panel[j].tab);
@@ -1508,14 +1506,13 @@ $(document).ready(function () {
                                 gHtml.html += '</ul>';
                                 gHtml.html += '</li>';
                                 gHtml.html += '</ul>';
-                            } else {
-                                // h4 
+                            } else 
                                 gHtml.html += '<li id="'+gObj.menu[i].panel[j].tab+'" class="accordion-ul-ul-li index-'+i+'-'+j+'"><h4><a href="#">'+gObj.menu[i].panel[j].label+'</a></h4></li>';
-                            }
                         }
                         gHtml.html += '</ul>';
-                    }
-                    gHtml.html += '</li>';
+                        gHtml.html += '</li>';
+                    } else 
+                        gHtml.html += '<li id="'+gObj.menu[i].tab+'" class="accordion-ul-li index-' + i + ' noPanel"><h3><a href="#">'+gObj.menu[i].label+'</a></h3></li>';
                 }
                 gHtml.html += '</ul>';
         
@@ -1525,13 +1522,79 @@ $(document).ready(function () {
                     collapsible:true, 
                     autoHeight: false
                 });
+
+                // remove h3 icon if no panel,,,
+                $('.noPanel span').remove();
         
                 $('.accordion-ul-ul-ul').accordion({
                     collapsible:true, 
                     active:false, 
                     autoHeight: false
                 });
-        
+
+                $('.accordion-ul-li h3').on('click', function(e) {
+                    gY.log (gReg.isIndex.test($(this).parents('li').attr('class'))) 
+                    if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
+                        gIf.getSessInfo = true; 
+                        gIf.refresh = true;
+                        gObj.actived = gObj.active;
+                        gObj.active = {};
+                        gObj.active.h3Index = RegExp.$1;
+                        gObj.active.h4Index = "NA";
+                        gObj.active.h5Index = "NA";
+                        gObj.active.icon    = $(this);
+                        gObj.active.pid     = $(this).parents('li').attr('id');
+                        gObj.active.target  = $(this);
+                        gObj.active.menu    = '<h3>';
+                        gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index].label+'</b>'; 
+                        if ( gObj.menu[ gObj.active.h3Index ].refresh ) {
+                            gObj.active.menu += '<span class="refreshPage">Refresh Page: <select id="refreshPage"></select></span>';
+                            if ($('#refreshPage').exists())
+                                gObj.active.refresh = $('#refreshPage').val();
+                            else
+                                gObj.active.refresh = gObj.menu[ gObj.active.h3Index ].refresh;
+                        } else {
+                            gIf.refresh = false;
+                        }
+
+                        if ( gObj.menu[ gObj.active.h3Index ].columns ) {
+                            gObj.active.menu += gHtml.pgColumns;
+                        }
+
+                        gObj.active.menu    += '</h3>';
+
+                        // navbar
+                        if (gIf.alter) {
+                            alterAlert();
+                        } else {
+                            gObj.tabIndex = 0;
+                            gIf.isStart = false;
+                            gIf.query = false;
+                            gIf.ajaxed = false;
+                            gIf.systime = false;
+                            gIf.columns = false;
+                            gSort = {};
+                            gQuery = {};
+
+                            $('#main_ft').empty();
+                            if (gObj.active.icon) {
+                                gObj.active.icon.removeClass('ui-actived');
+                                $('#activedMenu').remove();
+                            }
+                            gObj.active.icon.addClass('ui-actived');
+                            gObj.active.icon.prepend(gHtml.aMenu);
+                            gNode = gObj.menu[gObj.active.h3Index];
+                            $('#main_hd').html( gObj.active.menu );
+                            if (gIf.refresh) {
+                                $('#refreshPage').append( genSelectOption( 'refreshPage' ) ).val( gObj.active.refresh );
+                                gObj.active.counting = gObj.active.refresh;
+                            }
+                            getCgiList(gObj.active.pid);
+                        }
+gY.log( gObj.active );
+                    }
+                });
+               
                 $('.accordion-ul-ul-li h4').on('click', function(e) {
                     if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
                         gIf.getSessInfo = true; 
@@ -1539,9 +1602,9 @@ $(document).ready(function () {
                         gObj.actived = gObj.active;
                         gObj.active = {};
                         gObj.active.h3Index = RegExp.$1;
-                        gObj.active.h4Index = RegExp.$2;
+                        gObj.active.h4Index = RegExp.$3;
                         gObj.active.h5Index = "NA";
-                        gObj.active.icon = $(this);
+                        gObj.active.icon    = $(this);
                         gObj.active.pid     = $(this).parents('li').attr('id');
                         gObj.active.target  = $(this);
                         gObj.active.menu    = '<h3>';
@@ -1600,8 +1663,8 @@ $(document).ready(function () {
                         gObj.actived = gObj.active;
                         gObj.active = {};
                         gObj.active.h3Index = RegExp.$1;
-                        gObj.active.h4Index = RegExp.$2;
-                        gObj.active.h5Index = RegExp.$4;
+                        gObj.active.h4Index = RegExp.$3;
+                        gObj.active.h5Index = RegExp.$5;
                         gObj.active.icon    = $(this);
                         gObj.active.pid     = $(this).parents('li').attr('id');
                         gObj.active.target  = $(this);
@@ -1655,7 +1718,7 @@ $(document).ready(function () {
     
                 // trigger system_dashboard as default
                 
-                $('#system_dashboard h4').click();
+                $('#dashboard h3').click();
 
                 // check routing 
                 $.ajax({
@@ -17775,6 +17838,21 @@ $(document).ready(function () {
                         break;
                     }
                     break;
+                case 'tabs':
+                    switch(pid) 
+                    {
+                    case 'http':
+                        break;
+                    case 'smtp':
+                        break;
+                    case 'pop3':
+                        break;
+                    case 'ftp':
+                        break;
+                    case 'cifs':
+                        break;
+                    }
+                    break;
                 case 'chainTabs':
                     switch(pid) 
                     {
@@ -31199,6 +31277,11 @@ $(document).ready(function () {
             gCache.loadline.push('common_service_list', 'common_gService_list');
             break;
         case 'antivirus':
+        case 'http':
+        case 'smtp':
+        case 'pop3':
+        case 'ftp':
+        case 'cifs':
             gCache.loadline.push('common_addr_list', 'common_gAddr_list', 'common_zoneIf_list', 'arpTable');
             break;
         case 'packet_capture':
@@ -31219,9 +31302,7 @@ $(document).ready(function () {
             switch(id)
             {
             // dashboard 
-            case 'system_dashboard':
-            case 'network_dashboard':
-            case 'security_dashboard':
+            case 'dashboard':
                 genDashboard(id);
                 break;
             // reports 
@@ -31258,6 +31339,7 @@ $(document).ready(function () {
                 genFirewall(id);
                 break;
             // security
+            case 'updates':
             case 'ip_mac_binding':
                 genSecurity(id);
                 break;
@@ -31412,6 +31494,11 @@ $(document).ready(function () {
                     switch( id ) 
                     {
                     case 'antivirus':
+                    case 'http':
+                    case 'smtp':
+                    case 'pop3':
+                    case 'ftp':
+                    case 'cifs':
                         genSecurity(id);
                         break;
                     case 'ipsec_policies':
