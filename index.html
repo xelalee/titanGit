@@ -2127,7 +2127,7 @@ $(document).ready(function () {
         case 'affected_host':
         case 'antivirus_report':
             // cache query status
-            window.open('reporter.html?param=' + tar.pid + '&q=' + gObj.tabIndexId + '&sd=' + $('#query-startDate').val() + '&sh=' + $('#query-startHour').val() + '&ed=' + $('#query-endDate').val() + '&eh=' + $('#query-endHour').val(), '_blank');
+            window.open('reporter.html?param=' + tar.pid + '&q=' + gObj.tabIndex + '&sd=' + $('#query-startDate').val() + '&sh=' + $('#query-startHour').val() + '&ed=' + $('#query-endDate').val() + '&eh=' + $('#query-endHour').val(), '_blank');
             break;
         case 'view_logs':
             // cache query status
@@ -5759,10 +5759,10 @@ $(document).ready(function () {
                     }
                     gObj.tabber = $('.tabber').tabs({
                         create: function( event, ui ) {
-                            gObj.tabIndexId = ui.tab[ 0 ].id.split('-').pop();
+                            gObj.tabIndexId = 0;
                         },
                         activate: function( event, ui ) { 
-                            gObj.tabIndexId = ui.newTab[ 0 ].id.split('-').pop();
+                            gObj.tabIndexId = ui.newTab.index();
                             btnColumns( false );
                         }
                     });
@@ -5939,7 +5939,7 @@ $(document).ready(function () {
 
                     gObj.tabber = $('.tabber').tabs({
                         create: function( event, ui ) {
-                            gObj.tabIndexId = ui.tab[ 0 ].id.split('-').pop();
+                            gObj.tabIndex = 0;
 
                             loadingToggle( true );
 
@@ -15542,10 +15542,10 @@ $(document).ready(function () {
 
                         gObj.tabber = $('.tabber').tabs({
                             create: function( event, ui ) {
-                                gObj.tabIndexId = ui.tab[ 0 ].id.split('-').pop();
+                                gObj.tabIndexId = 0;
                             },
                             activate: function( event, ui ) {
-                                gObj.tabIndexId = ui.newTab[ 0 ].id.split('-').pop();
+                                gObj.tabIndexId = ui.newTab.index();
                                 btnColumns( false );
                             }
                         });

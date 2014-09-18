@@ -644,6 +644,7 @@ $(document).ready(function () {
             url: 'advancedQuery.php?param=' + param + '&sd=' + sd + '&sh=' + sh + '&ed=' + ed + '&eh=' + eh + '&q=' + idx,
             dataType: 'json',
             success: function(data) {
+                loadingToggle( false );
                 // transfer protocol from int to string,,,
 
                 for (var i=0, len=data.queryResults.length; i<len; i++)
@@ -844,6 +845,7 @@ $(document).ready(function () {
         });
 
         // data
+        loadingToggle( true );
         getData( param, sd, sh, ed, eh, q, q );
     }
 
@@ -869,6 +871,14 @@ $(document).ready(function () {
 
     function genFooter() {
         $('#ft').html('<p>Copyright &copy; 2014 Titan ARC corp.</p>');
+    }
+
+    function loadingToggle( flag ) {
+        if (flag) {
+            $('body').addClass('loadingClass');
+        } else {
+            $('body').removeClass('loadingClass');
+        }
     }
 
     function init() {
@@ -916,6 +926,7 @@ $(document).ready(function () {
         <div id="bd_ft"></div>
       </div>
       <div id="ft"></div>
+      <div class="modals"></div>
     </div>
   </body>
 </html>

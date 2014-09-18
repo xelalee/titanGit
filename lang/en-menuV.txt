@@ -236,10 +236,10 @@
       "type" : "tabs",
       "tabs" :
       {
-        "general" : "General Setting",
+        "general_settings" : "General Setting",
         "http_notification" : "HTTP Notify",
-        "address_exception" : "Address Exception",
-        "file_exception" : "File Exception",
+        "address_exceptions" : "Address Exception",
+        "file_exceptions" : "File Exception",
         "blacklist" : "Blacklist",
         "whitelist" : "Whitelist"
       },
@@ -647,10 +647,10 @@
       "type" : "tabs",
       "tabs" :
       {
-        "general" : "General Setting",
+        "general_settings" : "General Setting",
         "email_notification" : "Email Notify",
-        "address_exception" : "Address Exception",
-        "file_exception" : "File Exception",
+        "address_exceptions" : "Address Exception",
+        "file_exceptions" : "File Exception",
         "blacklist" : "Blacklist",
         "whitelist" : "Whitelist"
       },
@@ -1093,10 +1093,10 @@
       "type" : "tabs",
       "tabs" :
       {
-        "general" : "General Setting",
+        "general_settings" : "General Setting",
         "email_notification" : "Email Notify",
-        "address_exception" : "Address Exception",
-        "file_exception" : "File Exception",
+        "address_exceptions" : "Address Exception",
+        "file_exceptions" : "File Exception",
         "blacklist" : "Blacklist",
         "whitelist" : "Whitelist"
       },
@@ -1540,9 +1540,9 @@
       "type" : "tabs",
       "tabs" :
       {
-        "general" : "General Setting",
-        "address_exception" : "Address Exception",
-        "file_exception" : "File Exception",
+        "general_settings" : "General Setting",
+        "address_exceptions" : "Address Exception",
+        "file_exceptions" : "File Exception",
         "blacklist" : "Blacklist",
         "whitelist" : "Whitelist"
       },
@@ -1945,9 +1945,9 @@
       "type" : "tabs",
       "tabs" :
       {
-        "general" : "General Setting",
-        "address_exception" : "Address Exception",
-        "file_exception" : "File Exception",
+        "general_settings" : "General Setting",
+        "address_exceptions" : "Address Exception",
+        "file_exceptions" : "File Exception",
         "blacklist" : "Blacklist",
         "whitelist" : "Whitelist"
       },

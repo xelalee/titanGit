@@ -38,6 +38,8 @@
     <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
     <script type="text/javascript" src="js/jquery.bgiframe.js"></script>
     <script type="text/javascript" src="js/jquery-ui-1.9.2.custom.js"></script>
+<!-- chart js -->
+    <script type="text/javascript" src="js/Chart.js"></script>
 <!-- custom js -->
     <script type="text/javascript" src="js/ipCalc.js"></script>
 
@@ -144,7 +146,8 @@ Object.size = function(obj) {
 }
 
 // yui instance
-var gY = YUI({filter:"raw", defaultGraphicEngine: "canvas"}).use('anim', 'charts', 'charts-legend', 'console', 'cookie', 'datasource', 'datasource-get', 'datasource-io', 'datasource-jsonschema', 'datatable-base', 'datatable-sort', 'datatable-datasource', 'dd', 'dd-plugin', 'dump', 'event', 'get', 'io-base', 'io-upload-iframe', 'json', 'json-parse', 'json-stringify', 'node', 'panel', 'uploader', 'yui');
+//var gY = YUI({filter:"raw", defaultGraphicEngine: "canvas"}).use('anim', 'charts', 'charts-legend', 'console', 'cookie', 'datasource', 'datasource-get', 'datasource-io', 'datasource-jsonschema', 'datatable-base', 'datatable-sort', 'datatable-datasource', 'dd', 'dd-plugin', 'dump', 'event', 'get', 'io-base', 'io-upload-iframe', 'json', 'json-parse', 'json-stringify', 'node', 'panel', 'uploader', 'yui');
+var gY = YUI({filter:"raw"}).use('anim', 'charts', 'charts-legend', 'console', 'cookie', 'datasource', 'datasource-get', 'datasource-io', 'datasource-jsonschema', 'datatable-base', 'datatable-sort', 'datatable-datasource', 'dd', 'dd-plugin', 'dump', 'event', 'get', 'io-base', 'io-upload-iframe', 'json', 'json-parse', 'json-stringify', 'node', 'panel', 'uploader', 'yui');
 
 // define global vars
 var gLang = ['en', 'cn', 'tw']; // languages
@@ -165,6 +168,7 @@ var gError = {};
 var gTerm  = {};
 var gLimit = {};
 var gCheck = {};
+var gChart = {};
 var gIssue = {};
 var gCheckbox = {};
 var gQuery = {};
@@ -1533,7 +1537,6 @@ $(document).ready(function () {
                 });
 
                 $('.accordion-ul-li h3').on('click', function(e) {
-                    gY.log (gReg.isIndex.test($(this).parents('li').attr('class')))
                     if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
                         gIf.getSessInfo = true;
                         gIf.refresh = true;
@@ -1591,7 +1594,6 @@ $(document).ready(function () {
                             }
                             getCgiList(gObj.active.pid);
                         }
-gY.log( gObj.active );
                     }
                 });
 
@@ -2168,7 +2170,7 @@ gY.log( gObj.active );
         case 'affected_host':
         case 'antivirus_report':
             // cache query status
-            window.open('reporterK.html?param=' + tar.pid + '&q=' + gObj.tabIndexId + '&sd=' + $('#query-startDate').val() + '&sh=' + $('#query-startHour').val() + '&ed=' + $('#query-endDate').val() + '&eh=' + $('#query-endHour').val(), '_blank');
+            window.open('reporterV.html?param=' + tar.pid + '&q=' + gObj.tabIndex + '&sd=' + $('#query-startDate').val() + '&sh=' + $('#query-startHour').val() + '&ed=' + $('#query-endDate').val() + '&eh=' + $('#query-endHour').val(), '_blank');
             break;
         case 'view_logs':
             // cache query status
@@ -5513,23 +5515,18 @@ gY.log( gObj.active );
                             tmp += '</tbody>';
                             break;
                         case 'chart':
-                            for (var i=0, len=feed.col.length; i<len; i++)
-                            {
-                                tmp += '<tr>';
-                                tmp += '<th>';
-                                tmp += feed.col[ i ].label;
-                                tmp += '</th>';
-                                tmp += '<td>';
-                                tmp += '<img src="css/images/' + feed.col[ i ].icon + '"/>';
-                                tmp += '</td>';
-                                tmp += '<td>';
-                                tmp += '<div class="progressDiv ' + feed.col[ i ].tab + '" style="text-align:center"></div>';
-                                tmp += '</td>';
-                                tmp += '<td>';
-                                tmp += '<span id="' + feed.id + '-' + feed.col[ i ].tab + '">' + data[ feed.col[ i ].tab ] + '%</span>';
-                                tmp += '</td>';
-                                tmp += '</tr>';
-                            }
+                            tmp += '<tr>';
+                            tmp += '<td>';
+                            tmp += '<div id="cpu"><canvas id="cpuChart" width="150px" height="150px" style="width:150px;height:150px"></canvas></div>'; 
+                            tmp += '</td>';
+                            tmp += '<td>';
+                            tmp += '<div id="mem"><canvas id="memChart" width="150px" height="150px" style="width:150px;height:150px"></canvas></div>'; 
+                            tmp += '</td>';
+                            tmp += '</tr>';
+                            tmp += '<tr>';
+                            tmp += '<th class="alignCenter">CPU</th>';
+                            tmp += '<th class="alignCenter">Memory</th>';
+                            tmp += '</tr>';
                             break;
                         }
                         tmp += '</table>';
@@ -5538,14 +5535,11 @@ gY.log( gObj.active );
                     tmp += '</div>';
                     node.set('innerHTML', tmp);
 
-                    switch (feed.tag == 'table' && feed.type == 'chart')
-                    {
-                    case true:
-                        for (var i=0, len=feed.col.length; i<len; i++)
-                        {
-                            $('.' + feed.col[ i ].tab ).progressbar({ value: parseInt( data[ feed.col[ i ].tab ] ) });
-                        }
-                        break;
+                    if (feed.tag == 'table' && feed.type == 'chart') {
+                        var cpuData = [ { value: parseInt( data.cpuUtilization ) , color: '#cc0000', highlight: "#cc0000", "label": "Used" }, { value: ( 100 - parseInt( data.cpuUtilization ) ), color: '#007260', highlight: "#007260", "label": "Free" } ]
+                        var cpuChart = new Chart( $('#cpuChart').get(0).getContext('2d') ).Pie( cpuData, { animateRotate: false } );
+                        var memData = [ { value: parseInt( data.memoryUtilization ), color: '#cc0000', highlight: "#cc0000", "label": "Used" }, { value: ( 100 - parseInt( data.memoryUtilization ) ), color: '#007260', highlight: "#007260", "label": "Free" } ]
+                        var memChart = new Chart( $('#memChart').get(0).getContext('2d') ).Pie( memData, { animateRotate: false } );
                     }
                 }
             });
@@ -5777,10 +5771,10 @@ gY.log( gObj.active );
                     }
                     gObj.tabber = $('.tabber').tabs({
                         create: function( event, ui ) {
-                            gObj.tabIndexId = ui.tab[ 0 ].id.split('-').pop();
+                            gObj.tabIndexId = 0;
                         },
                         activate: function( event, ui ) {
-                            gObj.tabIndexId = ui.newTab[ 0 ].id.split('-').pop();
+                            gObj.tabIndexId = ui.newTab.index();
                             btnColumns( false );
                         }
                     });
@@ -5957,7 +5951,7 @@ gY.log( gObj.active );
 
                     gObj.tabber = $('.tabber').tabs({
                         create: function( event, ui ) {
-                            gObj.tabIndexId = ui.tab[ 0 ].id.split('-').pop();
+                            gObj.tabIndex = 0
 
                             loadingToggle( true );
 
@@ -7361,6 +7355,8 @@ gY.log( gObj.active );
                                         case 'address':
                                             if (2 === gCache.ports[ data[ gNode.guiT ][ i ].interface ] || parseInt( data[ gNode.guiT ][ i ].type ) > 0) {
                                                 tmp += '';
+                                            } else if ( data[ gNode.guiT ][ i ].interfaces == "" ){
+                                                tmp += '';
                                             } else {
                                                 tmp += data[ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
                                             }
@@ -7953,6 +7949,15 @@ gY.log( gObj.active );
                         }
                         break;
                     case 'address':
+                        gY.log( '@address: ' ); gY.log(  gCache[ pid ].interfaces );
+                        if (2 === gCache.ports[ gData[ pid ][ gNode.guiT ][ i ].interface ] || parseInt( gData[ pid ][ gNode.guiT ][ i ].type ) > 0) {
+                            tmp += '';
+                        } else if ( gCache[ pid ].interfaces[ gData[ pid ][ gNode.guiT ][ i ].gid ].length == 0  ){
+                            tmp += '';
+                        } else {
+                            tmp += gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ j ].tab ];
+                        }
+                        break;
                     case 'dhcpPool':
                         if (2 === gCache.ports[ gData[ pid ][ gNode.guiT ][ i ].interface ] || parseInt( gData[ pid ][ gNode.guiT ][ i ].type ) > 0) {
                             tmp += '';
@@ -11050,11 +11055,11 @@ gY.log( gObj.active );
                                                 gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].userDefined = 1;
                                                 gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].gid = gCache[ tar.pid ].gid;
                                                 gCache.uniq[ tar.pid ][ gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].name ] = true;
+                                                gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].name = $('#basic_settings-name').val();
                                             } else {
                                                 tar.thisNo = tar.id.split(gReg.isDash)[2];
                                             }
 
-                                            gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].name = $('#basic_settings-name').val();
                                             gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].address = $('#basic_settings-address').val();
                                             gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].netmask = $('#basic_settings-netmask').val();
                                             gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].zoneId = $('#basic_settings-zoneId').val();
@@ -11162,11 +11167,11 @@ gY.log( gObj.active );
                                                 gData[ tar.pid ][ gNode.dhcpTNum ] = gData[ tar.pid ][ gNode.dhcpT ].length;
                                                 gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].gid = gCache[ tar.pid ].gid;
                                                 gCache.uniq[ tar.pid ][ gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].name ] = true;
+                                                gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].name = $('#basic_settings-name').val();
                                             } else {
                                                 tar.thisNo = tar.id.split(gReg.isDash)[2];
                                             }
 
-                                            gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].name = $('#basic_settings-name').val();
                                             gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].interface = $('#basic_settings-interface').val();
                                             gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].vid = $('#basic_settings-vid').val();
                                             gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].address = $('#basic_settings-address').val();
@@ -15558,10 +15563,10 @@ gY.log( gObj.active );
 
                         gObj.tabber = $('.tabber').tabs({
                             create: function( event, ui ) {
-                                gObj.tabIndexId = ui.tab[ 0 ].id.split('-').pop();
+                                gObj.tabIndexId = 0;
                             },
                             activate: function( event, ui ) {
-                                gObj.tabIndexId = ui.newTab[ 0 ].id.split('-').pop();
+                                gObj.tabIndexId = ui.newTab.index();
                                 btnColumns( false );
                             }
                         });
@@ -17804,34 +17809,18 @@ gY.log( gObj.active );
 
                                         tmp = '<tr>';
                                         tmp += '<td>';
-                                        tmp += '<div id="div-enable_antivirus">';
-                                        tmp += '<table id="table-enable_antivirus">';
-                                        tmp += '<tr>';
-                                        tmp += '<td class="BT10"></td>';
-                                        tmp += '<th class="alignLeft">';
-                                        tmp += '<input type="checkbox" id="enabled" value="1" />&nbsp;';
-                                        tmp += '<label for="enabled">' + gNode.col[ y ][ 0 ].label + '</label>';
-                                        tmp += '</th>';
-                                        tmp += '</tr>';
-                                        tmp += '</table>';
-                                        tmp += '</div>';
-                                        tmp += '</th>';
-                                        tmp += '</tr>';
-
-                                        tmp += '<tr>';
-                                        tmp += '<td>';
                                         tmp += '<div id="div-zone_to_scan">';
                                         tmp += '<table id="table-zone_to_scan">';
-                                        tmp += '<caption>' + gNode.col[ y ][ 1 ].label + '</caption>';
+//                                        tmp += '<caption>' + gNode.col[ y ][ 0 ].label + '</caption>';
                                         tmp += '<tr>';
                                         tmp += '<th class="alignCenter BT200">';
-                                        tmp += '<label for="selectedZonesTPool">' + gNode.col[ y ][ 1 ].multiple.pool.label + '</label>';
+                                        tmp += '<label for="selectedZonesTPool">' + gNode.col[ y ][ 0 ].multiple.pool.label + '</label>';
                                         tmp += '</th>';
                                         tmp += '<th class="alignCenter BT100">';
                                         tmp += '<label for="selectedZonesTButton"></label>';
                                         tmp += '</th>';
                                         tmp += '<th class="alignCenter BT200">';
-                                        tmp += '<label for="selectedZonesT">' + gNode.col[ y ][ 1 ].multiple.pick.label + '</label>';
+                                        tmp += '<label for="selectedZonesT">' + gNode.col[ y ][ 0 ].multiple.pick.label + '</label>';
                                         tmp += '</th>';
                                         tmp += '</tr>';
                                         tmp += '<tr>';
@@ -17853,296 +17842,85 @@ gY.log( gObj.active );
 
                                         tmp += '<tr>';
                                         tmp += '<td>';
-                                        tmp +=   '<div id="div-application_to_scan">';
-                                        tmp +=     '<table id="table-application_to_scan">';
-                                        tmp +=       '<caption>' + gNode.col[ y ][ 2 ].label + '</caption>';
-                                        tmp +=       '<tr>';
-                                        tmp +=         '<td>';
-                                        tmp +=           '<div id="div-http">';
-                                        tmp +=             '<table id="table-http">';
-                                        tmp +=               '<tr>';
-                                        tmp +=                 '<th colspan="3" class="alignLeft">';
-                                        tmp +=                   '<p>' + gNode.col[ y ][ 2 ].col[ 0 ].label + '</p>';
-                                        tmp +=                 '</th>';
-                                        tmp +=               '</tr>';
-                                        tmp +=               '<tr>';
-                                        tmp +=                 '<td class="alignLeft BT40">';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="httpEnable">' + gNode.col[ y ][ 2 ].col[ 0 ].col[ 0 ].label + '</label>';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<input type="checkbox" id="httpEnable" value="1">';
-                                        tmp +=                 '</td>';
-                                        tmp +=               '</tr>';
-                                        tmp +=               '<tr class="httpEnable">';
-                                        tmp +=                 '<td class="alignLeft BT40">';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="httpLog">' + gNode.col[ y ][ 2 ].col[ 0 ].col[ 1 ].label + '</label>';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<input type="checkbox" id="httpLog" value="1">';
-                                        tmp +=                 '</td>';
-                                        tmp +=               '</tr>';
-                                        tmp +=               '<tr class="httpEnable">';
-                                        tmp +=                 '<td class="alignLeft BT40">';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="httpAct">' + gNode.col[ y ][ 2 ].col[ 0 ].col[ 2 ].label + '</label>';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<select id="httpAct"></select>';
-                                        tmp +=                 '</td>';
-                                        tmp +=               '</tr>';
-                                        tmp +=               '<tr class="httpEnable">';
-                                        tmp +=                 '<td class="alignLeft BT40">';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="httpPortList-0">' + gNode.col[ y ][ 2 ].col[ 0 ].col[ 3 ].label + '</label>';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<input type="text" id="httpPortList-0" size="3" />';
-                                        tmp +=                   '<input type="text" id="httpPortList-1" size="3" />';
-                                        tmp +=                   '<input type="text" id="httpPortList-2" size="3" />';
-                                        tmp +=                   '<input type="text" id="httpPortList-3" size="3" />';
-                                        tmp +=                   '<input type="text" id="httpPortList-4" size="3" />';
-                                        tmp +=                 '</td>';
-                                        tmp +=               '</tr>';
-                                        tmp +=             '</table>';
-                                        tmp +=           '</div>';
-                                        tmp +=         '</td>';
-                                        tmp +=         '<td>';
-                                        tmp +=           '<div id="div-ftp">';
-                                        tmp +=             '<table id="table-ftp">';
-                                        tmp +=               '<tr>';
-                                        tmp +=                 '<th colspan="3" class="alignLeft">';
-                                        tmp +=                   '<p>' + gNode.col[ y ][ 2 ].col[ 1 ].label + '</p>';
-                                        tmp +=                 '</th>';
-                                        tmp +=               '</tr>';
-                                        tmp +=               '<tr>';
-                                        tmp +=                 '<td class="alignLeft BT40">';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="ftpEnable">' + gNode.col[ y ][ 2 ].col[ 1 ].col[ 0 ].label + '</label>';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<input type="checkbox" id="ftpEnable" value="1">';
-                                        tmp +=                 '</td>';
-                                        tmp +=               '</tr>';
-                                        tmp +=               '<tr class="ftpEnable">';
-                                        tmp +=                 '<td class="alignLeft BT40">';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="ftpLog">' + gNode.col[ y ][ 2 ].col[ 1 ].col[ 1 ].label + '</label>';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<input type="checkbox" id="ftpLog" value="1">';
-                                        tmp +=                 '</td>';
-                                        tmp +=               '</tr>';
-                                        tmp +=               '<tr class="ftpEnable">';
-                                        tmp +=                 '<td class="alignLeft BT40">';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="ftpAct">' + gNode.col[ y ][ 2 ].col[ 1 ].col[ 2 ].label + '</label>';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<select id="ftpAct"></select>';
-                                        tmp +=                 '</td>';
-                                        tmp +=               '</tr>';
-                                        tmp +=               '<tr class="ftpEnable">';
-                                        tmp +=                 '<td class="alignLeft BT40">';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="ftpPortList-0">' + gNode.col[ y ][ 2 ].col[ 1 ].col[ 3 ].label + '</label>';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<input type="text" id="ftpPortList-0" size="3" />';
-                                        tmp +=                   '<input type="text" id="ftpPortList-1" size="3" />';
-                                        tmp +=                   '<input type="text" id="ftpPortList-2" size="3" />';
-                                        tmp +=                   '<input type="text" id="ftpPortList-3" size="3" />';
-                                        tmp +=                   '<input type="text" id="ftpPortList-4" size="3" />';
-                                        tmp +=                 '</td>';
-                                        tmp +=               '</tr>';
-                                        tmp +=             '</table>';
-                                        tmp +=           '</div>';
-                                        tmp +=         '</td>';
-                                        tmp +=       '</tr>';
 
-                                        tmp +=       '<tr>';
-                                        tmp +=         '<td>';
-                                        tmp +=           '<div id="div-smtp">';
-                                        tmp +=             '<table id="table-smtp">';
+                                        tmp +=           '<div id="div-' + pid + '">';
+                                        tmp +=             '<table id="table-' + pid + '">';
                                         tmp +=               '<tr>';
                                         tmp +=                 '<th colspan="3" class="alignLeft">';
-                                        tmp +=                   '<p>' + gNode.col[ y ][ 2 ].col[ 2 ].label + '</p>';
+//                                        tmp +=                   '<p>' + gNode.col[ y ][ 1 ].label + '</p>';
                                         tmp +=                 '</th>';
                                         tmp +=               '</tr>';
                                         tmp +=               '<tr>';
                                         tmp +=                 '<td class="alignLeft BT40">';
                                         tmp +=                 '</td>';
                                         tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="smtpEnable">' + gNode.col[ y ][ 2 ].col[ 2 ].col[ 0 ].label + '</label>';
+                                        tmp +=                   '<label for="' + pid + '"Enable">' + gNode.col[ y ][ 1 ].col[ 0 ].label + '</label>';
                                         tmp +=                 '</td>';
                                         tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<input type="checkbox" id="smtpEnable" value="1">';
+                                        tmp +=                   '<input type="checkbox" id="' + pid + 'Enable" value="1">';
                                         tmp +=                 '</td>';
                                         tmp +=               '</tr>';
-                                        tmp +=               '<tr class="smtpEnable">';
+                                        tmp +=               '<tr class="' + pid + 'Enable">';
                                         tmp +=                 '<td class="alignLeft BT40">';
                                         tmp +=                 '</td>';
                                         tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="smtpLog">' + gNode.col[ y ][ 2 ].col[ 2 ].col[ 1 ].label + '</label>';
+                                        tmp +=                   '<label for="' + pid + 'Log">' + gNode.col[ y ][ 1 ].col[ 1 ].label + '</label>';
                                         tmp +=                 '</td>';
                                         tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<input type="checkbox" id="smtpLog" value="1">';
+                                        tmp +=                   '<input type="checkbox" id="' + pid + 'Log" value="1">';
                                         tmp +=                 '</td>';
                                         tmp +=               '</tr>';
-                                        tmp +=               '<tr class="smtpEnable">';
+                                        tmp +=               '<tr class="' + pid + 'Enable">';
                                         tmp +=                 '<td class="alignLeft BT40">';
                                         tmp +=                 '</td>';
                                         tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="smtpAct">' + gNode.col[ y ][ 2 ].col[ 2 ].col[ 2].label + '</label>';
+                                        tmp +=                   '<label for="' + pid + 'Act">' + gNode.col[ y ][ 1 ].col[ 2 ].label + '</label>';
                                         tmp +=                 '</td>';
                                         tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<select id="smtpAct"></select>';
+                                        tmp +=                   '<select id="' + pid + 'Act"></select>';
                                         tmp +=                 '</td>';
                                         tmp +=               '</tr>';
-                                        tmp +=               '<tr class="smtpEnable">';
-                                        tmp +=                 '<td class="alignLeft BT40">';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="smtpPortList-0">' + gNode.col[ y ][ 2 ].col[ 2 ].col[ 3 ].label + '</label>';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<input type="text" id="smtpPortList-0" size="3" />';
-                                        tmp +=                   '<input type="text" id="smtpPortList-1" size="3" />';
-                                        tmp +=                   '<input type="text" id="smtpPortList-2" size="3" />';
-                                        tmp +=                   '<input type="text" id="smtpPortList-3" size="3" />';
-                                        tmp +=                   '<input type="text" id="smtpPortList-4" size="3" />';
-                                        tmp +=                 '</td>';
-                                        tmp +=               '</tr>';
-                                        tmp +=             '</table>';
-                                        tmp +=           '</div>';
-                                        tmp +=         '</td>';
-                                        tmp +=         '<td>';
-                                        tmp +=           '<div id="div-pop3">';
-                                        tmp +=             '<table id="table-pop3">';
-                                        tmp +=               '<tr>';
-                                        tmp +=                 '<th colspan="3" class="alignLeft">';
-                                        tmp +=                   '<p>' + gNode.col[ y ][ 2 ].col[ 3 ].label + '</p>';
-                                        tmp +=                 '</th>';
-                                        tmp +=               '</tr>';
-                                        tmp +=               '<tr>';
-                                        tmp +=                 '<td class="alignLeft BT40">';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="pop3Enable">' + gNode.col[ y ][ 2 ].col[ 3 ].col[ 0 ].label + '</label>';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<input type="checkbox" id="pop3Enable" value="1">';
-                                        tmp +=                 '</td>';
-                                        tmp +=               '</tr>';
-                                        tmp +=               '<tr class="pop3Enable">';
-                                        tmp +=                 '<td class="alignLeft BT40">';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="pop3Log">' + gNode.col[ y ][ 2 ].col[ 3 ].col[ 1 ].label + '</label>';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<input type="checkbox" id="pop3Log" value="1">';
-                                        tmp +=                 '</td>';
-                                        tmp +=               '</tr>';
-                                        tmp +=               '<tr class="pop3Enable">';
-                                        tmp +=                 '<td class="alignLeft BT40">';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="pop3Act">' + gNode.col[ y ][ 2 ].col[ 3 ].col[ 2 ].label + '</label>';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<select id="pop3Act"></select>';
-                                        tmp +=                 '</td>';
-                                        tmp +=               '</tr>';
-                                        tmp +=               '<tr class="pop3Enable">';
-                                        tmp +=                 '<td class="alignLeft BT40">';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="pop3PortList-0">' + gNode.col[ y ][ 2 ].col[ 3 ].col[ 3 ].label + '</label>';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<input type="text" id="pop3PortList-0" size="3" />';
-                                        tmp +=                   '<input type="text" id="pop3PortList-1" size="3" />';
-                                        tmp +=                   '<input type="text" id="pop3PortList-2" size="3" />';
-                                        tmp +=                   '<input type="text" id="pop3PortList-3" size="3" />';
-                                        tmp +=                   '<input type="text" id="pop3PortList-4" size="3" />';
-                                        tmp +=                 '</td>';
-                                        tmp +=               '</tr>';
-                                        tmp +=             '</table>';
-                                        tmp +=           '</div>';
-                                        tmp +=         '</td>';
-                                        tmp +=       '</tr>';
+                                        switch( pid )
+                                        {
+                                        case 'http':
+                                        case 'smtp':
+                                        case 'pop3':
+                                        case 'ftp':
+                                            tmp +=               '<tr class="' + pid + 'Enable">';
+                                            tmp +=                 '<td class="alignLeft BT40">';
+                                            tmp +=                 '</td>';
+                                            tmp +=                 '<td class="alignLeft BT60">';
+                                            tmp +=                   '<label for="' + pid + 'PortList-0">' + gNode.col[ y ][ 1 ].col[ 3 ].label + '</label>';
+                                            tmp +=                 '</td>';
+                                            tmp +=                 '<td class="alignLeft">';
+                                            tmp +=                   '<input type="text" id="' + pid + 'PortList-0" size="3" />';
+                                            tmp +=                   '<input type="text" id="' + pid + 'PortList-1" size="3" />';
+                                            tmp +=                   '<input type="text" id="' + pid + 'PortList-2" size="3" />';
+                                            tmp +=                   '<input type="text" id="' + pid + 'PortList-3" size="3" />';
+                                            tmp +=                   '<input type="text" id="' + pid + 'PortList-4" size="3" />';
+                                            tmp +=                 '</td>';
+                                            tmp +=               '</tr>';
+                                            break;
+                                        }
 
-                                        tmp +=       '<tr>';
-                                        tmp +=         '<td>';
-                                        tmp +=           '<div id="div-cifs">';
-                                        tmp +=             '<table id="table-cifs">';
-                                        tmp +=               '<tr>';
-                                        tmp +=                 '<th colspan="3" class="alignLeft">';
-                                        tmp +=                   '<p>' + gNode.col[ y ][ 2 ].col[ 4 ].label + '</p>';
-                                        tmp +=                 '</th>';
-                                        tmp +=               '</tr>';
-                                        tmp +=               '<tr>';
-                                        tmp +=                 '<td class="alignLeft BT40">';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="cifsEnable">' + gNode.col[ y ][ 2 ].col[ 4 ].col[ 0 ].label + '</label>';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<input type="checkbox" id="cifsEnable" value="1">';
-                                        tmp +=                 '</td>';
-                                        tmp +=               '</tr>';
-                                        tmp +=               '<tr class="cifsEnable">';
-                                        tmp +=                 '<td class="alignLeft BT40">';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="cifsLog">' + gNode.col[ y ][ 2 ].col[ 4 ].col[ 1 ].label + '</label>';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<input type="checkbox" id="cifsLog" value="1">';
-                                        tmp +=                 '</td>';
-                                        tmp +=               '</tr>';
-                                        tmp +=               '<tr class="cifsEnable">';
-                                        tmp +=                 '<td class="alignLeft BT40">';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft BT60">';
-                                        tmp +=                   '<label for="cifsAct">' + gNode.col[ y ][ 2 ].col[ 4 ].col[ 2 ].label + '</label>';
-                                        tmp +=                 '</td>';
-                                        tmp +=                 '<td class="alignLeft">';
-                                        tmp +=                   '<select id="cifsAct"></select>';
-                                        tmp +=                 '</td>';
-                                        tmp +=               '</tr>';
                                         tmp +=             '</table>';
                                         tmp +=           '</div>';
-                                        tmp +=         '</td>';
-                                        tmp +=         '<td>';
-                                        tmp +=         '</td>';
-                                        tmp +=       '</tr>';
-                                        tmp +=     '</table>';
-                                        tmp +=   '</div>';
+
                                         tmp += '</td>';
                                         tmp += '</tr>';
+
 
                                         tmp += '<tr>';
                                         tmp += '<td>';
                                         tmp += '<div id="div-maximumFile">';
                                         tmp += '<table id="table-maximumFile">';
-                                        tmp += '<caption>' + gNode.col[ y ][ 3 ].label + '</caption>';
+                                        tmp += '<caption>' + gNode.col[ y ][ 2 ].label + '</caption>';
                                         tmp += '<tr>';
                                         tmp += '<td class="alignLeft BT100">';
                                         tmp += '<input type="text" id="maxFileSize" size="8"/>';
                                         tmp += '</td>';
                                         tmp += '<th class="alignLeft">';
-                                        tmp += '<label for="maxFileSize">' + gNode.col[ y ][ 3 ].note + '</label>';
+                                        tmp += '<label for="maxFileSize">' + gNode.col[ y ][ 2 ].note + '</label>';
                                         tmp += '</th>';
                                         tmp += '</tr>';
                                         tmp += '</table>';
@@ -18151,11 +17929,179 @@ gY.log( gObj.active );
                                         tmp += '</tr>';
 
                                         $('#table-general_settings').html( tmp );
+                                        // bind double click event
+                                        $('#selectedZonesTPool').dblclick(function(e) {
+                                            var vSel = $('#selectedZonesTPool option:selected');
+                                            vSel.clone().appendTo('#selectedZonesT');
+                                            vSel.remove();
+                                        });
+
+                                        $('#selectedZonesT').dblclick(function(e) {
+                                            var vSel = $('#selectedZonesT option:selected');
+                                            vSel.clone().appendTo('#selectedZonesTPool');
+                                            vSel.remove();
+                                        });
+
+                                        $('#httpEnable').on('click', function(e) {
+                                            if ($(this).is(':checked')) {
+                                                $('.httpEnable input').prop('disabled', false);
+                                                $('.httpEnable select').prop('disabled', false);
+                                            } else {
+                                                $('.httpEnable input').prop('disabled', true);
+                                                $('.httpEnable select').prop('disabled', true);
+                                            }
+                                        });
+
+                                        $('#ftpEnable').on('click', function(e) {
+                                            if ($(this).is(':checked')) {
+                                                $('.ftpEnable input').prop('disabled', false);
+                                                $('.ftpEnable select').prop('disabled', false);
+                                            } else {
+                                                $('.ftpEnable input').prop('disabled', true);
+                                                $('.ftpEnable select').prop('disabled', true);
+                                            }
+                                        });
+
+                                        $('#smtpEnable').on('click', function(e) {
+                                            if ($(this).is(':checked')) {
+                                                $('.smtpEnable input').prop('disabled', false);
+                                                $('.smtpEnable select').prop('disabled', false);
+                                            } else {
+                                                $('.smtpEnable input').prop('disabled', true);
+                                                $('.smtpEnable select').prop('disabled', true);
+                                            }
+                                        });
+                                        $('#pop3Enable').on('click', function(e) {
+                                            if ($(this).is(':checked')) {
+                                                $('.pop3Enable input').prop('disabled', false);
+                                                $('.pop3Enable select').prop('disabled', false);
+                                            } else {
+                                                $('.pop3Enable input').prop('disabled', true);
+                                                $('.pop3Enable select').prop('disabled', true);
+                                            }
+                                        });
+
+                                        $('#imapEnable').on('click', function(e) {
+                                            if ($(this).is(':checked')) {
+                                                $('.imapEnable input').prop('disabled', false);
+                                                $('.imapEnable select').prop('disabled', false);
+                                            } else {
+                                                $('.imapEnable input').prop('disabled', true);
+                                                $('.imapEnable select').prop('disabled', true);
+                                            }
+                                        });
+
+                                        $('#cifsEnable').on('click', function(e) {
+                                            if ($(this).is(':checked')) {
+                                                $('.cifsEnable input').prop('disabled', false);
+                                                $('.cifsEnable select').prop('disabled', false);
+                                            } else {
+                                                $('.cifsEnable input').prop('disabled', true);
+                                                $('.cifsEnable select').prop('disabled', true);
+                                            }
+                                        });
+
+                                        for (var node in data)
+                                        {
+                                            switch(node)
+                                            {
+                                            case 'selectedZoneNum':
+                                            case 'enable':
+                                                break;
+                                            case 'licensed':
+/*
+                                                switch( parseInt( data[ node ] ) )
+                                                {
+                                                case 2:
+                                                case 3:
+                                                    if (parseInt( data.enable ) == 1)
+                                                        $('#enabled').attr('checked', true);
+                                                    else {
+                                                        gObj.tabber.tabs({"disabled": [1,2,3,4,5,6,7]});
+                                                        $('#table-zone_to_scan button').prop('disabled', true);
+                                                        $('#table-zone_to_scan select').prop('disabled', true);
+                                                        $('#table-application_to_scan input').prop('disabled', true);
+                                                        $('#table-application_to_scan select').prop('disabled', true);
+                                                        $('#table-maximumFile input').prop('disabled', true);
+                                                    }
+                                                    break;
+                                                default:
+                                                    gObj.tabber.tabs({"disabled": [1,2,3,4,5,6,7]});
+                                                    $('#table-general_settings input').prop('disabled', true);
+                                                    $('#table-general_settings select').prop('disabled', true);
+                                                    $('#table-general_settings button').prop('disabled', true);
+                                                    $('#pgSave').prop('disabled', true);
+                                                    $('#pgCancel').prop('disabled', true);
+                                                }
+*/
+                                                break;
+                                            case 'httpPortNum':
+                                            case 'ftpPortNum':
+                                            case 'smtpPortNum':
+                                            case 'pop3PortNum':
+                                                break;
+                                            case 'httpPortListT':
+                                            case 'ftpPortListT':
+                                            case 'smtpPortListT':
+                                            case 'pop3PortListT':
+                                                for (var i=0, len=parseInt( data[ node.replace('ListT', 'Num') ]); i<len; i++)
+                                                {
+                                                    $('#' + node.replace('T', '-') + i).val( data[ node ][ i ].port );
+                                                    gCache.uniq[ y ].portListT[ parseInt( data[ node ][ i ].port ) ] = node.replace('PortListT', '');
+                                                    gCache.uniq[ y ].portList[ parseInt( data[ node ][ i ].port ) ] = true;
+                                                }
+                                                break;
+                                            case 'selectedZonesT':
+                                                for (var i=0, len=parseInt(gCache.list.common_zoneIf_list.guiZoneIfTNum); i < len; i++)
+                                                {
+                                                    var pool = true;
+                                                    for (var j=0, jlen=parseInt(data.selectedZonesNum); j<jlen; j++)
+                                                    {
+                                                        if (parseInt(gCache.list.common_zoneIf_list.guiZoneIfT[ i ].gid) == parseInt(data.selectedZonesT[ j ].gid)) {
+                                                            pool = false;
+                                                            $('#selectedZonesT').append('<option value="' + gCache.list.common_zoneIf_list.guiZoneIfT[ i ].gid + '">' + gCache.list.common_zoneIf_list.guiZoneIfT[ i ].name + '</option>');
+                                                            break;
+                                                        }
+                                                    }
+                                                    if (pool) {
+                                                        $('#selectedZonesTPool').append('<option value="' + gCache.list.common_zoneIf_list.guiZoneIfT[ i ].gid + '">' + gCache.list.common_zoneIf_list.guiZoneIfT[ i ].name + '</option>');
+                                                    }
+                                                }
+                                                break;
+                                            case 'maxFileSize':
+                                                $('#' + node).val( data[ node ] );
+                                                break;
+                                            case 'httpAct':
+                                            case 'ftpAct':
+                                            case 'smtpAct':
+                                            case 'pop3Act':
+                                            case 'imapAct':
+                                            case 'cifsAct':
+                                                $('#' + node).append( genSelectOption( node ) ).val( data[ node ] );
+                                                break;
+                                            case 'httpEnable':
+                                            case 'ftpEnable':
+                                            case 'smtpEnable':
+                                            case 'pop3Enable':
+                                            case 'imapEnable':
+                                            case 'cifsEnable':
+                                                if ( 1 === parseInt( data[ node ] ) )
+                                                    $('#' + node).attr('checked', true);
+                                                else {
+                                                    $('.' + node + ' input').prop('disabled', true); 
+                                                    $('.' + node + ' select').prop('disabled', true);
+                                                }
+                                                break;
+                                            default:
+                                                if ( 1 === parseInt( data[ node ] ) )
+                                                    $('#' + node).attr('checked', true);
+                                            }
+                                        }
+
                                         if (!gIf.power) {
                                             $('#table-' + y + ' button').prop('disabled', true);
                                             $('#table-' + y + ' input').prop('disabled', true);
                                             $('#table-' + y + ' select').prop('disabled', true);
-                                            $('#table-' + y + ' textarea').prop('disabled', true);
                                         }
                                     }else if (typeof data.httpNotify != 'undefined') {
                                         y = 'http_notification';

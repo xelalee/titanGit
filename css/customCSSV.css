@@ -1809,6 +1809,32 @@ select[multiple] {
     width: 800px;
     height:480px;
 }
+
+#cpu {
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+}
+
+#cpuChart {
+    width: 150px;
+    height: 150px;
+}
+
+#mem {
+    width: 150px;
+    height:150px;
+    margin: 10px;
+}
+
+#memChart {
+    width: 150px;
+    height: 150px;
+}
+
+table.DataChart th {
+    text-align: center;
+}
 /* widget */
 .ui-widget-header {
     background: transparent;
@@ -2248,6 +2274,15 @@ div.Expand {
 }
 
 /* security */
+#div-general_settings {
+    position: relative;
+    background: #efefef ;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 5px;
+}
+
 #div-enable_antivirus {
     position: relative;
     height: 20px;
@@ -2260,65 +2295,50 @@ div.Expand {
 
 #div-zone_to_scan {
     position: relative;
-    background: #efefef url('images/i_64_zone_to_scan_00.png') top center no-repeat;
-    -mos-border-radius: 10px;
-    border-radius: 10px;
+    background: #efefef url('images/i_64_zone_to_scan_00.png') top left no-repeat;
     margin-top: 10px;
-    padding: 5px;
-}
-
-#div-application_to_scan {
-    position: relative;
-    background: #efefef ;
-    -mos-border-radius: 10px;
-    border-radius: 10px;
-    margin-top: 10px;
-    padding: 5px;
+    padding: 5px 5px 5px 40px;
 }
 
 #div-http {
     position: relative;
-    width: 350px;
-    background: #efefef url('images/i_64_application_to_scan_00.png') top right no-repeat;
+    background: #efefef url('images/i_64_application_to_scan_00.png') top left no-repeat;
+    padding: 5px 5px 5px 40px;
 }
 
 #div-ftp {
     position: relative;
-    width: 350px;
-    background: #efefef url('images/i_64_ftp_00.png') top right no-repeat;
+    background: #efefef url('images/i_64_ftp_00.png') top left no-repeat;
+    padding: 5px 5px 5px 40px;
 }
 
 #div-smtp {
     position: relative;
-    width: 350px;
-    background: #efefef url('images/i_64_smtp_00.png') top right no-repeat;
+    background: #efefef url('images/i_64_smtp_00.png') top left no-repeat;
+    padding: 5px 5px 5px 40px;
 }
 
 #div-pop3 {
     position: relative;
-    width: 350px;
-    background: #efefef url('images/i_64_pop3_00.png') top right no-repeat;
+    background: #efefef url('images/i_64_pop3_00.png') top left no-repeat;
+    padding: 5px 5px 5px 40px;
 }
 
 #div-cifs {
     position: relative;
-    width: 350px;
-    background: #efefef url('images/i_64_cifs_00.png') top right no-repeat;
+    background: #efefef url('images/i_64_cifs_00.png') top left no-repeat;
     background-size: 64px;
+    padding: 5px 5px 5px 40px;
 }
 
 #div-imap {
     position: relative;
-    width: 350px;
     background: #efefef url('images/i_64_pop3_00.png') top right no-repeat;
 }
 
 #div-maximumFile {
     position: relative;
     height: 40px;
-    background: #efefef ;
-    -mos-border-radius: 10px;
-    border-radius: 10px;
     margin-top: 10px;
     padding: 5px;
 }
