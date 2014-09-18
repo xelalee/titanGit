@@ -1,4 +1,4 @@
-{
+    {
   "menu":
   [
     {
@@ -232,6 +232,7 @@
       "label" : "HTTP",
       "id" : "menu-1",
       "tab" : "http",
+      "tag" : "div",
       "type" : "tabs",
       "tabs" :
       {
@@ -263,12 +264,386 @@
           "whitelist" : "av_whitelist"
         }
       },
-      "ext" : "cgi"
+      "ext" : "cgi",
+      "pgAction" : "Save Cancel",
+      "tblAction" :
+       {
+          "general_settings" : false,
+          "http_notification" : false,
+          "address_exceptions" : "Create",
+          "file_exceptions" : "Create",
+          "blacklist" : "Move2Whites Remove",
+          "whitelist" : "Remove"
+        },
+        "rowAction" :
+        {
+          "general_settings" : false,
+          "http_notification" : false,
+          "address_exceptions" : "Edit Delete",
+          "file_exceptions" : "Edit Delete",
+          "blacklist" : "Delete",
+          "whitelist" : "History Delete"
+        },
+        "guiT" :
+        {
+          "general_settings" : false,
+          "http_notification" : false,
+          "address_exceptions" : "guiAddrFilterT",
+          "file_exceptions" :
+          {
+            "mime" : "mimeExcepT",
+            "file_exception" : "fileExcepT"
+          },
+          "blacklist" : "urlT",
+          "whitelist" : "urlT"
+        },
+        "guiTNum" :
+        {
+          "general_settings" : false,
+          "http_notification" : false,
+          "address_exceptions" : "guiAddrFilterNum",
+          "file_exceptions" :
+          {
+            "mime" : "mimeExcepTNum",
+            "file_exception" : "fileExcepTNum"
+          },
+          "blacklist" : "number",
+          "whitelist" : "number"
+        },
+        "col":
+        {
+          "general_settings" :
+          [
+            {
+              "label" : "Zone to Scan",
+              "tab" : "selectedZonesT",
+              "tag" : "select",
+              "type" : "multiple",
+              "multiple" :
+              {
+                "pool" :
+                {
+                  "label" : "Available Zones",
+                  "tab" : "pool",
+                  "wiz" : "40%"
+                },
+                "del" :
+                {
+                  "label" : "Move to Remove",
+                  "tab" : "Move2Del",
+                  "tag" : "button",
+                  "type" : "button",
+                  "wiz" : "10%"
+                },
+                "add" :
+                {
+                  "label" : "Move to Add",
+                  "tab" : "Move2Add",
+                  "tag" : "button",
+                  "type" : "button",
+                  "wiz" : "10%"
+                },
+                "pick" :
+                {
+                  "label" : "Selected Zone",
+                  "tab" : "pick",
+                  "wiz" : "40%"
+                }
+              },
+              "align" :
+              [
+                "Left",
+                "Left"
+              ],
+              "wiz" : "100px"
+            },
+            {
+                  "label" : "HTTP",
+                  "tab" : "http",
+                  "tag" : "table",
+                  "type" : "table",
+                  "col" :
+                  [
+                    {
+                      "label" : "Enable",
+                      "tab" : "httpEnable",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : 1
+                    },
+                    {
+                      "label" : "Log",
+                      "tab" : "httpLog",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : 1
+                    },
+                    {
+                      "label" : "Action",
+                      "tab" : "httpAct",
+                      "tag" : "select",
+                      "type" : "select",
+                      "option" :
+                      {
+                        "0" : "None",
+                        "1" : "Notify",
+                        "2" : "Notify + Drop connection"
+                      }
+                    },
+                    {
+                      "label" : "Port List",
+                      "tab" : "httpPort",
+                      "tag" : "input",
+                      "type" : "texts",
+                      "texts" : 5
+                    }
+                  ]
+            },
+            {
+              "label" : "Maximum File Size to Scan",
+              "tab" : "maxFileSize",
+              "tag" : "input",
+              "type" : "text",
+              "note" : "(1-10240 byte, 0=unlimited)"
+            }
+          ],
+          "http_notification" :
+          [
+            {
+              "label" : "Notification Content",
+              "tab" : "httpNotify",
+              "tag" : "textarea",
+              "type" : "textarea"
+            }
+          ],
+          "address_exceptions" :
+          [
+            {
+              "label" : "Enable",
+              "tab" : "enable"
+            },
+            {
+              "label" : "Source",
+              "tab" : "sAddrId"
+            },
+            {
+              "label" : "Destination",
+              "tab" : "dAddrId"
+            },
+            {
+              "label" : "Log",
+              "tab" : "logEnable"
+            },
+            {
+              "label" : "Action",
+              "tab" : "action"
+            }
+          ],
+          "file_exceptions" :
+          [
+            {
+              "label" : "MIME Exception List",
+              "tab" : "mime",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "MIME",
+                  "tab" : "mime"
+                },
+                {
+                  "label" : "Action",
+                  "tab" : "action"
+                }
+              ]
+            },
+            {
+              "label" : "File Exception List",
+              "tab" : "file_exception",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "File Extension",
+                  "tab" : "fileExt"
+                },
+                {
+                  "label" : "Action",
+                  "tab" : "action"
+                }
+              ]
+            }
+          ],
+          "blacklist" :
+          [
+            {
+              "label" : "Expiration Duration",
+              "tab" : "expiration_duration",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "Expiration Duration",
+                  "tab" : false
+                },
+                {
+                  "label" : "Days",
+                  "tab" : "expiration_days",
+                  "tag" : "input",
+                  "type" : "text",
+                  "note" : "( 0-300 )"
+                },
+                {
+                  "label" : "Hours",
+                  "tab" : "expiration_hours",
+                  "tag" : "input",
+                  "type" : "text",
+                  "note" : " ( 0-23 )"
+                }
+              ]
+            },
+            {
+              "label" : "Blacklist",
+              "tab" : "blacklist",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "",
+                  "tab" : "blacklist_all",
+                  "tag" : "input",
+                  "type" : "checkbox"
+                },
+                {
+                  "label" : "Index",
+                  "tab" : "blacklist_index"
+                },
+                {
+                  "label" : "Virus ID",
+                  "tab" : "virusID"
+                },
+                {
+                  "label" : "Virus Name",
+                  "tab" : "virusName"
+                },
+                {
+                  "label" : "Type",
+                  "tab" : "type"
+                },
+                {
+                  "label" : "Info",
+                  "tab" : "url"
+                },
+                {
+                  "label" : "Expiration Date",
+                  "tab" : "expiration"
+                },
+                {
+                  "label" : "Action",
+                  "tab" : "action"
+                }
+              ]
+            }
+          ],
+          "whitelist" :
+          [
+            {
+              "label" : "Whitelist",
+              "tab" : "whitelist",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "",
+                  "tab" : "whitelist_all",
+                  "tag" : "input",
+                  "type" : "checkbox"
+                },
+                {
+                  "label" : "Index",
+                  "tab" : "whitelist_index"
+                },
+                {
+                  "label" : "Virus ID",
+                  "tab" : "virusID"
+                },
+                {
+                  "label" : "Virus Name",
+                  "tab" : "virusName"
+                },
+                {
+                  "label" : "Action",
+                  "tab" : "action"
+                }
+              ]
+            }
+          ]
+        },
+        "editor":
+        {
+          "address_exceptions" :
+          [
+            {
+              "label" : "Enable",
+              "tab" : "enable",
+              "tag" : "input",
+              "type" : "checkbox"
+            },
+            {
+              "label" : "Source Address",
+              "tab" : "sAddrId",
+              "tag" : "select",
+              "type" : "select"
+            },
+            {
+              "label" : "Destination Address",
+              "tab" : "dAddrId",
+              "tag" : "select",
+              "type" : "select"
+            },
+            {
+              "label" : "Log",
+              "tab" : "logEnable",
+              "tag" : "input",
+              "type" : "checkbox"
+            }
+          ],
+          "mime" :
+          [
+            {
+              "label" : "Type",
+              "tab" : "type",
+              "tag" : "select",
+              "type" : "select"
+            },
+            {
+              "label" : "Sub Type",
+              "tab" : "sub",
+              "tag" : "select",
+              "type" : "select"
+            }
+          ],
+          "file_extension" :
+          [
+            {
+              "label" : "File Extension",
+              "tab" : "fileExt",
+              "tag" : "input",
+              "type" : "text"
+            }
+          ]
+        }
     },
     {
       "label" : "SMTP",
       "id" : "menu-2",
       "tab" : "smtp",
+      "tag" : "div",
       "type" : "tabs",
       "tabs" :
       {
@@ -300,13 +675,421 @@
           "whitelist" : "av_whitelist"
         }
       },
-      "ext" : "cgi"
+      "ext" : "cgi",
+            "pgAction" :
+        {
+          "general_settings" : "Save Cancel",
+          "email_notification" : "Save Cancel",
+          "address_exceptions" : "Save Cancel",
+          "file_exceptions" : "Save Cancel",
+          "blacklist" : "Save Cancel",
+          "whitelist" : "Save Cancel"
+        },
+        "tblAction" :
+        {
+          "general_settings" : false,
+          "email_notification" : false,
+          "address_exceptions" : "Create",
+          "file_exceptions" : "Create",
+          "blacklist" : "Move2Whites Remove",
+          "whitelist" : "Remove"
+        },
+        "rowAction" :
+        {
+          "general_settings" : false,
+          "email_notification" : false,
+          "address_exceptions" : "Edit Delete",
+          "file_exceptions" : "Edit Delete",
+          "blacklist" : "Delete",
+          "whitelist" : "History Delete"
+        },
+        "guiT" :
+        {
+          "general_settings" : false,
+          "email_notification" : false,
+          "address_exceptions" : "guiAddrFilterT",
+          "file_exceptions" :
+          {
+            "mime" : "mimeExcepT",
+            "file_exception" : "fileExcepT"
+          },
+          "blacklist" : "urlT",
+          "whitelist" : "urlT"
+        },
+        "guiTNum" :
+        {
+          "general_settings" : false,
+          "email_notification" : false,
+          "address_exceptions" : "guiAddrFilterNum",
+          "file_exceptions" :
+          {
+            "mime" : "mimeExcepTNum",
+            "file_exception" : "fileExcepTNum"
+          },
+          "blacklist" : "number",
+          "whitelist" : "number"
+        },
+        "col":
+        {
+          "general_settings" :
+          [
+            {
+              "label" : "Zone to Scan",
+              "tab" : "selectedZonesT",
+              "tag" : "select",
+              "type" : "multiple",
+              "multiple" :
+              {
+                "pool" :
+                {
+                  "label" : "Available Zones",
+                  "tab" : "pool",
+                  "wiz" : "40%"
+                },
+                "del" :
+                {
+                  "label" : "Move to Remove",
+                  "tab" : "Move2Del",
+                  "tag" : "button",
+                  "type" : "button",
+                  "wiz" : "10%"
+                },
+                "add" :
+                {
+                  "label" : "Move to Add",
+                  "tab" : "Move2Add",
+                  "tag" : "button",
+                  "type" : "button",
+                  "wiz" : "10%"
+                },
+                "pick" :
+                {
+                  "label" : "Selected Zone",
+                  "tab" : "pick",
+                  "wiz" : "40%"
+                }
+              },
+              "align" :
+              [
+                "Left",
+                "Left"
+              ],
+              "wiz" : "100px"
+            },
+            {
 
+                  "label" : "SMTP",
+                  "tab" : "smtp",
+                  "tag" : "table",
+                  "type" : "table",
+                  "col" :
+                  [
+                    {
+                      "label" : "Enable",
+                      "tab" : "smtpEnable",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : 1
+                    },
+                    {
+                      "label" : "Log",
+                      "tab" : "smtpLog",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : 1
+                    },
+                    {
+                      "label" : "Action",
+                      "tab" : "smtpAct",
+                      "tag" : "select",
+                      "type" : "select",
+                      "option" :
+                      {
+                        "0" : "None",
+                        "1" : "Notify",
+                        "2" : "Notify + Destruct file"
+                      }
+                    },
+                    {
+                      "label" : "Port List",
+                      "tab" : "smtpPort",
+                      "tag" : "input",
+                      "type" : "texts",
+                      "texts" : 5
+                    }
+                  ]
+             },
+            {
+              "label" : "Maximum File Size to Scan",
+              "tab" : "maxFileSize",
+              "tag" : "input",
+              "type" : "text",
+              "note" : "(1-10240 byte, 0=unlimited)"
+            }
+          ],
+          "email_notification" :
+          [
+            {
+              "label" : "Email Notification Status",
+              "tab" : "mailStatus",
+              "tag" : "p"
+            },
+            {
+              "label" : "From Email",
+              "tab" : "fromMail",
+              "tag" : "p"
+            },
+            {
+              "label" : "SMTP server",
+              "tab" : "smtpServer",
+              "tag" : "p"
+            },
+            {
+              "label" : "SMTP Authentication",
+              "tab" : "smtpAuth",
+              "tag" : "p"
+            },
+            {
+              "label" : "Mail Tag",
+              "tab" : "mailTag",
+              "tag" : "input",
+              "type" : "text"
+            },
+            {
+              "label" : "Mail Content",
+              "tab" : "mailContent",
+              "tag" : "textarea",
+              "type" : "textarea"
+            }
+          ],
+          "address_exceptions" :
+          [
+            {
+              "label" : "Enable",
+              "tab" : "enable"
+            },
+            {
+              "label" : "Source",
+              "tab" : "sAddrId"
+            },
+            {
+              "label" : "Destination",
+              "tab" : "dAddrId"
+            },
+            {
+              "label" : "Log",
+              "tab" : "logEnable"
+            },
+            {
+              "label" : "Action",
+              "tab" : "action"
+            }
+          ],
+          "file_exceptions" :
+          [
+            {
+              "label" : "MIME Exception List",
+              "tab" : "mime",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "MIME",
+                  "tab" : "mime"
+                },
+                {
+                  "label" : "Action",
+                  "tab" : "action"
+                }
+              ]
+            },
+            {
+              "label" : "File Exception List",
+              "tab" : "file_exception",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "File Extension",
+                  "tab" : "fileExt"
+                },
+                {
+                  "label" : "Action",
+                  "tab" : "action"
+                }
+              ]
+            }
+          ],
+          "blacklist" :
+          [
+            {
+              "label" : "Expiration Duration",
+              "tab" : "expiration_duration",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "Expiration Duration",
+                  "tab" : false
+                },
+                {
+                  "label" : "Days",
+                  "tab" : "expiration_days",
+                  "tag" : "input",
+                  "type" : "text",
+                  "note" : "( 0-300 )"
+                },
+                {
+                  "label" : "Hours",
+                  "tab" : "expiration_hours",
+                  "tag" : "input",
+                  "type" : "text",
+                  "note" : " ( 0-23 )"
+                }
+              ]
+            },
+            {
+              "label" : "Blacklist",
+              "tab" : "blacklist",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "",
+                  "tab" : "blacklist_all",
+                  "tag" : "input",
+                  "type" : "checkbox"
+                },
+                {
+                  "label" : "Index",
+                  "tab" : "blacklist_index"
+                },
+                {
+                  "label" : "Virus ID",
+                  "tab" : "virusID"
+                },
+                {
+                  "label" : "Virus Name",
+                  "tab" : "virusName"
+                },
+                {
+                  "label" : "Type",
+                  "tab" : "type"
+                },
+                {
+                  "label" : "Info",
+                  "tab" : "url"
+                },
+                {
+                  "label" : "Expiration Date",
+                  "tab" : "expiration"
+                },
+                {
+                  "label" : "Action",
+                  "tab" : "action"
+                }
+              ]
+            }
+          ],
+          "whitelist" :
+          [
+            {
+              "label" : "Whitelist",
+              "tab" : "whitelist",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "",
+                  "tab" : "whitelist_all",
+                  "tag" : "input",
+                  "type" : "checkbox"
+                },
+                {
+                  "label" : "Index",
+                  "tab" : "whitelist_index"
+                },
+                {
+                  "label" : "Virus ID",
+                  "tab" : "virusID"
+                },
+                {
+                  "label" : "Virus Name",
+                  "tab" : "virusName"
+                },
+                {
+                  "label" : "Action",
+                  "tab" : "action"
+                }
+              ]
+            }
+          ]
+        },
+        "editor":
+        {
+          "address_exceptions" :
+          [
+            {
+              "label" : "Enable",
+              "tab" : "enable",
+              "tag" : "input",
+              "type" : "checkbox"
+            },
+            {
+              "label" : "Source Address",
+              "tab" : "sAddrId",
+              "tag" : "select",
+              "type" : "select"
+            },
+            {
+              "label" : "Destination Address",
+              "tab" : "dAddrId",
+              "tag" : "select",
+              "type" : "select"
+            },
+            {
+              "label" : "Log",
+              "tab" : "logEnable",
+              "tag" : "input",
+              "type" : "checkbox"
+            }
+          ],
+          "mime" :
+          [
+            {
+              "label" : "Type",
+              "tab" : "type",
+              "tag" : "select",
+              "type" : "select"
+            },
+            {
+              "label" : "Sub Type",
+              "tab" : "sub",
+              "tag" : "select",
+              "type" : "select"
+            }
+          ],
+          "file_extension" :
+          [
+            {
+              "label" : "File Extension",
+              "tab" : "fileExt",
+              "tag" : "input",
+              "type" : "text"
+            }
+          ]
+        }
     },
     {
       "label" : "POP3",
       "id" : "menu-3",
       "tab" : "pop3",
+      "tag" : "div",
       "type" : "tabs",
       "tabs" :
       {
@@ -338,13 +1121,422 @@
           "whitelist" : "av_whitelist"
         }
       },
-      "ext" : "cgi"
+      "ext" : "cgi",
+      "pgAction" :
+        {
+          "general_settings" : "Save Cancel",
+          "email_notification" : "Save Cancel",
+          "address_exceptions" : "Save Cancel",
+          "file_exceptions" : "Save Cancel",
+          "blacklist" : "Save Cancel",
+          "whitelist" : "Save Cancel"
+        },
+        "tblAction" :
+        {
+          "general_settings" : false,
+          "email_notification" : false,
+          "address_exceptions" : "Create",
+          "file_exceptions" : "Create",
+          "blacklist" : "Move2Whites Remove",
+          "whitelist" : "Remove"
+        },
+        "rowAction" :
+        {
+          "general_settings" : false,
+          "email_notification" : false,
+          "address_exceptions" : "Edit Delete",
+          "file_exceptions" : "Edit Delete",
+          "blacklist" : "Delete",
+          "whitelist" : "History Delete"
+        },
+        "guiT" :
+        {
+          "general_settings" : false,
+          "email_notification" : false,
+          "address_exceptions" : "guiAddrFilterT",
+          "file_exceptions" :
+          {
+            "mime" : "mimeExcepT",
+            "file_exception" : "fileExcepT"
+          },
+          "blacklist" : "urlT",
+          "whitelist" : "urlT"
+        },
+        "guiTNum" :
+        {
+          "general_settings" : false,
+          "email_notification" : false,
+          "address_exceptions" : "guiAddrFilterNum",
+          "file_exceptions" :
+          {
+            "mime" : "mimeExcepTNum",
+            "file_exception" : "fileExcepTNum"
+          },
+          "blacklist" : "number",
+          "whitelist" : "number"
+        },
+        "col":
+        {
+          "general_settings" :
+          [
 
+            {
+              "label" : "Zone to Scan",
+              "tab" : "selectedZonesT",
+              "tag" : "select",
+              "type" : "multiple",
+              "multiple" :
+              {
+                "pool" :
+                {
+                  "label" : "Available Zones",
+                  "tab" : "pool",
+                  "wiz" : "40%"
+                },
+                "del" :
+                {
+                  "label" : "Move to Remove",
+                  "tab" : "Move2Del",
+                  "tag" : "button",
+                  "type" : "button",
+                  "wiz" : "10%"
+                },
+                "add" :
+                {
+                  "label" : "Move to Add",
+                  "tab" : "Move2Add",
+                  "tag" : "button",
+                  "type" : "button",
+                  "wiz" : "10%"
+                },
+                "pick" :
+                {
+                  "label" : "Selected Zone",
+                  "tab" : "pick",
+                  "wiz" : "40%"
+                }
+              },
+              "align" :
+              [
+                "Left",
+                "Left"
+              ],
+              "wiz" : "100px"
+            },
+            {
+
+                  "label" : "POP3",
+                  "tab" : "pop3",
+                  "tag" : "table",
+                  "type" : "table",
+                  "col" :
+                  [
+                    {
+                      "label" : "Enable",
+                      "tab" : "pop3Enable",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : 1
+                    },
+                    {
+                      "label" : "Log",
+                      "tab" : "pop3Log",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : 1
+                    },
+                    {
+                      "label" : "Action",
+                      "tab" : "pop3Act",
+                      "tag" : "select",
+                      "type" : "select",
+                      "option" :
+                      {
+                        "0" : "None",
+                        "1" : "Notify",
+                        "2" : "Notify + Destruct file"
+                      }
+                    },
+                    {
+                      "label" : "Port List",
+                      "tab" : "pop3Port",
+                      "tag" : "input",
+                      "type" : "texts",
+                      "texts" : 5
+                    }
+                  ]
+            },
+            {
+              "label" : "Maximum File Size to Scan",
+              "tab" : "maxFileSize",
+              "tag" : "input",
+              "type" : "text",
+              "note" : "(1-10240 byte, 0=unlimited)"
+            }
+          ],
+          "email_notification" :
+          [
+            {
+              "label" : "Email Notification Status",
+              "tab" : "mailStatus",
+              "tag" : "p"
+            },
+            {
+              "label" : "From Email",
+              "tab" : "fromMail",
+              "tag" : "p"
+            },
+            {
+              "label" : "SMTP server",
+              "tab" : "smtpServer",
+              "tag" : "p"
+            },
+            {
+              "label" : "SMTP Authentication",
+              "tab" : "smtpAuth",
+              "tag" : "p"
+            },
+            {
+              "label" : "Mail Tag",
+              "tab" : "mailTag",
+              "tag" : "input",
+              "type" : "text"
+            },
+            {
+              "label" : "Mail Content",
+              "tab" : "mailContent",
+              "tag" : "textarea",
+              "type" : "textarea"
+            }
+          ],
+          "address_exceptions" :
+          [
+            {
+              "label" : "Enable",
+              "tab" : "enable"
+            },
+            {
+              "label" : "Source",
+              "tab" : "sAddrId"
+            },
+            {
+              "label" : "Destination",
+              "tab" : "dAddrId"
+            },
+            {
+              "label" : "Log",
+              "tab" : "logEnable"
+            },
+            {
+              "label" : "Action",
+              "tab" : "action"
+            }
+          ],
+          "file_exceptions" :
+          [
+            {
+              "label" : "MIME Exception List",
+              "tab" : "mime",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "MIME",
+                  "tab" : "mime"
+                },
+                {
+                  "label" : "Action",
+                  "tab" : "action"
+                }
+              ]
+            },
+            {
+              "label" : "File Exception List",
+              "tab" : "file_exception",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "File Extension",
+                  "tab" : "fileExt"
+                },
+                {
+                  "label" : "Action",
+                  "tab" : "action"
+                }
+              ]
+            }
+          ],
+          "blacklist" :
+          [
+            {
+              "label" : "Expiration Duration",
+              "tab" : "expiration_duration",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "Expiration Duration",
+                  "tab" : false
+                },
+                {
+                  "label" : "Days",
+                  "tab" : "expiration_days",
+                  "tag" : "input",
+                  "type" : "text",
+                  "note" : "( 0-300 )"
+                },
+                {
+                  "label" : "Hours",
+                  "tab" : "expiration_hours",
+                  "tag" : "input",
+                  "type" : "text",
+                  "note" : " ( 0-23 )"
+                }
+              ]
+            },
+            {
+              "label" : "Blacklist",
+              "tab" : "blacklist",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "",
+                  "tab" : "blacklist_all",
+                  "tag" : "input",
+                  "type" : "checkbox"
+                },
+                {
+                  "label" : "Index",
+                  "tab" : "blacklist_index"
+                },
+                {
+                  "label" : "Virus ID",
+                  "tab" : "virusID"
+                },
+                {
+                  "label" : "Virus Name",
+                  "tab" : "virusName"
+                },
+                {
+                  "label" : "Type",
+                  "tab" : "type"
+                },
+                {
+                  "label" : "Info",
+                  "tab" : "url"
+                },
+                {
+                  "label" : "Expiration Date",
+                  "tab" : "expiration"
+                },
+                {
+                  "label" : "Action",
+                  "tab" : "action"
+                }
+              ]
+            }
+          ],
+          "whitelist" :
+          [
+            {
+              "label" : "Whitelist",
+              "tab" : "whitelist",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "",
+                  "tab" : "whitelist_all",
+                  "tag" : "input",
+                  "type" : "checkbox"
+                },
+                {
+                  "label" : "Index",
+                  "tab" : "whitelist_index"
+                },
+                {
+                  "label" : "Virus ID",
+                  "tab" : "virusID"
+                },
+                {
+                  "label" : "Virus Name",
+                  "tab" : "virusName"
+                },
+                {
+                  "label" : "Action",
+                  "tab" : "action"
+                }
+              ]
+            }
+          ]
+        },
+        "editor":
+        {
+          "address_exceptions" :
+          [
+            {
+              "label" : "Enable",
+              "tab" : "enable",
+              "tag" : "input",
+              "type" : "checkbox"
+            },
+            {
+              "label" : "Source Address",
+              "tab" : "sAddrId",
+              "tag" : "select",
+              "type" : "select"
+            },
+            {
+              "label" : "Destination Address",
+              "tab" : "dAddrId",
+              "tag" : "select",
+              "type" : "select"
+            },
+            {
+              "label" : "Log",
+              "tab" : "logEnable",
+              "tag" : "input",
+              "type" : "checkbox"
+            }
+          ],
+          "mime" :
+          [
+            {
+              "label" : "Type",
+              "tab" : "type",
+              "tag" : "select",
+              "type" : "select"
+            },
+            {
+              "label" : "Sub Type",
+              "tab" : "sub",
+              "tag" : "select",
+              "type" : "select"
+            }
+          ],
+          "file_extension" :
+          [
+            {
+              "label" : "File Extension",
+              "tab" : "fileExt",
+              "tag" : "input",
+              "type" : "text"
+            }
+          ]
+        }
     },
     {
       "label" : "FTP",
       "id" : "menu-4",
       "tab" : "ftp",
+      "tag" : "div",
       "type" : "tabs",
       "tabs" :
       {
@@ -373,13 +1565,383 @@
           "whitelist" : "av_whitelist"
         }
       },
-      "ext" : "cgi"
+      "ext" : "cgi",
+            "pgAction" :
+        {
+          "general_settings" : "Save Cancel",
+          "address_exceptions" : "Save Cancel",
+          "file_exceptions" : "Save Cancel",
+          "blacklist" : "Save Cancel",
+          "whitelist" : "Save Cancel"
+        },
+        "tblAction" :
+        {
+          "general_settings" : false,
+          "address_exceptions" : "Create",
+          "file_exceptions" : "Create",
+          "blacklist" : "Move2Whites Remove",
+          "whitelist" : "Remove"
+        },
+        "rowAction" :
+        {
+          "general_settings" : false,
+          "address_exceptions" : "Edit Delete",
+          "file_exceptions" : "Edit Delete",
+          "blacklist" : "Delete",
+          "whitelist" : "History Delete"
+        },
+        "guiT" :
+        {
+          "general_settings" : false,
+          "address_exceptions" : "guiAddrFilterT",
+          "file_exceptions" :
+          {
+            "mime" : "mimeExcepT",
+            "file_exception" : "fileExcepT"
+          },
+          "blacklist" : "urlT",
+          "whitelist" : "urlT"
+        },
+        "guiTNum" :
+        {
+          "general_settings" : false,
+          "address_exceptions" : "guiAddrFilterNum",
+          "file_exceptions" :
+          {
+            "mime" : "mimeExcepTNum",
+            "file_exception" : "fileExcepTNum"
+          },
+          "blacklist" : "number",
+          "whitelist" : "number"
+        },
+        "col":
+        {
+          "general_settings" :
+          [
 
+            {
+              "label" : "Zone to Scan",
+              "tab" : "selectedZonesT",
+              "tag" : "select",
+              "type" : "multiple",
+              "multiple" :
+              {
+                "pool" :
+                {
+                  "label" : "Available Zones",
+                  "tab" : "pool",
+                  "wiz" : "40%"
+                },
+                "del" :
+                {
+                  "label" : "Move to Remove",
+                  "tab" : "Move2Del",
+                  "tag" : "button",
+                  "type" : "button",
+                  "wiz" : "10%"
+                },
+                "add" :
+                {
+                  "label" : "Move to Add",
+                  "tab" : "Move2Add",
+                  "tag" : "button",
+                  "type" : "button",
+                  "wiz" : "10%"
+                },
+                "pick" :
+                {
+                  "label" : "Selected Zone",
+                  "tab" : "pick",
+                  "wiz" : "40%"
+                }
+              },
+              "align" :
+              [
+                "Left",
+                "Left"
+              ],
+              "wiz" : "100px"
+            },
+            {
+
+                  "label" : "FTP",
+                  "tab" : "ftp",
+                  "tag" : "table",
+                  "type" : "table",
+                  "col" :
+                  [
+                    {
+                      "label" : "Enable",
+                      "tab" : "ftpEnable",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : 1
+                    },
+                    {
+                      "label" : "Log",
+                      "tab" : "ftpLog",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : 1
+                    },
+                    {
+                      "label" : "Action",
+                      "tab" : "ftpAct",
+                      "tag" : "select",
+                      "type" : "select",
+                      "option" :
+                      {
+                        "0" : "None",
+                        "1" : "Drop connection"
+                      }
+                    },
+                    {
+                      "label" : "Port List",
+                      "tab" : "ftpPort",
+                      "tag" : "input",
+                      "type" : "texts",
+                      "texts" : 5
+                    }
+                  ]
+
+            },
+            {
+              "label" : "Maximum File Size to Scan",
+              "tab" : "maxFileSize",
+              "tag" : "input",
+              "type" : "text",
+              "note" : "(1-10240 byte, 0=unlimited)"
+            }
+          ],
+
+          "address_exceptions" :
+          [
+            {
+              "label" : "Enable",
+              "tab" : "enable"
+            },
+            {
+              "label" : "Source",
+              "tab" : "sAddrId"
+            },
+            {
+              "label" : "Destination",
+              "tab" : "dAddrId"
+            },
+            {
+              "label" : "Log",
+              "tab" : "logEnable"
+            },
+            {
+              "label" : "Action",
+              "tab" : "action"
+            }
+          ],
+          "file_exceptions" :
+          [
+            {
+              "label" : "MIME Exception List",
+              "tab" : "mime",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "MIME",
+                  "tab" : "mime"
+                },
+                {
+                  "label" : "Action",
+                  "tab" : "action"
+                }
+              ]
+            },
+            {
+              "label" : "File Exception List",
+              "tab" : "file_exception",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "File Extension",
+                  "tab" : "fileExt"
+                },
+                {
+                  "label" : "Action",
+                  "tab" : "action"
+                }
+              ]
+            }
+          ],
+          "blacklist" :
+          [
+            {
+              "label" : "Expiration Duration",
+              "tab" : "expiration_duration",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "Expiration Duration",
+                  "tab" : false
+                },
+                {
+                  "label" : "Days",
+                  "tab" : "expiration_days",
+                  "tag" : "input",
+                  "type" : "text",
+                  "note" : "( 0-300 )"
+                },
+                {
+                  "label" : "Hours",
+                  "tab" : "expiration_hours",
+                  "tag" : "input",
+                  "type" : "text",
+                  "note" : " ( 0-23 )"
+                }
+              ]
+            },
+            {
+              "label" : "Blacklist",
+              "tab" : "blacklist",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "",
+                  "tab" : "blacklist_all",
+                  "tag" : "input",
+                  "type" : "checkbox"
+                },
+                {
+                  "label" : "Index",
+                  "tab" : "blacklist_index"
+                },
+                {
+                  "label" : "Virus ID",
+                  "tab" : "virusID"
+                },
+                {
+                  "label" : "Virus Name",
+                  "tab" : "virusName"
+                },
+                {
+                  "label" : "Type",
+                  "tab" : "type"
+                },
+                {
+                  "label" : "Info",
+                  "tab" : "url"
+                },
+                {
+                  "label" : "Expiration Date",
+                  "tab" : "expiration"
+                },
+                {
+                  "label" : "Action",
+                  "tab" : "action"
+                }
+              ]
+            }
+          ],
+          "whitelist" :
+          [
+            {
+              "label" : "Whitelist",
+              "tab" : "whitelist",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "",
+                  "tab" : "whitelist_all",
+                  "tag" : "input",
+                  "type" : "checkbox"
+                },
+                {
+                  "label" : "Index",
+                  "tab" : "whitelist_index"
+                },
+                {
+                  "label" : "Virus ID",
+                  "tab" : "virusID"
+                },
+                {
+                  "label" : "Virus Name",
+                  "tab" : "virusName"
+                },
+                {
+                  "label" : "Action",
+                  "tab" : "action"
+                }
+              ]
+            }
+          ]
+        },
+        "editor":
+        {
+          "address_exceptions" :
+          [
+            {
+              "label" : "Enable",
+              "tab" : "enable",
+              "tag" : "input",
+              "type" : "checkbox"
+            },
+            {
+              "label" : "Source Address",
+              "tab" : "sAddrId",
+              "tag" : "select",
+              "type" : "select"
+            },
+            {
+              "label" : "Destination Address",
+              "tab" : "dAddrId",
+              "tag" : "select",
+              "type" : "select"
+            },
+            {
+              "label" : "Log",
+              "tab" : "logEnable",
+              "tag" : "input",
+              "type" : "checkbox"
+            }
+          ],
+          "mime" :
+          [
+            {
+              "label" : "Type",
+              "tab" : "type",
+              "tag" : "select",
+              "type" : "select"
+            },
+            {
+              "label" : "Sub Type",
+              "tab" : "sub",
+              "tag" : "select",
+              "type" : "select"
+            }
+          ],
+          "file_extension" :
+          [
+            {
+              "label" : "File Extension",
+              "tab" : "fileExt",
+              "tag" : "input",
+              "type" : "text"
+            }
+          ]
+        }
     },
     {
       "label" : "CIFS",
       "id" : "menu-5",
       "tab" : "cifs",
+      "tag" : "div",
       "type" : "tabs",
       "tabs" :
       {
@@ -408,434 +1970,2490 @@
           "whitelist" : "av_whitelist"
         }
       },
-      "ext" : "cgi"
+      "ext" : "cgi",
+            "pgAction" :
+        {
+          "general_settings" : "Save Cancel",
+          "address_exceptions" : "Save Cancel",
+          "file_exceptions" : "Save Cancel",
+          "blacklist" : "Save Cancel",
+          "whitelist" : "Save Cancel"
+        },
+        "tblAction" :
+        {
+          "general_settings" : false,
+          "address_exceptions" : "Create",
+          "file_exceptions" : "Create",
+          "blacklist" : "Move2Whites Remove",
+          "whitelist" : "Remove"
+        },
+        "rowAction" :
+        {
+          "general_settings" : false,
+          "address_exceptions" : "Edit Delete",
+          "file_exceptions" : "Edit Delete",
+          "blacklist" : "Delete",
+          "whitelist" : "History Delete"
+        },
+        "guiT" :
+        {
+          "general_settings" : false,
+          "address_exceptions" : "guiAddrFilterT",
+          "file_exceptions" :
+          {
+            "mime" : "mimeExcepT",
+            "file_exception" : "fileExcepT"
+          },
+          "blacklist" : "urlT",
+          "whitelist" : "urlT"
+        },
+        "guiTNum" :
+        {
+          "general_settings" : false,
+          "address_exceptions" : "guiAddrFilterNum",
+          "file_exceptions" :
+          {
+            "mime" : "mimeExcepTNum",
+            "file_exception" : "fileExcepTNum"
+          },
+          "blacklist" : "number",
+          "whitelist" : "number"
+        },
+        "col":
+        {
+          "general_settings" :
+          [
+            {
+              "label" : "Zone to Scan",
+              "tab" : "selectedZonesT",
+              "tag" : "select",
+              "type" : "multiple",
+              "multiple" :
+              {
+                "pool" :
+                {
+                  "label" : "Available Zones",
+                  "tab" : "pool",
+                  "wiz" : "40%"
+                },
+                "del" :
+                {
+                  "label" : "Move to Remove",
+                  "tab" : "Move2Del",
+                  "tag" : "button",
+                  "type" : "button",
+                  "wiz" : "10%"
+                },
+                "add" :
+                {
+                  "label" : "Move to Add",
+                  "tab" : "Move2Add",
+                  "tag" : "button",
+                  "type" : "button",
+                  "wiz" : "10%"
+                },
+                "pick" :
+                {
+                  "label" : "Selected Zone",
+                  "tab" : "pick",
+                  "wiz" : "40%"
+                }
+              },
+              "align" :
+              [
+                "Left",
+                "Left"
+              ],
+              "wiz" : "100px"
+            },
+            {
 
+                  "label" : "CIFS",
+                  "tab" : "cifs",
+                  "tag" : "table",
+                  "type" : "table",
+                  "col" :
+                  [
+                    {
+                      "label" : "Enable",
+                      "tab" : "cifsEnable",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : 1
+                    },
+                    {
+                      "label" : "Log",
+                      "tab" : "cifsLog",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : 1
+                    },
+                    {
+                      "label" : "Action",
+                      "tab" : "cifsAct",
+                      "tag" : "select",
+                      "type" : "select",
+                      "option" :
+                      {
+                        "0" : "None",
+                        "1" : "Notify"
+                      }
+                    }
+                  ]
+            },
+            {
+              "label" : "Maximum File Size to Scan",
+              "tab" : "maxFileSize",
+              "tag" : "input",
+              "type" : "text",
+              "note" : "(1-10240 byte, 0=unlimited)"
+            }
+          ],
+
+          "address_exceptions" :
+          [
+            {
+              "label" : "Enable",
+              "tab" : "enable"
+            },
+            {
+              "label" : "Source",
+              "tab" : "sAddrId"
+            },
+            {
+              "label" : "Destination",
+              "tab" : "dAddrId"
+            },
+            {
+              "label" : "Log",
+              "tab" : "logEnable"
+            },
+            {
+              "label" : "Action",
+              "tab" : "action"
+            }
+          ],
+          "file_exceptions" :
+          [
+            {
+              "label" : "MIME Exception List",
+              "tab" : "mime",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "MIME",
+                  "tab" : "mime"
+                },
+                {
+                  "label" : "Action",
+                  "tab" : "action"
+                }
+              ]
+            },
+            {
+              "label" : "File Exception List",
+              "tab" : "file_exception",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "File Extension",
+                  "tab" : "fileExt"
+                },
+                {
+                  "label" : "Action",
+                  "tab" : "action"
+                }
+              ]
+            }
+          ],
+          "blacklist" :
+          [
+            {
+              "label" : "Expiration Duration",
+              "tab" : "expiration_duration",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "Expiration Duration",
+                  "tab" : false
+                },
+                {
+                  "label" : "Days",
+                  "tab" : "expiration_days",
+                  "tag" : "input",
+                  "type" : "text",
+                  "note" : "( 0-300 )"
+                },
+                {
+                  "label" : "Hours",
+                  "tab" : "expiration_hours",
+                  "tag" : "input",
+                  "type" : "text",
+                  "note" : " ( 0-23 )"
+                }
+              ]
+            },
+            {
+              "label" : "Blacklist",
+              "tab" : "blacklist",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "",
+                  "tab" : "blacklist_all",
+                  "tag" : "input",
+                  "type" : "checkbox"
+                },
+                {
+                  "label" : "Index",
+                  "tab" : "blacklist_index"
+                },
+                {
+                  "label" : "Virus ID",
+                  "tab" : "virusID"
+                },
+                {
+                  "label" : "Virus Name",
+                  "tab" : "virusName"
+                },
+                {
+                  "label" : "Type",
+                  "tab" : "type"
+                },
+                {
+                  "label" : "Info",
+                  "tab" : "url"
+                },
+                {
+                  "label" : "Expiration Date",
+                  "tab" : "expiration"
+                },
+                {
+                  "label" : "Action",
+                  "tab" : "action"
+                }
+              ]
+            }
+          ],
+          "whitelist" :
+          [
+            {
+              "label" : "Whitelist",
+              "tab" : "whitelist",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "",
+                  "tab" : "whitelist_all",
+                  "tag" : "input",
+                  "type" : "checkbox"
+                },
+                {
+                  "label" : "Index",
+                  "tab" : "whitelist_index"
+                },
+                {
+                  "label" : "Virus ID",
+                  "tab" : "virusID"
+                },
+                {
+                  "label" : "Virus Name",
+                  "tab" : "virusName"
+                },
+                {
+                  "label" : "Action",
+                  "tab" : "action"
+                }
+              ]
+            }
+          ]
+        },
+        "editor":
+        {
+          "address_exceptions" :
+          [
+            {
+              "label" : "Enable",
+              "tab" : "enable",
+              "tag" : "input",
+              "type" : "checkbox"
+            },
+            {
+              "label" : "Source Address",
+              "tab" : "sAddrId",
+              "tag" : "select",
+              "type" : "select"
+            },
+            {
+              "label" : "Destination Address",
+              "tab" : "dAddrId",
+              "tag" : "select",
+              "type" : "select"
+            },
+            {
+              "label" : "Log",
+              "tab" : "logEnable",
+              "tag" : "input",
+              "type" : "checkbox"
+            }
+          ],
+          "mime" :
+          [
+            {
+              "label" : "Type",
+              "tab" : "type",
+              "tag" : "select",
+              "type" : "select"
+            },
+            {
+              "label" : "Sub Type",
+              "tab" : "sub",
+              "tag" : "select",
+              "type" : "select"
+            }
+          ],
+          "file_extension" :
+          [
+            {
+              "label" : "File Extension",
+              "tab" : "fileExt",
+              "tag" : "input",
+              "type" : "text"
+            }
+          ]
+        }
     },
     {
-      "label" : "Security Reports",
+      "label" : "Reports",
       "id" : "menu-6",
-      "tab" : "security_reports",
+      "tab" : "reports",
       "panel" :
       [
         {
-          "label" : "File Extension",
+          "label" : "Security Reports",
           "id" : "menu-6-0",
-          "tab" : "file_extension",
-          "tag" : "div",
-          "type" : "tabs",
-          "tabs" :
-          {
-            "0" : "File Extension Log",
-            "1" : "By File Extension"
-          },
-          "url" : "reportQuery",
-          "ext" : "php",
-          "query" : true,
-          "pager" : true,
-          "perPage" : 20,
-          "refresh" : 10,
-          "col" :
-          {
-            "0":
-            [
+          "tab" : "security_reports",
+          "panel" :
+          [
+            {
+              "label" : "File Extension",
+              "id" : "menu-6-0-0",
+              "tab" : "file_extension",
+              "tag" : "div",
+              "type" : "tabs",
+              "tabs" :
               {
-                "label": "ID",
-                "tab" : "id",
-                "wiz" : "10%" ,
-                "display" : true,
-                "sortable" : false,
-                "align" : "Center"
+                "0" : "File Extension Log",
+                "1" : "By File Extension"
               },
+              "url" : "reportQuery",
+              "ext" : "php",
+              "query" : true,
+              "pager" : true,
+              "perPage" : 20,
+              "refresh" : 10,
+              "col" :
               {
-                "label": "Extension",
-                "tab" : "extension",
-                "wiz" : "30%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
-              },
-              {
-                "label": "Access Count",
-                "tab" : "accessCount",
-                "wiz" : "30%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
-              },
-              {
-                "label": "Datetime",
-                "tab" : "datetime",
-                "wiz" : "30%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
+                "0":
+                [
+                  {
+                    "label": "ID",
+                    "tab" : "id",
+                    "wiz" : "10%" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label": "Extension",
+                    "tab" : "extension",
+                    "wiz" : "30%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Access Count",
+                    "tab" : "accessCount",
+                    "wiz" : "30%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Datetime",
+                    "tab" : "datetime",
+                    "wiz" : "30%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ],
+                "1":
+                [
+                  {
+                    "label": "ID",
+                    "tab" : "id",
+                    "wiz" : "10%" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label": "Extension",
+                    "tab" : "extension",
+                    "wiz" : "30%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Access Count",
+                    "tab" : "accessCount",
+                    "wiz" : "60%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ]
               }
-            ],
-            "1":
-            [
+            },
+            {
+              "label" : "Blocked Host",
+              "id" : "menu-6-0-1",
+              "tab" : "blocked_host",
+              "tag" : "div",
+              "type" : "tabs",
+              "tabs" :
               {
-                "label": "ID",
-                "tab" : "id",
-                "wiz" : "10%" ,
-                "display" : true,
-                "sortable" : false,
-                "align" : "Center"
+                "0" : "Blocked Host Log",
+                "1" : "By Blocked Host"
               },
+              "url" : "reportQuery",
+              "ext" : "php",
+              "query" : true,
+              "pager" : true,
+              "perPage" : 20,
+              "refresh" : 10,
+              "col" :
               {
-                "label": "Extension",
-                "tab" : "extension",
-                "wiz" : "30%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
-              },
-              {
-                "label": "Access Count",
-                "tab" : "accessCount",
-                "wiz" : "60%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
+                "0":
+                [
+                  {
+                    "label": "ID",
+                    "tab" : "id",
+                    "wiz" : "10%" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label": "IP",
+                    "tab" : "ip",
+                    "wiz" : "30%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Virus Count",
+                    "tab" : "virusCount",
+                    "wiz" : "20%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Firewall Count",
+                    "tab" : "firewallCount",
+                    "wiz" : "20%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Datetime",
+                    "tab" : "datetime",
+                    "wiz" : "20%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ],
+                "1":
+                [
+                  {
+                    "label": "ID",
+                    "tab" : "id",
+                    "wiz" : "10%" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label": "IP",
+                    "tab" : "ip",
+                    "wiz" : "30%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Virus Count",
+                    "tab" : "virusCount",
+                    "wiz" : "30%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Firewall Count",
+                    "tab" : "firewallCount",
+                    "wiz" : "30%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ]
               }
-            ]
-          }
+            },
+            {
+              "label" : "Affected Host",
+              "id" : "menu-6-0-2",
+              "tab" : "affected_host",
+              "tag" : "div",
+              "type" : "tabs",
+              "tabs" :
+              {
+                "0" : "Affected Host Log",
+                "1" : "By Affected Host"
+              },
+              "url" : "reportQuery",
+              "ext" : "php",
+              "query" : true,
+              "pager" : true,
+              "perPage" : 20,
+              "refresh" : 10,
+              "col" :
+              {
+                "0":
+                [
+                  {
+                    "label": "ID",
+                    "tab" : "id",
+                    "wiz" : "10%" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label": "IP",
+                    "tab" : "ip",
+                    "wiz" : "30%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Virus Hit Count",
+                    "tab" : "virusHitCount",
+                    "wiz" : "30%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Datetime",
+                    "tab" : "datetime",
+                    "wiz" : "30%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ],
+                "1":
+                [
+                  {
+                    "label": "ID",
+                    "tab" : "id",
+                    "wiz" : "10%" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label": "IP",
+                    "tab" : "ip",
+                    "wiz" : "30%",
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Virus Hit Count",
+                    "tab" : "virusHitCount",
+                    "wiz" : "60%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ]
+              }
+            },
+            {
+              "label" : "Antivirus",
+              "id" : "menu-6-0-3",
+              "tab" : "antivirus_report",
+              "tag" : "div",
+              "type" : "tabs",
+              "tabs" :
+              {
+                "0" : "Anitivirus Log",
+                "1" : "By Src. IP",
+                "2" : "By Dst. IP",
+                "3" : "By Virus Name"
+              },
+              "url" : "reportQuery",
+              "ext" : "php",
+              "query" : true,
+              "pager" : true,
+              "perPage" : 20,
+              "refresh" : 10,
+              "col" :
+              {
+                "0":
+                [
+                  {
+                    "label": "ID",
+                    "tab" : "id",
+                    "wiz" : "10%" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label": "Src IP",
+                    "tab" : "srcIp",
+                    "wiz" : "20%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Dst IP",
+                    "tab" : "dstIp",
+                    "wiz" : "20%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Protocol",
+                    "tab" : "protocol",
+                    "wiz" : "10%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Virus Name",
+                    "tab" : "virusName",
+                    "wiz" : "20%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Datetime",
+                    "tab" : "datetime",
+                    "wiz" : "20%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ],
+                "1":
+                [
+                  {
+                    "label": "ID",
+                    "tab" : "id",
+                    "wiz" : "10%" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label": "Src IP",
+                    "tab" : "srcIp",
+                    "wiz" : "40%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Hit Count",
+                    "tab" : "hitCount",
+                    "wiz" : "50%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ],
+                "2":
+                [
+                  {
+                    "label": "ID",
+                    "tab" : "id",
+                    "wiz" : "10%" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label": "Dst IP",
+                    "tab" : "dstIp",
+                    "wiz" : "40%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Hit Count",
+                    "tab" : "hitCount",
+                    "wiz" : "50%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ],
+                "3":
+                [
+                  {
+                    "label": "ID",
+                    "tab" : "id",
+                    "wiz" : "10%" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label": "Virus Name",
+                    "tab" : "virusName",
+                    "wiz" : "60%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Hit Count",
+                    "tab" : "hitCount",
+                    "wiz" : "30%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ]
+              }
+            }
+          ]
         },
         {
-          "label" : "Blocked Host",
+          "label" : "Network Reports",
           "id" : "menu-6-1",
-          "tab" : "blocked_host",
-          "tag" : "div",
-          "type" : "tabs",
-          "tabs" :
-          {
-            "0" : "Blocked Host Log",
-            "1" : "By Blocked Host"
-          },
-          "url" : "reportQuery",
-          "ext" : "php",
-          "query" : true,
-          "pager" : true,
-          "perPage" : 20,
-          "refresh" : 10,
-          "col" :
-          {
-            "0":
-            [
+          "tab" : "network_reports",
+          "panel" :
+          [
+            {
+              "label" : "Traffic Direction",
+              "id" : "menu-6-1-0",
+              "tab" : "traffic_direction",
+              "tag" : "div",
+              "type" : "tabs",
+              "tabs" :
               {
-                "label": "ID",
-                "tab" : "id",
-                "wiz" : "10%" ,
-                "display" : true,
-                "sortable" : false,
-                "align" : "Center"
+                "0" : "Traffic Log",
+                "1" : "By Addr.",
+                "2" : "By Src. IP",
+                "3" : "By Dst. IP",
+                "4" : "By Protocol",
+                "5" : "By Dst. Port",
+                "6" : "By Zone"
               },
+              "url" : "reportQuery",
+              "ext" : "php",
+              "weekly" : true,
+              "query" : true,
+              "pager" : true,
+              "perPage" : 20,
+              "refresh" : 10,
+              "col" :
               {
-                "label": "IP",
-                "tab" : "ip",
-                "wiz" : "30%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
-              },
-              {
-                "label": "Virus Count",
-                "tab" : "virusCount",
-                "wiz" : "20%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
-              },
-              {
-                "label": "Firewall Count",
-                "tab" : "firewallCount",
-                "wiz" : "20%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
-              },
-              {
-                "label": "Datetime",
-                "tab" : "datetime",
-                "wiz" : "20%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
+                "0" :
+                [
+                  {
+                    "label": "ID",
+                    "tab" : "id",
+                    "wiz" : "20px" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label": "SAddr",
+                    "tab" : "srcIp",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label": "DAddr",
+                    "tab" : "dstIp",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label" : "Protocol",
+                    "tab" : "protocol",
+                    "wiz" : "60px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "SPort",
+                    "tab" : "srcPort",
+                    "wiz" : "40px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "DPort",
+                    "tab" : "dstPort",
+                    "wiz" : "40px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "FZone",
+                    "tab" : "fromZone",
+                    "wiz" : "60px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "TZone",
+                    "tab" : "toZone",
+                    "wiz" : "60px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Tx",
+                    "tab" : "txBytes",
+                    "wiz" : "50px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Rx",
+                    "tab" : "rxBytes",
+                    "wiz" : "50px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Total",
+                    "tab" : "totalBytes",
+                    "wiz" : "50px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Start",
+                    "tab" : "startDatetime",
+                    "wiz" : "125px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "End",
+                    "tab" : "endDatetime",
+                    "wiz" : "125px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ],
+                "1" :
+                [
+                  {
+                    "label": "ID",
+                    "tab" : "id",
+                    "wiz" : "40px" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label" : "Src. IP",
+                    "tab" : "srcIp",
+                    "wiz" : "180px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "Dst. IP",
+                    "tab" : "dstIp",
+                    "wiz" : "180px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "Tx Bytes",
+                    "tab" : "txBytes",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Rx Bytes",
+                    "tab" : "rxBytes",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Total Bytes",
+                    "tab" : "totalBytes",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Sessions",
+                    "tab" : "sessions",
+                    "wiz" : "120px",
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ],
+                "2" :
+                [
+                  {
+                    "label": "ID",
+                    "tab" : "id",
+                    "wiz" : "40px" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label" : "Src. IP",
+                    "tab" : "srcIp",
+                    "wiz" : "180px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "Tx Bytes",
+                    "tab" : "txBytes",
+                    "wiz" : "150px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Rx Bytes",
+                    "tab" : "rxBytes",
+                    "wiz" : "150px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Total Bytes",
+                    "tab" : "totalBytes",
+                    "wiz" : "150px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Sessions",
+                    "tab" : "sessions",
+                    "wiz" : "150px",
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ],
+                "3" :
+                [
+                  {
+                    "label": "ID",
+                    "tab" : "id",
+                    "wiz" : "40px" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label" : "Dst. IP",
+                    "tab" : "dstIp",
+                    "wiz" : "180px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "Tx Bytes",
+                    "tab" : "txBytes",
+                    "wiz" : "150px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Rx Bytes",
+                    "tab" : "rxBytes",
+                    "wiz" : "150px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Total Bytes",
+                    "tab" : "totalBytes",
+                    "wiz" : "150px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Sessions",
+                    "tab" : "sessions",
+                    "wiz" : "150px",
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ],
+                "4" :
+                [
+                  {
+                    "label": "ID",
+                    "tab" : "id",
+                    "wiz" : "40px" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label" : "Protocol",
+                    "tab" : "protocol",
+                    "wiz" : "180px",
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "Tx Bytes",
+                    "tab" : "txBytes",
+                    "wiz" : "150px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Rx Bytes",
+                    "tab" : "rxBytes",
+                    "wiz" : "150px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Total Bytes",
+                    "tab" : "totalBytes",
+                    "wiz" : "150px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Sessions",
+                    "tab" : "sessions",
+                    "wiz" : "150px",
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ],
+                "5" :
+                [
+                  {
+                    "label": "ID",
+                    "tab" : "id",
+                    "wiz" : "40px" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label" : "Dst. Port",
+                    "tab" : "dstPort",
+                    "wiz" : "180px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "Tx Bytes",
+                    "tab" : "txBytes",
+                    "wiz" : "150px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Rx Bytes",
+                    "tab" : "rxBytes",
+                    "wiz" : "150px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Total Bytes",
+                    "tab" : "totalBytes",
+                    "wiz" : "150px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Sessions",
+                    "tab" : "sessions",
+                    "wiz" : "150px",
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ],
+                "6" :
+                [
+                  {
+                    "label": "ID",
+                    "tab" : "id",
+                    "wiz" : "40px" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label" : "From Zone",
+                    "tab" : "fromZone",
+                    "wiz" : "180px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "To Zone",
+                    "tab" : "toZone",
+                    "wiz" : "180px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label" : "Tx Bytes",
+                    "tab" : "txBytes",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Rx Bytes",
+                    "tab" : "rxBytes",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Total Bytes",
+                    "tab" : "totalBytes",
+                    "wiz" : "100px" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Sessions",
+                    "tab" : "sessions",
+                    "wiz" : "120px",
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ]
               }
-            ],
-            "1":
-            [
-              {
-                "label": "ID",
-                "tab" : "id",
-                "wiz" : "10%" ,
-                "display" : true,
-                "sortable" : false,
-                "align" : "Center"
-              },
-              {
-                "label": "IP",
-                "tab" : "ip",
-                "wiz" : "30%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
-              },
-              {
-                "label": "Virus Count",
-                "tab" : "virusCount",
-                "wiz" : "30%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
-              },
-              {
-                "label": "Firewall Count",
-                "tab" : "firewallCount",
-                "wiz" : "30%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
-              }
-            ]
-          }
+            }
+          ]
         },
         {
-          "label" : "Affected Host",
+          "label" : "Network Status",
           "id" : "menu-6-2",
-          "tab" : "affected_host",
-          "tag" : "div",
-          "type" : "tabs",
-          "tabs" :
-          {
-            "0" : "Affected Host Log",
-            "1" : "By Affected Host"
-          },
-          "url" : "reportQuery",
-          "ext" : "php",
-          "query" : true,
-          "pager" : true,
-          "perPage" : 20,
-          "refresh" : 10,
-          "col" :
-          {
-            "0":
-            [
+          "tab" : "network_status",
+          "panel" :
+          [
+            {
+              "label" : "Show ARP Table",
+              "id" : "menu-6-2-0",
+              "tab" : "show_arp_table",
+              "tag" : "table",
+              "type" : "list",
+              "columns" : true,
+              "url" :
               {
-                "label": "ID",
-                "tab" : "id",
-                "wiz" : "10%" ,
-                "display" : true,
-                "sortable" : false,
-                "align" : "Center"
+                "get" : "arpTable"
               },
+              "ext" : "cgi",
+              "guiT" : "guiArpTableT",
+              "refresh" : 10,
+              "col" :
+              [
+                {
+                  "label" : "IP Address",
+                  "tab" : "address",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label" : "Flag",
+                  "tab" : "flag",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label" : "MAC Address",
+                  "tab" : "mac",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label" : "Device",
+                  "tab" : "device",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                }
+              ]
+            },
+            {
+              "label" : "Show Routing Table",
+              "id" : "menu-6-2-1",
+              "tab" : "show_routing_table",
+              "tag" : "table",
+              "columns" : true,
+              "type" : "list",
+              "url" :
               {
-                "label": "IP",
-                "tab" : "ip",
-                "wiz" : "30%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
+                "get" : "routingTable"
               },
+              "ext" : "cgi",
+              "guiT" : "guiRoutingTableT",
+              "guiTNum" : "guiRoutingTableTNum",
+              "refresh" : 10,
+              "col" :
+              [
+                {
+                  "label": "Destination Address",
+                  "tab" : "dstAddress",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label": "Subnet Mask",
+                  "tab" : "mask",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label": "Gateway",
+                  "tab" : "gateway",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label": "Flags",
+                  "tab" : "flag",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label": "Metric",
+                  "tab" : "metric",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label": "Interface",
+                  "tab" : "interface",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                }
+              ]
+            },
+            {
+              "label" : "DHCP Bindings",
+              "id" : "menu-6-2-2",
+              "tab" : "dhcp_bindings",
+              "tag" : "table",
+              "type" : "list",
+              "columns" : true,
+              "url" :
               {
-                "label": "Virus Hit Count",
-                "tab" : "virusHitCount",
-                "wiz" : "30%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
+                "get" : "dhcpLeases"
               },
+              "ext" : "cgi",
+              "guiT" : "dhcpLeasesT",
+              "pattern" : "|",
+              "key" : "LeaseInfo",
+              "refresh" : 10,
+              "col" :
+              [
+                {
+                  "label": "IP Address",
+                  "tab" : 0,
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label": "MAC Address",
+                  "tab" : 1,
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label": "Lease Start Time",
+                  "tab" : 2,
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label": "Lease End Time",
+                  "tab" : 3,
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                }
+              ]
+            },
+            {
+              "label" : "Status Summary",
+              "id" : "menu-6-2-3",
+              "tab" : "status_summary",
+              "tag" : "div",
+              "type" : "tabs",
+              "columns" : true,
+              "tabs" :
               {
-                "label": "Datetime",
-                "tab" : "datetime",
-                "wiz" : "30%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
+                "port" : "Port Table",
+                "vlan" : "VLAN Interface Table",
+                "wan" : "WAN Table",
+                "lan" : "LAN Table"
+              },
+              "url" :
+              {
+                "get" :
+                {
+                  "port" : "statusSummary_port",
+                  "vlan" : "statusSummary_vlan",
+                  "wan" : "statusSummary_wan",
+                  "lan" : "statusSummary_lan"
+                }
+              },
+              "ext" : "cgi",
+              "guiT" :
+              {
+                "port" : "guiPortIfT",
+                "vlan" : "guiVlanIfT",
+                "wan" : "guiWanIfT",
+                "lan" : "guiLanIfT"
+              },
+              "guiTNum" :
+              {
+                "port" : "guiPortIfTNum",
+                "vlan" : "guiVlanIfTNum",
+                "wan" : "guiWanIfTNum",
+                "lan" : "guiLanIfTNum"
+              },
+              "refresh" : 10,
+              "vertiCol" :
+              {
+                "port" : false,
+                "vlan" : false,
+                "wan" : true,
+                "lan" : false
+              },
+              "col" :
+              {
+                "port" :
+                [
+                  {
+                    "label": "Name",
+                    "tab" : "name",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "LAN",
+                    "tab" : "lan",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "DHCP Pool",
+                    "tab" : "dhcpPool",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Address",
+                    "tab" : "address",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Zone",
+                    "tab" : "zone",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Link State",
+                    "tab" : "linkState",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Link Settings",
+                    "tab" : "linkSettings",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ],
+                "vlan" :
+                [
+                  {
+                    "label": "Name",
+                    "tab" : "name",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "LAN",
+                    "tab" : "lan",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "DHCP Pool",
+                    "tab" : "dhcpPool",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Address",
+                    "tab" : "address",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Zone",
+                    "tab" : "zone",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Physical Port",
+                    "tab" : "physicalPort",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "VID",
+                    "tab" : "vid",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ],
+                "wan" :
+                [
+                  {
+                    "label": "Name",
+                    "tab" : "name",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "IP Assignment Method",
+                    "tab" : "protocol",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Connection time",
+                    "tab" : "connectionTime",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Connection State",
+                    "tab" : "connectionState",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "IP Address",
+                    "tab" : "address",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Subnet Mask",
+                    "tab" : "mask",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Gateway",
+                    "tab" : "gateway",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "DNS Server",
+                    "tab" : "dns",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Physical Port",
+                    "tab" : "physicalPort",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Link State",
+                    "tab" : "linkState",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "DHCP Server",
+                    "tab" : "dhcpServer",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Lease Obtained",
+                    "tab" : "leaseObtained",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Lease Duration",
+                    "tab" : "leaseDuration",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "MAC Address",
+                    "tab" : "macAddress",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Zone",
+                    "tab" : "zone",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ],
+                "lan" :
+                [
+                  {
+                    "label": "Name",
+                    "tab" : "name",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "DHCP Pool",
+                    "tab" : "dhcpPool",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Address",
+                    "tab" : "address",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Zone",
+                    "tab" : "zone",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Port List",
+                    "tab" : "portList",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "MAC Address",
+                    "tab" : "macAddress",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ]
               }
-            ],
-            "1":
-            [
+            },
+            {
+              "label" : "Traffic Statistics",
+              "id" : "menu-6-2-4",
+              "tab" : "traffic_statistics",
+              "tag" : "div",
+              "type" : "tabs",
+              "columns" : true,
+              "tabs" :
               {
-                "label": "ID",
-                "tab" : "id",
-                "wiz" : "10%" ,
-                "display" : true,
-                "sortable" : false,
-                "align" : "Center"
+                "port" : "Port Table",
+                "vlan" : "VLAN Interface Table",
+                "wan" : "WAN Table",
+                "lan" : "LAN Table"
               },
+              "url" :
               {
-                "label": "IP",
-                "tab" : "ip",
-                "wiz" : "30%",
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
+                "get" :
+                {
+                  "port" : "trafficStatisticsPort",
+                  "vlan" : "trafficStatisticsVlan",
+                  "wan" : "trafficStatisticsWan",
+                  "lan" : "trafficStatisticsLan"
+                }
               },
+              "ext" : "cgi",
+              "guiT" :
               {
-                "label": "Virus Hit Count",
-                "tab" : "virusHitCount",
-                "wiz" : "60%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
+                "port" : "guiTrafficStatisticsPortT",
+                "vlan" : "guiTrafficStatisticsVlanT",
+                "wan" : "guiTrafficStatisticsWanT",
+                "lan" : "guiTrafficStatisticsLanT"
+              },
+              "refresh" : 10,
+              "col" :
+              {
+                "port" :
+                [
+                  {
+                    "label": "Name",
+                    "tab" : "name",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Link Status",
+                    "tab" : "linkStatus",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Tx Pkts",
+                    "tab" : "txPkts",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Rx Pkts",
+                    "tab" : "rxPkts",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Collisions",
+                    "tab" : "collisions",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Tx",
+                    "tab" : "txBps",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Rx",
+                    "tab" : "rxBps",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Up Time",
+                    "tab" : "uptime",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ],
+                "vlan" :
+                [
+                  {
+                    "label": "Name",
+                    "tab" : "name",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Tx Pkts",
+                    "tab" : "txPkts",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Rx Pkts",
+                    "tab" : "rxPkts",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Collisions",
+                    "tab" : "collisions",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Tx",
+                    "tab" : "txBps",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Rx",
+                    "tab" : "rxBps",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Up Time",
+                    "tab" : "uptime",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ],
+                "wan" :
+                [
+                  {
+                    "label": "Name",
+                    "tab" : "name",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Tx Pkts",
+                    "tab" : "txPkts",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Rx Pkts",
+                    "tab" : "rxPkts",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Collisions",
+                    "tab" : "collisions",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Tx",
+                    "tab" : "txBps",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Rx",
+                    "tab" : "rxBps",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Up Time",
+                    "tab" : "uptime",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ],
+                "lan" :
+                [
+                  {
+                    "label": "Name",
+                    "tab" : "name",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Tx Pkts",
+                    "tab" : "txPkts",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Rx Pkts",
+                    "tab" : "rxPkts",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Collisions",
+                    "tab" : "collisions",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Tx",
+                    "tab" : "txBps",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Rx",
+                    "tab" : "rxBps",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Up Time",
+                    "tab" : "uptime",
+                    "display" : true,
+                    "wiz" : "auto",
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
+                ]
               }
-            ]
-          }
+            },
+            {
+              "label" : "WAN Bandwidth Report",
+              "id" : "menu-6-2-5",
+              "tab" : "wan_bandwidth_report",
+              "tag" : "div",
+              "type" : "tabsChart",
+              "tabs" :
+              {
+                "wan1" : "WAN1",
+                "wan2" : "WAN2",
+                "wan3" : "WAN3",
+                "wan4" : "WAN4",
+                "wan5" : "WAN5",
+                "wan6" : "WAN6"
+              },
+              "url" :
+              {
+                "get" : "common_query"
+              },
+              "ext" : "php",
+              "query" : true,
+              "refresh" : 10
+            }
+          ]
         },
         {
-          "label" : "Antivirus",
+          "label" : "NAT Status",
           "id" : "menu-6-3",
-          "tab" : "antivirus_report",
-          "tag" : "div",
-          "type" : "tabs",
-          "tabs" :
+          "tab" : "nat_status",
+          "tag" : "table",
+          "type" : "list",
+          "url" :
           {
-            "0" : "Anitivirus Log",
-            "1" : "By Src. IP",
-            "2" : "By Dst. IP",
-            "3" : "By Virus Name"
+            "get" : "natStatus"
           },
-          "url" : "reportQuery",
-          "ext" : "php",
-          "query" : true,
-          "pager" : true,
-          "perPage" : 20,
+          "ext" : "cgi",
+          "guiT" : "guiNatStatusT",
           "refresh" : 10,
+          "columns" : true,
           "col" :
+          [
+            {
+              "label": "#",
+              "tab" : "index",
+              "display" : true,
+              "wiz" : "auto"
+            },
+            {
+              "label": "Orig Src Addr",
+              "tab" : "originalSrcAddr",
+              "display" : true,
+              "wiz" : "auto",
+              "sortable" : true,
+              "align" : "Left"
+            },
+            {
+              "label": "Orig Dst Addr",
+              "tab" : "originalDstAddr",
+              "display" : false,
+              "wiz" : "auto",
+              "sortable" : true,
+              "align" : "Left"
+            },
+            {
+              "label": "Src Port",
+              "tab" : "originalSrcPort",
+              "display" : true,
+              "wiz" : "auto",
+              "sortable" : true,
+              "align" : "Left"
+            },
+            {
+              "label": "Dst Port",
+              "tab" : "originalDstPort",
+              "display" : false,
+              "wiz" : "auto",
+              "sortable" : true,
+              "align" : "Left"
+            },
+            {
+              "label": "Trans Src Addr",
+              "tab" : "translatedSrcAddr",
+              "display" : true,
+              "wiz" : "auto",
+              "sortable" : true,
+              "align" : "Left"
+            },
+            {
+              "label": "Trans Src Port",
+              "tab" : "translatedSrcPort",
+              "display" : true,
+              "wiz" : "auto",
+              "sortable" : true,
+              "align" : "Left"
+            },
+            {
+              "label": "Trans Dst Addr",
+              "tab" : "translatedDstAddr",
+              "display" : true,
+              "wiz" : "auto",
+              "sortable" : true,
+              "align" : "Left"
+            },
+            {
+              "label": "Trans Dst Port",
+              "tab" : "translatedDstPort",
+              "display" : true,
+              "wiz" : "auto",
+              "sortable" : true,
+              "align" : "Left"
+            },
+            {
+              "label": "TX Pkt Cnt",
+              "tab" : "txPkt",
+              "display" : false,
+              "wiz" : "auto",
+              "sortable" : true,
+              "align" : "Left"
+            },
+            {
+              "label": "RX Pkt Cnt",
+              "tab" : "rxPkt",
+              "display" : false,
+              "wiz" : "auto",
+              "sortable" : true,
+              "align" : "Left"
+            },
+            {
+              "label": "TX Byte",
+              "tab" : "txByte",
+              "display" : false,
+              "wiz" : "auto",
+              "sortable" : true,
+              "align" : "Left"
+            },
+            {
+              "label": "RX Byte",
+              "tab" : "rxByte",
+              "display" : false,
+              "wiz" : "auto",
+              "sortable" : true,
+              "align" : "Left"
+            }
+          ]
+        },
+        {
+          "label" : "VPN Status",
+          "id" : "menu-6-4",
+          "tab" : "vpn_status",
+          "panel" :
+          [
+            {
+              "label" : "Active Sessions",
+              "id" : "menu-6-4-0",
+              "tab" : "active_sessions",
+              "tag" : "table",
+              "type" : "list",
+              "columns" : true,
+              "url" :
+              {
+                "get" : "ipsecSession",
+                "post" : "ipsecSessionUpDown"
+              },
+              "ext" : "cgi",
+              "guiT" : "guiIpsecSessionT",
+              "guiTNum" : "guiIpsecSessionTNum",
+              "tblAction" : "Disconnects",
+              "rowAction" : "Connect Disconnect",
+              "refresh" : 10,
+              "col" :
+              [
+                {
+                  "label": "",
+                  "tab" : "checkbox",
+                  "tag" : "input",
+                  "type" : "checkbox",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : false,
+                  "align" : "Center"
+                },
+                {
+                  "label": "Policy Name",
+                  "tab" : "name",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label": "WAN Interface",
+                  "tab" : "wanName",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label": "Remote Gateway",
+                  "tab" : "remoteGw",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label": "Local Network",
+                  "tab" : "localNetwork",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label": "Remote Network",
+                  "tab" : "remoteNetwork",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label": "Action",
+                  "tab" : "action",
+                  "type" : "button",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : false,
+                  "align" : "Center"
+                }
+              ]
+            },
+            {
+              "label" : "IPSec VPN Statistics",
+              "id" : "menu-6-4-1",
+              "tab" : "ipsec_vpn_statistics",
+              "tag" : "table",
+              "type" : "list",
+              "columns" : true,
+              "url" :
+              {
+                "get" : "ipsecStat"
+              },
+              "ext" : "cgi",
+              "guiT" : "guiIpsecStatT",
+              "guiTNum" : "guiIpsecStatTNum",
+              "refresh" : 10,
+              "col" :
+              [
+                {
+                  "label": "Policy Name",
+                  "tab" : "name",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label": "WAN Interface",
+                  "tab" : "wanName",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label": "Remote Gateway",
+                  "tab" : "remoteGw",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label": "Local Network",
+                  "tab" : "localNetwork",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label": "Remote Network",
+                  "tab" : "remoteNetwork",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label": "Tx",
+                  "tab" : "tx_bytes",
+                  "display" : true,
+                  "wiz" : "80px",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label": "Rx",
+                  "tab" : "rx_bytes",
+                  "display" : true,
+                  "wiz" : "80px",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label": "Tx Pkts",
+                  "tab" : "tx_pkts",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                },
+                {
+                  "label": "Rx Pkts",
+                  "tab" : "rx_pkts",
+                  "display" : true,
+                  "wiz" : "auto",
+                  "sortable" : true,
+                  "align" : "Left"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label" : "System Status",
+          "id" : "menu-6-5",
+          "tab" : "system_status",
+          "panel" :
+          [
+            {
+              "label" : "Resource Utilization",
+              "id" : "menu-6-5-0",
+              "tab" : "resource_utilization",
+              "tag" : "div",
+              "type" : "tabsChart",
+              "tabs" :
+              {
+                "cpu" : "CPU Utilization",
+                "memory" : "Memory Utilization"
+              },
+              "url" :
+              {
+                "get" : "common_query"
+              },
+              "ext" : "php",
+              "query" : true,
+              "refresh" : 10
+            }
+          ]
+        },
+        {
+          "label" : "Active Users",
+          "id" : "menu-6-6",
+          "tab" : "active_users",
+          "tag" : "table",
+          "type" : "list",
+          "columns" : true,
+          "url" :
           {
-            "0":
-            [
-              {
-                "label": "ID",
-                "tab" : "id",
-                "wiz" : "10%" ,
-                "display" : true,
-                "sortable" : false,
-                "align" : "Center"
-              },
-              {
-                "label": "Src IP",
-                "tab" : "srcIp",
-                "wiz" : "20%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
-              },
-              {
-                "label": "Dst IP",
-                "tab" : "dstIp",
-                "wiz" : "20%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
-              },
-              {
-                "label": "Protocol",
-                "tab" : "protocol",
-                "wiz" : "10%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
-              },
-              {
-                "label": "Virus Name",
-                "tab" : "virusName",
-                "wiz" : "20%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
-              },
-              {
-                "label": "Datetime",
-                "tab" : "datetime",
-                "wiz" : "20%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
-              }
-            ],
-            "1":
-            [
-              {
-                "label": "ID",
-                "tab" : "id",
-                "wiz" : "10%" ,
-                "display" : true,
-                "sortable" : false,
-                "align" : "Center"
-              },
-              {
-                "label": "Src IP",
-                "tab" : "srcIp",
-                "wiz" : "40%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
-              },
-              {
-                "label": "Hit Count",
-                "tab" : "hitCount",
-                "wiz" : "50%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
-              }
-            ],
-            "2":
-            [
-              {
-                "label": "ID",
-                "tab" : "id",
-                "wiz" : "10%" ,
-                "display" : true,
-                "sortable" : false,
-                "align" : "Center"
-              },
-              {
-                "label": "Dst IP",
-                "tab" : "dstIp",
-                "wiz" : "40%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
-              },
-              {
-                "label": "Hit Count",
-                "tab" : "hitCount",
-                "wiz" : "50%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
-              }
-            ],
-            "3":
-            [
-              {
-                "label": "ID",
-                "tab" : "id",
-                "wiz" : "10%" ,
-                "display" : true,
-                "sortable" : false,
-                "align" : "Center"
-              },
-              {
-                "label": "Virus Name",
-                "tab" : "virusName",
-                "wiz" : "60%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
-              },
-              {
-                "label": "Hit Count",
-                "tab" : "hitCount",
-                "wiz" : "30%" ,
-                "display" : true,
-                "sortable" : true,
-                "align" : "Left"
-              }
-            ]
-          }
+            "get" : "activeUsers",
+            "post" : "forceLogout"
+          },
+          "ext" : "cgi",
+          "guiT" : "activeUsersT",
+          "tblAction" : "Forces",
+          "rowAction" : "Force",
+          "refresh" : 5,
+          "col" :
+          [
+            {
+              "label": "",
+              "tab" : "checkbox",
+              "tag" : "input",
+              "type" : "checkbox",
+              "display" : true,
+              "wiz" : "auto",
+              "sortable" : false,
+              "align" : "Center"
+            },
+            {
+              "label": "User Name",
+              "tab" : "username",
+              "display" : true,
+              "wiz" : "auto",
+              "sortable" : true,
+              "align" : "Left"
+            },
+            {
+              "label": "Address Information",
+              "tab" : "address",
+              "display" : true,
+              "wiz" : "auto",
+              "sortable" : true,
+              "align" : "Left"
+            },
+            {
+              "label": "Login Method",
+              "tab" : "loginMethod",
+              "display" : true,
+              "wiz" : "auto",
+              "sortable" : true,
+              "align" : "Left"
+            },
+            {
+              "label": "Session Time",
+              "tab" : "sessTime",
+              "display" : true,
+              "wiz" : "auto",
+              "sortable" : true,
+              "align" : "Left"
+            },
+            {
+              "label": "Action",
+              "tab" : "action",
+              "tag" : "button",
+              "type" : "button",
+              "display" : true,
+              "wiz" : "auto",
+              "sortable" : false,
+              "align" : "Center"
+            }
+          ]
         }
       ]
     },
@@ -844,12 +4462,98 @@
       "id" : "menu-7",
       "tab" : "updates",
       "tag" : "div",
-      "type" : "div"
+      "type" : "div",
+      "url" :
       {
         "get" : "av_sig",
         "post" : "av_sig"
       },
-      "ext" : "cgi"
+      "ext" : "cgi",
+      "col" :
+      [
+         {
+           "label" : "Virus Database",
+           "tab" : "signatures",
+           "tag" : "div",
+           "type" : "div",
+           "icon" : "i_128_virus_database_00.png",
+           "col" :
+           [
+             {
+               "label" : "Signature Update",
+               "tab" : "signature_update",
+               "tag" : "table",
+               "type" : "table",
+               "col" :
+               [
+                 {
+                   "label" : "Manual Update",
+                   "tab" : "startUpdate",
+                   "tag" : "button",
+                   "type" : "submit"
+                 },
+                 {
+                   "label" : "Auto Update",
+                   "tab" : "autoUpdate",
+                   "tag" : "input",
+                   "type" : "checkbox",
+                   "col" :
+                   [
+                     {
+                       "label" : "Type",
+                       "tab" : "type",
+                       "tag" : "select",
+                       "type" : "select",
+                       "option" : "cgi"
+                     },
+                     {
+                       "label" : "Interval",
+                       "tab" : "number",
+                       "tag" : "select",
+                       "type" : "select",
+                       "option" : "cgi"
+                     }
+                   ]
+                 }
+               ]
+             },
+             {
+               "label" : "Version & Pattern Number",
+               "tab" : "version_pattern",
+               "tag" : "table",
+               "type" : "table",
+               "col" :
+               [
+                 {
+                   "label" : "Version",
+                   "tab" : "version"
+                 },
+                 {
+                   "label" : "Pattern Number",
+                   "tab" : "ptnNum"
+                 }
+               ]
+             },
+             {
+               "label" : "Check Record",
+               "tab" : "check_record",
+               "tag" : "table",
+               "type" : "table",
+               "col" :
+               [
+                 {
+                   "label" : "Last Checked",
+                   "tab" : "lastChecked"
+                 },
+                 {
+                   "label" : "Last Successful Updated",
+                   "tab" : "lastUpdated"
+                 }
+               ]
+             }
+           ]
+         }
+       ]
     },
     {
       "label" : "Interface",
