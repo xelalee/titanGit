@@ -13634,7 +13634,7 @@
         },
         {
           "label" : "License",
-          "id" : "menu-13-5",
+          "id" : "menu-13-4",
           "tab" : "license",
           "tag" : "div",
           "type" : "tabsForm",

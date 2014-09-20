@@ -150,7 +150,6 @@ var gY = YUI({filter:"raw", defaultGraphicEngine: "canvas"}).use('anim', 'charts
 
 
 // define global vars
-var gLock = false;
 var gLang = ['en', 'cn', 'tw']; // languages
 var gRef  = {};
 var gTmpl = {};
@@ -238,6 +237,7 @@ gObj.blinkings = [ 'D', 'L', 'U' ];
 gObj.debugMode = 0;
 
 // if condition
+gIf.lock    = false;
 gIf.multi   = false; //true;
 gIf.loading = false;
 gIf.session = false;
@@ -638,7 +638,7 @@ $(document).ready(function () {
         if ( 0 === gObj.loading ) {
             gIf.loading = false;
             loadingToggle( false );
-            gLock = false;
+            gIf.lock = false;
             getCgiList(gObj.active.pid);
         }
     }
@@ -948,9 +948,9 @@ $(document).ready(function () {
         $('#loginButton').addClass('yui3-button');
         $('#loginButton').on('click', function(e) {
             e.preventDefault();
-            if (gLock)
+            if (gIf.lock)
                 return false;
-            gLock = true;
+            gIf.lock = true;
             // get lang for relative msg
             gObj.lang = $('#userLang').val();
             gObj.user = $('#userName').val();
@@ -1129,8 +1129,7 @@ $(document).ready(function () {
                                                         gY.Cookie.setSub( gCook.main, 'username', gObj.user );
                                                         gY.Cookie.setSub( gCook.main, 'lang', gObj.lang );
                                                         // if licensed
-
-                                                        isLogin();
+                                                        ifLicense();
                                                     }
                                                 });
                                             });
@@ -1432,8 +1431,359 @@ $(document).ready(function () {
         $('#userName').focus();
     }
 
+    function ifLicense() {
+        $.ajax({
+            url:gRef.menu,
+            dataType:'json',
+            scriptCharset: 'utf-8',
+            contentType: 'application/json; charset=utf-8',
+            success:function(data) {
+                gObj.menu = data.menu;
+                gNode = gObj.menu[ 13 ].panel[ 4 ];
+                $.ajax({
+                    url: 'cgi-bin/av_general.cgi',
+                    dataType:'json',
+                    success:function(data) {
+data.licensed = 1;
+                        switch( parseInt( data.licensed ) )
+                        {
+                        case 0:
+                        case 1:
+                            var tmp = '<div id="loginRegister" class="templateDiv">';
+                            tmp += '<div class="tabber">';
+                            tmp +=   '<ul>';
+                            tmp +=     '<li id="tab-registration"><a href="#panel-registration">Registration</a></li>';
+                            tmp +=     '<li id="tab-services"><a href="#panel-services">Service</a></li>';
+                            tmp +=   '</ul>';
+                            tmp +=   '<div id="panel-registration">';
+                            tmp +=     '<div id="div-registration">';
+                            tmp +=       '<div id="div-registration-general">';
+
+                            tmp +=         '<table id="table-registration-general">';
+                            tmp +=           '<caption>' + gNode.col.registration[ 0 ].label + '</caption>';
+                            tmp +=           '<tr>';
+                            tmp +=             '<th class="BT250">';
+                            tmp +=               '<span class="haveAccount-0">';
+                            tmp +=               '<input type="radio" name="registrationMode" id="registrationMode-0" value="0" />&nbsp;<label for="registrationMode-0">' + gNode.col.registration[ 0 ].col[ 0 ].option[ "0" ].label + '</label>';
+                            tmp +=               '</span>';
+                            tmp +=             '</th>';
+                            tmp +=             '<td>';
+                            tmp +=               '<table id="table-new_registration" class="registrationMode-0">';
+                            tmp +=                 '<tr>';
+                            tmp +=                   '<td class="alignLeft BT100">';
+                            tmp +=                    gNode.col.registration[ 0 ].col[ 0 ].option[ "0" ].col[ 0 ].label;
+                            tmp +=                   '</td>';
+                            tmp +=                   '<td class="alignLeft">';
+                            tmp +=                     '<input type="text" id="newUsername" />';
+                            tmp +=                     '<span class="haveAccount-0">';
+                            tmp +=                     '&nbsp;<button id="Check-newUsername" class="Check"><span class="ui-icon" title="check username"></span></button>';
+                            tmp +=                     '&nbsp;<span class="newUsername"></span>';
+                            tmp +=                     '</span>';
+                            tmp +=                   '</td>';
+                            tmp +=                 '</tr>';
+                            tmp +=                 '<tr>';
+                            tmp +=                   '<td class="alignLeft BT100">';
+                            tmp +=                    gNode.col.registration[ 0 ].col[ 0 ].option[ "0" ].col[ 1 ].label;
+                            tmp +=                   '</td>';
+                            tmp +=                   '<td class="alignLeft">';
+                            tmp +=                     '<input type="password" id="newPassword"  />';
+                            tmp +=                   '</td>';
+                            tmp +=                 '</tr>';
+                            tmp +=                 '<tr class="haveAccount-0">';
+                            tmp +=                   '<td class="alignLeft BT100">';
+                            tmp +=                     gNode.col.registration[ 0 ].col[ 0 ].option[ "0" ].col[ 2 ].label;
+                            tmp +=                   '</td>';
+                            tmp +=                   '<td class="alignLeft">';
+                            tmp +=                     '<input type="password" id="confirmPassword"  />';
+                            tmp +=                   '</td>';
+                            tmp +=                 '</tr>';
+                            tmp +=                 '<tr>';
+                            tmp +=                   '<td class="alignLeft BT100">';
+                            tmp +=                     gNode.col.registration[ 0 ].col[ 0 ].option[ "0" ].col[ 3 ].label;
+                            tmp +=                   '</td>';
+                            tmp +=                   '<td class="alignLeft">';
+                            tmp +=                     '<input type="text" id="firstName"  />';
+                            tmp +=                   '</td>';
+                            tmp +=                 '</tr>';
+                            tmp +=                 '<tr>';
+                            tmp +=                   '<td class="alignLeft BT100">';
+                            tmp +=                     gNode.col.registration[ 0 ].col[ 0 ].option[ "0" ].col[ 4 ].label;
+                            tmp +=                   '</td>';
+                            tmp +=                   '<td class="alignLeft">';
+                            tmp +=                     '<input type="text" id="lastName"  />';
+                            tmp +=                   '</td>';
+                            tmp +=                 '</tr>';
+                            tmp +=                 '<tr>';
+                            tmp +=                   '<td class="alignLeft BT100">';
+                            tmp +=                     gNode.col.registration[ 0 ].col[ 0 ].option[ "0" ].col[ 5 ].label;
+                            tmp +=                   '</td>';
+                            tmp +=                   '<td class="alignLeft">';
+                            tmp +=                     '<input type="text" id="email"  />';
+                            tmp +=                   '</td >';
+                            tmp +=                 '</tr>';
+                            tmp +=                 '<tr>';
+                            tmp +=                   '<td class="alignLeft BT100">';
+                            tmp +=                     gNode.col.registration[ 0 ].col[ 0 ].option[ "0" ].col[ 6 ].label;
+                            tmp +=                   '</td>';
+                            tmp +=                   '<td class="alignLeft">';
+                            tmp +=                     '<input type="text" id="company"  />';
+                            tmp +=                   '</td>';
+                            tmp +=                 '</tr>';
+                            tmp +=                 '<tr>';
+                            tmp +=                   '<td class="alignLeft BT100">';
+                            tmp +=                     gNode.col.registration[ 0 ].col[ 0 ].option[ "0" ].col[ 7 ].label;
+                            tmp +=                   '</td>';
+                            tmp +=                   '<td class="alignLeft">';
+                            tmp +=                     '<input type="text" id="raddress"  />';
+                            tmp +=                   '</td>';
+                            tmp +=                 '</tr>';
+                            tmp +=                 '<tr>';
+                            tmp +=                   '<td class="alignLeft BT100">';
+                            tmp +=                     gNode.col.registration[ 0 ].col[ 0 ].option[ "0" ].col[ 8 ].label;
+                            tmp +=                   '</td>';
+                            tmp +=                   '<td class="alignLeft">';
+                            tmp +=                     '<input type="text" id="city"  />';
+                            tmp +=                   '</td>';
+                            tmp +=                 '</tr>';
+                            tmp +=                 '<tr>';
+                            tmp +=                   '<td class="alignLeft BT100">';
+                            tmp +=                     gNode.col.registration[ 0 ].col[ 0 ].option[ "0" ].col[ 9 ].label;
+                            tmp +=                   '</td>';
+                            tmp +=                   '<td class="alignLeft">';
+                            tmp +=                     '<input type="text" id="zipCode"  />';
+                            tmp +=                   '</td>';
+                            tmp +=                 '</tr>';
+                            tmp +=                 '<tr>';
+                            tmp +=                   '<td class="alignLeft BT100">';
+                            tmp +=                     gNode.col.registration[ 0 ].col[ 0 ].option[ "0" ].col[ 10 ].label;
+                            tmp +=                   '</td>';
+                            tmp +=                   '<td class="alignLeft">';
+                            tmp +=                     '<input type="text" id="state"  />';
+                            tmp +=                   '</td>';
+                            tmp +=                 '</tr>';
+                            tmp +=                 '<tr>';
+                            tmp +=                   '<td class="alignLeft BT100">';
+                            tmp +=                     gNode.col.registration[ 0 ].col[ 0 ].option[ "0" ].col[ 11 ].label;
+                            tmp +=                   '</td>';
+                            tmp +=                   '<td class="alignLeft">';
+                            tmp +=                     '<select id="country" ></select>';
+                            tmp +=                   '</td>';
+                            tmp +=                 '</tr>';
+                            tmp +=               '</table>';
+                            tmp +=             '</td>';
+                            tmp +=           '</tr>';
+                            tmp +=           '<tr class="haveAccount-0">';
+                            tmp +=             '<td colspan="2">';
+                            tmp +=             '<hr/>';
+                            tmp +=             '</td>';
+                            tmp +=           '</tr>';
+                            tmp +=           '<tr class="haveAccount-0">';
+                            tmp +=             '<th class="BT250">';
+                            tmp +=               '<input type="radio" name="registrationMode" id="registrationMode-1" value="1" />&nbsp;<label for="registrationMode-1">' + gNode.col.registration[ 0 ].col[ 0 ].option[ "1" ].label + '</label>';
+                            tmp +=             '</th>';
+                            tmp +=             '<td>';
+                            tmp +=               '<table id="table-old_registration" class="registrationMode-1">';
+                            tmp +=                 '<tr>';
+                            tmp +=                   '<td class="alignLeft BT100">';
+                            tmp +=                     gNode.col.registration[ 0 ].col[ 0 ].option[ "1" ].col[ 0 ].label;
+                            tmp +=                   '</td>';
+                            tmp +=                   '<td class="alignLeft">';
+                            tmp +=                     '<input type="text" id="oldUsername" />';
+                            tmp +=                   '</td>';
+                            tmp +=                 '</tr>';
+                            tmp +=                 '<tr>';
+                            tmp +=                   '<td class="alignLeft BT100">';
+                            tmp +=                     gNode.col.registration[ 0 ].col[ 0 ].option[ "1" ].col[ 1 ].label;
+                            tmp +=                   '</td>';
+                            tmp +=                   '<td class="alignLeft">';
+                            tmp +=                     '<input type="password" id="oldPassword" />';
+                            tmp +=                   '</td>';
+                            tmp +=                 '</tr>';
+                            tmp +=               '</table>';
+                            tmp +=             '</td>';
+                            tmp +=           '</tr>';
+                            tmp +=         '</table>';
+
+                            tmp +=       '</div>';
+                            tmp +=       '<div id="div-registration-trial">';
+                            tmp +=         '<hr/>';
+                            tmp +=         '<div id="div-registration-trial">';
+                            tmp +=           '<table id="table-registration-trial">';
+                            tmp +=             '<caption>' + gNode.col.registration[ 1 ].label + '</caption>';
+                            tmp +=             '<tr>';
+                            tmp +=               '<th class="alignRight BT200">';
+                            tmp +=                 gNode.col.registration[ 1 ].col[ 0 ].label;
+                            tmp +=               '</th>';
+                            tmp +=               '<td class="alignLeft">';
+                            tmp +=                 '<input type="checkbox" id="trialCodeActivation" value="1" />';
+                            tmp +=               '</td>';
+                            tmp +=               '<td class="alignRight">';
+                            tmp +=                 '<div class="tblAction"><button id="pgSave" class="Save" title="Save"><span class="ui-icon"></span></button></div>'
+                            tmp +=               '</td>';
+                            tmp +=             '</tr>';
+                            tmp +=           '</table>';
+                            tmp +=         '</div>';
+                            tmp +=       '</div>';
+                            tmp +=     '</div>';
+                            tmp +=   '</div>';
+
+                            tmp +=   '<div id="panel-services" >';
+                            tmp +=     '<div id="div-services" >';
+                            tmp +=       '<div id="div-services_manage" >';
+                            tmp +=         '<table id="table-services_manage" >';
+                            tmp +=           '<caption>' + gNode.col.services[ 0 ].label + '</caption>';
+                            tmp +=           '<thead>';
+                            tmp +=             '<tr>';
+                            tmp +=               '<th class="ui-state-default">';
+                            tmp +=                 gNode.col.services[ 0 ].col[ 0 ].label;
+                            tmp +=               '</th>';
+                            tmp +=               '<th class="ui-state-default">';
+                            tmp +=                 gNode.col.services[ 0 ].col[ 1 ].label;
+                            tmp +=               '</th>';
+                            tmp +=               '<th class="ui-state-default">';
+                            tmp +=                 gNode.col.services[ 0 ].col[ 2 ].label;
+                            tmp +=               '</th>';
+                            tmp +=               '<th class="ui-state-default">';
+                            tmp +=                 gNode.col.services[ 0 ].col[ 3 ].label;
+                            tmp +=               '</th>';
+                            tmp +=             '</tr>';
+                            tmp +=           '</thead>';
+                            tmp +=           '<tbody>';
+                            tmp +=           '</tbody>';
+                            tmp +=         '</table>';
+                            tmp +=         '<div class="tblAction"><button id="licenseRefresh" class="LicenseRefresh"><span class="ui-icon"></span></button></div>';
+                            tmp +=       '</div>';
+
+                            tmp +=       '<div id="div-services_active" >';
+                            tmp +=         '<table id="table-services_active">';
+                            tmp +=           '<caption>' + gNode.col.services[ 1 ].label + '</caption>';
+                            tmp +=           '<thead>';
+                            tmp +=             '<tr>';
+                            tmp +=               '<td class="alignRight BT120">';
+                            tmp +=                 gNode.col.services[ 1 ].col[ 0 ].label;
+                            tmp +=               '</td>';
+                            tmp +=               '<td class="alignLeft BT150">';
+                            tmp +=                 '<input type="text" id="activeCode" />';
+                            tmp +=               '</td>';
+                            tmp +=               '<td class="alignLeft"><div class="tblAction"><button id="licenseUpgrade" class="LicenseUpgrade"><span class="ui-icon"></span></button></div></td>';
+                            tmp +=             '</tr>';
+                            tmp +=           '</thead>';
+                            tmp +=         '</table>';
+                            tmp +=       '</div>';
+                            tmp +=     '</div>';
+                            tmp +=   '</div>';
+
+                            tmp += '</div>';
+                            tmp += '</div>';
+
+                            $('body').html( tmp );
+                            gObj.tabber = $('.tabber').tabs();
+
+                            $.ajax({
+                                url: 'cgi-bin/accountRegistration.cgi',
+                                dataType:'json',
+                                success:function(data) {
+
+                                    if ( 0 ===  parseInt( data.haveAccount ) ) {
+                                        $('#newUsername').blur( function() {
+                                            if (gReg.ascii.username.test( $('#newUsername').val() )) {
+                                                gCache.registration.registrationMode = 2;
+                                                gCache.registration.newUsername = $('#newUsername').val();
+
+                                                $.post('cgi-bin/accountRegistration.cgi', gY.JSON.stringify( gCache.registration ), function(poster) {
+                                                    if (parseInt(poster.status) == 0) {
+                                                        gIf.newUsername = true;
+                                                        $('.newUsername').removeClass('isKO');
+                                                        $('.newUsername').addClass('isOK');
+                                                    }else {
+                                                        $('.newUsername').removeClass('isOK');
+                                                        $('.newUsername').addClass('isKO');
+                                                        errorAlert( '<p>' + poster.msg + '</p>' );
+                                                    }
+                                                }).fail( function(){
+                                                    errorAlert( 'register server connecting failed' );
+                                                });
+                                            }else {
+                                                $('.newUsername').removeClass('isOK');
+                                                $('.newUsername').addClass('isKO');
+                                                errorAlert( 'username can only be [a-zA-Z0-9.@_-] and length should between 6 ~ 20' );
+                                            }
+                                        });
+
+                                        $('input[name=registrationMode]').each(function() {
+                                            if ($(this).val() == data.registrationMode)
+                                                $(this).attr('checked', true).trigger('click');
+                                        });
+
+                                        $('#country').append(genSelectOption('country'));
+                                        gObj.tabber.tabs({"disabled": [1]});
+
+                                    } else {
+                                        $('#div-registration-general input').prop('disabled', true);
+                                        $('#div-registration-general select').prop('disabled', true);
+                                        $('.haveAccount-0').hide();
+
+                                        $('#newUsername').val( data.oldUsername );
+                                        $('#newPassword').val( '********' );
+                                        $('#firstName').val( data.firstName );
+                                        $('#lastName').val( data.lastName );
+                                        $('#email').val( data.email );
+                                        $('#company').val( data.company );
+                                        $('#raddress').val( data.address );
+                                        $('#city').val( data.city );
+                                        $('#zipCode').val( data.zipCode );
+                                        $('#state').val( data.state );
+                                        $('#country').append(genSelectOption('country')).val( data.country );
+
+                                        $.ajax({
+                                            url: 'cgi-bin/serviceExpiration.cgi',
+                                            dataType:'json',
+                                            success:function(data) {
+                                                for (var i=0, len=parseInt( data.guiServiceExpirationTNum ); i<len; i++)
+                                                {
+                                                    tmp = '<tr class="' + ((i%2==0)? 'even' : 'odd') + '">';
+                                                    tmp += '<td>';
+                                                    tmp += data.guiServiceExpirationT[ i ].service;
+                                                    tmp += '</td>';
+                                                    tmp += '<td>';
+                                                    tmp += data.guiServiceExpirationT[ i ].type;
+                                                    tmp += '</td>';
+                                                    tmp += '<td>';
+                                                    tmp += data.guiServiceExpirationT[ i ].status;
+                                                    tmp += '</td>';
+                                                    tmp += '<td>';
+                                                    tmp += data.guiServiceExpirationT[ i ].expireDate;
+                                                    tmp += '</td>';
+                                                    tmp += '</tr>';
+                                                    $('#table-services_manage tbody').append( tmp );
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+
+                            if (gIf.power) {
+                                $('#pgSave').on('click', function(e){ saveDevice('registration') });
+                            } else {
+                                $('.templateDiv input').prop('disabled', true);
+                                $('.templateDiv select').prop('disabled', true);
+                                $('.templateDiv button').prop('disabled', true);
+                            }
+                            break;
+                        case 2:
+                        case 3:
+                            isLogin();
+                            break;
+                        }
+                    }
+                });
+            }
+        });
+    }
+
     function isLogin() {
-        gLock = false;
+        gIf.lock = false;
 
         // draw layout
         $('body').html( gHtml.layout );
@@ -1482,6 +1832,7 @@ $(document).ready(function () {
         $('#bd').html( gHtml.body );
         // menu
         // bd loaded
+/*
         $.ajax({
             url:gRef.menu,
             dataType:'json',
@@ -1489,6 +1840,7 @@ $(document).ready(function () {
             contentType: 'application/json; charset=utf-8',
             success:function(data) {
                 gObj.menu = data.menu;
+*/
                 gObj.active = {};
                 gObj.actived = {};
                 gObj.active.index  = null;
@@ -1737,8 +2089,10 @@ $(document).ready(function () {
                         gObj.routing.protoType = parseInt(gObj.routing.protoType);
                     }
                 });
+/*
             }
         });
+*/
 
         $('#ft').html( gHtml.foot );
         $('#ft .content').append('<p>Copyright &copy; 2014 Titan ARC Corp.</p>');
@@ -4876,6 +5230,9 @@ $(document).ready(function () {
     }
 
     function refreshDashboard( pid, id ) {
+        if (gIf.lock)
+            return false;
+        gIf.lock = true;
         gIf.ajaxed = true;
         gIf.getSessInfo = true;
         var tmp = '';
@@ -4890,6 +5247,7 @@ $(document).ready(function () {
                     url: 'cgi-bin/' + gSort[ pid ].url.get + '.' + gSort[ pid ].ext,
                     dataType: 'json',
                     success: function(data) {
+                        gIf.lock = false;
                         data[ gSort[ pid ].guiT ] = dataSort( data[ gSort[ pid ].guiT ], pid );
                         for (var i=0, len=((pid == 'dashboard_log')? data[ gSort[ pid ].guiT ].length : data[ gSort[ pid ].guiTNum ]); i<len; i++)
                         {
@@ -4944,7 +5302,7 @@ $(document).ready(function () {
                     url: 'topQuery.php?param=' + pid + sortBy,
                     dataType: 'json',
                     success: function(data) {
-
+                        gIf.lock = false;
                         if (parseInt(data.queryRows) > 0) {
                             data.queryResults = dataSortPhp( data.queryResults, pid );
                             for (var j=0; j<data.queryResults.length; j++)
@@ -5016,6 +5374,7 @@ $(document).ready(function () {
                                 url: 'cgi-bin/' + gSort[ v2.id ].url.get + '.' + gSort[ v2.id ].ext,
                                 dataType: 'json',
                                 success: function(data) {
+                                    gIf.lock = false;
                                     if ( 'dashboard_sys_info' == v2.id ) {
                                         for (var z in data)
                                         {
@@ -5106,6 +5465,7 @@ $(document).ready(function () {
                                 url: 'topQuery.php?param=' + v2.id + sortBy,
                                 dataType: 'json',
                                 success: function(data) {
+                                    gIf.lock = false;
                                     if (parseInt(data.queryRows) > 0) {
                                         data.queryResults = dataSortPhp( data.queryResults, pid );
                                         $('#table-' + data.param + ' tbody').empty();
@@ -5171,6 +5531,7 @@ $(document).ready(function () {
                             url: 'cgi-bin/' + gSort[ x ].url.get + '.' + gSort[ x ].ext,
                             dataType: 'json',
                             success: function(data) {
+                                gIf.lock = false;
                                 var y;
                                 tmp = '';
 
@@ -5348,6 +5709,7 @@ $(document).ready(function () {
                             url: 'topQuery.php?param=' + x + sortBy,
                             dataType: 'json',
                             success: function(data) {
+                                gIf.lock = false;
                                 if (parseInt(data.queryRows) > 0) {
                                     data.queryResults = dataSortPhp( data.queryResults, data.param );
                                     $('#table-' + data.param + ' tbody').empty();
@@ -6447,6 +6809,9 @@ $(document).ready(function () {
 
     function refreshReports(pid, tabIndex)
     {
+        if (gIf.lock)
+            return false;
+        gIf.lock = true;
         var tmp = '';
         var query = '';
         gIf.ajaxed = false;
@@ -6467,6 +6832,7 @@ $(document).ready(function () {
                         url: 'cgi-bin/' + gNode.url.get[ pid ] + '.' + gNode.ext,
                         dataType: 'json',
                         success: function(data) {
+                            gIf.lock = false;
                             gIf.ajaxed = true;
                             var x = "";
                             for (var z in gNode.guiT)
@@ -6533,6 +6899,7 @@ $(document).ready(function () {
                     url: 'cgi-bin/' + gNode.url.get + '.' + gNode.ext,
                     dataType: 'json',
                     success: function(data) {
+                        gIf.lock = false;
                         gIf.ajaxed = true;
 
                         if (gNode.guiTN)
@@ -6645,6 +7012,7 @@ $(document).ready(function () {
                                 url: 'reportQuery.php?param=' + pid + '&q=0' + query,
                                 dataType: 'json',
                                 success: function(data) {
+                                    gIf.lock = false;
                                     gIf.ajaxed = true;
                                     loadingToggle( false );
                                     $('#table-0 tbody').empty();
@@ -6692,6 +7060,7 @@ $(document).ready(function () {
                             gY.io( 'reportQuery.php?param=' + pid + '&q=' + tabIndex, {
                                 on: {
                                     complete: function(id, e) {
+                                        gIf.lock = false;
                                         gIf.ajaxed = true;
                                         loadingToggle( false );
                                         var data = new gY.JSON.parse(e.responseText);
@@ -7081,6 +7450,7 @@ $(document).ready(function () {
                             url: 'reportQuery.php?param=' + pid + query + sortBy,
                             dataType: 'json',
                             success: function(data) {
+                                gIf.lock = false;
                                 gIf.ajaxed = true;
                                 // cache for sorting locally
                                 gData[ pid ] = data;
@@ -12355,8 +12725,10 @@ $(document).ready(function () {
 
         if (!pass) {
             errorAlert( msg );
+            gIf.lock = false;
         } else if (pass && gObj.calc.checkIp.checkType) {
             gIf.checkIp = true;
+            gIf.lock = false;
         }
 
         return pass;
@@ -12745,9 +13117,9 @@ $(document).ready(function () {
 
     function saveInterface(pid) {
 
-        if (gLock)
+        if (gIf.lock)
             return false;
-        gLock = true;
+        gIf.lock = true;
 
         switch(pid)
         {
@@ -12818,7 +13190,7 @@ $(document).ready(function () {
 
             if (!isPass) {
                 errorAlert('<p> weird setting, please login again </p>');
-                gLock = false;
+                gIf.lock = false;
                 return false;
             }
             break;
@@ -12897,7 +13269,7 @@ $(document).ready(function () {
                 gData[ pid ].defaultDNS1 = $('#defaultDNS1').val();
                 gData[ pid ].defaultDNS2 = $('#defaultDNS2').val();
             } else {
-                gLock = false;
+                gIf.lock = false;
                 return false;
             }
             break;
@@ -12914,7 +13286,7 @@ $(document).ready(function () {
                     gIf.rtMode = true;
                 }
             } else {
-                gLock = false;
+                gIf.lock = false;
                 return false;
             }
             break;
@@ -12922,7 +13294,7 @@ $(document).ready(function () {
 
         loadingToggle( true );
         $.post('cgi-bin/' + (('object' === typeof gNode.url.post)? gNode.url.post[ pid ] : gNode.url.post) + '.cgi', gY.JSON.stringify(gData[ pid ]), function( poster ) {
-            gLock = false;
+            gIf.lock = false;
             gIf.alter = false;
             if (parseInt(poster.status) == 0) {
                 if (poster.duration) {
@@ -15282,14 +15654,15 @@ $(document).ready(function () {
 
         if (!pass) {
             errorAlert( msg );
+            gIf.lock = false;
         }
         return pass;
     }
 
     function saveNetworking(pid) {
-        if (gLock)
+        if (gIf.lock)
             return false;
-        gLock = true;
+        gIf.lock = true;
         var pass = true;
         var msg = '';
 
@@ -15337,13 +15710,13 @@ $(document).ready(function () {
 
         if (!pass) {
             errorAlert( msg );
-            gLock = false;
+            gIf.lock = false;
             return false;
         }
 
         loadingToggle( true );
         $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ pid ]), function( poster ) {
-            gLock = false;
+            gIf.lock = false;
             gIf.alter = false;
             if (parseInt(poster.status) == 0) {
                 if (poster.duration) {
@@ -17408,14 +17781,15 @@ $(document).ready(function () {
 
         if (!pass) {
             errorAlert( msg );
+            gIf.lock = false;
         }
         return pass;
     }
 
     function saveFirewall(pid) {
-        if (gLock)
+        if (gIf.lock)
             return false;
-        gLock = true;
+        gIf.lock = true;
 
         var cgiID = gNode.url.post;
         switch(pid)
@@ -17471,7 +17845,7 @@ $(document).ready(function () {
                 gData[ pid ].udpTimeout = $('#udpTimeout').val();
                 gData[ pid ].otherTimeout = $('#otherTimeout').val();
             } else {
-                gLock = false;
+                gIf.lock = false;
                 return false;
             }
             break;
@@ -17492,7 +17866,7 @@ $(document).ready(function () {
                     }
                 }
             } else {
-                gLock = false;
+                gIf.lock = false;
                 return false;
             }
             break;
@@ -17500,7 +17874,7 @@ $(document).ready(function () {
 
         loadingToggle( true );
         $.post('cgi-bin/' + cgiID + '.cgi', gY.JSON.stringify(gData[ pid ]), function( poster ) {
-            gLock = false;
+            gIf.lock = false;
             gIf.alter = false;
             if (parseInt(poster.status) == 0) {
                 if (poster.duration) {
@@ -19272,6 +19646,7 @@ $(document).ready(function () {
             }
         case 'cifs':
 
+            flag = false;
             $('#selectedZonesT option').each(function() {
                 flag = true;
             });
@@ -19340,7 +19715,6 @@ $(document).ready(function () {
                      }
                  }
             }
-            return false;
             break;
         case 'ip_mac_binding':
             var tar = {};
@@ -19387,15 +19761,15 @@ $(document).ready(function () {
 
         if (!pass) {
             errorAlert( msg );
+            gIf.lock = false;
         }
-
         return pass;
     }
 
     function saveSecurity(pid) {
-        if (gLock)
+        if (gIf.lock)
             return false;
-        gLock = true;
+        gIf.lock = true;
 
         switch( pid )
         {
@@ -19486,7 +19860,6 @@ $(document).ready(function () {
             }
             break;
         case 'signature':
-        gY.log( pid )
             if ($('#signature-autoUpdate').is(':checked'))
                 gData.signature.autoUpdate = 1;
             else
@@ -19495,13 +19868,12 @@ $(document).ready(function () {
             gData.signature.number = $('#signature-number').val();
             gData.signature.startUpdate = 0;
             $.post('cgi-bin/av_sig.cgi', gY.JSON.stringify(gData.signature), function( poster ) {
-                gLock = false;
+                gIf.lock = false;
                 genSecurity( pid );
             });
             break;
         case 'proxy':
-
-            if (securityChecker(null, pid)) {
+            if (securityChecker(pid)) {
                 gData.proxy.enable = ($('#enable').is(':checked'))? 1 : 0;
                 if (1 === gData.proxy.enable) {
                     gData.proxy.serverAddr = $('#serverAddr').val();
@@ -19512,9 +19884,8 @@ $(document).ready(function () {
                         gData.proxy.proxyUserPwd = $('#proxyUserPwd').val();
                     }
                 }
-                cgiID = 'av_proxy';
-                $.post('cgi-bin/' + cgiID + '.cgi', gY.JSON.stringify(gData.proxy), function( poster ) {
-                    gLock = false;
+                $.post('cgi-bin/av_proxy.cgi', gY.JSON.stringify(gData.proxy), function( poster ) {
+                    gIf.lock = false;
                     if (0 === parseInt( poster.status ) )
                         getCgiList(gObj.active.pid);
                     else
@@ -19539,11 +19910,11 @@ $(document).ready(function () {
             gData[ pid ].mode = $('#mode').val();
 
             if ( ( cnt == 0 && 1 == gData[ pid ].enable) || ( gRows.maxIPMACBinding < gData[ pid ][ gNode.guiT ].length )) {
-                gLock = false;
+                gIf.lock = false;
                 errorAlert( '<p>' + gError[ gObj.lang ].ipMacBindingLength + '</p>' );
             } else {
                 $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ pid ]), function( poster ) {
-                    gLock = false;
+                    gIf.lock = false;
                     gIf.alter = false;
                     genSecurity( pid );
                 });
@@ -20578,6 +20949,7 @@ $(document).ready(function () {
 
         if (!pass) {
             errorAlert( msg );
+            gIf.lock = false;
         }
         return pass;
     }
@@ -20682,9 +21054,9 @@ $(document).ready(function () {
     }
 
     function saveUsers(pid) {
-        if (gLock)
+        if (gIf.lock)
             return false;
-        gLock = true;
+        gIf.lock = true;
         switch(pid)
         {
         case 'user':
@@ -20714,7 +21086,7 @@ $(document).ready(function () {
 
         loadingToggle( true );
         $.post('cgi-bin/' + cgiID + '.cgi', gY.JSON.stringify(gData[ pid ])).done( function( poster ) {
-            gLock = false;
+            gIf.lock = false;
             if (poster.duration) {
                 gObj.loading = poster.duration;
                 gIf.loading = true;
@@ -23154,14 +23526,15 @@ $(document).ready(function () {
 
         if (!pass) {
             errorAlert( msg );
+            gIf.lock = false;
         }
         return pass;
     }
 
     function saveObject(pid) {
-        if (gLock)
+        if (gIf.lock)
             return false;
-        gLock = true;
+        gIf.lock = true;
         var sum = 0;
         var cnt = 0;
         switch( pid )
@@ -23195,7 +23568,7 @@ $(document).ready(function () {
                             });
                             gObj.tabber.tabs("enable", 0);
                             gIf.alter = false;
-                            gLock = false;
+                            gIf.lock = false;
                         }
                     });
                 }
@@ -23230,7 +23603,7 @@ $(document).ready(function () {
                             });
                             gObj.tabber.tabs("enable", 1);
                             gIf.alter = false;
-                            gLock = false;
+                            gIf.lock = false;
                         }
                     });
                 }
@@ -23253,7 +23626,7 @@ $(document).ready(function () {
                                 success: function(data) {
                                     gData[ pid ] = data;
                                     gIf.alter = false;
-                                    gLock = false;
+                                    gIf.lock = false;
                                     refreshObject( pid );
                                 }
                             });
@@ -26097,7 +26470,6 @@ $(document).ready(function () {
     }
 
     function deviceChecker(e, pid) {
-
         var tar = {};
 
         if (pid) {
@@ -26380,14 +26752,15 @@ $(document).ready(function () {
 
         if (!pass) {
             errorAlert( msg );
+            gIf.lock = false;
         }
         return pass;
     }
 
     function saveDevice(pid) {
-        if (gLock)
+        if (gIf.lock)
             return false;
-        gLock = true;
+        gIf.lock = true;
         var checker = {};
         var msg = '';
         switch(pid)
@@ -26418,7 +26791,7 @@ $(document).ready(function () {
                     }
                 }
                 errorAlert( msg );
-                gLock = false;
+                gIf.lock = false;
                 return false;
             }
             break;
@@ -26427,7 +26800,7 @@ $(document).ready(function () {
                 gData[ pid ].httpsPort = $('#httpsPort').val();
                 gData[ pid ].sshPort = $('#sshPort').val();
             } else {
-                gLock = false;
+                gIf.lock = false;
                 return false;
             }
             break;
@@ -26513,7 +26886,7 @@ $(document).ready(function () {
                 //gData.email_alert.ipsAlertInterval = $('#ipsAlertInterval').val();
                 //gData.email_alert.urlAlertEnable = ($('#urlAlertEnable').is(':checked'))? 1 : 0;
             } else {
-                gLock = false;
+                gIf.lock = false;
                 return false;
             }
             break;
@@ -26536,7 +26909,7 @@ $(document).ready(function () {
                     }
                 }
                 errorAlert( msg );
-                gLock = false;
+                gIf.lock = false;
                 return false;
             }
             break;
@@ -26570,7 +26943,7 @@ $(document).ready(function () {
                 else
                     gData[ pid ].enableTrial = 0;
             } else {
-                gLock = false;
+                gIf.lock = false;
                 return false;
             }
             break;
@@ -26580,7 +26953,7 @@ $(document).ready(function () {
                 gData[ pid ].hostname = $('#' + gNode.col[ 0 ].tab).val();
                 gData[ pid ].domainname = $('#' + gNode.col[ 1 ].tab).val();
             } else {
-                gLock = false;
+                gIf.lock = false;
                 return false;
             }
             break;
@@ -26644,7 +27017,7 @@ $(document).ready(function () {
                 gObj.form.password = $('#adminOldPwd').val();
                 $.post('cgi-bin/checkCurrentPwd.cgi', gY.JSON.stringify(gObj.form), function(poster) {
                     // suppose i'll get valid
-                    gLock = false;
+                    gIf.lock = false;
                     loadingToggle( true );
                     if (0 === parseInt( poster.status ) && 'success' == poster.result) {
                         $.post('cgi-bin/' + (('object' === typeof gNode.url.post)? gNode.url.post[ pid ] : gNode.url.post) + '.cgi', gY.JSON.stringify(gData[ pid ]), function( poster ) {
@@ -26670,7 +27043,7 @@ $(document).ready(function () {
             } else {
                 $.post('cgi-bin/' + (('object' === typeof gNode.url.post)? gNode.url.post[ pid ] : gNode.url.post) + '.cgi', gY.JSON.stringify(gData[ pid ]), function( poster ) {
                     gIf.alter = false;
-                    gLock = false;
+                    gIf.lock = false;
                     if (parseInt(poster.status) == 0) {
                         if (poster.duration) {
                             gObj.loading = poster.duration;
@@ -26686,7 +27059,7 @@ $(document).ready(function () {
             loadingToggle( true );
             $.post('cgi-bin/' + (('object' === typeof gNode.url.post)? gNode.url.post[ pid ] : gNode.url.post) + '.cgi', gY.JSON.stringify(gData[ pid ]), function( poster ) {
                 gIf.alter = false;
-                gLock = false;
+                gIf.lock = false;
                 if (parseInt(poster.status) == 0) {
                     if (poster.duration) {
                         gObj.loading = poster.duration;

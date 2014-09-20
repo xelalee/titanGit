@@ -538,6 +538,16 @@ a:link { text-decoration: none;}
     display: none;
 }
 
+#loginRegister {
+    width: 800px;
+    margin: 100px auto;
+}
+
+#loginRegister .tabber div {
+    background-color: #efefef;
+    margin: 0;
+}
+
 /* menu */
 #menu h3, #menu h4, #menu h5 {
     position:relative;
