@@ -262,3 +262,29 @@ button.ExportPDF span.ui-icon {
     text-align: center;
     vertical-align: middle;
 }
+
+/* loading toggle */
+.modals {
+    display:    none;
+    position:   fixed;
+    z-index:    99999;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 105, 105, 105, .5 )
+                url('images/progress.gif')
+                50% 50%
+                no-repeat;
+}
+
+/* When the body has the loading class, we turn the scrollbar off with overflow:hidden  */
+body.loadingClass {
+    overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our modal element will be visible */
+body.loadingClass .modals {
+    display: block;
+}
+

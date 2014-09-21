@@ -37,6 +37,8 @@
     <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
     <script type="text/javascript" src="js/jquery.bgiframe.js"></script>
     <script type="text/javascript" src="js/jquery-ui-1.9.2.custom.js"></script>
+<!-- chart js -->
+    <script type="text/javascript" src="js/Chart.js"></script>
 <!-- jspdf -->
     <script type="text/javascript" src="assets/jspdf/jspdf.js"></script>
     <script type="text/javascript" src="assets/jspdf/jspdf.plugin.addimage.js"></script>
@@ -50,6 +52,9 @@
     <script type="text/javascript" src="assets/jspdf/adler32cs.js"></script>
     <script type="text/javascript" src="assets/jspdf/FileSaver.js"></script>
     <script type="text/javascript" src="assets/jspdf/BlobBuilder.js"></script>
+    <script type="text/javascript" src="assets/jspdf/basic.js"></script>
+<!-- pdf.js -->
+    <script type="text/javascript" src="assets/pdfjs/pdf.js"></script>
 <!-- custom -->
     <link rel="stylesheet" type="text/css" href="css/reporterK.css" />
 
@@ -77,8 +82,10 @@ $(document).ready(function () {
     jQuery.fn.exists = function() {
         return this.length > 0;
     }
+
     // yui instance
-    var gY = YUI({filter:"raw", defaultGraphicEngine: "canvas"}).use('anim', 'charts', 'charts-legend', 'console', 'cookie', 'datasource', 'datasource-get', 'datasource-io', 'datasource-jsonschema', 'datatable-base', 'datatable-sort', 'datatable-datasource', 'dd', 'dd-plugin', 'dump', 'event', 'get', 'io-base', 'io-upload-iframe', 'json', 'json-parse', 'json-stringify', 'node', 'node-event-simulate', 'panel', 'uploader', 'yui');
+    var gY = YUI({filter:"raw", defaultGraphicEngine: "canvas"}).use('anim', 'charts', 'charts-legend', 'console', 'cookie', 'datasource', 'datasource-get', 'datasource-io', 'datasource-jsonschema', 'datatable-base', 'datatable-sort', 'datatable-datasource', 'dd', 'dd-plugin', 'dump', 'event', 'get', 'io-base', 'io-upload-iframe', 'json', 'json-parse', 'json-stringify', 'node', 'panel', 'uploader', 'yui');
+
     // define vars
     var lang   = 'en';
     var gData  = {};
@@ -87,6 +94,7 @@ $(document).ready(function () {
     var gProto = {};
     var gChart = {};
     var gCache = {};
+    var gColor = [ "red", "blue", "black", "green", "yellow", "purple", "pink", "orange", "brown"];
 
     var gObj = {
         "traffic_direction" : {
@@ -249,7 +257,7 @@ $(document).ready(function () {
                         }
                     },
                     "4" : {
-                        type : "bar",
+                        type : "pie",
                         catKey : 'protocol',
                         styleDef : {
                             axes : {
@@ -625,6 +633,11 @@ $(document).ready(function () {
             }
             break;
         case 'ExportPDF':
+
+var pdf = new jsPDF('p', 'pt', 'letter');
+
+pdf.fromHTML( $('#table-4').get(0), 10, 10, { 'width': 500 }, function(dispos) { pdf.save("test.pdf") } )
+
             break;
         }
     });
@@ -644,6 +657,7 @@ $(document).ready(function () {
             url: 'advancedQuery.php?param=' + param + '&sd=' + sd + '&sh=' + sh + '&ed=' + ed + '&eh=' + eh + '&q=' + idx,
             dataType: 'json',
             success: function(data) {
+                loadingToggle( false );
                 // transfer protocol from int to string,,,
 
                 for (var i=0, len=data.queryResults.length; i<len; i++)
@@ -662,10 +676,10 @@ $(document).ready(function () {
                     // update rows
                     $('#rowsPages').html( Math.ceil( data.queryRows/20 ) );
                 } else {
-                    // chart 
+                    // chart
                     $('#panel-' + idx).html('<div id="div-chart-' + idx + '"><div id="chart-' + idx + '"></div></div>');
-                    
-                    // table 
+
+                    // table
                     $('#panel-' + idx).append('<div id="div-table-' + idx + '"><table id="table-' + idx + '"><thead></thead><tbody></tbody></table></div>');
 
                     // limit 10
@@ -676,7 +690,7 @@ $(document).ready(function () {
 
                 // remove que
                 delete gQue[ idx ];
-                
+
                 // get next que
                 for (var x in gQue)
                 {
@@ -694,7 +708,7 @@ $(document).ready(function () {
         $('#table-' + idx + ' thead').html('<tr></tr>');
         for ( var x in gObj[ param ][ 'table' ][ lang ][ idx ] )
             $('#table-' + idx + ' thead tr').append( '<th class="ui-state-default">' + gObj[ param ][ 'table' ][ lang ][ idx ][ x ] + '</th>' );
-         
+
         $('#table-' + idx + ' tbody').empty();
         if ( data.length > 0 ) {
             for (var i=0, len=data.length; i<len; i++)
@@ -788,13 +802,26 @@ $(document).ready(function () {
         else {
             if ($('.noData').exists())
                 $('#chart-' + idx).empty();
-            gChart[ idx ] = new gY.Chart({
-                dataProvider: data,
-                categoryKey: gObj[ param ].chart[ lang ][ idx ].catKey,
-                type: gObj[ param ].chart[ lang ][ idx ].type,
-                styles: gObj[ param ].chart[ lang ][ idx ].styleDef,
-                horizontalGridlines: true
-            }).render( '#chart-' + idx );
+
+             if ('pie' == gObj[ param ].chart[ lang ][ idx ].type) {
+                 $('#chart-' + idx).html('<canvas id="pie-' + idx + '" width="480" height="480" style="width:480px; height:480px;"></canvas>');
+                 var pieData = [];
+                 for (var i=0, len=data.length; i<len; i++)
+                 {
+                      pieData.push( {value: parseInt(data[ i ].totalBytes), color: gColor[ i ], highlight: gColor[ i ], label: data[ i ].protocol} );
+                 }
+
+                 gChart[ idx ] = new Chart( $('#pie-' + idx).get(0).getContext('2d') ).Pie( pieData, { animateRotate: false});
+
+             } else {
+                gChart[ idx ] = new gY.Chart({
+                    dataProvider: data,
+                    categoryKey: gObj[ param ].chart[ lang ][ idx ].catKey,
+                    type: gObj[ param ].chart[ lang ][ idx ].type,
+                    styles: gObj[ param ].chart[ lang ][ idx ].styleDef,
+                    horizontalGridlines: true
+                }).render( '#chart-' + idx );
+            }
         }
     }
 
@@ -844,6 +871,7 @@ $(document).ready(function () {
         });
 
         // data
+        loadingToggle( true );
         getData( param, sd, sh, ed, eh, q, q );
     }
 
@@ -858,7 +886,7 @@ $(document).ready(function () {
         tmp += '<td class="pager"><button Class="Move2Last" id="Move2Last"><span class="ui-icon"></span></button></td>';
         tmp += '<td class="pager"><select id="rows"><option value="20">20 rows</option><option value="50">50 rows</option><option value="100">100 rows</option></select>';
         tmp += '<td class="pdfer"><select id="tops"><option value="10">Top 10</option><option value="25">Top 25</option><option value="50">Top 50</option></select>';
-   
+
         tmp += '<td class="pdfer"><button Class="ExportPDF" id="ExportPDF"><span class="ui-icon"></span></button></td>';
         tmp += '</tr>';
         tmp += '</table>';
@@ -869,6 +897,14 @@ $(document).ready(function () {
 
     function genFooter() {
         $('#ft').html('<p>Copyright &copy; 2014 Titan ARC corp.</p>');
+    }
+
+    function loadingToggle( flag ) {
+        if (flag) {
+            $('body').addClass('loadingClass');
+        } else {
+            $('body').removeClass('loadingClass');
+        }
     }
 
     function init() {
@@ -905,17 +941,21 @@ $(document).ready(function () {
     </script>
   </head>
   <body>
+
     <div id="layout">
       <div id="hd">
         <div id="hd_top"></div>
         <div id="hd_mark"><div id="hd_label">TitanWALL <span>&reg;</span></div></div>
       </div>
       <div id="bd">
-        <div id="bd_hd"></div>
-        <div id="bd_bd"></div>
-        <div id="bd_ft"></div>
+
+          <div id="bd_hd"></div>
+          <div id="bd_bd"></div>
+          <div id="bd_ft"></div>
       </div>
       <div id="ft"></div>
+      <div class="modals"></div>
     </div>
+
   </body>
 </html>
