@@ -1009,7 +1009,7 @@ h4 #activedMenu, h5 #activedMenu {
     height:     100%;
     width:      100%;
     background: rgba( 105, 105, 105, .5 )
-                url('images/progress.gif') 
+                url('images/progress.gif')
                 50% 50%
                 no-repeat;
 }
@@ -2293,16 +2293,6 @@ div.Expand {
     padding: 5px;
 }
 
-#div-enable_antivirus {
-    position: relative;
-    height: 20px;
-    background: #efefef ;
-    -mos-border-radius: 10px;
-    border-radius: 10px;
-    padding: 5px;
-    margin-top: 3px;
-}
-
 #div-zone_to_scan {
     position: relative;
     background: #efefef url('images/i_64_zone_to_scan_00.png') top left no-repeat;
@@ -2344,6 +2334,7 @@ div.Expand {
 #div-imap {
     position: relative;
     background: #efefef url('images/i_64_pop3_00.png') top right no-repeat;
+    padding: 5px 5px 5px 40px;
 }
 
 #div-maximumFile {

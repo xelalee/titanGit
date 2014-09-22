@@ -1122,7 +1122,7 @@ $(document).ready(function () {
                                                     url:'cgi-bin/getSessInfo.cgi',
                                                     dataType:'json',
                                                     success:function(data) {
-                                                        gRef.menu = 'lang/' + gObj.lang + '-menuK.txt';
+                                                        gRef.menu = 'lang/' + gObj.lang + '-menu.txt';
                                                         gIf.session = true;
                                                         gIf.getSessInfo = true;
                                                         gObj.userIp = data.ipAddr;
@@ -1448,7 +1448,6 @@ $(document).ready(function () {
                         switch( parseInt( data.licensed ) )
                         {
                         case 0:
-                        case 1:
                             var tmp = '<div id="loginRegister" class="templateDiv">';
                             tmp += '<div class="tabber">';
                             tmp +=   '<ul>';
@@ -1778,6 +1777,7 @@ $(document).ready(function () {
                                 $('.templateDiv button').prop('disabled', true);
                             }
                             break;
+                        case 1:
                         case 2:
                         case 3:
                             gIf.licensed = data.licensed;
@@ -2141,6 +2141,9 @@ $(document).ready(function () {
         gRows.maxTransformPolicy = 16;
         gRows.maxIKEPolicy = 16;
         gRows.maxIPSecPolicies = 100;
+
+        // security
+        gRows.maxIPMACBinding = 500;
 
         // device
         gRows.maxProfile = 16;
@@ -3345,7 +3348,7 @@ $(document).ready(function () {
                             window.open('cgi-bin/' + gNode.url.exportToPC + '.cgi?config_name=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].name, "_blank");
                             break;
                         case 2:
-                            $.get('cgi-bin/' + gNode.url.exportToUSB + '.cgi?config_name=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].fileName, function() {
+                            $.get('cgi-bin/' + gNode.url.exportToUSB + '.cgi?config_name=' + gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].name, function() {
                                 successAlert('<p>' + gTerm[ gObj.lang ].exportDone + '</p>');
                             });
                             break;
@@ -5403,10 +5406,14 @@ $(document).ready(function () {
                                             }
                                         }
                                     } else if ( 'dashboard_resource' == v2.id ) {
-                                        $('#' + v2.id + '-cpuUtilization').html( data.cpuUtilization + '%' );
-                                        $('.cpuUtilization').progressbar( {value: parseInt( data.cpuUtilization )} );
-                                        $('#' + v2.id + '-memoryUtilization').html( data.memoryUtilization + '%' );
-                                        $('.memoryUtilization').progressbar( {value: parseInt( data.memoryUtilization )} );
+                                        var cpuValue = parseInt( data.cpuUtilization );
+                                        var cpuColor = ( cpuValue > 20 )? ( ( cpuValue > 40 )? ( ( cpuValue > 60 )? '#e83c30' : '#fcb62d' ) : '#d7d02a' ) : '#83a323';
+                                        var cpuData = [ { value: cpuValue , color: cpuColor, highlight: cpuColor, "label": "Used" }, { value: ( 100 - cpuValue ), color: '#007260', highlight: "#007260", "label": "Free" } ]
+                                        var cpuChart = new Chart( $('#cpuChart').get(0).getContext('2d') ).Pie( cpuData, { animateRotate: false } );
+                                        var memValue = parseInt( data.memoryUtilization );
+                                        var memColor = ( memValue > 20 )? ( ( memValue > 40 )? ( ( memValue > 60 )? '#e83c30' : '#fcb62d' ) : '#d7d02a' ) : '#83a323';
+                                        var memData = [ { value: memValue, color: memColor, highlight: memColor, "label": "Used" }, { value: ( 100 - memValue ), color: '#007260', highlight: "#007260", "label": "Free" } ]
+                                        var memChart = new Chart( $('#memChart').get(0).getContext('2d') ).Pie( memData, { animateRotate: false } );
                                     } else if ( 'dashboard_s2svpn' == v2.id ) {
                                         for (var z in data)
                                         {
@@ -5551,12 +5558,14 @@ $(document).ready(function () {
                                     }
                                 } else if ( data.dramSize ) {
                                     y = 'dashboard_resource';
-
-                                    $('#' + y + '-cpuUtilization').html( data.cpuUtilization + '%' );
-                                    $('.cpuUtilization').progressbar( {value: parseInt( data.cpuUtilization )} );
-                                    $('#' + y + '-memoryUtilization').html( data.memoryUtilization + '%' );
-                                    $('.memoryUtilization').progressbar( {value: parseInt( data.memoryUtilization )} );
-
+                                    var cpuValue = parseInt( data.cpuUtilization );
+                                    var cpuColor = ( cpuValue > 20 )? ( ( cpuValue > 40 )? ( ( cpuValue > 60 )? '#e83c30' : '#fcb62d' ) : '#d7d02a' ) : '#83a323';
+                                    var cpuData = [ { value: cpuValue , color: cpuColor, highlight: cpuColor, "label": "Used" }, { value: ( 100 - cpuValue ), color: '#007260', highlight: "#007260", "label": "Free" } ]
+                                    var cpuChart = new Chart( $('#cpuChart').get(0).getContext('2d') ).Pie( cpuData, { animateRotate: false } );
+                                    var memValue = parseInt( data.memoryUtilization );
+                                    var memColor = ( memValue > 20 )? ( ( memValue > 40 )? ( ( memValue > 60 )? '#e83c30' : '#fcb62d' ) : '#d7d02a' ) : '#83a323';
+                                    var memData = [ { value: memValue, color: memColor, highlight: memColor, "label": "Used" }, { value: ( 100 - memValue ), color: '#007260', highlight: "#007260", "label": "Free" } ]
+                                    var memChart = new Chart( $('#memChart').get(0).getContext('2d') ).Pie( memData, { animateRotate: false } );
                                 } else if ( data.tunnelNum ) {
                                     y = 'dashboard_s2svpn';
                                     for (var z in data)
@@ -5912,9 +5921,13 @@ $(document).ready(function () {
                     node.set('innerHTML', tmp);
 
                     if (feed.tag == 'table' && feed.type == 'chart') {
-                        var cpuData = [ { value: parseInt( data.cpuUtilization ) , color: '#cc0000', highlight: "#cc0000", "label": "Used" }, { value: ( 100 - parseInt( data.cpuUtilization ) ), color: '#007260', highlight: "#007260", "label": "Free" } ]
+                        var cpuValue = parseInt( data.cpuUtilization );
+                        var cpuColor = ( cpuValue > 20 )? ( ( cpuValue > 40 )? ( ( cpuValue > 60 )? '#e83c30' : '#fcb62d' ) : '#d7d02a' ) : '#83a323';
+                        var cpuData = [ { value: cpuValue , color: cpuColor, highlight: cpuColor, "label": "Used" }, { value: ( 100 - cpuValue ), color: '#007260', highlight: "#007260", "label": "Free" } ]
                         var cpuChart = new Chart( $('#cpuChart').get(0).getContext('2d') ).Pie( cpuData, { animateRotate: false } );
-                        var memData = [ { value: parseInt( data.memoryUtilization ), color: '#cc0000', highlight: "#cc0000", "label": "Used" }, { value: ( 100 - parseInt( data.memoryUtilization ) ), color: '#007260', highlight: "#007260", "label": "Free" } ]
+                        var memValue = parseInt( data.memoryUtilization );
+                        var memColor = ( memValue > 20 )? ( ( memValue > 40 )? ( ( memValue > 60 )? '#e83c30' : '#fcb62d' ) : '#d7d02a' ) : '#83a323';
+                        var memData = [ { value: memValue, color: memColor, highlight: memColor, "label": "Used" }, { value: ( 100 - memValue ), color: '#007260', highlight: "#007260", "label": "Free" } ]
                         var memChart = new Chart( $('#memChart').get(0).getContext('2d') ).Pie( memData, { animateRotate: false } );
                     }
                 }
@@ -6394,7 +6407,7 @@ $(document).ready(function () {
                             else
                                 $('#pagerDiv').hide();
                             gObj.tabIndex = ui.newTab.index();
-                            refreshReports( pid, ui.newTab.index() );
+                            refreshReports( pid, gObj.tabIndex );
                         }
                     });
                     break;
@@ -6620,6 +6633,8 @@ $(document).ready(function () {
             }
             gObj.chart.id = '#chart-wan' + (gObj.chartIndex+1);
 
+            loadingToggle( true );
+
             gY.io( 'chartQuery.php?param=' + pid + q, {
                 on: {
                     complete: function(id, e) {
@@ -6729,6 +6744,8 @@ $(document).ready(function () {
             }
 
             gObj.chart.id = ( 0 === gObj.chartIndex )? '#chart-cpu' : '#chart-memory';
+
+            loadingToggle( true );
 
             gY.io( 'chartQuery.php?param=' + pid + q, {
                 on: {
@@ -8334,7 +8351,6 @@ $(document).ready(function () {
                         }
                         break;
                     case 'address':
-                        gY.log( '@address: ' ); gY.log(  gCache[ pid ].interfaces );
                         if (2 === gCache.ports[ gData[ pid ][ gNode.guiT ][ i ].interface ] || parseInt( gData[ pid ][ gNode.guiT ][ i ].type ) > 0) {
                             tmp += '';
                         } else if ( gCache[ pid ].interfaces[ gData[ pid ][ gNode.guiT ][ i ].gid ].length == 0  ){
@@ -17935,7 +17951,6 @@ $(document).ready(function () {
             case 'div':
                 switch(gNode.type)
                 {
-
                 case 'form':
                     switch(pid)
                     {
@@ -18174,114 +18189,127 @@ $(document).ready(function () {
                             gY.one('#main_bd').set('innerHTML', '<div class="templateDiv"><div id="div-signatures"></div></div>');
 
                             $.ajax({
-                                url: 'cgi-bin/' + gNode.url.get + '.' + gNode.ext,
+                                url: 'cgi-bin/av_general.cgi',
                                 dataType: 'json',
                                 success: function(data) {
-                                    gData[ pid ] = data;
-                                    tmp = '<h2><b>' + gNode.col[ 0 ].label + '</b></h2>';
-                                    tmp += '<div id="div-signature">';
-                                    tmp += '<table id="table-signature">';
-                                    tmp += '<caption>' + gNode.col[ 0 ].col[ 0 ].label + '</caption>';
-                                    tmp += '<tr>';
-                                    tmp += '<td class="alignLeft BT150"><label for="signature-startUpdate">' + gNode.col[ 0 ].col[ 0 ].col[ 0 ].label + '</td>';
-                                    tmp += '<td class="alignCenter BT40"><button class="Update" id="signature-startUpdate"><span class="ui-icon"></span></td>';
-                                    tmp += '<td class="alignLeft "></td>';
-                                    tmp += '</tr>';
-                                    tmp += '<tr>';
-                                    tmp += '<td class="alignLeft BT150"><label for="signature-autoUpdate">' + gNode.col[ 0 ].col[ 0 ].col[ 1 ].label + '</td>';
-                                    tmp += '<td class="alignCenter BT40"><input type="checkbox" id="signature-autoUpdate" value="1" /></td>';
-                                    tmp += '<td class="alignLeft "><label for="signature-type">' + gNode.col[ 0 ].col[ 0 ].col[ 1 ].col[ 0 ].label + '</label>&nbsp;<select id="signature-type"></select>&nbsp;<label for="signature-number">' + gNode.col[ 0 ].col[ 0 ].col[ 1 ].col[ 1 ].label + '</label>&nbsp;<select id="signature-number"></select></td>';
-                                    tmp += '</tr>';
-                                    tmp += '</table>';
-                                    tmp += '</div>';
+                                    gIf.licensed = data.licensed;
+                                    $.ajax({
+                                        url: 'cgi-bin/' + gNode.url.get + '.' + gNode.ext,
+                                        dataType: 'json',
+                                        success: function(data) {
+                                            gData[ pid ] = data;
+                                            tmp = '<h2><b>' + gNode.col[ 0 ].label + '</b></h2>';
+                                            tmp += '<div id="div-signature">';
+                                            tmp += '<table id="table-signature">';
+                                            tmp += '<caption>' + gNode.col[ 0 ].col[ 0 ].label + '</caption>';
+                                            tmp += '<tr>';
+                                            tmp += '<td class="alignLeft BT150"><label for="signature-startUpdate">' + gNode.col[ 0 ].col[ 0 ].col[ 0 ].label + '</td>';
+                                            tmp += '<td class="alignCenter BT40"><button class="Update" id="signature-startUpdate"><span class="ui-icon"></span></td>';
+                                            tmp += '<td class="alignLeft "></td>';
+                                            tmp += '</tr>';
+                                            tmp += '<tr>';
+                                            tmp += '<td class="alignLeft BT150"><label for="signature-autoUpdate">' + gNode.col[ 0 ].col[ 0 ].col[ 1 ].label + '</td>';
+                                            tmp += '<td class="alignCenter BT40"><input type="checkbox" id="signature-autoUpdate" value="1" /></td>';
+                                            tmp += '<td class="alignLeft "><label for="signature-type">' + gNode.col[ 0 ].col[ 0 ].col[ 1 ].col[ 0 ].label + '</label>&nbsp;<select id="signature-type"></select>&nbsp;<label for="signature-number">' + gNode.col[ 0 ].col[ 0 ].col[ 1 ].col[ 1 ].label + '</label>&nbsp;<select id="signature-number"></select></td>';
+                                            tmp += '</tr>';
+                                            tmp += '</table>';
+                                            tmp += '</div>';
 
-                                    tmp += '<div id="div-version">';
-                                    tmp += '<table id="table-version">';
-                                    tmp += '<caption>' + gNode.col[ 0 ].col[ 1 ].label + '</caption>';
-                                    tmp += '<tr>';
-                                    tmp += '<td class="alignLeft BT150"><label for="signature-version">' + gNode.col[ 0 ].col[ 1 ].col[ 0 ].label + '</td>';
-                                    tmp += '<td class="alignLeft "><p id="signature-version"></p></td>';
-                                    tmp += '</tr>';
-                                    tmp += '<tr>';
-                                    tmp += '<td class="alignLeft BT150"><label for="signature-ptnNum">' + gNode.col[ 0 ].col[ 1 ].col[ 1 ].label + '</td>';
-                                    tmp += '<td class="alignLeft "><p id="signature-ptnNum"></p></td>';
-                                    tmp += '</tr>';
-                                    tmp += '</table>';
-                                    tmp += '</div>';
+                                            tmp += '<div id="div-version">';
+                                            tmp += '<table id="table-version">';
+                                            tmp += '<caption>' + gNode.col[ 0 ].col[ 1 ].label + '</caption>';
+                                            tmp += '<tr>';
+                                            tmp += '<td class="alignLeft BT150"><label for="signature-version">' + gNode.col[ 0 ].col[ 1 ].col[ 0 ].label + '</td>';
+                                            tmp += '<td class="alignLeft "><p id="signature-version"></p></td>';
+                                            tmp += '</tr>';
+                                            tmp += '<tr>';
+                                            tmp += '<td class="alignLeft BT150"><label for="signature-ptnNum">' + gNode.col[ 0 ].col[ 1 ].col[ 1 ].label + '</td>';
+                                            tmp += '<td class="alignLeft "><p id="signature-ptnNum"></p></td>';
+                                            tmp += '</tr>';
+                                            tmp += '</table>';
+                                            tmp += '</div>';
 
-                                    tmp += '<div id="div-check_record">';
-                                    tmp += '<table id="table-last_check">';
-                                    tmp += '<caption>' + gNode.col[ 0 ].col[ 2 ].label + '</caption>';
-                                    tmp += '<tr>';
-                                    tmp += '<td class="alignLeft BT150"><label for="signature-lastChecked">' + gNode.col[ 0 ].col[ 2 ].col[ 0 ].label + '</td>';
-                                    tmp += '<td class="alignLeft "><p id="signature-lastChecked"></p></td>';
-                                    tmp += '</tr>';
-                                    tmp += '<tr>';
-                                    tmp += '<td class="alignLeft BT150"><label for="signature-lastUpdated">' + gNode.col[ 0 ].col[ 2 ].col[ 1 ].label + '</td>';
-                                    tmp += '<td class="alignLeft "><p id="signature-lastUpdated"></p></td>';
-                                    tmp += '</tr>';
-                                    tmp += '</table>';
-                                    tmp += '</div>';
+                                            tmp += '<div id="div-check_record">';
+                                            tmp += '<table id="table-last_check">';
+                                            tmp += '<caption>' + gNode.col[ 0 ].col[ 2 ].label + '</caption>';
+                                            tmp += '<tr>';
+                                            tmp += '<td class="alignLeft BT150"><label for="signature-lastChecked">' + gNode.col[ 0 ].col[ 2 ].col[ 0 ].label + '</td>';
+                                            tmp += '<td class="alignLeft "><p id="signature-lastChecked"></p></td>';
+                                            tmp += '</tr>';
+                                            tmp += '<tr>';
+                                            tmp += '<td class="alignLeft BT150"><label for="signature-lastUpdated">' + gNode.col[ 0 ].col[ 2 ].col[ 1 ].label + '</td>';
+                                            tmp += '<td class="alignLeft "><p id="signature-lastUpdated"></p></td>';
+                                            tmp += '</tr>';
+                                            tmp += '</table>';
+                                            tmp += '</div>';
 
-                                    $('#div-signatures').append(tmp);
+                                            $('#div-signatures').append(tmp);
 
-                                    $('#signatures-type').change( function(){
-                                        $('#signature-number').html( genSelectOption( 'signature-number-' + $(this).val() ) );
-                                    });
+                                            $('#signatures-type').change( function(){
+                                                $('#signature-number').html( genSelectOption( 'signature-number-' + $(this).val() ) );
+                                            });
 
-                                    $('#signature-autoUpdate').change( function() {
-                                        if ($(this).is(':checked')) {
-                                            $('#signature-type').prop('disabled', false);
-                                            $('#signature-number').prop('disabled', false);
-                                        } else {
-                                            $('#signature-type').prop('disabled', true);
-                                            $('#signature-number').prop('disabled', true);
-                                        }
-                                    });
+                                            $('#signature-autoUpdate').change( function() {
+                                                if ($(this).is(':checked')) {
+                                                    $('#signature-type').prop('disabled', false);
+                                                    $('#signature-number').prop('disabled', false);
+                                                } else {
+                                                    $('#signature-type').prop('disabled', true);
+                                                    $('#signature-number').prop('disabled', true);
+                                                }
+                                            });
 
-                                    for (var node in data)
-                                    {
-                                        switch(node)
-                                        {
-                                        case 'autoUpdate':
-                                            if ( parseInt( data[ node ] ) == 1) {
-                                                $('#signature-' + node).click();
-                                                $('#signature-type').prop('disabled', false);
-                                                $('#signature-number').prop('disabled', false);
-                                            } else {
-                                                $('#signature-type').prop('disabled', true);
-                                                $('#signature-number').prop('disabled', true);
+                                            for (var node in data)
+                                            {
+                                                switch(node)
+                                                {
+                                                case 'autoUpdate':
+                                                    if ( parseInt( data[ node ] ) == 1) {
+                                                        $('#signature-' + node).click();
+                                                        $('#signature-type').prop('disabled', false);
+                                                        $('#signature-number').prop('disabled', false);
+                                                    } else {
+                                                        $('#signature-type').prop('disabled', true);
+                                                        $('#signature-number').prop('disabled', true);
+                                                    }
+                                                    break;
+                                                case 'type':
+                                                    $('#signature-' + node).append( genSelectOption('signature-' + node) ).val( data[ node ]);
+                                                    break;
+                                                case 'number':
+                                                    $('#signature-' + node).append( genSelectOption('signature-' + node + '-' + data.type) ).val( data[ node ]);
+                                                    break;
+                                                case 'version':
+                                                    gObj.sigVer = Number( ( isNaN( parseFloat( data.version ) )? 0 : parseFloat( data.version ) ) + ( ( isNaN( parseFloat( data.md5Version ) )? 1 : parseFloat( data.md5Version ) ) - 1) ).toFixed(3) ;
+                                                    $('#signature-version').html( gObj.sigVer );
+                                                    break;
+                                                case 'md5Version':
+                                                    // dealed by version
+                                                    break;
+                                                case 'ptnNum':
+                                                    $('#signature-ptnNum').html( data.ptnNum + data.md5PtnNum );
+                                                    break;
+                                                case 'md5PtnNum':
+                                                    // dealed by ptnNum
+                                                    break;
+                                                default:
+                                                    $('#signature-' + node).html( data[ node ] );
+                                                }
                                             }
-                                            break;
-                                        case 'type':
-                                            $('#signature-' + node).append( genSelectOption('signature-' + node) ).val( data[ node ]);
-                                            break;
-                                        case 'number':
-                                            $('#signature-' + node).append( genSelectOption('signature-' + node + '-' + data.type) ).val( data[ node ]);
-                                            break;
-                                        case 'version':
-                                            gObj.sigVer = Number( ( isNaN( parseFloat( data.version ) )? 0 : parseFloat( data.version ) ) + ( ( isNaN( parseFloat( data.md5Version ) )? 1 : parseFloat( data.md5Version ) ) - 1) ).toFixed(3) ;
-                                            $('#signature-version').html( gObj.sigVer );
-                                            break;
-                                        case 'md5Version':
-                                            // dealed by version
-                                            break;
-                                        case 'ptnNum':
-                                            $('#signature-ptnNum').html( data.ptnNum + data.md5PtnNum );
-                                            break;
-                                        case 'md5PtnNum':
-                                            // dealed by ptnNum
-                                            break;
-                                        default:
-                                            $('#signature-' + node).html( data[ node ] );
-                                        }
-                                    }
 
-                                    if (!gIf.power) {
-                                        $('#table-signature button').prop('disabled', true);
-                                        $('#table-signature select').prop('disabled', true);
-                                        $('#table-signature input').prop('disabled', true);
-                                    }
+                                            if (!gIf.power) {
+                                                $('#table-signature button').prop('disabled', true);
+                                                $('#table-signature select').prop('disabled', true);
+                                                $('#table-signature input').prop('disabled', true);
+                                            } else if ( 3 != gIf.licensed ) {
+                                                $('#table-signature button').prop('disabled', true);
+                                                $('#table-signature select').prop('disabled', true);
+                                                $('#table-signature input').prop('disabled', true);
+                                                $('#pgSave').prop('disabled', true);
+                                                $('#pgCancel').prop('disabled', true);
+                                            }
+                                        }
+                                    });
                                 }
                             });
                         break;
@@ -18327,7 +18355,6 @@ $(document).ready(function () {
                                         tmp += '<td>';
                                         tmp += '<div id="div-zone_to_scan">';
                                         tmp += '<table id="table-zone_to_scan">';
-//                                        tmp += '<caption>' + gNode.col[ y ][ 0 ].label + '</caption>';
                                         tmp += '<tr>';
                                         tmp += '<th class="alignCenter BT200">';
                                         tmp += '<label for="selectedZonesTPool">' + gNode.col[ y ][ 0 ].multiple.pool.label + '</label>';
@@ -18363,7 +18390,6 @@ $(document).ready(function () {
                                         tmp +=             '<table id="table-' + pid + '">';
                                         tmp +=               '<tr>';
                                         tmp +=                 '<th colspan="3" class="alignLeft">';
-//                                        tmp +=                   '<p>' + gNode.col[ y ][ 1 ].label + '</p>';
                                         tmp +=                 '</th>';
                                         tmp +=               '</tr>';
                                         tmp +=               '<tr>';
@@ -18445,7 +18471,6 @@ $(document).ready(function () {
                                         tmp += '</tr>';
 
                                         $('#table-general_settings').html( tmp );
-                                        // bind double click event
                                         $('#selectedZonesTPool').dblclick(function(e) {
                                             var vSel = $('#selectedZonesTPool option:selected');
                                             vSel.clone().appendTo('#selectedZonesT');
@@ -18586,7 +18611,6 @@ $(document).ready(function () {
                                         tmp += '</tr>';
                                         $('#table-' + y).html( tmp );
                                         $('#httpNotify').val(data.httpNotify);
-                                        // listen to change
                                         $('#table-' + y + ' textarea').change( function(){
                                             gCache.tabber[ y ] = true;
                                         });
@@ -18631,7 +18655,6 @@ $(document).ready(function () {
                                         $('#smtpAuth').html(data.smtpAuth);
                                         $('#mailTag').val(data.mailTag);
                                         $('#mailContent').val(data.mailContent);
-                                        // listen to change
                                         $('#table-' + y + ' input').change( function(){
                                             gCache.tabber[ y ] = true;
                                         });
@@ -24788,14 +24811,7 @@ $(document).ready(function () {
                                 tmp += '<td class="alignLeft BT200"><input type="checkbox" id="virusAlertEnable" />&nbsp;<label for="virusAlertEnable">' + gNode.col[ 1 ].col[ 2 ].col[ 0 ].label + '</td>';
                                 tmp += '<td class="alignLeft ">' + gNode.col[ 1 ].col[ 2 ].col[ 0 ].col[ 0 ].label + '&nbsp;<input type="text" id="virusAlertInterval" size="8"/>&nbsp;' + gNode.col[ 1 ].col[ 2 ].col[ 0 ].col[ 0 ].note + '</td>';
                                 tmp += '</tr>';
-                                //tmp += '<tr>';
-                                //tmp += '<td class="alignLeft BT200"><input type="checkbox" id="ipsAlertEnable" /> <label for="ipsAlertEnable">IPS Alert</label></td>';
-                                //tmp += '<td class="alignLeft ">Alert Interval <input type="text" id="ipsAlertInterval" size="8"/> ( 3~1440 minutes )</td>';
-                                //tmp += '</tr>';
-                                //tmp += '<tr>';
-                                //tmp += '<td class="alignLeft BT200"><input type="checkbox" id="urlAlertEnable" /> <label for="urlAlertEnable">Web URL Filtering Alert</td>';
-                                //tmp += '<td class="alignLeft"></td>';
-                                //tmp += '</tr>';
+
                                 tmp += '</table>';
                                 tmp += '</div>';
                                 tmp += '</div>';
@@ -24853,11 +24869,6 @@ $(document).ready(function () {
                                 if (parseInt( data.virusAlertEnable ) == 1)
                                     $('#virusAlertEnable').attr('checked', true);
                                 $('#virusAlertInterval').val( data.virusAlertInterval );
-                                //if (parseInt( data.ipsAlertEnable ) == 1)
-                                //    $('#ipsAlertEnable').attr('checked', true);
-                                //$('#ipsAlertInterval').val( data.ipsAlertInterval );
-                                //if (parseInt( data.urlAlertEnable ) == 1)
-                                //    $('#urlAlertEnable').attr('checked', true);
 
                                 if (!gIf.power) {
                                     $('.templateDiv input').prop('disabled', true);
@@ -26629,10 +26640,6 @@ $(document).ready(function () {
                 msg += '<p>' + gError[ gObj.lang ].virusAlertInterval + '</p>';
             }
 
-            //if ($('#ipsAlertEnable').is(':checked') && !gReg.alertInterval.test( $('#ipsAlertInterval').val() )) {
-            //    pass = false;
-            //    msg += '<p>' + gError[ gObj.lang ].ipsAlertInterval + '</p>';
-            //}
             break;
         case 'backup_restore':
             if (!gReg.ascii.default.test($('#Editor-name').val())) {
@@ -26884,17 +26891,13 @@ $(document).ready(function () {
                 gData.email_alert.wanAlertInterval = $('#wanAlertInterval').val();
                 gData.email_alert.virusAlertEnable = ($('#virusAlertEnable').is(':checked'))? 1 : 0;
                 gData.email_alert.virusAlertInterval = $('#virusAlertInterval').val();
-                //gData.email_alert.ipsAlertEnable = ($('#ipsAlertEnable').is(':checked'))? 1 : 0;
-                //gData.email_alert.ipsAlertInterval = $('#ipsAlertInterval').val();
-                //gData.email_alert.urlAlertEnable = ($('#urlAlertEnable').is(':checked'))? 1 : 0;
+
             } else {
                 gIf.lock = false;
                 return false;
             }
             break;
-
         case 'advanced_debug':
-            //checker = callCheckers( 'log' );
             checker = formChecker( 'log' );
             if (checker.pass) {
                 if ($('#logEnable').is(':checked'))
@@ -31079,7 +31082,6 @@ $(document).ready(function () {
         case 'serviceObj':
             gCache.loadline.push('common_service_list', 'common_gService_list');
             break;
-        case 'antivirus':
         case 'http':
         case 'smtp':
         case 'pop3':
@@ -31296,7 +31298,6 @@ $(document).ready(function () {
                 if (gCache.loadCount == gCache.loadline.length) {
                     switch( id )
                     {
-                    case 'antivirus':
                     case 'http':
                     case 'smtp':
                     case 'pop3':
