@@ -37,8 +37,22 @@
     <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
     <script type="text/javascript" src="js/jquery.bgiframe.js"></script>
     <script type="text/javascript" src="js/jquery-ui-1.9.2.custom.js"></script>
+<!-- chart js -->
+    <script type="text/javascript" src="js/Chart.js"></script>
 <!-- jspdf -->
     <script type="text/javascript" src="assets/jspdf/jspdf.js"></script>
+    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.addimage.js"></script>
+    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.cell.js"></script>
+    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.from_html.js"></script>
+    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.ie_below_9_shim.js"></script>
+    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.javascript.js"></script>
+    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.sillysvgrenderer.js"></script>
+    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.split_text_to_size.js"></script>
+    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.standard_fonts_metrics.js"></script>
+    <script type="text/javascript" src="assets/jspdf/adler32cs.js"></script>
+    <script type="text/javascript" src="assets/jspdf/FileSaver.js"></script>
+    <script type="text/javascript" src="assets/jspdf/BlobBuilder.js"></script>
+    <script type="text/javascript" src="assets/jspdf/basic.js"></script>
 <!-- custom -->
     <link rel="stylesheet" type="text/css" href="css/reporter.css" />
 
@@ -76,6 +90,7 @@ $(document).ready(function () {
     var gProto = {};
     var gChart = {};
     var gCache = {};
+    var gColor = [ "red", "blue", "black", "green", "yellow", "purple", "pink", "orange", "brown"];
 
     var gObj = {
         "traffic_direction" : {
@@ -238,7 +253,7 @@ $(document).ready(function () {
                         }
                     },
                     "4" : {
-                        type : "bar",
+                        type : "pie",
                         catKey : 'protocol',
                         styleDef : {
                             axes : {
@@ -613,6 +628,10 @@ $(document).ready(function () {
                 resetData();
             }
             break;
+        case 'ExportPDF':
+
+
+            break;
         }
     });
 
@@ -631,10 +650,16 @@ $(document).ready(function () {
             url: 'advancedQuery.php?param=' + param + '&sd=' + sd + '&sh=' + sh + '&ed=' + ed + '&eh=' + eh + '&q=' + idx,
             dataType: 'json',
             success: function(data) {
+                loadingToggle( false );
+                // transfer protocol from int to string,,,
+
+                for (var i=0, len=data.queryResults.length; i<len; i++)
+                    data.queryResults[ i ].protocol = gProto[ data.queryResults[ i ].protocol ];
+
                 gData[ idx ] = data;
                 // enable tab
                 $('.tabber').tabs( "enable", idx );
-console.log( idx );
+
                 // draw frame here
                 var results;
                 if ( 0 == idx ) {
@@ -645,10 +670,10 @@ console.log( idx );
                     // update rows
                     $('#rowsPages').html( Math.ceil( data.queryRows/20 ) );
                 } else {
-                    // chart 
+                    // chart
                     $('#panel-' + idx).html('<div id="div-chart-' + idx + '"><div id="chart-' + idx + '"></div></div>');
-                    
-                    // table 
+
+                    // table
                     $('#panel-' + idx).append('<div id="div-table-' + idx + '"><table id="table-' + idx + '"><thead></thead><tbody></tbody></table></div>');
 
                     // limit 10
@@ -659,7 +684,7 @@ console.log( idx );
 
                 // remove que
                 delete gQue[ idx ];
-                
+
                 // get next que
                 for (var x in gQue)
                 {
@@ -677,12 +702,12 @@ console.log( idx );
         $('#table-' + idx + ' thead').html('<tr></tr>');
         for ( var x in gObj[ param ][ 'table' ][ lang ][ idx ] )
             $('#table-' + idx + ' thead tr').append( '<th class="ui-state-default">' + gObj[ param ][ 'table' ][ lang ][ idx ][ x ] + '</th>' );
-         
+
         $('#table-' + idx + ' tbody').empty();
         if ( data.length > 0 ) {
             for (var i=0, len=data.length; i<len; i++)
             {
-                var tmp = '<tr class="' + ((i%2==0)? 'odd' : 'even') + '">';
+                var tmp = '<tr class="' + ( ( i%2==0 )? 'odd' : 'even' ) + '">';
                 for ( var x in gObj[ param ][ 'table' ][ lang ][ idx ] )
                 {
                     tmp += '<td>';
@@ -690,10 +715,6 @@ console.log( idx );
                     {
                     case 'id':
                         tmp += (i+1);
-                        break;
-                    case 'protocol':
-                        data[ i ][ x ] = gProto[ data[ i ][ x ] ];
-                        tmp += data[ i ][ x ];
                         break;
                     case 'txBytes':
                     case 'rxBytes':
@@ -775,13 +796,26 @@ console.log( idx );
         else {
             if ($('.noData').exists())
                 $('#chart-' + idx).empty();
-            gChart[ idx ] = new gY.Chart({
-                dataProvider: data,
-                categoryKey: gObj[ param ].chart[ lang ][ idx ].catKey,
-                type: gObj[ param ].chart[ lang ][ idx ].type,
-                styles: gObj[ param ].chart[ lang ][ idx ].styleDef,
-                horizontalGridlines: true
-            }).render( '#chart-' + idx );
+
+             if ('pie' == gObj[ param ].chart[ lang ][ idx ].type) {
+                 $('#chart-' + idx).html('<canvas id="pie-' + idx + '" width="480" height="480" style="width:480px; height:480px;"></canvas>');
+                 var pieData = [];
+                 for (var i=0, len=data.length; i<len; i++)
+                 {
+                      pieData.push( {value: parseInt(data[ i ].totalBytes), color: gColor[ i ], highlight: gColor[ i ], label: data[ i ].protocol} );
+                 }
+
+                 gChart[ idx ] = new Chart( $('#pie-' + idx).get(0).getContext('2d') ).Pie( pieData, { animateRotate: false});
+
+             } else {
+                gChart[ idx ] = new gY.Chart({
+                    dataProvider: data,
+                    categoryKey: gObj[ param ].chart[ lang ][ idx ].catKey,
+                    type: gObj[ param ].chart[ lang ][ idx ].type,
+                    styles: gObj[ param ].chart[ lang ][ idx ].styleDef,
+                    horizontalGridlines: true
+                }).render( '#chart-' + idx );
+            }
         }
     }
 
@@ -831,6 +865,7 @@ console.log( idx );
         });
 
         // data
+        loadingToggle( true );
         getData( param, sd, sh, ed, eh, q, q );
     }
 
@@ -840,12 +875,12 @@ console.log( idx );
         tmp += '<tr>';
         tmp += '<td class="pager"><button Class="Move2First" id="Move2First"><span class="ui-icon"></span></button></td>';
         tmp += '<td class="pager"><button Class="Move2Prev" id="Move2Prev"><span class="ui-icon"></span></button></td>';
-        tmp += '<td class="pager" style="width: 100px"><span id="rowsPage">1</span> / <span id="rowsPages">1</span></td>';
+        tmp += '<td class="pager" style="width: 100px"><span id="rowsPage" class="rows">1</span><span class="rows"> / </span><span id="rowsPages" class="rows">1</span></td>';
         tmp += '<td class="pager"><button Class="Move2Next" id="Move2Next"><span class="ui-icon"></span></button></td>';
         tmp += '<td class="pager"><button Class="Move2Last" id="Move2Last"><span class="ui-icon"></span></button></td>';
         tmp += '<td class="pager"><select id="rows"><option value="20">20 rows</option><option value="50">50 rows</option><option value="100">100 rows</option></select>';
         tmp += '<td class="pdfer"><select id="tops"><option value="10">Top 10</option><option value="25">Top 25</option><option value="50">Top 50</option></select>';
-   
+
         tmp += '<td class="pdfer"><button Class="ExportPDF" id="ExportPDF"><span class="ui-icon"></span></button></td>';
         tmp += '</tr>';
         tmp += '</table>';
@@ -856,6 +891,14 @@ console.log( idx );
 
     function genFooter() {
         $('#ft').html('<p>Copyright &copy; 2014 TECH TITAN</p>');
+    }
+
+    function loadingToggle( flag ) {
+        if (flag) {
+            $('body').addClass('loadingClass');
+        } else {
+            $('body').removeClass('loadingClass');
+        }
     }
 
     function init() {
@@ -900,6 +943,7 @@ console.log( idx );
         <div id="bd_ft"></div>
       </div>
       <div id="ft"></div>
+      <div class="modals"></div>
     </div>
   </body>
 </html>

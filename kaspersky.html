@@ -4584,9 +4584,11 @@ $(document).ready(function () {
                     if (gIf.refresh)
                         $('#refreshPage').append(genSelectOption( 'refreshPage' )).val( gObj.active.refresh );
 
-                    if (gObj.active.h5Index == 'NA')
+                    if (gObj.active.h4Index == 'NA')
+                        gNode = gObj.menu[gObj.active.h3Index];
+                    else if (gObj.active.h5Index == 'NA')
                         gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index];
-                    else
+                    else 
                         gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].panel[gObj.active.h5Index];
                     $('#main_ft').empty();
                     gObj.active.icon.addClass('ui-actived');
@@ -19564,7 +19566,9 @@ $(document).ready(function () {
         tar.pid  = tar.id.split(gReg.isDash)[1];
         tar.thisNo  = tar.id.split(gReg.isDash)[2];
 
-        if (gObj.active.h5Index == 'NA') {
+        if (gObj.active.h4Index == 'NA') 
+            tar.title = gObj.menu[ gObj.active.h3Index ].label + ' > ';
+        else if (gObj.active.h5Index == 'NA') {
             tar.title = gObj.menu[ gObj.active.h3Index ].label + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].label + ((gNode.tabs)? ' > ' + (( gNode.tabs[ tar.pid ] )? gNode.tabs[ tar.pid ] : tar.pid ) : '');
         }else {
             tar.title = gObj.menu[ gObj.active.h3Index ].label + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].label + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].panel[ gObj.active.h5Index ].label + ((gNode.tabs)? ' > ' + ((gNode.tabs[ tar.pid ])? gNode.tabs[ tar.pid ] : tar.pid ) : '');
@@ -19839,6 +19843,8 @@ $(document).ready(function () {
                         gData.general_settings.maxFileSize = $('#maxFileSize').val();
                         $.post('cgi-bin/av_general.cgi', gY.JSON.stringify(gData.general_settings)).done( function() {
                             delete gCache.tabber[ x ];
+                            gIf.alter = false;
+                            gIf.lock = false;
                         });
 
                         // bp
@@ -19847,6 +19853,8 @@ $(document).ready(function () {
                         gData.http_notification.httpNotify = $('#httpNotify').val();
                         $.post('cgi-bin/av_http_notify.cgi', gY.JSON.stringify(gData[ x ]), function( poster ) {
                             delete gCache.tabber[ x ];
+                            gIf.alter = false;
+                            gIf.lock = false;
                         });
                         break;
                     case 'email_notification':
@@ -19854,16 +19862,22 @@ $(document).ready(function () {
                         gData.email_notification.mailContent = $('#mailContent').val();
                         $.post('cgi-bin/av_email_notify.cgi', gY.JSON.stringify(gData[ x ]), function( poster ) {
                             delete gCache.tabber[ x ];
+                            gIf.alter = false;
+                            gIf.lock = false;
                         });
                         break;
                     case 'address_exceptions':
                         $.post('cgi-bin/addr_filter.cgi', gY.JSON.stringify(gData[ x ]), function( poster ) {
                             delete gCache.tabber[ x ];
+                            gIf.alter = false;
+                            gIf.lock = false;
                         });
                         break;
                     case 'file_exceptions':
                         $.post('cgi-bin/av_file_exception.cgi', gY.JSON.stringify(gData[ x ]), function( poster ) {
                             delete gCache.tabber[ x ];
+                            gIf.alter = false;
+                            gIf.lock = false;
                         });
                         break;
                     case 'blacklist':
@@ -19873,11 +19887,15 @@ $(document).ready(function () {
                         gData.blacklist.expiration_hours = $('#expiration_hours').val();
                         $.post('cgi-bin/av_blacklist.cgi', gY.JSON.stringify(gData[ x ]), function( poster ) {
                             delete gCache.tabber[ x ];
+                            gIf.alter = false;
+                            gIf.lock = false;
                         });
                         break;
                     case 'whitelist':
                         $.post('cgi-bin/av_whitelist.cgi', gY.JSON.stringify(gData[ x ]), function( poster ) {
                             delete gCache.tabber[ x ];
+                            gIf.alter = false;
+                            gIf.lock = false;
                         });
                         break;
                     }
@@ -19894,6 +19912,7 @@ $(document).ready(function () {
             gData.signature.startUpdate = 0;
             $.post('cgi-bin/av_sig.cgi', gY.JSON.stringify(gData.signature), function( poster ) {
                 gIf.lock = false;
+                gIf.alter = false;
                 genSecurity( pid );
             });
             break;
@@ -19911,6 +19930,7 @@ $(document).ready(function () {
                 }
                 $.post('cgi-bin/av_proxy.cgi', gY.JSON.stringify(gData.proxy), function( poster ) {
                     gIf.lock = false;
+                    gIf.alter = false;
                     if (0 === parseInt( poster.status ) )
                         getCgiList(gObj.active.pid);
                     else

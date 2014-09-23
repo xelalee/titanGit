@@ -189,6 +189,7 @@ function advAggregate( $table, $gby, $state, $oby ) {
                 break;
             }
 
+            $state .= ', SUM(sessions) as sessions';
             $tmpState = $gby .', txBytes, rxBytes, totalBytes, 1 as sessions';
             break;
         case 'file_access':
@@ -307,8 +308,7 @@ function advAggregate( $table, $gby, $state, $oby ) {
         }
 
         // limit 50 back, filter via reporter
-        $query = "SELECT ". $state .", SUM(sessions) as sessions FROM ". $tmpTable ." GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50"; 
-$GLOBALS[ 'json' ][ 'queryStr' ] = $query;
+        $query = "SELECT ". $state ." FROM ". $tmpTable ." GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50"; 
 
         if ( $result = $GLOBALS[ 'mysqli' ]->query( $query ) ) {
             while ( $obj = $result->fetch_object() ) {

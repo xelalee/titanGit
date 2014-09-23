@@ -632,9 +632,6 @@ $(document).ready(function () {
             break;
         case 'ExportPDF':
 
-var pdf = new jsPDF('p', 'pt', 'letter');
-
-pdf.fromHTML( $('#table-4').get(0), 10, 10, { 'width': 500 }, function(dispos) { pdf.save("test.pdf") } )
 
             break;
         }
@@ -660,6 +657,7 @@ pdf.fromHTML( $('#table-4').get(0), 10, 10, { 'width': 500 }, function(dispos) {
 
                 for (var i=0, len=data.queryResults.length; i<len; i++)
                     data.queryResults[ i ].protocol = gProto[ data.queryResults[ i ].protocol ];
+
                 gData[ idx ] = data;
                 // enable tab
                 $('.tabber').tabs( "enable", idx );
@@ -946,10 +944,9 @@ pdf.fromHTML( $('#table-4').get(0), 10, 10, { 'width': 500 }, function(dispos) {
         <div id="hd_mark"><div id="hd_label">TitanWALL <span>&reg;</span></div></div>
       </div>
       <div id="bd">
-
-          <div id="bd_hd"></div>
-          <div id="bd_bd"></div>
-          <div id="bd_ft"></div>
+        <div id="bd_hd"></div>
+        <div id="bd_bd"></div>
+        <div id="bd_ft"></div>
       </div>
       <div id="ft"></div>
       <div class="modals"></div>
