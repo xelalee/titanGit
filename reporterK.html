@@ -643,7 +643,11 @@ $(document).ready(function () {
             gCache.pp = parseInt( $('#rows').val() );
             resetData();
         } else {
-            setData( gCache.param, gCache.tabIndex, gCache.tabIndex, gData[ gCache.tabIndex ].queryResults.slice( 0, $('#tops').val() ) );
+            if (!isNaN( parseInt( gData[ gCache.tabIndex ].queryRows ) ) && ( parseInt( gData[ gCache.tabIndex ].queryRows ) > 0 )) {
+                setData( gCache.param, gCache.tabIndex, gCache.tabIndex, gData[ gCache.tabIndex ].queryResults.slice( 0, $('#tops').val() ) );
+            } else {
+                genChart( gCache.param, gCache.tabIndex );
+            }
         }
     });
 
@@ -653,37 +657,55 @@ $(document).ready(function () {
             dataType: 'json',
             success: function(data) {
                 loadingToggle( false );
-                // transfer protocol from int to string,,,
-
-                for (var i=0, len=data.queryResults.length; i<len; i++)
-                    data.queryResults[ i ].protocol = gProto[ data.queryResults[ i ].protocol ];
-
+                var restuls;
                 gData[ idx ] = data;
                 // enable tab
                 $('.tabber').tabs( "enable", idx );
 
-                // draw frame here
-                var results;
-                if ( 0 == idx ) {
-                    // table with rows
-                    $('#panel-' + idx).html('<div id="div-table-' + idx + '"><table id="table-' + idx + '"><thead></thead><tbody></tbody></table></div>');
-                    // limit 20
-                    results = data.queryResults;
-                    // update rows
-                    $('#rowsPages').html( Math.ceil( data.queryRows/20 ) );
+                if (!isNaN( parseInt( data.queryRows ) ) && ( parseInt( data.queryRows ) > 0 )) {
+                    if ('traffic_direction' == param) {
+                        // translate protocol from number to name
+                        for (var i=0, len=data.queryResults.length; i<len; i++)
+                            data.queryResults[ i ].protocol = gProto[ data.queryResults[ i ].protocol ];
+                    }
+
+                    // draw frame here
+                    if ( 0 == idx ) {
+                        // table with rows
+                        $('#panel-' + idx).html('<div id="div-table-' + idx + '"><table id="table-' + idx + '"><thead></thead><tbody></tbody></table></div>');
+                        // limit 20
+                        results = data.queryResults;
+                        // update rows
+                        $('#rowsPages').html( Math.ceil( parseInt( data.queryRows )/20 ) );
+                    } else {
+                        // chart
+                        $('#panel-' + idx).html('<div id="div-chart-' + idx + '"><div id="chart-' + idx + '"></div></div>');
+
+                        // table
+                        $('#panel-' + idx).append('<div id="div-table-' + idx + '"><table id="table-' + idx + '"><thead></thead><tbody></tbody></table></div>');
+
+                        // limit 10
+                        results = data.queryResults.slice(0,10);
+                    }
                 } else {
-                    // chart
-                    $('#panel-' + idx).html('<div id="div-chart-' + idx + '"><div id="chart-' + idx + '"></div></div>');
+                    // draw frame here
+                    if ( 0 == idx ) {
+                        // table with rows
+                        $('#panel-' + idx).html('<div id="div-table-' + idx + '"><table id="table-' + idx + '"><thead></thead><tbody></tbody></table></div>');
+                        // update rows
+                        $('#rowsPages').html( 1 );
+                    } else {
+                        // chart
+                        $('#panel-' + idx).html('<div id="div-chart-' + idx + '"><div id="chart-' + idx + '"></div></div>');
 
-                    // table
-                    $('#panel-' + idx).append('<div id="div-table-' + idx + '"><table id="table-' + idx + '"><thead></thead><tbody></tbody></table></div>');
+                        // table
+                        $('#panel-' + idx).append('<div id="div-table-' + idx + '"><table id="table-' + idx + '"><thead></thead><tbody></tbody></table></div>');
 
-                    // limit 10
-                    results = data.queryResults.slice(0,10);
+                    }
+                    results = [];
                 }
 
                 setData( param, idx, q, results );
-
                 // remove que
                 delete gQue[ idx ];
 
@@ -704,6 +726,9 @@ $(document).ready(function () {
         $('#table-' + idx + ' thead').html('<tr></tr>');
         for ( var x in gObj[ param ][ 'table' ][ lang ][ idx ] )
             $('#table-' + idx + ' thead tr').append( '<th class="ui-state-default">' + gObj[ param ][ 'table' ][ lang ][ idx ][ x ] + '</th>' );
+
+        if (undefined == data)
+            return false;
 
         $('#table-' + idx + ' tbody').empty();
         if ( data.length > 0 ) {
@@ -761,7 +786,8 @@ $(document).ready(function () {
                                 tmp += (((gCache.pi - 1) * gCache.pp) + ( i + 1 ));
                                 break;
                             case 'protocol':
-                                data.queryResults[ i ][ x ] = gProto[ data.queryResults[ i ][ x ] ];
+                                if ('traffic_direction' == gCache.param)
+                                    data.queryResults[ i ][ x ] = gProto[ data.queryResults[ i ][ x ] ];
                                 tmp += data.queryResults[ i ][ x ];
                                 break;
                             case 'txBytes':
@@ -779,7 +805,7 @@ $(document).ready(function () {
                         $('#table-0 tbody').append( tmp );
                     }
                     $('#rowsPage').html( gCache.pi );
-                    $('#rowsPages').html( Math.ceil( data.queryRows/gCache.pp ) );
+                    $('#rowsPages').html( Math.ceil( parseInt( data.queryRows )/gCache.pp ) );
                 } else {
                     $('#rowsPage').html(0);
                     $('#rowsPages').html(0);
@@ -793,7 +819,7 @@ $(document).ready(function () {
         if (gChart[ idx ])
             gChart[ idx ].destroy();
 
-        if ( 0 === parseInt( data.length ) )
+        if ( !data || ( 0 === parseInt( data.length ) ) )
             $('#chart-' + idx).html( '<div class="noData"><b>No Data</b></div>' );
         else {
             if ($('.noData').exists())
@@ -860,7 +886,11 @@ $(document).ready(function () {
                 } else {
                     $('.pdfer').show();
                     $('.pager').hide();
-                    setData( param, gCache.tabIndex, gCache.tabIndex, gData[ gCache.tabIndex ].queryResults.slice( 0, $('#tops').val() ) );
+                    if (!isNaN( parseInt( gData[ gCache.tabIndex ].queryRows ) ) && ( parseInt( gData[ gCache.tabIndex ].queryRows ) > 0 )) {
+                        setData( param, gCache.tabIndex, gCache.tabIndex, gData[ gCache.tabIndex ].queryResults.slice( 0, $('#tops').val() ) );
+                    } else {
+                        genChart( param, gCache.tabIndex );
+                    }
                 }
             },
             disabled: gTabs

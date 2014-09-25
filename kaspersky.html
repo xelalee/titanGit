@@ -168,7 +168,6 @@ var gError = {};
 var gTerm  = {};
 var gLimit = {};
 var gCheck = {};
-var gChart = {};
 var gIssue = {};
 var gCheckbox = {};
 var gQuery = {};
@@ -1801,7 +1800,7 @@ $(document).ready(function () {
 
         // assign lang icon
         $('#hd_label').html( gCook.main + '<span>&reg;</span>');
-        //$('#hd_help').addClass( gObj.lang + '_help' );
+        $('#hd_help').addClass( gObj.lang + '_help' );
         $('#hd_home').addClass( gObj.lang + '_home' );
         $('#hd_refresh').addClass( gObj.lang + '_refresh' );
         $('#hd_logout').addClass( gObj.lang + '_logout' );
@@ -1840,267 +1839,257 @@ $(document).ready(function () {
         $('#bd').html( gHtml.body );
         // menu
         // bd loaded
-/*
-        $.ajax({
-            url:gRef.menu,
-            dataType:'json',
-            scriptCharset: 'utf-8',
-            contentType: 'application/json; charset=utf-8',
-            success:function(data) {
-                gObj.menu = data.menu;
-*/
-                gObj.active = {};
-                gObj.actived = {};
-                gObj.active.index  = null;
-                gObj.active.h3Arr  = [];
-                gObj.active.h4Arr  = [];
 
-                gHtml.html = '<ul class="accordion-ul">';
-                for (var i=0, ilen=gObj.menu.length; i<ilen; i++) {
-                    gObj.active.h3Arr.push(gObj.menu[i].tab);
+        gObj.active = {};
+        gObj.actived = {};
+        gObj.active.index  = null;
+        gObj.active.h3Arr  = [];
+        gObj.active.h4Arr  = [];
 
-                    if  (gObj.menu[i].panel) {
-                        gHtml.html += '<li id="'+gObj.menu[i].tab+'" class="accordion-ul-li"><h3><a href="#">'+gObj.menu[i].label+'</a></h3>';
-                        gHtml.html += '<ul class="accordion-ul-ul">';
-                        for (var j=0, jlen=gObj.menu[i].panel.length; j<jlen; j++) {
-                            if ('object' == typeof(gObj.menu[i].panel[j].panel) ) {
-                                // h5
-                                gObj.active.h4Arr.push(gObj.menu[i].panel[j].tab);
-                                gHtml.html += '<ul class="accordion-ul-ul-ul">';
-                                gHtml.html += '<li id="'+gObj.menu[i].panel[j].tab+'" class="accordion-ul-ul-ul-li"><h4><a href="#">'+gObj.menu[i].panel[j].label+'</a></h4>';
-                                gHtml.html += '<ul class="accordion-ul-ul-ul-ul">';
-                                for (var k=0, klen= gObj.menu[i].panel[j].panel.length; k<klen; k++)
-                                {
-                                    gHtml.html += '<li id="'+gObj.menu[i].panel[j].panel[k].tab+'" class="accordion-ul-ul-ul-ul-li index-'+i+'-'+j+'-'+k+'"><h5><a href="#">'+gObj.menu[i].panel[j].panel[k].label+'</a></h5></li>';
-                                }
-                                gHtml.html += '</ul>';
-                                gHtml.html += '</li>';
-                                gHtml.html += '</ul>';
-                            } else
-                                gHtml.html += '<li id="'+gObj.menu[i].panel[j].tab+'" class="accordion-ul-ul-li index-'+i+'-'+j+'"><h4><a href="#">'+gObj.menu[i].panel[j].label+'</a></h4></li>';
+        gHtml.html = '<ul class="accordion-ul">';
+        for (var i=0, ilen=gObj.menu.length; i<ilen; i++) {
+            gObj.active.h3Arr.push(gObj.menu[i].tab);
+
+            if  (gObj.menu[i].panel) {
+                gHtml.html += '<li id="'+gObj.menu[i].tab+'" class="accordion-ul-li"><h3><a href="#">'+gObj.menu[i].label+'</a></h3>';
+                gHtml.html += '<ul class="accordion-ul-ul">';
+                for (var j=0, jlen=gObj.menu[i].panel.length; j<jlen; j++) {
+                    if ('object' == typeof(gObj.menu[i].panel[j].panel) ) {
+                        // h5
+                        gObj.active.h4Arr.push(gObj.menu[i].panel[j].tab);
+                        gHtml.html += '<ul class="accordion-ul-ul-ul">';
+                        gHtml.html += '<li id="'+gObj.menu[i].panel[j].tab+'" class="accordion-ul-ul-ul-li"><h4><a href="#">'+gObj.menu[i].panel[j].label+'</a></h4>';
+                        gHtml.html += '<ul class="accordion-ul-ul-ul-ul">';
+                        for (var k=0, klen= gObj.menu[i].panel[j].panel.length; k<klen; k++)
+                        {
+                            gHtml.html += '<li id="'+gObj.menu[i].panel[j].panel[k].tab+'" class="accordion-ul-ul-ul-ul-li index-'+i+'-'+j+'-'+k+'"><h5><a href="#">'+gObj.menu[i].panel[j].panel[k].label+'</a></h5></li>';
                         }
                         gHtml.html += '</ul>';
                         gHtml.html += '</li>';
+                        gHtml.html += '</ul>';
                     } else
-                        gHtml.html += '<li id="'+gObj.menu[i].tab+'" class="accordion-ul-li index-' + i + ' noPanel"><h3><a href="#">'+gObj.menu[i].label+'</a></h3></li>';
+                        gHtml.html += '<li id="'+gObj.menu[i].panel[j].tab+'" class="accordion-ul-ul-li index-'+i+'-'+j+'"><h4><a href="#">'+gObj.menu[i].panel[j].label+'</a></h4></li>';
                 }
                 gHtml.html += '</ul>';
+                gHtml.html += '</li>';
+            } else
+                gHtml.html += '<li id="'+gObj.menu[i].tab+'" class="accordion-ul-li index-' + i + ' noPanel"><h3><a href="#">'+gObj.menu[i].label+'</a></h3></li>';
+        }
+        gHtml.html += '</ul>';
 
-                $('#menu').html(gHtml.html);
+        $('#menu').html(gHtml.html);
 
-                $('.accordion-ul').accordion({
-                    collapsible:true,
-                    autoHeight: false
-                });
+        gObj.acc3 = $('.accordion-ul').accordion({
+            collapsible:true,
+            autoHeight: false
+        });
 
-                // remove h3 icon if no panel,,,
-                $('.noPanel span').remove();
+        // remove h3 icon if no panel,,,
+        $('.noPanel span').remove();
 
-                $('.accordion-ul-ul-ul').accordion({
-                    collapsible:true,
-                    active:false,
-                    autoHeight: false
-                });
+        gObj.acc4 = $('.accordion-ul-ul-ul').accordion({
+            collapsible:true,
+            active:false,
+            autoHeight: false
+        });
 
-                $('.accordion-ul-li h3').on('click', function(e) {
-                    if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
-                        gIf.getSessInfo = true;
-                        gIf.refresh = true;
-                        gObj.actived = gObj.active;
-                        gObj.active = {};
-                        gObj.active.h3Index = RegExp.$1;
-                        gObj.active.h4Index = "NA";
-                        gObj.active.h5Index = "NA";
-                        gObj.active.icon    = $(this);
-                        gObj.active.pid     = $(this).parents('li').attr('id');
-                        gObj.active.target  = $(this);
-                        gObj.active.menu    = '<h3>';
-                        gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index].label+'</b>';
-                        if ( gObj.menu[ gObj.active.h3Index ].refresh ) {
-                            gObj.active.menu += '<span class="refreshPage">Refresh Page: <select id="refreshPage"></select></span>';
-                            if ($('#refreshPage').exists())
-                                gObj.active.refresh = $('#refreshPage').val();
-                            else
-                                gObj.active.refresh = gObj.menu[ gObj.active.h3Index ].refresh;
-                        } else {
-                            gIf.refresh = false;
-                        }
+        $('.accordion-ul-li h3').on('click', function(e) {
+            if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
+                gIf.getSessInfo = true;
+                gIf.refresh = true;
+                gObj.actived = gObj.active;
+                gObj.active = {};
+                gObj.active.h3Index = RegExp.$1;
+                gObj.active.h4Index = "NA";
+                gObj.active.h5Index = "NA";
+                gObj.active.icon    = $(this);
+                gObj.active.pid     = $(this).parents('li').attr('id');
+                gObj.active.target  = $(this);
+                gObj.active.menu    = '<h3>';
+                gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index].label+'</b>';
+                if ( gObj.menu[ gObj.active.h3Index ].refresh ) {
+                    gObj.active.menu += '<span class="refreshPage">Refresh Page: <select id="refreshPage"></select></span>';
+                    if ($('#refreshPage').exists())
+                        gObj.active.refresh = $('#refreshPage').val();
+                    else
+                        gObj.active.refresh = gObj.menu[ gObj.active.h3Index ].refresh;
+                } else {
+                    gIf.refresh = false;
+                }
 
-                        if ( gObj.menu[ gObj.active.h3Index ].columns ) {
-                            gObj.active.menu += gHtml.pgColumns;
-                        }
+                if ( gObj.menu[ gObj.active.h3Index ].columns ) {
+                    gObj.active.menu += gHtml.pgColumns;
+                }
 
-                        gObj.active.menu    += '</h3>';
+                gObj.active.menu    += '</h3>';
 
-                        // navbar
-                        if (gIf.alter) {
-                            alterAlert();
-                        } else {
-                            gObj.tabIndex = 0;
-                            gIf.isStart = false;
-                            gIf.query = false;
-                            gIf.ajaxed = false;
-                            gIf.systime = false;
-                            gIf.columns = false;
-                            gSort = {};
-                            gQuery = {};
+                // navbar
+                if (gIf.alter) {
+                    alterAlert();
+                } else {
+                    gObj.tabIndex = 0;
+                    gIf.isStart = false;
+                    gIf.query = false;
+                    gIf.ajaxed = false;
+                    gIf.systime = false;
+                    gIf.columns = false;
+                    gSort = {};
+                    gQuery = {};
 
-                            $('#main_ft').empty();
-                            if (gObj.active.icon) {
-                                gObj.active.icon.removeClass('ui-actived');
-                                $('#activedMenu').remove();
-                            }
-                            gObj.active.icon.addClass('ui-actived');
-                            gObj.active.icon.prepend(gHtml.aMenu);
-                            gNode = gObj.menu[gObj.active.h3Index];
-                            $('#main_hd').html( gObj.active.menu );
-                            if (gIf.refresh) {
-                                $('#refreshPage').append( genSelectOption( 'refreshPage' ) ).val( gObj.active.refresh );
-                                gObj.active.counting = gObj.active.refresh;
-                            }
-                            getCgiList(gObj.active.pid);
-                        }
+                    $('#main_ft').empty();
+                    //if (gObj.active.icon) {
+                    //    gObj.active.icon.removeClass('ui-actived');
+                        $('#activedMenu').remove();
+                    //}
+                    gObj.active.icon.addClass('ui-actived');
+                    gObj.active.icon.prepend(gHtml.aMenu);
+                    gNode = gObj.menu[gObj.active.h3Index];
+                    $('#main_hd').html( gObj.active.menu );
+                    if (gIf.refresh) {
+                        $('#refreshPage').append( genSelectOption( 'refreshPage' ) ).val( gObj.active.refresh );
+                        gObj.active.counting = gObj.active.refresh;
                     }
-                });
-
-                $('.accordion-ul-ul-li h4').on('click', function(e) {
-                    if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
-                        gIf.getSessInfo = true;
-                        gIf.refresh = true;
-                        gObj.actived = gObj.active;
-                        gObj.active = {};
-                        gObj.active.h3Index = RegExp.$1;
-                        gObj.active.h4Index = RegExp.$3;
-                        gObj.active.h5Index = "NA";
-                        gObj.active.icon    = $(this);
-                        gObj.active.pid     = $(this).parents('li').attr('id');
-                        gObj.active.target  = $(this);
-                        gObj.active.menu    = '<h3>';
-                        gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index].label+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].label+'</b>';
-                        if ( gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].refresh ) {
-                            gObj.active.menu += '<span class="refreshPage">Refresh Page: <select id="refreshPage"></select></span>';
-                            if ($('#refreshPage').exists())
-                                gObj.active.refresh = $('#refreshPage').val();
-                            else
-                                gObj.active.refresh = gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].refresh;
-                        } else {
-                            gIf.refresh = false;
-                        }
-
-                        if ( gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].columns ) {
-                            gObj.active.menu += gHtml.pgColumns;
-                        }
-
-                        gObj.active.menu    += '</h3>';
-
-                        // navbar
-                        if (gIf.alter) {
-                            alterAlert();
-                        } else {
-                            gObj.tabIndex = 0;
-                            gIf.isStart = false;
-                            gIf.query = false;
-                            gIf.ajaxed = false;
-                            gIf.systime = false;
-                            gIf.columns = false;
-                            gSort = {};
-                            gQuery = {};
-
-                            $('#main_ft').empty();
-                            if (gObj.active.icon) {
-                                gObj.active.icon.removeClass('ui-actived');
-                                $('#activedMenu').remove();
-                            }
-                            gObj.active.icon.addClass('ui-actived');
-                            gObj.active.icon.prepend(gHtml.aMenu);
-                            gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index];
-                            $('#main_hd').html( gObj.active.menu );
-                            if (gIf.refresh) {
-                                $('#refreshPage').append( genSelectOption( 'refreshPage' ) ).val( gObj.active.refresh );
-                                gObj.active.counting = gObj.active.refresh;
-                            }
-                            getCgiList(gObj.active.pid);
-                        }
-                    }
-                });
-
-                $('.accordion-ul-ul-ul-ul-li h5').on('click', function(e) {
-                    if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
-                        gIf.getSessInfo = true;
-                        gIf.refresh = true;
-                        gObj.actived = gObj.active;
-                        gObj.active = {};
-                        gObj.active.h3Index = RegExp.$1;
-                        gObj.active.h4Index = RegExp.$3;
-                        gObj.active.h5Index = RegExp.$5;
-                        gObj.active.icon    = $(this);
-                        gObj.active.pid     = $(this).parents('li').attr('id');
-                        gObj.active.target  = $(this);
-                        gObj.active.menu    = '<h3>';
-                        gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index].label+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].label+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].panel[gObj.active.h5Index].label+'</b>';
-                        if ( gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].panel[ gObj.active.h5Index ].refresh ) {
-                            gObj.active.menu += '<span class="refreshPage">Refresh Page: <select id="refreshPage"></select></span>';
-                            if ($('#refreshPage').exists())
-                                gObj.active.refresh = $('#refreshPage').val();
-                            else
-                                gObj.active.refresh = gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].panel[ gObj.active.h5Index ].refresh;
-                        } else {
-                            gIf.refresh = false;
-                        }
-
-                        if ( gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].panel[ gObj.active.h5Index ].columns ) {
-                            gObj.active.menu += gHtml.pgColumns;
-                        }
-                        gObj.active.menu    += '</h3>';
-
-                        // navbar
-                        if (gIf.alter) {
-                            alterAlert();
-                        } else {
-                            gObj.tabIndex = 0;
-                            gIf.isStart = false;
-                            gIf.systime = false;
-                            gIf.ajaxed = false;
-                            gIf.query = false;
-                            gIf.columns = false;
-                            gSort = {};
-                            gQuery = {};
-
-                            $('#main_ft').empty();
-                            if (gObj.active.icon) {
-                                gObj.active.icon.removeClass('ui-actived');
-                                $('#activedMenu').remove();
-                            }
-                            gObj.active.icon.addClass('ui-actived');
-                            gObj.active.icon.prepend(gHtml.aMenu);
-                            gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].panel[gObj.active.h5Index];
-                            $('#main_hd').html( gObj.active.menu );
-                            if (gObj.active.refresh) {
-                                $('#refreshPage').append( genSelectOption( 'refreshPage' ) ).val( gObj.active.refresh );
-                                gObj.active.counting = gObj.active.refresh;
-                            }
-                            getCgiList(gObj.active.pid);
-                        }
-                    }
-                });
-
-                // trigger system_dashboard as default
-
-                $('#dashboard h3').click();
-
-                // check routing
-                $.ajax({
-                    url: 'cgi-bin/routing.cgi',
-                    dataType: 'json',
-                    success: function(data) {
-                        gObj.routing = data;
-                        gObj.routing.protoType = parseInt(gObj.routing.protoType);
-                    }
-                });
-/*
+                    getCgiList(gObj.active.pid);
+                }
             }
         });
-*/
+
+        $('.accordion-ul-ul-li h4').on('click', function(e) {
+            if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
+                gIf.getSessInfo = true;
+                gIf.refresh = true;
+                gObj.actived = gObj.active;
+                gObj.active = {};
+                gObj.active.h3Index = RegExp.$1;
+                gObj.active.h4Index = RegExp.$3;
+                gObj.active.h5Index = "NA";
+                gObj.active.icon    = $(this);
+                gObj.active.pid     = $(this).parents('li').attr('id');
+                gObj.active.target  = $(this);
+                gObj.active.menu    = '<h3>';
+                gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index].label+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].label+'</b>';
+                if ( gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].refresh ) {
+                    gObj.active.menu += '<span class="refreshPage">Refresh Page: <select id="refreshPage"></select></span>';
+                    if ($('#refreshPage').exists())
+                        gObj.active.refresh = $('#refreshPage').val();
+                    else
+                        gObj.active.refresh = gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].refresh;
+                } else {
+                    gIf.refresh = false;
+                }
+
+                if ( gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].columns ) {
+                    gObj.active.menu += gHtml.pgColumns;
+                }
+
+                gObj.active.menu    += '</h3>';
+
+                // navbar
+                if (gIf.alter) {
+                    alterAlert();
+                } else {
+                    gObj.tabIndex = 0;
+                    gIf.isStart = false;
+                    gIf.query = false;
+                    gIf.ajaxed = false;
+                    gIf.systime = false;
+                    gIf.columns = false;
+                    gSort = {};
+                    gQuery = {};
+
+                    $('#main_ft').empty();
+                    //if (gObj.active.icon) {
+                    //    gObj.active.icon.removeClass('ui-actived');
+                        $('#activedMenu').remove();
+                    //}
+                    gObj.active.icon.addClass('ui-actived');
+                    gObj.active.icon.prepend(gHtml.aMenu);
+                    gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index];
+                    $('#main_hd').html( gObj.active.menu );
+                    if (gIf.refresh) {
+                        $('#refreshPage').append( genSelectOption( 'refreshPage' ) ).val( gObj.active.refresh );
+                        gObj.active.counting = gObj.active.refresh;
+                    }
+                    getCgiList(gObj.active.pid);
+                }
+            }
+        });
+
+        $('.accordion-ul-ul-ul-ul-li h5').on('click', function(e) {
+            if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
+                gIf.getSessInfo = true;
+                gIf.refresh = true;
+                gObj.actived = gObj.active;
+                gObj.active = {};
+                gObj.active.h3Index = RegExp.$1;
+                gObj.active.h4Index = RegExp.$3;
+                gObj.active.h5Index = RegExp.$5;
+                gObj.active.icon    = $(this);
+                gObj.active.pid     = $(this).parents('li').attr('id');
+                gObj.active.target  = $(this);
+                gObj.active.menu    = '<h3>';
+                gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index].label+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].label+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].panel[gObj.active.h5Index].label+'</b>';
+                if ( gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].panel[ gObj.active.h5Index ].refresh ) {
+                    gObj.active.menu += '<span class="refreshPage">Refresh Page: <select id="refreshPage"></select></span>';
+                    if ($('#refreshPage').exists())
+                        gObj.active.refresh = $('#refreshPage').val();
+                    else
+                        gObj.active.refresh = gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].panel[ gObj.active.h5Index ].refresh;
+                } else {
+                    gIf.refresh = false;
+                }
+
+                if ( gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].panel[ gObj.active.h5Index ].columns ) {
+                    gObj.active.menu += gHtml.pgColumns;
+                }
+                gObj.active.menu    += '</h3>';
+
+                // navbar
+                if (gIf.alter) {
+                    alterAlert();
+                } else {
+                    gObj.tabIndex = 0;
+                    gIf.isStart = false;
+                    gIf.systime = false;
+                    gIf.ajaxed = false;
+                    gIf.query = false;
+                    gIf.columns = false;
+                    gSort = {};
+                    gQuery = {};
+
+                    $('#main_ft').empty();
+                    //if (gObj.active.icon) {
+                    //    gObj.active.icon.removeClass('ui-actived');
+                        $('#activedMenu').remove();
+                    //}
+                    gObj.active.icon.addClass('ui-actived');
+                    gObj.active.icon.prepend(gHtml.aMenu);
+                    gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].panel[gObj.active.h5Index];
+                    $('#main_hd').html( gObj.active.menu );
+                    if (gObj.active.refresh) {
+                        $('#refreshPage').append( genSelectOption( 'refreshPage' ) ).val( gObj.active.refresh );
+                        gObj.active.counting = gObj.active.refresh;
+                    }
+                    getCgiList(gObj.active.pid);
+                }
+            }
+        });
+
+        // trigger system_dashboard as default
+
+        $('#dashboard h3').click();
+        gObj.acc3.accordion("activate", 0);
+
+        // check routing
+        $.ajax({
+            url: 'cgi-bin/routing.cgi',
+            dataType: 'json',
+            success: function(data) {
+                gObj.routing = data;
+                gObj.routing.protoType = parseInt(gObj.routing.protoType);
+            }
+        });
+
 
         $('#ft').html( gHtml.foot );
         $('#ft .content').append('<p>Copyright &copy; 2014 Titan ARC Corp.</p>');
@@ -2151,7 +2140,6 @@ $(document).ready(function () {
         gRows.maxLog = 400;
     }
 
-// btn
     function btnCtrl( e, btClass ) {
         var tar = {};
         tar.id = $(e.currentTarget).attr('id');
@@ -2186,12 +2174,12 @@ $(document).ready(function () {
             case 'port_forwarding':
             case 'port_trigger':
             case 'advanced_nat':
+            case 'ip_mac_binding':
                 createFirewall( e );
                 break;
             case 'address_exceptions':
             case 'mime':
             case 'file_extension':
-            case 'ip_mac_binding':
                 createSecurity( e );
                 break;
             case 'user':
@@ -2258,12 +2246,12 @@ $(document).ready(function () {
             case 'port_forwarding':
             case 'port_trigger':
             case 'advanced_nat':
+            case 'ip_mac_binding':
                 editFirewall( e );
                 break;
             case 'address_exceptions':
             case 'mime':
             case 'file_extension':
-            case 'ip_mac_binding':
                 editSecurity( e );
                 break;
             case 'user':
@@ -2310,6 +2298,7 @@ $(document).ready(function () {
             case 'port_forwarding':
             case 'port_trigger':
             case 'advanced_nat':
+            case 'ip_mac_binding':
                 deleteFirewall( e );
                 break;
             case 'address_exceptions':
@@ -2317,7 +2306,6 @@ $(document).ready(function () {
             case 'file_extension':
             case 'blacklist':
             case 'whitelist':
-            case 'ip_mac_binding':
                 deleteSecurity( e );
                 break;
             case 'user':
@@ -2367,11 +2355,11 @@ $(document).ready(function () {
             case 'port_forwarding':
             case 'port_trigger':
             case 'advanced_nat':
+            case 'ip_mac_binding':
                 removeFirewall( e );
                 break;
             case 'blacklist':
             case 'whitelist':
-            case 'ip_mac_binding':
                 removeSecurity( e );
                 break;
             case 'user':
@@ -2883,7 +2871,6 @@ $(document).ready(function () {
         switch(tar.pid)
         {
         case 'idList':
-// group address/service
             if ( ( $('#pool option:selected').length + $('#pick option').length) > gRows.maxMemberPerGroupAddress ) {
                 errorAlert('<p>' + gError[ gObj.lang ].memberLimit + '</p>');
                 return false;
@@ -2893,7 +2880,6 @@ $(document).ready(function () {
             }
             break;
         case 'users':
-// users and groups
             if ( ( $('#pool option:selected').length + $('#pick option').length) > gRows.maxUserPerGroup ) {
                 errorAlert('<p>' + gError[ gObj.lang ].memberLimit + '</p>');
                 return false;
@@ -2903,7 +2889,6 @@ $(document).ready(function () {
             }
             break;
         case 'member':
-// zone
             if ( ( $('#pool option:selected').length + $('#pick option').length) > gRows.maxMemberPerZone ) {
                 errorAlert('<p>' + gError[ gObj.lang ].memberLimit + '</p>');
                 return false;
@@ -2913,7 +2898,6 @@ $(document).ready(function () {
             }
             break;
         case 'interfaces':
-// lan
             if ( ( $('#pool option:selected').length + $('#pick option').length) > gRows.maxMemberPerLAN ) {
                 errorAlert('<p>' + gError[ gObj.lang ].memberLimit + '</p>');
                 return false;
@@ -2923,7 +2907,6 @@ $(document).ready(function () {
             }
             break;
         default:
-// antivirus
             tar.val = $('#' + tar.pid + 'Pool option:selected');
             tar.val.clone().appendTo('#' + tar.pid);
         }
@@ -3485,7 +3468,7 @@ $(document).ready(function () {
                         if (parseInt(json.status) == 0) {
                             gIf.uploaded = true;
                             gPop.popForm.dialog( "close" );
-                            genSecurity( 'ip_mac_binding' );
+                            genFirewall( 'ip_mac_binding' );
                         } else {
                             gIf.uploaded = false;
                             gIf.invalid = true;
@@ -4212,10 +4195,9 @@ $(document).ready(function () {
         tar.pid = tar.id.split('-')[ 1 ];
 
         if ('ip_mac_binding' == tar.pid)
-            refreshSecurity( tar.pid );
+            refreshFirewall( tar.pid );
     }
 
-// alert
     function successAlert( msg ) {
         if (!$('#popError').exists())
             $('#popBase').append('<div id="popError"></div>');
@@ -4588,7 +4570,7 @@ $(document).ready(function () {
                         gNode = gObj.menu[gObj.active.h3Index];
                     else if (gObj.active.h5Index == 'NA')
                         gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index];
-                    else 
+                    else
                         gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].panel[gObj.active.h5Index];
                     $('#main_ft').empty();
                     gObj.active.icon.addClass('ui-actived');
@@ -5389,6 +5371,8 @@ $(document).ready(function () {
                                 success: function(data) {
                                     gIf.lock = false;
                                     if ( 'dashboard_sys_info' == v2.id ) {
+                                        $('#' + v2.id + '-sigEng').html( 'v1.0' );
+                                        $('#' + v2.id + '-md5Eng').html( 'v1.0' );
                                         for (var z in data)
                                         {
                                             switch( z )
@@ -5922,7 +5906,9 @@ $(document).ready(function () {
                     tmp += '</div>';
                     node.set('innerHTML', tmp);
 
-                    if (feed.tag == 'table' && feed.type == 'chart') {
+                    switch( feed.id )
+                    {
+                    case 'dashboard_resource':
                         var cpuValue = parseInt( data.cpuUtilization );
                         var cpuColor = ( cpuValue > 20 )? ( ( cpuValue > 40 )? ( ( cpuValue > 60 )? '#e83c30' : '#fcb62d' ) : '#d7d02a' ) : '#83a323';
                         var cpuData = [ { value: cpuValue , color: cpuColor, highlight: cpuColor, "label": "Used" }, { value: ( 100 - cpuValue ), color: '#007260', highlight: "#007260", "label": "Free" } ]
@@ -5931,6 +5917,11 @@ $(document).ready(function () {
                         var memColor = ( memValue > 20 )? ( ( memValue > 40 )? ( ( memValue > 60 )? '#e83c30' : '#fcb62d' ) : '#d7d02a' ) : '#83a323';
                         var memData = [ { value: memValue, color: memColor, highlight: memColor, "label": "Used" }, { value: ( 100 - memValue ), color: '#007260', highlight: "#007260", "label": "Free" } ]
                         var memChart = new Chart( $('#memChart').get(0).getContext('2d') ).Pie( memData, { animateRotate: false } );
+                        break;
+                    case 'dashboard_sys_info':
+                        $('#' + feed.id + '-sigEng').html( 'v1.0' );
+                        $('#' + feed.id + '-md5Eng').html( 'v1.0' );
+                        break;
                     }
                 }
             });
@@ -7018,9 +7009,10 @@ $(document).ready(function () {
 
                 if (gNode.pager) {
                     gObj.phpQuery.pp = $('#phpPerPage').val();
-                    if (gIf.query)
-                        query += gQuery.q;
-                    else if (!gQuery.a) {
+                    //if (gIf.query)
+                    //    query += gQuery.q;
+                    //else if (!gQuery.a) {
+                    if (!gQuery.a) {
                         gQuery.a = 0;
                     }
                     query += '&pi=' + gObj.phpQuery.pi + '&pp=' + gObj.phpQuery.pp;
@@ -9859,8 +9851,7 @@ $(document).ready(function () {
                                                     tmp += '<td class="alignLeft">';
                                                     tmp += '<input type="text" ' + ( ( gNode.editor[ i ].col[ j ].col[ x ][ k].option[ y ].col[ m ].size )? 'size="8"' : '') + ' id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '-' + x + '-' + gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ].tab + '" />';
                                                     tmp += '&nbsp;';
-                                                    tmp += ( gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ].note )?
- gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ].note : '';
+                                                    tmp += ( gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ].note )? gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ].note : '';
                                                     tmp += '</td>';
                                                     tmp += '</tr>';
                                                 }
@@ -16149,9 +16140,7 @@ $(document).ready(function () {
                                 {
                                     tmp += '<li><input type="checkbox" id="' + gNode.col[ i ].tab + '" />&nbsp;<label for="' + gNode.col[ i ].tab + '">' + gNode.col[ i ].label + '</label></li>';
                                 }
-//                                tmp += '<li><input type="checkbox" id="sipEnabled" value="1" />&nbsp;<label for="sipEnabled">SIP Protocol Support</label></li>';
-//                                tmp += '<li><input type="checkbox" id="h323Enabled" value="1" />&nbsp;<label for="h323Enabled">H.323 Support</label></li>';
-//                                tmp += '<li><input type="checkbox" id="ftpEnabled" value="1" />&nbsp;<label for="ftpEnabled">FTP Enable</label></li>';
+
                                 tmp += '</ul>';
                                 tmp += '</div>';
                                 $('.templateDiv').append( tmp );
@@ -16268,6 +16257,145 @@ $(document).ready(function () {
                             }
                         }
                     });
+                    break;
+                case 'tables':
+                    switch(pid)
+                    {
+                    case 'ip_mac_binding':
+                        gCache[ pid ] = {};
+                        gCache[ pid ].gid = 0;
+                        gCache[ pid ].ipMacPair = {};
+                        if (gIf.power) {
+                            $('#main_ft').html( gHtml.pgImport + gHtml.pgExport2 + gHtml.pgSave + gHtml.pgCancel );
+                            gY.one('#pgSave').on('click', function(e) {
+                                saveFirewall( pid );
+                            });
+                        }
+
+                        $('#main_bd').html('<div class="templateDiv"><div id="div-' + pid + '-group"><div class="searchDiv"></div><div id="div-' + pid + '-global"><table id="table-' + pid + '-global"><tr></tr></table></div><div id="div-' + pid + '"><table id="table-' + pid + '"></table></div></div></div>');
+
+                        $.ajax({
+                            url: 'cgi-bin/ipMacBinding.cgi',
+                            dataType: 'json',
+                            success: function(data) {
+                                gData[ pid ] = data;
+
+                                cgiSearch( pid );
+
+                                for (var i=0, len=gNode.col.length; i<len; i++)
+                                {
+                                    switch( gNode.col[ i ].type )
+                                    {
+                                    case 'table':
+                                        tmp = '<thead>';
+                                        tmp += '<tr>';
+                                        for (var j=0, jlen=gNode.col[ i ].col.length; j<jlen; j++)
+                                        {
+                                            tmp += '<th id="' + gNode.col[ i ].col[ j ].tab + '" class="ui-state-default " style="width: ' + gNode.col[ i ].col[ j ].wiz + '">';
+                                            if (gNode.col[ i ].col[ j ].sortable) {
+                                                tmp += '<div id="div-' + gNode.tab + '-' + gNode.col[ i ].col[ j ].tab + '" class=" sortable">' + gNode.col[ i ].col[ j ].label + '<span id="span-' + gNode.tab + '-' + gNode.col[ i ].col[ j ].tab + '" class="sortable" ></span></div>';
+                                            } else {
+                                                tmp += gNode.col[ i ].col[ j ].label;
+                                            }
+                                            tmp += '</th>';
+                                        }
+                                        tmp += '</tr>';
+                                        tmp += '</thead>';
+                                        tmp += '<tbody>';
+                                        tmp += '</tbody>';
+                                        $('#table-' + pid ).html( tmp );
+                                        if (gNode.tblAction && gIf.power) {
+                                            genTblAction( pid );
+
+                                            switch( data[ gNode.guiT ].length )
+                                            {
+                                            case 0:
+                                                $('#Remove-' + pid ).prop('disabled', true);
+                                                break;
+                                            case gRows[ gNode.url.get ]:
+                                                $('#Create-' + pid ).prop('disabled', true);
+                                                break;
+                                            default:
+                                                $('#Create-' + pid ).prop('disabled', false);
+                                                $('#Remove-' + pid ).prop('disabled', false);
+                                            }
+                                        }
+                                        break;
+                                    case 'checkbox':
+                                        tmp = '<td class="alignCenter BT40">';
+                                        tmp += '<input type="checkbox" id="' + gNode.col[ i ].tab + '" value="1" />';
+                                        tmp += '</td>';
+                                        tmp += '<td class="alignLeft BT40">';
+                                        tmp += '<label for="' + gNode.col[ i ].tab + '">' + gNode.col[ i ].label + '</label>';
+                                        tmp += '</td>';
+                                        tmp += '<td class="alignCenter BT10">|</td>';
+                                        $('#table-' + pid + '-global tr').append( tmp );
+                                        break;
+                                    case 'select':
+                                        tmp = '<td class="alignLeft BT40">';
+                                        tmp += gNode.col[ i ].label;
+                                        tmp += '</td>';
+                                        tmp += '<td class="alignLeft">';
+                                        tmp += '<select id="' + gNode.col[ i ].tab + '">';
+                                        for (var x in gNode.col[ i ].option)
+                                        {
+                                            tmp += '<option value="' + x + '">' + gNode.col[ i ].option[ x ] + '</option>';
+                                        }
+                                        tmp += '</select>';
+                                        tmp += '</td>';
+                                        $('#table-' + pid + '-global tr').append( tmp );
+                                        break;
+                                    }
+                                }
+                                if ( 1 === parseInt( data.enable ) )
+                                    $('#enable').click();
+                                $('#mode').val( parseInt( data.mode ) );
+                                for (var i=0, len=data[ gNode.guiT ].length; i<len; i++)
+                                {
+                                    tmp = '<tr class="' + ((i%2 == 0)? 'odd' : 'even') + '">>';
+                                    for (var j=0, jlen=gNode.col[ 2 ].col.length; j<jlen; j++)
+                                    {
+                                        switch( gNode.col[ 2 ].col[ j ].tab )
+                                        {
+                                        case 'checkbox':
+                                            tmp += '<td class="checkboxTD">';
+                                            tmp += '<input type="checkbox" id="' + pid + '-' + i + '" value="' + i + '" />';
+                                            tmp += '</td>';
+                                            break;
+                                        case 'index':
+                                            tmp += '<td>';
+                                            tmp += (i+1);
+                                            tmp += '</td>';
+                                            break;
+                                        case 'action':
+                                            tmp += '<td class="buttonTD">';
+                                            if (gIf.power) {
+                                                tmp += '<button id="Edit-' + pid + '-' + i + '" class="Edit"><span class="ui-icon"  title="Edit"></span></button>';
+                                                tmp += '<button id="Delete-' + pid + '-' + i + '" class="Delete"><span class="ui-icon"  title="Edit"></span></button>';
+                                            } else {
+                                                tmp += '';
+                                            }
+                                            tmp += '</td>';
+                                            break;
+                                        case 'ipAddr':
+                                            tmp += '<td>';
+                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ 2 ].col[ j ].tab ];
+                                            tmp += '</td>';
+                                            gCache[ pid ].ipMacPair[ data[ gNode.guiT ][ i ][ gNode.col[ 2 ].col[ j ].tab ] ] = data[ gNode.guiT ][ i ].macAddr;
+                                            break;
+                                        default:
+                                            tmp += '<td>';
+                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ 2 ].col[ j ].tab ];
+                                            tmp += '</td>';
+                                        }
+                                    }
+                                    tmp += '</tr>';
+                                    $('#table-' + pid).append( tmp );
+                                }
+                            }
+                        });
+                        break;
+                    }
                     break;
                 }
                 break;
@@ -16412,7 +16540,9 @@ $(document).ready(function () {
                     }
                 });
                 break;
+
             }
+
             break;
         }
     }
@@ -16690,6 +16820,61 @@ $(document).ready(function () {
                 $('#Create-' + pid).prop('disabled', true);
             }
             break;
+        case 'ip_mac_binding':
+            var cnt = 0;
+            var tbody = $('#table-' + pid + '> tbody');
+            tbody.empty();
+            for (var i=0, len=gData[ pid ][ gNode.guiT ].length; i<len; i++)
+            {
+                if ( 3 === parseInt( gData[ pid ][ gNode.guiT ][ i ].cgiAction ) ) {
+                    continue;
+                }
+
+                // if searched
+                if ($('#searchCol').val()) {
+                    if (!( ( gData[ pid ][ gNode.guiT ][ i ].dscrpt.indexOf( $('#searchCol').val() ) != -1 )
+                         ||( gData[ pid ][ gNode.guiT ][ i ].ipAddr.indexOf( $('#searchCol').val() ) != -1 )
+                         ||( gData[ pid ][ gNode.guiT ][ i ].macAddr.indexOf( $('#searchCol').val() ) != -1 )
+                    ))
+                    continue;
+                }
+
+                tmp = '<tr class="' + ((cnt%2 == 0)? 'odd' : 'even') + '">';
+                for (var j=0, jlen=gNode.col[ 2 ].col.length; j<jlen; j++)
+                {
+                    switch( gNode.col[ 2 ].col[ j ].tab )
+                    {
+                    case 'checkbox':
+                        tmp += '<td class="checkboxTD">';
+                        tmp += '<input type="checkbox" id="' + pid + '-' + i + '" value="' + i + '" />';
+                        tmp += '</td>';
+                        break;
+                    case 'index':
+                        tmp += '<td>';
+                        tmp += (cnt+1);
+                        tmp += '</td>';
+                        break;
+                    case 'action':
+                        tmp += '<td class="buttonTD">';
+                        if (gIf.power) {
+                            tmp += '<button id="Edit-' + pid + '-' + i + '" class="Edit"><span class="ui-icon"  title="Edit"></span></button>';
+                            tmp += '<button id="Delete-' + pid + '-' + i + '" class="Delete"><span class="ui-icon"  title="Edit"></span></button>';
+                        } else {
+                            tmp += '';
+                        }
+                        tmp += '</td>';
+                        break;
+                    default:
+                        tmp += '<td>';
+                        tmp += gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ 2 ].col[ j ].tab ];
+                        tmp += '</td>';
+                    }
+                }
+                tmp += '</tr>';
+                $('#table-' + pid).append( tmp );
+                cnt++;
+            }
+            break;
         }
 
     }
@@ -16960,6 +17145,28 @@ $(document).ready(function () {
             cgiSelectOption( 'Editor-translatedSrc' );
             cgiSelectOption( 'Editor-translatedDst' );
             cgiSelectOption( 'Editor-translatedService' );
+            break;
+        case 'ip_mac_binding':
+            $('#popForm').append('<div class="formDiv"><div id="Editor-div-' + tar.pid + '"><table id="Editor-table-' + tar.pid + '"></table></div>');
+            for (var i=0, len=gNode.editor.length; i<len; i++)
+            {
+                tmp += '<tr>';
+                if ('checkbox' == gNode.editor[ i ].type) {
+                    tmp += '<th colspan="2" class="alignLeft">';
+                    tmp += '<input type="checkbox" id="Editor-' + gNode.editor[ i ].tab + '" />';
+                    tmp += '&nbsp;<label for="Editor-' + gNode.editor[ i ].tab + '">' + gNode.editor[ i ].label + '</label>';
+                    tmp += '</th>';
+                } else {
+                    tmp += '<th class="alignLeft BT100">';
+                    tmp += gNode.editor[ i ].label;
+                    tmp += '</th>';
+                    tmp += '<td class="alignLeft">';
+                    tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" />';
+                    tmp += '</td>';
+                }
+                tmp += '</tr>';
+            }
+            $('#Editor-table-' + tar.pid).append( tmp );
             break;
         }
 
@@ -17305,6 +17512,36 @@ $(document).ready(function () {
             cgiSelectOption( 'Editor-translatedService', gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].translatedService );
 
             break;
+        case 'ip_mac_binding':
+            $('#popForm').append('<div class="formDiv"><div id="Editor-div-' + tar.pid + '"><table id="Editor-table-' + tar.pid + '"></table></div>');
+            for (var i=0, len=gNode.editor.length; i<len; i++)
+            {
+                tmp += '<tr>';
+                if ('checkbox' == gNode.editor[ i ].type) {
+                    tmp += '<th colspan="2" class="alignLeft">';
+                    tmp += '<input type="checkbox" id="Editor-' + gNode.editor[ i ].tab + '" />';
+                    tmp += '&nbsp;<label for="Editor-' + gNode.editor[ i ].tab + '">' + gNode.editor[ i ].label + '</label>';
+                    tmp += '</th>';
+                } else {
+                    tmp += '<th class="alignLeft BT100">';
+                    tmp += gNode.editor[ i ].label;
+                    tmp += '</th>';
+                    tmp += '<td class="alignLeft">';
+                    tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" />';
+                    tmp += '</td>';
+                }
+                tmp += '</tr>';
+            }
+
+            $('#Editor-table-' + tar.pid).append( tmp );
+
+            if (1 === parseInt( gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].enable ))
+                $('#Editor-enable').click();
+            $('#Editor-dscrpt').val( gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].dscrpt );
+            $('#Editor-ipAddr').val( gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].ipAddr );
+            $('#Editor-macAddr').val( gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].macAddr );
+
+            break;
         }
         firewallEditor(e, tar.w, tar.h);
     }
@@ -17340,6 +17577,15 @@ $(document).ready(function () {
                 gData[ tar.pid ][ gNode.guiT ].splice(tar.thisNo,1);
             }
             break;
+        case 'ip_mac_binding':
+            gIf.alter = true;
+            delete gCache[ tar.pid ].ipMacPair[ gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].ipAddr ];
+            if (gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].gid > 0) {
+                gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].cgiAction = 3;
+            }else {
+                gData[ tar.pid ][ gNode.guiT ].splice(tar.thisNo,1);
+            }
+            break;
         }
         refreshFirewall(tar.pid);
     }
@@ -17365,6 +17611,9 @@ $(document).ready(function () {
             tar.guiT = gNode.guiT;
             tar.guiTNum = gNode.guiTNum;
             break;
+        case 'ip_mac_binding':
+            tar.guiT = gNode.guiT;
+            break;
         }
 
         $('#table-' + tar.pid + ' tr').each(function() {
@@ -17380,6 +17629,10 @@ $(document).ready(function () {
                 case 'rule':
                     gRef.rules.move.splice( gRef.rules.move.indexOf( tar.thisNo ), 1);
                     break;
+                case 'ip_mac_binding':
+                    gIf.alter = true;
+                    delete gCache[ tar.pid ].ipMacPair[ gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].ipAddr ];
+                    break;
                 }
 
                 if (parseInt( gData[ tar.pid ][ tar.guiT ][ tar.thisNo ].gid) > 0 ) {
@@ -17393,15 +17646,35 @@ $(document).ready(function () {
 
         tar.data = [];
 
-        for (var i=0, len=gData[ tar.pid ][ tar.guiTNum ]; i<len; i++)
+        switch( tar.pid )
         {
-            if (gData[ tar.pid ][ tar.guiT ][ i ].cgiAction == -1)
-                continue;
-            tar.data.push( gData[ tar.pid ][ tar.guiT ][ i ] );
+        case 'rule':
+        case 'static_nat':
+        case 'port_forwarding':
+        case 'port_trigger':
+        case 'advanced_nat':
+            for (var i=0, len=gData[ tar.pid ][ tar.guiTNum ]; i<len; i++)
+            {
+                if (gData[ tar.pid ][ tar.guiT ][ i ].cgiAction == -1)
+                    continue;
+                tar.data.push( gData[ tar.pid ][ tar.guiT ][ i ] );
+            }
+            gData[ tar.pid ][ tar.guiT ] = tar.data;
+            gData[ tar.pid ][ tar.guiTNum ] = gData[ tar.pid ][ tar.guiT ].length;
+            break;
+        case 'ip_mac_binding':
+            for (var i=0, len=gData[ tar.pid ][ tar.guiT ].length; i<len; i++)
+            {
+                if (gData[ tar.pid ][ tar.guiT ][ i ].cgiAction == -1)
+                    continue;
+                tar.data.push( gData[ tar.pid ][ tar.guiT ][ i ] );
+            }
+            gData[ tar.pid ][ tar.guiT ] = tar.data;
+            break;
         }
-        gData[ tar.pid ][ tar.guiT ] = tar.data;
-        gData[ tar.pid ][ tar.guiTNum ] = gData[ tar.pid ][ tar.guiT ].length;
+
         refreshFirewall( tar.pid );
+
     }
 
     function firewallEditor(e, w, h) {
@@ -17599,6 +17872,20 @@ $(document).ready(function () {
                                 gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].cgiAction = 2;
                             else
                                 gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].cgiAction = 1;
+                            break;
+                        case 'ip_mac_binding':
+                            if ('Create' == tar.type) {
+                                gCache.ip_mac_binding.gid --;
+                                gData[ tar.pid ].ipMacBindingT.push( {'gid': gCache.ip_mac_binding.gid, 'enable': (($('#Editor-enable').is(':checked'))? 1 : 0), 'dscrpt': $('#Editor-dscrpt').val(), 'ipAddr': $('#Editor-ipAddr').val(), 'macAddr': $('#Editor-macAddr').val(), 'cgiAction': 1} );
+                            } else {
+                                if ( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].gid > 0 )
+                                    gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].cgiAction = 2;
+                                gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].enable = ($('#Editor-enable').is(':checked'))? 1 : 0 ;
+                                gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].dscrpt = $('#Editor-dscrpt').val();
+                                gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].ipAddr = $('#Editor-ipAddr').val();
+                                gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].macAddr = $('#Editor-macAddr').val();
+                            }
+                            gCache[ tar.pid ].ipMacPair[ $('#Editor-ipAddr').val() ] = $('#Editor-macAddr').val();
                             break;
                         }
                         refreshFirewall( tar.pid );
@@ -17803,6 +18090,39 @@ $(document).ready(function () {
                 msg += '<p>' + gError[ gObj.lang ].icmpFloodThresholdRange + '</p>';
             }
             break;
+        case 'ip_mac_binding':
+            if (!gReg.ipv4.test( $('#Editor-ipAddr').val() )) {
+                pass = false;
+                msg += '<p>' + gError[ gObj.lang ].ipAddr + '</p>';
+            }
+
+            if (!gReg.mac.test( $('#Editor-macAddr').val() )) {
+                pass = false;
+                msg += '<p>' + gError[ gObj.lang ].macAddr + '</p>';
+            }
+
+            if (pass) {
+                if ( ('Edit' == tar.type) ) {
+                    if ( gData[ pid ][ gNode.guiT ][ tar.thisNo ].ipAddr == $('#Editor-ipAddr').val() ) {
+                        if ( ( gData[ pid ][ gNode.guiT ][ tar.thisNo ].macAddr != $('#Editor-macAddr').val() ) && ($('#Editor-macAddr').val() == gCache[ pid ].ipMacPair[ $('#Editor-ipAddr').val() ]) ) {
+                            pass = false;
+                            msg += '<p>' + gError[ gObj.lang ].ipMacPair + '</p>';
+                        }
+                    } else if ($('#Editor-macAddr').val() == gCache[ pid ].ipMacPair[ $('#Editor-ipAddr').val() ]) {
+                        pass = false;
+                        msg += '<p>' + gError[ gObj.lang ].ipMacPair + '</p>';
+                    }
+                } else if ($('#Editor-macAddr').val() == gCache[ pid ].ipMacPair[ $('#Editor-ipAddr').val() ]) {
+                    pass = false;
+                    msg += '<p>' + gError[ gObj.lang ].ipMacPair + '</p>';
+                }
+            }
+
+            if (!gReg.ascii.default.test( $('#Editor-dscrpt').val() )) {
+                pass = false;
+                msg += '<p>' + gError[ gObj.lang ].dscrpt + '</p>';
+            }
+            break;
         }
 
         if (!pass) {
@@ -17893,6 +18213,29 @@ $(document).ready(function () {
                 }
             } else {
                 gIf.lock = false;
+                return false;
+            }
+            break;
+        case 'ip_mac_binding':
+            cgiID = 'ipMacBinding';
+            var cnt = 0;
+            for (var i=0, len=gData[ pid ][ gNode.guiT ].length; i<len; i++)
+            {
+                if (gData[ pid ][ gNode.guiT ][ i ].cgiAction != 3)
+                    cnt++;
+                if (gData[ pid ][ gNode.guiT ][ i ].gid < 0)
+                    gData[ pid ][ gNode.guiT ][ i ].gid = 0;
+            }
+
+            if ($('#enable').is(':checked'))
+                gData[ pid ].enable = 1;
+            else
+                gData[ pid ].enable = 0;
+            gData[ pid ].mode = $('#mode').val();
+
+            if ( ( cnt == 0 && 1 == gData[ pid ].enable) || ( gRows.maxIPMACBinding < gData[ pid ][ gNode.guiT ].length )) {
+                gIf.lock = false;
+                errorAlert( '<p>' + gError[ gObj.lang ].ipMacBindingLength + '</p>' );
                 return false;
             }
             break;
@@ -18035,145 +18378,6 @@ $(document).ready(function () {
                             }
                         });
 
-                        break;
-                    }
-                    break;
-                case 'tables':
-                    switch(pid)
-                    {
-                    case 'ip_mac_binding':
-                        gCache[ pid ] = {};
-                        gCache[ pid ].gid = 0;
-                        gCache[ pid ].ipMacPair = {};
-                        if (gIf.power) {
-                            $('#main_ft').html( gHtml.pgImport + gHtml.pgExport2 + gHtml.pgSave + gHtml.pgCancel );
-                            gY.one('#pgSave').on('click', function(e) {
-                                saveSecurity( pid );
-                            });
-                        }
-
-                        $('#main_bd').html('<div class="templateDiv"><div id="div-' + pid + '-group"><div class="searchDiv"></div><div id="div-' + pid + '-global"><table id="table-' + pid + '-global"><tr></tr></table></div><div id="div-' + pid + '"><table id="table-' + pid + '"></table></div></div></div>');
-
-                        $.ajax({
-                            url: 'cgi-bin/ipMacBinding.cgi',
-                            dataType: 'json',
-                            success: function(data) {
-                                gData[ pid ] = data;
-
-                                cgiSearch( pid );
-
-                                for (var i=0, len=gNode.col.length; i<len; i++)
-                                {
-                                    switch( gNode.col[ i ].type )
-                                    {
-                                    case 'table':
-                                        tmp = '<thead>';
-                                        tmp += '<tr>';
-                                        for (var j=0, jlen=gNode.col[ i ].col.length; j<jlen; j++)
-                                        {
-                                            tmp += '<th id="' + gNode.col[ i ].col[ j ].tab + '" class="ui-state-default " style="width: ' + gNode.col[ i ].col[ j ].wiz + '">';
-                                            if (gNode.col[ i ].col[ j ].sortable) {
-                                                tmp += '<div id="div-' + gNode.tab + '-' + gNode.col[ i ].col[ j ].tab + '" class=" sortable">' + gNode.col[ i ].col[ j ].label + '<span id="span-' + gNode.tab + '-' + gNode.col[ i ].col[ j ].tab + '" class="sortable" ></span></div>';
-                                            } else {
-                                                tmp += gNode.col[ i ].col[ j ].label;
-                                            }
-                                            tmp += '</th>';
-                                        }
-                                        tmp += '</tr>';
-                                        tmp += '</thead>';
-                                        tmp += '<tbody>';
-                                        tmp += '</tbody>';
-                                        $('#table-' + pid ).html( tmp );
-                                        if (gNode.tblAction && gIf.power) {
-                                            genTblAction( pid );
-
-                                            switch( data[ gNode.guiT ].length )
-                                            {
-                                            case 0:
-                                                $('#Remove-' + pid ).prop('disabled', true);
-                                                break;
-                                            case gRows[ gNode.url.get ]:
-                                                $('#Create-' + pid ).prop('disabled', true);
-                                                break;
-                                            default:
-                                                $('#Create-' + pid ).prop('disabled', false);
-                                                $('#Remove-' + pid ).prop('disabled', false);
-                                            }
-                                        }
-                                        break;
-                                    case 'checkbox':
-                                        tmp = '<td class="alignCenter BT40">';
-                                        tmp += '<input type="checkbox" id="' + gNode.col[ i ].tab + '" value="1" />';
-                                        tmp += '</td>';
-                                        tmp += '<td class="alignLeft BT40">';
-                                        tmp += '<label for="' + gNode.col[ i ].tab + '">' + gNode.col[ i ].label + '</label>';
-                                        tmp += '</td>';
-                                        tmp += '<td class="alignCenter BT10">|</td>';
-                                        $('#table-' + pid + '-global tr').append( tmp );
-                                        break;
-                                    case 'select':
-                                        tmp = '<td class="alignLeft BT40">';
-                                        tmp += gNode.col[ i ].label;
-                                        tmp += '</td>';
-                                        tmp += '<td class="alignLeft">';
-                                        tmp += '<select id="' + gNode.col[ i ].tab + '">';
-                                        for (var x in gNode.col[ i ].option)
-                                        {
-                                            tmp += '<option value="' + x + '">' + gNode.col[ i ].option[ x ] + '</option>';
-                                        }
-                                        tmp += '</select>';
-                                        tmp += '</td>';
-                                        $('#table-' + pid + '-global tr').append( tmp );
-                                        break;
-                                    }
-                                }
-                                if ( 1 === parseInt( data.enable ) )
-                                    $('#enable').click();
-                                $('#mode').val( parseInt( data.mode ) );
-                                for (var i=0, len=data[ gNode.guiT ].length; i<len; i++)
-                                {
-                                    tmp = '<tr class="' + ((i%2 == 0)? 'odd' : 'even') + '">>';
-                                    for (var j=0, jlen=gNode.col[ 2 ].col.length; j<jlen; j++)
-                                    {
-                                        switch( gNode.col[ 2 ].col[ j ].tab )
-                                        {
-                                        case 'checkbox':
-                                            tmp += '<td class="checkboxTD">';
-                                            tmp += '<input type="checkbox" id="' + pid + '-' + i + '" value="' + i + '" />';
-                                            tmp += '</td>';
-                                            break;
-                                        case 'index':
-                                            tmp += '<td>';
-                                            tmp += (i+1);
-                                            tmp += '</td>';
-                                            break;
-                                        case 'action':
-                                            tmp += '<td class="buttonTD">';
-                                            if (gIf.power) {
-                                                tmp += '<button id="Edit-' + pid + '-' + i + '" class="Edit"><span class="ui-icon"  title="Edit"></span></button>';
-                                                tmp += '<button id="Delete-' + pid + '-' + i + '" class="Delete"><span class="ui-icon"  title="Edit"></span></button>';
-                                            } else {
-                                                tmp += '';
-                                            }
-                                            tmp += '</td>';
-                                            break;
-                                        case 'ipAddr':
-                                            tmp += '<td>';
-                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ 2 ].col[ j ].tab ];
-                                            tmp += '</td>';
-                                            gCache[ pid ].ipMacPair[ data[ gNode.guiT ][ i ][ gNode.col[ 2 ].col[ j ].tab ] ] = data[ gNode.guiT ][ i ].macAddr;
-                                            break;
-                                        default:
-                                            tmp += '<td>';
-                                            tmp += data[ gNode.guiT ][ i ][ gNode.col[ 2 ].col[ j ].tab ];
-                                            tmp += '</td>';
-                                        }
-                                    }
-                                    tmp += '</tr>';
-                                    $('#table-' + pid).append( tmp );
-                                }
-                            }
-                        });
                         break;
                     }
                     break;
@@ -19074,58 +19278,6 @@ $(document).ready(function () {
                 cnt++;
             }
             break;
-        case 'ip_mac_binding':
-            for (var i=0, len=gData[ pid ][ gNode.guiT ].length; i<len; i++)
-            {
-                if ( 3 === parseInt( gData[ pid ][ gNode.guiT ][ i ].cgiAction ) ) {
-                    continue;
-                }
-
-                // if searched
-                if ($('#searchCol').val()) {
-                    if (!( ( gData[ pid ][ gNode.guiT ][ i ].dscrpt.indexOf( $('#searchCol').val() ) != -1 )
-                         ||( gData[ pid ][ gNode.guiT ][ i ].ipAddr.indexOf( $('#searchCol').val() ) != -1 )
-                         ||( gData[ pid ][ gNode.guiT ][ i ].macAddr.indexOf( $('#searchCol').val() ) != -1 )
-                    ))
-                    continue;
-                }
-
-                tmp = '<tr class="' + ((cnt%2 == 0)? 'odd' : 'even') + '">';
-                for (var j=0, jlen=gNode.col[ 2 ].col.length; j<jlen; j++)
-                {
-                    switch( gNode.col[ 2 ].col[ j ].tab )
-                    {
-                    case 'checkbox':
-                        tmp += '<td class="checkboxTD">';
-                        tmp += '<input type="checkbox" id="' + pid + '-' + i + '" value="' + i + '" />';
-                        tmp += '</td>';
-                        break;
-                    case 'index':
-                        tmp += '<td>';
-                        tmp += (cnt+1);
-                        tmp += '</td>';
-                        break;
-                    case 'action':
-                        tmp += '<td class="buttonTD">';
-                        if (gIf.power) {
-                            tmp += '<button id="Edit-' + pid + '-' + i + '" class="Edit"><span class="ui-icon"  title="Edit"></span></button>';
-                            tmp += '<button id="Delete-' + pid + '-' + i + '" class="Delete"><span class="ui-icon"  title="Edit"></span></button>';
-                        } else {
-                            tmp += '';
-                        }
-                        tmp += '</td>';
-                        break;
-                    default:
-                        tmp += '<td>';
-                        tmp += gData[ pid ][ gNode.guiT ][ i ][ gNode.col[ 2 ].col[ j ].tab ];
-                        tmp += '</td>';
-                    }
-                }
-                tmp += '</tr>';
-                $('#table-' + pid).append( tmp );
-                cnt++;
-            }
-            break;
         }
     }
 
@@ -19194,28 +19346,6 @@ $(document).ready(function () {
             cgiSelectOption( 'Editor-sAddrId' );
             cgiSelectOption( 'Editor-dAddrId' );
 
-            break;
-            break;
-        case 'ip_mac_binding':
-            for (var i=0, len=gNode.editor.length; i<len; i++)
-            {
-                tmp += '<tr>';
-                if ('checkbox' == gNode.editor[ i ].type) {
-                    tmp += '<th colspan="2" class="alignLeft">';
-                    tmp += '<input type="checkbox" id="Editor-' + gNode.editor[ i ].tab + '" />';
-                    tmp += '&nbsp;<label for="Editor-' + gNode.editor[ i ].tab + '">' + gNode.editor[ i ].label + '</label>';
-                    tmp += '</th>';
-                } else {
-                    tmp += '<th class="alignLeft BT100">';
-                    tmp += gNode.editor[ i ].label;
-                    tmp += '</th>';
-                    tmp += '<td class="alignLeft">';
-                    tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" />';
-                    tmp += '</td>';
-                }
-                tmp += '</tr>';
-            }
-            $('#Editor-table-' + tar.pid).append( tmp );
             break;
         }
 
@@ -19304,35 +19434,6 @@ $(document).ready(function () {
             if ( 1 === parseInt( gData[ tar.pid ][ gNode.guiT[ tar.pid ] ][ tar.thisNo ].logEnable ) ) {
                 $('#Editor-logEnable').click();
             }
-            break;
-        case 'ip_mac_binding':
-            for (var i=0, len=gNode.editor.length; i<len; i++)
-            {
-                tmp += '<tr>';
-                if ('checkbox' == gNode.editor[ i ].type) {
-                    tmp += '<th colspan="2" class="alignLeft">';
-                    tmp += '<input type="checkbox" id="Editor-' + gNode.editor[ i ].tab + '" />';
-                    tmp += '&nbsp;<label for="Editor-' + gNode.editor[ i ].tab + '">' + gNode.editor[ i ].label + '</label>';
-                    tmp += '</th>';
-                } else {
-                    tmp += '<th class="alignLeft BT100">';
-                    tmp += gNode.editor[ i ].label;
-                    tmp += '</th>';
-                    tmp += '<td class="alignLeft">';
-                    tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" />';
-                    tmp += '</td>';
-                }
-                tmp += '</tr>';
-            }
-
-            $('#Editor-table-' + tar.pid).append( tmp );
-
-            if (1 === parseInt( gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].enable ))
-                $('#Editor-enable').click();
-            $('#Editor-dscrpt').val( gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].dscrpt );
-            $('#Editor-ipAddr').val( gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].ipAddr );
-            $('#Editor-macAddr').val( gData[ gNode.tab ][ gNode.guiT ][ tar.thisNo ].macAddr );
-
             break;
         }
 
@@ -19430,16 +19531,6 @@ $(document).ready(function () {
             gCache.tabber[ 'file_exceptions' ] = true;
             refreshSecurity( tar.pid );
             break;
-        case 'ip_mac_binding':
-            gIf.alter = true;
-            delete gCache[ tar.pid ].ipMacPair[ gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].ipAddr ];
-            if (gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].gid > 0) {
-                gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].cgiAction = 3;
-            }else {
-                gData[ tar.pid ][ gNode.guiT ].splice(tar.thisNo,1);
-            }
-            refreshSecurity( tar.pid );
-            break;
         }
     }
 
@@ -19532,27 +19623,6 @@ $(document).ready(function () {
             gCheckbox[ tar.pid ] = {};
             refreshSecurity( tar.pid );
             break;
-        case 'ip_mac_binding':
-            $('#table-' + tar.pid + ' tr').each(function() {
-                tar.thisNo = $(this).find('td:eq(0) input:checkbox').val();
-                if ($(this).find('td:eq(0) input:checkbox').is(':checked')) {
-                    gIf.alter = true;
-                    gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].cgiAction = 3;
-                    delete gCache[ tar.pid ].ipMacPair[ gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].ipAddr ];
-                }
-            });
-
-            for (var i=0, len=gData[ tar.pid ][ gNode.guiT ].length; i<len; i++)
-            {
-                if ( (3 == gData[ tar.pid ][ gNode.guiT ][ i ].cgiAction)  && (gData[ tar.pid ][ gNode.guiT ][ i ].gid < 0) )
-                    continue;
-                tar.arr.push( gData[ tar.pid ][ gNode.guiT ][ i ] );
-            }
-
-            gData[ tar.pid ][ gNode.guiT ] = tar.arr;
-
-            refreshSecurity( tar.pid );
-            break;
         }
     }
 
@@ -19566,7 +19636,7 @@ $(document).ready(function () {
         tar.pid  = tar.id.split(gReg.isDash)[1];
         tar.thisNo  = tar.id.split(gReg.isDash)[2];
 
-        if (gObj.active.h4Index == 'NA') 
+        if (gObj.active.h4Index == 'NA')
             tar.title = gObj.menu[ gObj.active.h3Index ].label + ' > ';
         else if (gObj.active.h5Index == 'NA') {
             tar.title = gObj.menu[ gObj.active.h3Index ].label + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].label + ((gNode.tabs)? ' > ' + (( gNode.tabs[ tar.pid ] )? gNode.tabs[ tar.pid ] : tar.pid ) : '');
@@ -19620,20 +19690,7 @@ $(document).ready(function () {
                             }
                             gCache.tabber[ tar.pid ] = true;
                             break;
-                        case 'ip_mac_binding':
-                            if ('Create' == tar.type) {
-                                gCache.ip_mac_binding.gid --;
-                                gData[ tar.pid ].ipMacBindingT.push( {'gid': gCache.ip_mac_binding.gid, 'enable': (($('#Editor-enable').is(':checked'))? 1 : 0), 'dscrpt': $('#Editor-dscrpt').val(), 'ipAddr': $('#Editor-ipAddr').val(), 'macAddr': $('#Editor-macAddr').val(), 'cgiAction': 1} );
-                            } else {
-                                if ( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].gid > 0 )
-                                    gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].cgiAction = 2;
-                                gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].enable = ($('#Editor-enable').is(':checked'))? 1 : 0 ;
-                                gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].dscrpt = $('#Editor-dscrpt').val();
-                                gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].ipAddr = $('#Editor-ipAddr').val();
-                                gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].macAddr = $('#Editor-macAddr').val();
-                            }
-                            gCache[ tar.pid ].ipMacPair[ $('#Editor-ipAddr').val() ] = $('#Editor-macAddr').val();
-                            break;
+
                         }
                         refreshSecurity( tar.pid );
                         $( this ).dialog( "close" );
@@ -19745,47 +19802,7 @@ $(document).ready(function () {
                  }
             }
             break;
-        case 'ip_mac_binding':
-            var tar = {};
 
-            tar.id = $(e.currentTarget).attr('id');
-            if (!tar.id)
-                return false;
-            tar.type  = tar.id.split(gReg.isDash)[0];
-            tar.thisNo  = tar.id.split(gReg.isDash)[2];
-
-            if (!gReg.ipv4.test( $('#Editor-ipAddr').val() )) {
-                pass = false;
-                msg += '<p>' + gError[ gObj.lang ].ipAddr + '</p>';
-            }
-
-            if (!gReg.mac.test( $('#Editor-macAddr').val() )) {
-                pass = false;
-                msg += '<p>' + gError[ gObj.lang ].macAddr + '</p>';
-            }
-
-            if (pass) {
-                if ( ('Edit' == tar.type) ) {
-                    if ( gData[ pid ][ gNode.guiT ][ tar.thisNo ].ipAddr == $('#Editor-ipAddr').val() ) {
-                        if ( ( gData[ pid ][ gNode.guiT ][ tar.thisNo ].macAddr != $('#Editor-macAddr').val() ) && ($('#Editor-macAddr').val() == gCache[ pid ].ipMacPair[ $('#Editor-ipAddr').val() ]) ) {
-                            pass = false;
-                            msg += '<p>' + gError[ gObj.lang ].ipMacPair + '</p>';
-                        }
-                    } else if ($('#Editor-macAddr').val() == gCache[ pid ].ipMacPair[ $('#Editor-ipAddr').val() ]) {
-                        pass = false;
-                        msg += '<p>' + gError[ gObj.lang ].ipMacPair + '</p>';
-                    }
-                } else if ($('#Editor-macAddr').val() == gCache[ pid ].ipMacPair[ $('#Editor-ipAddr').val() ]) {
-                    pass = false;
-                    msg += '<p>' + gError[ gObj.lang ].ipMacPair + '</p>';
-                }
-            }
-
-            if (!gReg.ascii.default.test( $('#Editor-dscrpt').val() )) {
-                pass = false;
-                msg += '<p>' + gError[ gObj.lang ].dscrpt + '</p>';
-            }
-            break;
         }
 
         if (!pass) {
@@ -19939,32 +19956,7 @@ $(document).ready(function () {
             }
 
             break;
-        case 'ip_mac_binding':
-            for (var i=0, len=gData[ pid ][ gNode.guiT ].length; i<len; i++)
-            {
-                if (gData[ pid ][ gNode.guiT ][ i ].cgiAction != 3)
-                    cnt++;
-                if (gData[ pid ][ gNode.guiT ][ i ].gid < 0)
-                    gData[ pid ][ gNode.guiT ][ i ].gid = 0;
-            }
 
-            if ($('#enable').is(':checked'))
-                gData[ pid ].enable = 1;
-            else
-                gData[ pid ].enable = 0;
-            gData[ pid ].mode = $('#mode').val();
-
-            if ( ( cnt == 0 && 1 == gData[ pid ].enable) || ( gRows.maxIPMACBinding < gData[ pid ][ gNode.guiT ].length )) {
-                gIf.lock = false;
-                errorAlert( '<p>' + gError[ gObj.lang ].ipMacBindingLength + '</p>' );
-            } else {
-                $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify(gData[ pid ]), function( poster ) {
-                    gIf.lock = false;
-                    gIf.alter = false;
-                    genSecurity( pid );
-                });
-            }
-            break;
         }
     }
 
@@ -24125,19 +24117,19 @@ $(document).ready(function () {
             			                tmp += '<td class="alignLeft" style="width: ' + gNode.col[ i ].col[ j ].wiz + '">';
             			                tmp += '<input type="radio" name="' + gNode.col[ i ].col[ j ].tab + '" id="' + gNode.col[ i ].col[ j ].option[ x ].tab + '" value="' + x + '" />&nbsp;<label for="' + gNode.col[ i ].col[ j ].option[ x ].tab + '">' + gNode.col[ i ].col[ j ].option[ x ].label + '</label>';
             			                tmp += '</td>';
-                                                    switch( parseInt( x ) )
-                                                    {
-                                                    case 0:
-                                                        tmp += '<td class="alignLeft BT160"><div id="selectFileButtonContainer"></div></td>';
-                                                        tmp += '<td class="alignLeft"><div id="selectFileStatus"></div></td>';
-                                                        break;
-                                                    case 1:
-                                                        tmp += '<td colspan="2" class="alignLeft"></td>';
-                                                        break;
-                                                    case 2:
-                                                        tmp += '<td colspan="2" class="alignLeft"><select id="fpath"></select></td>';
-                                                        break;
-                                                    }
+                                        switch( parseInt( x ) )
+                                        {
+                                        case 0:
+                                            tmp += '<td class="alignLeft BT160"><div id="selectFileButtonContainer"></div></td>';
+                                            tmp += '<td class="alignLeft"><div id="selectFileStatus"></div></td>';
+                                            break;
+                                        case 1:
+                                            tmp += '<td colspan="2" class="alignLeft"></td>';
+                                            break;
+                                        case 2:
+                                            tmp += '<td colspan="2" class="alignLeft"><select id="fpath"></select></td>';
+                                            break;
+                                        }
             			                tmp += '</tr>';
                                     }
             			            break;
@@ -31161,11 +31153,11 @@ $(document).ready(function () {
             case 'attack_protection':
             case 'alg':
             case 'vpn_passthrough':
+            case 'ip_mac_binding':
                 genFirewall(id);
                 break;
             // security
             case 'signature':
-            case 'ip_mac_binding':
             case 'proxy':
                 genSecurity(id);
                 break;

@@ -49,17 +49,19 @@
     var gRef  = {};
     var gIf   = {};
     var gNode;
-    
-    gObj.cooker  = 'SecMaxWALL';
-    gReg.isIndex = /index-(\d)-(\d)(-)?(\d)?/;
+
+    gObj.cooker  = 'TitanWALL';
+    gReg.isIndex = /index-(\d{1,2})(-(\d))?(-(\d))?/;
+    gReg.isH3    = /menu-(\d)/;
+    gReg.isH4    = /menu-(\d)-(\d)/;
     gReg.isH5    = /menu-(\d)-(\d)-(\d)/;
     gReg.isMulti = /\n/;
     gIf.menuX    = false;
     gHtml.aMenu  = '<span id="activedMenu"></span>';
-    
+
     // yui instance
     var gY = YUI({filter:"raw", defaultGraphicEngine: "canvas"}).use('anim', 'charts', 'charts-legend', 'console', 'cookie', 'datasource-io', 'datasource-jsonschema', 'datatable-base', 'datatable-sort', 'datatable-datasource', 'dd', 'dd-plugin', 'io-base', 'io-upload-iframe', 'json', 'json-parse', 'json-stringify', 'panel', 'uploader', 'yui');
-    
+
     $(document).ready(function () {
         function init() {
             if ( gY.Cookie.getSub( gObj.cooker, 'lang' ) ) {
@@ -67,13 +69,13 @@
             } else {
                 gObj.lang = 'en';
             }
-    
+
             if ( gY.Cookie.getSub( gObj.cooker, 'node' ) ) {
                 gObj.id = gY.Cookie.getSub( gObj.cooker, 'node');
             } else {
-                gObj.id = 'menu-0-0';
+                gObj.id = 'menu-0';
             }
-    
+
             $.ajax({
                 url:'lang/' + gObj.lang + '-docs.txt',
                 dataType:'json',
@@ -95,15 +97,15 @@
                         gObj.active.h3Arr  = [];
                         gObj.active.h4Arr  = [];
                         gHtml.html = '<ul class="accordion-ul">';
-        
-                        for (var i=0, len=gObj.menu.length; i<len; i++) 
+
+                        for (var i=0, len=gObj.menu.length; i<len; i++)
                         {
                             gObj.active.h3Arr.push(gObj.menu[i].id);
-                            gHtml.html += '<li id="'+gObj.menu[i].id+'" class="accordion-ul-li"><h3><a href="#">'+gObj.menu[i].label+'</a></h3>';
-        
+
                             if  (gObj.menu[i].panel) {
+                                gHtml.html += '<li id="'+gObj.menu[i].id+'" class="accordion-ul-li"><h3><a href="#">'+gObj.menu[i].label+'</a></h3>';
                                 gHtml.html += '<ul class="accordion-ul-ul">';
-                                for (var j=0, jlen= gObj.menu[i].panel.length; j<jlen; j++) 
+                                for (var j=0, jlen= gObj.menu[i].panel.length; j<jlen; j++)
                                 {
                                     switch(typeof(gObj.menu[i].panel[j].panel) == 'object')
                                     {
@@ -128,66 +130,83 @@
                                     }
                                 }
                                 gHtml.html += '</ul>';
-                            }
-                            gHtml.html += '</li>';
+                                gHtml.html += '</li>';
+                            } else
+                                gHtml.html += '<li id="'+gObj.menu[i].id+'" class="accordion-ul-li index-' + i + ' noPanel"><h3><a href="#">'+gObj.menu[i].label+'</a></h3></li>';
                         }
 
-                        if (gIf.menuX && gRef[ 'menu-x' ]) {
-                            gObj.active.h3Arr.push('menu-x');
-                            gHtml.html += '<li id="menu-x" class="accordion-ul-li"><h3><a href="#">' + gRef[ 'menu-x' ].label + '</a></h3>';
-                            gHtml.html += '<ul class="accordion-ul-ul">';
-                            for (var x in gRef[ 'menu-x' ].tabs )
-                            {
-                                gHtml.html += '<li id="' + gRef[ 'menu-x' ].tabs[ x ].tab + '" class="accordion-ul-ul-li index-x' + x + '"><h4><a href="#">' + gRef[ 'menu-x' ].tabs[ x ].label + '</a></h4></li>';
-                            }
-                            gHtml.html += '</ul>';
-                            gHtml.html += '</li>';
-                        }
-    
                         gHtml.html += '</ul>';
-        
+
                         $('#menu').html(gHtml.html);
-        
-                        $('.accordion-ul').accordion({
+
+                        gObj.acc3 = $('.accordion-ul').accordion({
+                            collapsible:true,
                             autoHeight: false
                         });
-        
-                        $('.accordion-ul-ul-ul').accordion({
+
+                        // remove h3 icon if no panel,,,
+                        $('.noPanel span').remove();
+
+                        gObj.acc4 = $('.accordion-ul-ul-ul').accordion({
                             collapsible:true,
                             active:false,
                             autoHeight: false
                         });
-        
+
+                        $('.accordion-ul-li h3').on('click', function(e) {
+                            if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
+                                gIf.getSessInfo = true;
+                                gIf.refresh = true;
+                                gObj.actived = gObj.active;
+                                gObj.active = {};
+                                gObj.active.h3Index = RegExp.$1;
+                                gObj.active.h4Index = "NA";
+                                gObj.active.h5Index = "NA";
+                                gObj.active.icon    = $(this);
+                                gObj.active.pid     = $(this).parents('li').attr('id');
+                                gObj.active.target  = $(this);
+                                gObj.active.menu    = '<h3>';
+                                gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index].label+'</b>';
+                                gObj.active.menu    += '</h3>';
+
+                                $('#activedMenu').remove();
+                                gObj.active.icon.addClass('ui-actived');
+                                gObj.active.icon.prepend(gHtml.aMenu);
+                                gNode = gObj.menu[gObj.active.h3Index];
+                                $('#main_hd').html( gObj.active.menu );
+
+                                genMain();
+                            }
+                        });
+
+
                         $('.accordion-ul-ul-li h4').on('click', function(e) {
                             if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
                                 gObj.actived = gObj.active;
                                 gObj.active = {};
                                 gObj.active.h3Index = RegExp.$1;
-                                gObj.active.h4Index = RegExp.$2;
+                                gObj.active.h4Index = RegExp.$3;
                                 gObj.active.h5Index = "NA";
                                 gObj.active.icon = $(this);
                                 gObj.active.pid     = $(this).parents('li').attr('id');
                                 gObj.active.target  = $(this);
                                 gObj.active.menu    = '<h3>';
                                 gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index].label+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].label+'</b>';
-        
+
                                 gObj.active.menu    += '</h3>';
-           
+
                                 // navbar
-        
-                                if (gObj.active.icon) {
-                                     gObj.active.icon.removeClass('ui-actived');
-                                    $('#activedMenu').remove();
-                                }
+
+                                $('#activedMenu').remove();
                                 gObj.active.icon.addClass('ui-actived');
                                 gObj.active.icon.prepend(gHtml.aMenu);
                                 gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index];
                                 $('#main_hd').html( gObj.active.menu );
-        
+
                                 genMain();
                             }
                         });
-        
+
                         $('.accordion-ul-ul-ul-ul-li h5').on('click', function(e) {
                             switch(gReg.isIndex.test($(this).parents('li').attr('class')))
                             {
@@ -195,38 +214,38 @@
                                 gObj.actived = gObj.active;
                                 gObj.active = {};
                                 gObj.active.h3Index = RegExp.$1;
-                                gObj.active.h4Index = RegExp.$2;
-                                gObj.active.h5Index = RegExp.$4;
+                                gObj.active.h4Index = RegExp.$3;
+                                gObj.active.h5Index = RegExp.$5;
                                 gObj.active.icon    = $(this);
                                 gObj.active.pid     = $(this).parents('li').attr('id');
                                 gObj.active.target  = $(this);
                                 gObj.active.menu    = '<h3>';
                                 gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index].label+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].label+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].panel[gObj.active.h5Index].label+'</b>';
                                 gObj.active.menu    += '</h3>';
-        
+
                                 // navbar
-        
-                                if (gObj.active.icon) {
-                                    gObj.active.icon.removeClass('ui-actived');
-                                    $('#activedMenu').remove();
-                                }
+
+                                $('#activedMenu').remove();
                                 gObj.active.icon.addClass('ui-actived');
                                 gObj.active.icon.prepend(gHtml.aMenu);
                                 gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].panel[gObj.active.h5Index];
                                 $('#main_hd').html( gObj.active.menu );
-        
+
                                 genMain();
                             }
                         });
-        
+
                         $('#ft .content').append('<p>Copyright &copy; 2014 TECH TITAN</p>');
-    
+
                         gObj.ids = gObj.id.split('-');
                         for (var i=0, len=gObj.ids.length; i<len; i++)
                         {
                             switch( i )
                             {
                             case 1:
+                                if (2 == len) {
+                                    gObj.acc3.accordion('activate', gObj.ids[ 1 ]);
+                                }
                                 $('#' + gObj.ids[ 0 ] + '-' + gObj.ids[ 1 ] + ' h3').click();
                                 break;
                             case 2:
@@ -241,24 +260,24 @@
                 });
             });
         }
-    
+
         function genMain() {
-            var tmp = '', 
+            var tmp = '',
                 arr = [];
             $('#main_bd').empty();
             $('#main_bd').append('<div id="docDiv"></div>');
-    
+
             if ( gRef[ gNode.id ].tabs ) {
                 // use tabs
                 $('#docDiv').append('<ul></ul>');
-    
+
                 for (var x in gRef[ gNode.id ].tabs)
                 {
                     $('#docDiv ul').append('<li id="docDiv-tab-' + x + '"><a href="#docDiv-panel-' + x + '">' + gRef[ gNode.id ].tabs[ x ].label + '</a></li>');
                     $('#docDiv').append('<div id="docDiv-panel-' + x + '"><div id="docDiv-panel-div-' + x + '"></div></div>');
                 }
                 $('#docDiv').tabs();
-    
+
                 // content
                 for (var x in gRef[ gNode.id ].tabs)
                 {
@@ -282,10 +301,10 @@
                                 tmp += '<dd>' + gRef[ gNode.id ].tabs[ x ].content[ i ].description + '</dd>';
                             }
                         }
-    
+
                         tmp += '</dl>';
                         $('#docDiv-panel2-div-' + x).html( tmp );
-    
+
                         tmp = '<dl id="docDiv-editor2-dl-' + x + '">';
                         for (var i=0, len=gRef[ gNode.id ].tabs[ x ].editor.length; i<len; i++)
                         {
@@ -300,13 +319,13 @@
                                 tmp += '<dd>' + gRef[ gNode.id ].tabs[ x ].editor[ i ].description + '</dd>';
                             }
                         }
-    
+
                         tmp += '</dl>';
                         $('#docDiv-editor2-div-' + x).html( tmp );
-    
+
                         $('#docDiv-panel-div-' + x).tabs();
                     } else if ( gRef[ gNode.id ].tabs[ x ].editors ) {
-    
+
                         // tabs in tabs
                         $('#docDiv-panel-div-' + x).append( '<ul><li id="docDiv-tab2-' + x + '"><a href="#docDiv-panel2-' + x + '">Table</a></li><li id="docDiv-tab2-editor-' + x + '"><a href="#docDiv-editor2-' + x + '">Editor</a></li></ul>');
                         $('#docDiv-panel-div-' + x).append('<div id="docDiv-panel2-' + x + '"><div id="docDiv-panel2-div-' + x + '"></div></div>');
@@ -325,14 +344,14 @@
                                 tmp += '<dd>' + gRef[ gNode.id ].tabs[ x ].content[ i ].description + '</dd>';
                             }
                         }
-    
+
                         tmp += '</dl>';
                         $('#docDiv-panel2-div-' + x).html( tmp );
                         $('#docDiv-panel-div-' + x).tabs();
 
                         // tabs in tabs in tabs
                         $('#docDiv-editor2-div-' + x ).html( '<ul></ul>' );
-                        
+
                         for (var i=0, len=gRef[ gNode.id ].tabs[ x ].editors.length; i<len; i++)
                         {
                             $('#docDiv-editor2-div-' + x + ' ul').append('<li id="docDiv-tab3-' + gRef[ gNode.id ].tabs[ x ].editors[ i ].tab + '"><a href="#docDiv-editor3-' + gRef[ gNode.id ].tabs[ x ].editors[ i ].tab + '">' + gRef[ gNode.id ] .tabs[ x ].editors[ i ].label + '</li>');
@@ -340,7 +359,7 @@
                         }
 
                         $('#docDiv-editor2-div-' + x).tabs();
-    
+
                         for (var i=0, len=gRef[ gNode.id ].tabs[ x ].editors.length; i<len; i++)
                         {
                             tmp = '<dl id="docDiv-editor3-dl-' + gRef[ gNode.id ].tabs[ x ].editors[ i ].tab + '">';
@@ -359,16 +378,12 @@
                                     }
                                 }
                             } else if ( gReg.isMulti.test( gRef[ gNode.id ].tabs[ x ].editors[ i ].description ) ) {
-gY.log( ' multi ' );
-                                gY.log ( gRef[ gNode.id ].tabs[ x ].editors[ i ].description );
                                 arr = gRef[ gNode.id ].tabs[ x ].editors[ i ].description.split( '\n' );
                                 for (var j=0, jlen=arr.length; j<jlen; j++)
                                 {
                                     tmp += '<dd>' + arr[ j ] + '</dd>';
                                 }
                             } else {
-gY.log( ' single ' );
-                                gY.log ( gRef[ gNode.id ].tabs[ x ].editors[ i ].description );
                                 tmp += '<dd>' + gRef[ gNode.id ].tabs[ x ].editors[ i ].description + '</dd>';
                             }
                             tmp += '</dl>';
@@ -410,7 +425,6 @@ gY.log( ' single ' );
                 $('#docDiv').tabs();
                 tmp = '<hr/>';
                 tmp += '<dl id="docDiv-panel-dl-' + gNode.id + '">';
-gY.log( gNode.id );
                 for (var i=0, len=gRef[ gNode.id ].content.length; i<len; i++)
                 {
                     tmp += '<dt>' + gRef[ gNode.id ].content[ i ].label + ' : </dt>';
@@ -426,7 +440,7 @@ gY.log( gNode.id );
                 }
                 tmp += '</dl>';
                 $('#docDiv-panel-div-' + gNode.id).html( tmp );
-    
+
                 $('#docDiv-editor-div-' + gNode.id).append('<hr/><ul></ul>');
 
                 for (var i=0, len=gRef[ gNode.id ].editors.length; i<len; i++)
@@ -480,13 +494,13 @@ gY.log( gNode.id );
                 }
                 tmp += '</dl>';
                 $('#docDiv-panel-div-' + gNode.id).html( tmp );
-    
+
                 tmp = '<hr/>';
                 tmp += '<dl id="docDiv-editor-dl-' + gNode.id + '">';
                 for (var i=0, len=gRef[ gNode.id ].editor.length; i<len; i++)
                 {
                     if ( gRef[ gNode.id ].editor[ i ].content ) {
-                        for (var j=0, jlen=gRef[ gNode.id ].editor[ i ].content.length; j<jlen; j++) 
+                        for (var j=0, jlen=gRef[ gNode.id ].editor[ i ].content.length; j<jlen; j++)
                         {
                             tmp += '<dt>' + gRef[ gNode.id ].editor[ i ].content[ j ].label + ' : </dt>';
                             if ( gReg.isMulti.test( gRef[ gNode.id ].editor[ i ].content[ j ].description ) ) {
@@ -514,7 +528,7 @@ gY.log( gNode.id );
                 }
                 tmp += '</dl>';
                 $('#docDiv-editor-div-' + gNode.id).html( tmp );
-    
+
             } else if ( gRef[ gNode.id ].content ) {
                 tmp = '<dl id="docDiv-dl">';
                 for (var i=0, len=gRef[ gNode.id ].content.length; i<len; i++)
@@ -531,7 +545,7 @@ gY.log( gNode.id );
                     }
                 }
                 tmp += '</dl>';
-    
+
                 $('#docDiv').append( tmp );
             } else if ( gReg.isMulti.test( gRef[ gNode.id ].description ) ) {
                 tmp = '<dl id="docDiv-dl">';
@@ -541,14 +555,14 @@ gY.log( gNode.id );
                     tmp += '<dd>' + arr[ i ] + '</dd>';
                 }
                 tmp += '</dl>';
-    
+
                 $('#docDiv').append( tmp );
             } else {
                 $('#docDiv').append( '<h3>' + gRef[ gNode.id ].description + '</h3>' );
-    
+
             }
         }
-    
+
         init();
 
     });
