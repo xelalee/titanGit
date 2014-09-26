@@ -92,7 +92,7 @@ $(document).ready(function () {
     var gProto = {};
     var gChart = {};
     var gCache = {};
-    var gColor = [ "red", "blue", "black", "green", "yellow", "purple", "pink", "orange", "brown"];
+    var gColor = ["#525A6B", "#BD2110", "#E7BD10", "#639429", "#9C52AD", "#CEC6C6", "#A58484", "#B5B5B5", "#313131", "#085A9C" ];
 
     var gObj = {
         "traffic_direction" : {
@@ -182,7 +182,6 @@ $(document).ready(function () {
                     "1" : {
                         type : 'bar',
                         catKey : 'address',
-                        styleDef : {
                             axes : {
                                 address : {
                                     keys:["address"],
@@ -191,15 +190,27 @@ $(document).ready(function () {
                                 totalBytes : {
                                     keys:["totalBytes"],
                                     position:"bottom",
-                                    type:"numeric"
+                                    type:"numeric",
+                                    labelFunction: function(label) {
+                                        return label.toFixed(2);
+                                    }
+                                }
+                            },
+                        styleDef : {
+                            graph : {
+                                background : {
+                                    fill: { color: '#ffffff' }
+                                },
+                                border : {
+                                    color: '#ffffff',
+                                    weight: 1
                                 }
                             },
                             series:  {
-                                txBytes: {
-                                    line: { color: "#eeeeee" }
-                                },
-                                rxBytes : {
-                                    line: { color: "#ffffff" }
+                                totalBytes: {
+                                    area: { color: "#eeeeee" },
+                                    line: { color: "#eeeeee" },
+                                    marker: { fill: { color: gColor } }
                                 }
                             }
                         }
@@ -207,7 +218,6 @@ $(document).ready(function () {
                     "2" : {
                         type : 'bar',
                         catKey : 'srcIp',
-                        styleDef : {
                             axes : {
                                 srcIp : {
                                     keys:["srcIp"],
@@ -216,15 +226,27 @@ $(document).ready(function () {
                                 totalBytes : {
                                     keys:["totalBytes"],
                                     position:"bottom",
-                                    type:"numeric"
+                                    type:"numeric",
+                                    labelFunction: function(label) {
+                                        return label.toFixed(2);
+                                    }
+                                }
+                            },
+                        styleDef : {
+                            graph : {
+                                background : {
+                                    fill: { color: '#ffffff' }
+                                },
+                                border : {
+                                    color: '#ffffff',
+                                    weight: 1
                                 }
                             },
                             series:  {
-                                txBytes: {
-                                    line: { color: "#eeeeee" }
-                                },
-                                rxBytes : {
-                                    line: { color: "#ffffff" }
+                                totalBytes: {
+                                    area: { color: "#eeeeee" },
+                                    line: { color: "#eeeeee" },
+                                    marker: { fill: { color: gColor } }
                                 }
                             }
                         }
@@ -232,7 +254,6 @@ $(document).ready(function () {
                     "3" : {
                         type : 'bar',
                         catKey : 'dstIp',
-                        styleDef : {
                             axes : {
                                 dstIp : {
                                     keys:["dstIp"],
@@ -241,15 +262,27 @@ $(document).ready(function () {
                                 totalBytes : {
                                     keys:["totalBytes"],
                                     position:"bottom",
-                                    type:"numeric"
+                                    type:"numeric",
+                                    labelFunction: function(label) {
+                                        return label.toFixed(2);
+                                    }
+                                }
+                            },
+                        styleDef : {
+                            graph : {
+                                background : {
+                                    fill: { color: '#ffffff' }
+                                },
+                                border : {
+                                    color: '#ffffff',
+                                    weight: 1
                                 }
                             },
                             series:  {
-                                txBytes: {
-                                    line: { color: "#eeeeee" }
-                                },
-                                rxBytes : {
-                                    line: { color: "#ffffff" }
+                                totalBytes: {
+                                    area: { color: "#eeeeee" },
+                                    line: { color: "#eeeeee" },
+                                    marker: { fill: { color: gColor } }
                                 }
                             }
                         }
@@ -257,32 +290,33 @@ $(document).ready(function () {
                     "4" : {
                         type : "pie",
                         catKey : 'protocol',
-                        styleDef : {
+                        serKey : ['totalBytes'],
                             axes : {
                                 protocol : {
                                     keys:["protocol"],
-                                    position:"left"
+                                    position:"left",
+                                    type: "category"
                                 },
                                 totalBytes : {
                                     keys:["totalBytes"],
                                     position:"bottom",
-                                    type:"numeric"
+                                    type:"numeric",
+                                    labelFunction: function(label) {
+                                        return label.toFixed(2);
+                                    }
                                 }
                             },
-                            series:  {
-                                txBytes: {
-                                    line: { color: "#eeeeee" }
-                                },
-                                rxBytes : {
-                                    line: { color: "#ffffff" }
-                                }
-                            }
-                        }
+                        serCol : [
+                          {
+                            categoryKey: "protocol",
+                            valueKey: "totalBytes",
+                            styles: { fill: { colors: gColor } }
+                          }
+                        ]
                     },
                     "5" : {
                         type : "bar",
                         catKey : 'dstPort',
-                        styleDef : {
                             axes : {
                                 dstPort : {
                                     keys:["dstPort"],
@@ -291,15 +325,27 @@ $(document).ready(function () {
                                 totalBytes : {
                                     keys:["totalBytes"],
                                     position:"bottom",
-                                    type:"numeric"
+                                    type:"numeric",
+                                    labelFunction: function(label) {
+                                        return label.toFixed(2);
+                                    }
+                                }
+                            },
+                        styleDef : {
+                            graph : {
+                                background : {
+                                    fill: { color: '#ffffff' }
+                                },
+                                border : {
+                                    color: '#ffffff',
+                                    weight: 1
                                 }
                             },
                             series:  {
-                                txBytes: {
-                                    line: { color: "#eeeeee" }
-                                },
-                                rxBytes : {
-                                    line: { color: "#ffffff" }
+                                totalBytes: {
+                                    area: { color: "#eeeeee" },
+                                    line: { color: "#eeeeee" },
+                                    marker: { fill: { color: gColor } }
                                 }
                             }
                         }
@@ -307,7 +353,6 @@ $(document).ready(function () {
                     "6" : {
                         type : "bar",
                         catKey : 'zone',
-                        styleDef : {
                             axes : {
                                 zone : {
                                     keys:["zone"],
@@ -316,15 +361,27 @@ $(document).ready(function () {
                                 totalBytes : {
                                     keys:["totalBytes"],
                                     position:"bottom",
-                                    type:"numeric"
+                                    type:"numeric",
+                                    labelFunction: function(label) {
+                                        return label.toFixed(2);
+                                    }
+                                }
+                            },
+                        styleDef : {
+                            graph : {
+                                background : {
+                                    fill: { color: '#ffffff' }
+                                },
+                                border : {
+                                    color: '#ffffff',
+                                    weight: 1
                                 }
                             },
                             series:  {
-                                txBytes: {
-                                    line: { color: "#eeeeee" }
-                                },
-                                rxBytes : {
-                                    line: { color: "#ffffff" }
+                                totalBytes: {
+                                    area: { color: "#eeeeee" },
+                                    line: { color: "#eeeeee" },
+                                    marker: { fill: { color: gColor } }
                                 }
                             }
                         }
@@ -362,7 +419,6 @@ $(document).ready(function () {
                     "1" : {
                         type : "bar",
                         catKey : 'extension',
-                        styleDef : {
                             axes : {
                                 extension : {
                                     keys:["extension"],
@@ -371,12 +427,27 @@ $(document).ready(function () {
                                 accessCount : {
                                     keys:["accessCount"],
                                     position:"bottom",
-                                    type:"numeric"
+                                    type:"numeric",
+                                    labelFunction: function(label) {
+                                        return label.toFixed(2);
+                                    }
+                                }
+                            },
+                        styleDef : {
+                            graph : {
+                                background : {
+                                    fill: { color: '#ffffff' }
+                                },
+                                border : {
+                                    color: '#ffffff',
+                                    weight: 1
                                 }
                             },
                             series:  {
                                 accessCount: {
-                                    line: { color: "#eeeeee" }
+                                    area: { color: "#eeeeee" },
+                                    line: { color: "#eeeeee" },
+                                    marker: { fill: { color: gColor } }
                                 }
                             }
                         }
@@ -416,7 +487,6 @@ $(document).ready(function () {
                     "1" : {
                         type : "bar",
                         catKey : 'ip',
-                        styleDef : {
                             axes : {
                                 ip : {
                                     keys:["ip"],
@@ -425,12 +495,27 @@ $(document).ready(function () {
                                 firewallCount : {
                                     keys:["firewallCount"],
                                     position:"bottom",
-                                    type:"numeric"
+                                    type:"numeric",
+                                    labelFunction: function(label) {
+                                        return label.toFixed(2);
+                                    }
+                                }
+                            },
+                        styleDef : {
+                            graph : {
+                                background : {
+                                    fill: { color: '#ffffff' }
+                                },
+                                border : {
+                                    color: '#ffffff',
+                                    weight: 1
                                 }
                             },
                             series:  {
                                 firewallCount: {
-                                    line: { color: "#eeeeee" }
+                                    area: { color: "#eeeeee" },
+                                    line: { color: "#eeeeee" },
+                                    marker: { fill: { color: gColor } }
                                 }
                             }
                         }
@@ -468,7 +553,6 @@ $(document).ready(function () {
                     "1" : {
                         type : "bar",
                         catKey : 'ip',
-                        styleDef : {
                             axes : {
                                 ip : {
                                     keys:["ip"],
@@ -477,12 +561,27 @@ $(document).ready(function () {
                                 sigHitCount : {
                                     keys:["sigHitCount"],
                                     position:"bottom",
-                                    type:"numeric"
+                                    type:"numeric",
+                                    labelFunction: function(label) {
+                                        return label.toFixed(2);
+                                    }
+                                }
+                            },
+                        styleDef : {
+                            graph : {
+                                background : {
+                                    fill: { color: '#ffffff' }
+                                },
+                                border : {
+                                    color: '#ffffff',
+                                    weight: 1
                                 }
                             },
                             series:  {
                                 sigHitCount: {
-                                    line: { color: "#eeeeee" }
+                                    area: { color: "#eeeeee" },
+                                    line: { color: "#eeeeee" },
+                                    marker: { fill: { color: gColor } }
                                 }
                             }
                         }
@@ -534,21 +633,35 @@ $(document).ready(function () {
                     "1" : {
                         type : "bar",
                         catKey : 'srcIp',
-                        styleDef : {
-                            axes : {
-                                srcIp : {
-                                    keys:["srcIp"],
-                                    position:"left"
+                        axes: {
+                            srcIp : {
+                                keys:["srcIp"],
+                                position:"left"
+                            },
+                            hitCount : {
+                                keys:["hitCount"],
+                                position:"bottom",
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);
                                 },
-                                hitCount : {
-                                    keys:["hitCount"],
-                                    position:"bottom",
-                                    type:"numeric"
+                                type:"numeric"
+                            }
+                        },
+                        styleDef : {
+                            graph : {
+                                background : {
+                                    fill: { color: '#ffffff' }
+                                },
+                                border : {
+                                    color: '#ffffff',
+                                    weight: 1
                                 }
                             },
                             series:  {
                                 hitCount: {
-                                    line: { color: "#eeeeee" }
+                                    area: { color: "#eeeeee" },
+                                    line: { color: "#eeeeee" },
+                                    marker: { fill: { color: gColor } }
                                 }
                             }
                         }
@@ -556,7 +669,6 @@ $(document).ready(function () {
                     "2" : {
                         type : "bar",
                         catKey : 'dstIp',
-                        styleDef : {
                             axes : {
                                 dstIp : {
                                     keys:["dstIp"],
@@ -565,12 +677,27 @@ $(document).ready(function () {
                                 hitCount : {
                                     keys:["hitCount"],
                                     position:"bottom",
-                                    type:"numeric"
+                                    type:"numeric",
+                                    labelFunction: function(label) {
+                                        return label.toFixed(2);
+                                    }
+                                }
+                            },
+                        styleDef : {
+                            graph : {
+                                background : {
+                                    fill: { color: '#ffffff' }
+                                },
+                                border : {
+                                    color: '#ffffff',
+                                    weight: 1
                                 }
                             },
                             series:  {
                                 hitCount: {
-                                    line: { color: "#eeeeee" }
+                                    area: { color: "#eeeeee" },
+                                    line: { color: "#eeeeee" },
+                                    marker: { fill: { color: gColor } }
                                 }
                             }
                         }
@@ -578,7 +705,6 @@ $(document).ready(function () {
                     "3" : {
                         type : "bar",
                         catKey : 'virusName',
-                        styleDef : {
                             axes : {
                                 virusName : {
                                     keys:["virusName"],
@@ -587,12 +713,27 @@ $(document).ready(function () {
                                 hitCount : {
                                     keys:["hitCount"],
                                     position:"bottom",
-                                    type:"numeric"
+                                    type:"numeric",
+                                    labelFunction: function(label) {
+                                        return label.toFixed(2);
+                                    }
+                                }
+                            },
+                        styleDef : {
+                            graph : {
+                                background : {
+                                    fill: { color: '#ffffff' }
+                                },
+                                border : {
+                                    color: '#ffffff',
+                                    weight: 1
                                 }
                             },
                             series:  {
                                 hitCount: {
-                                    line: { color: "#eeeeee" }
+                                    area: { color: "#eeeeee" },
+                                    line: { color: "#eeeeee" },
+                                    marker: { fill: { color: gColor } }
                                 }
                             }
                         }
@@ -601,6 +742,7 @@ $(document).ready(function () {
             }
         }
     }
+
 
     $(document).on('click', 'button', function(e) {
         e.preventDefault();
@@ -643,10 +785,10 @@ $(document).ready(function () {
             gCache.pp = parseInt( $('#rows').val() );
             resetData();
         } else {
-            if (!isNaN( parseInt( gData[ gCache.tabIndex ].queryRows ) ) && ( parseInt( gData[ gCache.tabIndex ].queryRows ) > 0 )) {
+            if ( parseInt( gData[ gCache.tabIndex ].queryRows ) > 0 ) {
                 setData( gCache.param, gCache.tabIndex, gCache.tabIndex, gData[ gCache.tabIndex ].queryResults.slice( 0, $('#tops').val() ) );
             } else {
-                genChart( gCache.param, gCache.tabIndex );
+                genChart( gCache.param, gCache.tabIndex, [] );
             }
         }
     });
@@ -662,7 +804,7 @@ $(document).ready(function () {
                 // enable tab
                 $('.tabber').tabs( "enable", idx );
 
-                if (!isNaN( parseInt( data.queryRows ) ) && ( parseInt( data.queryRows ) > 0 )) {
+                if ( parseInt( data.queryRows ) > 0 ) {
                     if ('traffic_direction' == param) {
                         // translate protocol from number to name
                         for (var i=0, len=data.queryResults.length; i<len; i++)
@@ -727,11 +869,8 @@ $(document).ready(function () {
         for ( var x in gObj[ param ][ 'table' ][ lang ][ idx ] )
             $('#table-' + idx + ' thead tr').append( '<th class="ui-state-default">' + gObj[ param ][ 'table' ][ lang ][ idx ][ x ] + '</th>' );
 
-        if (undefined == data)
-            return false;
-
         $('#table-' + idx + ' tbody').empty();
-        if ( data.length > 0 ) {
+        if ( data.length > 0 )  {
             for (var i=0, len=data.length; i<len; i++)
             {
                 var tmp = '<tr class="' + ( ( i%2==0 )? 'odd' : 'even' ) + '">';
@@ -766,14 +905,13 @@ $(document).ready(function () {
     function resetData()
     {
         $('#table-0 tbody').empty();
-        console.log(  'advancedQuery.php?param=' + gCache.param + '&sd=' + gCache.sd + '&sh=' + gCache.sh + '&ed=' + gCache.ed + '&eh=' + gCache.eh + '&q=0' + '&pi=' + gCache.pi + '&pp=' + gCache.pp );
         $.ajax({
             url: 'advancedQuery.php?param=' + gCache.param + '&sd=' + gCache.sd + '&sh=' + gCache.sh + '&ed=' + gCache.ed + '&eh=' + gCache.eh + '&q=0' + '&pi=' + gCache.pi + '&pp=' + gCache.pp,
             dataType: 'json',
             success: function(data) {
                 gData[ 0 ] = data;
                 // draw frame here
-                if ( data.queryResults.length > 0 ) {
+                if ( parseInt( data.queryRows ) > 0 )  {
                     for (var i=0, len=data.queryResults.length; i<len; i++)
                     {
                         var tmp = '<tr class="' + ((i%2==0)? 'odd' : 'even') + '">';
@@ -819,27 +957,30 @@ $(document).ready(function () {
         if (gChart[ idx ])
             gChart[ idx ].destroy();
 
-        if ( !data || ( 0 === parseInt( data.length ) ) )
+        if ( 0 === parseInt( data.length ) )
             $('#chart-' + idx).html( '<div class="noData"><b>No Data</b></div>' );
         else {
             if ($('.noData').exists())
                 $('#chart-' + idx).empty();
 
+
              if ('pie' == gObj[ param ].chart[ lang ][ idx ].type) {
-                 $('#chart-' + idx).html('<canvas id="pie-' + idx + '" width="480" height="480" style="width:480px; height:480px;"></canvas>');
-                 var pieData = [];
-                 for (var i=0, len=data.length; i<len; i++)
-                 {
-                      pieData.push( {value: parseInt(data[ i ].totalBytes), color: gColor[ i ], highlight: gColor[ i ], label: data[ i ].protocol} );
-                 }
 
-                 gChart[ idx ] = new Chart( $('#pie-' + idx).get(0).getContext('2d') ).Pie( pieData, { animateRotate: false});
-
+                gChart[ idx ] = new gY.Chart({
+                    dataProvider: data,
+                    categoryKey: gObj[ param ].chart[ lang ][ idx ].catKey,
+                    type: gObj[ param ].chart[ lang ][ idx ].type,
+                    seriesKeys: gObj[ param ].chart[ lang ][ idx ].serKey,
+                    seriesCollection: gObj[ param ].chart[ lang ][ idx ].serCol
+                    //axes: gObj[ param ].chart[ lang ][ idx ].axes
+                }).render( '#chart-' + idx );
              } else {
                 gChart[ idx ] = new gY.Chart({
                     dataProvider: data,
                     categoryKey: gObj[ param ].chart[ lang ][ idx ].catKey,
                     type: gObj[ param ].chart[ lang ][ idx ].type,
+                    //styles: gObj[ param ].chart[ lang ][ idx ].styleDef,
+                    axes: gObj[ param ].chart[ lang ][ idx ].axes,
                     styles: gObj[ param ].chart[ lang ][ idx ].styleDef,
                     horizontalGridlines: true
                 }).render( '#chart-' + idx );
@@ -886,10 +1027,10 @@ $(document).ready(function () {
                 } else {
                     $('.pdfer').show();
                     $('.pager').hide();
-                    if (!isNaN( parseInt( gData[ gCache.tabIndex ].queryRows ) ) && ( parseInt( gData[ gCache.tabIndex ].queryRows ) > 0 )) {
+                    if (gData[ gCache.tabIndex ].queryRows && ( parseInt( gData[ gCache.tabIndex ].queryRows ) > 0 )) {
                         setData( param, gCache.tabIndex, gCache.tabIndex, gData[ gCache.tabIndex ].queryResults.slice( 0, $('#tops').val() ) );
                     } else {
-                        genChart( param, gCache.tabIndex );
+                        genChart( param, gCache.tabIndex, [] );
                     }
                 }
             },

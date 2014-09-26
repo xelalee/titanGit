@@ -221,11 +221,12 @@ a:link { text-decoration: none;}
 #activedMenu {
     width: 16px;
     height: 16px;
-    background-image: url('images/ui-icons_ffffff_256x240.png');
     background-position: -208px -192px;
     position: absolute;
-    top: 6px;
-    left: 8px;
+}
+
+h3 #activedMenu {
+    top: 8px;
 }
 
 #manaul h4 {

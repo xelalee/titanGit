@@ -339,20 +339,19 @@ function advAggregate( $table, $gby, $state, $oby ) {
 function aggregateQuery( $table, $gby, $state, $oby ) {
     if ( $result = $GLOBALS[ 'mysqli' ]->query( "SELECT ". $state .", count(*) as sessions FROM ". $GLOBALS[ 'db' ] .".`". $table ."_". $GLOBALS[ 'nh' ] ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50" ) ) {
         while ( $obj = $result->fetch_object() ) {
-            $json["queryResults"][] = $obj;
+            $GLOBALS[ 'json' ]["queryResults"][] = $obj;
         }
-        $json[ "queryRows" ]  = $result->num_rows;
+        $GLOBALS[ 'json' ][ "queryRows" ]  = $result->num_rows;
         // free result set
         $result->close();
     }
-    echo json_encode( $json );
+    echo json_encode( $GLOBALS[ 'json' ] );
 }
 
 function advQuery( $table ) {
     $GLOBALS[ 'rows' ][ 'start' ]     = empty( $_GET[ 'pi' ] )? 1 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ] + 1;
     $GLOBALS[ 'rows' ][ 'end' ]       = empty( $_GET[ 'pp' ] )? 20 : $_GET[ pi ] * $_GET[ 'pp' ];
     $GLOBALS[ 'rows' ][ 'left' ]      = empty( $_GET[ 'pp' ] )? 20 : (int) $_GET[ 'pp' ];
-    $GLOBALS[ 'json' ][ 'queryRows' ] = 0;
 
     if ( $GLOBALS[ 'ehStamp' ] > $GLOBALS[ 'shStamp' ] ) {
         $days = ( ( $GLOBALS[ 'edStamp' ] - $GLOBALS[ 'sdStamp' ] ) / 86400 );
@@ -363,15 +362,21 @@ function advQuery( $table ) {
     
             for ( $i=$_GET[ 'eh' ]; $i>=$_GET[ 'sh' ]; $i-- )
             {
+                $cnt = $GLOBALS[ 'json' ][ 'queryRows' ];
                 $GLOBALS[ 'json' ][ 'queryRows' ] += queryRows( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_'. $table .'_'. sprintf( "%02d", $i ) .'"' ) ;
                 if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
-                    if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_'. $table .'_'. sprintf("%02d", $i) .'` ORDER BY id DESC' ) ) {
+                    $mysqli  = new mysqli( "127.0.0.1", "", "", $db, 3306 );
+                    $result = [];
+                    if ( $result = $mysqli->query( 'SELECT * FROM `raw_'. $table .'_'. sprintf("%02d", $i) .'` ORDER BY id DESC' ) ) {
                         while ( $obj = $result->fetch_object() ) {
+                            $cnt++;
                             // rows we want
-                            $GLOBALS[ 'json' ]['queryResults'][] = $obj;
-                            $GLOBALS[ 'rows' ][ 'left' ]--;
-
-                            if ( 0 == $GLOBALS[ 'rows' ][ 'left'] ) {
+                            if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                $GLOBALS[ 'rows' ][ 'left' ]--;
+                            }
+                            
+                            if ( 0 == $GLOBALS[ 'rows' ][ 'left' ]) {
                                 break;
                             }
                         }
@@ -388,19 +393,20 @@ function advQuery( $table ) {
                 case 0:
                     $db = str_replace( "-", "_", $GLOBALS[ 'ed' ] );
                     $dbStamp = $GLOBALS[ 'edStamp' ];
-    
+                    
                     for ( $j=$_GET[ 'eh' ]; $j>=0; $j-- )
                     {
+                        $cnt = $GLOBALS[ 'json' ][ 'queryRows' ];
                         $GLOBALS[ 'json' ][ 'queryRows' ] += queryRows( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_'. $table .'_'. sprintf( "%02d", $j ) .'"' ) ;
                         if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
-                            if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_'. $table .'_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
+                            $mysqli  = new mysqli( "127.0.0.1", "", "", $db, 3306 );
+                            if ( $result = $mysqli->query( 'SELECT * FROM `raw_'. $table .'_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
                                 while ( $obj = $result->fetch_object() ) {
+                                    $cnt++;
                                     // rows we want
-                                    $GLOBALS[ 'json' ]['queryResults'][] = $obj;
-                                    $GLOBALS[ 'rows' ][ 'left' ]--;
-        
-                                    if ( 0 == $GLOBALS[ 'rows' ][ 'left'] ) {
-                                        break;
+                                    if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                        $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                        $GLOBALS[ 'rows' ][ 'left' ]--;
                                     }
                                 }
                                 // free result set
@@ -417,15 +423,20 @@ function advQuery( $table ) {
     
                     for ( $j=23; $j>=$_GET[ 'sh' ]; $j-- )
                     {
+                        $cnt = $GLOBLAS[ 'json' ][ 'queryRows' ];
                         $GLOBALS[ 'json' ][ 'queryRows' ] += queryRows( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_'. $table .'_'. sprintf( "%02d", $j ) .'"' );
                         if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
-                            if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_'. $table .'_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
+                            $mysqli  = new mysqli( "127.0.0.1", "", "", $db, 3306 );
+                            if ( $result = $mysqli->query( 'SELECT * FROM `raw_'. $table .'_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
                                 while ( $obj = $result->fetch_object() ) {
+                                    $cnt++;
                                     // rows we want
-                                    $GLOBALS[ 'json' ]['queryResults'][] = $obj;
-                                    $GLOBALS[ 'rows' ][ 'left' ]--;
-        
-                                    if ( 0 == $GLOBALS[ 'rows' ][ 'left'] ) {
+                                    if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                        $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                        $GLOBALS[ 'rows' ][ 'left' ]--;
+                                    }
+
+                                    if ( 0 == $GLOBALS[ 'rows' ][ 'left' ]) {
                                         break;
                                     }
                                 }
@@ -442,15 +453,20 @@ function advQuery( $table ) {
                         // no daily
                         for ( $j=23; $j>=0; $j-- )
                         {
+                            $cnt = $GLOBLAS[ 'json' ][ 'queryRows' ];
                             $GLOBALS[ 'json' ][ 'queryRows' ] += queryRows( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_'. $table .'_'. sprintf( "%02d", $j ) .'"' );
                             if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
-                                if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_'. $table .'_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
+                                $mysqli  = new mysqli( "127.0.0.1", "", "", $db, 3306 );
+                                if ( $result = $mysqli->query( 'SELECT * FROM '. $db .'.`raw_'. $table .'_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
                                     while ( $obj = $result->fetch_object() ) {
+                                        $cnt++;
                                         // rows we want
-                                        $GLOBALS[ 'json' ]['queryResults'][] = $obj;
-                                        $GLOBALS[ 'rows' ][ 'left' ]--;
-            
-                                        if ( 0 == $GLOBALS[ 'rows' ][ 'left'] ) {
+                                        if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                            $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                            $GLOBALS[ 'rows' ][ 'left' ]--;
+                                        }
+
+                                        if ( 0 == $GLOBALS[ 'rows' ][ 'left' ]) {
                                             break;
                                         }
                                     }
@@ -461,20 +477,25 @@ function advQuery( $table ) {
                         }
                     } else {
                         // use daily
-                        $cnt = $GLOBALS[ 'json' ][ 'queryRows' ];
+                        $cnts = $GLOBALS[ 'json' ][ 'queryRows' ];
                         $GLOBALS[ 'json' ][ 'queryRows' ] += queryRows( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "daily_'. $table .'"' ) ;
                         if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
                             for ( $j=23; $j>=0; $j-- )
                             {
-                                $cnt += queryRows( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_'. $table .'_'. sprintf( "%02d", $j ) .'"' ) ;
-                                if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
-                                    if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_'. $table .'_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
+                                $cnt = $cnts;
+                                $cnts += queryRows( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_'. $table .'_'. sprintf( "%02d", $j ) .'"' ) ;
+                                if ( ( $cnts >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
+                                    $mysqli  = new mysqli( "127.0.0.1", "", "", $db, 3306 );
+                                    if ( $result = $mysqli->query( 'SELECT * FROM `raw_'. $table .'_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
                                         while ( $obj = $result->fetch_object() ) {
+                                            $cnt++;
                                             // rows we want
-                                            $GLOBALS[ 'json' ]['queryResults'][] = $obj;
-                                            $GLOBALS[ 'rows' ][ 'left' ]--;
+                                            if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                                $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                                $GLOBALS[ 'rows' ][ 'left' ]--;
+                                            }
 
-                                            if ( 0 == $GLOBALS[ 'rows' ][ 'left'] ) {
+                                            if ( 0 == $GLOBALS[ 'rows' ][ 'left' ]) {
                                                 break;
                                             }
                                         }
@@ -496,6 +517,9 @@ function advQuery( $table ) {
 }
 
 function reportQuery( $table ) {
+    $GLOBALS[ 'rows' ][ 'start' ]     = empty( $_GET[ 'pi' ] )? 1 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ] + 1;
+    $GLOBALS[ 'rows' ][ 'end' ]       = empty( $_GET[ 'pp' ] )? 20 : $_GET[ pi ] * $_GET[ 'pp' ];
+    $GLOBALS[ 'rows' ][ 'left' ]      = empty( $_GET[ 'pp' ] )? 20 : (int) $_GET[ 'pp' ];
     $GLOBALS[ 'json' ][ 'queryRows' ] = queryRows( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $GLOBALS[ 'db' ] .'" AND TABLE_NAME = "'. $table .'_'. $GLOBALS[ 'nh' ] .'"' );
     if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $GLOBALS[ 'db' ] .'.`'. $table .'_'. $GLOBALS[ 'nh' ] .'` ORDER BY id DESC LIMIT '. $GLOBALS[ 'rows' ][ 'start' ] .', '. $GLOBALS[ 'rows' ][ 'left' ] ) ) {
         while ( $obj = $result->fetch_object() ) {

@@ -265,11 +265,20 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#008270', end
 #activedMenu {
     width: 16px;
     height: 16px;
-    background-image: url('images/ui-icons_ffffff_256x240.png');
     background-position: -208px -192px;
     position: absolute;
+}
+
+h3 #activedMenu {
+    top: 8px;
+    left: 8px;
+    background-image: url('images/ui-icons_cc0000_256x240.png');
+}
+
+h4 #activedMenu, h5 #activedMenu {
     top: 6px;
     left: 8px;
+    background-image: url('images/ui-icons_ffffff_256x240.png');
 }
 
 #manaul h4 {

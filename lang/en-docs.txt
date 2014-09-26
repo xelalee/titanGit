@@ -1,9 +1,9 @@
 {
-  "menu-0-0" : 
+  "menu-0" :
   {
-    "label" : "System Dashboard",
-    "tab" : "system_dashboard",
-    "description" : "Use this screen to view system information, such as CPU/memory utilization, number of VPN tunnels, system logs, port settings and status.",
+    "label" : "Dashboard",
+    "tab" : "dashboard",
+    "description" : "Use this screen to view system information, such as CPU/memory utilization, statistics of top file types, the most freqently detected virus, top affected hosts and top blocked hosts",
     "tabs" :
     {
       "system_information" :
@@ -45,7 +45,7 @@
           }
         ]
       },
-      "resource_utilization" : 
+      "resource_utilization" :
       {
         "label" : "Resource Utilization",
         "tab" : "resource_utilization",
@@ -64,231 +64,6 @@
           }
         ]
       },
-      "site_to_site_vpn" :
-      {
-        "label" : "Site to Site VPN",
-        "tab" : "site_to_site_vpn",
-        "description" : "",
-        "content" : 
-        [
-          {
-            "label" : "Tunnel Number", 
-            "tab" : "tunnel_number",
-            "description" : "The number of site-to-site VPN tunnels eastablished between this TitanWALL and remote devices."
-           }
-        ]
-      },
-      "recent_system_logs" :
-      {
-        "label" : "Recent System Logs",
-        "tab" : "recent_system_logs",
-        "description" : "",
-        "content" :
-        [
-          {
-            "label" : "Time",
-            "tab" : "time",
-            "description" : "The date and time the event was recorded."
-          },
-          {
-            "label" : "Level",
-            "tab" : "level",
-            "description" : "The severity level of the event."
-          },
-          {
-            "label" : "Description",
-            "tab" : "description",
-            "description" : "The description of the event."
-          }
-        ]
-      },
-      "lan_interface" :
-      {
-        "label" : "LAN Interface",
-        "tab" : "lan_interface",
-        "description" : "",
-        "content" : 
-        [
-          {
-            "label" : "Name",
-            "tab" : "name",
-            "description" : "The name of the LAN interface."
-          },
-          {
-            "label" : "DHCP Mode",
-            "tab" : "dhcp_mode",
-            "description" : "The DHCP mode of the LAN interface, \"DHCP Server\" or \"Disable\"."
-          },
-          {
-            "label" : "IP Address",
-            "tab" : "ip_address",
-            "description" : "The Ip address of the LAN interface."
-          }
-        ]
-      },
-      "wan_interface" :
-      {
-        "label" : "WAN Interface",
-        "tab" : "wan_interface",
-        "description" : "",
-        "content" :
-        [
-          {
-            "label" : "Name",
-            "tab" : "name",
-            "description" : "The name of the WAN port."
-          },
-          {
-            "label" : "IP Address",
-            "tab" : "ip_address",
-            "description" : "The IP address of the WAN port."
-          },
-          {
-            "label" : "In (KB/s)",
-            "tab" : "in_kbs",
-            "description" : "The current incoming bandwidth usage for the WAN port."
-          },
-          {
-            "label" : "Out (KB/s)",
-            "tab" : "out_kbs",
-            "description" : "The current outgoing bandwidth usage for the WAN port."
-          }
-        ]
-      },
-      "physical_ports" :
-      {
-        "label" : "Physical Ports",
-        "tab" : "physical_ports",
-        "description" : "",
-        "content" :
-        [
-          {
-            "label" : "Name",
-            "tab" : "name",
-            "description" : "The name of a physical port on this TitanWALL."
-          },
-          {
-            "label" : "Link",
-            "tab" : "link",
-            "description" : "The connection status of the port, it is link \"Up\" or \"Down\"."
-          },
-          {
-            "label" : "Speed",
-            "tab" : "speed",
-            "description" : "The speed of the port, 1000Mbps, 100Mbps or auto. auto means the device automatically adjusts speed according to the speed of the connected device that it can support."
-          },
-          {
-            "label" : "Duplex",
-            "tab" : "duplex",
-            "description" : "The duplex mode of the port, \"full\" or \"half\"."
-          }
-        ]
-      }
-    }
-  },
-  "menu-0-1" : 
-  {
-    "label" : "Netowrk Dashboard",
-    "tab" : "network_dashboard",
-    "description" : "Use this screen to view network traffic status",
-    "tabs" :
-    {
-      "top_traffic_direction" :
-      {
-        "label" : "Top Traffice Direction",
-        "tab" : "top_traffic_direction",
-        "description" : "",
-        "content" : 
-        [
-          {
-            "label" : "From Zone",
-            "tab" : "from_zone",
-            "description" : "The source zone of the traffic transmission direction."
-          },
-          {
-            "label" : "To Zone",
-            "tab" : "to_zone",
-            "description" : "The destination zone of the traffic transmission direction."
-          },
-          {
-            "label" : "Traffic Amount",
-            "tab" : "traffic_amount",
-            "description" : "The amount of traffic in bytes for this traffic direction flowed through the device."
-          },
-          {
-            "label" : "Sessions",
-            "tab" : "sessions",
-            "description" : "The total number of sessions eastablished for this traffic direction."
-          }
-        ]
-      },
-      "top_destination" :
-      {
-        "label" : "Top Destination",
-        "tab" : "top_destination",
-        "description" : "",
-        "content" :
-        [
-          {
-            "label" : "IP",
-            "tab" : "ip",
-            "description" : "The destination IP address."
-          },
-          {
-            "label" : "Upstream",
-            "tab" : "upstream",
-            "description" : "The amount of traffic the device has sent for forwarded to IP address."
-          },
-          {
-            "label" : "Downstream",
-            "tab" : "downstream",
-            "description" : "The amount of traffice the device has received from the IP address."
-          },
-          {
-            "label" : "Sessions",
-            "tab" : "sessions",
-            "description" : "The number of sessions with the destination IP address flowed through the device."
-          }
-        ]
-      },
-      "top_source" :
-      {
-        "label" : "Top Source",
-        "tab" : "top_source",
-        "description" : "",
-        "content" :
-        [
-          {
-            "label" : "IP",
-            "tab" : "ip",
-            "description" : "The source IP address."
-          },
-          {
-            "label" : "Upstream",
-            "tab" : "upstream",
-            "description" : "The traffic amount sent from the IP address flowed thourgh the device."
-          },
-          {
-            "label" : "Downstream",
-            "tab" : "downstream",
-            "description" : "The traffic amount the device received and sent back to the source IP address."
-          },
-          {
-            "label" : "Sessions",
-            "tab" : "sessions",
-            "description" : "The number of sessions initiated by the IP address and flowed through the device."
-          }
-        ]
-      }
-    }
-  },
-  "menu-0-2" : 
-  {
-    "label" : "Security Dashboard",
-    "tab" : "security_dashboard",
-    "description" : "Use this screen to view statistics of top file types, the most freqently detected virus, top affected hosts and top blocked hosts",
-    "tabs" :
-    {
       "top_file_extension" :
       {
         "label" : "Top File Extension",
@@ -367,12 +142,226 @@
       }
     }
   },
-  "menu-1-0-0" :
+  "menu-6-1" :
+  {
+    "label" : "Proxy",
+    "tab" : "proxy",
+    "description" : "If your company uses a proxy server that handles client requests for seeking some services (ex. FTP, web pages) from other server, you have to configure the proxy server settings on the TitanWALL. Otherwise, the anti-virus license and signature updates on the TitanWALL may fail.\n Use this screen to configure the proxy server settings. You don’t need to configure this screen if you don’t use a proxy server.",
+    "content" :
+    [
+      {
+        "label" : "Proxy Enable",
+        "tab" : "enable",
+        "description" : "Select this to activate the proxy server function."
+      },
+      {
+        "label" : "Proxy Server",
+        "tab" : "server",
+        "description" : "Enter your proxy server’s IP address or domain name."
+      },
+      {
+        "label" : "Proxy Server Port",
+        "tab" : "port",
+        "description" : "Enter the listening port of the proxy server."
+      },
+      {
+        "label" : "Use Proxy Authentication",
+        "tab" : "auth",
+        "description" : "Select this check box if the proxy server needs user authentication. Enter the user name and password in the following fields then."
+      },
+      {
+        "label" : "User Name",
+        "tab" : "user",
+        "description" : "Enter the user name."
+      },
+      {
+        "label" : "User Password",
+        "tab" : "pass",
+        "description" : "Enter the password for the user."
+      }
+    ]
+  },
+  "menu-7-0-0" :
+  {
+    "label" : "File Extension",
+    "tab" : "file_extension",
+    "description" : "Use this screen to view the security related records by the type of virus-infected file. You can enter a start/end date and time, and then click the search button to display the records within the specified time period. You can also group your records by the filename extension and display the sum of the access count.",
+    "content" :
+    [
+      {
+        "label" : "ID",
+        "tab" : "id",
+        "description" : "This is the index number of the record."
+      },
+      {
+        "label" : "Extension",
+        "tab" : "extension",
+        "description" : "This is the filename extension of the file that the TitanWALL scanned and detected a virus."
+      },
+      {
+        "label" : "Access Count",
+        "tab" : "access_count",
+        "description" : "This shows how many times the file has been accessed."
+      },
+      {
+        "label" : "Datetime",
+        "tab" : "datetime",
+        "description" : "This is the date and time the event was recorded."
+      }
+    ]
+  },
+  "menu-7-0-1" :
+  {
+    "label" : "Blocked Host",
+    "tab" : "blocked_host",
+    "description" : "Use this screen to view the security related records for the LAN IP addresses blocked by the matched firewall rules or anti-virus detection. You can enter a start/end date and time, and then click the search button to display the records within the specified time period. You can also group your records by the host IP address and display the sum of the firewall count and the sum of the virus count.",
+    "content" :
+    [
+      {
+        "label" : "ID",
+        "tab" : "id",
+        "description" : "This is the index number of the record."
+      },
+      {
+        "label" : "IP",
+        "tab" : "ip",
+        "description" : "This is the IP address of the blocked host."
+      },
+      {
+        "label" : "Virus Count",
+        "tab" : "virus_count",
+        "description" : "This shows how many times the host’s traffic has been blocked by the TitanWALL’s anti-virus feature."
+      },
+      {
+        "label" : "Firewall Count",
+        "tab" : "firewall_count",
+        "description" : "This shows how many times the host’s traffic has been blocked by the TitanWALL’s firewall feature."
+      },
+      {
+        "label" : "Datetime",
+        "tab" : "datetime",
+        "description" : "This is the date and time the event was recorded."
+      }
+    ]
+  },
+  "menu-7-0-2" :
+  {
+    "label" : "Affected Host",
+    "tab" : "affected_host",
+    "description" : "Use this screen to view the security related records by the IP address of the infected host. You can enter a start/end date and time, and then click the search button to display the records within the specified time period. You can also group your records by the host IP address and display the sum of the virus hit count.",
+    "content" :
+    [
+      {
+        "label" : "ID",
+        "tab" : "id",
+        "description" : "This is the index number of the record."
+      },
+      {
+        "label" : "IP",
+        "tab" : "ip",
+        "description" : "This is the IP address of the infected host."
+      },
+      {
+        "label" : "Virus Hit Count",
+        "tab" : "virus_hit_count",
+        "description" : "This shows how many times the virus sent by the host was detected by the TitanWALL’s anti-virus feature."
+      },
+      {
+        "label" : "Datetime",
+        "tab" : "datetime",
+        "description" : "This is the date and time the event was recorded."
+      }
+    ]
+  },
+  "menu-7-0-3" :
+  {
+    "label" : "Antivirus",
+    "tab" : "antivurs_report",
+    "description" : "Use this screen to view the security related records by the virus-infected session. You can enter a start/end date and time, and then click the search button to display the records within the specified time period. You can also group your records by the source/destination IP addresses and users or the virus name and display the sum of the hit count.",
+    "content" :
+    [
+      {
+        "label" : "ID",
+        "tab" : "id",
+        "description" : "This is the index number of the record."
+      },
+      {
+        "label" : "Src IP",
+        "tab" : "src_ip",
+        "description" : "This is the source IP address of the virus-infected session."
+      },
+      {
+        "label" : "Dst IP",
+        "tab" : "dst_ip",
+        "description" : "This is the destination IP address of the virus-infected session."
+      },
+      {
+        "label" : "Protocol",
+        "tab" : "protocol",
+        "description" : "This is the IP protocol used to carry the virus."
+      },
+      {
+        "label" : "Virus Name",
+        "tab" : "virus_name",
+        "description" : "This is the name of the virus that the TitanWALL has detected."
+      },
+      {
+        "label" : "Datetime",
+        "tab" : "datetime",
+        "description" : "This is the date and time the event was recorded."
+      },
+      {
+        "label" : "Hit Count",
+        "tab" : "hit_count",
+        "description" : "This shows how many times the virus sent/received by the host was detected by the TitanWALL’s anti-virus feature. This can also show how many times a virus has been detected in total when you group the records by the virus name."
+      }
+    ]
+  },
+  "menu-7-1-0" :
+  {
+    "label" : "Traffic Direction",
+    "tab" : "traffic_direction",
+    "description" : "Use this screen to view traffic statistics for each session by the direction in which traffic travels. You can enter a start/end date and time, and then click the search button to display the records within the specified time period. You can also group your records by the direction in which traffic travels and display the sum of traffic.",
+    "content" :
+    [
+      {
+        "label" : "ID",
+        "tab" : "id",
+        "description" : "This is the index number of the record."
+      },
+      {
+        "label" : "From Zone",
+        "tab" : "from_zone",
+        "description" : "This is the name of the zone from which the traffic comes."
+      },
+      {
+        "label" : "To Zone",
+        "tab" : "to_zone",
+        "description" : "This is the name of the zone to which the traffic goes."
+      },
+      {
+        "label" : "Traffic Amount",
+        "tab" : "traffic_amount",
+        "description" : "This shows how much traffic in bytes was transmitted."
+      },
+      {
+        "label" : "Start Datetime",
+        "tab" : "start",
+        "description" : "This is the date and time the session started."
+      },
+      {
+        "label" : "End Datetime",
+        "tab" : "end",
+        "description" : "This is the date and time the session ended."
+      }
+    ]
+  },
+  "menu-7-2-0" :
   {
     "label" : "Show ARP Table",
     "tab" : "show_arp_table",
     "description" : "Use this screen to see your TitanWALL’s ARP (Address Resolution Protocol) table. An ARP entry maps an IP address to a connected host’s hardware address or MAC address. \nThe information in this table is updated automatically at the time interval you select in the Refresh Page field. Click the Refresh button to update the table information immediately.",
-    "content" : 
+    "content" :
     [
       {
         "label" : "IP Address",
@@ -393,15 +382,15 @@
         "label" : "Device",
         "tab" : "device",
         "description" : "This is the name of the interface to which the host is connected."
-      } 
+      }
     ]
   },
-  "menu-1-0-1" :
+  "menu-7-2-1" :
   {
     "label" : "Show Routing Table",
     "tab" : "show_routing_table",
     "description" : "Use this screen to view your TitanWALL’s routing table, which contains entries for both default routes and static routes. A static route has priority over the default route. The information in this table is updated automatically at the time interval you select in the Refresh Page field. Click the Refresh button to update the table information immediately.",
-    "content" : 
+    "content" :
     [
       {
         "label" : "Destination Address",
@@ -435,7 +424,7 @@
       }
     ]
   },
-  "menu-1-0-2" :
+  "menu-7-2-2" :
   {
     "label" : "DHCP Bindings",
     "tab" : "dhcp_bindings",
@@ -464,7 +453,7 @@
       }
     ]
   },
-  "menu-1-0-3" :
+  "menu-7-2-3" :
   {
     "label" : "Status Summary",
     "tab" : "status_summary",
@@ -515,7 +504,7 @@
           }
         ]
       },
-      "vlan" : 
+      "vlan" :
       {
         "label" :"VLAN Interface Table",
         "tab" : "vlan_table",
@@ -643,7 +632,7 @@
           }
         ]
       },
-      "lan" : 
+      "lan" :
       {
         "label" : "LAN Table",
         "tab" : "lan_table",
@@ -684,14 +673,14 @@
       }
     }
   },
-  "menu-1-0-4" :
+  "menu-7-2-4" :
   {
     "label" : "Traffic Statistics",
     "tab" : "traffic_statistics",
     "description" : "The information in the table is updated automatically at the time interval you select in the Refresh Page field. Click the Refresh button to update the table information immediately",
     "tabs" :
     {
-      "port" : 
+      "port" :
       {
         "label" : "Port Table",
         "tab" : "port_table",
@@ -740,7 +729,7 @@
           }
         ]
       },
-      "vlan" : 
+      "vlan" :
       {
         "label" : "VLAN Interface Table",
         "tab" : "vlan_table",
@@ -784,7 +773,7 @@
           }
         ]
       },
-      "wan" : 
+      "wan" :
       {
         "label" : "WAN Table",
         "tab" : "wan_table",
@@ -828,7 +817,7 @@
           }
         ]
       },
-      "lan" : 
+      "lan" :
       {
         "label" : "LAN Table",
         "tab" : "lan_table",
@@ -874,34 +863,13 @@
       }
     }
   },
-  "menu-1-0-5" :
+  "menu-7-2-5" :
   {
     "label" : "WAN Bandwidth Report",
     "tab" : "wan_bandwidth report",
     "description" : "Use this screen to view the bandwidth usage for the WAN interface(s) over the past 24 hours. You can also enter a start\/end date and time, and then click the search button to display the bandwidth usage within the specified time period.\n The y-axis shows the number of bytes that have been transmitted or received on the WAN interface.\n The x-axis shows the time period over which the bandwidth usage occurred.\n The information in this table is updated automatically at the refresh time interval you set in the Refresh Page field in the upper right corner. Click the Refresh button to update the table information immediately."
   },
-  "menu-1-1-0" :
-  {
-    "label" : "Resource Utilization",
-    "tab" : "resource_utilization",
-    "description" : "The information in this table is updated automatically at the time interval you select in the Refresh Page field. Click the Refresh button to update the table information immediately.",
-    "tabs" :
-    {
-      "cpu_utilization" :
-      {
-        "label" : "CPU Utilization",
-        "tab" : "cpu_utilization",
-        "description" : "Use this screen to view the CPU usage over the past 24 hours. You can also enter a start/end date and time, and then click the search button to display the CPU usage within the specified time period.\n The y-axis shows the percentage of CPU usage. The x-axis shows the time period over which the CPU usage occurred."
-      },
-      "memory_utilization" :
-      {
-        "label" : "Memory Utilization",
-        "tab" : "memory_utilization",
-        "description" : "Use this screen to view the memory usage over the past 24 hours. You can also enter a start/end date and time, and then click the search button to display the memory usage within the specified time period.\n The y-axis shows the percentage of memory usage.\n The x-axis shows the time period over which the memory usage occurred."
-      }
-    }
-  },
-  "menu-1-2" :
+  "menu-7-3" :
   {
     "label" : "NAT Status",
     "tab" : "nat_status",
@@ -975,41 +943,7 @@
       }
     ]
   },
-  "menu-1-3" :
-  {
-    "label" : "Active Users",
-    "tab" : "active_users",
-    "description" : "Use this screen to view status of users who currently logged into the TitanWALL.\n The information in this table is updated automatically at the time interval you select in the Refresh Page field. Click the Refresh button to update the table information immediately. Click the Columns button in the upper right corner to hide or display a column.",
-    "content" :
-    [
-      {
-        "label" : "User Name",
-        "tab" : "user_name",
-        "description" : "This is the user's account name."
-      },
-      {
-        "label" : "Address Information",
-        "tab" : "address_information",
-        "description" : "This is the user's IP address."
-      },
-      {
-        "label" : "Login Method",
-        "tab" : "login_method",
-        "description" : "This shows how the user logged in. Users can log into the TitanWALL using either HTTPs or Telnet."
-      },
-      {
-        "label" : "Session Time",
-        "tab" : "session_time",
-        "description" : "This shows how long (in minutes) the user has logged in."
-      },
-      {
-        "label" : "Action",
-        "tab" : "action",
-        "description" : "Select a user’s check box and click the Force button to terminate the user’s session."
-      }
-    ]
-  },
-  "menu-1-4-0" :
+  "menu-7-4-0" :
   {
     "label" : "Active Sessions",
     "tab" : "active_sessions",
@@ -1048,7 +982,7 @@
       }
     ]
   },
-  "menu-1-4-1" :
+  "menu-7-4-1" :
   {
     "label" : "IPSec VPN Statistics",
     "tab" : "ipsec_vpn_statistics",
@@ -1102,260 +1036,62 @@
       }
     ]
   },
-  "menu-1-5-0" :
+  "menu-7-5-0" :
   {
-    "label" : "Traffic Direction",
-    "tab" : "traffic_direction",
-    "description" : "Use this screen to view traffic statistics for each session by the direction in which traffic travels. You can enter a start/end date and time, and then click the search button to display the records within the specified time period. You can also group your records by the direction in which traffic travels and display the sum of traffic.",
+    "label" : "Resource Utilization",
+    "tab" : "resource_utilization",
+    "description" : "The information in this table is updated automatically at the time interval you select in the Refresh Page field. Click the Refresh button to update the table information immediately.",
+    "tabs" :
+    {
+      "cpu_utilization" :
+      {
+        "label" : "CPU Utilization",
+        "tab" : "cpu_utilization",
+        "description" : "Use this screen to view the CPU usage over the past 24 hours. You can also enter a start/end date and time, and then click the search button to display the CPU usage within the specified time period.\n The y-axis shows the percentage of CPU usage. The x-axis shows the time period over which the CPU usage occurred."
+      },
+      "memory_utilization" :
+      {
+        "label" : "Memory Utilization",
+        "tab" : "memory_utilization",
+        "description" : "Use this screen to view the memory usage over the past 24 hours. You can also enter a start/end date and time, and then click the search button to display the memory usage within the specified time period.\n The y-axis shows the percentage of memory usage.\n The x-axis shows the time period over which the memory usage occurred."
+      }
+    }
+  },
+  "menu-7-6" :
+  {
+    "label" : "Active Users",
+    "tab" : "active_users",
+    "description" : "Use this screen to view status of users who currently logged into the TitanWALL.\n The information in this table is updated automatically at the time interval you select in the Refresh Page field. Click the Refresh button to update the table information immediately. Click the Columns button in the upper right corner to hide or display a column.",
     "content" :
     [
       {
-        "label" : "ID",
-        "tab" : "id",
-        "description" : "This is the index number of the record."
+        "label" : "User Name",
+        "tab" : "user_name",
+        "description" : "This is the user's account name."
       },
       {
-        "label" : "From Zone",
-        "tab" : "from_zone",
-        "description" : "This is the name of the zone from which the traffic comes."
+        "label" : "Address Information",
+        "tab" : "address_information",
+        "description" : "This is the user's IP address."
       },
       {
-        "label" : "To Zone",
-        "tab" : "to_zone",
-        "description" : "This is the name of the zone to which the traffic goes."
+        "label" : "Login Method",
+        "tab" : "login_method",
+        "description" : "This shows how the user logged in. Users can log into the TitanWALL using either HTTPs or Telnet."
       },
       {
-        "label" : "Traffic Amount",
-        "tab" : "traffic_amount",
-        "description" : "This shows how much traffic in bytes was transmitted."
+        "label" : "Session Time",
+        "tab" : "session_time",
+        "description" : "This shows how long (in minutes) the user has logged in."
       },
       {
-        "label" : "Start Datetime",
-        "tab" : "start",
-        "description" : "This is the date and time the session started."
-      },
-      {
-        "label" : "End Datetime",
-        "tab" : "end",
-        "description" : "This is the date and time the session ended."
+        "label" : "Action",
+        "tab" : "action",
+        "description" : "Select a user’s check box and click the Force button to terminate the user’s session."
       }
     ]
   },
-  "menu-1-5-1" :
-  {
-    "label" : "Source",
-    "tab" : "source_report",
-    "description" : "Use this screen to view traffic statistics for each session by the source IP address. You can enter a start/end date and time, and then click the search button to display the records within the specified time period. You can also group your records by the source IP address and display the sum of traffic.",
-    "content" :
-    [
-      {
-        "label" : "ID",
-        "tab" : "id",
-        "description" : "This is the index number of the record."
-      },
-      {
-        "label" : "Host IP",
-        "tab" : "host_ip",
-        "description" : "This is the source IP address of the session."
-      },
-      {
-        "label" : "Upstream",
-        "tab" : "upstream",
-        "description" : "This is the amount of traffic which came from the source IP address."
-      },
-      {
-        "label" : "Downstream",
-        "tab" : "downstream",
-        "description" : "This is the amount of traffic which was sent to the source IP address."
-      },
-      {
-        "label" : "Start Datetime",
-        "tab" : "start_datetime",
-        "description" : "This is the date and time the session started."
-      },
-      {
-        "label" : "End Datetime",
-        "tab" : "end_datetime",
-        "description" : "This is the date and time the session ended."
-      }
-    ]
-  },
-  "menu-1-5-2" :
-  {
-    "label" : "Destination",
-    "tab" : "destination_report",
-    "description" : "Use this screen to view traffic statistics for each session by the destination IP address. You can enter a start/end date and time, and then click the search button to display the records within the specified time period. You can also group your records by the destination IP address and display the sum of traffic.",
-    "content" :
-    [
-      {
-        "label" : "ID",
-        "tab" : "id",
-        "description" : "This is the index number of the record."
-      },
-      {
-        "label" : "Host IP",
-        "tab" : "host_ip",
-        "description" : "This is the destination IP address of the session."
-      },
-      {
-        "label" : "Upstream",
-        "tab" : "upstream",
-        "description" : "This is the amount of traffic which was sent to the destination IP address."
-      },
-      {
-        "label" : "Downstream",
-        "tab" : "downstream",
-        "description" : "This is the amount of traffic which came from the destination IP address."
-      },
-      {
-        "label" : "Start Datetime",
-        "tab" : "start_datetime",
-        "description" : "This is the date and time the session started."
-      },
-      {
-        "label" : "End Datetime",
-        "tab" : "end_datetime",
-        "description" : "This is the date and time the session ended."
-      }
-    ]
-  },
-  "menu-1-6-0" :
-  {
-    "label" : "File Extension",
-    "tab" : "file_extension",
-    "description" : "Use this screen to view the security related records by the type of virus-infected file. You can enter a start/end date and time, and then click the search button to display the records within the specified time period. You can also group your records by the filename extension and display the sum of the access count.",
-    "content" :
-    [
-      {
-        "label" : "ID",
-        "tab" : "id",
-        "description" : "This is the index number of the record."
-      },
-      {
-        "label" : "Extension",
-        "tab" : "extension",
-        "description" : "This is the filename extension of the file that the TitanWALL scanned and detected a virus."
-      },
-      {
-        "label" : "Access Count",
-        "tab" : "access_count",
-        "description" : "This shows how many times the file has been accessed."
-      },
-      {
-        "label" : "Datetime",
-        "tab" : "datetime",
-        "description" : "This is the date and time the event was recorded."
-      }
-    ]
-  },
-  "menu-1-6-1" :
-  {
-    "label" : "Blocked Host",
-    "tab" : "blocked_host",
-    "description" : "Use this screen to view the security related records for the LAN IP addresses blocked by the matched firewall rules or anti-virus detection. You can enter a start/end date and time, and then click the search button to display the records within the specified time period. You can also group your records by the host IP address and display the sum of the firewall count and the sum of the virus count.",
-    "content" :
-    [
-      {
-        "label" : "ID",
-        "tab" : "id",
-        "description" : "This is the index number of the record."
-      },
-      {
-        "label" : "IP",
-        "tab" : "ip",
-        "description" : "This is the IP address of the blocked host."
-      },
-      {
-        "label" : "Virus Count",
-        "tab" : "virus_count",
-        "description" : "This shows how many times the host’s traffic has been blocked by the TitanWALL’s anti-virus feature."
-      },
-      {
-        "label" : "Firewall Count",
-        "tab" : "firewall_count",
-        "description" : "This shows how many times the host’s traffic has been blocked by the TitanWALL’s firewall feature."
-      },
-      {
-        "label" : "Datetime",
-        "tab" : "datetime",
-        "description" : "This is the date and time the event was recorded."
-      }
-    ]
-  },
-  "menu-1-6-2" :
-  {
-    "label" : "Affected Host",
-    "tab" : "affected_host",
-    "description" : "Use this screen to view the security related records by the IP address of the infected host. You can enter a start/end date and time, and then click the search button to display the records within the specified time period. You can also group your records by the host IP address and display the sum of the virus hit count.",
-    "content" :
-    [
-      {
-        "label" : "ID",
-        "tab" : "id",
-        "description" : "This is the index number of the record."
-      },
-      {
-        "label" : "IP",
-        "tab" : "ip",
-        "description" : "This is the IP address of the infected host."
-      },
-      {
-        "label" : "Virus Hit Count",
-        "tab" : "virus_hit_count",
-        "description" : "This shows how many times the virus sent by the host was detected by the TitanWALL’s anti-virus feature."
-      },
-      {
-        "label" : "Datetime",
-        "tab" : "datetime",
-        "description" : "This is the date and time the event was recorded."
-      }
-    ]
-  },
-  "menu-1-6-3" :
-  {
-    "label" : "Antivirus",
-    "tab" : "antivurs_report",
-    "description" : "Use this screen to view the security related records by the virus-infected session. You can enter a start/end date and time, and then click the search button to display the records within the specified time period. You can also group your records by the source/destination IP addresses and users or the virus name and display the sum of the hit count.",
-    "content" :
-    [
-      {
-        "label" : "ID",
-        "tab" : "id",
-        "description" : "This is the index number of the record."
-      },
-      {
-        "label" : "Src IP",
-        "tab" : "src_ip",
-        "description" : "This is the source IP address of the virus-infected session."
-      },
-      {
-        "label" : "Dst IP",
-        "tab" : "dst_ip",
-        "description" : "This is the destination IP address of the virus-infected session."
-      },
-      {
-        "label" : "Protocol",
-        "tab" : "protocol",
-        "description" : "This is the IP protocol used to carry the virus."
-      },
-      {
-        "label" : "Virus Name",
-        "tab" : "virus_name",
-        "description" : "This is the name of the virus that the TitanWALL has detected."
-      },
-      {
-        "label" : "Datetime",
-        "tab" : "datetime",
-        "description" : "This is the date and time the event was recorded."
-      },
-      {
-        "label" : "Hit Count",
-        "tab" : "hit_count",
-        "description" : "This shows how many times the virus sent/received by the host was detected by the TitanWALL’s anti-virus feature. This can also show how many times a virus has been detected in total when you group the records by the virus name."
-      }
-    ]
-  },
-  "menu-2-0" :
+  "menu-8-0" :
   {
     "label" : "Port",
     "tab" : "ports",
@@ -1403,7 +1139,7 @@
         "description" : "Click the Edit button to configure the port.\n Note: If a port cannot be configured, the port is assigned to a LAN interface. Remove the port from the LAN interface before you can configure it."
       }
     ],
-    "editors" : 
+    "editors" :
     [
       {
         "label" : "Basic Settings",
@@ -1528,7 +1264,7 @@
         "label" : "IP Alias",
         "tab" : "ip_alias",
         "description" : "IP alias allows you to have multiple routable IP address for a network interface.\n Use this screen to view or configure the IP alias settings of the port. This screen is configurable only when the port is not assigned to a LAN or WAN interface and there is an IP address configured for the port.",
-        "content" : 
+        "content" :
         [
           {
             "label" : "Address",
@@ -1549,7 +1285,7 @@
       }
     ]
   },
-  "menu-2-1" :
+  "menu-8-1" :
   {
     "label" : "VLAN Interfaces",
     "tab" : "vlan_interfaces",
@@ -1597,7 +1333,7 @@
         "description" : "Click the Edit button to configure the VLAN interface.\n Click the Delete button to delete the LAN interface.\n Click the Create button to add a new LAN interface.\n Select the check box of the entry and click the Remove button to delete the selected interface."
       }
     ],
-    "editors" : 
+    "editors" :
     [
       {
         "label" : "Basic Settings",
@@ -1722,7 +1458,7 @@
         "label" : "IP Alias",
         "tab" : "ip_alias",
         "description" : "IP alias allows you to have multiple routable IP address for a network interface.\n Use this screen to view or configure the IP alias settings of the port. This screen is configurable only when the port is not assigned to a LAN or WAN interface and there is an IP address configured for the port.",
-        "content" : 
+        "content" :
         [
           {
             "label" : "Address",
@@ -1743,7 +1479,7 @@
       }
     ]
   },
-  "menu-2-2" :
+  "menu-8-2" :
   {
     "label" : "LAN",
     "tab" : "lan",
@@ -1781,7 +1517,7 @@
         "description" : "Click the Edit button to configure the LAN interface.\n Click the Delete button to delete the LAN interface.\n Click the Create button to add a new LAN interface.\n Select the check box of the entry and click the Remove button to delete the selected interface."
       }
     ],
-    "editors" : 
+    "editors" :
     [
       {
         "label" : "Basic Settings",
@@ -1911,7 +1647,7 @@
         "label" : "IP Alias",
         "tab" : "ip_alias",
         "description" : "IP alias allows you to have multiple routable IP address for a network interface.\n Use this screen to view or configure the IP alias settings of the port. This screen is configurable only when the port is not assigned to a LAN or WAN interface and there is an IP address configured for the port.",
-        "content" : 
+        "content" :
         [
           {
             "label" : "Address",
@@ -1932,14 +1668,14 @@
       }
     ]
   },
-  "menu-2-3" :
+  "menu-8-3" :
   {
     "label" : "WAN",
     "tab" : "wan",
     "description" : "",
     "tabs" :
     {
-      "wan_settings" : 
+      "wan_settings" :
       {
         "label" : "WAN Settings",
         "tab" : "wan_settings",
@@ -1992,7 +1728,7 @@
             "description" : "Click the Edit button to configure the WAN interface.\n Click the Delete button to delete the WAN interface.\n Click the Create button to add a new WAN interface.\n Select the check box of the entry and click the Remove button to delete the selected interface. "
           }
         ],
-        "editors" : 
+        "editors" :
         [
           {
             "label" : "Basic Settings",
@@ -2122,7 +1858,7 @@
             "label" : "IP Alias",
             "tab" : "ip_alias",
             "description" : "IP alias allows you to have multiple routable IP address for a network interface.\n Use this screen to view or configure the IP alias settings of the port. This screen is configurable only when the port is not assigned to a LAN or WAN interface and there is an IP address configured for the port.",
-            "content" : 
+            "content" :
             [
               {
                 "label" : "Address",
@@ -2143,12 +1879,12 @@
           }
         ]
       },
-      "multiwan_setting" : 
+      "multiwan_setting" :
       {
         "label" : "Multiple WAN Setting",
         "tab" : "multiwan_setting",
         "description" : "Use this screen to configure how the TitanWALL does load balancing between multiple WAN interfaces.",
-        "content" : 
+        "content" :
         [
           {
             "label" : "Weighted Load Balancing and Failover",
@@ -2180,7 +1916,7 @@
       }
     }
   },
-  "menu-2-4" :
+  "menu-8-4" :
   {
     "label" : "Zone",
     "tab" : "zone",
@@ -2208,7 +1944,7 @@
         "description" : "Click the Edit button to configure the zone.\n Click the Delete button to delete the zone.\n Click the Create button to add a new zone.\n Select the check box of the entry and click the Remove button to delete the selected zone."
       }
     ],
-    "editor" : 
+    "editor" :
     [
       {
         "label" : "Name",
@@ -2237,13 +1973,13 @@
       }
     ]
   },
-  "menu-3-0-0" :
+  "menu-9-0-0" :
   {
     "label" : "Routing",
     "tab" : "routing",
     "description" : "Use this screen to select the routing mode for traffic between the WAN and the LAN.\n Select NAT if your ISP assigns you one IP address only and more than one host in your LAN needs to share it.\n Select Classical Routing mode if each host in your network can get an individual IP address from the ISP.\n You can also use this screen to set the TitanWALL to transmit the IPv4 packets only or allow the TitanWALL to connect to either IPv4 or IPv6 networks. \n IPv6 (Internet Protocol version 6) increases the IP address size from 32 bits to 128 bits and provides larger IP address space than IPv4. But the TitanWALL does not support the firewall, VPN, and other security services for IPv6 in the current firmware release.\n Click Save to apply your new settings"
   },
-  "menu-3-0-1" :
+  "menu-9-0-1" :
   {
     "label" : "Static Routing",
     "tab" : "static_routing",
@@ -2303,7 +2039,7 @@
       }
     ]
   },
-  "menu-3-1-0" :
+  "menu-9-1-0" :
   {
     "label" : "IPSec Policies",
     "tab" : "ipsec_policies",
@@ -2502,7 +2238,7 @@
       }
     ]
   },
-  "menu-3-1-1" :
+  "menu-9-1-1" :
   {
     "label" : "IKE Policy",
     "tab" : "ike_policy",
@@ -2577,7 +2313,7 @@
       }
     ]
   },
-  "menu-3-1-2" :
+  "menu-9-1-2" :
   {
     "label" : "Transform Policy",
     "tab" : "transform_policy",
@@ -2652,7 +2388,7 @@
       }
     ]
   },
-  "menu-4-0" :
+  "menu-10-0" :
   {
     "label" : "Rules",
     "tab" : "rules",
@@ -2664,7 +2400,7 @@
         "label" : "Rule",
         "tab" : "rule",
         "description" : "Use this screen to view all the firewall rules on the TitanWALL, manage user-defined firewall rules or add a new firewall rule. Click the Columns button in the upper right corner to hide or show a column.",
-        "content" : 
+        "content" :
         [
           {
             "label" : "Select Criterion For Rule Table",
@@ -2786,7 +2522,7 @@
         "label" : "Default Policy",
         "tab" : "default_policy",
         "description" : "Use this screen to configure the action of the default firewall rules for traffic that does not match any firewall rules you manually created. The default firewall rules are created based on the security level settings of the zone to which they belong.",
-        "content" : 
+        "content" :
         [
           {
             "label" : "From Zone",
@@ -2807,7 +2543,7 @@
       }
     }
   },
-  "menu-4-1-0" :
+  "menu-10-1-0" :
   {
     "label" : "Dynamic PAT",
     "tab" : "dynamic_pat",
@@ -2866,7 +2602,7 @@
             "description" : "Click Edit to open a screen where you can change the WAN IP address for dynamic PAT."
           }
         ],
-        "editor" : 
+        "editor" :
         [
           {
             "label" : "WAN Interface",
@@ -2882,7 +2618,7 @@
       }
     }
   },
-  "menu-4-1-1" :
+  "menu-10-1-1" :
   {
     "label" : "Static NAT",
     "tab" : "static_nat",
@@ -2934,7 +2670,7 @@
       }
     ]
   },
-  "menu-4-1-2" :
+  "menu-10-1-2" :
   {
     "label" : "Port Forwarding",
     "tab" : "port_forwarding",
@@ -3011,7 +2747,7 @@
       }
     ]
   },
-  "menu-4-1-3" :
+  "menu-10-1-3" :
   {
     "label" : "Port Trigger",
     "tab" : "port_trigger",
@@ -3068,7 +2804,7 @@
       }
     ]
   },
-  "menu-4-1-4" :
+  "menu-10-1-4" :
   {
     "label" : "Advanced NAT",
     "tab" : "advanced_nat",
@@ -3180,19 +2916,19 @@
       }
     ]
   },
-  "menu-4-2" :
+  "menu-10-2" :
   {
     "label" : "ALG",
     "tab" : "alg",
     "description" : "An Application Level Gateway (ALG) allows NAT incompatible applications, such as SIP or H.323, to go through NAT. The TitanWALL supports the SIP, H.323 and FTP ALGs.\n Use this screen to enable an ALG on the TitanWALL. For example, to allow VoIP traffic to pass through the TitanWALL, you need to select either SIP Protocol Support or H.323 Support depending on the protocol used by the VoIP devices/applications. The TitanWALL then opens the ports necessary for VoIP traffic. Click Save to apply your new settings.\n FTP ALG works only in FTP active mode, in which the FTP client sends a command to the FTP server to provide its IP address and port number. The FTP server then uses the address information to establish a data channel with the FTP client."
   },
-  "menu-4-3" :
+  "menu-10-3" :
   {
     "label" : "VPN Passthrough",
     "tab" : "vpn_passthrough",
     "description" : "Use this screen to turn on the VPN passthrough function, which allows VPN traffic to pass through the TitanWALL, especially when a host behind the TitanWALL wants to set up a VPN tunnel with a remote security router on the WAN. Select the type of VPN traffic (L2TP, PPTP or IPSec) you want to allow. Click Save to apply your new settings."
   },
-  "menu-4-4" :
+  "menu-10-4" :
   {
     "label" : "Session Settings",
     "tab" : "session_settings",
@@ -3216,7 +2952,7 @@
       }
     ]
   },
-  "menu-4-5" :
+  "menu-10-5" :
   {
     "label" : "Attack Protection",
     "tab" : "attack_protection",
@@ -3630,10 +3366,10 @@
       }
     }
   },
-  "menu-6-0" : 
+  "menu-11-0" :
   {
     "label" : "Users & Groups",
-    "tab" : "users_and_groups", 
+    "tab" : "users_and_groups",
     "description" : "Click Users > Users & Groups to view and configure user group table and user table on the TitanWALL.",
     "tabs" :
     {
@@ -3645,7 +3381,7 @@
         "content" :
         [
           {
-            "label" : "Name", 
+            "label" : "Name",
             "tab" : "name",
             "description" : "This is the name of the user group."
           },
@@ -3734,7 +3470,7 @@
             "label" : "Account",
             "tab" : "account",
             "description" : "Click the Create icon or and Edit icon next to a user account in the Users > Users & Groups > User Table screen to open the following screen. Use this screen to edit an user account.",
-            "content" : 
+            "content" :
             [
               {
                 "label" : "User",
@@ -3762,19 +3498,19 @@
       }
     }
   },
-  "menu-7-0" :
+  "menu-12-0" :
   {
     "label" : "Address",
     "tab" : "addressObj",
     "description" : "Address objects can be a single IP address or a range of IP addresses. Group addresses include a number of address objects. It can also include other address groups.",
     "tabs" :
     {
-      "group_address" : 
+      "group_address" :
       {
         "label" : "Group Address Table",
         "tab" : "group_address",
         "description" : "A group address object consists of multiple address objects and other group addresses. The TitanWALL supports up to 64 group address objects. An group address can include a maximum of 64 address members. The Group Address Table screen provides a summary of all group addresses in the TitanWALL. You can add, edit, or remove group address objects in this screen. The address type can be Host, Range, Network, or MAC.\n In the Group Address Table screen, click on the name of the group address object to show its detailed information.",
-        "content" : 
+        "content" :
         [
           {
             "label" : "#",
@@ -3812,7 +3548,7 @@
             "description" : "Select one or multiple group addresses and then click the Remove icon to remove them from the table."
           }
         ],
-        "editor" : 
+        "editor" :
         [
           {
             "label" : "Group Name",
@@ -3836,12 +3572,12 @@
           }
         ]
       },
-      "address" : 
+      "address" :
       {
         "label" : "Address Table",
         "tab" : "address",
         "description" : "Address objects can be a single IP address or a range of IP addresses. The TitanWALL’s address table is configured with a list of common addresses so that you can use to configure the firewall rules, port forwarding rules, or other features. You also can configure a customized address object. The address type can be Host, Range, Network, or MAC.",
-        "content" : 
+        "content" :
         [
           {
             "label" : "#",
@@ -3879,7 +3615,7 @@
             "description" : "Select one or multiple addresses and then click the Remove icon to remove them from the table."
           }
         ],
-        "editor" : 
+        "editor" :
         [
           {
             "label" : "Name",
@@ -3905,14 +3641,14 @@
       }
     }
   },
-  "menu-7-1" :
+  "menu-12-1" :
   {
     "label" : "Service",
     "tab" : "serviceObj",
     "description" : "Service objects can be used to define ICMP messages, TCP, and UDP applications. You can create service group objects so that the same rule may be applied to other features.",
     "tabs" :
     {
-      "group_service" : 
+      "group_service" :
       {
         "label" : "Group Service Table",
         "tab" : "group_service",
@@ -3984,7 +3720,7 @@
           }
         ]
       },
-      "service" : 
+      "service" :
       {
         "label" : "Service Table",
         "tab" : "service",
@@ -4058,7 +3794,7 @@
       }
     }
   },
-  "menu-7-2" :
+  "menu-12-2" :
   {
     "label" : "Schedule",
     "tab" : "scheduleObj",
@@ -4109,18 +3845,18 @@
     "editor" :
     [
       {
-        "label" : "Schedule Name", 
-        "tab" : "name", 
+        "label" : "Schedule Name",
+        "tab" : "name",
         "description" : "Enter a name for the schedule"
       },
       {
-        "label" : "Schedule Days", 
-        "tab" : "days", 
+        "label" : "Schedule Days",
+        "tab" : "days",
         "description" : "You can configure the firewall rule to be activated on all days or on specific days of a week. Select All Days or Specific Day from the Days field. Select All Days to enable the firewall rule everyday so that it is always activated. Select Specific Day to choose the days of a week that you want the firewall rule to be activated."
       },
       {
-        "label" : "Schedule Time of Days", 
-        "tab" : "times", 
+        "label" : "Schedule Time of Days",
+        "tab" : "times",
         "description" : "You can configure the firewall rule to be activated 24 hours a day or during a certain period of time. Select All Times or Specific Time from the Times field. Select All Times to enable the firewall rule all the time. Select Specific Time to specify the period of time that you want the firewall rule to be activated. Select "
       },
       {
@@ -4135,7 +3871,7 @@
       }
     ]
   },
-  "menu-8-0-0" :
+  "menu-13-0-0" :
   {
     "label" : "Administrator Settings",
     "tab" : "administrator_settings",
@@ -4189,7 +3925,7 @@
       }
     ]
   },
-  "menu-8-0-1" :
+  "menu-13-0-1" :
   {
     "label" : "Management Settings",
     "tab" : "management_settings",
@@ -4266,7 +4002,7 @@
       }
     ]
   },
-  "menu-8-0-2" :
+  "menu-13-0-2" :
   {
     "label" : "Email Alert",
     "tab" : "email_alert",
@@ -4322,7 +4058,7 @@
           }
         ]
       },
-      "alerts" : 
+      "alerts" :
       {
         "label" : "Alerts",
         "tab" : "alerts",
@@ -4357,7 +4093,7 @@
           {
             "label" : "Site-to-Site VPN Up/Down Alert",
             "tab" : "site2site",
-            "description" : "Sends an alert e-mail when a VPN tunnel is established, connection down, or negotiation fails." 
+            "description" : "Sends an alert e-mail when a VPN tunnel is established, connection down, or negotiation fails."
           },
           {
             "label" : "WAN Up/Down Alert",
@@ -4373,13 +4109,13 @@
       }
     }
   },
-  "menu-8-0-3" :
+  "menu-13-0-3" :
   {
     "label" : "Backup/Restore",
     "tab" : "backup_restore",
     "description" : "Use this screen to back up the configuration or restore a configuration file to the TitanWALL. You can back up the current configuration to a local PC or to a USB device connected to the TitanWALL’s USB port. Select an option and click the Backup button.\n To upload a configuration file to the TitanWALL, you can select Restore Configuration From PC Path and click Select Files to locate the file. You can also restore a configuration file from a USB device connected to the TitanWALL’s USB port. Select Restore Configuration From USB and a file from the drop-down list box, then click Restore. "
   },
-  "menu-8-0-4" :
+  "menu-13-0-4" :
   {
     "label" : "Firmware",
     "tab" : "firmware",
@@ -4443,19 +4179,19 @@
       }
     ]
   },
-  "menu-8-0-5" :
+  "menu-13-0-5" :
   {
     "label" : "Reboot/Reset/Shutdown",
     "tab" : "reboot_reset_shutdown",
     "description" : "This screen allows you to restart the TitanWALL by clicking the Reboot button, reset all settings to the factory defaults by clicking the Reset button, and turn this TitanWALL off by clicking the Shutdown button."
   },
-  "menu-8-0-6" :
+  "menu-13-0-6" :
   {
     "label" : "Properties",
     "tab" : "properties",
     "description" : "Use this screen to configure the host name and domain name for this TitanWALL."
   },
-  "menu-8-1" :
+  "menu-13-1" :
   {
     "label" : "Date and Time",
     "tab" : "date_and_time",
@@ -4479,14 +4215,14 @@
       }
     ]
   },
-  "menu-8-2" :
+  "menu-13-2" :
   {
     "label" : "Loggings",
     "tab" : "loggins",
     "description" : "Use the Loggings screens to view and manage log messages and alerts.",
     "tabs" :
     {
-      "view_logs" : 
+      "view_logs" :
       {
         "label" : "View Logs",
         "tab" : "view_logs",
@@ -4555,12 +4291,12 @@
           }
         ]
       },
-      "log_settings" : 
+      "log_settings" :
       {
         "label" : "Log Settings",
         "tab" : "log_settings",
         "description" : "Use the Log Settings screen to configure the log settings, such as saving logs to the remote syslog server and send scheduled e-mail alerts for specified logs.",
-        "content" : 
+        "content" :
         [
           {
             "label" : "Enable",
@@ -4584,7 +4320,7 @@
           }
         ]
       },
-      "logs_facility" : 
+      "logs_facility" :
       {
         "label" : "Logs Facility",
         "tab" : "logs_facility",
@@ -4615,46 +4351,13 @@
       }
     }
   },
-  "menu-8-3" :
+  "menu-13-3" :
   {
-    "label" : "Proxy",
-    "tab" : "proxy",
-    "description" : "If your company uses a proxy server that handles client requests for seeking some services (ex. FTP, web pages) from other server, you have to configure the proxy server settings on the TitanWALL. Otherwise, the anti-virus license and signature updates on the TitanWALL may fail.\n Use this screen to configure the proxy server settings. You don’t need to configure this screen if you don’t use a proxy server.",
-    "content" :
-    [
-      {
-        "label" : "Proxy Enable",
-        "tab" : "enable",
-        "description" : "Select this to activate the proxy server function."
-      },
-      {
-        "label" : "Proxy Server",
-        "tab" : "server",
-        "description" : "Enter your proxy server’s IP address or domain name."
-      },
-      {
-        "label" : "Proxy Server Port",
-        "tab" : "port",
-        "description" : "Enter the listening port of the proxy server."
-      },
-      {
-        "label" : "Use Proxy Authentication",
-        "tab" : "auth",
-        "description" : "Select this check box if the proxy server needs user authentication. Enter the user name and password in the following fields then."
-      },
-      {
-        "label" : "User Name",
-        "tab" : "user",
-        "description" : "Enter the user name."
-      },
-      {
-        "label" : "User Password",
-        "tab" : "pass",
-        "description" : "Enter the password for the user."
-      }
-    ]
+    "label" : "Diagnostics",
+    "tab" : "diagnostics",
+    "description" : "dns lookup, ping, traceroute, packet capture, advanced debug tools"
   },
-  "menu-8-4" : 
+  "menu-13-4" :
   {
     "label" : "License",
     "tab" : "license",
@@ -4666,7 +4369,7 @@
         "label" : "Registration",
         "tab" : "registration",
         "description" : "Use the License screen to view the license information and activate the Trial License. The security functions can be used once Trial License is activated. The screen shows information of the TitanWALL’s current license. ",
-        "content" : 
+        "content" :
         [
           {
             "label" : "Trial Activate Code",

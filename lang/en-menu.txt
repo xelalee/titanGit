@@ -42,6 +42,14 @@
               "tab" : "sigVer"
             },
             {
+              "label": "Sig Engine Version",
+              "tab" : "sigEng"
+            },
+            {
+              "label": "MD5 Engine Version",
+              "tab" : "md5Eng"
+            },
+            {
               "label": "Serial Number",
               "tab" : "serial"
             },
@@ -2424,7 +2432,7 @@
                    "col" :
                    [
                      {
-                       "label" : "Last Checked",
+                       "label" : "Last Successful Checked",
                        "tab" : "lastChecked"
                      },
                      {
@@ -10454,8 +10462,6 @@
         }
       ]
     },
-
-
     {
       "label" : "Objects",
       "id" : "menu-12",

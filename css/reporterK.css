@@ -190,6 +190,16 @@ table tr th, table tr td {
     word-break:break-all;
 }
 
+.noData {
+    width: 250px;
+    height: 40px;
+    margin: 100px auto;
+    background: #efefef;
+    -mos-border-radius: 5px;
+    border-radius: 5px;
+    padding: 25px 0 0 25px;
+}
+
 /* pager */
 
 .pager span.rows {

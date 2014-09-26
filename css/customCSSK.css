@@ -2706,7 +2706,7 @@ div.Expand {
 /* device > date and time */
 #div-systime_tzName {
     position: relative;
-    width: 680px;
+    width: 660px;
     height: 150px;
     background: #efefef url('images/i_128_time_zone_00.png') center left no-repeat;
     background-position: 15px 15px;
@@ -2717,7 +2717,7 @@ div.Expand {
 
 #div-system_time {
     position: relative;
-    width: 680px;
+    width: 660px;
     height: 360px;
     background: #efefef;
     -mos-border-radius: 10px;
