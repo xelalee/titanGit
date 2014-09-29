@@ -34,226 +34,171 @@ switch( $_GET[ 'param' ] )
 {
 // report
 case 'traffic_direction':
-    switch( $_GET[ 'q' ] ) 
+    switch( $_GET[ 'q' ] )
     {
     case 1:
-        advAggregate( 'sessions', 'srcIp, dstIp', 'CONCAT_WS("-", srcIp, dstIp) as address, SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes', 'totalBytes' );
+        advATD( 'srcIp, dstIp', 'totalBytes', 'CONCAT_WS("-", srcIp, dstIp) as address, SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes' );
         break;
     case 2:
-        advAggregate( 'sessions', 'srcIp', 'srcIp, SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes', 'totalBytes' );
+        advATD( 'srcIp', 'totalBytes', 'srcIp, SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes' );
         break;
     case 3:
-        advAggregate( 'sessions', 'dstIp', 'dstIp, SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes', 'totalBytes' );
+        advATD( 'dstIp', 'totalBytes', 'dstIp, SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes' );
         break;
     case 4:
-        advAggregate( 'sessions', 'protocol', 'protocol, SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes', 'totalBytes' );
+        advATD( 'protocol', 'totalBytes', 'protocol, SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes' );
         break;
     case 5:
-        advAggregate( 'sessions', 'dstPort', 'dstPort, SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes', 'totalBytes' );
+        advATD( 'dstPort', 'totalBytes', 'dstPort, SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes' );
         break;
     case 6:
-        advAggregate( 'sessions', 'fromZone, toZone', 'CONCAT_WS("-", fromZone, toZone) as zone, SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes', 'totalBytes' );
+        advATD( 'fromZone, toZone', 'totalBytes', 'CONCAT_WS("-", fromZone, toZone) as zone, SUM(txBytes) as txBytes, SUM(rxBytes) as rxBytes, SUM(totalBytes) as totalBytes' );
         break;
     default:
-        advQuery( 'sessions' );
+        advQTD();
     }
     break;
 case 'file_extension':
-    switch( $_GET[ 'q' ] ) 
+    switch( $_GET[ 'q' ] )
     {
     case 1:
-        advAggregate( 'file_access', 'extension', 'extension, SUM( accessCount ) as accessCount', 'accessCount' );
+        advAFE( 'extension', 'accessCount', 'extension, SUM( accessCount ) as accessCount');
         break;
     default:
-        advQuery( 'file_access' );
+        advQFE();
     }
     break;
 case 'blocked_host':
     switch( $_GET[ 'q' ] )
     {
     case 1:
-        advAggregate( 'blocked_host', 'ip', 'ip, SUM( virusCount ) as virusCount, SUM( firewallCount ) as firewallCount', 'firewallCount' );
+        advABH( 'ip', 'firewallCount', 'ip, SUM( virusCount ) as virusCount, SUM( firewallCount ) as firewallCount');
         break;
     default:
-        advQuery( 'blocked_host' );
+        advQBH();
     }
     break;
 case 'affected_host':
     switch( $_GET[ 'q' ] )
     {
     case 1:
-        advAggregate( 'affected_host', 'ip', 'ip, SUM( virusHitCount ) as virusHitCount, SUM( sigHitCount ) as sigHitCount', 'sigHitCount' );
+        advAAH( 'ip', 'sigHitCount', 'ip, SUM( virusHitCount ) as virusHitCount, SUM( sigHitCount ) as sigHitCount');
         break;
     default:
-        advQuery( 'affected_host' );
+        advQAH();
     }
     break;
 case 'antivirus_report':
-    switch( $_GET[ 'q' ]) 
+    switch( $_GET[ 'q' ])
     {
     case 1:
-        advAggregate( 'antivirus', 'srcIp', 'srcIp, SUM( hitCount ) as hitCount ', 'hitCount' );
+        advAAV( 'srcIp', 'hitCount', 'srcIp, SUM( hitCount ) as hitCount');
         break;
     case 2:
-        advAggregate( 'antivirus', 'dstIp', 'dstIp, SUM( hitCount ) as hitCount ', 'hitCount' );
+        advAAV( 'dstIp', 'hitCount', 'dstIp, SUM( hitCount ) as hitCount');
         break;
     case 3:
-        advAggregate( 'antivirus', 'virusName', 'virusName, SUM( hitCount ) as hitCount ', 'hitCount' );
+        advAAV( 'virusName', 'hitCount', 'virusName, SUM( hitCount ) as hitCount');
         break;
     default:
-        advQuery( 'antivirus' );
+        advQAV();
     }
     break;
 }
 
-function advAggregate( $table, $gby, $state, $oby ) {
+function advATD( $gby, $oby, $state ) {
+
+    switch( $_GET[ 'q' ] )
+    {
+    case 1:
+        $tmpTable = $GLOBALS[ 'db' ] .'.`daily_addrTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
+        $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `srcIp` varchar(16) NOT NULL DEFAULT '',
+            `dstIp` varchar(16) NOT NULL DEFAULT '',
+            `txBytes` bigint(20) DEFAULT NULL,
+            `rxBytes` bigint(20) DEFAULT NULL,
+            `totalBytes` bigint(20) DEFAULT NULL,
+            `sessions` bigint(20) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+        )";
+        $daily = 'daily_addrTraffic';
+        break;
+    case 2:
+        $tmpTable = $GLOBALS[ 'db' ] .'.`daily_srcAddrTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
+        $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `srcIp` varchar(16) NOT NULL DEFAULT '',
+            `txBytes` bigint(20) DEFAULT NULL,
+            `rxBytes` bigint(20) DEFAULT NULL,
+            `totalBytes` bigint(20) DEFAULT NULL,
+            `sessions` bigint(20) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+        )";
+        $daily = 'daily_srcAddrTraffic';
+        break;
+    case 3:
+        $tmpTable = $GLOBALS[ 'db' ] .'.`daily_dstAddrTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
+        $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `dstIp` varchar(16) NOT NULL DEFAULT '',
+            `txBytes` bigint(20) DEFAULT NULL,
+            `rxBytes` bigint(20) DEFAULT NULL,
+            `totalBytes` bigint(20) DEFAULT NULL,
+            `sessions` bigint(20) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+        )";
+        $daily = 'daily_dstAddrTraffic';
+        break;
+    case 4:
+        $tmpTable = $GLOBALS[ 'db' ] .'.`daily_protoTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
+        $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `protocol` int(11) DEFAULT NULL,
+            `txBytes` bigint(20) DEFAULT NULL,
+            `rxBytes` bigint(20) DEFAULT NULL,
+            `totalBytes` bigint(20) DEFAULT NULL,
+            `sessions` bigint(20) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+        )";
+        $gby = 'protocol';
+        $daily = 'daily_protoTraffic';
+        break;
+    case 5:
+        $tmpTable = $GLOBALS[ 'db' ] .'.`daily_dstPortTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
+        $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `dstPort` int(11) DEFAULT NULL,
+            `txBytes` bigint(20) DEFAULT NULL,
+            `rxBytes` bigint(20) DEFAULT NULL,
+            `totalBytes` bigint(20) DEFAULT NULL,
+            `sessions` bigint(20) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+        )";
+        $daily = 'daily_dstPortTraffic';
+        break;
+    case 6:
+        $tmpTable = $GLOBALS[ 'db' ] .'.`daily_zoneTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
+        $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `fromZone` varchar(64) NOT NULL DEFAULT '',
+            `toZone` varchar(64) NOT NULL DEFAULT '',
+            `txBytes` bigint(20) DEFAULT NULL,
+            `rxBytes` bigint(20) DEFAULT NULL,
+            `totalBytes` bigint(20) DEFAULT NULL,
+            `sessions` bigint(20) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+        )";
+        $daily = "daily_zoneTraffic";
+        break;
+    }
 
     if ( $GLOBALS[ 'ehStamp' ] > $GLOBALS[ 'shStamp' ] ) {
-        // prepare temp table        
-
-        switch( $table ) 
-        {
-        case 'sessions':
-            switch( $_GET[ 'q' ] )
-            {
-            case 1:
-                $tmpTable = $GLOBALS[ 'db' ] .'.`daily_addrTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
-                $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
-                    `id` int(11) NOT NULL AUTO_INCREMENT,
-                    `srcIp` varchar(16) NOT NULL DEFAULT '',
-                    `dstIp` varchar(16) NOT NULL DEFAULT '',
-                    `txBytes` bigint(20) DEFAULT NULL,
-                    `rxBytes` bigint(20) DEFAULT NULL,
-                    `totalBytes` bigint(20) DEFAULT NULL,
-                    `sessions` bigint(20) DEFAULT NULL,
-                    PRIMARY KEY (`id`)
-                )";
-                break;
-            case 2:
-                $tmpTable = $GLOBALS[ 'db' ] .'.`daily_srcAddrTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
-                $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
-                    `id` int(11) NOT NULL AUTO_INCREMENT,
-                    `srcIp` varchar(16) NOT NULL DEFAULT '',
-                    `txBytes` bigint(20) DEFAULT NULL,
-                    `rxBytes` bigint(20) DEFAULT NULL,
-                    `totalBytes` bigint(20) DEFAULT NULL,
-                    `sessions` bigint(20) DEFAULT NULL,
-                    PRIMARY KEY (`id`)
-                )";
-                break;
-            case 3:
-                $tmpTable = $GLOBALS[ 'db' ] .'.`daily_dstAddrTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
-                $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
-                    `id` int(11) NOT NULL AUTO_INCREMENT,
-                    `dstIp` varchar(16) NOT NULL DEFAULT '',
-                    `txBytes` bigint(20) DEFAULT NULL,
-                    `rxBytes` bigint(20) DEFAULT NULL,
-                    `totalBytes` bigint(20) DEFAULT NULL,
-                    `sessions` bigint(20) DEFAULT NULL,
-                    PRIMARY KEY (`id`)
-                )";
-                break;
-            case 4:
-                $tmpTable = $GLOBALS[ 'db' ] .'.`daily_protoTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
-                $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
-                    `id` int(11) NOT NULL AUTO_INCREMENT,
-                    `protocol` int(11) DEFAULT NULL,
-                    `txBytes` bigint(20) DEFAULT NULL,
-                    `rxBytes` bigint(20) DEFAULT NULL,
-                    `totalBytes` bigint(20) DEFAULT NULL,
-                    `sessions` bigint(20) DEFAULT NULL,
-                    PRIMARY KEY (`id`)
-                )";
-                break;
-            case 5:
-                $tmpTable = $GLOBALS[ 'db' ] .'.`daily_dstPortTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
-                $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
-                    `id` int(11) NOT NULL AUTO_INCREMENT,
-                    `dstPort` int(11) DEFAULT NULL,
-                    `txBytes` bigint(20) DEFAULT NULL,
-                    `rxBytes` bigint(20) DEFAULT NULL,
-                    `totalBytes` bigint(20) DEFAULT NULL,
-                    `sessions` bigint(20) DEFAULT NULL,
-                    PRIMARY KEY (`id`)
-                )";
-                break;
-            case 6:
-                $tmpTable = $GLOBALS[ 'db' ] .'.`daily_zoneTraffic-' . $GLOBALS[ 'nowStamp' ] .'`';
-                $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
-                    `id` int(11) NOT NULL AUTO_INCREMENT,
-                    `fromZone` varchar(64) NOT NULL DEFAULT '',
-                    `toZone` varchar(64) NOT NULL DEFAULT '',
-                    `txBytes` bigint(20) DEFAULT NULL,
-                    `rxBytes` bigint(20) DEFAULT NULL,
-                    `totalBytes` bigint(20) DEFAULT NULL,
-                    `sessions` bigint(20) DEFAULT NULL,
-                    PRIMARY KEY (`id`)
-                )";
-                break;
-            }
-
-            $state .= ', SUM(sessions) as sessions';
-            $hourlyState = $gby .', txBytes, rxBytes, totalBytes, 1 as sessions';
-            break;
-        case 'file_access':
-            $tmpTable = $GLOBALS[ 'db' ] .'.`daily_'. $table .'-'. $GLOBALS[ 'nowStamp' ] .'`';
-            $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
-                `id` int(11) NOT NULL AUTO_INCREMENT,
-                `extension` varchar(64) NOT NULL DEFAULT '',
-                `accessCount` int(11) DEFAULT NULL,
-                `date` datetime NOT NULL,
-                PRIMARY KEY (`id`)
-            )";
-
-            $hourlyState = $gby .', accessCount, datetime as date';
-            $dailyState = $gby .', accessCount, date';
-            break;
-        case 'blocked_host':
-            $tmpTable = $GLOBALS[ 'db' ] .'.`daily_'. $table .'-'. $GLOBALS[ 'nowStamp' ] .'`';
-            $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
-                `id` int(11) NOT NULL AUTO_INCREMENT,
-                `ip` varchar(16) NOT NULL DEFAULT '',
-                `virusCount` int(11) DEFAULT NULL,
-                `firewallCount` int(11) DEFAULT NULL,
-                `date` datetime NOT NULL,
-                PRIMARY KEY (`id`)
-            )";
-            $hourlyState = $gby .', virusCount, firewallCount, datetime as date';
-            $dailyState = $gby .', virusCount, firewallCount, date';
-            break;
-        case 'affected_host':
-            $tmpTable = $GLOBALS[ 'db' ] .'.`daily_'. $table .'-'. $GLOBALS[ 'nowStamp' ] .'`';
-            $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
-                `id` int(11) NOT NULL AUTO_INCREMENT,
-                `ip` varchar(16) NOT NULL DEFAULT '',
-                `virusHitCount` int(11) DEFAULT NULL,
-                `sigHitCount` int(11) DEFAULT NULL,
-                `date` datetime NOT NULL,
-                PRIMARY KEY (`id`)
-            )";
-            $hourlyState = $gby .', virusHitCount, sigHitCount, datetime as date';
-            $dailyState = $gby .', virusHitCount, sigHitcount, date';
-            break;
-        case 'antivirus':
-            $tmpTable = $GLOBALS[ 'db' ] .'.`daily_'. $table .'-'. $GLOBALS[ 'nowStamp' ] .'`';
-            $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
-                `id` int(11) NOT NULL AUTO_INCREMENT,
-                `srcIp` varchar(16) NOT NULL DEFAULT '',
-                `dstIp` varchar(16) NOT NULL DEFAULT '',
-                `protocol` varchar(32) NOT NULL DEFAULT '',
-                `virusName` varchar(64) NOT NULL DEFAULT '',
-                `date` datetime NOT NULL,
-                `hitCount` int(11) DEFAULT NULL,
-                PRIMARY KEY (`id`)
-            )";
-            $hourlyState = 'srcIp, dstIp, protocol, virusName, datetime as date, 1 as hitCount';
-            $dailyState  = 'srcIp, dstIp, protocol, virusName, date, hitCount';
-            break;
-        }
-
         // create temp
         $GLOBALS[ 'mysqli' ]->query( $createTmp );
 
+        $hourlyState = $gby .', txBytes, rxBytes, totalBytes, 1 as sessions';
+        $dailyState = $gby .', txBytes, rxBytes, totalBytes, sessions';
         // calculate range
         $days = ( ( $GLOBALS[ 'edStamp' ] - $GLOBALS[ 'sdStamp' ] ) / 86400 );
 
@@ -263,7 +208,7 @@ function advAggregate( $table, $gby, $state, $oby ) {
 
             for ( $i=$_GET[ 'eh' ]; $i>=$_GET[ 'sh' ]; $i-- )
             {
-                $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_'. $table .'_'. sprintf( "%02d", $i ) .'`' );
+                $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_sessions_'. sprintf( "%02d", $i ) .'`' );
             }
         } else {
             for ( $i=0; $i<=$days; $i++ )
@@ -276,7 +221,7 @@ function advAggregate( $table, $gby, $state, $oby ) {
 
                     for ( $j=$_GET[ 'eh' ]; $j>=0; $j-- )
                     {
-                        $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_'. $table .'_'. sprintf( "%02d", $j ) .'`' );
+                        $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_sessions_'. sprintf( "%02d", $j ) .'`' );
                     }
                     break;
                 case $days:
@@ -287,71 +232,57 @@ function advAggregate( $table, $gby, $state, $oby ) {
 
                     for ( $j=23; $j>=$_GET[ 'sh' ]; $j-- )
                     {
-                        $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_'. $table .'_'. sprintf( "%02d", $j ) .'`' );
+                        $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_sessions_'. sprintf( "%02d", $j ) .'`' );
                     }
                     break;
                 default:
                     $dbStamp -= 86400;
                     $db = trim( shell_exec( 'date -d @'. $dbStamp .' "+%Y_%m_%d"' ) );
-                    if ( 'sessions' == $table ) {
-                        // check if daily statistics are data_reday
-                        if ( $check = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "daily_'. $table .'" AND TABLE_COMMENT = "data_ready" ' ) ) {
-                            if ( 0 == $check->num_rows ) {
-                                // 24 hours
-                                for ($j=0; $j<24; $j++)
-                                {
-                                    $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_'. $table .'_'. sprintf( "%02d", $j ) .'`' );
-                                }
-                            } else {
-                                $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`daily_'. $table .'`' );
-                
+                    // check if daily statistics are data_reday
+                    if ( $check = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "'. $daily .'" AND TABLE_COMMENT = "data_ready" ' ) ) {
+                        if ( 0 == $check->num_rows ) {
+                            // 24 hours
+                            for ($j=23; $j>=0; $j--)
+                            {
+                                $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_sessions_'. sprintf( "%02d", $j ) .'`' );
                             }
-                            $check->close();
+                        } else {
+                            $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $dailyState .' FROM '. $db .'.`'. $daily .'`' );
+
                         }
-                    } else {
-                        // use daily
-                        $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $dailyState .' FROM '. $db .'.`daily_'. $table .'`' );
+                        $check->close();
                     }
                 }
             }
         }
 
         // limit 50 back, filter via reporter
-        $query = "SELECT ". $state ." FROM ". $tmpTable ." GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50"; 
-
-        $cnt = 0;
-        if ( $result = $GLOBALS[ 'mysqli' ]->query( $query ) ) {
-            while ( $obj = $result->fetch_object() ) {
-                $cnt++;
-                $GLOBALS[ 'json' ]['queryResults'][] = $obj;
-            }
-            // free result set
-            $result->close();
-        }
-        $GLOBALS[ 'json' ][ 'queryRows' ] = $cnt;
-        echo json_encode( $GLOBALS[ 'json' ] );
+        $query = "SELECT ". $state .", SUM( sessions ) as sessions FROM ". $tmpTable ." GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
     } else {
         // weird, given current hour's aggregate instead
-        aggregateQuery( "raw_". $table, $gby, $state, $oby );
+        $query = "SELECT ". $state .", count(*) as sessions FROM ". $GLOBALS[ 'db' ] .".`raw_sessions_". $GLOBALS[ 'nh' ] ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
     }
-}
 
-function aggregateQuery( $table, $gby, $state, $oby ) {
-    if ( $result = $GLOBALS[ 'mysqli' ]->query( "SELECT ". $state .", count(*) as sessions FROM ". $GLOBALS[ 'db' ] .".`". $table ."_". $GLOBALS[ 'nh' ] ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50" ) ) {
-        while ( $obj = $result->fetch_object() ) {
-            $GLOBALS[ 'json' ]["queryResults"][] = $obj;
-        }
+    if ( $result = $GLOBALS[ 'mysqli' ]->query( $query ) ) {
         $GLOBALS[ 'json' ][ "queryRows" ]  = $result->num_rows;
+        while ( $obj = $result->fetch_object() ) {
+            $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+        }
         // free result set
         $result->close();
     }
+
     echo json_encode( $GLOBALS[ 'json' ] );
 }
 
-function advQuery( $table ) {
-    $GLOBALS[ 'rows' ][ 'start' ]     = empty( $_GET[ 'pi' ] )? 1 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ] + 1;
-    $GLOBALS[ 'rows' ][ 'end' ]       = empty( $_GET[ 'pp' ] )? 20 : $_GET[ pi ] * $_GET[ 'pp' ];
-    $GLOBALS[ 'rows' ][ 'left' ]      = empty( $_GET[ 'pp' ] )? 20 : (int) $_GET[ 'pp' ];
+function advQTD() {
+    $GLOBALS[ 'rows' ][ 'start' ] = empty( $_GET[ 'pi' ] )? 1 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ] + 1;
+    $GLOBALS[ 'rows' ][ 'end' ]   = empty( $_GET[ 'pp' ] )? 20 : $_GET[ pi ] * $_GET[ 'pp' ];
+    $GLOBALS[ 'rows' ][ 'left' ]  = empty( $_GET[ 'pp' ] )? 20 : (int) $_GET[ 'pp' ];
+    $cnt   = 0;
+    $cnts  = 0;
+    $cnted = 0;
+    $days  = 0;
 
     if ( $GLOBALS[ 'ehStamp' ] > $GLOBALS[ 'shStamp' ] ) {
         $days = ( ( $GLOBALS[ 'edStamp' ] - $GLOBALS[ 'sdStamp' ] ) / 86400 );
@@ -359,75 +290,16 @@ function advQuery( $table ) {
         if ( 0 == $days ) {
             // single date data, get from eh to sh
             $db = str_replace( "-", "_", $GLOBALS[ 'ed' ] );
-    
+
             for ( $i=$_GET[ 'eh' ]; $i>=$_GET[ 'sh' ]; $i-- )
             {
                 $cnt = $GLOBALS[ 'json' ][ 'queryRows' ];
-                $GLOBALS[ 'json' ][ 'queryRows' ] += queryRows( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_'. $table .'_'. sprintf( "%02d", $i ) .'"' ) ;
-                if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
-                    $mysqli  = new mysqli( "127.0.0.1", "", "", $db, 3306 );
-                    $result = [];
-                    if ( $result = $mysqli->query( 'SELECT * FROM `raw_'. $table .'_'. sprintf("%02d", $i) .'` ORDER BY id DESC' ) ) {
-                        while ( $obj = $result->fetch_object() ) {
-                            $cnt++;
-                            // rows we want
-                            if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
-                                $GLOBALS[ 'json' ]['queryResults'][] = $obj;
-                                $GLOBALS[ 'rows' ][ 'left' ]--;
-                            }
-                            
-                            if ( 0 == $GLOBALS[ 'rows' ][ 'left' ]) {
-                                break;
-                            }
-                        }
-                        // free result set
-                        $result->close();
-                    }
-                }
-            }
-        } else {
-            for ( $i=0; $i<=$days; $i++ )
-            {
-                switch( $i )
-                {
-                case 0:
-                    $db = str_replace( "-", "_", $GLOBALS[ 'ed' ] );
-                    $dbStamp = $GLOBALS[ 'edStamp' ];
-                    
-                    for ( $j=$_GET[ 'eh' ]; $j>=0; $j-- )
-                    {
-                        $cnt = $GLOBALS[ 'json' ][ 'queryRows' ];
-                        $GLOBALS[ 'json' ][ 'queryRows' ] += queryRows( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_'. $table .'_'. sprintf( "%02d", $j ) .'"' ) ;
+                if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_sessions_'. sprintf( "%02d", $i ) .'"' ) ) {
+                    $cnted = $count->fetch_row()[ 0 ];
+                    if ( $cnted > 0 ) {
+                        $GLOBALS[ 'json' ][ 'queryRows' ] += $cnted;
                         if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
-                            $mysqli  = new mysqli( "127.0.0.1", "", "", $db, 3306 );
-                            if ( $result = $mysqli->query( 'SELECT * FROM `raw_'. $table .'_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
-                                while ( $obj = $result->fetch_object() ) {
-                                    $cnt++;
-                                    // rows we want
-                                    if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
-                                        $GLOBALS[ 'json' ]['queryResults'][] = $obj;
-                                        $GLOBALS[ 'rows' ][ 'left' ]--;
-                                    }
-                                }
-                                // free result set
-                                $result->close();
-                            }
-                        }
-                    }
-                    break;
-                case $days:
-                    // start date
-                    // sessions have no daily, others should get from hourly if sh !=0, use hourly for all
-    
-                    $db = str_replace( "-", "_", $GLOBALS[ 'sd' ] );
-    
-                    for ( $j=23; $j>=$_GET[ 'sh' ]; $j-- )
-                    {
-                        $cnt = $GLOBLAS[ 'json' ][ 'queryRows' ];
-                        $GLOBALS[ 'json' ][ 'queryRows' ] += queryRows( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_'. $table .'_'. sprintf( "%02d", $j ) .'"' );
-                        if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
-                            $mysqli  = new mysqli( "127.0.0.1", "", "", $db, 3306 );
-                            if ( $result = $mysqli->query( 'SELECT * FROM `raw_'. $table .'_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
+                            if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_sessions_'. sprintf("%02d", $i) .'` ORDER BY id DESC' ) ) {
                                 while ( $obj = $result->fetch_object() ) {
                                     $cnt++;
                                     // rows we want
@@ -445,48 +317,61 @@ function advQuery( $table ) {
                             }
                         }
                     }
-                    break;
-                default:
-                    $dbStamp -= 86400;
-                    $db = trim( shell_exec( 'date -d @'. $dbStamp .' "+%Y_%m_%d"' ) );
-                    if ( 'sessions' == $table ) {
-                        // no daily
-                        for ( $j=23; $j>=0; $j-- )
-                        {
-                            $cnt = $GLOBLAS[ 'json' ][ 'queryRows' ];
-                            $GLOBALS[ 'json' ][ 'queryRows' ] += queryRows( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_'. $table .'_'. sprintf( "%02d", $j ) .'"' );
-                            if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
-                                $mysqli  = new mysqli( "127.0.0.1", "", "", $db, 3306 );
-                                if ( $result = $mysqli->query( 'SELECT * FROM '. $db .'.`raw_'. $table .'_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
-                                    while ( $obj = $result->fetch_object() ) {
-                                        $cnt++;
-                                        // rows we want
-                                        if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
-                                            $GLOBALS[ 'json' ]['queryResults'][] = $obj;
-                                            $GLOBALS[ 'rows' ][ 'left' ]--;
-                                        }
+                    // free count set
+                    $count->close();
+                }
+            }
+        } else {
+            for ( $i=0; $i<=$days; $i++ )
+            {
+                switch( $i )
+                {
+                case 0:
+                    $db = str_replace( "-", "_", $GLOBALS[ 'ed' ] );
+                    $dbStamp = $GLOBALS[ 'edStamp' ];
 
-                                        if ( 0 == $GLOBALS[ 'rows' ][ 'left' ]) {
-                                            break;
+                    for ( $j=$_GET[ 'eh' ]; $j>=0; $j-- )
+                    {
+                        $cnt = $GLOBALS[ 'json' ][ 'queryRows' ];
+                        if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_sessions_'. sprintf( "%02d", $j ) .'"' ) ) {
+                            $cnted = $count->fetch_row()[ 0 ];
+                            if ( $cnted > 0 ) {
+                                $GLOBALS[ 'json' ][ 'queryRows' ] += $cnted;
+                                if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
+                                    if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_sessions_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
+                                        while ( $obj = $result->fetch_object() ) {
+                                            $cnt++;
+                                            // rows we want
+                                            if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                                $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                                $GLOBALS[ 'rows' ][ 'left' ]--;
+                                            }
                                         }
+                                        // free result set
+                                        $result->close();
                                     }
-                                    // free result set
-                                    $result->close();
                                 }
                             }
+                            // free count set
+                            $count->close();
                         }
-                    } else {
-                        // use daily
-                        $cnts = $GLOBALS[ 'json' ][ 'queryRows' ];
-                        $GLOBALS[ 'json' ][ 'queryRows' ] += queryRows( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "daily_'. $table .'"' ) ;
-                        if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
-                            for ( $j=23; $j>=0; $j-- )
-                            {
-                                $cnt = $cnts;
-                                $cnts += queryRows( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_'. $table .'_'. sprintf( "%02d", $j ) .'"' ) ;
-                                if ( ( $cnts >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
-                                    $mysqli  = new mysqli( "127.0.0.1", "", "", $db, 3306 );
-                                    if ( $result = $mysqli->query( 'SELECT * FROM `raw_'. $table .'_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
+                    }
+                    break;
+                case $days:
+                    // start date
+                    // sessions have no daily, others should get from hourly if sh !=0, use hourly for all
+
+                    $db = str_replace( "-", "_", $GLOBALS[ 'sd' ] );
+
+                    for ( $j=23; $j>=$_GET[ 'sh' ]; $j-- )
+                    {
+                        $cnt = $GLOBLAS[ 'json' ][ 'queryRows' ];
+                        if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_sessions_'. sprintf( "%02d", $j ) .'"' ) ) {
+                            $cnted = $count->fetch_row()[ 0 ];
+                            if ( $cnted > 0 ) {
+                                $GLOBALS[ 'json' ][ 'queryRows' ] += $cnted;
+                                if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
+                                    if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_sessions_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
                                         while ( $obj = $result->fetch_object() ) {
                                             $cnt++;
                                             // rows we want
@@ -506,43 +391,1157 @@ function advQuery( $table ) {
                             }
                         }
                     }
+                    break;
+                default:
+                    $dbStamp -= 86400;
+                    $db = trim( shell_exec( 'date -d @'. $dbStamp .' "+%Y_%m_%d"' ) );
+                    for ( $j=23; $j>=0; $j-- )
+                    {
+                        $cnt = $GLOBLAS[ 'json' ][ 'queryRows' ];
+                        if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_sessions_'. sprintf( "%02d", $j ) .'"' ) ) {
+                            $cnted = $count->fetch_row()[ 0 ];
+                            if ( $cnted > 0 ) {
+                                $GLOBALS[ 'json' ][ 'queryRows' ] += $cnted;
+                                if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
+                                    if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_sessions_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
+                                        while ( $obj = $result->fetch_object() ) {
+                                            $cnt++;
+                                            // rows we want
+                                            if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                                $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                                $GLOBALS[ 'rows' ][ 'left' ]--;
+                                            }
+
+                                            if ( 0 == $GLOBALS[ 'rows' ][ 'left' ]) {
+                                                break;
+                                            }
+                                        }
+                                        // free result set
+                                        $result->close();
+                                    }
+                                }
+                            }
+                            // free count set
+                            $count->close();
+                        }
+                    }
                 }
             }
         }
-        echo json_encode( $GLOBALS[ 'json' ] );
     } else {
         // weird, given current hour's report instead
-        reportQuery( "raw_". $table );
+        if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $GLOBALS[ 'db' ] .'" AND TABLE_NAME = "raw_sessions_'. $GLOBALS[ 'nh' ] .'"' ) ) {
+            $GLOBALS[ 'json' ][ 'queryRows' ] = $count->fetch_row()[ 0 ];
+            if ( $GLOBALS[ 'json' ][ 'queryRows' ] > 0 ) {
+                if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $GLOBALS[ 'db' ] .'.`raw_sessions_'. $GLOBALS[ 'nh' ] .'` ORDER BY id DESC LIMIT '. $GLOBALS[ 'rows' ][ 'start' ] .', '. $GLOBALS[ 'rows' ][ 'left' ] ) ) {
+                    while ( $obj = $result->fetch_object() ) {
+                        $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                    }
+                    // free result set
+                    $result->close();
+                }
+            }
+            // free result set
+            $count->close();
+        }
     }
+    echo json_encode( $GLOBALS[ 'json' ] );
 }
 
-function reportQuery( $table ) {
-    $GLOBALS[ 'rows' ][ 'start' ]     = empty( $_GET[ 'pi' ] )? 1 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ] + 1;
-    $GLOBALS[ 'rows' ][ 'end' ]       = empty( $_GET[ 'pp' ] )? 20 : $_GET[ pi ] * $_GET[ 'pp' ];
-    $GLOBALS[ 'rows' ][ 'left' ]      = empty( $_GET[ 'pp' ] )? 20 : (int) $_GET[ 'pp' ];
-    $GLOBALS[ 'json' ][ 'queryRows' ] = queryRows( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $GLOBALS[ 'db' ] .'" AND TABLE_NAME = "'. $table .'_'. $GLOBALS[ 'nh' ] .'"' );
-    if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $GLOBALS[ 'db' ] .'.`'. $table .'_'. $GLOBALS[ 'nh' ] .'` ORDER BY id DESC LIMIT '. $GLOBALS[ 'rows' ][ 'start' ] .', '. $GLOBALS[ 'rows' ][ 'left' ] ) ) {
+function advAFE( $gby, $oby, $state ) {
+
+    if ( $GLOBALS[ 'ehStamp' ] > $GLOBALS[ 'shStamp' ] ) {
+        // prepare temp table
+        $tmpTable = $GLOBALS[ 'db' ] .'.`daily_'. $table .'-'. $GLOBALS[ 'nowStamp' ] .'`';
+        $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `extension` varchar(64) NOT NULL DEFAULT '',
+            `accessCount` int(11) DEFAULT NULL,
+            `date` datetime NOT NULL,
+            PRIMARY KEY (`id`)
+        )";
+
+        $hourlyState = $gby .', accessCount, datetime as date';
+        $dailyState = $gby .', accessCount, date';
+        // create temp
+        $GLOBALS[ 'mysqli' ]->query( $createTmp );
+
+        // calculate range
+        $days = ( ( $GLOBALS[ 'edStamp' ] - $GLOBALS[ 'sdStamp' ] ) / 86400 );
+
+        if ( 0 == $days ) {
+            // single date data, get from eh to sh
+            $db = str_replace( "-", "_", $GLOBALS[ 'ed' ] );
+
+            for ( $i=$_GET[ 'eh' ]; $i>=$_GET[ 'sh' ]; $i-- )
+            {
+                $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_file_access_'. sprintf( "%02d", $i ) .'`' );
+            }
+        } else {
+            for ( $i=0; $i<=$days; $i++ )
+            {
+                switch( $i )
+                {
+                case 0:
+                    $db = str_replace( "-", "_", $GLOBALS[ 'ed' ] );
+                    $dbStamp = $GLOBALS[ 'edStamp' ];
+
+                    for ( $j=$_GET[ 'eh' ]; $j>=0; $j-- )
+                    {
+                        $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_file_access_'. sprintf( "%02d", $j ) .'`' );
+                    }
+                    break;
+                case $days:
+                    // start date
+
+                    $db = str_replace( "-", "_", $GLOBALS[ 'sd' ] );
+
+                    for ( $j=23; $j>=$_GET[ 'sh' ]; $j-- )
+                    {
+                        $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_file_access_'. sprintf( "%02d", $j ) .'`' );
+                    }
+                    break;
+                default:
+                    $dbStamp -= 86400;
+                    $db = trim( shell_exec( 'date -d @'. $dbStamp .' "+%Y_%m_%d"' ) );
+                    if ( 'sessions' == $table ) {
+                        // check if daily statistics are data_reday
+                        if ( $check = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "daily_file_access"' ) ) {
+                            if ( 0 == $check->num_rows ) {
+                                // 24 hours
+                                for ($j=23; $j>=0; $j--)
+                                {
+                                    $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_file_access_'. sprintf( "%02d", $j ) .'`' );
+                                }
+                            } else {
+                                $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`daily_file_access`' );
+
+                            }
+                            $check->close();
+                        }
+                    } else {
+                        // use daily
+                        $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $dailyState .' FROM '. $db .'.`daily_file_access`' );
+                    }
+                }
+            }
+        }
+
+        // limit 50 back, filter via reporter
+        $query = "SELECT ". $state ." FROM ". $tmpTable ." GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
+
+    } else {
+        // weird, given current hour's aggregate instead
+        $query = "SELECT ". $state ." FROM ". $GLOBALS[ 'db' ] .".`raw_file_access_". $GLOBALS[ 'nh' ] ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
+    }
+
+    if ( $result = $GLOBALS[ 'mysqli' ]->query( $query ) ) {
+        $GLOBALS[ 'json' ][ "queryRows" ]  = $result->num_rows;
         while ( $obj = $result->fetch_object() ) {
             $GLOBALS[ 'json' ]['queryResults'][] = $obj;
         }
         // free result set
         $result->close();
     }
+
+    echo json_encode( $GLOBALS[ 'json' ] );
+
+}
+
+function advQFE() {
+    $GLOBALS[ 'rows' ][ 'start' ] = empty( $_GET[ 'pi' ] )? 1 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ] + 1;
+    $GLOBALS[ 'rows' ][ 'end' ]   = empty( $_GET[ 'pp' ] )? 20 : $_GET[ pi ] * $_GET[ 'pp' ];
+    $GLOBALS[ 'rows' ][ 'left' ]  = empty( $_GET[ 'pp' ] )? 20 : (int) $_GET[ 'pp' ];
+    $cnt   = 0;
+    $cnts  = 0;
+    $cnted = 0;
+    $days  = 0;
+
+    if ( $GLOBALS[ 'ehStamp' ] > $GLOBALS[ 'shStamp' ] ) {
+        $days = ( ( $GLOBALS[ 'edStamp' ] - $GLOBALS[ 'sdStamp' ] ) / 86400 );
+
+        if ( 0 == $days ) {
+            // single date data, get from eh to sh
+            $db = str_replace( "-", "_", $GLOBALS[ 'ed' ] );
+
+            for ( $i=$_GET[ 'eh' ]; $i>=$_GET[ 'sh' ]; $i-- )
+            {
+                $cnt = $GLOBALS[ 'json' ][ 'queryRows' ];
+                if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_file_access_'. sprintf( "%02d", $i ) .'"' ) ) {
+                    $cnted = $count->fetch_row()[ 0 ];
+                    if ( $cnted > 0 ) {
+                        $GLOBALS[ 'json' ][ 'queryRows' ] += $cnted;
+                        if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
+                            if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_file_access_'. sprintf("%02d", $i) .'` ORDER BY id DESC' ) ) {
+                                while ( $obj = $result->fetch_object() ) {
+                                    $cnt++;
+                                    // rows we want
+                                    if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                        $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                        $GLOBALS[ 'rows' ][ 'left' ]--;
+                                    }
+
+                                    if ( 0 == $GLOBALS[ 'rows' ][ 'left' ]) {
+                                        break;
+                                    }
+                                }
+                                // free result set
+                                $result->close();
+                            }
+                        }
+                    }
+                    // free count set
+                    $count->close();
+                }
+            }
+        } else {
+            for ( $i=0; $i<=$days; $i++ )
+            {
+                switch( $i )
+                {
+                case 0:
+                    $db = str_replace( "-", "_", $GLOBALS[ 'ed' ] );
+                    $dbStamp = $GLOBALS[ 'edStamp' ];
+
+                    for ( $j=$_GET[ 'eh' ]; $j>=0; $j-- )
+                    {
+                        $cnt = $GLOBALS[ 'json' ][ 'queryRows' ];
+                        if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_file_access_'. sprintf( "%02d", $j ) .'"' ) ) {
+                            $cnted = $count->fetch_row()[ 0 ];
+                            if ( $cnted > 0 ) {
+                                $GLOBALS[ 'json' ][ 'queryRows' ] += $cnted;
+                                if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
+                                    if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_file_access_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
+                                        while ( $obj = $result->fetch_object() ) {
+                                            $cnt++;
+                                            // rows we want
+                                            if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                                $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                                $GLOBALS[ 'rows' ][ 'left' ]--;
+                                            }
+                                        }
+                                        // free result set
+                                        $result->close();
+                                    }
+                                }
+                            }
+                            // free count set
+                            $count->close();
+                        }
+                    }
+                    break;
+                case $days:
+                    // start date
+
+                    $db = str_replace( "-", "_", $GLOBALS[ 'sd' ] );
+
+                    for ( $j=23; $j>=$_GET[ 'sh' ]; $j-- )
+                    {
+                        $cnt = $GLOBLAS[ 'json' ][ 'queryRows' ];
+                        if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_file_access_'. sprintf( "%02d", $j ) .'"' ) ) {
+                            $cnted = $count->fetch_row()[ 0 ];
+                            if ( $cnted > 0 ) {
+                                $GLOBALS[ 'json' ][ 'queryRows' ] += $cnted;
+                                if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
+                                    if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_file_access_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
+                                        while ( $obj = $result->fetch_object() ) {
+                                            $cnt++;
+                                            // rows we want
+                                            if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                                $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                                $GLOBALS[ 'rows' ][ 'left' ]--;
+                                            }
+
+                                            if ( 0 == $GLOBALS[ 'rows' ][ 'left' ]) {
+                                                break;
+                                            }
+                                        }
+                                        // free result set
+                                        $result->close();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    $dbStamp -= 86400;
+                    $db = trim( shell_exec( 'date -d @'. $dbStamp .' "+%Y_%m_%d"' ) );
+                    // use daily statistics
+                    if ( $check = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "daily_file_access"' ) ) {
+                        $chk = $check->fetch_row()[ 0 ];
+                        if ( $chk > 0 ) {
+                            $cnt = $GLOBALS[ 'json' ][ 'queryRows' ];
+                            // have data, get and count from daily statistics
+                            if ($count = $GLOBALS[ 'mysqli' ]->query( 'SELECT SUM( accessCount ) FROM '. $db .'.`daily_file_access`' ) ) {
+                                $cnted = $count->fetch_row()[ 0 ];
+                                $GLOBALS[ 'json' ][ 'queryRows' ] += $cnted;
+                                if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
+                                    for ($j=23; $j>=0; $j--)
+                                    {
+                                        if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_file_access_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
+                                            while ( $obj = $result->fetch_object() ) {
+                                                $cnt++;
+                                                // rows we want
+                                                if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                                    $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                                    $GLOBALS[ 'rows' ][ 'left' ]--;
+                                                }
+
+                                                if ( 0 == $GLOBALS[ 'rows' ][ 'left' ]) {
+                                                    break;
+                                                }
+                                            }
+                                            // free result set
+                                            $result->close();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        // free check set
+                        $check->close();
+                    }
+                }
+            }
+        }
+    } else {
+        // weird, given current hour's report instead
+        if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $GLOBALS[ 'db' ] .'" AND TABLE_NAME = "raw_file_access_'. $GLOBALS[ 'nh' ] .'"' ) ) {
+            $GLOBALS[ 'json' ][ 'queryRows' ] = $count->fetch_row()[ 0 ];
+            if ( $GLOBALS[ 'json' ][ 'queryRows' ] > 0 ) {
+                if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $GLOBALS[ 'db' ] .'.`raw_file_access_'. $GLOBALS[ 'nh' ] .'` ORDER BY id DESC LIMIT '. $GLOBALS[ 'rows' ][ 'start' ] .', '. $GLOBALS[ 'rows' ][ 'left' ] ) ) {
+                    while ( $obj = $result->fetch_object() ) {
+                        $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                    }
+                    // free result set
+                    $result->close();
+                }
+            }
+            // free result set
+            $count->close();
+        }
+    }
     echo json_encode( $GLOBALS[ 'json' ] );
 }
 
-function getRows() {
+function advABH( $gby, $oby, $state ) {
 
-}
+    if ( $GLOBALS[ 'ehStamp' ] > $GLOBALS[ 'shStamp' ] ) {
+        // prepare temp table
+        $tmpTable = $GLOBALS[ 'db' ] .'.`daily_file_access-'. $GLOBALS[ 'nowStamp' ] .'`';
+        $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `ip` varchar(16) NOT NULL DEFAULT '',
+            `virusCount` int(11) DEFAULT NULL,
+            `firewallCount` int(11) DEFAULT NULL,
+            `date` datetime NOT NULL,
+            PRIMARY KEY (`id`)
+        )";
+        $hourlyState = $gby .', virusCount, firewallCount, datetime as date';
+        $dailyState = $gby .', virusCount, firewallCount, date';
+        // create temp
+        $GLOBALS[ 'mysqli' ]->query( $createTmp );
 
-function queryRows( $sql ) {
-    $cnt = 0;
-    if ( $count = $GLOBALS[ 'mysqli' ]->query( $sql ) ) {
-        $cnt = $count->fetch_row()[ 0 ];
-        // free count set
-        $count->close();
+        // calculate range
+        $days = ( ( $GLOBALS[ 'edStamp' ] - $GLOBALS[ 'sdStamp' ] ) / 86400 );
+
+        if ( 0 == $days ) {
+            // single date data, get from eh to sh
+            $db = str_replace( "-", "_", $GLOBALS[ 'ed' ] );
+
+            for ( $i=$_GET[ 'eh' ]; $i>=$_GET[ 'sh' ]; $i-- )
+            {
+                $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_blocked_host_'. sprintf( "%02d", $i ) .'`' );
+            }
+        } else {
+            for ( $i=0; $i<=$days; $i++ )
+            {
+                switch( $i )
+                {
+                case 0:
+                    $db = str_replace( "-", "_", $GLOBALS[ 'ed' ] );
+                    $dbStamp = $GLOBALS[ 'edStamp' ];
+
+                    for ( $j=$_GET[ 'eh' ]; $j>=0; $j-- )
+                    {
+                        $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_blocked_host_'. sprintf( "%02d", $j ) .'`' );
+                    }
+                    break;
+                case $days:
+                    // start date
+                    // sessions have no daily, others should get from hourly if sh !=0, use hourly for all
+
+                    $db = str_replace( "-", "_", $GLOBALS[ 'sd' ] );
+
+                    for ( $j=23; $j>=$_GET[ 'sh' ]; $j-- )
+                    {
+                        $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_blocked_host_'. sprintf( "%02d", $j ) .'`' );
+                    }
+                    break;
+                default:
+                    $dbStamp -= 86400;
+                    $db = trim( shell_exec( 'date -d @'. $dbStamp .' "+%Y_%m_%d"' ) );
+                    // use daily
+                    $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $dailyState .' FROM '. $db .'.`daily_blocked_host`' );
+                }
+            }
+        }
+
+        // limit 50 back, filter via reporter
+        $query = "SELECT ". $state ." FROM ". $tmpTable ." GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
+
+    } else {
+        // weird, given current hour's aggregate instead
+        $query = "SELECT ". $state ." FROM ". $GLOBALS[ 'db' ] .".`raw_blocked_host_". $GLOBALS[ 'nh' ] ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
     }
-    return $cnt;
+
+    if ( $result = $GLOBALS[ 'mysqli' ]->query( $query ) ) {
+        $GLOBALS[ 'json' ][ "queryRows" ]  = $result->num_rows;
+        while ( $obj = $result->fetch_object() ) {
+            $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+        }
+        // free result set
+        $result->close();
+    }
+
+    echo json_encode( $GLOBALS[ 'json' ] );
 }
+
+function advQBH() {
+    $GLOBALS[ 'rows' ][ 'start' ] = empty( $_GET[ 'pi' ] )? 1 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ] + 1;
+    $GLOBALS[ 'rows' ][ 'end' ]   = empty( $_GET[ 'pp' ] )? 20 : $_GET[ pi ] * $_GET[ 'pp' ];
+    $GLOBALS[ 'rows' ][ 'left' ]  = empty( $_GET[ 'pp' ] )? 20 : (int) $_GET[ 'pp' ];
+    $cnt   = 0;
+    $cnts  = 0;
+    $cnted = 0;
+    $days  = 0;
+
+    if ( $GLOBALS[ 'ehStamp' ] > $GLOBALS[ 'shStamp' ] ) {
+        $days = ( ( $GLOBALS[ 'edStamp' ] - $GLOBALS[ 'sdStamp' ] ) / 86400 );
+
+        if ( 0 == $days ) {
+            // single date data, get from eh to sh
+            $db = str_replace( "-", "_", $GLOBALS[ 'ed' ] );
+
+            for ( $i=$_GET[ 'eh' ]; $i>=$_GET[ 'sh' ]; $i-- )
+            {
+                $cnt = $GLOBALS[ 'json' ][ 'queryRows' ];
+                if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_blocked_host_'. sprintf( "%02d", $i ) .'"' ) ) {
+                    $cnted = $count->fetch_row()[ 0 ];
+                    if ( $cnted > 0 ) {
+                        $GLOBALS[ 'json' ][ 'queryRows' ] += $cnted;
+                        if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
+                            if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_blocked_host_'. sprintf("%02d", $i) .'` ORDER BY id DESC' ) ) {
+                                while ( $obj = $result->fetch_object() ) {
+                                    $cnt++;
+                                    // rows we want
+                                    if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                        $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                        $GLOBALS[ 'rows' ][ 'left' ]--;
+                                    }
+
+                                    if ( 0 == $GLOBALS[ 'rows' ][ 'left' ]) {
+                                        break;
+                                    }
+                                }
+                                // free result set
+                                $result->close();
+                            }
+                        }
+                    }
+                    // free count set
+                    $count->close();
+                }
+            }
+        } else {
+            for ( $i=0; $i<=$days; $i++ )
+            {
+                switch( $i )
+                {
+                case 0:
+                    $db = str_replace( "-", "_", $GLOBALS[ 'ed' ] );
+                    $dbStamp = $GLOBALS[ 'edStamp' ];
+
+                    for ( $j=$_GET[ 'eh' ]; $j>=0; $j-- )
+                    {
+                        $cnt = $GLOBALS[ 'json' ][ 'queryRows' ];
+                        if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_blocked_host_'. sprintf( "%02d", $j ) .'"' ) ) {
+                            $cnted = $count->fetch_row()[ 0 ];
+                            if ( $cnted > 0 ) {
+                                $GLOBALS[ 'json' ][ 'queryRows' ] += $cnted;
+                                if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
+                                    if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_blocked_host_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
+                                        while ( $obj = $result->fetch_object() ) {
+                                            $cnt++;
+                                            // rows we want
+                                            if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                                $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                                $GLOBALS[ 'rows' ][ 'left' ]--;
+                                            }
+                                        }
+                                        // free result set
+                                        $result->close();
+                                    }
+                                }
+                            }
+                            // free count set
+                            $count->close();
+                        }
+                    }
+                    break;
+                case $days:
+                    // start date
+
+                    $db = str_replace( "-", "_", $GLOBALS[ 'sd' ] );
+
+                    for ( $j=23; $j>=$_GET[ 'sh' ]; $j-- )
+                    {
+                        $cnt = $GLOBLAS[ 'json' ][ 'queryRows' ];
+                        if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_blocked_host_'. sprintf( "%02d", $j ) .'"' ) ) {
+                            $cnted = $count->fetch_row()[ 0 ];
+                            if ( $cnted > 0 ) {
+                                $GLOBALS[ 'json' ][ 'queryRows' ] += $cnted;
+                                if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
+                                    if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_blocked_host_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
+                                        while ( $obj = $result->fetch_object() ) {
+                                            $cnt++;
+                                            // rows we want
+                                            if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                                $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                                $GLOBALS[ 'rows' ][ 'left' ]--;
+                                            }
+
+                                            if ( 0 == $GLOBALS[ 'rows' ][ 'left' ]) {
+                                                break;
+                                            }
+                                        }
+                                        // free result set
+                                        $result->close();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    $dbStamp -= 86400;
+                    $db = trim( shell_exec( 'date -d @'. $dbStamp .' "+%Y_%m_%d"' ) );
+                    // use daily statistics
+                    if ( $check = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "daily_blocked_host"' ) ) {
+                        $chk = $check->fetch_row()[ 0 ];
+                        if ( $chk > 0 ) {
+                            $cnt = $GLOBALS[ 'json' ][ 'queryRows' ];
+                            // have data, get and count from daily statistics
+                            if ($count = $GLOBALS[ 'mysqli' ]->query( 'SELECT SUM( virusCount ) + SUM( firewallCount ) FROM '. $db .'.`daily_blocked_host`' ) ) {
+                                $cnted = $count->fetch_row()[ 0 ];
+                                $GLOBALS[ 'json' ][ 'queryRows' ] += $cnted;
+                                if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
+                                    for ($j=23; $j>=0; $j--)
+                                    {
+                                        if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_blocked_host_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
+                                            while ( $obj = $result->fetch_object() ) {
+                                                $cnt++;
+                                                // rows we want
+                                                if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                                    $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                                    $GLOBALS[ 'rows' ][ 'left' ]--;
+                                                }
+
+                                                if ( 0 == $GLOBALS[ 'rows' ][ 'left' ]) {
+                                                    break;
+                                                }
+                                            }
+                                            // free result set
+                                            $result->close();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        // free check set
+                        $check->close();
+                    }
+                }
+            }
+        }
+    } else {
+        // weird, given current hour's report instead
+        if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $GLOBALS[ 'db' ] .'" AND TABLE_NAME = "raw_blocked_host_'. $GLOBALS[ 'nh' ] .'"' ) ) {
+            $GLOBALS[ 'json' ][ 'queryRows' ] = $count->fetch_row()[ 0 ];
+            if ( $GLOBALS[ 'json' ][ 'queryRows' ] > 0 ) {
+                if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $GLOBALS[ 'db' ] .'.`raw_blocked_host_'. $GLOBALS[ 'nh' ] .'` ORDER BY id DESC LIMIT '. $GLOBALS[ 'rows' ][ 'start' ] .', '. $GLOBALS[ 'rows' ][ 'left' ] ) ) {
+                    while ( $obj = $result->fetch_object() ) {
+                        $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                    }
+                    // free result set
+                    $result->close();
+                }
+            }
+            // free result set
+            $count->close();
+        }
+    }
+    echo json_encode( $GLOBALS[ 'json' ] );
+}
+
+function advAAH( $gby, $oby, $state ) {
+
+    if ( $GLOBALS[ 'ehStamp' ] > $GLOBALS[ 'shStamp' ] ) {
+        // prepare temp table
+        $tmpTable = $GLOBALS[ 'db' ] .'.`daily_afftected_host-'. $GLOBALS[ 'nowStamp' ] .'`';
+        $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `ip` varchar(16) NOT NULL DEFAULT '',
+            `virusHitCount` int(11) DEFAULT NULL,
+            `sigHitCount` int(11) DEFAULT NULL,
+            `date` datetime NOT NULL,
+            PRIMARY KEY (`id`)
+        )";
+        $hourlyState = $gby .', virusHitCount, sigHitCount, datetime as date';
+        $dailyState = $gby .', virusHitCount, sigHitcount, date';
+        // create temp
+        $GLOBALS[ 'mysqli' ]->query( $createTmp );
+
+        // calculate range
+        $days = ( ( $GLOBALS[ 'edStamp' ] - $GLOBALS[ 'sdStamp' ] ) / 86400 );
+
+        if ( 0 == $days ) {
+            // single date data, get from eh to sh
+            $db = str_replace( "-", "_", $GLOBALS[ 'ed' ] );
+
+            for ( $i=$_GET[ 'eh' ]; $i>=$_GET[ 'sh' ]; $i-- )
+            {
+                $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_afftected_host_'. sprintf( "%02d", $i ) .'`' );
+            }
+        } else {
+            for ( $i=0; $i<=$days; $i++ )
+            {
+                switch( $i )
+                {
+                case 0:
+                    $db = str_replace( "-", "_", $GLOBALS[ 'ed' ] );
+                    $dbStamp = $GLOBALS[ 'edStamp' ];
+
+                    for ( $j=$_GET[ 'eh' ]; $j>=0; $j-- )
+                    {
+                        $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_afftected_host_'. sprintf( "%02d", $j ) .'`' );
+                    }
+                    break;
+                case $days:
+                    // start date
+                    // sessions have no daily, others should get from hourly if sh !=0, use hourly for all
+
+                    $db = str_replace( "-", "_", $GLOBALS[ 'sd' ] );
+
+                    for ( $j=23; $j>=$_GET[ 'sh' ]; $j-- )
+                    {
+                        $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_afftected_host_'. sprintf( "%02d", $j ) .'`' );
+                    }
+                    break;
+                default:
+                    $dbStamp -= 86400;
+                    $db = trim( shell_exec( 'date -d @'. $dbStamp .' "+%Y_%m_%d"' ) );
+                    if ( 'sessions' == $table ) {
+                        // check if daily statistics are data_reday
+                        if ( $check = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "daily_afftected_host"' ) ) {
+                            if ( 0 == $check->num_rows ) {
+                                // 24 hours
+                                for ($j=23; $j>=0; $j--)
+                                {
+                                    $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_afftected_host_'. sprintf( "%02d", $j ) .'`' );
+                                }
+                            } else {
+                                $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`daily_afftected_host`' );
+
+                            }
+                            $check->close();
+                        }
+                    } else {
+                        // use daily
+                        $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $dailyState .' FROM '. $db .'.`daily_afftected_host`' );
+                    }
+                }
+            }
+        }
+
+        // limit 50 back, filter via reporter
+        $query = "SELECT ". $state ." FROM ". $tmpTable ." GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
+
+    } else {
+        // weird, given current hour's aggregate instead
+        $query = "SELECT ". $state ." FROM ". $GLOBALS[ 'db' ] .".`raw_afftected_host_". $GLOBALS[ 'nh' ] ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
+    }
+
+    if ( $result = $GLOBALS[ 'mysqli' ]->query( $query ) ) {
+        $GLOBALS[ 'json' ][ "queryRows" ]  = $result->num_rows;
+        while ( $obj = $result->fetch_object() ) {
+            $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+        }
+        // free result set
+        $result->close();
+    }
+
+    echo json_encode( $GLOBALS[ 'json' ] );
+}
+
+function advQAH() {
+    $GLOBALS[ 'rows' ][ 'start' ] = empty( $_GET[ 'pi' ] )? 1 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ] + 1;
+    $GLOBALS[ 'rows' ][ 'end' ]   = empty( $_GET[ 'pp' ] )? 20 : $_GET[ pi ] * $_GET[ 'pp' ];
+    $GLOBALS[ 'rows' ][ 'left' ]  = empty( $_GET[ 'pp' ] )? 20 : (int) $_GET[ 'pp' ];
+    $cnt   = 0;
+    $cnts  = 0;
+    $cnted = 0;
+    $days  = 0;
+
+    if ( $GLOBALS[ 'ehStamp' ] > $GLOBALS[ 'shStamp' ] ) {
+        $days = ( ( $GLOBALS[ 'edStamp' ] - $GLOBALS[ 'sdStamp' ] ) / 86400 );
+
+        if ( 0 == $days ) {
+            // single date data, get from eh to sh
+            $db = str_replace( "-", "_", $GLOBALS[ 'ed' ] );
+
+            for ( $i=$_GET[ 'eh' ]; $i>=$_GET[ 'sh' ]; $i-- )
+            {
+                $cnt = $GLOBALS[ 'json' ][ 'queryRows' ];
+                if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_afftected_host_'. sprintf( "%02d", $i ) .'"' ) ) {
+                    $cnted = $count->fetch_row()[ 0 ];
+                    if ( $cnted > 0 ) {
+                        $GLOBALS[ 'json' ][ 'queryRows' ] += $cnted;
+                        if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
+                            if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_afftected_host_'. sprintf("%02d", $i) .'` ORDER BY id DESC' ) ) {
+                                while ( $obj = $result->fetch_object() ) {
+                                    $cnt++;
+                                    // rows we want
+                                    if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                        $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                        $GLOBALS[ 'rows' ][ 'left' ]--;
+                                    }
+
+                                    if ( 0 == $GLOBALS[ 'rows' ][ 'left' ]) {
+                                        break;
+                                    }
+                                }
+                                // free result set
+                                $result->close();
+                            }
+                        }
+                    }
+                    // free count set
+                    $count->close();
+                }
+            }
+        } else {
+            for ( $i=0; $i<=$days; $i++ )
+            {
+                switch( $i )
+                {
+                case 0:
+                    $db = str_replace( "-", "_", $GLOBALS[ 'ed' ] );
+                    $dbStamp = $GLOBALS[ 'edStamp' ];
+
+                    for ( $j=$_GET[ 'eh' ]; $j>=0; $j-- )
+                    {
+                        $cnt = $GLOBALS[ 'json' ][ 'queryRows' ];
+                        if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_afftected_host_'. sprintf( "%02d", $j ) .'"' ) ) {
+                            $cnted = $count->fetch_row()[ 0 ];
+                            if ( $cnted > 0 ) {
+                                $GLOBALS[ 'json' ][ 'queryRows' ] += $cnted;
+                                if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
+                                    if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_afftected_host_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
+                                        while ( $obj = $result->fetch_object() ) {
+                                            $cnt++;
+                                            // rows we want
+                                            if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                                $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                                $GLOBALS[ 'rows' ][ 'left' ]--;
+                                            }
+                                        }
+                                        // free result set
+                                        $result->close();
+                                    }
+                                }
+                            }
+                            // free count set
+                            $count->close();
+                        }
+                    }
+                    break;
+                case $days:
+                    // start date
+
+                    $db = str_replace( "-", "_", $GLOBALS[ 'sd' ] );
+
+                    for ( $j=23; $j>=$_GET[ 'sh' ]; $j-- )
+                    {
+                        $cnt = $GLOBLAS[ 'json' ][ 'queryRows' ];
+                        if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_afftected_host_'. sprintf( "%02d", $j ) .'"' ) ) {
+                            $cnted = $count->fetch_row()[ 0 ];
+                            if ( $cnted > 0 ) {
+                                $GLOBALS[ 'json' ][ 'queryRows' ] += $cnted;
+                                if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
+                                    if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_afftected_host_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
+                                        while ( $obj = $result->fetch_object() ) {
+                                            $cnt++;
+                                            // rows we want
+                                            if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                                $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                                $GLOBALS[ 'rows' ][ 'left' ]--;
+                                            }
+
+                                            if ( 0 == $GLOBALS[ 'rows' ][ 'left' ]) {
+                                                break;
+                                            }
+                                        }
+                                        // free result set
+                                        $result->close();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    $dbStamp -= 86400;
+                    $db = trim( shell_exec( 'date -d @'. $dbStamp .' "+%Y_%m_%d"' ) );
+                    // use daily statistics
+                    if ( $check = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "daily_afftected_host"' ) ) {
+                        $chk = $check->fetch_row()[ 0 ];
+                        if ( $chk > 0 ) {
+                            $cnt = $GLOBALS[ 'json' ][ 'queryRows' ];
+                            // have data, get and count from daily statistics
+                            if ($count = $GLOBALS[ 'mysqli' ]->query( 'SELECT SUM( virusHitCount ) + SUM( sigHitCount ) FROM '. $db .'.`daily_afftected_host`' ) ) {
+                                $cnted = $count->fetch_row()[ 0 ];
+                                $GLOBALS[ 'json' ][ 'queryRows' ] += $cnted;
+                                if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
+                                    for ($j=23; $j>=0; $j--)
+                                    {
+                                        if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_afftected_host_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
+                                            while ( $obj = $result->fetch_object() ) {
+                                                $cnt++;
+                                                // rows we want
+                                                if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                                    $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                                    $GLOBALS[ 'rows' ][ 'left' ]--;
+                                                }
+
+                                                if ( 0 == $GLOBALS[ 'rows' ][ 'left' ]) {
+                                                    break;
+                                                }
+                                            }
+                                            // free result set
+                                            $result->close();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        // free check set
+                        $check->close();
+                    }
+                }
+            }
+        }
+    } else {
+        // weird, given current hour's report instead
+        if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $GLOBALS[ 'db' ] .'" AND TABLE_NAME = "raw_afftected_host_'. $GLOBALS[ 'nh' ] .'"' ) ) {
+            $GLOBALS[ 'json' ][ 'queryRows' ] = $count->fetch_row()[ 0 ];
+            if ( $GLOBALS[ 'json' ][ 'queryRows' ] > 0 ) {
+                if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $GLOBALS[ 'db' ] .'.`raw_afftected_host_'. $GLOBALS[ 'nh' ] .'` ORDER BY id DESC LIMIT '. $GLOBALS[ 'rows' ][ 'start' ] .', '. $GLOBALS[ 'rows' ][ 'left' ] ) ) {
+                    while ( $obj = $result->fetch_object() ) {
+                        $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                    }
+                    // free result set
+                    $result->close();
+                }
+            }
+            // free result set
+            $count->close();
+        }
+    }
+    echo json_encode( $GLOBALS[ 'json' ] );
+}
+
+function advAAV( $gby, $oby, $state ) {
+
+
+    if ( $GLOBALS[ 'ehStamp' ] > $GLOBALS[ 'shStamp' ] ) {
+        // prepare temp table
+        $tmpTable = $GLOBALS[ 'db' ] .'.`daily_antivirus-'. $GLOBALS[ 'nowStamp' ] .'`';
+        $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `srcIp` varchar(16) NOT NULL DEFAULT '',
+            `dstIp` varchar(16) NOT NULL DEFAULT '',
+            `protocol` varchar(32) NOT NULL DEFAULT '',
+            `virusName` varchar(64) NOT NULL DEFAULT '',
+            `date` datetime NOT NULL,
+            `hitCount` int(11) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+        )";
+        $hourlyState = 'srcIp, dstIp, protocol, virusName, datetime as date, 1 as hitCount';
+        $dailyState  = 'srcIp, dstIp, protocol, virusName, date, hitCount';
+        // create temp
+        $GLOBALS[ 'mysqli' ]->query( $createTmp );
+
+        // calculate range
+        $days = ( ( $GLOBALS[ 'edStamp' ] - $GLOBALS[ 'sdStamp' ] ) / 86400 );
+
+        if ( 0 == $days ) {
+            // single date data, get from eh to sh
+            $db = str_replace( "-", "_", $GLOBALS[ 'ed' ] );
+
+            for ( $i=$_GET[ 'eh' ]; $i>=$_GET[ 'sh' ]; $i-- )
+            {
+                $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_antivirus_'. sprintf( "%02d", $i ) .'`' );
+            }
+        } else {
+            for ( $i=0; $i<=$days; $i++ )
+            {
+                switch( $i )
+                {
+                case 0:
+                    $db = str_replace( "-", "_", $GLOBALS[ 'ed' ] );
+                    $dbStamp = $GLOBALS[ 'edStamp' ];
+
+                    for ( $j=$_GET[ 'eh' ]; $j>=0; $j-- )
+                    {
+                        $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_antivirus_'. sprintf( "%02d", $j ) .'`' );
+                    }
+                    break;
+                case $days:
+                    // start date
+                    // sessions have no daily, others should get from hourly if sh !=0, use hourly for all
+
+                    $db = str_replace( "-", "_", $GLOBALS[ 'sd' ] );
+
+                    for ( $j=23; $j>=$_GET[ 'sh' ]; $j-- )
+                    {
+                        $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_antivirus_'. sprintf( "%02d", $j ) .'`' );
+                    }
+                    break;
+                default:
+                    $dbStamp -= 86400;
+                    $db = trim( shell_exec( 'date -d @'. $dbStamp .' "+%Y_%m_%d"' ) );
+                    if ( 'sessions' == $table ) {
+                        // check if daily statistics are data_reday
+                        if ( $check = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "daily_antivirus"' ) ) {
+                            if ( 0 == $check->num_rows ) {
+                                // 24 hours
+                                for ($j=23; $j>=0; $j--)
+                                {
+                                    $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`raw_antivirus_'. sprintf( "%02d", $j ) .'`' );
+                                }
+                            } else {
+                                $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $hourlyState .' FROM '. $db .'.`daily_antivirus`' );
+
+                            }
+                            $check->close();
+                        }
+                    } else {
+                        // use daily
+                        $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, '. $dailyState .' FROM '. $db .'.`daily_antivirus`' );
+                    }
+                }
+            }
+        }
+
+        // limit 50 back, filter via reporter
+        $query = "SELECT ". $state ." FROM ". $tmpTable ." GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
+
+    } else {
+        // weird, given current hour's aggregate instead
+        $query = "SELECT ". $state ." FROM ". $GLOBALS[ 'db' ] .".`raw_antivirus_". $GLOBALS[ 'nh' ] ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
+    }
+
+    if ( $result = $GLOBALS[ 'mysqli' ]->query( $query ) ) {
+        $GLOBALS[ 'json' ][ "queryRows" ]  = $result->num_rows;
+        while ( $obj = $result->fetch_object() ) {
+            $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+        }
+        // free result set
+        $result->close();
+    }
+
+    echo json_encode( $GLOBALS[ 'json' ] );
+}
+
+function advQAV() {
+    $GLOBALS[ 'rows' ][ 'start' ] = empty( $_GET[ 'pi' ] )? 1 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ] + 1;
+    $GLOBALS[ 'rows' ][ 'end' ]   = empty( $_GET[ 'pp' ] )? 20 : $_GET[ pi ] * $_GET[ 'pp' ];
+    $GLOBALS[ 'rows' ][ 'left' ]  = empty( $_GET[ 'pp' ] )? 20 : (int) $_GET[ 'pp' ];
+    $cnt   = 0;
+    $cnts  = 0;
+    $cnted = 0;
+    $days  = 0;
+
+    if ( $GLOBALS[ 'ehStamp' ] > $GLOBALS[ 'shStamp' ] ) {
+        $days = ( ( $GLOBALS[ 'edStamp' ] - $GLOBALS[ 'sdStamp' ] ) / 86400 );
+
+        if ( 0 == $days ) {
+            // single date data, get from eh to sh
+            $db = str_replace( "-", "_", $GLOBALS[ 'ed' ] );
+
+            for ( $i=$_GET[ 'eh' ]; $i>=$_GET[ 'sh' ]; $i-- )
+            {
+                $cnt = $GLOBALS[ 'json' ][ 'queryRows' ];
+                if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_antivirus_'. sprintf( "%02d", $i ) .'"' ) ) {
+                    $cnted = $count->fetch_row()[ 0 ];
+                    if ( $cnted > 0 ) {
+                        $GLOBALS[ 'json' ][ 'queryRows' ] += $cnted;
+                        if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
+                            if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_antivirus_'. sprintf("%02d", $i) .'` ORDER BY id DESC' ) ) {
+                                while ( $obj = $result->fetch_object() ) {
+                                    $cnt++;
+                                    // rows we want
+                                    if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                        $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                        $GLOBALS[ 'rows' ][ 'left' ]--;
+                                    }
+
+                                    if ( 0 == $GLOBALS[ 'rows' ][ 'left' ]) {
+                                        break;
+                                    }
+                                }
+                                // free result set
+                                $result->close();
+                            }
+                        }
+                    }
+                    // free count set
+                    $count->close();
+                }
+            }
+        } else {
+            for ( $i=0; $i<=$days; $i++ )
+            {
+                switch( $i )
+                {
+                case 0:
+                    $db = str_replace( "-", "_", $GLOBALS[ 'ed' ] );
+                    $dbStamp = $GLOBALS[ 'edStamp' ];
+
+                    for ( $j=$_GET[ 'eh' ]; $j>=0; $j-- )
+                    {
+                        $cnt = $GLOBALS[ 'json' ][ 'queryRows' ];
+                        if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_antivirus_'. sprintf( "%02d", $j ) .'"' ) ) {
+                            $cnted = $count->fetch_row()[ 0 ];
+                            if ( $cnted > 0 ) {
+                                $GLOBALS[ 'json' ][ 'queryRows' ] += $cnted;
+                                if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
+                                    if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_antivirus_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
+                                        while ( $obj = $result->fetch_object() ) {
+                                            $cnt++;
+                                            // rows we want
+                                            if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                                $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                                $GLOBALS[ 'rows' ][ 'left' ]--;
+                                            }
+                                        }
+                                        // free result set
+                                        $result->close();
+                                    }
+                                }
+                            }
+                            // free count set
+                            $count->close();
+                        }
+                    }
+                    break;
+                case $days:
+                    // start date
+
+                    $db = str_replace( "-", "_", $GLOBALS[ 'sd' ] );
+
+                    for ( $j=23; $j>=$_GET[ 'sh' ]; $j-- )
+                    {
+                        $cnt = $GLOBLAS[ 'json' ][ 'queryRows' ];
+                        if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "raw_antivirus_'. sprintf( "%02d", $j ) .'"' ) ) {
+                            $cnted = $count->fetch_row()[ 0 ];
+                            if ( $cnted > 0 ) {
+                                $GLOBALS[ 'json' ][ 'queryRows' ] += $cnted;
+                                if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
+                                    if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_antivirus_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
+                                        while ( $obj = $result->fetch_object() ) {
+                                            $cnt++;
+                                            // rows we want
+                                            if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                                $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                                $GLOBALS[ 'rows' ][ 'left' ]--;
+                                            }
+
+                                            if ( 0 == $GLOBALS[ 'rows' ][ 'left' ]) {
+                                                break;
+                                            }
+                                        }
+                                        // free result set
+                                        $result->close();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    $dbStamp -= 86400;
+                    $db = trim( shell_exec( 'date -d @'. $dbStamp .' "+%Y_%m_%d"' ) );
+                    // use daily statistics
+                    if ( $check = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "daily_antivirus"' ) ) {
+                        $chk = $check->fetch_row()[ 0 ];
+                        if ( $chk > 0 ) {
+                            $cnt = $GLOBALS[ 'json' ][ 'queryRows' ];
+                            // have data, get and count from daily statistics
+                            if ($count = $GLOBALS[ 'mysqli' ]->query( 'SELECT SUM( hitCount ) as count FROM '. $db .'.`daily_antivirus`' ) ) {
+                                $cnted = $count->fetch_row()[ 0 ];
+                                $GLOBALS[ 'json' ][ 'queryRows' ] += $cnted;
+                                if ( ( $GLOBALS[ 'json' ][ 'queryRows' ] >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $GLOBALS[ 'rows' ][ 'left' ] > 0 ) ) {
+                                    for ($j=23; $j>=0; $j--)
+                                    {
+                                        if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $db .'.`raw_antivirus_'. sprintf("%02d", $j) .'` ORDER BY id DESC' ) ) {
+                                            while ( $obj = $result->fetch_object() ) {
+                                                $cnt++;
+                                                // rows we want
+                                                if ( ( $cnt >= $GLOBALS[ 'rows' ][ 'start' ] ) && ( $cnt <= $GLOBALS[ 'rows' ][ 'end' ] ) ) {
+                                                    $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                                                    $GLOBALS[ 'rows' ][ 'left' ]--;
+                                                }
+
+                                                if ( 0 == $GLOBALS[ 'rows' ][ 'left' ]) {
+                                                    break;
+                                                }
+                                            }
+                                            // free result set
+                                            $result->close();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        // free check set
+                        $check->close();
+                    }
+                }
+            }
+        }
+    } else {
+        // weird, given current hour's report instead
+        if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $GLOBALS[ 'db' ] .'" AND TABLE_NAME = "raw_antivirus_'. $GLOBALS[ 'nh' ] .'"' ) ) {
+            $GLOBALS[ 'json' ][ 'queryRows' ] = $count->fetch_row()[ 0 ];
+            if ( $GLOBALS[ 'json' ][ 'queryRows' ] > 0 ) {
+                if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $GLOBALS[ 'db' ] .'.`raw_antivirus_'. $GLOBALS[ 'nh' ] .'` ORDER BY id DESC LIMIT '. $GLOBALS[ 'rows' ][ 'start' ] .', '. $GLOBALS[ 'rows' ][ 'left' ] ) ) {
+                    while ( $obj = $result->fetch_object() ) {
+                        $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                    }
+                    // free result set
+                    $result->close();
+                }
+            }
+            // free result set
+            $count->close();
+        }
+    }
+    echo json_encode( $GLOBALS[ 'json' ] );
+}
+
+$GLOBALS[ 'mysqli' ]->close();
 
 ?>
