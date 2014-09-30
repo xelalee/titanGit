@@ -1820,26 +1820,20 @@ select[multiple] {
     height:480px;
 }
 
-#cpu {
-    width: 150px;
-    height: 150px;
-    margin: 10px;
-}
-
 #cpuChart {
     width: 150px;
     height: 150px;
-}
-
-#mem {
-    width: 150px;
-    height:150px;
-    margin: 10px;
+    position: relative;
+    top: 5px;
+    left: 20px;
 }
 
 #memChart {
     width: 150px;
     height: 150px;
+    position: relative;
+    top: 5px;
+    left: 20px;
 }
 
 table.DataChart th {

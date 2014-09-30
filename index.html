@@ -170,6 +170,7 @@ var gCheck = {};
 var gIssue = {};
 var gCheckbox = {};
 var gQuery = {};
+var gChart = {};
 
 var gMAC   = {};
 var gCnt   = 0;
@@ -5318,8 +5319,8 @@ $(document).ready(function () {
                 });
                 break;
             case 'php':
-                var ascend = gY.one('#table-' + pid + ' thead').all('span.sortable.ascending');
-                var descend = gY.one('#table-' + pid + ' thead').all('span.sortable.descending');
+                var ascend = gY.one('#table-' + pid + ' thead tr').all('span.sortable.ascending');
+                var descend = gY.one('#table-' + pid + ' thead tr').all('span.sortable.descending');
                 var sortBy = '';
 
                 if (ascend._nodes.length > 0) {
@@ -5336,7 +5337,7 @@ $(document).ready(function () {
                         gIf.lock = false;
 
                         if (parseInt(data.queryRows) > 0) {
-                            data.queryResults = dataSortPhp( data.queryResults, pid );
+                            data.queryResults = dataSortPhp( data.queryResults, data.param );
                             for (var j=0; j<data.queryResults.length; j++)
                             {
                                 tmp += '<tr class="' + ( (j%2==0)? 'even': 'odd' )+ '">';
@@ -5430,14 +5431,49 @@ $(document).ready(function () {
                                             }
                                         }
                                     } else if ( 'dashboard_resource' == v2.id ) {
-                                        var cpuValue = parseInt( data.cpuUtilization );
-                                        var cpuColor = ( cpuValue > 20 )? ( ( cpuValue > 40 )? ( ( cpuValue > 60 )? '#e83c30' : '#fcb62d' ) : '#d7d02a' ) : '#83a323';
-                                        var cpuData = [ { value: cpuValue , color: cpuColor, highlight: cpuColor, "label": "Used" }, { value: ( 100 - cpuValue ), color: '#007260', highlight: "#007260", "label": "Free" } ]
-                                        var cpuChart = new Chart( $('#cpuChart').get(0).getContext('2d') ).Pie( cpuData, { animateRotate: false } );
-                                        var memValue = parseInt( data.memoryUtilization );
-                                        var memColor = ( memValue > 20 )? ( ( memValue > 40 )? ( ( memValue > 60 )? '#e83c30' : '#fcb62d' ) : '#d7d02a' ) : '#83a323';
-                                        var memData = [ { value: memValue, color: memColor, highlight: memColor, "label": "Used" }, { value: ( 100 - memValue ), color: '#007260', highlight: "#007260", "label": "Free" } ]
-                                        var memChart = new Chart( $('#memChart').get(0).getContext('2d') ).Pie( memData, { animateRotate: false } );
+
+                                        var cpuData = [ {'usage': "used", 'val': data.cpuUtilization }, {'usage': "free", 'val': (100-data.cpuUtilization )} ];
+                                        var cpuColor = [ ( ( data.cpuUtilization > 80 )? '#cc0000' : ( ( data.cpuUtilization > 50 )? '#ff9933' : ( ( data.cpuUtilization > 24 )? '#ffff66' : '#007260' ) ) ), '#666666' ];
+                                        var memData = [ {'usage': "used", 'val': data.memoryUtilization }, {'usage': "free", 'val': (100-data.memoryUtilization )} ];
+                                        var memColor = [ ( ( data.memoryUtilization > 80 )? '#cc0000' : ( ( data.memoryUtilization > 50 )? '#ff9933' : ( ( data.memoryUtilization > 24 )? '#ffff66' : '#007260' ) ) ), '#666666' ];
+
+                                        if (gChart.cpuChart)
+                                            gChart.cpuChart.destroy();
+
+                                        gChart.cpuChart = new gY.Chart({
+                                            dataProvider: cpuData,
+                                            categoryKey : 'usage',
+                                            type: 'pie',
+                                            seriesKeys: ['val'],
+                                            seriesCollection: [{
+                                                categoryKey: 'usage',
+                                                valueKey: 'val',
+                                                styles: {
+                                                    fill: {
+                                                        colors: cpuColor
+                                                    }
+                                                }
+                                            }]
+                                        }).render( '#cpuChart' );
+
+                                        if (gChart.memChart)
+                                            gChart.memChart.destroy();
+
+                                        gChart.memChart = new gY.Chart({
+                                            dataProvider: memData,
+                                            categoryKey : 'usage',
+                                            type: 'pie',
+                                            seriesKeys: ['val'],
+                                            seriesCollection: [{
+                                                categoryKey: 'usage',
+                                                valueKey: 'val',
+                                                styles: {
+                                                    fill: {
+                                                        colors: memColor
+                                                    }
+                                                }
+                                            }]
+                                        }).render( '#memChart' );
                                     } else if ( 'dashboard_s2svpn' == v2.id ) {
                                         for (var z in data)
                                         {
@@ -5489,8 +5525,8 @@ $(document).ready(function () {
                             });
                             break;
                         case 'php':
-                            var ascend = gY.one('#table-' + v2.id + ' thead').all('span.sortable.ascending');
-                            var descend = gY.one('#table-' + v2.id + ' thead').all('span.sortable.descending');
+                            var ascend = gY.one('#table-' + v2.id + ' thead tr').all('span.sortable.ascending');
+                            var descend = gY.one('#table-' + v2.id + ' thead tr').all('span.sortable.descending');
                             var sortBy = '';
 
                             if (ascend._nodes.length > 0) {
@@ -5506,7 +5542,7 @@ $(document).ready(function () {
                                 success: function(data) {
                                     gIf.lock = false;
                                     if (parseInt(data.queryRows) > 0) {
-                                        data.queryResults = dataSortPhp( data.queryResults, pid );
+                                        data.queryResults = dataSortPhp( data.queryResults, data.param );
                                         $('#table-' + data.param + ' tbody').empty();
                                         tmp = '';
                                         for (var j=0; j<data.queryResults.length; j++)
@@ -5583,14 +5619,48 @@ $(document).ready(function () {
                                 } else if ( data.dramSize ) {
                                     y = 'dashboard_resource';
 
-                                    var cpuValue = parseInt( data.cpuUtilization );
-                                    var cpuColor = ( cpuValue > 20 )? ( ( cpuValue > 40 )? ( ( cpuValue > 60 )? '#e83c30' : '#fcb62d' ) : '#d7d02a' ) : '#83a323';
-                                    var cpuData = [ { value: cpuValue , color: cpuColor, highlight: cpuColor, "label": "Used" }, { value: ( 100 - cpuValue ), color: '#007260', highlight: "#007260", "label": "Free" } ]
-                                    var cpuChart = new Chart( $('#cpuChart').get(0).getContext('2d') ).Pie( cpuData, { animateRotate: false } );
-                                    var memValue = parseInt( data.memoryUtilization );
-                                    var memColor = ( memValue > 20 )? ( ( memValue > 40 )? ( ( memValue > 60 )? '#e83c30' : '#fcb62d' ) : '#d7d02a' ) : '#83a323';
-                                    var memData = [ { value: memValue, color: memColor, highlight: memColor, "label": "Used" }, { value: ( 100 - memValue ), color: '#007260', highlight: "#007260", "label": "Free" } ]
-                                    var memChart = new Chart( $('#memChart').get(0).getContext('2d') ).Pie( memData, { animateRotate: false } );
+                                    var cpuData = [ {'usage': "used", 'val': data.cpuUtilization }, {'usage': "free", 'val': (100-data.cpuUtilization )} ];
+                                    var cpuColor = [ ( ( data.cpuUtilization > 80 )? '#cc0000' : ( ( data.cpuUtilization > 50 )? '#ff9933' : ( ( data.cpuUtilization > 24 )? '#ffff66' : '#007260' ) ) ), '#666666' ];
+                                    var memData = [ {'usage': "used", 'val': data.memoryUtilization }, {'usage': "free", 'val': (100-data.memoryUtilization )} ];
+                                    var memColor = [ ( ( data.memoryUtilization > 80 )? '#cc0000' : ( ( data.memoryUtilization > 50 )? '#ff9933' : ( ( data.memoryUtilization > 24 )? '#ffff66' : '#007260' ) ) ), '#666666' ];
+
+                                    if (gChart.cpuChart)
+                                        gChart.cpuChart.destroy();
+
+                                    gChart.cpuChart = new gY.Chart({
+                                        dataProvider: cpuData,
+                                        categoryKey : 'usage',
+                                        type: 'pie',
+                                        seriesKeys: ['val'],
+                                        seriesCollection: [{
+                                            categoryKey: 'usage',
+                                            valueKey: 'val',
+                                            styles: {
+                                                fill: {
+                                                    colors: cpuColor
+                                                }
+                                            }
+                                        }]
+                                    }).render( '#cpuChart' );
+
+                                    if (gChart.memChart)
+                                        gChart.memChart.destroy();
+
+                                    gChart.memChart = new gY.Chart({
+                                        dataProvider: memData,
+                                        categoryKey : 'usage',
+                                        type: 'pie',
+                                        seriesKeys: ['val'],
+                                        seriesCollection: [{
+                                            categoryKey: 'usage',
+                                            valueKey: 'val',
+                                            styles: {
+                                                fill: {
+                                                    colors: memColor
+                                                }
+                                            }
+                                        }]
+                                    }).render( '#memChart' );
                                 } else if ( data.tunnelNum ) {
                                     y = 'dashboard_s2svpn';
                                     for (var z in data)
@@ -5736,8 +5806,8 @@ $(document).ready(function () {
                         if (! gY.one('#table-' + x + ' thead') )
                             return false;
 
-                        var ascend = gY.one('#table-' + x + ' thead').all('span.sortable.ascending');
-                        var descend = gY.one('#table-' + x + ' thead').all('span.sortable.descending');
+                        var ascend = gY.one('#table-' + x + ' thead tr').all('span.sortable.ascending');
+                        var descend = gY.one('#table-' + x + ' thead tr').all('span.sortable.descending');
                         var sortBy = '';
 
                         if (ascend._nodes.length > 0) {
@@ -5927,10 +5997,10 @@ $(document).ready(function () {
                         case 'chart':
                             tmp += '<tr>';
                             tmp += '<td>';
-                            tmp += '<div id="cpu"><canvas id="cpuChart" width="150px" height="150px" style="width:150px;height:150px"></canvas></div>';
+                            tmp += '<div id="cpuChart"></div>';
                             tmp += '</td>';
                             tmp += '<td>';
-                            tmp += '<div id="mem"><canvas id="memChart" width="150px" height="150px" style="width:150px;height:150px"></canvas></div>';
+                            tmp += '<div id="memChart"></div>';
                             tmp += '</td>';
                             tmp += '</tr>';
                             tmp += '<tr>';
@@ -5948,14 +6018,49 @@ $(document).ready(function () {
                     switch( feed.id )
                     {
                     case 'dashboard_resource':
-                        var cpuValue = parseInt( data.cpuUtilization );
-                        var cpuColor = ( cpuValue > 20 )? ( ( cpuValue > 40 )? ( ( cpuValue > 60 )? '#e83c30' : '#fcb62d' ) : '#d7d02a' ) : '#83a323';
-                        var cpuData = [ { value: cpuValue , color: cpuColor, highlight: cpuColor, "label": "Used" }, { value: ( 100 - cpuValue ), color: '#007260', highlight: "#007260", "label": "Free" } ]
-                        var cpuChart = new Chart( $('#cpuChart').get(0).getContext('2d') ).Pie( cpuData, { animateRotate: false } );
-                        var memValue = parseInt( data.memoryUtilization );
-                        var memColor = ( memValue > 20 )? ( ( memValue > 40 )? ( ( memValue > 60 )? '#e83c30' : '#fcb62d' ) : '#d7d02a' ) : '#83a323';
-                        var memData = [ { value: memValue, color: memColor, highlight: memColor, "label": "Used" }, { value: ( 100 - memValue ), color: '#007260', highlight: "#007260", "label": "Free" } ]
-                        var memChart = new Chart( $('#memChart').get(0).getContext('2d') ).Pie( memData, { animateRotate: false } );
+
+                        var cpuData = [ {'usage': "used", 'val': data.cpuUtilization }, {'usage': "free", 'val': (100-data.cpuUtilization )} ];
+                        var cpuColor = [ ( ( data.cpuUtilization > 80 )? '#cc0000' : ( ( data.cpuUtilization > 50 )? '#ff9933' : ( ( data.cpuUtilization > 24 )? '#ffff66' : '#007260' ) ) ), '#666666' ];
+                        var memData = [ {'usage': "used", 'val': data.memoryUtilization }, {'usage': "free", 'val': (100-data.memoryUtilization )} ];
+                        var memColor = [ ( ( data.memoryUtilization > 80 )? '#cc0000' : ( ( data.memoryUtilization > 50 )? '#ff9933' : ( ( data.memoryUtilization > 24 )? '#ffff66' : '#007260' ) ) ), '#666666' ];
+
+                        if (gChart.cpuChart)
+                            gChart.cpuChart.destroy();
+
+                        gChart.cpuChart = new gY.Chart({
+                            dataProvider: cpuData,
+                            categoryKey : 'usage',
+                            type: 'pie',
+                            seriesKeys: ['val'],
+                            seriesCollection: [{
+                                categoryKey: 'usage',
+                                valueKey: 'val',
+                                styles: {
+                                    fill: {
+                                        colors: cpuColor
+                                    }
+                                }
+                            }]
+                        }).render( '#cpuChart' );
+
+                        if (gChart.memChart)
+                            gChart.memChart.destroy();
+
+                        gChart.memChart = new gY.Chart({
+                            dataProvider: memData,
+                            categoryKey : 'usage',
+                            type: 'pie',
+                            seriesKeys: ['val'],
+                            seriesCollection: [{
+                                categoryKey: 'usage',
+                                valueKey: 'val',
+                                styles: {
+                                    fill: {
+                                        colors: memColor
+                                    }
+                                }
+                            }]
+                        }).render( '#memChart' );
                         break;
                     case 'dashboard_sys_info':
                         $('#' + feed.id + '-sigEng').html( 'v1.0' );
@@ -27853,7 +27958,7 @@ $(document).ready(function () {
         case 'cMAC':
         case 'cAddr':
             tar.h = 300;
-            gSelector = gObj.menu[ 7 ].panel[ 0 ];
+            gSelector = gObj.menu[ 12 ].panel[ 0 ];
             for (var i=0, len=gSelector.editor[ 'address' ].length; i<len; i++)
             {
                 if ( 'input' == gSelector.editor[ 'address' ][ i ].tag ) {
@@ -27954,7 +28059,7 @@ $(document).ready(function () {
             break;
         case 'cGAddr':
             tar.h = 360;
-            gSelector = gObj.menu[ 7 ].panel[ 0 ];
+            gSelector = gObj.menu[ 12 ].panel[ 0 ];
             for (var i=0, len=gSelector.editor[ 'group_address' ].length; i<len; i++)
             {
                 tmp += '<tr>';
@@ -28097,7 +28202,7 @@ $(document).ready(function () {
             break;
         case 'cService':
             tar.h = 300;
-            gSelector = gObj.menu[ 7 ].panel[ 1 ];
+            gSelector = gObj.menu[ 12 ].panel[ 1 ];
             for (var i=0, len=gSelector.editor[ 'service' ].length; i<len; i++)
             {
                 if ( 'input' == gSelector.editor[ 'service' ][ i ].tag ) {
@@ -28160,7 +28265,7 @@ $(document).ready(function () {
             break;
         case 'cGService':
             tar.h = 360;
-            gSelector = gObj.menu[ 7 ].panel[ 1 ];
+            gSelector = gObj.menu[ 12 ].panel[ 1 ];
             for (var i=0, len=gSelector.editor[ 'group_service' ].length; i<len; i++)
             {
                 tmp += '<tr>';
@@ -28299,7 +28404,7 @@ $(document).ready(function () {
             tar.w = 520;
             tar.h = 480;
 
-            gSelector = gObj.menu[ 7 ].panel[ 2 ];
+            gSelector = gObj.menu[ 12 ].panel[ 2 ];
 
             for (var i=0, len=gSelector.editor.length; i<len; i++)
             {
@@ -30464,8 +30569,8 @@ $(document).ready(function () {
     }
 
     function dataSortPhp( data, pid ) {
-        var ascend = ( gReg.isTop.test( pid ) )? gY.one('#table-' + pid + ' thead').all('span.sortable.ascending') : gY.one('#theadTable-' + pid + ' thead').all('span.sortable.ascending');
-        var descend = (gReg.isTop.test( pid ) )? gY.one('#table-' + pid + ' thead').all('span.sortable.descending') : gY.one('#theadTable-' + pid + ' thead').all('span.sortable.descending');
+        var ascend = ( gReg.isTop.test( pid ) )? gY.one('#table-' + pid + ' thead tr').all('span.sortable.ascending') : gY.one('#theadTable-' + pid + ' thead tr').all('span.sortable.ascending');
+        var descend = (gReg.isTop.test( pid ) )? gY.one('#table-' + pid + ' thead tr').all('span.sortable.descending') : gY.one('#theadTable-' + pid + ' thead tr').all('span.sortable.descending');
         var sortBy;
 
         if (ascend._nodes.length > 0) {

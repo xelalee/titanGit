@@ -8,6 +8,7 @@ if ( empty( $_GET ) ) {
 
 $nd = trim( shell_exec( 'date "+%Y-%m-%d"' ) );
 $nh = trim( shell_exec( 'date "+%H"' ) );
+$nw = trim( shell_exec( 'date "+%w"' ) );
 $ndStamp  = strtotime( $nd. ' 00:00:00' );
 $nhStamp  = strtotime( $nd. ' '. $nh. ':00:00' );
 $nowStamp = trim( shell_exec( 'date "+%s"' ) );
@@ -100,10 +101,32 @@ case 'antivirus_report':
     case 3:
         advAAV( 'virusName', 'hitCount', 'virusName, SUM( hitCount ) as hitCount');
         break;
+    case 9:
+        weeklyAAV();
+        break;
     default:
         advQAV();
     }
     break;
+}
+
+function weeklyAAV() {
+    // get the days of the week, and calculate the sd and ed of last week
+    // sd => monday, ed => sunday
+
+
+    $edStamp = $GLOBALS[ 'ndStamp' ] - $GLOBALS[ 'nw' ] * 86400;
+echo $edStamp;
+$db = trim( shell_exec( 'date -d @'. $edStamp .' "+%Y_%m_%d"' ) );
+echo '---';
+echo $db;
+    $sdStamp = $edStamp - 7*86400;
+echo '@';
+echo $sdStamp;
+$db = trim( shell_exec( 'date -d @'. $sdStamp .' "+%Y_%m_%d"' ) );
+echo '---';
+echo $db;
+
 }
 
 function advATD( $gby, $oby, $state ) {

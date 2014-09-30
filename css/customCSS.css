@@ -1640,26 +1640,20 @@ select[multiple] {
     overflow: hidden;
 }
 
-#cpu {
-    width: 150px;
-    height: 150px;
-    margin: 10px;
-}
-
 #cpuChart {
+    position: relative;
     width: 150px;
     height: 150px;
-}
-
-#mem {
-    width: 150px;
-    height:150px;
-    margin: 10px;
+    top: 5px;
+    left: 20px;
 }
 
 #memChart {
     width: 150px;
     height: 150px;
+    position: relative;
+    top: 5px;
+    left: 20px;
 }
 
 table.DataChart th {

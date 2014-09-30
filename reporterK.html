@@ -291,21 +291,6 @@ $(document).ready(function () {
                         type : "pie",
                         catKey : 'protocol',
                         serKey : ['totalBytes'],
-                            axes : {
-                                protocol : {
-                                    keys:["protocol"],
-                                    position:"left",
-                                    type: "category"
-                                },
-                                totalBytes : {
-                                    keys:["totalBytes"],
-                                    position:"bottom",
-                                    type:"numeric",
-                                    labelFunction: function(label) {
-                                        return label.toFixed(2);
-                                    }
-                                }
-                            },
                         serCol : [
                           {
                             categoryKey: "protocol",
@@ -972,14 +957,12 @@ $(document).ready(function () {
                     type: gObj[ param ].chart[ lang ][ idx ].type,
                     seriesKeys: gObj[ param ].chart[ lang ][ idx ].serKey,
                     seriesCollection: gObj[ param ].chart[ lang ][ idx ].serCol
-                    //axes: gObj[ param ].chart[ lang ][ idx ].axes
                 }).render( '#chart-' + idx );
              } else {
                 gChart[ idx ] = new gY.Chart({
                     dataProvider: data,
                     categoryKey: gObj[ param ].chart[ lang ][ idx ].catKey,
                     type: gObj[ param ].chart[ lang ][ idx ].type,
-                    //styles: gObj[ param ].chart[ lang ][ idx ].styleDef,
                     axes: gObj[ param ].chart[ lang ][ idx ].axes,
                     styles: gObj[ param ].chart[ lang ][ idx ].styleDef,
                     horizontalGridlines: true

@@ -289,21 +289,6 @@ $(document).ready(function () {
                         type : "pie",
                         catKey : 'protocol',
                         serKey : ['totalBytes'],
-                            axes : {
-                                protocol : {
-                                    keys:["protocol"],
-                                    position:"left",
-                                    type: "category"
-                                },
-                                totalBytes : {
-                                    keys:["totalBytes"],
-                                    position:"bottom",
-                                    type:"numeric",
-                                    labelFunction: function(label) {
-                                        return label.toFixed(2);
-                                    }
-                                }
-                            },
                         serCol : [
                           {
                             categoryKey: "protocol",
@@ -969,14 +954,12 @@ $(document).ready(function () {
                     type: gObj[ param ].chart[ lang ][ idx ].type,
                     seriesKeys: gObj[ param ].chart[ lang ][ idx ].serKey,
                     seriesCollection: gObj[ param ].chart[ lang ][ idx ].serCol
-                    //axes: gObj[ param ].chart[ lang ][ idx ].axes
                 }).render( '#chart-' + idx );
              } else {
                 gChart[ idx ] = new gY.Chart({
                     dataProvider: data,
                     categoryKey: gObj[ param ].chart[ lang ][ idx ].catKey,
                     type: gObj[ param ].chart[ lang ][ idx ].type,
-                    //styles: gObj[ param ].chart[ lang ][ idx ].styleDef,
                     axes: gObj[ param ].chart[ lang ][ idx ].axes,
                     styles: gObj[ param ].chart[ lang ][ idx ].styleDef,
                     horizontalGridlines: true
@@ -986,6 +969,27 @@ $(document).ready(function () {
     }
 
     function genWeekly() {
+        // reset to html5 structure
+        var tmp = '<section id="sSrcIp"><h3 id="hSrcIp">Top Antivirus by Source IP</h3><canvas id="cSrcIp"></canvas><div id="dSrcIp"></div></section>';
+        tmp += '<section id="sDstIp"><h3 id="hDstIp">Top Antivirus by Destination IP</h3><canvas id="cDstIp"></canvas><div id="dDstIp"></div></section>';
+        tmp += '<section id="sVirusName"><h3 id="hVirusName">Top Antivirus by Virus Name</h3><canvas id="cVirusName"></canvas><div id="dVirusName"></div></section>';
+        tmp += '<section id="sProtocol"><h3 id="hProtocol">Top Antivirus by Protocol</h3><canvas id="cProtocol"></canvas><div id="dProtocol"></div></section>';
+
+        $('#bd_bd').html( tmp );
+
+        // get tops
+        $.ajax({
+            url: 'advancedQuery.php?param=antivirus_report&q=9',
+            dataType: 'json',
+            success: function(data) {
+
+console.log( data );
+
+            }
+        });
+    }
+
+    function genPDF() {
 
     }
 
