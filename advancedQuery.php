@@ -110,25 +110,6 @@ case 'antivirus_report':
     break;
 }
 
-function weeklyAAV() {
-    // get the days of the week, and calculate the sd and ed of last week
-    // sd => monday, ed => sunday
-
-
-    $edStamp = $GLOBALS[ 'ndStamp' ] - $GLOBALS[ 'nw' ] * 86400;
-echo $edStamp;
-$db = trim( shell_exec( 'date -d @'. $edStamp .' "+%Y_%m_%d"' ) );
-echo '---';
-echo $db;
-    $sdStamp = $edStamp - 7*86400;
-echo '@';
-echo $sdStamp;
-$db = trim( shell_exec( 'date -d @'. $sdStamp .' "+%Y_%m_%d"' ) );
-echo '---';
-echo $db;
-
-}
-
 function advATD( $gby, $oby, $state ) {
 
     switch( $_GET[ 'q' ] )
@@ -1563,6 +1544,82 @@ function advQAV() {
         }
     }
     echo json_encode( $GLOBALS[ 'json' ] );
+}
+
+function weeklyAAV() {
+    // get the days of week, and calculate the sd and ed of last week
+    // sd => sunday, ed => saturday
+    // get this sunday
+    $dbStamp = $GLOBALS[ 'ndStamp' ] - $GLOBALS[ 'nw' ] * 86400;
+
+    // one 4 all, all 4 one :D
+    unset( $GLOBALS[ 'json' ][ 'queryRows' ] );
+    unset( $GLOBALS[ 'json' ][ 'queryResults' ] );
+
+    $tmpTable = $GLOBALS[ 'db' ] .'.`daily_antivirus-'. $GLOBALS[ 'nowStamp' ] .'`';
+    $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `srcIp` varchar(16) NOT NULL DEFAULT '',
+        `dstIp` varchar(16) NOT NULL DEFAULT '',
+        `protocol` varchar(32) NOT NULL DEFAULT '',
+        `virusName` varchar(64) NOT NULL DEFAULT '',
+        `date` datetime NOT NULL,
+        `hitCount` int(11) DEFAULT NULL,
+        PRIMARY KEY (`id`)
+    )";
+
+    // create temp
+    $GLOBALS[ 'mysqli' ]->query( $createTmp );
+
+    for ( $i=7; $i>0; $i-- )
+    {
+        $dbStamp -= 86400;
+        $db = trim( shell_exec( 'date -d @'. $dbStamp .' "+%Y_%m_%d"' ) );
+        $GLOBALS[ 'mysqli' ]->query( 'INSERT INTO '. $tmpTable .' SELECT 0, srcIp, dstIp, protocol, virusName, date, hitCount FROM '. $db .'.`daily_antivirus`' );
+    }
+
+    // no limitation this time, get back to calculate ratio
+    $GLOBALS[ 'json' ][ 'topSrcIp' ] = [];
+    if ($result = $GLOBALS[ 'mysqli' ]->query( 'SELECT srcIp, SUM( hitCount ) as hitCount FROM '. $tmpTable .' GROUP BY srcIp ORDER BY hitCount DESC' )) {
+        $GLOBALS[ 'json' ][ 'topSrcIp' ][ 'queryRows' ] = $result->num_rows;
+        while ( $obj = $result->fetch_object() ) {
+            $GLOBALS[ 'json' ][ 'topSrcIp' ][ 'queryResults' ][] = $obj;
+        }
+        // free result set
+        $result->close();
+    }
+ 
+    $GLOBALS[ 'json' ][ 'topDstIp' ] = [];
+    if ($result = $GLOBALS[ 'mysqli' ]->query( 'SELECT dstIp, SUM( hitCount ) as hitCount FROM '. $tmpTable .' GROUP BY dstIp ORDER BY hitCount DESC' )) {
+        $GLOBALS[ 'json' ][ 'topDstIp' ][ 'queryRows' ] = $result->num_rows;
+        while ( $obj = $result->fetch_object() ) {
+            $GLOBALS[ 'json' ][ 'topDstIp' ][ 'queryResults' ][] = $obj;
+        }
+        // free result set
+        $result->close();
+    }
+
+    $GLOBALS[ 'json' ][ 'topVirusName' ] = [];
+    if ($result = $GLOBALS[ 'mysqli' ]->query( 'SELECT virusName, SUM( hitCount ) as hitCount FROM '. $tmpTable .' GROUP BY virusName ORDER BY hitCount DESC' )) {
+        $GLOBALS[ 'json' ][ 'topVirusName' ][ 'queryRows' ] = $result->num_rows;
+        while ( $obj = $result->fetch_object() ) {
+            $GLOBALS[ 'json' ][ 'topVirusName' ][ 'queryResults' ][] = $obj;
+        }
+        // free result set
+        $result->close();
+    }
+
+    $GLOBALS[ 'json' ][ 'topProtocol' ] = [];
+    if ($result = $GLOBALS[ 'mysqli' ]->query( 'SELECT protocol, SUM( hitCount ) as hitCount FROM '. $tmpTable .' GROUP BY protocol ORDER BY hitCount DESC' )) {
+        $GLOBALS[ 'json' ][ 'topProtocol' ][ 'queryRows' ] = $result->num_rows;
+        while ( $obj = $result->fetch_object() ) {
+            $GLOBALS[ 'json' ][ 'topProtocol' ][ 'queryResults' ][] = $obj;
+        }
+        // free result set
+        $result->close();
+    }
+    echo json_encode( $GLOBALS[ 'json' ] );
+
 }
 
 $GLOBALS[ 'mysqli' ]->close();

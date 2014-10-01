@@ -5,7 +5,7 @@ html {
 
 /* layout outline */
 #outline {
-    background: url('images/map.gif') top center no-repeat;
+    background: url('images/bg_upper_06K.png') top center no-repeat;
     min-width: 1024px;
 }
 
@@ -22,8 +22,6 @@ html {
 /* arbitrary content styling */
 /* header */
 #hd {
-    background: url('images/kaspersky.png') -35px -35px no-repeat;
-    background-size: 298px 421px;
     position: absolute;
     width: 1024px;
     height: 123px;
@@ -431,17 +429,14 @@ a:link { text-decoration: none;}
 
 /* login, redirect */
 #loginDiv {
-    position: relative;
     width: 400px;
     height: 230px;
     margin: 150px auto;
-    background: url('images/kaspersky.png') -15px -30px no-repeat, url('images/map.gif') center center no-repeat;
-    background-size: 50%, 500px;
+    background: url('images/bg_upper_06K.png') top center no-repeat;
     border: 1px solid gray;
     letter-spacing: normal;
     word-spacing: normal;
     color: black;
-    overflow: hidden;
 }
 
 #redirectDiv {
@@ -449,8 +444,8 @@ a:link { text-decoration: none;}
     width: 400px;
     height: 230px;
     margin: 150px auto;
-    background: url('images/banned.png') center center no-repeat, url('images/kaspersky.png') -15px -30px no-repeat, url('images/map.gif') center center no-repeat;
-    background-size: 75%, 50%, 500px;
+    background: url('images/banned.png') center center no-repeat, url('images/bg_upper_06K.png') top center no-repeat;
+    background-size: 75%, 400%;
     border: 1px solid gray;
     letter-spacing: normal;
     word-spacing: normal;

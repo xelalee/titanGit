@@ -147,6 +147,15 @@ table tr th, table tr td {
     word-break:break-all;
 }
 
+table tr th.px100 {
+    width: 100px;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    background: #555555 url('images/ui-bg_highlight-hard_55_555555_1x100.png') 50% 50% repeat-x;
+    color: white;
+}
+
 .noData {
     width: 250px;
     height: 40px;

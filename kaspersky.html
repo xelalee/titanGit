@@ -491,9 +491,9 @@ gHtml.layout +=   '</div>';
 gHtml.layout += '</div>';
 
 gHtml.head = '<div class="content">';
-gHtml.head += '<div id="hd_top"></div>';
-gHtml.head += '<div id="hd_mark"></div>';
-gHtml.head += '<div id="hd_label"></div>';
+//gHtml.head += '<div id="hd_top"></div>';
+//gHtml.head += '<div id="hd_mark"></div>';
+//gHtml.head += '<div id="hd_label"></div>';
 gHtml.head += '<div id="hd_blinkD"></div>';
 gHtml.head += '<div id="hd_blinkL"></div>';
 gHtml.head += '<div id="hd_blinkU"></div>';
@@ -1800,7 +1800,7 @@ $(document).ready(function () {
         $('#hd').html( gHtml.head );
 
         // assign lang icon
-        $('#hd_label').html( gCook.main + '<span>&reg;</span>');
+        //$('#hd_label').html( gCook.main + '<span>&reg;</span>');
         $('#hd_help').addClass( gObj.lang + '_help' );
         $('#hd_home').addClass( gObj.lang + '_home' );
         $('#hd_refresh').addClass( gObj.lang + '_refresh' );
@@ -2443,6 +2443,9 @@ $(document).ready(function () {
         case 'Query':
             btnQuery( e );
             break;
+        case 'Weekly':
+            btnWeekly( e );
+            break;
         case 'Cancel':
             getCgiList(gObj.active.pid);
             break;
@@ -2507,6 +2510,16 @@ $(document).ready(function () {
             $('#firmware h5').click();
             break;
         }
+    }
+
+    function btnWeekly(e) {
+        var tar = {};
+        tar.id = $(e.currentTarget).attr('id');
+
+        if (!tar.id)
+            return false;
+
+        window.open('reporterK.html?param=weekly', '_blank');
     }
 
     function btnQuery(e) {
@@ -31691,9 +31704,6 @@ $(document).ready(function () {
 </head>
 <body>
     <div id="loginDiv">
-      <div id="login_top"></div>
-      <div id="login_mark"></div>
-      <div id="login_label"></div>
       <table >
         <tr>
           <th id="userNameLabel"></th>
