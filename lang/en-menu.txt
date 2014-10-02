@@ -10117,13 +10117,6 @@
           "editor" :
           [
             {
-              "label": "Enable",
-              "tab" : "enable",
-              "tag" : "input",
-              "type" : "checkbox",
-              "wiz" : "100px"
-            },
-            {
               "label": "Description",
               "tab" : "dscrpt",
               "tag" : "input",

@@ -49,6 +49,7 @@
     <script type="text/javascript" src="assets/jspdf/jspdf.plugin.sillysvgrenderer.js"></script>
     <script type="text/javascript" src="assets/jspdf/jspdf.plugin.split_text_to_size.js"></script>
     <script type="text/javascript" src="assets/jspdf/jspdf.plugin.standard_fonts_metrics.js"></script>
+    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.table.js"></script>
     <script type="text/javascript" src="assets/jspdf/adler32cs.js"></script>
     <script type="text/javascript" src="assets/jspdf/FileSaver.js"></script>
     <script type="text/javascript" src="assets/jspdf/BlobBuilder.js"></script>
@@ -92,9 +93,36 @@ $(document).ready(function () {
     var gProto = {};
     var gChart = {};
     var gCache = {};
-    var gColor = ["#525A6B", "#BD2110", "#E7BD10", "#639429", "#9C52AD", "#CEC6C6", "#A58484", "#B5B5B5", "#313131", "#085A9C" ];
-    var gDoc   = new jsPDF();
+    var gColor = [
+            "#525A6B",
+            "#BD2110",
+            "#E7BD10",
+            "#639429",
+            "#9C52AD",
+
+            "#CEC6C6",
+            "#A58484",
+            "#B5B5B5",
+            "#313131",
+            "#085A9C"
+        ];
+    var gRgbs  = [
+            {r:82, g:90, b:107},
+            {r:189, g:33, b:16},
+            {r:231, g:189, b:16},
+            {r:99, g:148, b:41},
+            {r:156, g:82, b:173},
+
+            {r:206, g:198, b:198},
+            {r:165, g:132, b:132},
+            {r:181, g:181, b:181},
+            {r:49, g:49, b:49},
+            {r:8, g:90, b:156}
+        ];
+    var gDoc   = new jsPDF('p', 'pt', 'a4');
+
     var gDocNo = { '#nv': function( element, render ) { return true; } };
+    var gImg   = 'css/images/bg_upper_06K.png';
 
     var gObj = {
         "traffic_direction" : {
@@ -962,7 +990,6 @@ $(document).ready(function () {
             if ($('.noData').exists())
                 $('#chart-' + idx).empty();
 
-
              if ('pie' == gObj[ param ].chart[ lang ][ idx ].type) {
                 gChart[ idx ] = new gY.Chart({
                     dataProvider: data,
@@ -998,6 +1025,7 @@ $(document).ready(function () {
             url: 'advancedQuery.php?param=antivirus_report&q=9',
             dataType: 'json',
             success: function(data) {
+                genPDF('info', data, 'Weekly Report');
                 // top srouce ip
                 $('#dSrcIp').html('<table id="tSrcIp"><thead><tr><th id="tSrcIp-id" class="ui-state-default px100">Index</th><th id="tSrcIp-srcIp" class="ui-state-default">Source IP</th><th id="tSrcIp-hitCount" class="ui-state-default px100">Hit Count</th></thead><tbody></tbody></table>');
                 var counts = 0;
@@ -1020,7 +1048,7 @@ $(document).ready(function () {
                     styles: gObj.antivirus_report.chart[ lang ][ 1 ].styleDef,
                     horizontalGridlines: true
                 }).render( '#cSrcIp' );
-                genPDF('sSrcIp');
+                genPDF('sSrcIp', dSrcIp, 'Top Antivirus by Source IP', 'srcIp');
                 // top destination ip
                 $('#dDstIp').html('<table id="tDstIp"><thead><tr><th id="tDstIp-id" class="ui-state-default px100">Index</th><th id="tDstIp-dstIp" class="ui-state-default">Destination IP</th><th id="tDstIp-hitCount" class="ui-state-default px100">Hit Count</th></thead><tbody></tbody></table>');
                 counts = 0;
@@ -1043,7 +1071,7 @@ $(document).ready(function () {
                     styles: gObj.antivirus_report.chart[ lang ][ 2 ].styleDef,
                     horizontalGridlines: true
                 }).render( '#cDstIp' );
-                genPDF('sDstIp');
+                genPDF('sDstIp', dDstIp, 'Top Antivirus by Destination IP', 'dstIp');
                 // top virus name
                 $('#dVirusName').html('<table id="tVirusName"><thead><tr><th id="tVirusName-id" class="ui-state-default px100">Index</th><th id="tVirusName-virusName" class="ui-state-default">Virus Name</th><th id="tVirusName-hitCount" class="ui-state-default px100">Hit Count</th></thead><tbody></tbody></table>');
                 counts = 0;
@@ -1066,7 +1094,7 @@ $(document).ready(function () {
                     styles: gObj.antivirus_report.chart[ lang ][ 3 ].styleDef,
                     horizontalGridlines: true
                 }).render( '#cVirusName' );
-                genPDF('sVirusName');
+                genPDF('sVirusName', dVirusName, 'Top Antivirus by Virus Name', 'virusName');
                 // top protocol
                 $('#dProtocol').html('<table id="tProtocol"><thead><tr><th id="tProtocol-id" class="ui-state-default px100">Index</th><th id="tProtocol-protocol" class="ui-state-default">Protocol</th><th id="tProtocol-hitCount" class="ui-state-default px100">Hit Count</th></thead><tbody></tbody></table>');
                 counts = 0;
@@ -1088,7 +1116,7 @@ $(document).ready(function () {
                     seriesKeys: gObj.antivirus_report.chart[ lang ][ 4 ].serKey,
                     seriesCollection: gObj.antivirus_report.chart[ lang ][ 4 ].serCol
                 }).render( '#cProtocol' );
-                genPDF('sProtocol');
+                genPDF('sProtocol', dProtocol, 'Top Antivirus by Protocol', 'protocol');
             }
         }).done( function() { genPDF('export') } );
     }
@@ -1196,18 +1224,107 @@ $(document).ready(function () {
         }).done( function() { genPDF() } );
     }
 
-    function genPDF( flag ) {
+    function genImg( url ) {
+        var img = new Image(),
+            data,
+            ret = {
+                data: null,
+                pending: true
+            };
+
+        img.onError = function() {
+            throw new Error('Cannot load image: "' + url + '"');
+        };
+
+        img.onload = function() {
+            var canvas = document.createElement('canvas');
+            document.body.appendChild(canvas);
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'white';
+            ctx.fillRect( 0, 0, 1600, 1200 );
+            ctx.drawImage(img, 0, 0);
+            // Grab the image as a jpeg encoded in base64, but only the data
+            data = canvas.toDataURL('image/jpeg').slice('data:image/jpeg;base64,'.length);
+            // Convert the data to binary form
+            data = atob(data);
+            document.body.removeChild(canvas);
+
+            ret['data'] = data;
+            ret['pending'] = false;
+            addImg(data);
+        };
+        img.src = url;
+
+        return ret;
+    }
+
+    function addImg(data) {
+        gDoc.addImage(data, 'JPEG', 0, 0, 600, 450);
+    }
+
+    function genRect( data, key ) {
+        // draw outline
+        gDoc.setDrawColor( 204, 204, 204 );
+        gDoc.rect( 40, 80, 515, 360 );
+
+        var b = 20,
+            c = 6,
+            d = 0,
+            h = 110,
+            s = 480,
+            t = 10,
+            w = 0;
+
+        // draw data
+        for (var i=0, len=data.length; i<len; i++)
+        {
+            if (0 === i) {
+                d = data[ i ].hitCount;
+                w = s;
+            } else
+                w = (data[ i ].hitCount * s /d );
+
+            gDoc.setFontSize( 10 );
+            gDoc.text( 60 , h - c, data[ i ][ key ] + ' : ' + data[ i ].hitCount );
+
+            gDoc.setDrawColor( gRgbs[ i ].r, gRgbs[ i ].g, gRgbs[ i ].b );
+            gDoc.setFillColor( gRgbs[ i ].r, gRgbs[ i ].g, gRgbs[ i ].b );
+            gDoc.rect( 40, h, w, t, 'FD');
+            h += b + t;
+        }
+
+    }
+
+    function genPDF( flag, data, title, key ) {
         switch( flag )
         {
         case 'create':
-            gDoc.fromHTML( $('body').html(), 15, 15, { 'width': 200, 'elementHandlers': gDocNo });
+            genImg( gImg );
+            break;
+        case 'info':
+            gDoc.setFontSize( 18 );
+            gDoc.text( 240, 480, title);
+            gDoc.setFontSize( 10 )
+            gDoc.text( 230, 500, "Date : " + data.sd + " ~ " + data.ed);
             break;
         case 'sSrcIp':
         case 'sDstIp':
         case 'sVirusName':
-        case 'sProtcol':
+        case 'sProtocol':
             gDoc.addPage();
-            gDoc.fromHTML( $('#' + flag).html(), 15, 15, { 'width': 200, 'elementHandlers': gDocNo });
+            gDoc.setFontSize( 18 );
+            gDoc.text( 200, 40, title );
+
+            // draw chart
+            genRect( data, key );
+
+            gDoc.setFontSize( 12 );
+            // draw table
+            var height = gDoc.drawTable( data, {xstart: 40, ystart: 10, tablestart: 480, marginleft: 40, xOffset: 40, yOffset: 15} );
+            gDoc.text( 50, height + 20, '' );
             break;
         case 'export':
             gDoc.save('weekly.pdf');

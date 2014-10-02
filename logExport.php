@@ -61,11 +61,11 @@ case 'view_logs':
             {
                 $addr = '';
                 if ( $obj->srcIp ) {
-                    $addr = 'SrcAddr='. $obj->srcIp .';';
+                    $addr .= 'SrcAddr='. $obj->srcIp .';';
                 }
 
                 if ( $obj->dstIp ) {
-                    $addr = 'DstAddr='. $obj->dstIp .';';
+                    $addr .= 'DstAddr='. $obj->dstIp .';';
                 }
 
                 fwrite( $fp, $obj->date ." ". $obj->time ."-". $severity[ $obj->severity ] ."-". $obj->facility .":". $addr . $obj->msg ."(". $obj->program .")\n" );

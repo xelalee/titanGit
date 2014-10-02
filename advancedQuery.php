@@ -1570,6 +1570,8 @@ function weeklyAAV() {
 
     // create temp
     $GLOBALS[ 'mysqli' ]->query( $createTmp );
+    $GLOBALS[ 'json' ][ 'sd' ] = trim( shell_exec( 'date -d @'. ($dbStamp-86400*7) .' "+%Y.%m.%d"' ) );
+    $GLOBALS[ 'json' ][ 'ed' ] = trim( shell_exec( 'date -d @'. ($dbStamp-86400) .' "+%Y.%m.%d"' ) );
 
     for ( $i=7; $i>0; $i-- )
     {
