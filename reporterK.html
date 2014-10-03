@@ -1030,14 +1030,16 @@ $(document).ready(function () {
                 $('#dSrcIp').html('<table id="tSrcIp"><thead><tr><th id="tSrcIp-id" class="ui-state-default px100">Index</th><th id="tSrcIp-srcIp" class="ui-state-default">Source IP</th><th id="tSrcIp-hitCount" class="ui-state-default px100">Hit Count</th></thead><tbody></tbody></table>');
                 var counts = 0;
                 var dSrcIp = [];
+                var kSrcIp = [];
                 for (var i=0; i<data.topSrcIp.queryRows; i++)
                 {
                     // get top 10
                     if (i<10) {
                         $('#tSrcIp tbody').append('<tr class="' + ((i%2==0)? 'odd' : 'even') + '"><td>' + (i+1) + '</td><td>' + data.topSrcIp.queryResults[ i ].srcIp + '</td><td>' + data.topSrcIp.queryResults[ i ].hitCount + '</td></tr>');
                         dSrcIp.push({srcIp: data.topSrcIp.queryResults[ i ].srcIp, hitCount: data.topSrcIp.queryResults[ i ].hitCount});
-                    } else
+                        kSrcIp.push({'Source IP': data.topSrcIp.queryResults[ i ].srcIp, 'Hit Count': data.topSrcIp.queryResults[ i ].hitCount, 'Percent': 0});
                         counts += parseInt( data.topSrcIp.queryResults[ i ].hitCount );
+                    }
                 }
 
                 gChart.topSrcIp = new gY.Chart({
@@ -1048,19 +1050,21 @@ $(document).ready(function () {
                     styles: gObj.antivirus_report.chart[ lang ][ 1 ].styleDef,
                     horizontalGridlines: true
                 }).render( '#cSrcIp' );
-                genPDF('sSrcIp', dSrcIp, 'Top Antivirus by Source IP', 'srcIp');
+                genPDF('sSrcIp', dSrcIp, 'Top Antivirus by Source IP', 'srcIp', kSrcIp, counts);
                 // top destination ip
                 $('#dDstIp').html('<table id="tDstIp"><thead><tr><th id="tDstIp-id" class="ui-state-default px100">Index</th><th id="tDstIp-dstIp" class="ui-state-default">Destination IP</th><th id="tDstIp-hitCount" class="ui-state-default px100">Hit Count</th></thead><tbody></tbody></table>');
                 counts = 0;
                 var dDstIp = [];
+                var kDstIp = [];
                 for (var i=0; i<data.topDstIp.queryRows; i++)
                 {
                     // get top 10
                     if (i<10) {
                         $('#tDstIp tbody').append('<tr class="' + ((i%2==0)? 'odd' : 'even') + '"><td>' + (i+1) + '</td><td>' + data.topDstIp.queryResults[ i ].dstIp + '</td><td>' + data.topDstIp.queryResults[ i ].hitCount + '</td></tr>');
                         dDstIp.push({dstIp: data.topDstIp.queryResults[ i ].dstIp, hitCount: data.topDstIp.queryResults[ i ].hitCount});
-                    } else
+                        kDstIp.push({'Destination IP': data.topDstIp.queryResults[ i ].dstIp, 'Hit Count': data.topDstIp.queryResults[ i ].hitCount, 'Percent': 0});
                         counts += parseInt( data.topDstIp.queryResults[ i ].hitCount );
+                    }
                 }
 
                 gChart.topDstIp = new gY.Chart({
@@ -1071,19 +1075,21 @@ $(document).ready(function () {
                     styles: gObj.antivirus_report.chart[ lang ][ 2 ].styleDef,
                     horizontalGridlines: true
                 }).render( '#cDstIp' );
-                genPDF('sDstIp', dDstIp, 'Top Antivirus by Destination IP', 'dstIp');
+                genPDF('sDstIp', dDstIp, 'Top Antivirus by Destination IP', 'dstIp', kDstIp, counts);
                 // top virus name
                 $('#dVirusName').html('<table id="tVirusName"><thead><tr><th id="tVirusName-id" class="ui-state-default px100">Index</th><th id="tVirusName-virusName" class="ui-state-default">Virus Name</th><th id="tVirusName-hitCount" class="ui-state-default px100">Hit Count</th></thead><tbody></tbody></table>');
                 counts = 0;
                 var dVirusName = [];
+                var kVirusName = [];
                 for (var i=0; i<data.topVirusName.queryRows; i++)
                 {
                     // get top 10
                     if (i<10) {
                         $('#tVirusName tbody').append('<tr class="' + ((i%2==0)? 'odd' : 'even') + '"><td>' + (i+1) + '</td><td>' + data.topVirusName.queryResults[ i ].virusName + '</td><td>' + data.topVirusName.queryResults[ i ].hitCount + '</td></tr>');
                         dVirusName.push({virusName: data.topVirusName.queryResults[ i ].virusName, hitCount: data.topVirusName.queryResults[ i ].hitCount});
-                    } else
+                        kVirusName.push({'Virus Name': data.topVirusName.queryResults[ i ].virusName, 'Hit Count': data.topVirusName.queryResults[ i ].hitCount, 'Percent': 0});
                         counts += parseInt( data.topVirusName.queryResults[ i ].hitCount );
+                    }
                 }
 
                 gChart.topVirusName = new gY.Chart({
@@ -1094,19 +1100,21 @@ $(document).ready(function () {
                     styles: gObj.antivirus_report.chart[ lang ][ 3 ].styleDef,
                     horizontalGridlines: true
                 }).render( '#cVirusName' );
-                genPDF('sVirusName', dVirusName, 'Top Antivirus by Virus Name', 'virusName');
+                genPDF('sVirusName', dVirusName, 'Top Antivirus by Virus Name', 'virusName', kVirusName, counts);
                 // top protocol
                 $('#dProtocol').html('<table id="tProtocol"><thead><tr><th id="tProtocol-id" class="ui-state-default px100">Index</th><th id="tProtocol-protocol" class="ui-state-default">Protocol</th><th id="tProtocol-hitCount" class="ui-state-default px100">Hit Count</th></thead><tbody></tbody></table>');
                 counts = 0;
                 var dProtocol = [];
+                var kProtocol = [];
                 for (var i=0; i<data.topProtocol.queryRows; i++)
                 {
                     // get top 10
                     if (i<10) {
                         $('#tProtocol tbody').append('<tr class="' + ((i%2==0)? 'odd' : 'even') + '"><td>' + (i+1) + '</td><td>' + data.topProtocol.queryResults[ i ].protocol + '</td><td>' + data.topProtocol.queryResults[ i ].hitCount + '</td></tr>');
                         dProtocol.push({protocol: data.topProtocol.queryResults[ i ].protocol, hitCount: data.topProtocol.queryResults[ i ].hitCount});
-                    } else
+                        kProtocol.push({'Protocol': data.topProtocol.queryResults[ i ].protocol, 'Hit Count': data.topProtocol.queryResults[ i ].hitCount, 'Percent': 0});
                         counts += parseInt( data.topProtocol.queryResults[ i ].hitCount );
+                    }
                 }
 
                 gChart.topProtocol = new gY.Chart({
@@ -1116,7 +1124,7 @@ $(document).ready(function () {
                     seriesKeys: gObj.antivirus_report.chart[ lang ][ 4 ].serKey,
                     seriesCollection: gObj.antivirus_report.chart[ lang ][ 4 ].serCol
                 }).render( '#cProtocol' );
-                genPDF('sProtocol', dProtocol, 'Top Antivirus by Protocol', 'protocol');
+                genPDF('sProtocol', dProtocol, 'Top Antivirus by Protocol', 'protocol', kProtocol, counts);
             }
         }).done( function() { genPDF('export') } );
     }
@@ -1224,7 +1232,7 @@ $(document).ready(function () {
         }).done( function() { genPDF() } );
     }
 
-    function genImg( url ) {
+    function genImg( url, x, y, w, h ) {
         var img = new Image(),
             data,
             ret = {
@@ -1254,18 +1262,18 @@ $(document).ready(function () {
 
             ret['data'] = data;
             ret['pending'] = false;
-            addImg(data);
+            addImg(data, x, y, w, h);
         };
         img.src = url;
 
         return ret;
     }
 
-    function addImg(data) {
-        gDoc.addImage(data, 'JPEG', 0, 0, 600, 450);
+    function addImg(data, x, y, w, h) {
+        gDoc.addImage(data, 'JPEG', x, y, w, h);
     }
 
-    function genRect( data, key ) {
+    function genBar( data, key ) {
         // draw outline
         gDoc.setDrawColor( 204, 204, 204 );
         gDoc.rect( 40, 80, 515, 360 );
@@ -1298,11 +1306,56 @@ $(document).ready(function () {
 
     }
 
-    function genPDF( flag, data, title, key ) {
+    function genPie( data, key ) {
+        var counts = 0,
+            arcBegin = -0.5 * Math.PI,
+            arcEnd = 0,
+            ctx,
+            pieData = [],
+            pieChart,
+            iData,
+            img,
+            canvas = document.createElement('canvas');
+        document.body.appendChild(canvas);
+        canvas.width = 400;
+        canvas.height = 400;
+
+        ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect( 0, 0, 400, 400 );
+
+        for (var i=0, len=data.length; i<len; i++)
+        {
+            if (!isNaN( parseInt( data[ i ].hitCount))) {
+                counts += parseInt( data[ i ].hitCount );
+                pieData.push( data[ i ] );
+            }
+        }
+
+        for (var i=0, len=pieData.length; i<len; i++)
+        {
+            arcEnd = ( (parseInt( pieData[ i ].hitCount )/counts) * Math.PI * 2 );
+            ctx.fillStyle = gColor[ i ];
+            ctx.beginPath();
+            ctx.moveTo( 200, 200 );
+            ctx.arc( 200, 200, 180, arcBegin, arcBegin + arcEnd );
+            ctx.lineTo( 200, 200 );
+            ctx.fill();
+            arcBegin += arcEnd;
+        }
+
+        img = canvas.toDataURL('image/jpeg');
+
+        addImg( img, 40, 60, 515, 400);
+
+        document.body.removeChild(canvas);
+    }
+
+    function genPDF( flag, data, title, key, keyData, counts ) {
         switch( flag )
         {
         case 'create':
-            genImg( gImg );
+            genImg( gImg, 0, 0, 600, 450 );
             break;
         case 'info':
             gDoc.setFontSize( 18 );
@@ -1313,18 +1366,46 @@ $(document).ready(function () {
         case 'sSrcIp':
         case 'sDstIp':
         case 'sVirusName':
-        case 'sProtocol':
             gDoc.addPage();
             gDoc.setFontSize( 18 );
             gDoc.text( 200, 40, title );
 
             // draw chart
-            genRect( data, key );
+            genBar( data, key );
 
-            gDoc.setFontSize( 12 );
             // draw table
-            var height = gDoc.drawTable( data, {xstart: 40, ystart: 10, tablestart: 480, marginleft: 40, xOffset: 40, yOffset: 15} );
+            for (var i=0, len=keyData.length; i<len; i++) {
+                keyData[ i ].Percent = ( parseInt( keyData[ i ][ 'Hit Count'] ) * 100 / counts ).toFixed(2) + '%';
+                //gDoc.setDrawColor( gRgbs[ i ].r, gRgbs[ i ].g, gRgbs[ i ].b );
+                //gDoc.setFillColor( gRgbs[ i ].r, gRgbs[ i ].g, gRgbs[ i ].b );
+                //gDoc.rect( 10, (495 + i*15), 10, 10, 'FD' );
+            }
+            gDoc.setFontSize( 10 );
+            var height = gDoc.drawTable( keyData, {xstart: 40, ystart: 10, tablestart: 480, marginleft: 40, xOffset: 5, yOffset: 10} );
             gDoc.text( 50, height + 20, '' );
+
+            break;
+        case 'sProtocol':
+
+            gDoc.addPage();
+            gDoc.setFontSize( 18 );
+            gDoc.text( 200, 40, title );
+
+            gDoc.setFontSize( 10 );
+            // draw table
+            for (var i=0, len=keyData.length; i<len; i++) {
+                keyData[ i ].Percent = ( parseInt( keyData[ i ][ 'Hit Count'] ) * 100 / counts ).toFixed(2) + '%';
+                gDoc.setDrawColor( gRgbs[ i ].r, gRgbs[ i ].g, gRgbs[ i ].b );
+                gDoc.setFillColor( gRgbs[ i ].r, gRgbs[ i ].g, gRgbs[ i ].b );
+                gDoc.rect( 10, (498 + i*15), 10, 10, 'FD' );
+            }
+
+            var height = gDoc.drawTable( keyData, {xstart: 40, ystart: 10, tablestart: 480, marginleft: 40, xOffset: 5, yOffset: 10} );
+
+            gDoc.text( 50, height + 20, '' );
+
+            // draw chart
+            genPie( data, key );
             break;
         case 'export':
             gDoc.save('weekly.pdf');

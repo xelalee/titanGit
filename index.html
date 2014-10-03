@@ -689,62 +689,18 @@ $(document).ready(function () {
     function ifDebugger() {
         if (gIf.log) {
             if (gIf.pcap) {
-                switch( gObj.blinking )
-                {
-                case 0:
-                    gIf.isNext = false;
-                    break;
-                //case 2:
-                case 3:
-                    gIf.isNext = true;
-                    break;
-                }
-
-                for (var i=0, len=gObj.blinkings.length; i<len; i++)
-                {
-                    if (i === gObj.blinking)
-                        $('#hd_blink' + gObj.blinkings[ i ]).show().animate({opacity:0}, 'slow', function(){ $(this).animate({opacity:1})});
-                    else
-                        $('#hd_blink' + gObj.blinkings[ i ]).hide();
-                }
-
-                if (gIf.isNext)
-                    gObj.blinking--;
-                else
-                    gObj.blinking++;
+                $('#hd_debug').addClass('isDebug');
             } else {
-                if (0 === gObj.blinking )
-                    //gObj.blinking = 2;
-                    gObj.blinking = 3;
-                else
-                    gObj.blinking--;
-
-                for (var i=0, len=gObj.blinkings.length; i<len; i++)
-                {
-                    if (i === gObj.blinking)
-                        $('#hd_blink' + gObj.blinkings[ i ]).show().animate({opacity:0}, 'slow', function(){ $(this).animate({opacity:1})});
-                    else
-                        $('#hd_blink' + gObj.blinkings[ i ]).hide();
-                }
+                $('#hd_debug').addClass('isLog');
             }
         } else {
             if (gIf.pcap) {
-                //if (2 === gObj.blinking )
-                if (3 === gObj.blinking )
-                    gObj.blinking = 0;
-                else
-                    gObj.blinking++;
-
-                for (var i=0, len=gObj.blinkings.length; i<len; i++)
-                {
-                    if (i === gObj.blinking)
-                        $('#hd_blink' + gObj.blinkings[ i ]).show().animate({opacity:0}, 'slow', function(){ $(this).animate({opacity:1})});
-                    else
-                        $('#hd_blink' + gObj.blinkings[ i ]).hide();
-                }
+                $('#hd_debug').addClass('isPcap');
             } else {
-                $('#hd_blink' + gObj.blinkings[ gObj.blinking ]).hide();
-                gObj.blinking = 0;
+                $('hd_debug').removeClass('isLog');
+                $('hd_debug').removeClass('isPcap');
+                $('hd_debug').removeClass('isDebug');
+
                 gIf.debug = false;
             }
         }

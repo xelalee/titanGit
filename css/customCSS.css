@@ -32,71 +32,6 @@ html {
 
 }
 
-#hd_blinkE {
-    position: absolute;
-    left: 160px;
-    top: 53px;
-    width: 7px;
-    height: 6px;
-    -webkit-border-radius: 25px;
-    -moz-border-radius: 25px;
-    border-radius: 25px;
-    background-color: black;
-    display: none;
-    opacity: 0;
-}
-
-#hd_blinkH {
-    position: absolute;
-    left: 198px;
-    top: 53px;
-    width: 7px;
-    height: 6px;
-    -webkit-border-radius: 25px;
-    -moz-border-radius: 25px;
-    border-radius: 25px;
-    background-color: black;
-    display: none;
-    opacity: 0;
-}
-
-#hd_blinkI {
-    position: absolute;
-    left: 240px;
-    top: 45px;
-    width: 7px;
-    height: 6px;
-    -webkit-border-radius: 25px;
-    -moz-border-radius: 25px;
-    border-radius: 25px;
-    background-color: black;
-    display: none;
-    opacity: 0;
-}
-
-#hd_blinkA {
-    position: absolute;
-    left: 271px;
-    top: 59px;
-    width: 7px;
-    height: 6px;
-    -webkit-border-radius: 25px;
-    -moz-border-radius: 25px;
-    border-radius: 25px;
-    background-color: black;
-    display: none;
-    opacity: 0;
-}
-
-#hd_debuger {
-    position: absolute;
-    left: 68px;
-    top: 62px;
-    width: 16px;
-    height: 16px;
-    background: url('images/ui-icons_cc0000_256x240.png') -160px -112px no-repeat;
-}
-
 #hd_timer {
     position: absolute;
     left: 680px;
@@ -150,6 +85,27 @@ html {
 
 #hd_help:hover {
     opacity: 0.5;
+}
+
+#hd_debug {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    top: 100px;
+    left: 697px;
+    background-color: transparent;
+}
+
+#hd_debug.isLog {
+    background-color: #efefef;
+}
+
+#hd_debug.isPcap {
+    background-color: #cc0000;
+}
+
+#hd_debug.isDebug {
+    background-color: #007260;
 }
 
 #hd_home {

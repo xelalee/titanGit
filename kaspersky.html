@@ -232,8 +232,6 @@ gObj.delay  = 0;
 gObj.help   = 0;
 gObj.sigVer = 0;
 gObj.blinking = 0;
-gObj.blinkings = [ 'D', 'L', 'U' ];
-//gObj.blinkings = [ 'E', 'H', 'I', 'A' ];
 gObj.debugMode = 0;
 
 // if condition
@@ -492,16 +490,8 @@ gHtml.layout +=   '</div>';
 gHtml.layout += '</div>';
 
 gHtml.head = '<div class="content">';
-//gHtml.head += '<div id="hd_top"></div>';
-//gHtml.head += '<div id="hd_mark"></div>';
-//gHtml.head += '<div id="hd_label"></div>';
-gHtml.head += '<div id="hd_blinkD"></div>';
-gHtml.head += '<div id="hd_blinkL"></div>';
-gHtml.head += '<div id="hd_blinkU"></div>';
-//gHtml.head += '<div id="hd_blinkE"></div>';
-//gHtml.head += '<div id="hd_blinkH"></div>';
-//gHtml.head += '<div id="hd_blinkI"></div>';
-//gHtml.head += '<div id="hd_blinkA"></div>';
+
+
 gHtml.head += '<div id="hd_user"></div>';
 gHtml.head += '<div id="hd_timer"></div>';
 gHtml.head += '<div id="hd_ip"></div>';
@@ -509,6 +499,7 @@ gHtml.head += '<div id="hd_timeout"></div>';
 gHtml.head += '<div id="hd_config"></div>';
 //gHtml.head += '<div id="hd_help"></div>';
 gHtml.head += '<div id="hd_home"></div>';
+gHtml.head += '<div id="hd_debug"></div>';
 gHtml.head += '<div id="hd_refresh"></div>';
 gHtml.head += '<div id="hd_logout"></div>';
 gHtml.head += '</div>';
@@ -689,62 +680,18 @@ $(document).ready(function () {
     function ifDebugger() {
         if (gIf.log) {
             if (gIf.pcap) {
-                switch( gObj.blinking )
-                {
-                case 0:
-                    gIf.isNext = false;
-                    break;
-                case 2:
-                //case 3:
-                    gIf.isNext = true;
-                    break;
-                }
-
-                for (var i=0, len=gObj.blinkings.length; i<len; i++)
-                {
-                    if (i === gObj.blinking)
-                        $('#hd_blink' + gObj.blinkings[ i ]).show().animate({opacity:0}, 'slow', function(){ $(this).animate({opacity:1})});
-                    else
-                        $('#hd_blink' + gObj.blinkings[ i ]).hide();
-                }
-
-                if (gIf.isNext)
-                    gObj.blinking--;
-                else
-                    gObj.blinking++;
+                $('#hd_debug').addClass('isDebug');
             } else {
-                if (0 === gObj.blinking )
-                    gObj.blinking = 2;
-                    //gObj.blinking = 3;
-                else
-                    gObj.blinking--;
-
-                for (var i=0, len=gObj.blinkings.length; i<len; i++)
-                {
-                    if (i === gObj.blinking)
-                        $('#hd_blink' + gObj.blinkings[ i ]).show().animate({opacity:0}, 'slow', function(){ $(this).animate({opacity:1})});
-                    else
-                        $('#hd_blink' + gObj.blinkings[ i ]).hide();
-                }
+                $('#hd_debug').addClass('isLog');
             }
         } else {
             if (gIf.pcap) {
-                if (2 === gObj.blinking )
-                //if (3 === gObj.blinking )
-                    gObj.blinking = 0;
-                else
-                    gObj.blinking++;
-
-                for (var i=0, len=gObj.blinkings.length; i<len; i++)
-                {
-                    if (i === gObj.blinking)
-                        $('#hd_blink' + gObj.blinkings[ i ]).show().animate({opacity:0}, 'slow', function(){ $(this).animate({opacity:1})});
-                    else
-                        $('#hd_blink' + gObj.blinkings[ i ]).hide();
-                }
+                $('#hd_debug').addClass('isPcap');
             } else {
-                $('#hd_blink' + gObj.blinkings[ gObj.blinking ]).hide();
-                gObj.blinking = 0;
+                $('hd_debug').removeClass('isLog');
+                $('hd_debug').removeClass('isPcap');
+                $('hd_debug').removeClass('isDebug');
+
                 gIf.debug = false;
             }
         }
