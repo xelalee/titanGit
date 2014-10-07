@@ -226,12 +226,10 @@
     "_comment" : "dns forwarder",
 
     "_comment" : "========",
-    "_comment" : "networking",
+    "_comment" : "Firewall",
     "_comment" : "--------",
-    "_comment" : "routing",
+    "_comment" : "rules",
 
-    "_comment" : "========",
-    "_comment" : "security",
     "_comment" : "--------",
     "_comment" : "ip mac binding",
     "ipMacBindingImport" : "file can only be .csv",
@@ -240,6 +238,13 @@
     "macAddr"  : "MAC Address should be MAC spec",
     "ipMacBindingLength" : "The {IP, MAC} pair should between 1 to 500",
     "dscrpt"   : "Description length should between 0 to 63",
+
+    "_comment" : "========",
+    "_comment" : "security",
+    "_comment" : "--------",
+    "_comment" : "address exceptions",
+    "sAddrId"  : "please select source address",
+    "dAddrId"  : "please select destination address",
     "_comment" : "========",
     "_comment" : "device",
     "_comment" : "--------",
