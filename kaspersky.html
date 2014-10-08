@@ -149,12 +149,25 @@ Object.size = function(obj) {
 var gY = YUI({filter:"raw", defaultGraphicEngine: "canvas"}).use('anim', 'charts', 'charts-legend', 'console', 'cookie', 'datasource', 'datasource-get', 'datasource-io', 'datasource-jsonschema', 'datatable-base', 'datatable-sort', 'datatable-datasource', 'dd', 'dd-plugin', 'dump', 'event', 'get', 'io-base', 'io-upload-iframe', 'json', 'json-parse', 'json-stringify', 'node', 'node-event-simulate', 'panel', 'uploader', 'yui');
 
 // define global vars
+
 var gVersion = {
-    version: "Kaspersky",
-    aka: 'K',
-    copyright: 'Copyright &copy; 2014 Titan ARC Corp.',
-    multi: false
+    0 : {
+        version: "Tech Titan",
+        aka: '',
+        title: 'TitanWALL Web Manager',
+        copyright: 'Copyright &copy; 2014 Tech Titan',
+        multi: true
+    },
+    1: {
+        version: "Kaspersky",
+        aka: 'K',
+        title: 'TitanWALL Web Manager',
+        copyright: 'Copyright &copy; 2014 Titan ARC Corp.',
+        multi: false
+    }
 }
+
+var gInfo = 1;
 
 var gLang = ['en', 'cn', 'tw']; // languages
 var gRef  = {};
@@ -803,7 +816,7 @@ $(document).ready(function () {
         $('#userLangLabel').html( gLogin[ gObj.lang ].userLang + ' : ' );
         $('#loginButton').html( '<b>' + gLogin[ gObj.lang ].loginButton + '</b>' );
 
-        if (gVersion.multi) {
+        if (gVersion[ gInfo ].multi) {
             $('#userLang').append('<option value="tw">繁體中文</option>');
             $('#userLang').append('<option value="cn">简体中文</option>');
             $('#userLang').val(gObj.lang);
@@ -2070,7 +2083,7 @@ $(document).ready(function () {
 
 
         $('#ft').html( gHtml.foot );
-        $('#ft .content').append('<p>' +  gVersion.copyright + '</p>');
+        $('#ft .content').append('<p>' +  gVersion[ gInfo ].copyright + '</p>');
         // set row limits
         getLimit();
 
@@ -2495,7 +2508,7 @@ $(document).ready(function () {
         if (!tar.id)
             return false;
 
-        window.open( 'reporter' + gVersion.aka + '.html?param=weekly', '_blank');
+        window.open( 'reporter' + gVersion[ gInfo ].aka + '.html?param=weekly', '_blank');
     }
 
     function btnQuery(e) {
@@ -2519,7 +2532,7 @@ $(document).ready(function () {
         case 'affected_host':
         case 'antivirus_report':
             // cache query status
-            window.open( 'reporter' + gVersion.aka + '.html?param=' + tar.pid + '&q=' + gObj.tabIndex + '&sd=' + $('#query-startDate').val() + '&sh=' + $('#query-startHour').val() + '&ed=' + $('#query-endDate').val() + '&eh=' + $('#query-endHour').val(), '_blank');
+            window.open( 'reporter' + gVersion[ gInfo ].aka + '.html?param=' + tar.pid + '&q=' + gObj.tabIndex + '&sd=' + $('#query-startDate').val() + '&sh=' + $('#query-startHour').val() + '&ed=' + $('#query-endDate').val() + '&eh=' + $('#query-endHour').val(), '_blank');
             break;
         case 'view_logs':
             // cache query status
@@ -8299,7 +8312,7 @@ $(document).ready(function () {
                                                             tmp += '</td>';
                                                             tmp += '<td class="align' + gNode.col[ x ][ j ].option[ y ].col[ k ].align[ 2 ] + '" >';
                                                             tmp += '<input type="' + gNode.col[ x ][ j ].option[ y ].col[ k ].type + '" id="' + gNode.col[ x ][ j ].option[ y ].col[ k ].tab + '" ' + ( (gNode.col[ x ][ j ].option[ y ].col[ k ].size)? 'size="' + gNode.col[ x ][ j ].option[ y ].col[ k ].size + '"' : '' ) + ' />';
-                                                            tmp += '&nbsp;' + gNode.col[ x ][ j ].option[ y ].col[ k ].note;
+                                                            tmp += '&nbsp;' + gNode.col[ x ][ j ].option[ y ].col[ k ][ gObj.lang + '-note' ];
                                                             tmp += '</td>';
                                                             tmp += '</tr>';
                                                         }
@@ -8803,7 +8816,7 @@ $(document).ready(function () {
                         }
                         tmp += '</p>';
                         if (gNode.editor[ i ].col[ j ].note)
-                            tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].note;
+                            tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.lang + '-note' ];
                         tmp += '</td>';
                         tmp += '</tr>';
                         break;
@@ -8818,7 +8831,7 @@ $(document).ready(function () {
                             tmp += '<td class="align' + ((gNode.editor[ i ].col[ j ].align)? gNode.editor[ i ].col[ j ].align[ 1 ] : "Left") + '">';
                             tmp += '<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '" ' + ( (gNode.editor[ i ].col[ j ].size)? 'size="' + gNode.editor[ i ].col[ j ].size + '"' : '' ) + '/>';
                             if (gNode.editor[ i ].col[ j ].note)
-                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].note;
+                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.lang + '-note' ];
                             tmp += '</td>';
                             tmp += '</tr>';
                             break;
@@ -8840,14 +8853,14 @@ $(document).ready(function () {
                                     case 1:
                                         tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ][ gObj.label ] + '&nbsp;<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ].tab + '"' + ( (gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ].size)? 'size="' + gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ].size + '"' : '' ) + '/>';
                                         if (gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ].note)
-                                            tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ].note;
+                                            tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ][ gObj.lang + '-note' ];
                                         break;
                                     default:
                                         for (var k=0, klen=gNode.editor[ i ].col[ j ].option[ x ].col.length; k<klen; k++)
                                         {
                                             tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ k ][ gObj.label ] + '&nbsp;<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].option[ x ].col[ k ].tab + '" ' + ( (gNode.editor[ i ].col[ j ].option[ x ].col[ k ].size)? 'size="' + gNode.editor[ i ].col[ j ].option[ x ].col[ k ].size + '"' : '' ) + '/>';
                                             if (gNode.editor[ i ].col[ j ].option[ x ].col[ k ].note)
-                                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ k ].note;
+                                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ k ][ gObj.lang + '-note' ];
                                         }
                                     }
                                 }
@@ -8953,7 +8966,7 @@ $(document).ready(function () {
                                                     tmp += '<td class="alignLeft">';
                                                     tmp += '<input type="text" ' + ( ( gNode.editor[ i ].col[ j ].col[ x ][ k].option[ y ].col[ m ].size )? 'size="8"' : '') + ' id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '-' + x + '-' + gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ].tab + '" />';
                                                     tmp += '&nbsp;';
-                                                    tmp += ( gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ].note )? gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ].note : '';
+                                                    tmp += ( gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ].note )? gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ][ gObj.lang + '-note' ] : '';
                                                     tmp += '</td>';
                                                     tmp += '</tr>';
                                                 }
@@ -9310,7 +9323,7 @@ $(document).ready(function () {
                             tmp += '<td class="align' + ((gNode.editor[ i ].col[ j ].align)? gNode.editor[ i ].col[ j ].align[ 1 ] : "Left") + '">';
                             tmp += '<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '" ' + ( (gNode.editor[ i ].col[ j ].size)? 'size="' + gNode.editor[ i ].col[ j ].size + '"' : '' ) + '/>';
                             if (gNode.editor[ i ].col[ j ].note)
-                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].note;
+                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.lang + '-note' ];
                             tmp += '</td>';
                             tmp += '</tr>';
                             break;
@@ -9575,7 +9588,7 @@ $(document).ready(function () {
                                 tmp += '<td class="align' + ((gNode.editor[ i ].col[ j ].align)? gNode.editor[ i ].col[ j ].align[ 1 ] : "Left") + '">';
                                 tmp += '<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '" ' + ( (gNode.editor[ i ].col[ j ].size)? 'size="' + gNode.editor[ i ].col[ j ].size + '"' : '' ) + ' />';
                                 if (gNode.editor[ i ].col[ j ].note)
-                                    tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].note;
+                                    tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.lang + '-note' ];
                                 tmp += '</td>';
                                 tmp += '</tr>';
                                 break;
@@ -9594,7 +9607,7 @@ $(document).ready(function () {
                                     if (gNode.editor[ i ].col[ j ].option[ x ].col) {
                                         tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.label ] + '&nbsp;<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].option[ x ].col.tab + '" ' + ( (gNode.editor[ i ].col[ j ].option[ x ].col.size)? 'size="' + gNode.editor[ i ].col[ j ].option[ x ].col.size + '"' : '' ) + ' />';
                                         if (gNode.editor[ i ].col[ j ].option[ x ].col.note)
-                                            tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col.note;
+                                            tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.lang + '-note' ];
                                     }
                                     tmp += '</td>';
                                     tmp += '</tr>';
@@ -9797,7 +9810,7 @@ $(document).ready(function () {
                     tmp += '<td class="align' + gNode.editor[ i ].align[ 1 ] + '" >';
                     tmp += '<input type="' + gNode.editor[ i ].type + '" id="editor-' + gNode.editor[ i ].tab + '" ' + (( gNode.editor[ i ].tab == 'securityLevel')? 'size="8"' : '') + '/>';
                     if (gNode.editor[ i ].note)
-                        tmp += '&nbsp;' + gNode.editor[ i ].note;
+                        tmp += '&nbsp;' + gNode.editor[ i ][ gObj.lang + '-note' ];
                     tmp += '</td>';
                     break;
                 case 'member':
@@ -9907,7 +9920,7 @@ $(document).ready(function () {
                         tmp += '<p id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '">';
                         tmp += '</p>';
                         if (gNode.editor[ i ].col[ j ].note)
-                            tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].note;
+                            tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.lang + '-note' ];
                         tmp += '</td>';
                         tmp += '</tr>';
                         break;
@@ -9922,7 +9935,7 @@ $(document).ready(function () {
                             tmp += '<td class="align' + ((gNode.editor[ i ].col[ j ].align)? gNode.editor[ i ].col[ j ].align[ 1 ] : "Left") + '">';
                             tmp += '<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '" ' + ( (gNode.editor[ i ].col[ j ].size)? 'size="' + gNode.editor[ i ].col[ j ].size + '"' : '' ) + '/>';
                             if (gNode.editor[ i ].col[ j ].note)
-                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].note;
+                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.lang + '-note' ];
                             tmp += '</td>';
                             tmp += '</tr>';
                             break;
@@ -9944,14 +9957,14 @@ $(document).ready(function () {
                                     case 1:
                                         tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ][ gObj.label ] + '&nbsp;<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ].tab + '" ' + ((gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ].size)? 'size="' + gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ].size + '"' : '' ) + '/>';
                                         if (gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ].note)
-                                            tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ].note;
+                                            tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ][ gObj.lang + '-note' ];
                                         break;
                                     default:
                                         for (var k=0, klen=gNode.editor[ i ].col[ j ].option[ x ].col.length; k<klen; k++)
                                         {
                                             tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ k ][ gObj.label ] + '&nbsp;<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].option[ x ].col[ k ].tab + '" ' + ( (gNode.editor[ i ].col[ j ].option[ x ].col[ k ].size)? 'size="' + gNode.editor[ i ].col[ j ].option[ x ].col[ k ].size + '"' : '' ) + '/>';
                                             if (gNode.editor[ i ].col[ j ].option[ x ].col[ k ].note)
-                                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ k ].note;
+                                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ k ][ gObj.lang + '-note' ];
                                         }
                                     }
                                 }
@@ -10056,7 +10069,7 @@ $(document).ready(function () {
                                                     tmp += '<td class="alignLeft">';
                                                     tmp += '<input type="text" ' + ( ( gNode.editor[ i ].col[ j ].col[ x ][ k].option[ y ].col[ m ].size )? 'size="8"' : '') + ' id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '-' + x + '-' + gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ].tab + '" />';
                                                     tmp += '&nbsp;';
-                                                    tmp += ( gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ].note )? gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ].note : '';
+                                                    tmp += ( gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ].note )? gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ][ gObj.lang + '-note' ] : '';
                                                     tmp += '</td>';
                                                     tmp += '</tr>';
                                                 }
@@ -10500,7 +10513,7 @@ $(document).ready(function () {
                             tmp += '<td class="align' + ((gNode.editor[ i ].col[ j ].align)? gNode.editor[ i ].col[ j ].align[ 1 ] : "Left") + '">';
                             tmp += '<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '" ' + ( (gNode.editor[ i ].col[ j ].size)? 'size="' + gNode.editor[ i ].col[ j ].size + '"' : '' ) + '/>';
                             if (gNode.editor[ i ].col[ j ].note)
-                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].note;
+                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.lang + '-note' ];
                             tmp += '</td>';
                             tmp += '</tr>';
                             break;
@@ -10529,7 +10542,7 @@ $(document).ready(function () {
                                 if (gNode.editor[ i ].col[ j ].option[ x ].col) {
                                     tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.label ] + '&nbsp;<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].option[ x ].col.tab + '" ' + ( (gNode.editor[ i ].col[ j ].option[ x ].col.size)? 'size="' + gNode.editor[ i ].col[ j ].option[ x ].col.size + '"' : '' ) + '/>';
                                     if (gNode.editor[ i ].col[ j ].option[ x ].col.note)
-                                        tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col.note;
+                                        tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.lang + '-note' ];
                                 }
                                 tmp += '</td>';
                                 tmp += '</tr>';
@@ -10793,7 +10806,7 @@ $(document).ready(function () {
                             tmp += '<td class="align' + ((gNode.editor[ i ].col[ j ].align)? gNode.editor[ i ].col[ j ].align[ 1 ] : "Left") + '">';
                             tmp += '<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '" ' + ( (gNode.editor[ i ].col[ j ].size)? 'size="' + gNode.editor[ i ].col[ j ].size + '"' : '' ) + '/>';
                             if (gNode.editor[ i ].col[ j ].note)
-                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].note;
+                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.lang + '-note' ];
                             tmp += '</td>';
                             tmp += '</tr>';
                             break;
@@ -10822,7 +10835,7 @@ $(document).ready(function () {
                                 if (gNode.editor[ i ].col[ j ].option[ x ].col) {
                                     tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.label ] + '&nbsp;<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].option[ x ].col.tab + '" ' + ( (gNode.editor[ i ].col[ j ].option[ x ].col.size)? 'size="' + gNode.editor[ i ].col[ j ].option[ x ].col.size + '"' : '' ) + '/>';
                                     if (gNode.editor[ i ].col[ j ].option[ x ].col.note)
-                                        tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col.note;
+                                        tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.lang + '-note' ];
                                 }
                                 tmp += '</td>';
                                 tmp += '</tr>';
@@ -11089,7 +11102,7 @@ $(document).ready(function () {
                             tmp += '<td class="align' + ((gNode.editor[ i ].col[ j ].align)? gNode.editor[ i ].col[ j ].align[ 1 ] : "Left") + '">';
                             tmp += '<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '" ' + ( (gNode.editor[ i ].col[ j ].size)? 'size="' + gNode.editor[ i ].col[ j ].size + '"' : '' ) + ' />';
                             if (gNode.editor[ i ].col[ j ].note)
-                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].note;
+                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.lang + '-note' ];
                             tmp += '</td>';
                             tmp += '</tr>';
                             break;
@@ -11108,7 +11121,7 @@ $(document).ready(function () {
                                 if (gNode.editor[ i ].col[ j ].option[ x ].col) {
                                     tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.label ] + '&nbsp;<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].option[ x ].col.tab + '" ' + ( (gNode.editor[ i ].col[ j ].option[ x ].col.size)? 'size="' + gNode.editor[ i ].col[ j ].option[ x ].col.size + '"' : '' ) + '/>';
                                     if (gNode.editor[ i ].col[ j ].option[ x ].col.note)
-                                        tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col.note;
+                                        tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.lang + '-note' ];
                                 }
                                 tmp += '</td>';
                                 tmp += '</tr>';
@@ -11345,7 +11358,7 @@ $(document).ready(function () {
                     tmp += '<td class="align' + gNode.editor[ i ].align[ 1 ] + '" >';
                     tmp += '<input type="' + gNode.editor[ i ].type + '" id="editor-' + gNode.editor[ i ].tab + '" />';
                     if (gNode.editor[ i ].note)
-                        tmp += gNode.editor[ i ].note;
+                        tmp += gNode.editor[ i ][ gObj.lang + '-note' ];
                     tmp += '</td>';
                     break;
                 case 'securityLevel':
@@ -11353,7 +11366,7 @@ $(document).ready(function () {
                     tmp += '<td class="align' + gNode.editor[ i ].align[ 1 ] + '" >';
                     tmp += '<input type="' + gNode.editor[ i ].type + '" id="editor-' + gNode.editor[ i ].tab + '" size="8" />';
                     if (gNode.editor[ i ].note)
-                        tmp += gNode.editor[ i ].note;
+                        tmp += gNode.editor[ i ][ gObj.lang + '-note' ];
                     tmp += '</td>';
                     break;
                 case 'member':
@@ -14495,7 +14508,7 @@ $(document).ready(function () {
                 case 'input':
                     tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" ' + ((gNode.editor[ i ].size)? 'size="' + gNode.editor[ i ].size + '"' : '' )+ '/>';
                     if ( gNode.editor[ i ].note )
-                        tmp += '&nbsp;' + gNode.editor[ i ].note;
+                        tmp += '&nbsp;' + gNode.editor[ i ][ gObj.lang + '-note' ];
                     break;
                 case 'select':
                     tmp += '<select id="Editor-' + gNode.editor[ i ].tab + '" >';
@@ -14530,7 +14543,7 @@ $(document).ready(function () {
                 case 'input':
                     tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" ' + ((gNode.editor[ i ].size)? 'size="' + gNode.editor[ i ].size + '"' : '' )+ '/>';
                     if ( gNode.editor[ i ].note )
-                        tmp += '&nbsp;' + gNode.editor[ i ].note;
+                        tmp += '&nbsp;' + gNode.editor[ i ][ gObj.lang + '-note' ];
                     break;
                 case 'select':
                     tmp += '<select id="Editor-' + gNode.editor[ i ].tab + '" >';
@@ -14571,7 +14584,7 @@ $(document).ready(function () {
                             tmp += '<td class="align' + ((gNode.editor[ i ].col[ j ].align)? gNode.editor[ i ].col[ j ].align[ 1 ] : 'Left') + '">';
                             tmp += '<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '"  />';
                             if ( gNode.editor[ i ].col[ j ].note )
-                                tmp += '&nbsp' + gNode.editor[ i ].col[ j ].note;
+                                tmp += '&nbsp' + gNode.editor[ i ].col[ j ][ gObj.lang + '-note' ];
                             tmp += '</td>';
                             tmp += '</tr>';
                             break;
@@ -14596,7 +14609,7 @@ $(document).ready(function () {
                                 if ( gNode.editor[ i ].col[ j ].option[ x ].col ) {
                                     tmp += '&nbsp; <input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].option[ x ].col.tab + '" />';
                                     if ( gNode.editor[ i ].col[ j ].option[ x ].col.note ) {
-                                        tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col.note;
+                                        tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.lang + '-note' ];
                                     }
                                 }
                                 tmp += '</td>';
@@ -14639,7 +14652,7 @@ $(document).ready(function () {
                                     case 'text':
                                         tmp += '<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].col[ k ].tab + '" size="8" />';
                                         if ( gNode.editor[ i ].col[ j ].col[ k ].note )
-                                            tmp += '&nbsp' + gNode.editor[ i ].col[ j ].col[ k ].note;
+                                            tmp += '&nbsp' + gNode.editor[ i ].col[ j ].col[ k ][ gObj.lang + '-note' ];
                                         break;
                                     }
                                     tmp += '</td>';
@@ -14673,7 +14686,7 @@ $(document).ready(function () {
                             tmp += '<label for="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].col.tab + '">&nbsp;' + gNode.editor[ i ].col[ j ].col[ gObj.label ] + '</label>';
                             tmp += '&nbsp;<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].col.tab + '" />';
                             if ( gNode.editor[ i ].col[ j ].col.note )
-                                tmp += '&nbsp' + gNode.editor[ i ].col[ j ].col.note;
+                                tmp += '&nbsp' + gNode.editor[ i ].col[ j ].col[ gObj.lang + '-note' ];
                             tmp += '</td>';
                             tmp += '</tr>';
                         }
@@ -14840,7 +14853,7 @@ $(document).ready(function () {
                     case 'checkbox':
                         tmp += '<input type="checkbox" id="Editor-' + gNode.editor[ i ].tab + '" value="' + gNode.editor[ i ].val + '"/>';
                         if ( gNode.editor[ i ].note ) {
-                            tmp += '&nbsp;<label for="Editor-' + gNode.editor[ i ].tab + '">' + gNode.editor[ i ].note + '</label>';
+                            tmp += '&nbsp;<label for="Editor-' + gNode.editor[ i ].tab + '">' + gNode.editor[ i ][ gObj.lang + '-note' ] + '</label>';
                         }
                         break;
                     case 'radio':
@@ -14864,7 +14877,7 @@ $(document).ready(function () {
                     default:
                         tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" size="8"/>';
                         if ( gNode.editor[ i ].note )
-                            tmp += '&nbsp;' + gNode.editor[ i ].note;
+                            tmp += '&nbsp;' + gNode.editor[ i ][ gObj.lang + '-note' ];
                     }
                     break;
                 case 'select':
@@ -14956,7 +14969,7 @@ $(document).ready(function () {
                 case 'input':
                     tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" ' + ((gNode.editor[ i ].size)? 'size="' + gNode.editor[ i ].size + '"' : '' )+ '/>';
                     if ( gNode.editor[ i ].note )
-                        tmp += '&nbsp;' + gNode.editor[ i ].note;
+                        tmp += '&nbsp;' + gNode.editor[ i ][ gObj.lang + '-note' ];
                     break;
                 case 'select':
                     tmp += '<select id="Editor-' + gNode.editor[ i ].tab + '" >';
@@ -14995,7 +15008,7 @@ $(document).ready(function () {
                 case 'input':
                     tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" ' + ((gNode.editor[ i ].size)? 'size="' + gNode.editor[ i ].size + '"' : '' )+ '/>';
                     if ( gNode.editor[ i ].note )
-                        tmp += '&nbsp;' + gNode.editor[ i ].note;
+                        tmp += '&nbsp;' + gNode.editor[ i ][ gObj.lang + '-note' ];
                     break;
                 case 'select':
                     tmp += '<select id="Editor-' + gNode.editor[ i ].tab + '" >';
@@ -15040,7 +15053,7 @@ $(document).ready(function () {
                             tmp += '<td class="align' + ((gNode.editor[ i ].col[ j ].align)? gNode.editor[ i ].col[ j ].align[ 1 ] : 'Left') + '">';
                             tmp += '<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '" ' + ((gNode.editor[ i ].col[ j ].size)? 'size="' + gNode.editor[ i ].col[ j ].size + '"' : '' ) + '/>';
                             if ( gNode.editor[ i ].col[ j ].note )
-                                tmp += '&nbsp' + gNode.editor[ i ].col[ j ].note;
+                                tmp += '&nbsp' + gNode.editor[ i ].col[ j ][ gObj.lang + '-note' ];
                             tmp += '</td>';
                             tmp += '</tr>';
                             break;
@@ -15065,7 +15078,7 @@ $(document).ready(function () {
                                 if ( gNode.editor[ i ].col[ j ].option[ x ].col ) {
                                     tmp += '&nbsp; <input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].option[ x ].col.tab + '" />';
                                     if ( gNode.editor[ i ].col[ j ].option[ x ].col.note ) {
-                                        tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col.note;
+                                        tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.lang + '-note' ];
                                     }
                                 }
                                 tmp += '</td>';
@@ -15108,7 +15121,7 @@ $(document).ready(function () {
                                     case 'text':
                                         tmp += '<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].col[ k ].tab + '" size="8"/>';
                                         if ( gNode.editor[ i ].col[ j ].col[ k ].note )
-                                            tmp += '&nbsp' + gNode.editor[ i ].col[ j ].col[ k ].note;
+                                            tmp += '&nbsp' + gNode.editor[ i ].col[ j ].col[ k ][ gObj.lang + '-note' ];
                                         break;
                                     }
                                     tmp += '</td>';
@@ -15142,7 +15155,7 @@ $(document).ready(function () {
                             tmp += '<label for="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].col.tab + '">' + gNode.editor[ i ].col[ j ].col[ gObj.label ] + '</label>';
                             tmp += '&nbsp;<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].col.tab + '"  />';
                             if ( gNode.editor[ i ].col[ j ].col.note )
-                                tmp += '&nbsp' + gNode.editor[ i ].col[ j ].col.note;
+                                tmp += '&nbsp' + gNode.editor[ i ].col[ j ].col[ gObj.lang + '-note' ];
                             tmp += '</td>';
                             tmp += '</tr>';
                         }
@@ -15343,7 +15356,7 @@ $(document).ready(function () {
                     case 'checkbox':
                         tmp += '<input type="checkbox" id="Editor-' + gNode.editor[ i ].tab + '" value="' + gNode.editor[ i ].val + '"/>';
                         if ( gNode.editor[ i ].note )
-                            tmp += '&nbsp;<label for="Editor-' + gNode.editor[ i ].tab + '">' + gNode.editor[ i ].note + '</label>';
+                            tmp += '&nbsp;<label for="Editor-' + gNode.editor[ i ].tab + '">' + gNode.editor[ i ][ gObj.lang + '-note' ] + '</label>';
                         break;
                     case 'radio':
                         tmp += '<table id="Editor-table-' + gNode.editor[ i ].tab + '">';
@@ -15370,7 +15383,7 @@ $(document).ready(function () {
                     default:
                         tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" size="8" />';
                         if ( gNode.editor[ i ].note )
-                            tmp += '&nbsp;' + gNode.editor[ i ].note;
+                            tmp += '&nbsp;' + gNode.editor[ i ][ gObj.lang + '-note' ];
                     }
                     break;
                 case 'select':
@@ -16424,16 +16437,16 @@ $(document).ready(function () {
                                 tmp +=   '<div id="div-tcp_udp">';
                                 tmp +=     '<div id="div-tcp">';
                                 tmp +=       '<span id="label-' + gNode.col[ 0 ].tab + '" class="alignLeft"><label for="' + gNode.col[ 0 ].tab + '" >' + gNode.col[ 0 ][ gObj.label ] + '</label></span>';
-                                tmp +=       '<span id="input-' + gNode.col[ 0 ].tab + '" class="alignLeft"><input type="text" id="' + gNode.col[ 0 ].tab + '" size="8"/>&nbsp;' + gNode.col[ 0 ].note + '</span>';
+                                tmp +=       '<span id="input-' + gNode.col[ 0 ].tab + '" class="alignLeft"><input type="text" id="' + gNode.col[ 0 ].tab + '" size="8"/>&nbsp;' + gNode.col[ 0 ][ gObj.lang + '-note' ] + '</span>';
                                 tmp +=     '</div>';
                                 tmp +=     '<div id="div-udp">';
                                 tmp +=       '<span id="label-' + gNode.col[ 1 ].tab + '" class="alignLeft"><label for="' + gNode.col[ 1 ].tab + '" >' + gNode.col[ 1 ][ gObj.label ] + '</label></span>';
-                                tmp +=       '<span id="input-' + gNode.col[ 1 ].tab + '" class="alignLeft"><input type="text" id="' + gNode.col[ 1 ].tab + '" size="8"/>&nbsp;' + gNode.col[ 1 ].note + '</span>';
+                                tmp +=       '<span id="input-' + gNode.col[ 1 ].tab + '" class="alignLeft"><input type="text" id="' + gNode.col[ 1 ].tab + '" size="8"/>&nbsp;' + gNode.col[ 1 ][ gObj.lang + '-note' ] + '</span>';
                                 tmp +=     '</div>';
                                 tmp +=   '</div>';
                                 tmp +=   '<div id="div-other">';
                                 tmp +=     '<span id="label-' + gNode.col[ 2 ].tab + '" class="alignLeft"><label for="' + gNode.col[ 2 ].tab + '" >' + gNode.col[ 2 ][ gObj.label ] + '</label></span>';
-                                tmp +=     '<span id="input-' + gNode.col[ 2 ].tab + '" class="alignLeft"><input type="text" id="' + gNode.col[ 2 ].tab + '" size="8"/>' + gNode.col[ 2 ].note + '</span>';
+                                tmp +=     '<span id="input-' + gNode.col[ 2 ].tab + '" class="alignLeft"><input type="text" id="' + gNode.col[ 2 ].tab + '" size="8"/>' + gNode.col[ 2 ][ gObj.lang + '-note' ] + '</span>';
                                 tmp +=   '</div>';
                                 tmp += '</div>';
                                 $('.templateDiv').append( tmp );
@@ -16461,7 +16474,7 @@ $(document).ready(function () {
                                         switch( gNode.col[ i ].col[ j ].type )
                                         {
                                         case 'text':
-                                            tmp += '<td class="alignLeft"><label for="' + gNode.col[ i ].col[ j ].tab + '">' + gNode.col[ i ].col[ j ][ gObj.label ] + '</label></br><input type="text" id="' + gNode.col[ i ].col[ j ].tab + '" size="8"/>&nbsp;' + gNode.col[ i ].col[ j ].note + '</td>';
+                                            tmp += '<td class="alignLeft"><label for="' + gNode.col[ i ].col[ j ].tab + '">' + gNode.col[ i ].col[ j ][ gObj.label ] + '</label></br><input type="text" id="' + gNode.col[ i ].col[ j ].tab + '" size="8"/>&nbsp;' + gNode.col[ i ].col[ j ][ gObj.lang + '-note' ] + '</td>';
                                             break;
                                         case 'checkbox':
                                             tmp += '<td class="alignLeft"><input type="checkbox" id="' + gNode.col[ i ].col[ j ].tab + '" value="' + gNode.col[ i ].col[ j ].val + '" />&nbsp;<label for="' + gNode.col[ i ].col[ j ].tab + '">' + gNode.col[ i ].col[ j ][ gObj.label ] + '</label></td>';
@@ -17170,7 +17183,7 @@ $(document).ready(function () {
                         tmp += '<td class="align' + ((gNode.editor[ i ].align)? gNode.editor[ i ].align[ 1 ] : 'Left') + '">';
                         tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" size="8" />';
                         if ( gNode.editor[ i ].note )
-                            tmp += '&nbsp' + gNode.editor[ i ].note;
+                            tmp += '&nbsp' + gNode.editor[ i ][ gObj.lang + '-note' ];
                         tmp += '</td>';
                         tmp += '</tr>';
                         break;
@@ -17459,7 +17472,7 @@ $(document).ready(function () {
                         tmp += '<td class="align' + ((gNode.editor[ i ].align)? gNode.editor[ i ].align[ 1 ] : 'Left') + '">';
                         tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" size="8" />';
                         if ( gNode.editor[ i ].note )
-                            tmp += '&nbsp' + gNode.editor[ i ].note;
+                            tmp += '&nbsp' + gNode.editor[ i ][ gObj.lang + '-note' ];
                         tmp += '</td>';
                         tmp += '</tr>';
                         break;
@@ -17519,7 +17532,7 @@ $(document).ready(function () {
                         tmp += '<label for="Editor-' + gNode.editor[ i ].col.tab + '">' + gNode.editor[ i ].col[ gObj.label ] + '</label>';
                         tmp += '&nbsp;<input type="text" id="Editor-' + gNode.editor[ i ].col.tab + '" size="8"/>';
                         if ( gNode.editor[ i ].col.note )
-                            tmp += '&nbsp' + gNode.editor[ i ].col.note;
+                            tmp += '&nbsp' + gNode.editor[ i ].col[ gObj.lang + '-note' ];
                         tmp += '</td>';
                         tmp += '</tr>';
                     }
@@ -18901,7 +18914,7 @@ $(document).ready(function () {
                                         tmp += '<input type="text" id="maxFileSize" size="8"/>';
                                         tmp += '</td>';
                                         tmp += '<th class="alignLeft">';
-                                        tmp += '<label for="maxFileSize">' + gNode.col[ y ][ 2 ].note + '</label>';
+                                        tmp += '<label for="maxFileSize">' + gNode.col[ y ][ 2 ][ gObj.lang + '-note' ] + '</label>';
                                         tmp += '</th>';
                                         tmp += '</tr>';
                                         tmp += '</table>';
@@ -19262,8 +19275,8 @@ $(document).ready(function () {
                                         tmp += '<table id="table-expirtaion_duration">';
                                         tmp += '<tr>';
                                         tmp += '<th class="alignLeft BT150">' + gNode.col[ y ][ 0 ].col[ 0 ][ gObj.label ] + '</th>';
-                                        tmp += '<td class="alignLeft BT180">' + gNode.col[ y ][ 0 ].col[ 1 ][ gObj.label ] + '&nbsp;<input type="text" id="expiration_days" size="8"/> ' + gNode.col[ y ][ 0 ].col[ 1 ].note + '</td>';
-                                        tmp += '<td class="alignLeft">' + gNode.col[ y ][ 0 ].col[ 2 ][ gObj.label ] + '&nbsp;<input type="text" id="expiration_hours" size="8"/> ' + gNode.col[ y ][ 0 ].col[ 2 ].note + '</td>';
+                                        tmp += '<td class="alignLeft BT180">' + gNode.col[ y ][ 0 ].col[ 1 ][ gObj.label ] + '&nbsp;<input type="text" id="expiration_days" size="8"/> ' + gNode.col[ y ][ 0 ].col[ 1 ][ gObj.lang + '-note' ] + '</td>';
+                                        tmp += '<td class="alignLeft">' + gNode.col[ y ][ 0 ].col[ 2 ][ gObj.label ] + '&nbsp;<input type="text" id="expiration_hours" size="8"/> ' + gNode.col[ y ][ 0 ].col[ 2 ][ gObj.lang + '-note' ] + '</td>';
                                         tmp += '</tr>';
                                         tmp += '</table>';
                                         tmp += '</div>';
@@ -20120,9 +20133,11 @@ $(document).ready(function () {
                 loadingToggle( true );
                 gObj.loading = 10;
                 gIf.loading = true;
+                var counts = 0;
 
                 for (var x in gCache.tabber)
                 {
+                    counts++;
                     switch( x )
                     {
                     case pid:
@@ -20151,8 +20166,11 @@ $(document).ready(function () {
                         gData.general_settings.maxFileSize = $('#maxFileSize').val();
                         $.post('cgi-bin/av_general.cgi', gY.JSON.stringify(gData.general_settings)).done( function() {
                             delete gCache.tabber[ x ];
-                            gIf.alter = true;
-                            gIf.lock = true;
+                            counts--;
+                            if (0 === counts) {
+                                gIf.alter = false;
+                                gIf.lock = false;
+                            }
                         });
 
                         // bp
@@ -20161,8 +20179,11 @@ $(document).ready(function () {
                         gData.http_notification.httpNotify = $('#httpNotify').val();
                         $.post('cgi-bin/av_http_notify.cgi', gY.JSON.stringify(gData[ x ]), function( poster ) {
                             delete gCache.tabber[ x ];
-                            gIf.alter = true;
-                            gIf.lock = true;
+                            counts--;
+                            if (0 === counts) {
+                                gIf.alter = false;
+                                gIf.lock = false;
+                            }
                         });
                         break;
                     case 'email_notification':
@@ -20170,22 +20191,31 @@ $(document).ready(function () {
                         gData.email_notification.mailContent = $('#mailContent').val();
                         $.post('cgi-bin/av_email_notify.cgi', gY.JSON.stringify(gData[ x ]), function( poster ) {
                             delete gCache.tabber[ x ];
-                            gIf.alter = true;
-                            gIf.lock = true;
+                            counts--;
+                            if (0 === counts) {
+                                gIf.alter = false;
+                                gIf.lock = false;
+                            }
                         });
                         break;
                     case 'address_exceptions':
                         $.post('cgi-bin/addr_filter.cgi', gY.JSON.stringify(gData[ x ]), function( poster ) {
                             delete gCache.tabber[ x ];
-                            gIf.alter = true;
-                            gIf.lock = true;
+                            counts--;
+                            if (0 === counts) {
+                                gIf.alter = false;
+                                gIf.lock = false;
+                            }
                         });
                         break;
                     case 'file_exceptions':
                         $.post('cgi-bin/av_file_exception.cgi', gY.JSON.stringify(gData[ x ]), function( poster ) {
                             delete gCache.tabber[ x ];
-                            gIf.alter = true;
-                            gIf.lock = true;
+                            counts--;
+                            if (0 === counts) {
+                                gIf.alter = false;
+                                gIf.lock = false;
+                            }
                         });
                         break;
                     case 'blacklist':
@@ -20195,15 +20225,21 @@ $(document).ready(function () {
                         gData.blacklist.expiration_hours = $('#expiration_hours').val();
                         $.post('cgi-bin/av_blacklist.cgi', gY.JSON.stringify(gData[ x ]), function( poster ) {
                             delete gCache.tabber[ x ];
-                            gIf.alter = true;
-                            gIf.lock = true;
+                            counts--;
+                            if (0 === counts) {
+                                gIf.alter = false;
+                                gIf.lock = false;
+                            }
                         });
                         break;
                     case 'whitelist':
                         $.post('cgi-bin/av_whitelist.cgi', gY.JSON.stringify(gData[ x ]), function( poster ) {
                             delete gCache.tabber[ x ];
-                            gIf.alter = true;
-                            gIf.lock = true;
+                            counts--;
+                            if (0 === counts) {
+                                gIf.alter = false;
+                                gIf.lock = false;
+                            }
                         });
                         break;
                     }
@@ -20679,7 +20715,7 @@ $(document).ready(function () {
                             tmp += '<td class="align' + ((gNode.editor[ tar.pid ][ i ].col[ j ].align)? gNode.editor[ tar.pid ][ i ].col[ j ].align[ 1 ] : "Left") + '">';
                             tmp += '<input type="' + gNode.editor[ tar.pid ][ i ].col[ j ].type + '" id="' + gNode.editor[ tar.pid ][ i ].tab + '-' + gNode.editor[ tar.pid ][ i ].col[ j ].tab + '" />';
                             if (gNode.editor[ tar.pid ][ i ].col[ j ].note)
-                                tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].col[ j ].note;
+                                tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].col[ j ][ gObj.lang + '-note' ];
                             tmp += '</td>';
                             tmp += '</tr>';
                             break;
@@ -20737,7 +20773,7 @@ $(document).ready(function () {
                         tmp += '<td class="align' + ((gNode.editor[ tar.pid ][ i ].col[ j ].align)? gNode.editor[ tar.pid ][ i ].col[ j ].align[ 1 ] : "Left") + '">';
                         tmp += '<input type="' + gNode.editor[ tar.pid ][ i ].col[ j ].type + '" id="' + gNode.editor[ tar.pid ][ i ].tab + '-' + gNode.editor[ tar.pid ][ i ].col[ j ].tab + '" />';
                         if (gNode.editor[ tar.pid ][ i ].col[ j ].note)
-                            tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].col[ j ].note;
+                            tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].col[ j ][ gObj.lang + '-note' ];
                         tmp += '</td>';
                         tmp += '</tr>';
                         break;
@@ -20897,7 +20933,7 @@ $(document).ready(function () {
                             tmp += '<td class="align' + ((gNode.editor[ tar.pid ][ i ].col[ j ].align)? gNode.editor[ tar.pid ][ i ].col[ j ].align[ 1 ] : "Left") + '">';
                             tmp += '<input type="' + gNode.editor[ tar.pid ][ i ].col[ j ].type + '" id="' + gNode.editor[ tar.pid ][ i ].tab + '-' + gNode.editor[ tar.pid ][ i ].col[ j ].tab + '" />';
                             if (gNode.editor[ tar.pid ][ i ].col[ j ].note)
-                                tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].col[ j ].note;
+                                tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].col[ j ][ gObj.lang + '-note' ];
                             tmp += '</td>';
                             tmp += '</tr>';
                             break;
@@ -20949,7 +20985,7 @@ $(document).ready(function () {
                         tmp += '<td class="align' + ((gNode.editor[ tar.pid ][ i ].col[ j ].align)? gNode.editor[ tar.pid ][ i ].col[ j ].align[ 1 ] : "Left") + '">';
                         tmp += '<input type="' + gNode.editor[ tar.pid ][ i ].col[ j ].type + '" id="' + gNode.editor[ tar.pid ][ i ].tab + '-' + gNode.editor[ tar.pid ][ i ].col[ j ].tab + '" />';
                         if (gNode.editor[ tar.pid ][ i ].col[ j ].note)
-                            tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].col[ j ].note;
+                            tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].col[ j ][ gObj.lang + '-note' ];
                         tmp += '</td>';
                         tmp += '</tr>';
                         break;
@@ -22432,7 +22468,7 @@ $(document).ready(function () {
                             tmp += '</td>';
                             tmp += '<td class="align' + gNode.editor[ tar.pid ][ i ].option[ j ].col[ k ].align[ 1 ] + '">';
                             tmp += '<input type="text" id="Editor-' + gNode.editor[ tar.pid ][ i ].tab + '-' + gNode.editor[ tar.pid ][ i ].option[ j ].tab + '-' + gNode.editor[ tar.pid ][ i ].option[ j ].col[ k ].tab + '" />';
-                            tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].option[ j ].col[ k ].note;
+                            tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].option[ j ].col[ k ][ gObj.lang + '-note' ];
                             tmp += '</td>';
                             tmp += '</tr>';
                         }
@@ -22641,7 +22677,7 @@ $(document).ready(function () {
                 } else if ( 'p' == gNode.editor[ i ].tag ) {
                     tmp += '<tr>';
                     tmp += '<th class="align' + gNode.editor[ i ].align[ 0 ] + '" style="width: ' + gNode.editor[ i ].wiz + '">' + gNode.editor[ i ][ gObj.label ] + '</th>';
-                    tmp += '<td class="align' + gNode.editor[ i ].align[ 1 ] + '"><p id="Editor-' + gNode.editor[ i ].tab + '" >' + gNode.editor[ i ].note + '</p></td>';
+                    tmp += '<td class="align' + gNode.editor[ i ].align[ 1 ] + '"><p id="Editor-' + gNode.editor[ i ].tab + '" >' + gNode.editor[ i ][ gObj.lang + '-note' ] + '</p></td>';
                     tmp += '</tr>';
                 } else {
                     tmp += '<tr>';
@@ -22661,7 +22697,7 @@ $(document).ready(function () {
                                     tmp += '<select id="Editor-' + gNode.editor[ i ].option[ j ].col[ k ].col[ 0 ].tab + '"></select>';
                                     tmp += ' : ';
                                     tmp += '<select id="Editor-' + gNode.editor[ i ].option[ j ].col[ k ].col[ 1 ].tab + '"></select>';
-                                    tmp += '&nbsp;' + gNode.editor[ i ].option[ j ].col[ k ].note;
+                                    tmp += '&nbsp;' + gNode.editor[ i ].option[ j ].col[ k ][ gObj.lang + '-note' ];
                                     tmp += '</td>';
                                     tmp += '</tr>';
                                 } else {
@@ -23074,7 +23110,7 @@ $(document).ready(function () {
                             tmp += '</td>';
                             tmp += '<td class="align' + gNode.editor[ tar.pid ][ i ].option[ j ].col[ k ].align[ 1 ] + '">';
                             tmp += '<input type="text" id="Editor-' + gNode.editor[ tar.pid ][ i ].tab + '-' + gNode.editor[ tar.pid ][ i ].option[ j ].tab + '-' + gNode.editor[ tar.pid ][ i ].option[ j ].col[ k ].tab + '" />';
-                            tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].option[ j ].col[ k ].note;
+                            tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].option[ j ].col[ k ][ gObj.lang + '-note' ];
                             tmp += '</td>';
                             tmp += '</tr>';
                         }
@@ -23271,7 +23307,7 @@ $(document).ready(function () {
                 } else if ( 'p' == gNode.editor[ i ].tag ) {
                     tmp += '<tr>';
                     tmp += '<th class="align' + gNode.editor[ i ].align[ 0 ] + '" style="width: ' + gNode.editor[ i ].wiz + '">' + gNode.editor[ i ][ gObj.label ] + '</th>';
-                    tmp += '<td class="align' + gNode.editor[ i ].align[ 1 ] + '"><p id="Editor-' + gNode.editor[ i ].tab + '" >' + gNode.editor[ i ].note + '</p></td>';
+                    tmp += '<td class="align' + gNode.editor[ i ].align[ 1 ] + '"><p id="Editor-' + gNode.editor[ i ].tab + '" >' + gNode.editor[ i ][ gObj.lang + '-note' ] + '</p></td>';
                     tmp += '</tr>';
                 } else {
                     tmp += '<tr>';
@@ -23291,7 +23327,7 @@ $(document).ready(function () {
                                     tmp += '<select id="Editor-' + gNode.editor[ i ].option[ j ].col[ k ].col[ 0 ].tab + '"></select>';
                                     tmp += ' : ';
                                     tmp += '<select id="Editor-' + gNode.editor[ i ].option[ j ].col[ k ].col[ 1 ].tab + '"></select>';
-                                    tmp += '&nbsp;' + gNode.editor[ i ].option[ j ].col[ k ].note;
+                                    tmp += '&nbsp;' + gNode.editor[ i ].option[ j ].col[ k ][ gObj.lang + '-note' ];
                                     tmp += '</td>';
                                     tmp += '</tr>';
                                 } else {
@@ -24277,7 +24313,7 @@ $(document).ready(function () {
                                             tmp += '<label for="' + gNode.col[ i ].tab + '">' + gNode.col[ i ][ gObj.label ] + '</label>';
                                             tmp += '</th>';
                                             tmp += '<td>';
-                                            tmp += '<input type="text" id="' + gNode.col[ i ].tab + '" size="' + gNode.col[ i ].size + '" />&nbsp' + gNode.col[ i ].note;
+                                            tmp += '<input type="text" id="' + gNode.col[ i ].tab + '" size="' + gNode.col[ i ].size + '" />&nbsp' + gNode.col[ i ][ gObj.lang + '-note' ];
                                             tmp += '</td>';
                                             tmp += '</tr>';
                                             tmp += '</table>';
@@ -24291,7 +24327,7 @@ $(document).ready(function () {
                                             tmp += '<label for="' + gNode.col[ i ].tab + '">' + gNode.col[ i ][ gObj.label ] + '</label>';
                                             tmp += '</th>';
                                             tmp += '<td>';
-                                            tmp += '<input type="text" id="' + gNode.col[ i ].tab + '" size="' + gNode.col[ i ].size + '" />&nbsp' + gNode.col[ i ].note;
+                                            tmp += '<input type="text" id="' + gNode.col[ i ].tab + '" size="' + gNode.col[ i ].size + '" />&nbsp' + gNode.col[ i ][ gObj.lang + '-note' ];
                                             tmp += '</td>';
                                             tmp += '</tr>';
                                         }
@@ -25117,7 +25153,7 @@ $(document).ready(function () {
                                 tmp += '</tr>';
                                 tmp += '<tr>';
                                 tmp += '<td class="alignLeft BT200"><input type="checkbox" id="wanAlertEnable" />&nbsp;<label for="wanAlertEnable">' + gNode.col[ 1 ].col[ 1 ].col[ 1 ][ gObj.label ] + '</label></td>';
-                                tmp += '<td class="alignLeft ">' + gNode.col[ 1 ].col[ 1 ].col[ 1 ].col[ 0 ][ gObj.label ] + '&nbsp;<input type="text" id="wanAlertInterval" size="8"/>&nbsp;' + gNode.col[ 1 ].col[ 1 ].col[ 1 ].col[ 0 ].note + '</td>';
+                                tmp += '<td class="alignLeft ">' + gNode.col[ 1 ].col[ 1 ].col[ 1 ].col[ 0 ][ gObj.label ] + '&nbsp;<input type="text" id="wanAlertInterval" size="8"/>&nbsp;' + gNode.col[ 1 ].col[ 1 ].col[ 1 ].col[ 0 ][ gObj.lang + '-note' ] + '</td>';
                                 tmp += '</tr>';
                                 tmp += '</table>';
                                 tmp += '</div>';
@@ -25126,7 +25162,7 @@ $(document).ready(function () {
                                 tmp += '<caption>' + gNode.col[ 1 ].col[ 2 ][ gObj.label ] + '</caption>';
                                 tmp += '<tr>';
                                 tmp += '<td class="alignLeft BT200"><input type="checkbox" id="virusAlertEnable" />&nbsp;<label for="virusAlertEnable">' + gNode.col[ 1 ].col[ 2 ].col[ 0 ][ gObj.label ] + '</td>';
-                                tmp += '<td class="alignLeft ">' + gNode.col[ 1 ].col[ 2 ].col[ 0 ].col[ 0 ][ gObj.label ] + '&nbsp;<input type="text" id="virusAlertInterval" size="8"/>&nbsp;' + gNode.col[ 1 ].col[ 2 ].col[ 0 ].col[ 0 ].note + '</td>';
+                                tmp += '<td class="alignLeft ">' + gNode.col[ 1 ].col[ 2 ].col[ 0 ].col[ 0 ][ gObj.label ] + '&nbsp;<input type="text" id="virusAlertInterval" size="8"/>&nbsp;' + gNode.col[ 1 ].col[ 2 ].col[ 0 ].col[ 0 ][ gObj.lang + '-note' ] + '</td>';
                                 tmp += '</tr>';
 
                                 tmp += '</table>';
@@ -28421,7 +28457,7 @@ $(document).ready(function () {
                             tmp += '</td>';
                             tmp += '<td class="align' + gSelector.editor[ 'service' ][ i ].option[ j ].col[ k ].align[ 1 ] + '">';
                             tmp += '<input type="text" id="More-' + gSelector.editor[ 'service' ][ i ].tab + '-' + gSelector.editor[ 'service' ][ i ].option[ j ].tab + '-' + gSelector.editor[ 'service' ][ i ].option[ j ].col[ k ].tab + '" />';
-                            tmp += '&nbsp;' + gSelector.editor[ 'service' ][ i ].option[ j ].col[ k ].note;
+                            tmp += '&nbsp;' + gSelector.editor[ 'service' ][ i ].option[ j ].col[ k ][ gObj.lang + '-note' ];
                             tmp += '</td>';
                             tmp += '</tr>';
                         }
@@ -28608,7 +28644,7 @@ $(document).ready(function () {
                 } else if ( 'p' == gSelector.editor[ i ].tag ) {
                     tmp += '<tr>';
                     tmp += '<th class="align' + gSelector.editor[ i ].align[ 0 ] + '" style="width: ' + gSelector.editor[ i ].wiz + '">' + gSelector.editor[ i ][ gObj.label ] + '</th>';
-                    tmp += '<td class="align' + gSelector.editor[ i ].align[ 1 ] + '"><p id="More-' + gSelector.editor[ i ].tab + '" >' + gSelector.editor[ i ].note + '</p></td>';
+                    tmp += '<td class="align' + gSelector.editor[ i ].align[ 1 ] + '"><p id="More-' + gSelector.editor[ i ].tab + '" >' + gSelector.editor[ i ][ gObj.lang + '-note' ] + '</p></td>';
                     tmp += '</tr>';
                 } else {
                     tmp += '<tr>';
@@ -28628,7 +28664,7 @@ $(document).ready(function () {
                                     tmp += '<select id="More-' + gSelector.editor[ i ].option[ j ].col[ k ].col[ 0 ].tab + '"></select>';
                                     tmp += ' : ';
                                     tmp += '<select id="More-' + gSelector.editor[ i ].option[ j ].col[ k ].col[ 1 ].tab + '"></select>';
-                                    tmp += '&nbsp;' + gSelector.editor[ i ].option[ j ].col[ k ].note;
+                                    tmp += '&nbsp;' + gSelector.editor[ i ].option[ j ].col[ k ][ gObj.lang + '-note' ];
                                     tmp += '</td>';
                                     tmp += '</tr>';
                                 } else {
@@ -31331,7 +31367,7 @@ $(document).ready(function () {
     function helpPop() {
         if ( gRef.docs[ gNode.id ] ) {
             gY.Cookie.setSub(gCook.main, 'node', gNode.id, { secure: true });
-            gHelp = window.open( 'onlineHelp' + gVersion.aka + ".html", "gHelp", "width=800,height=600,top=200,left=300");
+            gHelp = window.open( "onlineHelp" + gVersion[ gInfo ].aka + ".html", "gHelp", "width=800,height=600,top=200,left=300");
         }
     }
 
