@@ -307,12 +307,12 @@
       "type" : "tabs",
       "tabs" :
       {
-        "general_settings" : "General Setting",
-        "http_notification" : "HTTP Notify",
-        "address_exceptions" : "Address Exception",
-        "file_exceptions" : "File Exception",
-        "blacklist" : "Blacklist",
-        "whitelist" : "Whitelist"
+        "general_settings" : { "label" : "General Setting", "cn-label" : "General Setting", "tw-label" : "General Setting" },
+        "http_notification" : { "label" : "HTTP Notify", "cn-label" : "HTTP Notify", "tw-label" : "HTTP Notify" },
+        "address_exceptions" : { "label" : "Address Exception", "cn-label" : "Address Exception", "tw-label" : "Address Exception" },
+        "file_exceptions" : { "label" : "File Exception", "cn-label" : "File Exception", "tw-label" : "File Exception" },
+        "blacklist" : { "label" : "Blacklist", "cn-label" : "Blacklist", "tw-label" : "Blacklist" },
+        "whitelist" : { "label" : "Whitelist", "cn-label" : "Whitelist", "tw-label" : "Whitelist" }
       },
       "url" :
       {
@@ -824,12 +824,12 @@
       "type" : "tabs",
       "tabs" :
       {
-        "general_settings" : "General Setting",
-        "email_notification" : "Email Notify",
-        "address_exceptions" : "Address Exception",
-        "file_exceptions" : "File Exception",
-        "blacklist" : "Blacklist",
-        "whitelist" : "Whitelist"
+        "general_settings" : { "label" : "General Setting", "cn-label" : "General Setting", "tw-label" : "General Setting" },
+        "email_notification" : { "label" : "Email Notify", "cn-label" : "Email Notify", "tw-label" : "Email Notify" },
+        "address_exceptions" : { "label" : "Address Exception", "cn-label" : "Address Exception", "tw-label" : "Address Exception" },
+        "file_exceptions" : { "label" : "File Exception", "cn-label" : "File Exception", "tw-label" : "File Exception" },
+        "blacklist" : { "label" : "Blacklist", "cn-label" : "Blacklist", "tw-label" : "Blacklist" },
+        "whitelist" : { "label" : "Whitelist", "cn-label" : "Whitelist", "tw-label" : "Whitelist" }
       },
       "url" :
       {
@@ -1386,12 +1386,12 @@
       "type" : "tabs",
       "tabs" :
       {
-        "general_settings" : "General Setting",
-        "email_notification" : "Email Notify",
-        "address_exceptions" : "Address Exception",
-        "file_exceptions" : "File Exception",
-        "blacklist" : "Blacklist",
-        "whitelist" : "Whitelist"
+        "general_settings" : { "label" : "General Setting", "cn-label" : "General Setting", "tw-label" : "General Setting" },
+        "email_notification" : { "label" : "Email Notify", "cn-label" : "Email Notify", "tw-label" : "Email Notify" },
+        "address_exceptions" : { "label" : "Address Exception", "cn-label" : "Address Exception", "tw-label" : "Address Exception" },
+        "file_exceptions" : { "label" : "File Exception", "cn-label" : "File Exception", "tw-label" : "File Exception" },
+        "blacklist" : { "label" : "Blacklist", "cn-label" : "Blacklist", "tw-label" : "Blacklist" },
+        "whitelist" : { "label" : "Whitelist", "cn-label" : "Whitelist", "tw-label" : "Whitelist" }
       },
       "url" :
       {
@@ -1949,11 +1949,11 @@
       "type" : "tabs",
       "tabs" :
       {
-        "general_settings" : "General Setting",
-        "address_exceptions" : "Address Exception",
-        "file_exceptions" : "File Exception",
-        "blacklist" : "Blacklist",
-        "whitelist" : "Whitelist"
+        "general_settings" : { "label" : "General Setting", "cn-label" : "General Setting", "tw-label" : "General Setting" },
+        "address_exceptions" : { "label" : "Address Exception", "cn-label" : "Address Exception", "tw-label" : "Address Exception" },
+        "file_exceptions" : { "label" : "File Exception", "cn-label" : "File Exception", "tw-label" : "File Exception" },
+        "blacklist" : { "label" : "Blacklist", "cn-label" : "Blacklist", "tw-label" : "Blacklist" },
+        "whitelist" : { "label" : "Whitelist", "cn-label" : "Whitelist", "tw-label" : "Whitelist" }
       },
       "url" :
       {
@@ -2458,11 +2458,11 @@
       "type" : "tabs",
       "tabs" :
       {
-        "general_settings" : "General Setting",
-        "address_exceptions" : "Address Exception",
-        "file_exceptions" : "File Exception",
-        "blacklist" : "Blacklist",
-        "whitelist" : "Whitelist"
+        "general_settings" : { "label" : "General Setting", "cn-label" : "General Setting", "tw-label" : "General Setting" },
+        "address_exceptions" : { "label" : "Address Exception", "cn-label" : "Address Exception", "tw-label" : "Address Exception" },
+        "file_exceptions" : { "label" : "File Exception", "cn-label" : "File Exception", "tw-label" : "File Exception" },
+        "blacklist" : { "label" : "Blacklist", "cn-label" : "Blacklist", "tw-label" : "Blacklist" },
+        "whitelist" : { "label" : "Whitelist", "cn-label" : "Whitelist", "tw-label" : "Whitelist" }
       },
       "url" :
       {
@@ -3194,8 +3194,8 @@
               "type" : "tabs",
               "tabs" :
               {
-                "0" : "File Extension Log",
-                "1" : "By File Extension"
+                "0" : { "label" : "File Extension Log", "cn-label" : "File Extension Log", "tw-label" : "File Extension Log" },
+                "1" : { "label" : "By File Extension", "cn-label" : "By File Extension", "tw-label" : "By File Extension"}
               },
               "url" : "reportQuery",
               "ext" : "php",
@@ -3293,8 +3293,8 @@
               "type" : "tabs",
               "tabs" :
               {
-                "0" : "Blocked Host Log",
-                "1" : "By Blocked Host"
+                "0" : { "label" : "Blocked Host Log", "cn-label" : "Blocked Host Log", "tw-label" : "Blocked Host Log" },
+                "1" : { "label" : "By Blocked Host", "cn-label" : "By Blocked Host", "tw-label" : "By Blocked Host" }
               },
               "url" : "reportQuery",
               "ext" : "php",
@@ -3412,8 +3412,8 @@
               "type" : "tabs",
               "tabs" :
               {
-                "0" : "Affected Host Log",
-                "1" : "By Affected Host"
+                "0" : { "label" : "Affected Host Log", "cn-label" : "Affected Host Log", "tw-label" : "Affected Host Log" },
+                "1" : { "label" : "By Affected Host", "cn-label" : "By Affected Host", "tw-label" : "By Affected Host" }
               },
               "url" : "reportQuery",
               "ext" : "php",
@@ -3511,10 +3511,11 @@
               "type" : "tabs",
               "tabs" :
               {
-                "0" : "Anitivirus Log",
-                "1" : "By Src. IP",
-                "2" : "By Dst. IP",
-                "3" : "By Virus Name"
+                "0" : { "label" : "Anitivirus Log", "cn-label" : "Antivirus Log", "tw-label" : "Antivirus Log" },
+                "1" : { "label" : "By Src. IP", "cn-label" : "By Src. IP", "tw-label" : "By Dst. IP" },
+                "2" : { "label" : "By Dst. IP", "cn-label" : "By Dst. IP", "tw-label" : "By Dst. IP" },
+                "3" : { "label" : "By Virus Name", "cn-label" : "By Virus Name", "tw-label" : "By Virus Name" },
+                "4" : { "label" : "By Protocol", "cn-label" : "By Protocol", "tw-label" : "By Protocol" }
               },
               "url" : "reportQuery",
               "ext" : "php",
@@ -3685,6 +3686,39 @@
                     "sortable" : true,
                     "align" : "Left"
                   }
+                ],
+                "4":
+                [
+                  {
+                    "label": "ID",
+                    "cn-label": "ID",
+                    "tw-label": "ID",
+                    "tab" : "id",
+                    "wiz" : "10%" ,
+                    "display" : true,
+                    "sortable" : false,
+                    "align" : "Center"
+                  },
+                  {
+                    "label": "Protocol",
+                    "cn-label": "Protocol",
+                    "tw-label": "Protocol",
+                    "tab" : "protocol",
+                    "wiz" : "60%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  },
+                  {
+                    "label": "Hit Count",
+                    "cn-label": "Hit Count",
+                    "tw-label": "Hit Count",
+                    "tab" : "hitCount",
+                    "wiz" : "30%" ,
+                    "display" : true,
+                    "sortable" : true,
+                    "align" : "Left"
+                  }
                 ]
               }
             }
@@ -3708,13 +3742,13 @@
               "type" : "tabs",
               "tabs" :
               {
-                "0" : "Traffic Log",
-                "1" : "By Addr.",
-                "2" : "By Src. IP",
-                "3" : "By Dst. IP",
-                "4" : "By Protocol",
-                "5" : "By Dst. Port",
-                "6" : "By Zone"
+                "0" : { "label" : "Traffic Log", "cn-label" : "Traffic Log", "tw-label" : "Traffic Log" },
+                "1" : { "label" : "By Addr.", "cn-label" : "By Addr.", "tw-label" : "By Addr." },
+                "2" : { "label" : "By Src. IP", "cn-label" : "By Src. IP", "tw-label" : "By Src. IP" },
+                "3" : { "label" : "By Dst. IP", "cn-label" : "By Dst. IP", "tw-label" : "By Dst. IP" },
+                "4" : { "label" : "By Protocol", "cn-label" : "By Protocol", "tw-label" : "By Protocol" },
+                "5" : { "label" : "By Dst. Port", "cn-label" : "By Dst. Port", "tw-label" : "By Dst. Port" },
+                "6" : { "label" : "By Zone", "cn-label" : "By Zone", "tw-label" : "By Zone" }
               },
               "url" : "reportQuery",
               "ext" : "php",
@@ -4482,10 +4516,10 @@
               "columns" : true,
               "tabs" :
               {
-                "port" : "Port Table",
-                "vlan" : "VLAN Interface Table",
-                "wan" : "WAN Table",
-                "lan" : "LAN Table"
+                "port" : { "label" : "Port Table", "cn-label" : "Port Table", "tw-label" : "Port Table" },
+                "vlan" : { "label" : "VLAN Interface Table", "cn-label" : "VLAN Interface Table", "tw-label" : "VLAN Interface Table" },
+                "wan" : { "label" : "WAN Table", "cn-label" : "WAN Table", "tw-label" : "WAN Table" },
+                "lan" : { "label" : "LAN Table", "cn-label" : "LAN Table", "tw-label" : "LAN Table" }
               },
               "url" :
               {
@@ -4897,10 +4931,10 @@
               "columns" : true,
               "tabs" :
               {
-                "port" : "Port Table",
-                "vlan" : "VLAN Interface Table",
-                "wan" : "WAN Table",
-                "lan" : "LAN Table"
+                "port" : { "label" : "Port Table", "cn-label" : "Port Table", "tw-label" : "Port Table" },
+                "vlan" : { "label" : "VLAN Interface Table", "cn-label" : "VLAN Interface Table", "tw-label" : "VLAN Interface Table" },
+                "wan" : { "label" : "WAN Table", "cn-label" : "WAN Table", "tw-label" : "WAN Table" },
+                "lan" : { "label" : "LAN Table", "cn-label" : "LAN Table", "tw-label" : "LAN Table" }
               },
               "url" :
               {
@@ -5237,12 +5271,12 @@
               "type" : "tabsChart",
               "tabs" :
               {
-                "wan1" : "WAN1",
-                "wan2" : "WAN2",
-                "wan3" : "WAN3",
-                "wan4" : "WAN4",
-                "wan5" : "WAN5",
-                "wan6" : "WAN6"
+                "wan1" : { "label" : "WAN1", "cn-label" : "WAN1", "tw-label" : "WAN1" },
+                "wan2" : { "label" : "WAN2", "cn-label" : "WAN2", "tw-label" : "WAN2" },
+                "wan3" : { "label" : "WAN3", "cn-label" : "WAN3", "tw-label" : "WAN3" },
+                "wan4" : { "label" : "WAN4", "cn-label" : "WAN4", "tw-label" : "WAN4" },
+                "wan5" : { "label" : "WAN5", "cn-label" : "WAN5", "tw-label" : "WAN5" },
+                "wan6" : { "label" : "WAN6", "cn-label" : "WAN6", "tw-label" : "WAN6" }
               },
               "url" :
               {
@@ -5636,8 +5670,8 @@
               "type" : "tabsChart",
               "tabs" :
               {
-                "cpu" : "CPU Utilization",
-                "memory" : "Memory Utilization"
+                "cpu" : { "label" : "CPU Utilization", "cn-label" : "CPU Utilization", "tw-label" : "CPU Utilization" },
+                "memory" : { "label" : "Memory Utilization", "cn-label" : "Memory Utilization", "tw-label" : "Memory Utilization" }
               },
               "url" :
               {
@@ -7312,9 +7346,9 @@
           "type" : "tabs",
           "tabs" :
           {
-            "wan_settings" : "WAN settings",
-            "multiwan_settings" : "Multiple WAN settings",
-            "default_dns_settings" : "Default DNS settings"
+            "wan_settings" : { "label" : "WAN Settings", "cn-label" : "WAN Settings", "tw-label" : "WAN Settings" },
+            "multiwan_settings" : { "label" : "Multiple WAN Settings", "cn-label" : "Multiple WAN Settings", "tw-label" : "Multiple WAN Settings" },
+            "default_dns_settings" : { "label" : "Default DNS Settings", "cn-label" : "Default DMS Settings", "tw-label" : "Default DNS Settings" }
           },
           "url" :
           {
@@ -10164,8 +10198,8 @@
           "columns" : true,
           "tabs" :
           {
-            "rule" : "Rule",
-            "default_policy" : "Default Policy"
+            "rule" : { "label" : "Rule", "cn-label" : "Rule", "tw-label" : "Rule" },
+            "default_policy" : { "label" : "Default Policy", "cn-label" : "Default Policy", "tw-label" : "Default Policy" }
           },
           "url" :
           {
@@ -10615,8 +10649,8 @@
               "type" : "tabs",
               "tabs" :
               {
-                "pat_settings" : "PAT Settings",
-                "wan_address_settings" : "WAN Address Settings"
+                "pat_settings" : { "label" : "PAT Settings", "cn-label" : "PAT Settings", "tw-label" : "PAT Settings" },
+                "wan_address_settings" : { "label" : "WAN Address Settings", "cn-label" : "WAN Address Settings", "tw-label" : "WAN Address Settings" }
               },
               "url" :
               {
@@ -12301,8 +12335,8 @@
           "type" : "tabs",
           "tabs" :
           {
-            "group" : "Group Table",
-            "user" : "User Table"
+            "group" : { "label" : "Group Table", "cn-label" : "Group Table", "tw-label" : "Group Table" },
+            "user" : { "label" : "User Table", "cn-label" : "User Table", "tw-label" : "User Table" }
           },
           "tabLock" : true,
           "rowLock" :
@@ -12666,8 +12700,8 @@
           "type" : "tabs",
           "tabs" :
           {
-            "group_address" : "Group Address Table",
-            "address" : "Address Table"
+            "group_address" : { "label" : "Group Address Table", "cn-label" : "Group Address Table", "tw-label" : "Group Address Table" },
+            "address" : { "label" : "Address Table", "cn-label" : "Address Table", "tw-label" : "Address Table" }
           },
           "url" :
           {
@@ -13236,8 +13270,8 @@
           "type" : "tabs",
           "tabs" :
           {
-            "group_service" : "Group Service Table",
-            "service" : "Service Table"
+            "group_service" : { "label" : "Group Service Table", "cn-label" : "Group Service Table", "tw-label" : "Group Service Table" },
+            "service" : { "label" : "Service Table", "cn-label" : "Service Table", "tw-label" : "Service Table" }
           },
           "url" :
           {
@@ -14200,6 +14234,8 @@
       [
         {
           "label" : "Administration",
+          "cn-label" : "Administration",
+          "tw-label" : "Administration",
           "id" : "menu-13-0",
           "tab" : "administration",
           "panel" :
@@ -15551,9 +15587,9 @@
           "type" : "tabs",
           "tabs" :
           {
-            "view_logs" : "View Logs",
-            "log_settings" : "Log Settings",
-            "logs_facility" : "Logs Facility"
+            "view_logs" : { "label" : "View Logs", "cn-label" : "View Logs", "tw-label" : "View Logs" },
+            "log_settings" : { "label" : "Log Settings", "cn-label": "Log Settings", "tw-label" : "Log Settings" },
+            "logs_facility" : { "label" : "Logs Facility", "cn-label" : "Logs Facility", "tw-label" : "Logs Facility" }
           },
           "url" :
           {
@@ -16217,8 +16253,8 @@
               "type" : "tabsForm",
               "tabs" :
               {
-                "log" : "Log",
-                "debug" : "Packet Capture"
+                "log" : { "lable" : "Log", "cn-label" : "Log", "tw-label" : "Log" },
+                "debug" : { "label" : "Packet Capture", "cn-label" : "Packet Capture", "tw-label" : "Packet Capture" }
               },
               "url" :
               {
@@ -16527,8 +16563,8 @@
           "type" : "tabsForm",
           "tabs" :
           {
-            "registration" : "Registration",
-            "services" : "Service"
+            "registration" : { "label" : "Registration", "cn-label" : "Registration", "tw-label" : "Registration" },
+            "services" : { "label" : "Service", "cn-label" : "Service", "tw-label" : "Service" }
           },
           "url" :
           {

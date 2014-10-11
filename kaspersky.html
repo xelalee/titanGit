@@ -210,6 +210,33 @@ var gHelp;
 var gCook  = {};
 var gRows  = {};
 
+var gColor = [
+        "#525A6B",
+        "#BD2110",
+        "#E7BD10",
+        "#639429",
+        "#9C52AD",
+
+        "#CEC6C6",
+        "#A58484",
+        "#B5B5B5",
+        "#313131",
+        "#085A9C"
+    ];
+var gRgbs  = [
+        {r:82, g:90, b:107},
+        {r:189, g:33, b:16},
+        {r:231, g:189, b:16},
+        {r:99, g:148, b:41},
+        {r:156, g:82, b:173},
+
+        {r:206, g:198, b:198},
+        {r:165, g:132, b:132},
+        {r:181, g:181, b:181},
+        {r:49, g:49, b:49},
+        {r:8, g:90, b:156}
+    ];
+
 // cookie
 gCook.main    = 'TitanWALL';
 gCook.portal  = 'TitanWALLPortal';
@@ -847,6 +874,7 @@ $(document).ready(function () {
             {
             case 'en':
                 gObj.label  = 'label';
+                gObj.note   = 'note';
                 gObj.btnYes = 'OK';
                 gObj.btnNo  = 'Cancel';
                 gObj.btnStart = 'Start';
@@ -854,6 +882,7 @@ $(document).ready(function () {
                 break;
             case 'cn':
                 gObj.label  = gObj.lang + '-label';
+                gObj.note   = gObj.lang + '-note';
                 gObj.btnYes = '保存';
                 gObj.btnNo  = '取消';
                 gObj.btnStart = '开始';
@@ -861,6 +890,7 @@ $(document).ready(function () {
                 break;
             case 'tw':
                 gObj.label  = gObj.lang + '-label';
+                gObj.note   = gObj.lang + '-note';
                 gObj.btnYes = '確定';
                 gObj.btnNo  = '取消';
                 gObj.btnStart = '開始';
@@ -1365,8 +1395,8 @@ $(document).ready(function () {
                             var tmp = '<div id="loginRegister" class="templateDiv">';
                             tmp += '<div class="tabber">';
                             tmp +=   '<ul>';
-                            tmp +=     '<li id="tab-registration"><a href="#panel-registration">Registration</a></li>';
-                            tmp +=     '<li id="tab-services"><a href="#panel-services">Service</a></li>';
+                            tmp +=     '<li id="tab-registration"><a href="#panel-registration">' + gNode.tabs.registration[ gObj.label ] + '</a></li>';
+                            tmp +=     '<li id="tab-services"><a href="#panel-services">' + gNode.tabs.services[ gObj.label ] + '</a></li>';
                             tmp +=   '</ul>';
                             tmp +=   '<div id="panel-registration">';
                             tmp +=     '<div id="div-registration">';
@@ -6278,7 +6308,7 @@ $(document).ready(function () {
                     gNode.cache = {};
                     for (var y in gNode.url.get)
                     {
-                        gY.one('.tabber ul').append('<li id="tab-' + y + '"><a href="#panel-' + y + '">' + gNode.tabs[ y ] + '</a></li>');
+                        gY.one('.tabber ul').append('<li id="tab-' + y + '"><a href="#panel-' + y + '">' + gNode.tabs[ y ][ gObj.label ] + '</a></li>');
                         gY.one('.tabber').append('<div id="panel-' + y + '"></div>');
                         gNode.cache[ y ] = false;
 
@@ -6542,7 +6572,7 @@ $(document).ready(function () {
 
                     for (var x in gNode.tabs)
                     {
-                        gY.one('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + gNode.tabs[ x ] + '</a></li>');
+                        gY.one('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + gNode.tabs[ x ][ gObj.label ] + '</a></li>');
                         gY.one('.tabber').append('<div id="panel-' + x + '"></div>');
                         switch( parseInt( x ))
                         {
@@ -6571,7 +6601,8 @@ $(document).ready(function () {
                             $('#div-0').html( tmp );
 
                             $.ajax({
-                                url: 'reportQuery.php?param=' + pid + '&q=0&pp=20&pi=1',
+                                url: 'advancedQuery.php?param=' + pid + '&q=0&pp=20&pi=1',
+                                //url: 'reportQuery.php?param=' + pid + '&q=0&pp=20&pi=1',
                                 dataType: 'json',
                                 success: function(data) {
                                     gIf.ajaxed = true;
@@ -6635,7 +6666,7 @@ $(document).ready(function () {
                     loadingToggle( true );
                     for (var x in gNode.tabs)
                     {
-                        gY.one('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + gNode.tabs[ x ] + '</a></li>');
+                        gY.one('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + gNode.tabs[ x ][ gObj.label ] + '</a></li>');
                         gY.one('.tabber').append('<div id="panel-' + x + '"><div id="chart-' + x + '"></div></div>');
                     }
 
@@ -6661,7 +6692,8 @@ $(document).ready(function () {
                     gY.one('#main_bd').set('innerHTML', '<div class="templateDiv"></div>');
                     tmp = '';
                     $.ajax({
-                        url: 'reportQuery.php?param=' + pid + '&pp=20&pi=1',
+                        //url: 'reportQuery.php?param=' + pid + '&pp=20&pi=1',
+                        url: 'advancedQuery.php?param=' + pid + '&pp=20&pi=1',
                         dataType: 'json',
                         success: function(data) {
                             gIf.ajaxed = true;
@@ -7226,7 +7258,7 @@ $(document).ready(function () {
                 });
                 break;
             case 'php':
-		        query = '';
+                query = '';
 
                 if (gNode.pager) {
                     gObj.phpQuery.pp = $('#phpPerPage').val();
@@ -7246,7 +7278,8 @@ $(document).ready(function () {
                         {
                         case 0:
                             $.ajax({
-                                url: 'reportQuery.php?param=' + pid + '&q=0' + query,
+                                //url: 'reportQuery.php?param=' + pid + '&q=0' + query,
+                                url: 'advancedQuery.php?param=' + pid + '&q=0' + query,
                                 dataType: 'json',
                                 success: function(data) {
                                     gIf.lock = false;
@@ -7294,7 +7327,8 @@ $(document).ready(function () {
                             });
                             break;
                         default:
-                            gY.io( 'reportQuery.php?param=' + pid + '&q=' + tabIndex, {
+                            //gY.io( 'reportQuery.php?param=' + pid + '&q=' + tabIndex, {
+                            gY.io( 'advancedQuery.php?param=' + pid + '&q=' + tabIndex, {
                                 on: {
                                     complete: function(id, e) {
                                         gIf.lock = false;
@@ -7308,7 +7342,9 @@ $(document).ready(function () {
                                         } else {
                                             if ($('.noData').exists())
                                                 $('#chart-' + tabIndex).empty();
-                                            var catKey, styleDef;
+                                            var catKey, axes, styleDef,
+                                                cData = [],
+                                                tData = data.queryResults.slice(0,10);
 
                                             switch( pid )
                                             {
@@ -7316,290 +7352,500 @@ $(document).ready(function () {
                                                 switch( tabIndex )
                                                 {
                                                 case 1:
+                                                    for (var i=0, len=tData.length; i<len; i++)
+                                                        cData.push( { address: tData[ i ].address, totalBytes: tData[ i ].totalBytes } );
                                                     catKey = 'address';
+                                                    axes = {
+                                                        address : {
+                                                            keys:["address"],
+                                                            position:"left"
+                                                        },
+                                                        totalBytes : {
+                                                            keys:["totalBytes"],
+                                                            position:"bottom",
+                                                            type:"numeric",
+                                                            labelFunction: function(label) {
+                                                                return label.toFixed(2);
+                                                            }
+                                                        }
+                                                    };
                                                     styleDef = {
-                                                        axes : {
-                                                            address : {
-                                                                keys:["address"],
-                                                                position:"left"
+                                                        graph : {
+                                                            background : {
+                                                                fill: { color: '#ffffff' }
                                                             },
-                                                            totalBytes : {
-                                                                keys:["totalBytes"],
-                                                                position:"bottom",
-                                                                type:"numeric"
+                                                            border : {
+                                                                color: '#ffffff',
+                                                                weight: 1
                                                             }
                                                         },
                                                         series:  {
-                                                            txBytes: {
-                                                                line: { color: "#eeeeee" }
-                                                            },
-                                                            rxBytes : {
-                                                                line: { color: "#ffffff" }
+                                                            totalBytes: {
+                                                                area: { color: "#eeeeee" },
+                                                                line: { color: "#eeeeee" },
+                                                                marker: { fill: { color: gColor } }
                                                             }
                                                         }
-                                                    }
+                                                    };
                                                     break;
                                                 case 2:
+                                                    for (var i=0, len=tData.length; i<len; i++)
+                                                        cData.push( { srcIp: tData[ i ].srcIp, totalBytes: tData[ i ].totalBytes } );
                                                     catKey = 'srcIp';
+                                                    axes = {
+                                                        srcIp : {
+                                                            keys:["srcIp"],
+                                                            position:"left"
+                                                        },
+                                                        totalBytes : {
+                                                            keys:["totalBytes"],
+                                                            position:"bottom",
+                                                            type:"numeric",
+                                                            labelFunction: function(label) {
+                                                                return label.toFixed(2);
+                                                            }
+                                                        }
+                                                    };
                                                     styleDef = {
-                                                        axes : {
-                                                            srcIp : {
-                                                                keys:["srcIp"],
-                                                                position:"left"
+                                                        graph : {
+                                                            background : {
+                                                                fill: { color: '#ffffff' }
                                                             },
-                                                            totalBytes : {
-                                                                keys:["totalBytes"],
-                                                                position:"bottom",
-                                                                type:"numeric"
+                                                            border : {
+                                                                color: '#ffffff',
+                                                                weight: 1
                                                             }
                                                         },
                                                         series:  {
-                                                            txBytes: {
-                                                                line: { color: "#eeeeee" }
-                                                            },
-                                                            rxBytes : {
-                                                                line: { color: "#ffffff" }
+                                                            totalBytes: {
+                                                                area: { color: "#eeeeee" },
+                                                                line: { color: "#eeeeee" },
+                                                                marker: { fill: { color: gColor } }
                                                             }
                                                         }
-                                                    }
+                                                    };
                                                     break;
                                                 case 3:
+                                                    for (var i=0, len=tData.length; i<len; i++)
+                                                        cData.push( { dstIp: tData[ i ].dstIp, totalBytes: tData[ i ].totalBytes } );
                                                     catKey = 'dstIp';
+                                                    axes = {
+                                                        dstIp : {
+                                                            keys:["dstIp"],
+                                                            position:"left"
+                                                        },
+                                                        totalBytes : {
+                                                            keys:["totalBytes"],
+                                                            position:"bottom",
+                                                            type:"numeric",
+                                                            labelFunction: function(label) {
+                                                                return label.toFixed(2);
+                                                            }
+                                                        }
+                                                    };
                                                     styleDef = {
-                                                        axes : {
-                                                            dstIp : {
-                                                                keys:["dstIp"],
-                                                                position:"left"
+                                                        graph : {
+                                                            background : {
+                                                                fill: { color: '#ffffff' }
                                                             },
-                                                            totalBytes : {
-                                                                keys:["totalBytes"],
-                                                                position:"bottom",
-                                                                type:"numeric"
+                                                            border : {
+                                                                color: '#ffffff',
+                                                                weight: 1
                                                             }
                                                         },
                                                         series:  {
-                                                            txBytes: {
-                                                                line: { color: "#eeeeee" }
-                                                            },
-                                                            rxBytes : {
-                                                                line: { color: "#ffffff" }
+                                                            totalBytes: {
+                                                                area: { color: "#eeeeee" },
+                                                                line: { color: "#eeeeee" },
+                                                                marker: { fill: { color: gColor } }
                                                             }
                                                         }
-                                                    }
+                                                    };
                                                     break;
                                                 case 4:
-                                                    for (var i=0, len=data.queryRows; i<len; i++)
-                                                        data.queryResults[ i ].protocol = gRef.protocol[ data.queryResults[ i ].protocol ];
+                                                    for (var i=0, len=tData.length; i<len; i++)
+                                                        cData.push( { protocol: gRef.protocol[ tData[ i ].protocol ], totalBytes: tData[ i ].totalBytes } );
                                                     catKey = 'protocol';
+                                                    axes = {
+                                                        protocol : {
+                                                            keys:["protocol"],
+                                                            position:"left"
+                                                        },
+                                                        totalBytes : {
+                                                            keys:["totalBytes"],
+                                                            position:"bottom",
+                                                            type:"numeric",
+                                                            labelFunction: function(label) {
+                                                                return label.toFixed(2);
+                                                            }
+                                                        }
+                                                    };
                                                     styleDef = {
-                                                        axes : {
-                                                            protocol : {
-                                                                keys:["protocol"],
-                                                                position:"left"
+                                                        graph : {
+                                                            background : {
+                                                                fill: { color: '#ffffff' }
                                                             },
-                                                            totalBytes : {
-                                                                keys:["totalBytes"],
-                                                                position:"bottom",
-                                                                type:"numeric"
+                                                            border : {
+                                                                color: '#ffffff',
+                                                                weight: 1
                                                             }
                                                         },
                                                         series:  {
-                                                            txBytes: {
-                                                                line: { color: "#eeeeee" }
-                                                            },
-                                                            rxBytes : {
-                                                                line: { color: "#ffffff" }
+                                                            totalBytes: {
+                                                                area: { color: "#eeeeee" },
+                                                                line: { color: "#eeeeee" },
+                                                                marker: { fill: { color: gColor } }
                                                             }
                                                         }
-                                                    }
+                                                    };
                                                     break;
                                                 case 5:
+                                                    for (var i=0, len=tData.length; i<len; i++)
+                                                        cData.push( { dstPort: tData[ i ].dstPort, totalBytes: tData[ i ].totalBytes } );
                                                     catKey = 'dstPort';
+                                                    axes = {
+                                                        dstPort : {
+                                                            keys:["dstPort"],
+                                                            position:"left"
+                                                        },
+                                                        totalBytes : {
+                                                            keys:["totalBytes"],
+                                                            position:"bottom",
+                                                            type:"numeric",
+                                                            labelFunction: function(label) {
+                                                                return label.toFixed(2);
+                                                            }
+                                                        }
+                                                    };
                                                     styleDef = {
-                                                        axes : {
-                                                            dstPort : {
-                                                                keys:["dstPort"],
-                                                                position:"left"
+                                                        graph : {
+                                                            background : {
+                                                                fill: { color: '#ffffff' }
                                                             },
-                                                            totalBytes : {
-                                                                keys:["totalBytes"],
-                                                                position:"bottom",
-                                                                type:"numeric"
+                                                            border : {
+                                                                color: '#ffffff',
+                                                                weight: 1
                                                             }
                                                         },
                                                         series:  {
-                                                            txBytes: {
-                                                                line: { color: "#eeeeee" }
-                                                            },
-                                                            rxBytes : {
-                                                                line: { color: "#ffffff" }
+                                                            totalBytes: {
+                                                                area: { color: "#eeeeee" },
+                                                                line: { color: "#eeeeee" },
+                                                                marker: { fill: { color: gColor } }
                                                             }
                                                         }
-                                                    }
+                                                    };
                                                     break;
                                                 case 6:
+                                                    for (var i=0, len=tData.length; i<len; i++)
+                                                        cData.push( { zone: tData[ i ].zone, totalBytes: tData[ i ].totalBytes } );
                                                     catKey = 'zone';
+                                                    axes = {
+                                                        zone : {
+                                                            keys:["zone"],
+                                                            position:"left"
+                                                        },
+                                                        totalBytes : {
+                                                            keys:["totalBytes"],
+                                                            position:"bottom",
+                                                            type:"numeric",
+                                                            labelFunction: function(label) {
+                                                                return label.toFixed(2);
+                                                            }
+                                                        }
+                                                    };
                                                     styleDef = {
-                                                        axes : {
-                                                            zone : {
-                                                                keys:["zone"],
-                                                                position:"left"
+                                                        graph : {
+                                                            background : {
+                                                                fill: { color: '#ffffff' }
                                                             },
-                                                            totalBytes : {
-                                                                keys:["totalBytes"],
-                                                                position:"bottom",
-                                                                type:"numeric"
+                                                            border : {
+                                                                color: '#ffffff',
+                                                                weight: 1
                                                             }
                                                         },
                                                         series:  {
-                                                            txBytes: {
-                                                                line: { color: "#eeeeee" }
-                                                            },
-                                                            rxBytes : {
-                                                                line: { color: "#ffffff" }
+                                                            totalBytes: {
+                                                                area: { color: "#eeeeee" },
+                                                                line: { color: "#eeeeee" },
+                                                                marker: { fill: { color: gColor } }
                                                             }
                                                         }
-                                                    }
+                                                    };
                                                     break;
                                                 }
                                                 break;
                                             case 'file_extension':
+                                                for (var i=0, len=tData.length; i<len; i++)
+                                                    cData.push( { extension: tData[ i ].extension, accessCount: tData[ i ].accessCount } );
                                                 catKey = 'extension';
-                                                styleDef = {
-                                                    axes : {
-                                                        extension : {
-                                                            keys:["extension"],
-                                                            position:"left"
+                                                axes = {
+                                                    extension : {
+                                                        keys:["extension"],
+                                                        position:"left"
+                                                    },
+                                                    accessCount : {
+                                                        keys:["accessCount"],
+                                                        position:"bottom",
+                                                        labelFunction: function(label) {
+                                                            return label.toFixed(2);
                                                         },
-                                                        accessCount : {
-                                                            keys:["accessCount"],
-                                                            position:"bottom",
-                                                            type:"numeric"
+                                                        type:"numeric"
+                                                    }
+                                                };
+                                                styleDef = {
+                                                    graph : {
+                                                        background : {
+                                                            fill: { color: '#ffffff' }
+                                                        },
+                                                        border : {
+                                                            color: '#ffffff',
+                                                            weight: 1
                                                         }
                                                     },
                                                     series:  {
                                                         accessCount: {
-                                                            line: { color: "#eeeeee" }
+                                                            area: { color: "#eeeeee" },
+                                                            line: { color: "#eeeeee" },
+                                                            marker: { fill: { color: gColor } }
                                                         }
                                                     }
-                                                }
+                                                };
                                                 break;
                                             case 'blocked_host':
+                                                for (var i=0, len=tData.length; i<len; i++)
+                                                    cData.push( { ip: tData[ i ].ip, virusCount: tData[ i ].virusCount, firewallCount: tData[ i ].firewallCount } );
                                                 catKey = 'ip';
-                                                styleDef = {
-                                                    axes : {
-                                                        ip : {
-                                                            keys:["ip"],
-                                                            position:"left"
+                                                axes = {
+                                                    ip : {
+                                                        keys:["ip"],
+                                                        position:"left"
+                                                    },
+                                                    count : {
+                                                        keys:["firewallCount", "virusCount"],
+                                                        position:"bottom",
+                                                        labelFunction: function(label) {
+                                                            return label.toFixed(2);
                                                         },
-                                                        firewallCount : {
-                                                            keys:["firewallCount"],
-                                                            position:"bottom",
-                                                            type:"numeric"
+                                                        type:"numeric"
+                                                    }
+                                                };
+                                                styleDef = {
+                                                    graph : {
+                                                        background : {
+                                                            fill: { color: '#ffffff' }
+                                                        },
+                                                        border : {
+                                                            color: '#ffffff',
+                                                            weight: 1
                                                         }
                                                     },
                                                     series:  {
                                                         firewallCount: {
-                                                            line: { color: "#eeeeee" }
+                                                            area: { color: "#eeeeee" },
+                                                            line: { color: "#eeeeee" },
+                                                            marker: { fill: { color: gColor } }
                                                         }
                                                     }
-                                                }
+                                                };
                                                 break;
                                             case 'affected_host':
+                                                for (var i=0, len=tData.length; i<len; i++)
+                                                    cData.push( { ip: tData[ i ].ip, virusHitCount: tData[ i ].virusHitCount, sigHitCount: tData[ i ].sigHitCount } );
                                                 catKey = 'ip';
-                                                styleDef = {
-                                                    axes : {
-                                                        ip : {
-                                                            keys:["ip"],
-                                                            position:"left"
+                                                axes = {
+                                                    ip : {
+                                                        keys:["ip"],
+                                                        position:"left"
+                                                    },
+                                                    hitCount : {
+                                                        keys:["virusHitCount", "sigHitCount"],
+                                                        position:"bottom",
+                                                        labelFunction: function(label) {
+                                                            return label.toFixed(2);
                                                         },
-                                                        sigHitCount : {
-                                                            keys:["sigHitCount"],
-                                                            position:"bottom",
-                                                            type:"numeric"
+                                                        type:"numeric"
+                                                    }
+                                                };
+                                                styleDef = {
+                                                    graph : {
+                                                        background : {
+                                                            fill: { color: '#ffffff' }
+                                                        },
+                                                        border : {
+                                                            color: '#ffffff',
+                                                            weight: 1
                                                         }
                                                     },
                                                     series:  {
                                                         sigHitCount: {
-                                                            line: { color: "#eeeeee" }
+                                                            area: { color: "#eeeeee" },
+                                                            line: { color: "#eeeeee" },
+                                                            marker: { fill: { color: gColor } }
                                                         }
                                                     }
-                                                }
+                                                };
                                                 break;
-                                            case 'antivirus':
+                                            case 'antivirus_report':
                                                 switch( tabIndex )
                                                 {
                                                 case 1:
+                                                    for (var i=0, len=tData.length; i<len; i++)
+                                                        cData.push( { srcIp: tData[ i ].srcIp, hitCount: tData[ i ].hitCount } );
                                                     catKey = 'srcIp';
-                                                    styleDef = {
-                                                        axes : {
-                                                            srcIp : {
-                                                                keys:["srcIp"],
-                                                                position:"left"
+                                                    axes = {
+                                                        srcIp : {
+                                                            keys:["srcIp"],
+                                                            position:"left"
+                                                        },
+                                                        hitCount : {
+                                                            keys:["hitCount"],
+                                                            position:"bottom",
+                                                            labelFunction: function(label) {
+                                                                return label.toFixed(2);
                                                             },
-                                                            hitCount : {
-                                                                keys:["hitCount"],
-                                                                position:"bottom",
-                                                                type:"numeric"
+                                                            type:"numeric"
+                                                        }
+                                                    };
+                                                    styleDef = {
+                                                        graph : {
+                                                            background : {
+                                                                fill: { color: '#ffffff' }
+                                                            },
+                                                            border : {
+                                                                color: '#ffffff',
+                                                                weight: 1
                                                             }
                                                         },
                                                         series:  {
                                                             hitCount: {
-                                                                line: { color: "#eeeeee" }
+                                                                area: { color: "#eeeeee" },
+                                                                line: { color: "#eeeeee" },
+                                                                marker: { fill: { color: gColor } }
                                                             }
                                                         }
-                                                    }
+                                                    };
                                                     break;
                                                 case 2:
+                                                    for (var i=0, len=tData.length; i<len; i++)
+                                                        cData.push( { dstIp: tData[ i ].dstIp, hitCount: tData[ i ].hitCount } );
                                                     catKey = 'dstIp';
-                                                    styleDef = {
-                                                        axes : {
-                                                            dstIp : {
-                                                                keys:["dstIp"],
-                                                                position:"left"
-                                                            },
-                                                            hitCount : {
-                                                                keys:["hitCount"],
-                                                                position:"bottom",
-                                                                type:"numeric"
-                                                            }
+                                                    axes = {
+                                                        dstIp : {
+                                                            keys:["dstIp"],
+                                                            position:"left"
                                                         },
-                                                        series:  {
-                                                            hitCount : {
-                                                                line: { color: "#eeeeee" }
-                                                            }
-                                                        }
-                                                    }
-                                                    break;
-                                                case 3:
-                                                    catKey = 'virusName';
-                                                    styleDef = {
-                                                        axes : {
-                                                            virusName : {
-                                                                keys:["virusName"],
-                                                                position:"left"
+                                                        hitCount : {
+                                                            keys:["hitCount"],
+                                                            position:"bottom",
+                                                            labelFunction: function(label) {
+                                                                return label.toFixed(2);
                                                             },
-                                                            hitCount : {
-                                                                keys:["hitCount"],
-                                                                position:"bottom",
-                                                                type:"numeric"
+                                                            type:"numeric"
+                                                        }
+                                                    };
+                                                    styleDef = {
+                                                        graph : {
+                                                            background : {
+                                                                fill: { color: '#ffffff' }
+                                                            },
+                                                            border : {
+                                                                color: '#ffffff',
+                                                                weight: 1
                                                             }
                                                         },
                                                         series:  {
                                                             hitCount: {
-                                                                line: { color: "#eeeeee" }
+                                                                area: { color: "#eeeeee" },
+                                                                line: { color: "#eeeeee" },
+                                                                marker: { fill: { color: gColor } }
                                                             }
                                                         }
-                                                    }
+                                                    };
+                                                    break;
+                                                case 3:
+                                                    for (var i=0, len=tData.length; i<len; i++)
+                                                        cData.push( { virusName: tData[ i ].virusName, hitCount: tData[ i ].hitCount } );
+                                                    catKey = 'virusName';
+                                                    axes = {
+                                                        virusName : {
+                                                            keys:["virusName"],
+                                                            position:"left"
+                                                        },
+                                                        hitCount : {
+                                                            keys:["hitCount"],
+                                                            position:"bottom",
+                                                            labelFunction: function(label) {
+                                                                return label.toFixed(2);
+                                                            },
+                                                            type:"numeric"
+                                                        }
+                                                    };
+                                                    styleDef = {
+                                                        graph : {
+                                                            background : {
+                                                                fill: { color: '#ffffff' }
+                                                            },
+                                                            border : {
+                                                                color: '#ffffff',
+                                                                weight: 1
+                                                            }
+                                                        },
+                                                        series:  {
+                                                            hitCount: {
+                                                                area: { color: "#eeeeee" },
+                                                                line: { color: "#eeeeee" },
+                                                                marker: { fill: { color: gColor } }
+                                                            }
+                                                        }
+                                                    };
+                                                    break;
+                                                case 4:
+                                                    for (var i=0, len=tData.length; i<len; i++)
+                                                        cData.push( { protocol: tData[ i ].protocol, hitCount: tData[ i ].hitCount } );
+                                                    catKey = 'protocol';
+                                                    axes = {
+                                                        protocol : {
+                                                            keys:["protocol"],
+                                                            position:"left"
+                                                        },
+                                                        hitCount : {
+                                                            keys:["hitCount"],
+                                                            position:"bottom",
+                                                            labelFunction: function(label) {
+                                                                return label.toFixed(2);
+                                                            },
+                                                            type:"numeric"
+                                                        }
+                                                    };
+                                                    styleDef = {
+                                                        graph : {
+                                                            background : {
+                                                                fill: { color: '#ffffff' }
+                                                            },
+                                                            border : {
+                                                                color: '#ffffff',
+                                                                weight: 1
+                                                            }
+                                                        },
+                                                        series:  {
+                                                            hitCount: {
+                                                                area: { color: "#eeeeee" },
+                                                                line: { color: "#eeeeee" },
+                                                                marker: { fill: { color: gColor } }
+                                                            }
+                                                        }
+                                                    };
                                                     break;
                                                 }
                                                 break;
                                             }
 
                                             gObj.chart[ tabIndex ] = new gY.Chart({
-                                                dataProvider:data.queryResults,
+                                                dataProvider: cData, //data.queryResults.slice(0,10),
                                                 categoryKey:catKey,
                                                 type:"bar",
+                                                axes: axes,
                                                 styles: styleDef,
                                                 horizontalGridlines: true
                                             }).render('#chart-' + tabIndex);
@@ -7684,7 +7930,8 @@ $(document).ready(function () {
 
                         loadingToggle( true );
                         $.ajax({
-                            url: 'reportQuery.php?param=' + pid + query + sortBy,
+                            //url: 'reportQuery.php?param=' + pid + query + sortBy,
+                            url: 'advancedQuery.php?param=' + pid + query + sortBy,
                             dataType: 'json',
                             success: function(data) {
                                 gIf.lock = false;
@@ -8132,7 +8379,7 @@ $(document).ready(function () {
 
                     for (var y in gNode.url.get)
                     {
-                        gY.one('.tabber ul').append('<li id="tab-' + y + '"><a href="#panel-' + y + '">' + gNode.tabs[ y ] + '</a></li>');
+                        gY.one('.tabber ul').append('<li id="tab-' + y + '"><a href="#panel-' + y + '">' + gNode.tabs[ y ][ gObj.label ]  + '</a></li>');
                         gY.one('.tabber').append('<div id="panel-' + y + '"></div>');
 
                         $.ajax({
@@ -8312,7 +8559,7 @@ $(document).ready(function () {
                                                             tmp += '</td>';
                                                             tmp += '<td class="align' + gNode.col[ x ][ j ].option[ y ].col[ k ].align[ 2 ] + '" >';
                                                             tmp += '<input type="' + gNode.col[ x ][ j ].option[ y ].col[ k ].type + '" id="' + gNode.col[ x ][ j ].option[ y ].col[ k ].tab + '" ' + ( (gNode.col[ x ][ j ].option[ y ].col[ k ].size)? 'size="' + gNode.col[ x ][ j ].option[ y ].col[ k ].size + '"' : '' ) + ' />';
-                                                            tmp += '&nbsp;' + gNode.col[ x ][ j ].option[ y ].col[ k ][ gObj.lang + '-note' ];
+                                                            tmp += '&nbsp;' + gNode.col[ x ][ j ].option[ y ].col[ k ][ gObj.note ];
                                                             tmp += '</td>';
                                                             tmp += '</tr>';
                                                         }
@@ -8816,7 +9063,7 @@ $(document).ready(function () {
                         }
                         tmp += '</p>';
                         if (gNode.editor[ i ].col[ j ].note)
-                            tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.lang + '-note' ];
+                            tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.note ];
                         tmp += '</td>';
                         tmp += '</tr>';
                         break;
@@ -8831,7 +9078,7 @@ $(document).ready(function () {
                             tmp += '<td class="align' + ((gNode.editor[ i ].col[ j ].align)? gNode.editor[ i ].col[ j ].align[ 1 ] : "Left") + '">';
                             tmp += '<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '" ' + ( (gNode.editor[ i ].col[ j ].size)? 'size="' + gNode.editor[ i ].col[ j ].size + '"' : '' ) + '/>';
                             if (gNode.editor[ i ].col[ j ].note)
-                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.lang + '-note' ];
+                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.note ];
                             tmp += '</td>';
                             tmp += '</tr>';
                             break;
@@ -8853,14 +9100,14 @@ $(document).ready(function () {
                                     case 1:
                                         tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ][ gObj.label ] + '&nbsp;<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ].tab + '"' + ( (gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ].size)? 'size="' + gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ].size + '"' : '' ) + '/>';
                                         if (gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ].note)
-                                            tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ][ gObj.lang + '-note' ];
+                                            tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ][ gObj.note ];
                                         break;
                                     default:
                                         for (var k=0, klen=gNode.editor[ i ].col[ j ].option[ x ].col.length; k<klen; k++)
                                         {
                                             tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ k ][ gObj.label ] + '&nbsp;<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].option[ x ].col[ k ].tab + '" ' + ( (gNode.editor[ i ].col[ j ].option[ x ].col[ k ].size)? 'size="' + gNode.editor[ i ].col[ j ].option[ x ].col[ k ].size + '"' : '' ) + '/>';
                                             if (gNode.editor[ i ].col[ j ].option[ x ].col[ k ].note)
-                                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ k ][ gObj.lang + '-note' ];
+                                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ k ][ gObj.note ];
                                         }
                                     }
                                 }
@@ -8966,7 +9213,7 @@ $(document).ready(function () {
                                                     tmp += '<td class="alignLeft">';
                                                     tmp += '<input type="text" ' + ( ( gNode.editor[ i ].col[ j ].col[ x ][ k].option[ y ].col[ m ].size )? 'size="8"' : '') + ' id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '-' + x + '-' + gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ].tab + '" />';
                                                     tmp += '&nbsp;';
-                                                    tmp += ( gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ].note )? gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ][ gObj.lang + '-note' ] : '';
+                                                    tmp += ( gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ].note )? gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ][ gObj.note ] : '';
                                                     tmp += '</td>';
                                                     tmp += '</tr>';
                                                 }
@@ -9323,7 +9570,7 @@ $(document).ready(function () {
                             tmp += '<td class="align' + ((gNode.editor[ i ].col[ j ].align)? gNode.editor[ i ].col[ j ].align[ 1 ] : "Left") + '">';
                             tmp += '<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '" ' + ( (gNode.editor[ i ].col[ j ].size)? 'size="' + gNode.editor[ i ].col[ j ].size + '"' : '' ) + '/>';
                             if (gNode.editor[ i ].col[ j ].note)
-                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.lang + '-note' ];
+                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.note ];
                             tmp += '</td>';
                             tmp += '</tr>';
                             break;
@@ -9588,7 +9835,7 @@ $(document).ready(function () {
                                 tmp += '<td class="align' + ((gNode.editor[ i ].col[ j ].align)? gNode.editor[ i ].col[ j ].align[ 1 ] : "Left") + '">';
                                 tmp += '<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '" ' + ( (gNode.editor[ i ].col[ j ].size)? 'size="' + gNode.editor[ i ].col[ j ].size + '"' : '' ) + ' />';
                                 if (gNode.editor[ i ].col[ j ].note)
-                                    tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.lang + '-note' ];
+                                    tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.note ];
                                 tmp += '</td>';
                                 tmp += '</tr>';
                                 break;
@@ -9607,7 +9854,7 @@ $(document).ready(function () {
                                     if (gNode.editor[ i ].col[ j ].option[ x ].col) {
                                         tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.label ] + '&nbsp;<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].option[ x ].col.tab + '" ' + ( (gNode.editor[ i ].col[ j ].option[ x ].col.size)? 'size="' + gNode.editor[ i ].col[ j ].option[ x ].col.size + '"' : '' ) + ' />';
                                         if (gNode.editor[ i ].col[ j ].option[ x ].col.note)
-                                            tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.lang + '-note' ];
+                                            tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.note ];
                                     }
                                     tmp += '</td>';
                                     tmp += '</tr>';
@@ -9810,7 +10057,7 @@ $(document).ready(function () {
                     tmp += '<td class="align' + gNode.editor[ i ].align[ 1 ] + '" >';
                     tmp += '<input type="' + gNode.editor[ i ].type + '" id="editor-' + gNode.editor[ i ].tab + '" ' + (( gNode.editor[ i ].tab == 'securityLevel')? 'size="8"' : '') + '/>';
                     if (gNode.editor[ i ].note)
-                        tmp += '&nbsp;' + gNode.editor[ i ][ gObj.lang + '-note' ];
+                        tmp += '&nbsp;' + gNode.editor[ i ][ gObj.note ];
                     tmp += '</td>';
                     break;
                 case 'member':
@@ -9920,7 +10167,7 @@ $(document).ready(function () {
                         tmp += '<p id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '">';
                         tmp += '</p>';
                         if (gNode.editor[ i ].col[ j ].note)
-                            tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.lang + '-note' ];
+                            tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.note ];
                         tmp += '</td>';
                         tmp += '</tr>';
                         break;
@@ -9935,7 +10182,7 @@ $(document).ready(function () {
                             tmp += '<td class="align' + ((gNode.editor[ i ].col[ j ].align)? gNode.editor[ i ].col[ j ].align[ 1 ] : "Left") + '">';
                             tmp += '<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '" ' + ( (gNode.editor[ i ].col[ j ].size)? 'size="' + gNode.editor[ i ].col[ j ].size + '"' : '' ) + '/>';
                             if (gNode.editor[ i ].col[ j ].note)
-                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.lang + '-note' ];
+                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.note ];
                             tmp += '</td>';
                             tmp += '</tr>';
                             break;
@@ -9957,14 +10204,14 @@ $(document).ready(function () {
                                     case 1:
                                         tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ][ gObj.label ] + '&nbsp;<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ].tab + '" ' + ((gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ].size)? 'size="' + gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ].size + '"' : '' ) + '/>';
                                         if (gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ].note)
-                                            tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ][ gObj.lang + '-note' ];
+                                            tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ 0 ][ gObj.note ];
                                         break;
                                     default:
                                         for (var k=0, klen=gNode.editor[ i ].col[ j ].option[ x ].col.length; k<klen; k++)
                                         {
                                             tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ k ][ gObj.label ] + '&nbsp;<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].option[ x ].col[ k ].tab + '" ' + ( (gNode.editor[ i ].col[ j ].option[ x ].col[ k ].size)? 'size="' + gNode.editor[ i ].col[ j ].option[ x ].col[ k ].size + '"' : '' ) + '/>';
                                             if (gNode.editor[ i ].col[ j ].option[ x ].col[ k ].note)
-                                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ k ][ gObj.lang + '-note' ];
+                                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ k ][ gObj.note ];
                                         }
                                     }
                                 }
@@ -10069,7 +10316,7 @@ $(document).ready(function () {
                                                     tmp += '<td class="alignLeft">';
                                                     tmp += '<input type="text" ' + ( ( gNode.editor[ i ].col[ j ].col[ x ][ k].option[ y ].col[ m ].size )? 'size="8"' : '') + ' id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '-' + x + '-' + gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ].tab + '" />';
                                                     tmp += '&nbsp;';
-                                                    tmp += ( gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ].note )? gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ][ gObj.lang + '-note' ] : '';
+                                                    tmp += ( gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ].note )? gNode.editor[ i ].col[ j ].col[ x ][ k ].option[ y ].col[ m ][ gObj.note ] : '';
                                                     tmp += '</td>';
                                                     tmp += '</tr>';
                                                 }
@@ -10513,7 +10760,7 @@ $(document).ready(function () {
                             tmp += '<td class="align' + ((gNode.editor[ i ].col[ j ].align)? gNode.editor[ i ].col[ j ].align[ 1 ] : "Left") + '">';
                             tmp += '<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '" ' + ( (gNode.editor[ i ].col[ j ].size)? 'size="' + gNode.editor[ i ].col[ j ].size + '"' : '' ) + '/>';
                             if (gNode.editor[ i ].col[ j ].note)
-                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.lang + '-note' ];
+                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.note ];
                             tmp += '</td>';
                             tmp += '</tr>';
                             break;
@@ -10542,7 +10789,7 @@ $(document).ready(function () {
                                 if (gNode.editor[ i ].col[ j ].option[ x ].col) {
                                     tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.label ] + '&nbsp;<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].option[ x ].col.tab + '" ' + ( (gNode.editor[ i ].col[ j ].option[ x ].col.size)? 'size="' + gNode.editor[ i ].col[ j ].option[ x ].col.size + '"' : '' ) + '/>';
                                     if (gNode.editor[ i ].col[ j ].option[ x ].col.note)
-                                        tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.lang + '-note' ];
+                                        tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.note ];
                                 }
                                 tmp += '</td>';
                                 tmp += '</tr>';
@@ -10806,7 +11053,7 @@ $(document).ready(function () {
                             tmp += '<td class="align' + ((gNode.editor[ i ].col[ j ].align)? gNode.editor[ i ].col[ j ].align[ 1 ] : "Left") + '">';
                             tmp += '<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '" ' + ( (gNode.editor[ i ].col[ j ].size)? 'size="' + gNode.editor[ i ].col[ j ].size + '"' : '' ) + '/>';
                             if (gNode.editor[ i ].col[ j ].note)
-                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.lang + '-note' ];
+                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.note ];
                             tmp += '</td>';
                             tmp += '</tr>';
                             break;
@@ -10835,7 +11082,7 @@ $(document).ready(function () {
                                 if (gNode.editor[ i ].col[ j ].option[ x ].col) {
                                     tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.label ] + '&nbsp;<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].option[ x ].col.tab + '" ' + ( (gNode.editor[ i ].col[ j ].option[ x ].col.size)? 'size="' + gNode.editor[ i ].col[ j ].option[ x ].col.size + '"' : '' ) + '/>';
                                     if (gNode.editor[ i ].col[ j ].option[ x ].col.note)
-                                        tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.lang + '-note' ];
+                                        tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.note ];
                                 }
                                 tmp += '</td>';
                                 tmp += '</tr>';
@@ -11102,7 +11349,7 @@ $(document).ready(function () {
                             tmp += '<td class="align' + ((gNode.editor[ i ].col[ j ].align)? gNode.editor[ i ].col[ j ].align[ 1 ] : "Left") + '">';
                             tmp += '<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '" ' + ( (gNode.editor[ i ].col[ j ].size)? 'size="' + gNode.editor[ i ].col[ j ].size + '"' : '' ) + ' />';
                             if (gNode.editor[ i ].col[ j ].note)
-                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.lang + '-note' ];
+                                tmp += '&nbsp;' + gNode.editor[ i ].col[ j ][ gObj.note ];
                             tmp += '</td>';
                             tmp += '</tr>';
                             break;
@@ -11121,7 +11368,7 @@ $(document).ready(function () {
                                 if (gNode.editor[ i ].col[ j ].option[ x ].col) {
                                     tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.label ] + '&nbsp;<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].option[ x ].col.tab + '" ' + ( (gNode.editor[ i ].col[ j ].option[ x ].col.size)? 'size="' + gNode.editor[ i ].col[ j ].option[ x ].col.size + '"' : '' ) + '/>';
                                     if (gNode.editor[ i ].col[ j ].option[ x ].col.note)
-                                        tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.lang + '-note' ];
+                                        tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.note ];
                                 }
                                 tmp += '</td>';
                                 tmp += '</tr>';
@@ -11358,7 +11605,7 @@ $(document).ready(function () {
                     tmp += '<td class="align' + gNode.editor[ i ].align[ 1 ] + '" >';
                     tmp += '<input type="' + gNode.editor[ i ].type + '" id="editor-' + gNode.editor[ i ].tab + '" />';
                     if (gNode.editor[ i ].note)
-                        tmp += gNode.editor[ i ][ gObj.lang + '-note' ];
+                        tmp += gNode.editor[ i ][ gObj.note ];
                     tmp += '</td>';
                     break;
                 case 'securityLevel':
@@ -11366,7 +11613,7 @@ $(document).ready(function () {
                     tmp += '<td class="align' + gNode.editor[ i ].align[ 1 ] + '" >';
                     tmp += '<input type="' + gNode.editor[ i ].type + '" id="editor-' + gNode.editor[ i ].tab + '" size="8" />';
                     if (gNode.editor[ i ].note)
-                        tmp += gNode.editor[ i ][ gObj.lang + '-note' ];
+                        tmp += gNode.editor[ i ][ gObj.note ];
                     tmp += '</td>';
                     break;
                 case 'member':
@@ -12399,8 +12646,6 @@ $(document).ready(function () {
             ],
             close: function(event, ui) {
                 $(this).dialog('destroy').remove();
-            },
-            create: function() {
             }
         });
 
@@ -13574,8 +13819,6 @@ $(document).ready(function () {
                     ],
                     close: function(event, ui) {
                         $(this).dialog('destroy').remove();
-                    },
-                    create: function() {
                     }
                 });
                 switch(parseInt(poster.status))
@@ -14508,7 +14751,7 @@ $(document).ready(function () {
                 case 'input':
                     tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" ' + ((gNode.editor[ i ].size)? 'size="' + gNode.editor[ i ].size + '"' : '' )+ '/>';
                     if ( gNode.editor[ i ].note )
-                        tmp += '&nbsp;' + gNode.editor[ i ][ gObj.lang + '-note' ];
+                        tmp += '&nbsp;' + gNode.editor[ i ][ gObj.note ];
                     break;
                 case 'select':
                     tmp += '<select id="Editor-' + gNode.editor[ i ].tab + '" >';
@@ -14543,7 +14786,7 @@ $(document).ready(function () {
                 case 'input':
                     tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" ' + ((gNode.editor[ i ].size)? 'size="' + gNode.editor[ i ].size + '"' : '' )+ '/>';
                     if ( gNode.editor[ i ].note )
-                        tmp += '&nbsp;' + gNode.editor[ i ][ gObj.lang + '-note' ];
+                        tmp += '&nbsp;' + gNode.editor[ i ][ gObj.note ];
                     break;
                 case 'select':
                     tmp += '<select id="Editor-' + gNode.editor[ i ].tab + '" >';
@@ -14584,7 +14827,7 @@ $(document).ready(function () {
                             tmp += '<td class="align' + ((gNode.editor[ i ].col[ j ].align)? gNode.editor[ i ].col[ j ].align[ 1 ] : 'Left') + '">';
                             tmp += '<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '"  />';
                             if ( gNode.editor[ i ].col[ j ].note )
-                                tmp += '&nbsp' + gNode.editor[ i ].col[ j ][ gObj.lang + '-note' ];
+                                tmp += '&nbsp' + gNode.editor[ i ].col[ j ][ gObj.note ];
                             tmp += '</td>';
                             tmp += '</tr>';
                             break;
@@ -14609,7 +14852,7 @@ $(document).ready(function () {
                                 if ( gNode.editor[ i ].col[ j ].option[ x ].col ) {
                                     tmp += '&nbsp; <input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].option[ x ].col.tab + '" />';
                                     if ( gNode.editor[ i ].col[ j ].option[ x ].col.note ) {
-                                        tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.lang + '-note' ];
+                                        tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.note ];
                                     }
                                 }
                                 tmp += '</td>';
@@ -14652,7 +14895,7 @@ $(document).ready(function () {
                                     case 'text':
                                         tmp += '<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].col[ k ].tab + '" size="8" />';
                                         if ( gNode.editor[ i ].col[ j ].col[ k ].note )
-                                            tmp += '&nbsp' + gNode.editor[ i ].col[ j ].col[ k ][ gObj.lang + '-note' ];
+                                            tmp += '&nbsp' + gNode.editor[ i ].col[ j ].col[ k ][ gObj.note ];
                                         break;
                                     }
                                     tmp += '</td>';
@@ -14686,7 +14929,7 @@ $(document).ready(function () {
                             tmp += '<label for="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].col.tab + '">&nbsp;' + gNode.editor[ i ].col[ j ].col[ gObj.label ] + '</label>';
                             tmp += '&nbsp;<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].col.tab + '" />';
                             if ( gNode.editor[ i ].col[ j ].col.note )
-                                tmp += '&nbsp' + gNode.editor[ i ].col[ j ].col[ gObj.lang + '-note' ];
+                                tmp += '&nbsp' + gNode.editor[ i ].col[ j ].col[ gObj.note ];
                             tmp += '</td>';
                             tmp += '</tr>';
                         }
@@ -14853,7 +15096,7 @@ $(document).ready(function () {
                     case 'checkbox':
                         tmp += '<input type="checkbox" id="Editor-' + gNode.editor[ i ].tab + '" value="' + gNode.editor[ i ].val + '"/>';
                         if ( gNode.editor[ i ].note ) {
-                            tmp += '&nbsp;<label for="Editor-' + gNode.editor[ i ].tab + '">' + gNode.editor[ i ][ gObj.lang + '-note' ] + '</label>';
+                            tmp += '&nbsp;<label for="Editor-' + gNode.editor[ i ].tab + '">' + gNode.editor[ i ][ gObj.note ] + '</label>';
                         }
                         break;
                     case 'radio':
@@ -14877,7 +15120,7 @@ $(document).ready(function () {
                     default:
                         tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" size="8"/>';
                         if ( gNode.editor[ i ].note )
-                            tmp += '&nbsp;' + gNode.editor[ i ][ gObj.lang + '-note' ];
+                            tmp += '&nbsp;' + gNode.editor[ i ][ gObj.note ];
                     }
                     break;
                 case 'select':
@@ -14969,7 +15212,7 @@ $(document).ready(function () {
                 case 'input':
                     tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" ' + ((gNode.editor[ i ].size)? 'size="' + gNode.editor[ i ].size + '"' : '' )+ '/>';
                     if ( gNode.editor[ i ].note )
-                        tmp += '&nbsp;' + gNode.editor[ i ][ gObj.lang + '-note' ];
+                        tmp += '&nbsp;' + gNode.editor[ i ][ gObj.note ];
                     break;
                 case 'select':
                     tmp += '<select id="Editor-' + gNode.editor[ i ].tab + '" >';
@@ -15008,7 +15251,7 @@ $(document).ready(function () {
                 case 'input':
                     tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" ' + ((gNode.editor[ i ].size)? 'size="' + gNode.editor[ i ].size + '"' : '' )+ '/>';
                     if ( gNode.editor[ i ].note )
-                        tmp += '&nbsp;' + gNode.editor[ i ][ gObj.lang + '-note' ];
+                        tmp += '&nbsp;' + gNode.editor[ i ][ gObj.note ];
                     break;
                 case 'select':
                     tmp += '<select id="Editor-' + gNode.editor[ i ].tab + '" >';
@@ -15053,7 +15296,7 @@ $(document).ready(function () {
                             tmp += '<td class="align' + ((gNode.editor[ i ].col[ j ].align)? gNode.editor[ i ].col[ j ].align[ 1 ] : 'Left') + '">';
                             tmp += '<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].tab + '" ' + ((gNode.editor[ i ].col[ j ].size)? 'size="' + gNode.editor[ i ].col[ j ].size + '"' : '' ) + '/>';
                             if ( gNode.editor[ i ].col[ j ].note )
-                                tmp += '&nbsp' + gNode.editor[ i ].col[ j ][ gObj.lang + '-note' ];
+                                tmp += '&nbsp' + gNode.editor[ i ].col[ j ][ gObj.note ];
                             tmp += '</td>';
                             tmp += '</tr>';
                             break;
@@ -15078,7 +15321,7 @@ $(document).ready(function () {
                                 if ( gNode.editor[ i ].col[ j ].option[ x ].col ) {
                                     tmp += '&nbsp; <input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].option[ x ].col.tab + '" />';
                                     if ( gNode.editor[ i ].col[ j ].option[ x ].col.note ) {
-                                        tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.lang + '-note' ];
+                                        tmp += '&nbsp;' + gNode.editor[ i ].col[ j ].option[ x ].col[ gObj.note ];
                                     }
                                 }
                                 tmp += '</td>';
@@ -15121,7 +15364,7 @@ $(document).ready(function () {
                                     case 'text':
                                         tmp += '<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].col[ k ].tab + '" size="8"/>';
                                         if ( gNode.editor[ i ].col[ j ].col[ k ].note )
-                                            tmp += '&nbsp' + gNode.editor[ i ].col[ j ].col[ k ][ gObj.lang + '-note' ];
+                                            tmp += '&nbsp' + gNode.editor[ i ].col[ j ].col[ k ][ gObj.note ];
                                         break;
                                     }
                                     tmp += '</td>';
@@ -15155,7 +15398,7 @@ $(document).ready(function () {
                             tmp += '<label for="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].col.tab + '">' + gNode.editor[ i ].col[ j ].col[ gObj.label ] + '</label>';
                             tmp += '&nbsp;<input type="text" id="' + gNode.editor[ i ].tab + '-' + gNode.editor[ i ].col[ j ].col.tab + '"  />';
                             if ( gNode.editor[ i ].col[ j ].col.note )
-                                tmp += '&nbsp' + gNode.editor[ i ].col[ j ].col[ gObj.lang + '-note' ];
+                                tmp += '&nbsp' + gNode.editor[ i ].col[ j ].col[ gObj.note ];
                             tmp += '</td>';
                             tmp += '</tr>';
                         }
@@ -15356,7 +15599,7 @@ $(document).ready(function () {
                     case 'checkbox':
                         tmp += '<input type="checkbox" id="Editor-' + gNode.editor[ i ].tab + '" value="' + gNode.editor[ i ].val + '"/>';
                         if ( gNode.editor[ i ].note )
-                            tmp += '&nbsp;<label for="Editor-' + gNode.editor[ i ].tab + '">' + gNode.editor[ i ][ gObj.lang + '-note' ] + '</label>';
+                            tmp += '&nbsp;<label for="Editor-' + gNode.editor[ i ].tab + '">' + gNode.editor[ i ][ gObj.note ] + '</label>';
                         break;
                     case 'radio':
                         tmp += '<table id="Editor-table-' + gNode.editor[ i ].tab + '">';
@@ -15383,7 +15626,7 @@ $(document).ready(function () {
                     default:
                         tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" size="8" />';
                         if ( gNode.editor[ i ].note )
-                            tmp += '&nbsp;' + gNode.editor[ i ][ gObj.lang + '-note' ];
+                            tmp += '&nbsp;' + gNode.editor[ i ][ gObj.note ];
                     }
                     break;
                 case 'select':
@@ -15716,8 +15959,6 @@ $(document).ready(function () {
             ],
             close: function(event, ui) {
                 $(this).dialog('destroy').remove();
-            },
-            create: function() {
             }
         });
 
@@ -16010,8 +16251,6 @@ $(document).ready(function () {
                     ],
                     close: function(event, ui) {
                         $(this).dialog('destroy').remove();
-                    },
-                    create: function() {
                     }
                 });
                 switch(parseInt(poster.status))
@@ -16060,7 +16299,7 @@ $(document).ready(function () {
 
                         for (var y in gNode.url.get)
                         {
-                            gY.one('.tabber ul').append('<li id="tab-' + y + '"><a href="#panel-' + y + '">' + gNode.tabs[ y ] + '</a></li>');
+                            gY.one('.tabber ul').append('<li id="tab-' + y + '"><a href="#panel-' + y + '">' + gNode.tabs[ y ][ gObj.label ] + '</a></li>');
                             gY.one('.tabber').append('<div id="panel-' + y + '"></div>');
 
                             $.ajax({
@@ -16272,7 +16511,7 @@ $(document).ready(function () {
 
                                 for (var x in gNode.tabs)
                                 {
-                                    gY.one('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + gNode.tabs[ x ] + '</a></li>');
+                                    gY.one('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + gNode.tabs[ x ][ gObj.label ] + '</a></li>');
                                     gY.one('.tabber').append('<div id="panel-' + x + '"></div>');
 
                                     tmp = '<table id="table-' + x + '">';
@@ -16437,16 +16676,16 @@ $(document).ready(function () {
                                 tmp +=   '<div id="div-tcp_udp">';
                                 tmp +=     '<div id="div-tcp">';
                                 tmp +=       '<span id="label-' + gNode.col[ 0 ].tab + '" class="alignLeft"><label for="' + gNode.col[ 0 ].tab + '" >' + gNode.col[ 0 ][ gObj.label ] + '</label></span>';
-                                tmp +=       '<span id="input-' + gNode.col[ 0 ].tab + '" class="alignLeft"><input type="text" id="' + gNode.col[ 0 ].tab + '" size="8"/>&nbsp;' + gNode.col[ 0 ][ gObj.lang + '-note' ] + '</span>';
+                                tmp +=       '<span id="input-' + gNode.col[ 0 ].tab + '" class="alignLeft"><input type="text" id="' + gNode.col[ 0 ].tab + '" size="8"/>&nbsp;' + gNode.col[ 0 ][ gObj.note ] + '</span>';
                                 tmp +=     '</div>';
                                 tmp +=     '<div id="div-udp">';
                                 tmp +=       '<span id="label-' + gNode.col[ 1 ].tab + '" class="alignLeft"><label for="' + gNode.col[ 1 ].tab + '" >' + gNode.col[ 1 ][ gObj.label ] + '</label></span>';
-                                tmp +=       '<span id="input-' + gNode.col[ 1 ].tab + '" class="alignLeft"><input type="text" id="' + gNode.col[ 1 ].tab + '" size="8"/>&nbsp;' + gNode.col[ 1 ][ gObj.lang + '-note' ] + '</span>';
+                                tmp +=       '<span id="input-' + gNode.col[ 1 ].tab + '" class="alignLeft"><input type="text" id="' + gNode.col[ 1 ].tab + '" size="8"/>&nbsp;' + gNode.col[ 1 ][ gObj.note ] + '</span>';
                                 tmp +=     '</div>';
                                 tmp +=   '</div>';
                                 tmp +=   '<div id="div-other">';
                                 tmp +=     '<span id="label-' + gNode.col[ 2 ].tab + '" class="alignLeft"><label for="' + gNode.col[ 2 ].tab + '" >' + gNode.col[ 2 ][ gObj.label ] + '</label></span>';
-                                tmp +=     '<span id="input-' + gNode.col[ 2 ].tab + '" class="alignLeft"><input type="text" id="' + gNode.col[ 2 ].tab + '" size="8"/>' + gNode.col[ 2 ][ gObj.lang + '-note' ] + '</span>';
+                                tmp +=     '<span id="input-' + gNode.col[ 2 ].tab + '" class="alignLeft"><input type="text" id="' + gNode.col[ 2 ].tab + '" size="8"/>' + gNode.col[ 2 ][ gObj.note ] + '</span>';
                                 tmp +=   '</div>';
                                 tmp += '</div>';
                                 $('.templateDiv').append( tmp );
@@ -16474,7 +16713,7 @@ $(document).ready(function () {
                                         switch( gNode.col[ i ].col[ j ].type )
                                         {
                                         case 'text':
-                                            tmp += '<td class="alignLeft"><label for="' + gNode.col[ i ].col[ j ].tab + '">' + gNode.col[ i ].col[ j ][ gObj.label ] + '</label></br><input type="text" id="' + gNode.col[ i ].col[ j ].tab + '" size="8"/>&nbsp;' + gNode.col[ i ].col[ j ][ gObj.lang + '-note' ] + '</td>';
+                                            tmp += '<td class="alignLeft"><label for="' + gNode.col[ i ].col[ j ].tab + '">' + gNode.col[ i ].col[ j ][ gObj.label ] + '</label></br><input type="text" id="' + gNode.col[ i ].col[ j ].tab + '" size="8"/>&nbsp;' + gNode.col[ i ].col[ j ][ gObj.note ] + '</td>';
                                             break;
                                         case 'checkbox':
                                             tmp += '<td class="alignLeft"><input type="checkbox" id="' + gNode.col[ i ].col[ j ].tab + '" value="' + gNode.col[ i ].col[ j ].val + '" />&nbsp;<label for="' + gNode.col[ i ].col[ j ].tab + '">' + gNode.col[ i ].col[ j ][ gObj.label ] + '</label></td>';
@@ -17183,7 +17422,7 @@ $(document).ready(function () {
                         tmp += '<td class="align' + ((gNode.editor[ i ].align)? gNode.editor[ i ].align[ 1 ] : 'Left') + '">';
                         tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" size="8" />';
                         if ( gNode.editor[ i ].note )
-                            tmp += '&nbsp' + gNode.editor[ i ][ gObj.lang + '-note' ];
+                            tmp += '&nbsp' + gNode.editor[ i ][ gObj.note ];
                         tmp += '</td>';
                         tmp += '</tr>';
                         break;
@@ -17472,7 +17711,7 @@ $(document).ready(function () {
                         tmp += '<td class="align' + ((gNode.editor[ i ].align)? gNode.editor[ i ].align[ 1 ] : 'Left') + '">';
                         tmp += '<input type="text" id="Editor-' + gNode.editor[ i ].tab + '" size="8" />';
                         if ( gNode.editor[ i ].note )
-                            tmp += '&nbsp' + gNode.editor[ i ][ gObj.lang + '-note' ];
+                            tmp += '&nbsp' + gNode.editor[ i ][ gObj.note ];
                         tmp += '</td>';
                         tmp += '</tr>';
                         break;
@@ -17532,7 +17771,7 @@ $(document).ready(function () {
                         tmp += '<label for="Editor-' + gNode.editor[ i ].col.tab + '">' + gNode.editor[ i ].col[ gObj.label ] + '</label>';
                         tmp += '&nbsp;<input type="text" id="Editor-' + gNode.editor[ i ].col.tab + '" size="8"/>';
                         if ( gNode.editor[ i ].col.note )
-                            tmp += '&nbsp' + gNode.editor[ i ].col[ gObj.lang + '-note' ];
+                            tmp += '&nbsp' + gNode.editor[ i ].col[ gObj.note ];
                         tmp += '</td>';
                         tmp += '</tr>';
                     }
@@ -17928,7 +18167,7 @@ $(document).ready(function () {
             position: "center",
             resizable: false,
             modal: true,
-            title: tar.title + ' > ' + ((tar.pid == 'wan_address_settings')? gNode.tabs[ tar.pid ] + ' > ' : '') + gTerm[ gObj.lang ][ tar.type ],
+            title: tar.title + ' > ' + ((tar.pid == 'wan_address_settings')? gNode.tabs[ tar.pid ][ gObj.label ] + ' > ' : '') + gTerm[ gObj.lang ][ tar.type ],
             buttons: [
                 {
                     text: gObj.btnYes,
@@ -18134,8 +18373,6 @@ $(document).ready(function () {
             ],
             close: function(event, ui) {
                 $(this).dialog('destroy').remove();
-            },
-            create: function() {
             }
         });
     }
@@ -18517,8 +18754,6 @@ $(document).ready(function () {
                     ],
                     close: function(event, ui) {
                         $(this).dialog('destroy').remove();
-                    },
-                    create: function() {
                     }
                 });
                 switch(parseInt(poster.status))
@@ -18788,7 +19023,7 @@ $(document).ready(function () {
                         gCache.tabber = {};
                         for (var x in gNode.url.get)
                         {
-                            gY.one('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + gNode.tabs[ x ] + '</a></li>');
+                            gY.one('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + gNode.tabs[ x ][ gObj.label ] + '</a></li>');
                             gY.one('.tabber').append('<div id="panel-' + x + '"><div id="div-' + x + '"><table id="table-' + x + '"></table></div></div>');
                             $.ajax({
                                 url: 'cgi-bin/' + gNode.url.get[ x ] + '.' + gNode.ext,
@@ -18914,7 +19149,7 @@ $(document).ready(function () {
                                         tmp += '<input type="text" id="maxFileSize" size="8"/>';
                                         tmp += '</td>';
                                         tmp += '<th class="alignLeft">';
-                                        tmp += '<label for="maxFileSize">' + gNode.col[ y ][ 2 ][ gObj.lang + '-note' ] + '</label>';
+                                        tmp += '<label for="maxFileSize">' + gNode.col[ y ][ 2 ][ gObj.note ] + '</label>';
                                         tmp += '</th>';
                                         tmp += '</tr>';
                                         tmp += '</table>';
@@ -19275,8 +19510,8 @@ $(document).ready(function () {
                                         tmp += '<table id="table-expirtaion_duration">';
                                         tmp += '<tr>';
                                         tmp += '<th class="alignLeft BT150">' + gNode.col[ y ][ 0 ].col[ 0 ][ gObj.label ] + '</th>';
-                                        tmp += '<td class="alignLeft BT180">' + gNode.col[ y ][ 0 ].col[ 1 ][ gObj.label ] + '&nbsp;<input type="text" id="expiration_days" size="8"/> ' + gNode.col[ y ][ 0 ].col[ 1 ][ gObj.lang + '-note' ] + '</td>';
-                                        tmp += '<td class="alignLeft">' + gNode.col[ y ][ 0 ].col[ 2 ][ gObj.label ] + '&nbsp;<input type="text" id="expiration_hours" size="8"/> ' + gNode.col[ y ][ 0 ].col[ 2 ][ gObj.lang + '-note' ] + '</td>';
+                                        tmp += '<td class="alignLeft BT180">' + gNode.col[ y ][ 0 ].col[ 1 ][ gObj.label ] + '&nbsp;<input type="text" id="expiration_days" size="8"/> ' + gNode.col[ y ][ 0 ].col[ 1 ][ gObj.note ] + '</td>';
+                                        tmp += '<td class="alignLeft">' + gNode.col[ y ][ 0 ].col[ 2 ][ gObj.label ] + '&nbsp;<input type="text" id="expiration_hours" size="8"/> ' + gNode.col[ y ][ 0 ].col[ 2 ][ gObj.note ] + '</td>';
                                         tmp += '</tr>';
                                         tmp += '</table>';
                                         tmp += '</div>';
@@ -19904,9 +20139,9 @@ $(document).ready(function () {
         if (gObj.active.h4Index == 'NA')
             tar.title = gObj.menu[ gObj.active.h3Index ][ gObj.label ];
         else if (gObj.active.h5Index == 'NA') {
-            tar.title = gObj.menu[ gObj.active.h3Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ][ gObj.label ] + ((gNode.tabs)? ' > ' + (( gNode.tabs[ tar.pid ] )? gNode.tabs[ tar.pid ] : tar.pid ) : '');
+            tar.title = gObj.menu[ gObj.active.h3Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ][ gObj.label ] + ((gNode.tabs)? ' > ' + (( gNode.tabs[ tar.pid ] )? gNode.tabs[ tar.pid ][ gObj.label ] : tar.pid ) : '');
         }else {
-            tar.title = gObj.menu[ gObj.active.h3Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].panel[ gObj.active.h5Index ][ gObj.label ] + ((gNode.tabs)? ' > ' + ((gNode.tabs[ tar.pid ])? gNode.tabs[ tar.pid ] : tar.pid ) : '');
+            tar.title = gObj.menu[ gObj.active.h3Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].panel[ gObj.active.h5Index ][ gObj.label ] + ((gNode.tabs)? ' > ' + ((gNode.tabs[ tar.pid ])? gNode.tabs[ tar.pid ][ gObj.label ] : tar.pid ) : '');
         }
 
         gPop.popForm = $('#popForm').dialog({
@@ -19972,8 +20207,6 @@ $(document).ready(function () {
             ],
             close: function(event, ui) {
                 $(this).dialog('destroy').remove();
-            },
-            create: function() {
             }
         });
     }
@@ -20331,7 +20564,7 @@ $(document).ready(function () {
                             dataType: 'json',
                             success: function(data) {
                                 gData[ y ] = data;
-                                gY.one('.tabber ul').append('<li id="tab-' + y + '"><a href="#panel-' + y + '">' + gNode.tabs[ y ] + '</a></li>');
+                                gY.one('.tabber ul').append('<li id="tab-' + y + '"><a href="#panel-' + y + '">' + gNode.tabs[ y ][ gObj.label ] + '</a></li>');
                                 gY.one('.tabber').append('<div id="panel-' + y + '"></div>');
 
                                 tmp = '<div id="div-' + y + '" class="tableDiv">';
@@ -20383,7 +20616,7 @@ $(document).ready(function () {
                                 dataType: 'json',
                                 success: function(data) {
                                     gData[ y ] = data;
-                                    gY.one('.tabber ul').append('<li id="tab-' + y + '"><a href="#panel-' + y + '">' + gNode.tabs[ y ] + '</a></li>');
+                                    gY.one('.tabber ul').append('<li id="tab-' + y + '"><a href="#panel-' + y + '">' + gNode.tabs[ y ][ gObj.label ] + '</a></li>');
                                     gY.one('.tabber').append('<div id="panel-' + y + '"></div>');
 
                                     tmp = '<div id="div-' + y + '" class="tableDiv">';
@@ -20715,7 +20948,7 @@ $(document).ready(function () {
                             tmp += '<td class="align' + ((gNode.editor[ tar.pid ][ i ].col[ j ].align)? gNode.editor[ tar.pid ][ i ].col[ j ].align[ 1 ] : "Left") + '">';
                             tmp += '<input type="' + gNode.editor[ tar.pid ][ i ].col[ j ].type + '" id="' + gNode.editor[ tar.pid ][ i ].tab + '-' + gNode.editor[ tar.pid ][ i ].col[ j ].tab + '" />';
                             if (gNode.editor[ tar.pid ][ i ].col[ j ].note)
-                                tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].col[ j ][ gObj.lang + '-note' ];
+                                tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].col[ j ][ gObj.note ];
                             tmp += '</td>';
                             tmp += '</tr>';
                             break;
@@ -20773,7 +21006,7 @@ $(document).ready(function () {
                         tmp += '<td class="align' + ((gNode.editor[ tar.pid ][ i ].col[ j ].align)? gNode.editor[ tar.pid ][ i ].col[ j ].align[ 1 ] : "Left") + '">';
                         tmp += '<input type="' + gNode.editor[ tar.pid ][ i ].col[ j ].type + '" id="' + gNode.editor[ tar.pid ][ i ].tab + '-' + gNode.editor[ tar.pid ][ i ].col[ j ].tab + '" />';
                         if (gNode.editor[ tar.pid ][ i ].col[ j ].note)
-                            tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].col[ j ][ gObj.lang + '-note' ];
+                            tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].col[ j ][ gObj.note ];
                         tmp += '</td>';
                         tmp += '</tr>';
                         break;
@@ -20933,7 +21166,7 @@ $(document).ready(function () {
                             tmp += '<td class="align' + ((gNode.editor[ tar.pid ][ i ].col[ j ].align)? gNode.editor[ tar.pid ][ i ].col[ j ].align[ 1 ] : "Left") + '">';
                             tmp += '<input type="' + gNode.editor[ tar.pid ][ i ].col[ j ].type + '" id="' + gNode.editor[ tar.pid ][ i ].tab + '-' + gNode.editor[ tar.pid ][ i ].col[ j ].tab + '" />';
                             if (gNode.editor[ tar.pid ][ i ].col[ j ].note)
-                                tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].col[ j ][ gObj.lang + '-note' ];
+                                tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].col[ j ][ gObj.note ];
                             tmp += '</td>';
                             tmp += '</tr>';
                             break;
@@ -20985,7 +21218,7 @@ $(document).ready(function () {
                         tmp += '<td class="align' + ((gNode.editor[ tar.pid ][ i ].col[ j ].align)? gNode.editor[ tar.pid ][ i ].col[ j ].align[ 1 ] : "Left") + '">';
                         tmp += '<input type="' + gNode.editor[ tar.pid ][ i ].col[ j ].type + '" id="' + gNode.editor[ tar.pid ][ i ].tab + '-' + gNode.editor[ tar.pid ][ i ].col[ j ].tab + '" />';
                         if (gNode.editor[ tar.pid ][ i ].col[ j ].note)
-                            tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].col[ j ][ gObj.lang + '-note' ];
+                            tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].col[ j ][ gObj.note ];
                         tmp += '</td>';
                         tmp += '</tr>';
                         break;
@@ -21105,9 +21338,9 @@ $(document).ready(function () {
         tar.pid  = tar.id.split(gReg.isDash)[1];
 
         if (gObj.active.h5Index == 'NA') {
-            tar.title = gObj.menu[ gObj.active.h3Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ][ gObj.label ] + ((gNode.tabs)? ' > ' + gNode.tabs[ tar.pid ] : '');
+            tar.title = gObj.menu[ gObj.active.h3Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ][ gObj.label ] + ((gNode.tabs)? ' > ' + gNode.tabs[ tar.pid ][ gObj.label ] : '');
         }else {
-            tar.title = gObj.menu[ gObj.active.h3Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].panel[ gObj.active.h5Index ][ gObj.label ] + ((gNode.tabs)? ' > ' + gNode.tabs[ tar.pid ] : '');
+            tar.title = gObj.menu[ gObj.active.h3Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].panel[ gObj.active.h5Index ][ gObj.label ] + ((gNode.tabs)? ' > ' + gNode.tabs[ tar.pid ][ gObj.label ] : '');
         }
 
         gPop.popForm = $('#popForm').dialog({
@@ -21216,8 +21449,6 @@ $(document).ready(function () {
             ],
             close: function(event, ui) {
                 $(this).dialog('destroy').remove();
-            },
-            create: function() {
             }
         });
         gObj.tab = $('.tabs').tabs();
@@ -21481,7 +21712,7 @@ $(document).ready(function () {
 
             for (var x in gNode.tabs)
             {
-                gY.one('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + gNode.tabs[ x ] + '</a></li>');
+                gY.one('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + gNode.tabs[ x ][ gObj.label ] + '</a></li>');
                 gY.one('.tabber').append('<div id="panel-' + x + '"><div id="div-' + x + '"><div class="div-hd" style="position: relative"></div><div class="div-bd" style="position: relative"></div><div id="div-ft" style="position: relative"></div></div></div>');
             }
 
@@ -21676,7 +21907,7 @@ $(document).ready(function () {
 
                     for (var x in gNode.tabs)
                     {
-                        gY.one('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + gNode.tabs[ x ] + '</a></li>');
+                        gY.one('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + gNode.tabs[ x ][ gObj.label ] + '</a></li>');
                         gY.one('.tabber').append('<div id="panel-' + x + '"></div>');
 
                         tmp = '<div id="div-' + x + '" class="tableDiv">';
@@ -22468,7 +22699,7 @@ $(document).ready(function () {
                             tmp += '</td>';
                             tmp += '<td class="align' + gNode.editor[ tar.pid ][ i ].option[ j ].col[ k ].align[ 1 ] + '">';
                             tmp += '<input type="text" id="Editor-' + gNode.editor[ tar.pid ][ i ].tab + '-' + gNode.editor[ tar.pid ][ i ].option[ j ].tab + '-' + gNode.editor[ tar.pid ][ i ].option[ j ].col[ k ].tab + '" />';
-                            tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].option[ j ].col[ k ][ gObj.lang + '-note' ];
+                            tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].option[ j ].col[ k ][ gObj.note ];
                             tmp += '</td>';
                             tmp += '</tr>';
                         }
@@ -22677,7 +22908,7 @@ $(document).ready(function () {
                 } else if ( 'p' == gNode.editor[ i ].tag ) {
                     tmp += '<tr>';
                     tmp += '<th class="align' + gNode.editor[ i ].align[ 0 ] + '" style="width: ' + gNode.editor[ i ].wiz + '">' + gNode.editor[ i ][ gObj.label ] + '</th>';
-                    tmp += '<td class="align' + gNode.editor[ i ].align[ 1 ] + '"><p id="Editor-' + gNode.editor[ i ].tab + '" >' + gNode.editor[ i ][ gObj.lang + '-note' ] + '</p></td>';
+                    tmp += '<td class="align' + gNode.editor[ i ].align[ 1 ] + '"><p id="Editor-' + gNode.editor[ i ].tab + '" >' + gNode.editor[ i ][ gObj.note ] + '</p></td>';
                     tmp += '</tr>';
                 } else {
                     tmp += '<tr>';
@@ -22697,7 +22928,7 @@ $(document).ready(function () {
                                     tmp += '<select id="Editor-' + gNode.editor[ i ].option[ j ].col[ k ].col[ 0 ].tab + '"></select>';
                                     tmp += ' : ';
                                     tmp += '<select id="Editor-' + gNode.editor[ i ].option[ j ].col[ k ].col[ 1 ].tab + '"></select>';
-                                    tmp += '&nbsp;' + gNode.editor[ i ].option[ j ].col[ k ][ gObj.lang + '-note' ];
+                                    tmp += '&nbsp;' + gNode.editor[ i ].option[ j ].col[ k ][ gObj.note ];
                                     tmp += '</td>';
                                     tmp += '</tr>';
                                 } else {
@@ -23110,7 +23341,7 @@ $(document).ready(function () {
                             tmp += '</td>';
                             tmp += '<td class="align' + gNode.editor[ tar.pid ][ i ].option[ j ].col[ k ].align[ 1 ] + '">';
                             tmp += '<input type="text" id="Editor-' + gNode.editor[ tar.pid ][ i ].tab + '-' + gNode.editor[ tar.pid ][ i ].option[ j ].tab + '-' + gNode.editor[ tar.pid ][ i ].option[ j ].col[ k ].tab + '" />';
-                            tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].option[ j ].col[ k ][ gObj.lang + '-note' ];
+                            tmp += '&nbsp;' + gNode.editor[ tar.pid ][ i ].option[ j ].col[ k ][ gObj.note ];
                             tmp += '</td>';
                             tmp += '</tr>';
                         }
@@ -23307,7 +23538,7 @@ $(document).ready(function () {
                 } else if ( 'p' == gNode.editor[ i ].tag ) {
                     tmp += '<tr>';
                     tmp += '<th class="align' + gNode.editor[ i ].align[ 0 ] + '" style="width: ' + gNode.editor[ i ].wiz + '">' + gNode.editor[ i ][ gObj.label ] + '</th>';
-                    tmp += '<td class="align' + gNode.editor[ i ].align[ 1 ] + '"><p id="Editor-' + gNode.editor[ i ].tab + '" >' + gNode.editor[ i ][ gObj.lang + '-note' ] + '</p></td>';
+                    tmp += '<td class="align' + gNode.editor[ i ].align[ 1 ] + '"><p id="Editor-' + gNode.editor[ i ].tab + '" >' + gNode.editor[ i ][ gObj.note ] + '</p></td>';
                     tmp += '</tr>';
                 } else {
                     tmp += '<tr>';
@@ -23327,7 +23558,7 @@ $(document).ready(function () {
                                     tmp += '<select id="Editor-' + gNode.editor[ i ].option[ j ].col[ k ].col[ 0 ].tab + '"></select>';
                                     tmp += ' : ';
                                     tmp += '<select id="Editor-' + gNode.editor[ i ].option[ j ].col[ k ].col[ 1 ].tab + '"></select>';
-                                    tmp += '&nbsp;' + gNode.editor[ i ].option[ j ].col[ k ][ gObj.lang + '-note' ];
+                                    tmp += '&nbsp;' + gNode.editor[ i ].option[ j ].col[ k ][ gObj.note ];
                                     tmp += '</td>';
                                     tmp += '</tr>';
                                 } else {
@@ -23564,9 +23795,9 @@ $(document).ready(function () {
         tar.pid  = tar.id.split(gReg.isDash)[1];
 
         if (gObj.active.h5Index == 'NA') {
-            tar.title = gObj.menu[ gObj.active.h3Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ][ gObj.label ] + ((gNode.tabs)? ' > ' + gNode.tabs[ tar.pid ] : '');
+            tar.title = gObj.menu[ gObj.active.h3Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ][ gObj.label ] + ((gNode.tabs)? ' > ' + gNode.tabs[ tar.pid ][ gObj.label ] : '');
         }else {
-            tar.title = gObj.menu[ gObj.active.h3Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].panel[ gObj.active.h5Index ][ gObj.label ] + ((gNode.tabs)? ' > ' + gNode.tabs[ tar.pid ] : '');
+            tar.title = gObj.menu[ gObj.active.h3Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].panel[ gObj.active.h5Index ][ gObj.label ] + ((gNode.tabs)? ' > ' + gNode.tabs[ tar.pid ][ gObj.label ] : '');
         }
 
         gPop.popForm = $('#popForm').dialog({
@@ -23767,8 +23998,6 @@ $(document).ready(function () {
             ],
             close: function(event, ui) {
                 $(this).dialog('destroy').remove();
-            },
-            create: function() {
             }
         });
         gObj.tab = $('.tabs').tabs();
@@ -24029,7 +24258,7 @@ $(document).ready(function () {
                 switch( pid )
                 {
                 case 'backup_restore':
-                    gCheckbox.backup_restore = {};
+                    gCheckbox[ pid ] = {};
                     gY.one('#main_bd').set('innerHTML', '<div class="templateDiv"><div id="div-' + pid + '"></div></div>');
                     tmp = '<table id="table-' + pid + '">';
                     tmp += '<thead>';
@@ -24057,6 +24286,7 @@ $(document).ready(function () {
                             gData[ pid ] = data;
                             gCache[ pid ] = {};
                             gCache[ pid ].gid = 0;
+                            gCache[ pid ].name = {};
                             var acts = gNode.rowAction.split(' ');
 
                             // lazy sorting ...
@@ -24070,6 +24300,7 @@ $(document).ready(function () {
 
                             for (var i=0, len=parseInt( data[ gNode.guiTNum ] ); i<len; i++)
                             {
+                                gCache[ pid ].name[ data[ gNode.guiT ][ i ].name ] = true;
                                 tmp = '<tr id="tr-' + pid + '-' + i + '" class="' + ((i%2==0)? 'even' : 'odd') + '">';
                                 if ( 0 === parseInt(data[ gNode.guiT ][ i ].userDefined ) ) {
                                     for (var j=0, jlen=gNode.col.length; j<jlen; j++)
@@ -24313,7 +24544,7 @@ $(document).ready(function () {
                                             tmp += '<label for="' + gNode.col[ i ].tab + '">' + gNode.col[ i ][ gObj.label ] + '</label>';
                                             tmp += '</th>';
                                             tmp += '<td>';
-                                            tmp += '<input type="text" id="' + gNode.col[ i ].tab + '" size="' + gNode.col[ i ].size + '" />&nbsp' + gNode.col[ i ][ gObj.lang + '-note' ];
+                                            tmp += '<input type="text" id="' + gNode.col[ i ].tab + '" size="' + gNode.col[ i ].size + '" />&nbsp' + gNode.col[ i ][ gObj.note ];
                                             tmp += '</td>';
                                             tmp += '</tr>';
                                             tmp += '</table>';
@@ -24327,7 +24558,7 @@ $(document).ready(function () {
                                             tmp += '<label for="' + gNode.col[ i ].tab + '">' + gNode.col[ i ][ gObj.label ] + '</label>';
                                             tmp += '</th>';
                                             tmp += '<td>';
-                                            tmp += '<input type="text" id="' + gNode.col[ i ].tab + '" size="' + gNode.col[ i ].size + '" />&nbsp' + gNode.col[ i ][ gObj.lang + '-note' ];
+                                            tmp += '<input type="text" id="' + gNode.col[ i ].tab + '" size="' + gNode.col[ i ].size + '" />&nbsp' + gNode.col[ i ][ gObj.note ];
                                             tmp += '</td>';
                                             tmp += '</tr>';
                                         }
@@ -25153,7 +25384,7 @@ $(document).ready(function () {
                                 tmp += '</tr>';
                                 tmp += '<tr>';
                                 tmp += '<td class="alignLeft BT200"><input type="checkbox" id="wanAlertEnable" />&nbsp;<label for="wanAlertEnable">' + gNode.col[ 1 ].col[ 1 ].col[ 1 ][ gObj.label ] + '</label></td>';
-                                tmp += '<td class="alignLeft ">' + gNode.col[ 1 ].col[ 1 ].col[ 1 ].col[ 0 ][ gObj.label ] + '&nbsp;<input type="text" id="wanAlertInterval" size="8"/>&nbsp;' + gNode.col[ 1 ].col[ 1 ].col[ 1 ].col[ 0 ][ gObj.lang + '-note' ] + '</td>';
+                                tmp += '<td class="alignLeft ">' + gNode.col[ 1 ].col[ 1 ].col[ 1 ].col[ 0 ][ gObj.label ] + '&nbsp;<input type="text" id="wanAlertInterval" size="8"/>&nbsp;' + gNode.col[ 1 ].col[ 1 ].col[ 1 ].col[ 0 ][ gObj.note ] + '</td>';
                                 tmp += '</tr>';
                                 tmp += '</table>';
                                 tmp += '</div>';
@@ -25162,7 +25393,7 @@ $(document).ready(function () {
                                 tmp += '<caption>' + gNode.col[ 1 ].col[ 2 ][ gObj.label ] + '</caption>';
                                 tmp += '<tr>';
                                 tmp += '<td class="alignLeft BT200"><input type="checkbox" id="virusAlertEnable" />&nbsp;<label for="virusAlertEnable">' + gNode.col[ 1 ].col[ 2 ].col[ 0 ][ gObj.label ] + '</td>';
-                                tmp += '<td class="alignLeft ">' + gNode.col[ 1 ].col[ 2 ].col[ 0 ].col[ 0 ][ gObj.label ] + '&nbsp;<input type="text" id="virusAlertInterval" size="8"/>&nbsp;' + gNode.col[ 1 ].col[ 2 ].col[ 0 ].col[ 0 ][ gObj.lang + '-note' ] + '</td>';
+                                tmp += '<td class="alignLeft ">' + gNode.col[ 1 ].col[ 2 ].col[ 0 ].col[ 0 ][ gObj.label ] + '&nbsp;<input type="text" id="virusAlertInterval" size="8"/>&nbsp;' + gNode.col[ 1 ].col[ 2 ].col[ 0 ].col[ 0 ][ gObj.note ] + '</td>';
                                 tmp += '</tr>';
 
                                 tmp += '</table>';
@@ -25233,7 +25464,7 @@ $(document).ready(function () {
 
                         break;
                     case 'advanced_debug':
-                        gY.one('.tabber ul').append('<li id="tab-log"><a href="#panel-log">' + gNode.tabs.log + '</a></li><li id="tab-debug"><a href="#panel-debug">' + gNode.tabs.debug  + '</a></li>');
+                        gY.one('.tabber ul').append('<li id="tab-log"><a href="#panel-log">' + gNode.tabs.log[ gObj.label ] + '</a></li><li id="tab-debug"><a href="#panel-debug">' + gNode.tabs.debug[ gObj.label ]  + '</a></li>');
                         gY.one('.tabber').append('<div id="panel-log"></div><div id="panel-debug"></div>');
 
                         gCheckbox.log = {};
@@ -25515,7 +25746,7 @@ $(document).ready(function () {
                         });
                         break;
                     case 'license':
-                        gY.one('.tabber ul').append('<li id="tab-registration"><a href="#panel-registration">' + gNode.tabs.registration + '</a></li><li id="tab-services"><a href="#panel-services">' + gNode.tabs.services  + '</a></li>');
+                        gY.one('.tabber ul').append('<li id="tab-registration"><a href="#panel-registration">' + gNode.tabs.registration[ gObj.label ] + '</a></li><li id="tab-services"><a href="#panel-services">' + gNode.tabs.services[ gObj.label ]  + '</a></li>');
                         gY.one('.tabber').append('<div id="panel-registration"></div><div id="panel-services"></div>');
                         if (gIf.power) {
                             $('#main_ft').html( gHtml.pgSave + gHtml.pgCancel );
@@ -25928,8 +26159,6 @@ $(document).ready(function () {
                                                 ],
                                                 close: function(event, ui) {
                                                     $(this).dialog('destroy').remove();
-                                                },
-                                                create: function() {
                                                 }
                                             });
 
@@ -26028,7 +26257,7 @@ $(document).ready(function () {
 
             for (var x in gNode.tabs)
             {
-                gY.one('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + gNode.tabs[ x ] + '</a></li>');
+                gY.one('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + gNode.tabs[ x ][ gObj.label ] + '</a></li>');
                 gY.one('.tabber').append('<div id="panel-' + x + '"><div id="div-' + x + '"></div></div>');
             }
 
@@ -26491,6 +26720,8 @@ $(document).ready(function () {
                 $('#Editor-table-' + tar.pid).append( tmp );
             }
 
+            // bp
+
             break;
         }
         deviceEditor( e, tar.w, tar.h );
@@ -26666,9 +26897,9 @@ $(document).ready(function () {
         tar.pid  = tar.id.split(gReg.isDash)[1];
 
         if (gObj.active.h5Index == 'NA') {
-            tar.title = gObj.menu[ gObj.active.h3Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ][ gObj.label ] + ((gNode.tabs)? ' > ' + gNode.tabs[ tar.pid ] : '');
+            tar.title = gObj.menu[ gObj.active.h3Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ][ gObj.label ] + ((gNode.tabs)? ' > ' + gNode.tabs[ tar.pid ][ gObj.label ] : '');
         }else {
-            tar.title = gObj.menu[ gObj.active.h3Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].panel[ gObj.active.h5Index ][ gObj.label ] + ((gNode.tabs)? ' > ' + gNode.tabs[ tar.pid ] : '');
+            tar.title = gObj.menu[ gObj.active.h3Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ][ gObj.label ] + ' > ' + gObj.menu[ gObj.active.h3Index ].panel[ gObj.active.h4Index ].panel[ gObj.active.h5Index ][ gObj.label ] + ((gNode.tabs)? ' > ' + gNode.tabs[ tar.pid ][ gObj.label ] : '');
         }
 
         gPop.popForm = $('#popForm').dialog({
@@ -26845,8 +27076,6 @@ $(document).ready(function () {
             },
             close: function(event, ui) {
                 $(this).dialog('destroy').remove();
-            },
-            create: function() {
             }
         });
     }
@@ -27012,16 +27241,15 @@ $(document).ready(function () {
 
             break;
         case 'backup_restore':
-            if (!gReg.ascii.default.test($('#Editor-name').val())) {
+            if (!gReg.ascii.default.test($('#Editor-name').val()) || gCache[ tar.pid ].name[ $('#Editor-name').val() ] ) {
                 pass = false;
-                msg += '<p>' + gError[ gObj.lang ].name63 + '</p>';
+                msg += '<p>' + gError[ gObj.lang ].uniqName63 + '</p>';
             }
 
             if (!gReg.length255.test($('#Editor-desc').val())) {
                 pass = false;
                 msg += '<p>' + gError[ gObj.lang ].desc255 + '</p>';
             }
-
 
             if ($('#Editor-baseOn-0').is(':checked') && gReg.isNA.test($('#Editor-baseOn-device').val())) {
                 pass = false;
@@ -27475,8 +27703,6 @@ $(document).ready(function () {
                         ],
                         close: function(event, ui) {
                             $(this).dialog('destroy').remove();
-                        },
-                        create: function() {
                         }
                     });
                     switch(parseInt(poster.status))
@@ -28457,7 +28683,7 @@ $(document).ready(function () {
                             tmp += '</td>';
                             tmp += '<td class="align' + gSelector.editor[ 'service' ][ i ].option[ j ].col[ k ].align[ 1 ] + '">';
                             tmp += '<input type="text" id="More-' + gSelector.editor[ 'service' ][ i ].tab + '-' + gSelector.editor[ 'service' ][ i ].option[ j ].tab + '-' + gSelector.editor[ 'service' ][ i ].option[ j ].col[ k ].tab + '" />';
-                            tmp += '&nbsp;' + gSelector.editor[ 'service' ][ i ].option[ j ].col[ k ][ gObj.lang + '-note' ];
+                            tmp += '&nbsp;' + gSelector.editor[ 'service' ][ i ].option[ j ].col[ k ][ gObj.note ];
                             tmp += '</td>';
                             tmp += '</tr>';
                         }
@@ -28644,7 +28870,7 @@ $(document).ready(function () {
                 } else if ( 'p' == gSelector.editor[ i ].tag ) {
                     tmp += '<tr>';
                     tmp += '<th class="align' + gSelector.editor[ i ].align[ 0 ] + '" style="width: ' + gSelector.editor[ i ].wiz + '">' + gSelector.editor[ i ][ gObj.label ] + '</th>';
-                    tmp += '<td class="align' + gSelector.editor[ i ].align[ 1 ] + '"><p id="More-' + gSelector.editor[ i ].tab + '" >' + gSelector.editor[ i ][ gObj.lang + '-note' ] + '</p></td>';
+                    tmp += '<td class="align' + gSelector.editor[ i ].align[ 1 ] + '"><p id="More-' + gSelector.editor[ i ].tab + '" >' + gSelector.editor[ i ][ gObj.note ] + '</p></td>';
                     tmp += '</tr>';
                 } else {
                     tmp += '<tr>';
@@ -28664,7 +28890,7 @@ $(document).ready(function () {
                                     tmp += '<select id="More-' + gSelector.editor[ i ].option[ j ].col[ k ].col[ 0 ].tab + '"></select>';
                                     tmp += ' : ';
                                     tmp += '<select id="More-' + gSelector.editor[ i ].option[ j ].col[ k ].col[ 1 ].tab + '"></select>';
-                                    tmp += '&nbsp;' + gSelector.editor[ i ].option[ j ].col[ k ][ gObj.lang + '-note' ];
+                                    tmp += '&nbsp;' + gSelector.editor[ i ].option[ j ].col[ k ][ gObj.note ];
                                     tmp += '</td>';
                                     tmp += '</tr>';
                                 } else {
@@ -28885,8 +29111,6 @@ $(document).ready(function () {
             ],
             close: function(e, ui) {
                 $(this).dialog('destroy').remove();
-            },
-            create: function() {
             }
         });
     }
@@ -29244,8 +29468,6 @@ $(document).ready(function () {
             ],
             close: function(e, ui) {
                 $(this).dialog('destroy').remove();
-            },
-            create: function() {
             }
         });
     }
@@ -29706,8 +29928,6 @@ $(document).ready(function () {
             ],
             close: function(e, ui) {
                 $(this).dialog('destroy').remove();
-            },
-            create: function() {
             }
         });
     }

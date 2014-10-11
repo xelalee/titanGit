@@ -13,13 +13,29 @@ $ndStamp  = strtotime( $nd. ' 00:00:00' );
 $nhStamp  = strtotime( $nd. ' '. $nh. ':00:00' );
 $nowStamp = trim( shell_exec( 'date "+%s"' ) );
 
-$ed = date( str_replace("/", "-", $_GET[ 'ed' ] ) );
-$edStamp = strtotime( $ed .' 00:00:00');
-$ehStamp = $edStamp + ( $_GET[ 'eh' ] * 3600 );
+if ($_GET[ 'ed' ]) {
+    $ed = date( str_replace("/", "-", $_GET[ 'ed' ] ) );
+    $edStamp = strtotime( $ed .' 00:00:00');
+    $eh = sprintf("%02d", $_GET[ 'eh' ]);
+    $ehStamp = $edStamp + ( $_GET[ 'eh' ] * 3600 );
+} else {
+    $sd = $nd;
+    $sdStamp = $ndStamp;
+    $sh = $nh;
+    $shStamp = $nhStamp;
+}
 
-$sd = date( str_replace("/", "-", $_GET[ 'sd' ] ) );
-$sdStamp = strtotime( $sd .' 00:00:00');
-$shStamp = $sdStamp + ( $_GET[ 'sh' ] * 3600 );
+if ($_GET[ 'sd' ]) {
+    $sd = date( str_replace("/", "-", $_GET[ 'sd' ] ) );
+    $sdStamp = strtotime( $sd .' 00:00:00');
+    $sh = sprintf("%02d", $_GET[ 'sh' ]);
+    $shStamp = $sdStamp + ( $_GET[ 'sh' ] * 3600 );
+} else {
+    $sd = $nd;
+    $sdStamp = $ndStamp;
+    $sh = $nh;
+    $shStamp = $nhStamp;
+}
 
 $db      = str_replace("-", "_", $GLOBALS[ 'nd' ]);
 $mysqli  = new mysqli( "127.0.0.1", "archer", "rehcra", "archer", 3306 );
@@ -100,6 +116,9 @@ case 'antivirus_report':
         break;
     case 3:
         advAAV( 'virusName', 'hitCount', 'virusName, SUM( hitCount ) as hitCount');
+        break;
+    case 4:
+        advAAV( 'protocol', 'hitCount', 'protocol, SUM( hitCount ) as hitCount');
         break;
     case 9:
         weeklyAAV();
@@ -262,6 +281,8 @@ function advATD( $gby, $oby, $state ) {
 
         // limit 50 back, filter via reporter
         $query = "SELECT ". $state .", SUM( sessions ) as sessions FROM ". $tmpTable ." GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
+    } elseif ( $GLOBALS[ 'ehStamp' ] == $GLOBALS[ 'shStamp' ] ) {
+        $query = "SELECT ". $state .", count(*) as sessions FROM ". $GLOBALS[ 'db' ] .".`raw_sessions_". $GLOBALS[ 'eh' ] ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
     } else {
         // weird, given current hour's aggregate instead
         $query = "SELECT ". $state .", count(*) as sessions FROM ". $GLOBALS[ 'db' ] .".`raw_sessions_". $GLOBALS[ 'nh' ] ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
@@ -280,7 +301,7 @@ function advATD( $gby, $oby, $state ) {
 }
 
 function advQTD() {
-    $GLOBALS[ 'rows' ][ 'start' ] = empty( $_GET[ 'pi' ] )? 1 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ] + 1;
+    $GLOBALS[ 'rows' ][ 'start' ] = empty( $_GET[ 'pi' ] )? 0 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ];
     $GLOBALS[ 'rows' ][ 'end' ]   = empty( $_GET[ 'pp' ] )? 20 : $_GET[ pi ] * $_GET[ 'pp' ];
     $GLOBALS[ 'rows' ][ 'left' ]  = empty( $_GET[ 'pp' ] )? 20 : (int) $_GET[ 'pp' ];
     $cnt   = 0;
@@ -432,6 +453,21 @@ function advQTD() {
                 }
             }
         }
+    } elseif ( $GLOBALS[ 'ehStamp' ] == $GLOBALS[ 'shStamp' ] ) {
+        if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $GLOBALS[ 'db' ] .'" AND TABLE_NAME = "raw_sessions_'. $GLOBALS[ 'eh' ] .'"' ) ) {
+            $GLOBALS[ 'json' ][ 'queryRows' ] = $count->fetch_row()[ 0 ];
+            if ( $GLOBALS[ 'json' ][ 'queryRows' ] > 0 ) {
+                if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $GLOBALS[ 'db' ] .'.`raw_sessions_'. $GLOBALS[ 'eh' ] .'` ORDER BY id DESC LIMIT '. $GLOBALS[ 'rows' ][ 'start' ] .', '. $GLOBALS[ 'rows' ][ 'left' ] ) ) {
+                    while ( $obj = $result->fetch_object() ) {
+                        $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                    }
+                    // free result set
+                    $result->close();
+                }
+            }
+            // free result set
+            $count->close();
+        }
     } else {
         // weird, given current hour's report instead
         if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $GLOBALS[ 'db' ] .'" AND TABLE_NAME = "raw_sessions_'. $GLOBALS[ 'nh' ] .'"' ) ) {
@@ -534,6 +570,8 @@ function advAFE( $gby, $oby, $state ) {
         // limit 50 back, filter via reporter
         $query = "SELECT ". $state ." FROM ". $tmpTable ." GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
 
+    } elseif ( $GLOBALS[ 'ehStamp' ] == $GLOBALS[ 'shStamp' ] ) {
+        $query = "SELECT ". $state ." FROM ". $GLOBALS[ 'db' ] .".`raw_file_access_". $GLOBALS[ 'eh' ] ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
     } else {
         // weird, given current hour's aggregate instead
         $query = "SELECT ". $state ." FROM ". $GLOBALS[ 'db' ] .".`raw_file_access_". $GLOBALS[ 'nh' ] ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
@@ -553,7 +591,7 @@ function advAFE( $gby, $oby, $state ) {
 }
 
 function advQFE() {
-    $GLOBALS[ 'rows' ][ 'start' ] = empty( $_GET[ 'pi' ] )? 1 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ] + 1;
+    $GLOBALS[ 'rows' ][ 'start' ] = empty( $_GET[ 'pi' ] )? 0 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ];
     $GLOBALS[ 'rows' ][ 'end' ]   = empty( $_GET[ 'pp' ] )? 20 : $_GET[ pi ] * $_GET[ 'pp' ];
     $GLOBALS[ 'rows' ][ 'left' ]  = empty( $_GET[ 'pp' ] )? 20 : (int) $_GET[ 'pp' ];
     $cnt   = 0;
@@ -709,6 +747,21 @@ function advQFE() {
                 }
             }
         }
+    } elseif ( $GLOBALS[ 'ehStamp' ] == $GLOBALS[ 'shStamp' ] ) {
+        if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $GLOBALS[ 'db' ] .'" AND TABLE_NAME = "raw_file_access_'. $GLOBALS[ 'eh' ] .'"' ) ) {
+            $GLOBALS[ 'json' ][ 'queryRows' ] = $count->fetch_row()[ 0 ];
+            if ( $GLOBALS[ 'json' ][ 'queryRows' ] > 0 ) {
+                if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $GLOBALS[ 'db' ] .'.`raw_file_access_'. $GLOBALS[ 'eh' ] .'` ORDER BY id DESC LIMIT '. $GLOBALS[ 'rows' ][ 'start' ] .', '. $GLOBALS[ 'rows' ][ 'left' ] ) ) {
+                    while ( $obj = $result->fetch_object() ) {
+                        $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                    }
+                    // free result set
+                    $result->close();
+                }
+            }
+            // free result set
+            $count->close();
+        }
     } else {
         // weird, given current hour's report instead
         if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $GLOBALS[ 'db' ] .'" AND TABLE_NAME = "raw_file_access_'. $GLOBALS[ 'nh' ] .'"' ) ) {
@@ -794,6 +847,8 @@ function advABH( $gby, $oby, $state ) {
 
         // limit 50 back, filter via reporter
         $query = "SELECT ". $state ." FROM ". $tmpTable ." GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
+    } elseif ( $GLOBALS[ 'ehStamp' ] == $GLOBALS[ 'shStamp' ] ) {
+        $query = "SELECT ". $state ." FROM ". $GLOBALS[ 'db' ] .".`raw_blocked_host_". $GLOBALS[ 'eh' ] ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
 
     } else {
         // weird, given current hour's aggregate instead
@@ -813,7 +868,7 @@ function advABH( $gby, $oby, $state ) {
 }
 
 function advQBH() {
-    $GLOBALS[ 'rows' ][ 'start' ] = empty( $_GET[ 'pi' ] )? 1 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ] + 1;
+    $GLOBALS[ 'rows' ][ 'start' ] = empty( $_GET[ 'pi' ] )? 0 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ];
     $GLOBALS[ 'rows' ][ 'end' ]   = empty( $_GET[ 'pp' ] )? 20 : $_GET[ pi ] * $_GET[ 'pp' ];
     $GLOBALS[ 'rows' ][ 'left' ]  = empty( $_GET[ 'pp' ] )? 20 : (int) $_GET[ 'pp' ];
     $cnt   = 0;
@@ -969,6 +1024,21 @@ function advQBH() {
                 }
             }
         }
+    } elseif ( $GLOBALS[ 'ehStamp' ] == $GLOBALS[ 'shStamp' ] ) {
+        if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $GLOBALS[ 'db' ] .'" AND TABLE_NAME = "raw_blocked_host_'. $GLOBALS[ 'eh' ] .'"' ) ) {
+            $GLOBALS[ 'json' ][ 'queryRows' ] = $count->fetch_row()[ 0 ];
+            if ( $GLOBALS[ 'json' ][ 'queryRows' ] > 0 ) {
+                if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $GLOBALS[ 'db' ] .'.`raw_blocked_host_'. $GLOBALS[ 'eh' ] .'` ORDER BY id DESC LIMIT '. $GLOBALS[ 'rows' ][ 'start' ] .', '. $GLOBALS[ 'rows' ][ 'left' ] ) ) {
+                    while ( $obj = $result->fetch_object() ) {
+                        $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                    }
+                    // free result set
+                    $result->close();
+                }
+            }
+            // free result set
+            $count->close();
+        }
     } else {
         // weird, given current hour's report instead
         if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $GLOBALS[ 'db' ] .'" AND TABLE_NAME = "raw_blocked_host_'. $GLOBALS[ 'nh' ] .'"' ) ) {
@@ -1071,6 +1141,8 @@ function advAAH( $gby, $oby, $state ) {
 
         // limit 50 back, filter via reporter
         $query = "SELECT ". $state ." FROM ". $tmpTable ." GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
+    } elseif ( $GLOBALS[ 'ehStamp' ] == $GLOBALS[ 'shStamp' ] ) {
+        $query = "SELECT ". $state ." FROM ". $GLOBALS[ 'db' ] .".`raw_afftected_host_". $GLOBALS[ 'eh' ] ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
 
     } else {
         // weird, given current hour's aggregate instead
@@ -1090,7 +1162,7 @@ function advAAH( $gby, $oby, $state ) {
 }
 
 function advQAH() {
-    $GLOBALS[ 'rows' ][ 'start' ] = empty( $_GET[ 'pi' ] )? 1 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ] + 1;
+    $GLOBALS[ 'rows' ][ 'start' ] = empty( $_GET[ 'pi' ] )? 0 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ];
     $GLOBALS[ 'rows' ][ 'end' ]   = empty( $_GET[ 'pp' ] )? 20 : $_GET[ pi ] * $_GET[ 'pp' ];
     $GLOBALS[ 'rows' ][ 'left' ]  = empty( $_GET[ 'pp' ] )? 20 : (int) $_GET[ 'pp' ];
     $cnt   = 0;
@@ -1246,6 +1318,21 @@ function advQAH() {
                 }
             }
         }
+    } elseif ( $GLOBALS[ 'ehStamp' ] == $GLOBALS[ 'shStamp' ] ) {
+        if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $GLOBALS[ 'db' ] .'" AND TABLE_NAME = "raw_afftected_host_'. $GLOBALS[ 'eh' ] .'"' ) ) {
+            $GLOBALS[ 'json' ][ 'queryRows' ] = $count->fetch_row()[ 0 ];
+            if ( $GLOBALS[ 'json' ][ 'queryRows' ] > 0 ) {
+                if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $GLOBALS[ 'db' ] .'.`raw_afftected_host_'. $GLOBALS[ 'eh' ] .'` ORDER BY id DESC LIMIT '. $GLOBALS[ 'rows' ][ 'start' ] .', '. $GLOBALS[ 'rows' ][ 'left' ] ) ) {
+                    while ( $obj = $result->fetch_object() ) {
+                        $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                    }
+                    // free result set
+                    $result->close();
+                }
+            }
+            // free result set
+            $count->close();
+        }
     } else {
         // weird, given current hour's report instead
         if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $GLOBALS[ 'db' ] .'" AND TABLE_NAME = "raw_afftected_host_'. $GLOBALS[ 'nh' ] .'"' ) ) {
@@ -1267,8 +1354,6 @@ function advQAH() {
 }
 
 function advAAV( $gby, $oby, $state ) {
-
-
     if ( $GLOBALS[ 'ehStamp' ] > $GLOBALS[ 'shStamp' ] ) {
         // prepare temp table
         $tmpTable = $GLOBALS[ 'db' ] .'.`daily_antivirus-'. $GLOBALS[ 'nowStamp' ] .'`';
@@ -1352,9 +1437,11 @@ function advAAV( $gby, $oby, $state ) {
         // limit 50 back, filter via reporter
         $query = "SELECT ". $state ." FROM ". $tmpTable ." GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
 
+    } elseif ( $GLOBALS[ 'ehStamp' ] == $GLOBALS[ 'shStamp' ] ) {
+        $query = "SELECT id, srcIp, dstIp, protocol, virusName, count(*) as hitCount FROM ". $GLOBALS[ 'db' ] .".`raw_antivirus_". $GLOBALS[ 'eh' ] ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
     } else {
         // weird, given current hour's aggregate instead
-        $query = "SELECT ". $state ." FROM ". $GLOBALS[ 'db' ] .".`raw_antivirus_". $GLOBALS[ 'nh' ] ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
+        $query = "SELECT id, srcIp, dstIp, protocol, virusName, count(*) as hitCount FROM ". $GLOBALS[ 'db' ] .".`raw_antivirus_". $GLOBALS[ 'nh' ] ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 50";
     }
 
     if ( $result = $GLOBALS[ 'mysqli' ]->query( $query ) ) {
@@ -1370,7 +1457,7 @@ function advAAV( $gby, $oby, $state ) {
 }
 
 function advQAV() {
-    $GLOBALS[ 'rows' ][ 'start' ] = empty( $_GET[ 'pi' ] )? 1 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ] + 1;
+    $GLOBALS[ 'rows' ][ 'start' ] = empty( $_GET[ 'pi' ] )? 0 : ( $_GET[ 'pi' ] - 1 ) * $_GET[ 'pp' ];
     $GLOBALS[ 'rows' ][ 'end' ]   = empty( $_GET[ 'pp' ] )? 20 : $_GET[ pi ] * $_GET[ 'pp' ];
     $GLOBALS[ 'rows' ][ 'left' ]  = empty( $_GET[ 'pp' ] )? 20 : (int) $_GET[ 'pp' ];
     $cnt   = 0;
@@ -1526,11 +1613,29 @@ function advQAV() {
                 }
             }
         }
+    } elseif ( $GLOBALS[ 'ehStamp' ] == $GLOBALS[ 'shStamp' ] ) {
+        // single hour
+        if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $GLOBALS[ 'db' ] .'" AND TABLE_NAME = "raw_antivirus_'. $GLOBALS[ 'eh' ] .'"' ) ) {
+            $GLOBALS[ 'json' ][ 'queryRows' ] = $count->fetch_row()[ 0 ];
+            if ( $GLOBALS[ 'json' ][ 'queryRows' ] > 0 ) {
+$GLOBALS[ 'json' ][ 'queryStr' ] = 'SELECT * FROM '. $GLOBALS[ 'db' ] .'.`raw_antivirus_'. $GLOBALS[ 'eh' ] .'` ORDER BY id DESC LIMIT '. $GLOBALS[ 'rows' ][ 'start' ] .', '. $GLOBALS[ 'rows' ][ 'left' ];
+                if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $GLOBALS[ 'db' ] .'.`raw_antivirus_'. $GLOBALS[ 'eh' ] .'` ORDER BY id DESC LIMIT '. $GLOBALS[ 'rows' ][ 'start' ] .', '. $GLOBALS[ 'rows' ][ 'left' ] ) ) {
+                    while ( $obj = $result->fetch_object() ) {
+                        $GLOBALS[ 'json' ]['queryResults'][] = $obj;
+                    }
+                    // free result set
+                    $result->close();
+                }
+            }
+            // free result set
+            $count->close();
+        }
     } else {
         // weird, given current hour's report instead
         if ( $count = $GLOBALS[ 'mysqli' ]->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $GLOBALS[ 'db' ] .'" AND TABLE_NAME = "raw_antivirus_'. $GLOBALS[ 'nh' ] .'"' ) ) {
             $GLOBALS[ 'json' ][ 'queryRows' ] = $count->fetch_row()[ 0 ];
             if ( $GLOBALS[ 'json' ][ 'queryRows' ] > 0 ) {
+$GLOBALS[ 'json' ][ 'queryStr' ] = 'SELECT * FROM '. $GLOBALS[ 'db' ] .'.`raw_antivirus_'. $GLOBALS[ 'nh' ] .'` ORDER BY id DESC LIMIT '. $GLOBALS[ 'rows' ][ 'start' ] .', '. $GLOBALS[ 'rows' ][ 'left' ];
                 if ( $result = $GLOBALS[ 'mysqli' ]->query( 'SELECT * FROM '. $GLOBALS[ 'db' ] .'.`raw_antivirus_'. $GLOBALS[ 'nh' ] .'` ORDER BY id DESC LIMIT '. $GLOBALS[ 'rows' ][ 'start' ] .', '. $GLOBALS[ 'rows' ][ 'left' ] ) ) {
                     while ( $obj = $result->fetch_object() ) {
                         $GLOBALS[ 'json' ]['queryResults'][] = $obj;

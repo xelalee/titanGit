@@ -94,8 +94,8 @@ function aggregateQuery( $table, $gby, $sum, $oby ) {
     $now       = explode( '-', trim( shell_exec( 'date "+%Y-%m-%d-%H"' ) ) );
     $db        = $now[ 0 ] .'_'. $now[ 1 ] .'_'. $now[ 2 ];
     $mysqli    = new mysqli( "127.0.0.1", "", "", $db, 3306 );
+    $json[ "queryRows" ] = 0;
 
-    $json[ "queryStr" ] =  "SELECT ". $gby .", ". $sum ." FROM ". $db .".`". $table ."_". sprintf("%02d", $now[ 3 ]) ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 10" ;
     if ( $result = $mysqli->query( "SELECT ". $gby .", ". $sum ." FROM ". $db .".`". $table ."_". sprintf("%02d", $now[ 3 ]) ."` GROUP BY ". $gby ." ORDER BY ". $oby ." DESC LIMIT 10" ) ) {
         while ($obj = $result->fetch_object()) {
             $json["queryResults"][] = $obj;
@@ -104,7 +104,6 @@ function aggregateQuery( $table, $gby, $sum, $oby ) {
         // free result set
         $result->close();
     }
-    $json[ "queryStamp" ] = trim( shell_exec( 'date +%s' ) ) - $nowStamp;
     echo json_encode( $json );
 }
 
@@ -120,9 +119,9 @@ function reportQuery( $table ) {
     $db        = $now[ 0 ] .'_'. $now[ 1 ] .'_'. $now[ 2 ];
     $mysqli    = new mysqli( "127.0.0.1", "", "", $db, 3306 );
 
+    $json[ "queryRows" ] = 0;
     if ( $count = $mysqli->query( 'SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.`TABLES` WHERE TABLE_SCHEMA = "'. $db .'" AND TABLE_NAME = "'. $table .'_'. sprintf("%02d", $now[ 3 ]) .'"' ) ) {
         $json[ "queryRows" ] = $count->fetch_row()[ 0 ];
-        $json[ "queryStr" ] = 'SELECT * FROM '. $db .'.`'. $table .'_'. sprintf("%02d", $now[ 3 ]) .'` ORDER BY id DESC LIMIT '. $startRow .', '. $leftRow; 
         if ( $result = $mysqli->query( 'SELECT * FROM '. $db .'.`'. $table .'_'. sprintf("%02d", $now[ 3 ]) .'` ORDER BY id DESC LIMIT '. $startRow .', '. $leftRow ) ) {
             while ($obj = $result->fetch_object()) {
                 $json["queryResults"][] = $obj;
@@ -133,7 +132,6 @@ function reportQuery( $table ) {
         // free count set
         $count->close();
     }
-    $json[ "queryStamp" ] = trim( shell_exec( 'date +%s' ) ) - $nowStamp;
     echo json_encode( $json );
 }
 
