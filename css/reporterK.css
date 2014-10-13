@@ -38,49 +38,6 @@ body {
     height: 123px;
 }
 
-#hd_top {
-    background: #007260;
-    height: 5px;
-    width: 100%;
-}
-
-#hd_mark {
-  position: relative;
-  width: 140px;
-  height: 80px;
-  margin: -20px auto 0;
-  border-radius: 50% / 10%;
-  color: white;
-  background: #007260;
-  text-align: center;
-  text-indent: .1em;
-}
-
-#hd_mark:before {
-  content: '';
-  position: absolute;
-  top: 10%;
-  bottom: 10%;
-  right: -5%;
-  left: -5%;
-  background: inherit;
-  border-radius: 5% / 50%;
-}
-
-#hd_label {
-    position: relative;
-    top: 20px;
-    font:italic bold 14pt/36pt Georgia, serif;
-    color: white;
-    text-shadow: 0.4em 0.4em 0.8em #333;
-}
-
-#hd_label span {
-    position: absolute;
-    font-size: 6pt;
-    top: -5px;
-}
-
 /* content */
 #bd {
     background: white;
@@ -270,11 +227,11 @@ button.Move2Next span.ui-icon {
 
 button.Move2Last span.ui-icon {
     background-position: -64px -160px;
-}		
+}
 
 button.ExportPDF span.ui-icon {
     background-position: -208px -128px;
-}		
+}
 
 /* copyright */
 #ft {

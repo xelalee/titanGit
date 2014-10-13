@@ -85,7 +85,7 @@
                 }
             }).done( function() {
                 $.ajax({
-                    url: 'lang/' + gObj.lang + '-menu.txt',
+                    url: 'lang/menu.txt',
                     dataType : 'json',
                     scriptCharset: 'utf-8',
                     contentType: 'application/json; charset=utf-8',
@@ -381,16 +381,12 @@
                                     }
                                 }
                             } else if ( gReg.isMulti.test( gRef[ gNode.id ].tabs[ x ].editors[ i ].description ) ) {
-gY.log( ' multi ' );
-                                gY.log ( gRef[ gNode.id ].tabs[ x ].editors[ i ].description );
                                 arr = gRef[ gNode.id ].tabs[ x ].editors[ i ].description.split( '\n' );
                                 for (var j=0, jlen=arr.length; j<jlen; j++)
                                 {
                                     tmp += '<dd>' + arr[ j ] + '</dd>';
                                 }
                             } else {
-gY.log( ' single ' );
-                                gY.log ( gRef[ gNode.id ].tabs[ x ].editors[ i ].description );
                                 tmp += '<dd>' + gRef[ gNode.id ].tabs[ x ].editors[ i ].description + '</dd>';
                             }
                             tmp += '</dl>';
@@ -432,7 +428,6 @@ gY.log( ' single ' );
                 $('#docDiv').tabs();
                 tmp = '<hr/>';
                 tmp += '<dl id="docDiv-panel-dl-' + gNode.id + '">';
-gY.log( gNode.id );
                 for (var i=0, len=gRef[ gNode.id ].content.length; i<len; i++)
                 {
                     tmp += '<dt>' + gRef[ gNode.id ].content[ i ].label + ' : </dt>';

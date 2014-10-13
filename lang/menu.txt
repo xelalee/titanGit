@@ -32,6 +32,7 @@
               "tab" : "sysName"
             },
             {
+              "label": "Model",
               "cn-label": "Model",
               "tw-label": "Model",
               "tab" : "model"
@@ -3082,7 +3083,7 @@
           "label" : "Proxy",
           "cn-label" : "Proxy",
           "tw-label" : "Proxy",
-          "id" : "menu-6-3",
+          "id" : "menu-6-1",
           "tab" : "proxy",
           "tag" : "div",
           "type" : "form",
@@ -16253,7 +16254,7 @@
               "type" : "tabsForm",
               "tabs" :
               {
-                "log" : { "lable" : "Log", "cn-label" : "Log", "tw-label" : "Log" },
+                "log" : { "label" : "Log", "cn-label" : "Log", "tw-label" : "Log" },
                 "debug" : { "label" : "Packet Capture", "cn-label" : "Packet Capture", "tw-label" : "Packet Capture" }
               },
               "url" :

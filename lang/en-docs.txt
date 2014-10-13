@@ -34,6 +34,21 @@
             "description" : "The Firmware version the device used last time."
           },
           {
+            "label" : "Signature Version",
+            "tab" : "sigVer",
+            "description" : "The signature version for last update."
+          },
+          {
+            "label" : "Sig Engine Version",
+            "tab" : "sigEng",
+            "description" : "The anti-virus signature engine version"
+          },
+          {
+            "label" : "MD5 Engine Version",
+            "tab" : "md5Eng",
+            "description" : "The anti-virus MD5 engine version"
+          },
+          {
             "label" : "Serial Number",
             "tab" : "serial_number",
             "description" : "The serial number of the device."
@@ -141,6 +156,1394 @@
         ]
       }
     }
+  },
+  "menu-1" :
+  {
+    "label" : "HTTP",
+    "tab" : "http",
+    "description" : "Use this screen to enable HTTP anti-virus and configure the related general settings.",
+    "tabs" :
+    {
+      "general" :
+      {
+        "label" : "General Setting",
+        "tab" : "general",
+        "description" : "Use this screen to enable anti-virus and configure the related general settings.",
+        "content" :
+        [
+          {
+            "label" : "Zone to Scan",
+            "tab" : "zone_to_scan",
+            "description" : "Select the zones to which you want to apply the anti-virus settings and scan the traffic for viruses.\n Select the zone(s) from the Available Zones text box and click the right arrow to add the zone(s) to the Selected Zones text box in order to check the incoming/outgoing packets content of the selected zones. Otherwise, select the zones(s) from the Selected Zones and click the left arrow to move the zones(s) to the Available Zones text box."
+          },
+          {
+            "label" : "Enable",
+            "tab" : "app_enable",
+            "description" : "Select the check box to have the TitanWALL check the traffic of the corresponding type."
+          },
+          {
+            "label" : "Log",
+            "tab" : "app_logging",
+            "description" : "Select the check box to have the TitanWALL create a log when viruses are detected. You also need to configure the log settings in the Device > Loggings screens."
+          },
+          {
+            "label" : "Action",
+            "tab" : "app_action",
+            "description" : "Select the action the TitanWALL takes when viruses are detected.\n none - The TitanWALL takes no action.\n notify - For HTTP, the TitanWALL does nothing to the virus the first time a virus is detected. When the virus is detected for the second time, it sends an alert message via the web page to the users who try to access the infected files or web pages.\n notify + drop connection – The TitanWALL denies access to the infected web pages the first time a virus is detected. When the virus is detected for the second time, it sends an alert via the web page to the users who try to access the infected files or web pages.\n"
+          },
+          {
+            "label" : "Port List",
+            "tab" : "app_port",
+            "description" : "Specify the server port that is used to identify an application (service). You can configure multiple ports."
+          },
+          {
+            "label" : "Maximum File Size to Scan",
+            "tab" : "max_file_size",
+            "description" : "TitanWALL won't scan the file size over this value, \"0\" means disable."
+          }
+        ]
+      },
+      "http" :
+      {
+        "label" : "HTTP Notify",
+        "tab" : "http",
+        "description" : "Use this screen to enter the alert messages you want the TitanWALL to send when a virus is detected in a web page or file. You can enter up to 255 characters. Click the Save button to apply your changes. The alert message is sent only when you set Action for HTTP to notify or notify + drop connection in the General Setting screen. "
+      },
+      "address_except" :
+      {
+        "label" : "Address Exception",
+        "tab" : "address_except",
+        "description" : "Use this screen to configure a white list of IP addresses. Packets with the specified IP address will not be scanned for virus.",
+        "content" :
+        [
+          {
+            "label" : "Enable",
+            "tab" : "enable",
+            "description" : "This shows whether the rule is activated or not."
+          },
+          {
+            "label" : "Source",
+            "tab" : "source",
+            "description" : "This shows the source IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Destination",
+            "tab" : "destination",
+            "description" : "This shows the destination IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Log",
+            "tab" : "log",
+            "description" : "This shows whether a log will be generated when the TitanWALL receives a packet that has the specified source or destination IP address."
+          },
+          {
+            "label" : "Action",
+            "tab" : "action",
+            "description" : "Click Edit to modify the rule’s settings.\n Click Delete to remove the rule."
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "Enable",
+            "tab" : "enable",
+            "description" : "Select the check box to turn on the rule."
+          },
+          {
+            "label" : "Source",
+            "tab" : "source",
+            "description" : "Select an address object to specify the source IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Destination",
+            "tab" : "destination",
+            "description" : "Select an address object to specify the destination IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Log",
+            "tab" : "log",
+            "description" : "Select the check to generate a log when the TitanWALL receives a packet that matches this rule."
+          },
+          {
+            "label" : "OK",
+            "tab" : "ok",
+            "description" : "Click this button to save your changes and close this screen."
+          },
+          {
+            "label" : "Cancel",
+            "tab" : "cancel",
+            "description" : "Click this button to close this screen without saving any changes."
+          }
+        ]
+      },
+      "file_ext" :
+      {
+        "label" : "File Extension",
+        "tab" : "file_ext",
+        "description" : "Use this screen to configure a white list of files which will not be scanned for virus. You can set the rules according the MIME ((Multipurpose Internet Mail Extensions) type or file extension.",
+        "content" :
+        [
+          {
+            "label" : "MIME",
+            "tab" : "mime",
+            "description" : "This shows the MIME type/sub-type (audio/mpeg or image/jpeg for example) of the file."
+          },
+          {
+            "label" : "File Extension",
+            "tab" : "file_ext",
+            "description" : "s shows the file name extension (doc or mp3 for example) of the file."
+          },
+          {
+            "label" : "Action",
+            "tab" : "action",
+            "description" : "Click Edit to modify the rule’s settings.\n Click Delete to remove the rule."
+          }
+        ],
+        "editors" :
+        [
+          {
+            "label" : "MIME Editor",
+            "tab" : "mime",
+            "description" : "Use this screen to create a new file exception rule based on the MIME type or edit an existing one.",
+            "content" :
+            [
+              {
+                "label" : "Type",
+                "tab" : "type",
+                "description" : "Select the MIME type of the file that will not be scanned"
+              },
+              {
+                "label" : "Subtype",
+                "tab" : "subtype",
+                "description" : "Select the MIME sub-type of the file that will not be scanned"
+              },
+              {
+                "label" : "OK",
+                "tab" : "ok",
+                "description" : "Click this button to save your changes and close this screen."
+              },
+              {
+                "label" : "Cancel",
+                "tab" : "cancel",
+                "description" : "Click this button to close this screen without saving any changes."
+              }
+            ]
+          },
+          {
+            "label" : "File Extension Editor",
+            "tab" : "file_ext",
+            "description" : "Use this screen to create a new file exception rule based on the file name extension or edit an existing one.",
+            "content" :
+            [
+              {
+                "label" : "File Extension",
+                "tab" : "file_ext",
+                "description" : "Enter the file name extension of the file that will not be scanned."
+              },
+              {
+                "label" : "OK",
+                "tab" : "ok",
+                "description" : "Click this button to save your changes and close this screen."
+              },
+              {
+                "label" : "Cancel",
+                "tab" : "cancel",
+                "description" : "Click this button to close this screen without saving any changes."
+              }
+            ]
+          }
+        ]
+      },
+      "blacklist" :
+      {
+        "label" : "Blacklist",
+        "tab" : "blacklist",
+        "description" : "When a virus is detected by the TitanWALL’s anti-virus, the TitanWALL records the infected site’s URL into its blacklist database and blocks users from accessing it. Each blacklist entry has its own lifetime in this database.\n Use this screen to specify the lifetime for all blacklist entries. The TitanWALL removes a blacklist entry from this database once the entry expires, the system is restarted, or anti-virus signatures are updated. The TitanWALL can record up to 4096 blacklist entries. You can manually move blacklist entries to the whitelist database if you find they are false positives.",
+        "content" :
+        [
+          {
+            "label" : "Expiration Duration",
+            "tab" : "expire_duration",
+            "description" : "Specify how many days and hours for the lifetime of every blacklist entry in this database."
+          },
+          {
+            "label" : "Index",
+            "tab" : "index",
+            "description" : "This is the index number of the entry."
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "This is the URL (Uniform Resource Locator) where a virus is detected by the TitanWALL’s anti-virus. For example, http://www.eicar.org/download/eicar.com.txt and ftp://1.1.1.1/aaa.com."
+          },
+          {
+            "label" : "Expiration Date",
+            "tab" : "expire_date",
+            "description" : "This is the remaining time the TitanWALL keeps the URL in the blacklist before the entry expires and is being removed from this database. "
+          },
+          {
+            "label" : "Action",
+            "tab" : "actiove",
+            "description" : "Click the Move to Whitelist icon to delete the entry from this blacklist database and add it to the whitelist database. Click the Delete icon to remove the entry."
+          }
+        ]
+      },
+      "whitelist" :
+      {
+        "label" : "Whitelist",
+        "tab" : "whitelist",
+        "description" : "If you find a URL in the blacklist database is actually a non-virus web or FTP site, you can manually move it to the whitelist database. The anti-virus function does not take any action on connections accessing URLs in the whitelist database but just records them in the system log. The TitanWALL can store up to 4096 whitelist entries.\n Use this screen to the view and remove whitelist entries.",
+        "content" :
+        [
+          {
+            "label" : "Index",
+            "tab" : "index",
+            "description" : "This shows the index number of an entry."
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "This is a URL that you trusted."
+          },
+          {
+            "label" : "Action",
+            "tab" : "action",
+            "description" : "Click Delete to remove the rule."
+          }
+        ]
+      }
+    }
+  },
+  "menu-2" :
+  {
+    "label" : "SMTP",
+    "tab" : "smtp",
+    "description" : "Use this screen to enable SMTP anti-virus and configure the related general settings.",
+    "tabs" :
+    {
+      "general" :
+      {
+        "label" : "General Setting",
+        "tab" : "general",
+        "description" : "Use this screen to enable anti-virus and configure the related general settings.",
+        "content" :
+        [
+          {
+            "label" : "Zone to Scan",
+            "tab" : "zone_to_scan",
+            "description" : "Select the zones to which you want to apply the anti-virus settings and scan the traffic for viruses.\n Select the zone(s) from the Available Zones text box and click the right arrow to add the zone(s) to the Selected Zones text box in order to check the incoming/outgoing packets content of the selected zones. Otherwise, select the zones(s) from the Selected Zones and click the left arrow to move the zones(s) to the Available Zones text box."
+          },
+          {
+            "label" : "Enable",
+            "tab" : "app_enable",
+            "description" : "Select the check box to have the TitanWALL check the traffic of the corresponding type."
+          },
+          {
+            "label" : "Log",
+            "tab" : "app_logging",
+            "description" : "Select the check box to have the TitanWALL create a log when viruses are detected. You also need to configure the log settings in the Device > Loggings screens."
+          },
+          {
+            "label" : "Action",
+            "tab" : "app_action",
+            "description" : "Select the action the TitanWALL takes when viruses are detected.\n none - The TitanWALL takes no action.\n notify - For SMTP, when a virus is detected in the attachment(s), it still sends the original e-mail to the receiver and also sends an e-mail alert to both the mail sender and receiver.\n notify + drop connection – The TitanWALL denies access to the infected web pages the first time a virus is detected. When the virus is detected for the second time, it sends an alert via the web page to the users who try to access the infected files or web pages.\n notify + destruct file – The TitanWALL destroys the infected portion in a file when a virus is detected in the attachment(s). It also uses commands to inform the mail server that the mail is forwarded correctly, and sends an e-mail alert to both the mail sender and receiver.\n drop connection – The TitanWALL FTP terminates the connections when a virus is detected. \n Note: If you select notify or notify + drop connection for HTTP, set the alert message in the Security > AntiVirus > HTTP Notify screen. \n Note: If you select notify or notify + destruct file for SMTP or POP3, set the alert message in the Security > AntiVirus > Email Notify screen. You also need to configure the SMTP server address in the Device > Administration > Email Alert > Settings screen and enable anti-virus Alert in the Device > Administration > Email Alert > Alerts screen."
+          },
+          {
+            "label" : "Port List",
+            "tab" : "app_port",
+            "description" : "Specify the server port that is used to identify an application (service). You can configure multiple ports."
+          },
+          {
+            "label" : "Maximum File Size to Scan",
+            "tab" : "max_file_size",
+            "description" : "TitanWALL won't scan the file size over this value, \"0\" means disable."
+          }
+        ]
+      },
+      "email" :
+      {
+        "label" : "Email Notify",
+        "tab" : "email",
+        "description" : "Use this screen to configure the alert message sent to the mail sender and receiver when you set Action for SMTP or POP3 to notify or notify + destruct file in the General Setting screen.\n This screen also shows you whether the e-mail notification function is enabled and the following read-only information.",
+        "content" :
+        [
+          {
+            "label" : "From Email",
+            "tab" : "from_email",
+            "description" : "This is the e-mail address that the TitanWALL uses to send e-mail alerts."
+          },
+          {
+            "label" : "SMTP Server",
+            "tab" : "smtp_server",
+            "description" : "This is the IP address or domain name of the SMTP server that helps forward mail messages."
+          },
+          {
+            "label" : "SMTP Authentication",
+            "tab" : "smtp_auth",
+            "description" : "This shows whether the SMTP server authentication is enabled."
+          },
+          {
+            "label" : "Mail Tag",
+            "tab" : "mail_tag",
+            "description" : "Enter a tag up to 30 characters long. The tag is inserted in the mail subject, which then displays in the format of “[Tag] E-mail Subject”."
+          },
+          {
+            "label" : "Mail Content",
+            "tab" : "mail_content",
+            "description" : "Enter the e-mail alert messages you want the TitanWALL to send via e-mail when a virus is detected in an e-mail attachment. You can enter up to 255 characters."
+          }
+        ]
+      },
+      "address_except" :
+      {
+        "label" : "Address Exception",
+        "tab" : "address_except",
+        "description" : "Use this screen to configure a white list of IP addresses. Packets with the specified IP address will not be scanned for virus.",
+        "content" :
+        [
+          {
+            "label" : "Enable",
+            "tab" : "enable",
+            "description" : "This shows whether the rule is activated or not."
+          },
+          {
+            "label" : "Source",
+            "tab" : "source",
+            "description" : "This shows the source IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Destination",
+            "tab" : "destination",
+            "description" : "This shows the destination IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Log",
+            "tab" : "log",
+            "description" : "This shows whether a log will be generated when the TitanWALL receives a packet that has the specified source or destination IP address."
+          },
+          {
+            "label" : "Action",
+            "tab" : "action",
+            "description" : "Click Edit to modify the rule’s settings.\n Click Delete to remove the rule."
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "Enable",
+            "tab" : "enable",
+            "description" : "Select the check box to turn on the rule."
+          },
+          {
+            "label" : "Source",
+            "tab" : "source",
+            "description" : "Select an address object to specify the source IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Destination",
+            "tab" : "destination",
+            "description" : "Select an address object to specify the destination IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Log",
+            "tab" : "log",
+            "description" : "Select the check to generate a log when the TitanWALL receives a packet that matches this rule."
+          },
+          {
+            "label" : "OK",
+            "tab" : "ok",
+            "description" : "Click this button to save your changes and close this screen."
+          },
+          {
+            "label" : "Cancel",
+            "tab" : "cancel",
+            "description" : "Click this button to close this screen without saving any changes."
+          }
+        ]
+      },
+      "file_ext" :
+      {
+        "label" : "File Extension",
+        "tab" : "file_ext",
+        "description" : "Use this screen to configure a white list of files which will not be scanned for virus. You can set the rules according the MIME ((Multipurpose Internet Mail Extensions) type or file extension.",
+        "content" :
+        [
+          {
+            "label" : "MIME",
+            "tab" : "mime",
+            "description" : "This shows the MIME type/sub-type (audio/mpeg or image/jpeg for example) of the file."
+          },
+          {
+            "label" : "File Extension",
+            "tab" : "file_ext",
+            "description" : "s shows the file name extension (doc or mp3 for example) of the file."
+          },
+          {
+            "label" : "Action",
+            "tab" : "action",
+            "description" : "Click Edit to modify the rule’s settings.\n Click Delete to remove the rule."
+          }
+        ],
+        "editors" :
+        [
+          {
+            "label" : "MIME Editor",
+            "tab" : "mime",
+            "description" : "Use this screen to create a new file exception rule based on the MIME type or edit an existing one.",
+            "content" :
+            [
+              {
+                "label" : "Type",
+                "tab" : "type",
+                "description" : "Select the MIME type of the file that will not be scanned"
+              },
+              {
+                "label" : "Subtype",
+                "tab" : "subtype",
+                "description" : "Select the MIME sub-type of the file that will not be scanned"
+              },
+              {
+                "label" : "OK",
+                "tab" : "ok",
+                "description" : "Click this button to save your changes and close this screen."
+              },
+              {
+                "label" : "Cancel",
+                "tab" : "cancel",
+                "description" : "Click this button to close this screen without saving any changes."
+              }
+            ]
+          },
+          {
+            "label" : "File Extension Editor",
+            "tab" : "file_ext",
+            "description" : "Use this screen to create a new file exception rule based on the file name extension or edit an existing one.",
+            "content" :
+            [
+              {
+                "label" : "File Extension",
+                "tab" : "file_ext",
+                "description" : "Enter the file name extension of the file that will not be scanned."
+              },
+              {
+                "label" : "OK",
+                "tab" : "ok",
+                "description" : "Click this button to save your changes and close this screen."
+              },
+              {
+                "label" : "Cancel",
+                "tab" : "cancel",
+                "description" : "Click this button to close this screen without saving any changes."
+              }
+            ]
+          }
+        ]
+      },
+      "blacklist" :
+      {
+        "label" : "Blacklist",
+        "tab" : "blacklist",
+        "description" : "When a virus is detected by the TitanWALL’s anti-virus, the TitanWALL records the infected site’s URL into its blacklist database and blocks users from accessing it. Each blacklist entry has its own lifetime in this database.\n Use this screen to specify the lifetime for all blacklist entries. The TitanWALL removes a blacklist entry from this database once the entry expires, the system is restarted, or anti-virus signatures are updated. The TitanWALL can record up to 4096 blacklist entries. You can manually move blacklist entries to the whitelist database if you find they are false positives.",
+        "content" :
+        [
+          {
+            "label" : "Expiration Duration",
+            "tab" : "expire_duration",
+            "description" : "Specify how many days and hours for the lifetime of every blacklist entry in this database."
+          },
+          {
+            "label" : "Index",
+            "tab" : "index",
+            "description" : "This is the index number of the entry."
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "This is the URL (Uniform Resource Locator) where a virus is detected by the TitanWALL’s anti-virus. For example, http://www.eicar.org/download/eicar.com.txt and ftp://1.1.1.1/aaa.com."
+          },
+          {
+            "label" : "Expiration Date",
+            "tab" : "expire_date",
+            "description" : "This is the remaining time the TitanWALL keeps the URL in the blacklist before the entry expires and is being removed from this database. "
+          },
+          {
+            "label" : "Action",
+            "tab" : "actiove",
+            "description" : "Click the Move to Whitelist icon to delete the entry from this blacklist database and add it to the whitelist database. Click the Delete icon to remove the entry."
+          }
+        ]
+      },
+      "whitelist" :
+      {
+        "label" : "Whitelist",
+        "tab" : "whitelist",
+        "description" : "If you find a URL in the blacklist database is actually a non-virus web or FTP site, you can manually move it to the whitelist database. The anti-virus function does not take any action on connections accessing URLs in the whitelist database but just records them in the system log. The TitanWALL can store up to 4096 whitelist entries.\n Use this screen to the view and remove whitelist entries.",
+        "content" :
+        [
+          {
+            "label" : "Index",
+            "tab" : "index",
+            "description" : "This shows the index number of an entry."
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "This is a URL that you trusted."
+          },
+          {
+            "label" : "Action",
+            "tab" : "action",
+            "description" : "Click Delete to remove the rule."
+          }
+        ]
+      }
+    }
+  },
+  "menu-3" :
+  {
+    "label" : "POP3",
+    "tab" : "pop3",
+    "description" : "Use this screen to enable POP3 anti-virus and configure the related general settings.",
+    "tabs" :
+    {
+      "general" :
+      {
+        "label" : "General Setting",
+        "tab" : "general",
+        "description" : "Use this screen to enable anti-virus and configure the related general settings.",
+        "content" :
+        [
+          {
+            "label" : "Zone to Scan",
+            "tab" : "zone_to_scan",
+            "description" : "Select the zones to which you want to apply the anti-virus settings and scan the traffic for viruses.\n Select the zone(s) from the Available Zones text box and click the right arrow to add the zone(s) to the Selected Zones text box in order to check the incoming/outgoing packets content of the selected zones. Otherwise, select the zones(s) from the Selected Zones and click the left arrow to move the zones(s) to the Available Zones text box."
+          },
+          {
+            "label" : "Enable",
+            "tab" : "app_enable",
+            "description" : "Select the check box to have the TitanWALL check the traffic of the corresponding type."
+          },
+          {
+            "label" : "Log",
+            "tab" : "app_logging",
+            "description" : "elect the check box to have the TitanWALL create a log when viruses are detected. You also need to configure the log settings in the Device > Loggings screens."
+          },
+          {
+            "label" : "Action",
+            "tab" : "app_action",
+            "description" : "Select the action the TitanWALL takes when viruses are detected.\n none - The TitanWALL takes no action.\n notify - For HTTP, the TitanWALL does nothing to the virus the first time a virus is detected. When the virus is detected for the second time, it sends an alert message via the web page to the users who try to access the infected files or web pages.  For SMTP or POP3, when a virus is detected in the attachment(s), it still sends the original e-mail to the receiver and also sends an e-mail alert to both the mail sender and receiver.\n notify + drop connection – The TitanWALL denies access to the infected web pages the first time a virus is detected. When the virus is detected for the second time, it sends an alert via the web page to the users who try to access the infected files or web pages.\n notify + destruct file – The TitanWALL destroys the infected portion in a file when a virus is detected in the attachment(s). It also uses commands to inform the mail server that the mail is forwarded correctly, and sends an e-mail alert to both the mail sender and receiver.\n drop connection – The TitanWALL FTP terminates the connections when a virus is detected. \n Note: If you select notify or notify + drop connection for HTTP, set the alert message in the Security > AntiVirus > HTTP Notify screen. \n Note: If you select notify or notify + destruct file for SMTP or POP3, set the alert message in the Security > AntiVirus > Email Notify screen. You also need to configure the SMTP server address in the Device > Administration > Email Alert > Settings screen and enable anti-virus Alert in the Device > Administration > Email Alert > Alerts screen."
+          },
+          {
+            "label" : "Port List",
+            "tab" : "app_port",
+            "description" : "Specify the server port that is used to identify an application (service). You can configure multiple ports."
+          },
+          {
+            "label" : "Maximum File Size to Scan",
+            "tab" : "max_file_size",
+            "description" : "TitanWALL won't scan the file size over this value, \"0\" means disable."
+          }
+        ]
+      },
+      "email" :
+      {
+        "label" : "Email Notify",
+        "tab" : "email",
+        "description" : "Use this screen to configure the alert message sent to the mail sender and receiver when you set Action for SMTP or POP3 to notify or notify + destruct file in the General Setting screen.\n This screen also shows you whether the e-mail notification function is enabled and the following read-only information.",
+        "content" :
+        [
+          {
+            "label" : "From Email",
+            "tab" : "from_email",
+            "description" : "This is the e-mail address that the TitanWALL uses to send e-mail alerts."
+          },
+          {
+            "label" : "SMTP Server",
+            "tab" : "smtp_server",
+            "description" : "This is the IP address or domain name of the SMTP server that helps forward mail messages."
+          },
+          {
+            "label" : "SMTP Authentication",
+            "tab" : "smtp_auth",
+            "description" : "This shows whether the SMTP server authentication is enabled."
+          },
+          {
+            "label" : "Mail Tag",
+            "tab" : "mail_tag",
+            "description" : "Enter a tag up to 30 characters long. The tag is inserted in the mail subject, which then displays in the format of “[Tag] E-mail Subject”."
+          },
+          {
+            "label" : "Mail Content",
+            "tab" : "mail_content",
+            "description" : "Enter the e-mail alert messages you want the TitanWALL to send via e-mail when a virus is detected in an e-mail attachment. You can enter up to 255 characters."
+          }
+        ]
+      },
+      "address_except" :
+      {
+        "label" : "Address Exception",
+        "tab" : "address_except",
+        "description" : "Use this screen to configure a white list of IP addresses. Packets with the specified IP address will not be scanned for virus.",
+        "content" :
+        [
+          {
+            "label" : "Enable",
+            "tab" : "enable",
+            "description" : "This shows whether the rule is activated or not."
+          },
+          {
+            "label" : "Source",
+            "tab" : "source",
+            "description" : "This shows the source IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Destination",
+            "tab" : "destination",
+            "description" : "This shows the destination IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Log",
+            "tab" : "log",
+            "description" : "This shows whether a log will be generated when the TitanWALL receives a packet that has the specified source or destination IP address."
+          },
+          {
+            "label" : "Action",
+            "tab" : "action",
+            "description" : "Click Edit to modify the rule’s settings.\n Click Delete to remove the rule."
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "Enable",
+            "tab" : "enable",
+            "description" : "Select the check box to turn on the rule."
+          },
+          {
+            "label" : "Source",
+            "tab" : "source",
+            "description" : "Select an address object to specify the source IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Destination",
+            "tab" : "destination",
+            "description" : "Select an address object to specify the destination IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Log",
+            "tab" : "log",
+            "description" : "Select the check to generate a log when the TitanWALL receives a packet that matches this rule."
+          },
+          {
+            "label" : "OK",
+            "tab" : "ok",
+            "description" : "Click this button to save your changes and close this screen."
+          },
+          {
+            "label" : "Cancel",
+            "tab" : "cancel",
+            "description" : "Click this button to close this screen without saving any changes."
+          }
+        ]
+      },
+      "file_ext" :
+      {
+        "label" : "File Extension",
+        "tab" : "file_ext",
+        "description" : "Use this screen to configure a white list of files which will not be scanned for virus. You can set the rules according the MIME ((Multipurpose Internet Mail Extensions) type or file extension.",
+        "content" :
+        [
+          {
+            "label" : "MIME",
+            "tab" : "mime",
+            "description" : "This shows the MIME type/sub-type (audio/mpeg or image/jpeg for example) of the file."
+          },
+          {
+            "label" : "File Extension",
+            "tab" : "file_ext",
+            "description" : "s shows the file name extension (doc or mp3 for example) of the file."
+          },
+          {
+            "label" : "Action",
+            "tab" : "action",
+            "description" : "Click Edit to modify the rule’s settings.\n Click Delete to remove the rule."
+          }
+        ],
+        "editors" :
+        [
+          {
+            "label" : "MIME Editor",
+            "tab" : "mime",
+            "description" : "Use this screen to create a new file exception rule based on the MIME type or edit an existing one.",
+            "content" :
+            [
+              {
+                "label" : "Type",
+                "tab" : "type",
+                "description" : "Select the MIME type of the file that will not be scanned"
+              },
+              {
+                "label" : "Subtype",
+                "tab" : "subtype",
+                "description" : "Select the MIME sub-type of the file that will not be scanned"
+              },
+              {
+                "label" : "OK",
+                "tab" : "ok",
+                "description" : "Click this button to save your changes and close this screen."
+              },
+              {
+                "label" : "Cancel",
+                "tab" : "cancel",
+                "description" : "Click this button to close this screen without saving any changes."
+              }
+            ]
+          },
+          {
+            "label" : "File Extension Editor",
+            "tab" : "file_ext",
+            "description" : "Use this screen to create a new file exception rule based on the file name extension or edit an existing one.",
+            "content" :
+            [
+              {
+                "label" : "File Extension",
+                "tab" : "file_ext",
+                "description" : "Enter the file name extension of the file that will not be scanned."
+              },
+              {
+                "label" : "OK",
+                "tab" : "ok",
+                "description" : "Click this button to save your changes and close this screen."
+              },
+              {
+                "label" : "Cancel",
+                "tab" : "cancel",
+                "description" : "Click this button to close this screen without saving any changes."
+              }
+            ]
+          }
+        ]
+      },
+      "blacklist" :
+      {
+        "label" : "Blacklist",
+        "tab" : "blacklist",
+        "description" : "When a virus is detected by the TitanWALL’s anti-virus, the TitanWALL records the infected site’s URL into its blacklist database and blocks users from accessing it. Each blacklist entry has its own lifetime in this database.\n Use this screen to specify the lifetime for all blacklist entries. The TitanWALL removes a blacklist entry from this database once the entry expires, the system is restarted, or anti-virus signatures are updated. The TitanWALL can record up to 4096 blacklist entries. You can manually move blacklist entries to the whitelist database if you find they are false positives.",
+        "content" :
+        [
+          {
+            "label" : "Expiration Duration",
+            "tab" : "expire_duration",
+            "description" : "Specify how many days and hours for the lifetime of every blacklist entry in this database."
+          },
+          {
+            "label" : "Index",
+            "tab" : "index",
+            "description" : "This is the index number of the entry."
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "This is the URL (Uniform Resource Locator) where a virus is detected by the TitanWALL’s anti-virus. For example, http://www.eicar.org/download/eicar.com.txt and ftp://1.1.1.1/aaa.com."
+          },
+          {
+            "label" : "Expiration Date",
+            "tab" : "expire_date",
+            "description" : "This is the remaining time the TitanWALL keeps the URL in the blacklist before the entry expires and is being removed from this database. "
+          },
+          {
+            "label" : "Action",
+            "tab" : "actiove",
+            "description" : "Click the Move to Whitelist icon to delete the entry from this blacklist database and add it to the whitelist database. Click the Delete icon to remove the entry."
+          }
+        ]
+      },
+      "whitelist" :
+      {
+        "label" : "Whitelist",
+        "tab" : "whitelist",
+        "description" : "If you find a URL in the blacklist database is actually a non-virus web or FTP site, you can manually move it to the whitelist database. The anti-virus function does not take any action on connections accessing URLs in the whitelist database but just records them in the system log. The TitanWALL can store up to 4096 whitelist entries.\n Use this screen to the view and remove whitelist entries.",
+        "content" :
+        [
+          {
+            "label" : "Index",
+            "tab" : "index",
+            "description" : "This shows the index number of an entry."
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "This is a URL that you trusted."
+          },
+          {
+            "label" : "Action",
+            "tab" : "action",
+            "description" : "Click Delete to remove the rule."
+          }
+        ]
+      }
+    }
+  },
+  "menu-4" :
+  {
+    "label" : "FTP",
+    "tab" : "ftp",
+    "description" : "Use this screen to enable FTP anti-virus and configure the related general settings.",
+    "tabs" :
+    {
+      "general" :
+      {
+        "label" : "General Setting",
+        "tab" : "general",
+        "description" : "Use this screen to enable anti-virus and configure the related general settings.",
+        "content" :
+        [
+          {
+            "label" : "Zone to Scan",
+            "tab" : "zone_to_scan",
+            "description" : "Select the zones to which you want to apply the anti-virus settings and scan the traffic for viruses.\n Select the zone(s) from the Available Zones text box and click the right arrow to add the zone(s) to the Selected Zones text box in order to check the incoming/outgoing packets content of the selected zones. Otherwise, select the zones(s) from the Selected Zones and click the left arrow to move the zones(s) to the Available Zones text box."
+          },
+          {
+            "label" : "Enable",
+            "tab" : "app_enable",
+            "description" : "Select the check box to have the TitanWALL check the traffic of the corresponding type."
+          },
+          {
+            "label" : "Log",
+            "tab" : "app_logging",
+            "description" : "elect the check box to have the TitanWALL create a log when viruses are detected. You also need to configure the log settings in the Device > Loggings screens."
+          },
+          {
+            "label" : "Action",
+            "tab" : "app_action",
+            "description" : "Select the action the TitanWALL takes when viruses are detected.\n none - The TitanWALL takes no action.\n notify - For HTTP, the TitanWALL does nothing to the virus the first time a virus is detected. When the virus is detected for the second time, it sends an alert message via the web page to the users who try to access the infected files or web pages.  For SMTP or POP3, when a virus is detected in the attachment(s), it still sends the original e-mail to the receiver and also sends an e-mail alert to both the mail sender and receiver.\n notify + drop connection – The TitanWALL denies access to the infected web pages the first time a virus is detected. When the virus is detected for the second time, it sends an alert via the web page to the users who try to access the infected files or web pages.\n notify + destruct file – The TitanWALL destroys the infected portion in a file when a virus is detected in the attachment(s). It also uses commands to inform the mail server that the mail is forwarded correctly, and sends an e-mail alert to both the mail sender and receiver.\n drop connection – The TitanWALL FTP terminates the connections when a virus is detected. \n Note: If you select notify or notify + drop connection for HTTP, set the alert message in the Security > AntiVirus > HTTP Notify screen. \n Note: If you select notify or notify + destruct file for SMTP or POP3, set the alert message in the Security > AntiVirus > Email Notify screen. You also need to configure the SMTP server address in the Device > Administration > Email Alert > Settings screen and enable anti-virus Alert in the Device > Administration > Email Alert > Alerts screen."
+          },
+          {
+            "label" : "Port List",
+            "tab" : "app_port",
+            "description" : "Specify the server port that is used to identify an application (service). You can configure multiple ports."
+          },
+          {
+            "label" : "Maximum File Size to Scan",
+            "tab" : "max_file_size",
+            "description" : "TitanWALL won't scan the file size over this value, \"0\" means disable."
+          }
+        ]
+      },
+      "address_except" :
+      {
+        "label" : "Address Exception",
+        "tab" : "address_except",
+        "description" : "Use this screen to configure a white list of IP addresses. Packets with the specified IP address will not be scanned for virus.",
+        "content" :
+        [
+          {
+            "label" : "Enable",
+            "tab" : "enable",
+            "description" : "This shows whether the rule is activated or not."
+          },
+          {
+            "label" : "Source",
+            "tab" : "source",
+            "description" : "This shows the source IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Destination",
+            "tab" : "destination",
+            "description" : "This shows the destination IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Log",
+            "tab" : "log",
+            "description" : "This shows whether a log will be generated when the TitanWALL receives a packet that has the specified source or destination IP address."
+          },
+          {
+            "label" : "Action",
+            "tab" : "action",
+            "description" : "Click Edit to modify the rule’s settings.\n Click Delete to remove the rule."
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "Enable",
+            "tab" : "enable",
+            "description" : "Select the check box to turn on the rule."
+          },
+          {
+            "label" : "Source",
+            "tab" : "source",
+            "description" : "Select an address object to specify the source IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Destination",
+            "tab" : "destination",
+            "description" : "Select an address object to specify the destination IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Log",
+            "tab" : "log",
+            "description" : "Select the check to generate a log when the TitanWALL receives a packet that matches this rule."
+          },
+          {
+            "label" : "OK",
+            "tab" : "ok",
+            "description" : "Click this button to save your changes and close this screen."
+          },
+          {
+            "label" : "Cancel",
+            "tab" : "cancel",
+            "description" : "Click this button to close this screen without saving any changes."
+          }
+        ]
+      },
+      "file_ext" :
+      {
+        "label" : "File Extension",
+        "tab" : "file_ext",
+        "description" : "Use this screen to configure a white list of files which will not be scanned for virus. You can set the rules according the MIME ((Multipurpose Internet Mail Extensions) type or file extension.",
+        "content" :
+        [
+          {
+            "label" : "MIME",
+            "tab" : "mime",
+            "description" : "This shows the MIME type/sub-type (audio/mpeg or image/jpeg for example) of the file."
+          },
+          {
+            "label" : "File Extension",
+            "tab" : "file_ext",
+            "description" : "s shows the file name extension (doc or mp3 for example) of the file."
+          },
+          {
+            "label" : "Action",
+            "tab" : "action",
+            "description" : "Click Edit to modify the rule’s settings.\n Click Delete to remove the rule."
+          }
+        ],
+        "editors" :
+        [
+          {
+            "label" : "MIME Editor",
+            "tab" : "mime",
+            "description" : "Use this screen to create a new file exception rule based on the MIME type or edit an existing one.",
+            "content" :
+            [
+              {
+                "label" : "Type",
+                "tab" : "type",
+                "description" : "Select the MIME type of the file that will not be scanned"
+              },
+              {
+                "label" : "Subtype",
+                "tab" : "subtype",
+                "description" : "Select the MIME sub-type of the file that will not be scanned"
+              },
+              {
+                "label" : "OK",
+                "tab" : "ok",
+                "description" : "Click this button to save your changes and close this screen."
+              },
+              {
+                "label" : "Cancel",
+                "tab" : "cancel",
+                "description" : "Click this button to close this screen without saving any changes."
+              }
+            ]
+          },
+          {
+            "label" : "File Extension Editor",
+            "tab" : "file_ext",
+            "description" : "Use this screen to create a new file exception rule based on the file name extension or edit an existing one.",
+            "content" :
+            [
+              {
+                "label" : "File Extension",
+                "tab" : "file_ext",
+                "description" : "Enter the file name extension of the file that will not be scanned."
+              },
+              {
+                "label" : "OK",
+                "tab" : "ok",
+                "description" : "Click this button to save your changes and close this screen."
+              },
+              {
+                "label" : "Cancel",
+                "tab" : "cancel",
+                "description" : "Click this button to close this screen without saving any changes."
+              }
+            ]
+          }
+        ]
+      },
+      "blacklist" :
+      {
+        "label" : "Blacklist",
+        "tab" : "blacklist",
+        "description" : "When a virus is detected by the TitanWALL’s anti-virus, the TitanWALL records the infected site’s URL into its blacklist database and blocks users from accessing it. Each blacklist entry has its own lifetime in this database.\n Use this screen to specify the lifetime for all blacklist entries. The TitanWALL removes a blacklist entry from this database once the entry expires, the system is restarted, or anti-virus signatures are updated. The TitanWALL can record up to 4096 blacklist entries. You can manually move blacklist entries to the whitelist database if you find they are false positives.",
+        "content" :
+        [
+          {
+            "label" : "Expiration Duration",
+            "tab" : "expire_duration",
+            "description" : "Specify how many days and hours for the lifetime of every blacklist entry in this database."
+          },
+          {
+            "label" : "Index",
+            "tab" : "index",
+            "description" : "This is the index number of the entry."
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "This is the URL (Uniform Resource Locator) where a virus is detected by the TitanWALL’s anti-virus. For example, http://www.eicar.org/download/eicar.com.txt and ftp://1.1.1.1/aaa.com."
+          },
+          {
+            "label" : "Expiration Date",
+            "tab" : "expire_date",
+            "description" : "This is the remaining time the TitanWALL keeps the URL in the blacklist before the entry expires and is being removed from this database. "
+          },
+          {
+            "label" : "Action",
+            "tab" : "actiove",
+            "description" : "Click the Move to Whitelist icon to delete the entry from this blacklist database and add it to the whitelist database. Click the Delete icon to remove the entry."
+          }
+        ]
+      },
+      "whitelist" :
+      {
+        "label" : "Whitelist",
+        "tab" : "whitelist",
+        "description" : "If you find a URL in the blacklist database is actually a non-virus web or FTP site, you can manually move it to the whitelist database. The anti-virus function does not take any action on connections accessing URLs in the whitelist database but just records them in the system log. The TitanWALL can store up to 4096 whitelist entries.\n Use this screen to the view and remove whitelist entries.",
+        "content" :
+        [
+          {
+            "label" : "Index",
+            "tab" : "index",
+            "description" : "This shows the index number of an entry."
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "This is a URL that you trusted."
+          },
+          {
+            "label" : "Action",
+            "tab" : "action",
+            "description" : "Click Delete to remove the rule."
+          }
+        ]
+      }
+    }
+  },
+  "menu-5" :
+  {
+    "label" : "CIFS",
+    "tab" : "cifs",
+    "description" : "Use this screen to enable CIFS anti-virus and configure the related general settings.",
+    "tabs" :
+    {
+      "general" :
+      {
+        "label" : "General Setting",
+        "tab" : "general",
+        "description" : "Use this screen to enable anti-virus and configure the related general settings.",
+        "content" :
+        [
+          {
+            "label" : "Zone to Scan",
+            "tab" : "zone_to_scan",
+            "description" : "Select the zones to which you want to apply the anti-virus settings and scan the traffic for viruses.\n Select the zone(s) from the Available Zones text box and click the right arrow to add the zone(s) to the Selected Zones text box in order to check the incoming/outgoing packets content of the selected zones. Otherwise, select the zones(s) from the Selected Zones and click the left arrow to move the zones(s) to the Available Zones text box."
+          },
+          {
+            "label" : "Enable",
+            "tab" : "app_enable",
+            "description" : "Select the check box to have the TitanWALL check the traffic of the corresponding type."
+          },
+          {
+            "label" : "Log",
+            "tab" : "app_logging",
+            "description" : "elect the check box to have the TitanWALL create a log when viruses are detected. You also need to configure the log settings in the Device > Loggings screens."
+          },
+          {
+            "label" : "Action",
+            "tab" : "app_action",
+            "description" : "Select the action the TitanWALL takes when viruses are detected.\n none - The TitanWALL takes no action.\n notify - For HTTP, the TitanWALL does nothing to the virus the first time a virus is detected. When the virus is detected for the second time, it sends an alert message via the web page to the users who try to access the infected files or web pages.  For SMTP or POP3, when a virus is detected in the attachment(s), it still sends the original e-mail to the receiver and also sends an e-mail alert to both the mail sender and receiver.\n notify + drop connection – The TitanWALL denies access to the infected web pages the first time a virus is detected. When the virus is detected for the second time, it sends an alert via the web page to the users who try to access the infected files or web pages.\n notify + destruct file – The TitanWALL destroys the infected portion in a file when a virus is detected in the attachment(s). It also uses commands to inform the mail server that the mail is forwarded correctly, and sends an e-mail alert to both the mail sender and receiver.\n drop connection – The TitanWALL FTP terminates the connections when a virus is detected. \n Note: If you select notify or notify + drop connection for HTTP, set the alert message in the Security > AntiVirus > HTTP Notify screen. \n Note: If you select notify or notify + destruct file for SMTP or POP3, set the alert message in the Security > AntiVirus > Email Notify screen. You also need to configure the SMTP server address in the Device > Administration > Email Alert > Settings screen and enable anti-virus Alert in the Device > Administration > Email Alert > Alerts screen."
+          },
+          {
+            "label" : "Port List",
+            "tab" : "app_port",
+            "description" : "Specify the server port that is used to identify an application (service). You can configure multiple ports."
+          },
+          {
+            "label" : "Maximum File Size to Scan",
+            "tab" : "max_file_size",
+            "description" : "TitanWALL won't scan the file size over this value, \"0\" means disable."
+          }
+        ]
+      },
+      "address_except" :
+      {
+        "label" : "Address Exception",
+        "tab" : "address_except",
+        "description" : "Use this screen to configure a white list of IP addresses. Packets with the specified IP address will not be scanned for virus.",
+        "content" :
+        [
+          {
+            "label" : "Enable",
+            "tab" : "enable",
+            "description" : "This shows whether the rule is activated or not."
+          },
+          {
+            "label" : "Source",
+            "tab" : "source",
+            "description" : "This shows the source IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Destination",
+            "tab" : "destination",
+            "description" : "This shows the destination IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Log",
+            "tab" : "log",
+            "description" : "This shows whether a log will be generated when the TitanWALL receives a packet that has the specified source or destination IP address."
+          },
+          {
+            "label" : "Action",
+            "tab" : "action",
+            "description" : "Click Edit to modify the rule’s settings.\n Click Delete to remove the rule."
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "Enable",
+            "tab" : "enable",
+            "description" : "Select the check box to turn on the rule."
+          },
+          {
+            "label" : "Source",
+            "tab" : "source",
+            "description" : "Select an address object to specify the source IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Destination",
+            "tab" : "destination",
+            "description" : "Select an address object to specify the destination IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Log",
+            "tab" : "log",
+            "description" : "Select the check to generate a log when the TitanWALL receives a packet that matches this rule."
+          },
+          {
+            "label" : "OK",
+            "tab" : "ok",
+            "description" : "Click this button to save your changes and close this screen."
+          },
+          {
+            "label" : "Cancel",
+            "tab" : "cancel",
+            "description" : "Click this button to close this screen without saving any changes."
+          }
+        ]
+      },
+      "file_ext" :
+      {
+        "label" : "File Extension",
+        "tab" : "file_ext",
+        "description" : "Use this screen to configure a white list of files which will not be scanned for virus. You can set the rules according the MIME ((Multipurpose Internet Mail Extensions) type or file extension.",
+        "content" :
+        [
+          {
+            "label" : "MIME",
+            "tab" : "mime",
+            "description" : "This shows the MIME type/sub-type (audio/mpeg or image/jpeg for example) of the file."
+          },
+          {
+            "label" : "File Extension",
+            "tab" : "file_ext",
+            "description" : "s shows the file name extension (doc or mp3 for example) of the file."
+          },
+          {
+            "label" : "Action",
+            "tab" : "action",
+            "description" : "Click Edit to modify the rule’s settings.\n Click Delete to remove the rule."
+          }
+        ],
+        "editors" :
+        [
+          {
+            "label" : "MIME Editor",
+            "tab" : "mime",
+            "description" : "Use this screen to create a new file exception rule based on the MIME type or edit an existing one.",
+            "content" :
+            [
+              {
+                "label" : "Type",
+                "tab" : "type",
+                "description" : "Select the MIME type of the file that will not be scanned"
+              },
+              {
+                "label" : "Subtype",
+                "tab" : "subtype",
+                "description" : "Select the MIME sub-type of the file that will not be scanned"
+              },
+              {
+                "label" : "OK",
+                "tab" : "ok",
+                "description" : "Click this button to save your changes and close this screen."
+              },
+              {
+                "label" : "Cancel",
+                "tab" : "cancel",
+                "description" : "Click this button to close this screen without saving any changes."
+              }
+            ]
+          },
+          {
+            "label" : "File Extension Editor",
+            "tab" : "file_ext",
+            "description" : "Use this screen to create a new file exception rule based on the file name extension or edit an existing one.",
+            "content" :
+            [
+              {
+                "label" : "File Extension",
+                "tab" : "file_ext",
+                "description" : "Enter the file name extension of the file that will not be scanned."
+              },
+              {
+                "label" : "OK",
+                "tab" : "ok",
+                "description" : "Click this button to save your changes and close this screen."
+              },
+              {
+                "label" : "Cancel",
+                "tab" : "cancel",
+                "description" : "Click this button to close this screen without saving any changes."
+              }
+            ]
+          }
+        ]
+      },
+      "blacklist" :
+      {
+        "label" : "Blacklist",
+        "tab" : "blacklist",
+        "description" : "When a virus is detected by the TitanWALL’s anti-virus, the TitanWALL records the infected site’s URL into its blacklist database and blocks users from accessing it. Each blacklist entry has its own lifetime in this database.\n Use this screen to specify the lifetime for all blacklist entries. The TitanWALL removes a blacklist entry from this database once the entry expires, the system is restarted, or anti-virus signatures are updated. The TitanWALL can record up to 4096 blacklist entries. You can manually move blacklist entries to the whitelist database if you find they are false positives.",
+        "content" :
+        [
+          {
+            "label" : "Expiration Duration",
+            "tab" : "expire_duration",
+            "description" : "Specify how many days and hours for the lifetime of every blacklist entry in this database."
+          },
+          {
+            "label" : "Index",
+            "tab" : "index",
+            "description" : "This is the index number of the entry."
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "This is the URL (Uniform Resource Locator) where a virus is detected by the TitanWALL’s anti-virus. For example, http://www.eicar.org/download/eicar.com.txt and ftp://1.1.1.1/aaa.com."
+          },
+          {
+            "label" : "Expiration Date",
+            "tab" : "expire_date",
+            "description" : "This is the remaining time the TitanWALL keeps the URL in the blacklist before the entry expires and is being removed from this database. "
+          },
+          {
+            "label" : "Action",
+            "tab" : "actiove",
+            "description" : "Click the Move to Whitelist icon to delete the entry from this blacklist database and add it to the whitelist database. Click the Delete icon to remove the entry."
+          }
+        ]
+      },
+      "whitelist" :
+      {
+        "label" : "Whitelist",
+        "tab" : "whitelist",
+        "description" : "If you find a URL in the blacklist database is actually a non-virus web or FTP site, you can manually move it to the whitelist database. The anti-virus function does not take any action on connections accessing URLs in the whitelist database but just records them in the system log. The TitanWALL can store up to 4096 whitelist entries.\n Use this screen to the view and remove whitelist entries.",
+        "content" :
+        [
+          {
+            "label" : "Index",
+            "tab" : "index",
+            "description" : "This shows the index number of an entry."
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "This is a URL that you trusted."
+          },
+          {
+            "label" : "Action",
+            "tab" : "action",
+            "description" : "Click Delete to remove the rule."
+          }
+        ]
+      }
+    }
+  },
+  "menu-6-0" :
+  {
+    "label" : "Signature",
+    "tab" : "sig",
+    "description" : "Use this screen to configure anti-virus signature settings and view the signature information. You can update the signatures manually or have the TitanWALL automatically update the signatures by a schedule. ",
+    "content" :
+    [
+      {
+        "label" : "Manually Update",
+        "tab" : "manually_update",
+        "description" : "Click the Update button to have the TitanWALL check the signature server immediately. If a new signature file is available on the server, the TitanWALL downloads the file."
+      },
+      {
+        "label" : "Auto Update",
+        "tab" : "auto_update",
+        "description" : "Select the check box and select the type and time interval for the signature auto-update settings."
+      },
+      {
+        "label" : "Type",
+        "tab" : "type",
+        "description" : "Select how often (weekly, daily, hourly) the TitanWALL automatically checks the signature server."
+      },
+      {
+        "label" : "Interval",
+        "tab" : "interval",
+        "description" : "Select the corresponding time interval the TitanWALL automatically checks the signature server. For example, if you select weekly in the Type field and 3 here, it means the TitanWALL automatically checks the signature server once per 3 weeks."
+      },
+      {
+        "label" : "Signature Version",
+        "tab" : "sig_ver",
+        "description" : "This shows the version number of the anti-virus signature database."
+      },
+      {
+        "label" : "MD5 Version",
+        "tab" : "md5_ver",
+        "description" : "This shows the version number of the anti-virus MD5 database."
+      },
+      {
+        "label" : "Signature Pattern Number",
+        "tab" : "sig_pat_no",
+        "description" : "This shows the number of virus patterns in the anti-virus signature database."
+      },
+      {
+        "label" : "MD5 Pattern Number",
+        "tab" : "md5_pat_no",
+        "description" : "This shows the number of virus patterns in the anti-virus MD5 database."
+      },
+      {
+        "label" : "Last Checked",
+        "tab" : "last_checked",
+        "description" : "This shows when the last time was the TitanWALL checked the signature update server for new signatures."
+      },
+      {
+        "label" : "Last Successful Updated",
+        "tab" : "last_updated",
+        "description" : "This shows when the last time was the TitanWALL successfully updated the signatures"
+      }
+    ]
   },
   "menu-6-1" :
   {
@@ -3011,360 +4414,52 @@
       }
     ]
   },
-  "menu-5-0" :
+  "menu-10-6" :
   {
-    "label" : "Antivirus",
-    "tab" : "antivirus",
-    "description" : "Click the AntiVirus submenu in the navigation panel to configure anti-virus settings.",
-    "tabs" :
-    {
-      "general" :
+    "label" : "IP MAC Binding",
+    "tab" : "ip_mac_binding",
+    "description" : "",
+    "content" :
+    [
       {
-        "label" : "General Setting",
-        "tab" : "general",
-        "description" : "Use this screen to enable anti-virus and configure the related general settings.",
-        "content" :
-        [
-          {
-            "label" : "Enable",
-            "tab" : "enable",
-            "description" : "Select the check box to turn on the anti-virus service on the TitanWALL"
-          },
-          {
-            "label" : "Zone to Scan",
-            "tab" : "zone_to_scan",
-            "description" : "Select the zones to which you want to apply the anti-virus settings and scan the traffic for viruses.\n Select the zone(s) from the Available Zones text box and click the right arrow to add the zone(s) to the Selected Zones text box in order to check the incoming/outgoing packets content of the selected zones. Otherwise, select the zones(s) from the Selected Zones and click the left arrow to move the zones(s) to the Available Zones text box."
-          },
-          {
-            "label" : "HTTP/FTP/SMTP/POP3 ENABLE",
-            "tab" : "app_enable",
-            "description" : "Select the check box to have the TitanWALL check the traffic of the corresponding type."
-          },
-          {
-            "label" : "HTTP/FTP/SMTP/POP3 Logging",
-            "tab" : "app_logging",
-            "description" : "elect the check box to have the TitanWALL create a log when viruses are detected. You also need to configure the log settings in the Device > Loggings screens."
-          },
-          {
-            "label" : "HTTP/FTP/SMTP/POP3 Action",
-            "tab" : "app_action",
-            "description" : "Select the action the TitanWALL takes when viruses are detected.\n none - The TitanWALL takes no action.\n notify - For HTTP, the TitanWALL does nothing to the virus the first time a virus is detected. When the virus is detected for the second time, it sends an alert message via the web page to the users who try to access the infected files or web pages.  For SMTP or POP3, when a virus is detected in the attachment(s), it still sends the original e-mail to the receiver and also sends an e-mail alert to both the mail sender and receiver.\n notify + drop connection – The TitanWALL denies access to the infected web pages the first time a virus is detected. When the virus is detected for the second time, it sends an alert via the web page to the users who try to access the infected files or web pages.\n notify + destruct file – The TitanWALL destroys the infected portion in a file when a virus is detected in the attachment(s). It also uses commands to inform the mail server that the mail is forwarded correctly, and sends an e-mail alert to both the mail sender and receiver.\n drop connection – The TitanWALL FTP terminates the connections when a virus is detected. \n Note: If you select notify or notify + drop connection for HTTP, set the alert message in the Security > AntiVirus > HTTP Notify screen. \n Note: If you select notify or notify + destruct file for SMTP or POP3, set the alert message in the Security > AntiVirus > Email Notify screen. You also need to configure the SMTP server address in the Device > Administration > Email Alert > Settings screen and enable anti-virus Alert in the Device > Administration > Email Alert > Alerts screen."
-          },
-          {
-            "label" : "HTTP/FTP/SMTP/POP3 Port List",
-            "tab" : "app_port",
-            "description" : "Specify the server port that is used to identify an application (service). You can configure multiple ports."
-          },
-          {
-            "label" : "Maximum File Size to Scan",
-            "tab" : "max_file_size",
-            "description" : "TitanWALL won't scan the file size over this value, \"0\" means disable."
-          }
-        ]
+        "label" : "Enable",
+        "tab" : "enable",
+        "description" : "Enable IP MAC Binding Function"
       },
-      "http" :
       {
-        "label" : "HTTP Notify",
-        "tab" : "http",
-        "description" : "Use this screen to enter the alert messages you want the TitanWALL to send when a virus is detected in a web page or file. You can enter up to 255 characters. Click the Save button to apply your changes. The alert message is sent only when you set Action for HTTP to notify or notify + drop connection in the General Setting screen. "
-      },
-      "email" :
-      {
-        "label" : "Email Notify",
-        "tab" : "email",
-        "description" : "Use this screen to configure the alert message sent to the mail sender and receiver when you set Action for SMTP or POP3 to notify or notify + destruct file in the General Setting screen.\n This screen also shows you whether the e-mail notification function is enabled and the following read-only information.",
-        "content" :
-        [
-          {
-            "label" : "From Email",
-            "tab" : "from_email",
-            "description" : "This is the e-mail address that the TitanWALL uses to send e-mail alerts."
-          },
-          {
-            "label" : "SMTP Server",
-            "tab" : "smtp_server",
-            "description" : "This is the IP address or domain name of the SMTP server that helps forward mail messages."
-          },
-          {
-            "label" : "SMTP Authentication",
-            "tab" : "smtp_auth",
-            "description" : "This shows whether the SMTP server authentication is enabled."
-          },
-          {
-            "label" : "Mail Tag",
-            "tab" : "mail_tag",
-            "description" : "Enter a tag up to 30 characters long. The tag is inserted in the mail subject, which then displays in the format of “[Tag] E-mail Subject”."
-          },
-          {
-            "label" : "Mail Content",
-            "tab" : "mail_content",
-            "description" : "Enter the e-mail alert messages you want the TitanWALL to send via e-mail when a virus is detected in an e-mail attachment. You can enter up to 255 characters."
-          }
-        ]
-      },
-      "address_except" :
-      {
-        "label" : "Address Exception",
-        "tab" : "address_except",
-        "description" : "Use this screen to configure a white list of IP addresses. Packets with the specified IP address will not be scanned for virus.",
-        "content" :
-        [
-          {
-            "label" : "Enable",
-            "tab" : "enable",
-            "description" : "This shows whether the rule is activated or not."
-          },
-          {
-            "label" : "Source",
-            "tab" : "source",
-            "description" : "This shows the source IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
-          },
-          {
-            "label" : "Destination",
-            "tab" : "destination",
-            "description" : "This shows the destination IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
-          },
-          {
-            "label" : "Log",
-            "tab" : "log",
-            "description" : "This shows whether a log will be generated when the TitanWALL receives a packet that has the specified source or destination IP address."
-          },
-          {
-            "label" : "Action",
-            "tab" : "action",
-            "description" : "Click Edit to modify the rule’s settings.\n Click Delete to remove the rule."
-          }
-        ],
-        "editor" :
-        [
-          {
-            "label" : "Enable",
-            "tab" : "enable",
-            "description" : "Select the check box to turn on the rule."
-          },
-          {
-            "label" : "Source",
-            "tab" : "source",
-            "description" : "Select an address object to specify the source IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
-          },
-          {
-            "label" : "Destination",
-            "tab" : "destination",
-            "description" : "Select an address object to specify the destination IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
-          },
-          {
-            "label" : "Log",
-            "tab" : "log",
-            "description" : "Select the check to generate a log when the TitanWALL receives a packet that matches this rule."
-          },
-          {
-            "label" : "OK",
-            "tab" : "ok",
-            "description" : "Click this button to save your changes and close this screen."
-          },
-          {
-            "label" : "Cancel",
-            "tab" : "cancel",
-            "description" : "Click this button to close this screen without saving any changes."
-          }
-        ]
-      },
-      "file_ext" :
-      {
-        "label" : "File Extension",
-        "tab" : "file_ext",
-        "description" : "Use this screen to configure a white list of files which will not be scanned for virus. You can set the rules according the MIME ((Multipurpose Internet Mail Extensions) type or file extension.",
-        "content" :
-        [
-          {
-            "label" : "MIME",
-            "tab" : "mime",
-            "description" : "This shows the MIME type/sub-type (audio/mpeg or image/jpeg for example) of the file."
-          },
-          {
-            "label" : "File Extension",
-            "tab" : "file_ext",
-            "description" : "s shows the file name extension (doc or mp3 for example) of the file."
-          },
-          {
-            "label" : "Action",
-            "tab" : "action",
-            "description" : "Click Edit to modify the rule’s settings.\n Click Delete to remove the rule."
-          }
-        ],
-        "editors" :
-        [
-          {
-            "label" : "MIME Editor",
-            "tab" : "mime",
-            "description" : "Use this screen to create a new file exception rule based on the MIME type or edit an existing one.",
-            "content" :
-            [
-              {
-                "label" : "Type",
-                "tab" : "type",
-                "description" : "Select the MIME type of the file that will not be scanned"
-              },
-              {
-                "label" : "Subtype",
-                "tab" : "subtype",
-                "description" : "Select the MIME sub-type of the file that will not be scanned"
-              },
-              {
-                "label" : "OK",
-                "tab" : "ok",
-                "description" : "Click this button to save your changes and close this screen."
-              },
-              {
-                "label" : "Cancel",
-                "tab" : "cancel",
-                "description" : "Click this button to close this screen without saving any changes."
-              }
-            ]
-          },
-          {
-            "label" : "File Extension Editor",
-            "tab" : "file_ext",
-            "description" : "Use this screen to create a new file exception rule based on the file name extension or edit an existing one.",
-            "content" :
-            [
-              {
-                "label" : "File Extension",
-                "tab" : "file_ext",
-                "description" : "Enter the file name extension of the file that will not be scanned."
-              },
-              {
-                "label" : "OK",
-                "tab" : "ok",
-                "description" : "Click this button to save your changes and close this screen."
-              },
-              {
-                "label" : "Cancel",
-                "tab" : "cancel",
-                "description" : "Click this button to close this screen without saving any changes."
-              }
-            ]
-          }
-        ]
-      },
-      "blacklist" :
-      {
-        "label" : "Blacklist",
-        "tab" : "blacklist",
-        "description" : "When a virus is detected by the TitanWALL’s anti-virus, the TitanWALL records the infected site’s URL into its blacklist database and blocks users from accessing it. Each blacklist entry has its own lifetime in this database.\n Use this screen to specify the lifetime for all blacklist entries. The TitanWALL removes a blacklist entry from this database once the entry expires, the system is restarted, or anti-virus signatures are updated. The TitanWALL can record up to 4096 blacklist entries. You can manually move blacklist entries to the whitelist database if you find they are false positives.",
-        "content" :
-        [
-          {
-            "label" : "Expiration Duration",
-            "tab" : "expire_duration",
-            "description" : "Specify how many days and hours for the lifetime of every blacklist entry in this database."
-          },
-          {
-            "label" : "Index",
-            "tab" : "index",
-            "description" : "This is the index number of the entry."
-          },
-          {
-            "label" : "URL",
-            "tab" : "url",
-            "description" : "This is the URL (Uniform Resource Locator) where a virus is detected by the TitanWALL’s anti-virus. For example, http://www.eicar.org/download/eicar.com.txt and ftp://1.1.1.1/aaa.com."
-          },
-          {
-            "label" : "Expiration Date",
-            "tab" : "expire_date",
-            "description" : "This is the remaining time the TitanWALL keeps the URL in the blacklist before the entry expires and is being removed from this database. "
-          },
-          {
-            "label" : "Action",
-            "tab" : "actiove",
-            "description" : "Click the Move to Whitelist icon to delete the entry from this blacklist database and add it to the whitelist database. Click the Delete icon to remove the entry."
-          }
-        ]
-      },
-      "whitelist" :
-      {
-        "label" : "Whitelist",
-        "tab" : "whitelist",
-        "description" : "If you find a URL in the blacklist database is actually a non-virus web or FTP site, you can manually move it to the whitelist database. The anti-virus function does not take any action on connections accessing URLs in the whitelist database but just records them in the system log. The TitanWALL can store up to 4096 whitelist entries.\n Use this screen to the view and remove whitelist entries.",
-        "content" :
-        [
-          {
-            "label" : "Index",
-            "tab" : "index",
-            "description" : "This shows the index number of an entry."
-          },
-          {
-            "label" : "URL",
-            "tab" : "url",
-            "description" : "This is a URL that you trusted."
-          },
-          {
-            "label" : "Action",
-            "tab" : "action",
-            "description" : "Click Delete to remove the rule."
-          }
-        ]
-      },
-      "sig" :
-      {
-        "label" : "Signature",
-        "tab" : "sig",
-        "description" : "Use this screen to configure anti-virus signature settings and view the signature information. You can update the signatures manually or have the TitanWALL automatically update the signatures by a schedule. ",
-        "content" :
-        [
-          {
-            "label" : "Manually Update",
-            "tab" : "manually_update",
-            "description" : "Click the Update button to have the TitanWALL check the signature server immediately. If a new signature file is available on the server, the TitanWALL downloads the file."
-          },
-          {
-            "label" : "Auto Update",
-            "tab" : "auto_update",
-            "description" : "Select the check box and select the type and time interval for the signature auto-update settings."
-          },
-          {
-            "label" : "Type",
-            "tab" : "type",
-            "description" : "Select how often (weekly, daily, hourly) the TitanWALL automatically checks the signature server."
-          },
-          {
-            "label" : "Interval",
-            "tab" : "interval",
-            "description" : "Select the corresponding time interval the TitanWALL automatically checks the signature server. For example, if you select weekly in the Type field and 3 here, it means the TitanWALL automatically checks the signature server once per 3 weeks."
-          },
-          {
-            "label" : "Signature Version",
-            "tab" : "sig_ver",
-            "description" : "This shows the version number of the anti-virus signature database."
-          },
-          {
-            "label" : "MD5 Version",
-            "tab" : "md5_ver",
-            "description" : "This shows the version number of the anti-virus MD5 database."
-          },
-          {
-            "label" : "Signature Pattern Number",
-            "tab" : "sig_pat_no",
-            "description" : "This shows the number of virus patterns in the anti-virus signature database."
-          },
-          {
-            "label" : "MD5 Pattern Number",
-            "tab" : "md5_pat_no",
-            "description" : "This shows the number of virus patterns in the anti-virus MD5 database."
-          },
-          {
-            "label" : "Last Checked",
-            "tab" : "last_checked",
-            "description" : "This shows when the last time was the TitanWALL checked the signature update server for new signatures."
-          },
-          {
-            "label" : "Last Successful Updated",
-            "tab" : "last_updated",
-            "description" : "This shows when the last time was the TitanWALL successfully updated the signatures"
-          }
-        ]
+        "label" : "Mode",
+        "tab" : "mode",
+        "description" : "Permit and others Drop: Permit IP/MAC mapping traffic pass, block other mapping that are not on list.\n Drop and others Permit: Drop IP/MAC mapping traffic, permit other mapping that are not on list."
       }
-    }
+    ],
+    "editor" :
+    [
+      {
+        "label" : "Description",
+        "tab" : "dsrcpt",
+        "description" : "Enter a descriptive name for the IP."
+      },
+      {
+        "label" : "IP",
+        "tab" : "ip",
+        "description" : "Set the IP address which are used for binding."
+      },
+      {
+        "label" : "MAC",
+        "tab" : "mac",
+        "description" : "Set the MAC address. The format for MAC is 11:22:33:44:55:66"
+      },
+      {
+        "label" : "OK",
+        "tab" : "ok",
+        "description" : "Click this button to save your changes and close this screen."
+      },
+      {
+        "label" : "Cancel",
+        "tab" : "cancel",
+        "description" : "Click this button to close this screen without saving any changes."
+      }
+    ]
   },
   "menu-11-0" :
   {
@@ -4351,11 +5446,169 @@
       }
     }
   },
-  "menu-13-3" :
+  "menu-13-3-0" :
   {
-    "label" : "Diagnostics",
-    "tab" : "diagnostics",
-    "description" : "dns lookup, ping, traceroute, packet capture, advanced debug tools"
+    "label" : "DNS Lookup",
+    "tab" : "dns_lookup",
+    "description" : "A DNS Lookup is when a device that supports IP asks a DNS server for the IP address associated with a domain name. The DNS Server must \"look up\" the IP associated with that domain"
+  },
+  "menu-13-3-1" :
+  {
+    "label" : "Ping",
+    "tab" : "ping",
+    "description" : "A ping tool test determines the latency (communication delay) between your computer and another computer on a network."
+  },
+  "menu-13-3-2" :
+  {
+    "label" : "Traceroute",
+    "tab" : "traceroute",
+    "description" : "Traceroute is a utility that records the route (the specific gateway computers at each hop) through the Internet between your computer and a specified destination."
+  },
+  "menu-13-3-3" :
+  {
+    "label" : "Packet Capture",
+    "tab" : "packet_capture",
+    "description" : "Use the Packet Capture page to capture all packets that pass through a selected interface.",
+    "content" :
+    [
+      {
+        "label" : "File",
+        "tab" : "file",
+        "description" : "The file name is gererated by time automatically."
+      },
+      {
+        "label" : "Description",
+        "tab" : "description",
+        "description" : "Description for this packet capture file."
+      },
+      {
+        "label" : "Download",
+        "tab" : "btnDownload",
+        "description" : "Click Download to save the captured packets."
+      },
+      {
+        "label" : "Delete",
+        "tab" : "btnDelete",
+        "description" : "Click Delete to remove the captured packets."
+      },
+      {
+        "label" : "New",
+        "tab" : "btnNew",
+        "description" : "Click New to open a new packet capture action. Enger the following information. \n  Description: Enter the description for this packet capture. \n  Network Interface: Choose an interface that you want to capture the packets from the dropdown list. \n  Auto-Stop: When the single file size meets the upper limitation ( 100MB ), it stops automatically. The default is disabled. When the Auto-stop is disabled, the packet capture file keeps growing unless you stop it manually or this file size reach 1GB. \n  Port Range: Defines a starting port number and an ending port number. Capture any traffic according to the Host. \n  Host: Defines a single host by its IP address or domain name. Capture any traffic according to the Host. \n  Net: Defines a network by a network's address and a corresponding netmask. Capture any traffic according to the Net. \n  MAC: Defines a MAC address. MAC address is a 48-bit value is expressed in 6 byte hex-notation. Capture any traffic according to the MAC. \nFor a new packet capture action window, click Start to start capturing the packets, or click Stop to stop capturing. \nWhen packet capture rate is more than HD writing rate, part of packets cannot be recorded. \n If the free space is not enough ( The disk free space < 10% ), the function cannot be used. \nMax file number is 50. \nNote: Once \"packet capture\" or \"advance capture\" is capturing, another function could not be used to capture a new packet file at the same time."
+      }
+    ]
+  },
+  "menu-13-3-4" :
+  {
+    "label" : "Advanced Debug",
+    "tab" : "advanced_debug",
+    "description" : "When TitanWALL is not stable and there could be no console connection and packet capture via PC/NB, we can use Advance Debug to keep debug information in TitanWALL. \nNote: Once \"packet capture\" or \"advance capture\" is capturing, another function could not be used to capture a new packet file at the same time.",
+    "tabs" :
+    {
+      "log" :
+      {
+        "label" : "Log",
+        "tab" : "log",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "Enable Log",
+            "tab" : "enable_log",
+            "description" : "Enable log collection."
+          },
+          {
+            "label" : "Description",
+            "tab" : "descriptions",
+            "description" : "Description for this log."
+          },
+          {
+            "label" : "Index",
+            "tab" : "index",
+            "description" : "Index for log."
+          },
+          {
+            "label" : "File",
+            "tab" : "file",
+            "description" : "Log name."
+          },
+          {
+            "label" : "Description",
+            "tab" : "description",
+            "description" : "Description for this log"
+          },
+          {
+            "label" : "Action",
+            "tab" : "action",
+            "description" : "Download this log file from TitanWALL to host or delete it."
+          }
+        ]
+      },
+      "packet_capture" :
+      {
+        "label" : "Packet Capture",
+        "tab" : "packet_capture",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "Description",
+            "tab" : "descriptions",
+            "description" : "Name of this Packet Capture."
+          },
+          {
+            "label" : "Network Interface",
+            "tab" : "network_interface",
+            "description" : "Select capture interface."
+          },
+          {
+            "label" : "Port Range",
+            "tab" : "port_range",
+            "description" : "Start: Start port range to be captured. \nEnd: End port range to be captured."
+          },
+          {
+            "label" : "Host",
+            "tab" : "host",
+            "description" : "Set which IP should be captured."
+          },
+          {
+            "label" : "Net",
+            "tab" : "net",
+            "description" : "Network segment."
+          },
+          {
+            "label" : "Net mask",
+            "tab" : "netmask",
+            "description" : "Network mask range."
+          },
+          {
+            "label" : "MAC",
+            "tab" : "mac",
+            "description" : "Set which MAC address should be captured."
+          },
+          {
+            "label" : "Enable Log",
+            "tab" : "enable_log",
+            "description" : "Enable log collection."
+          },
+          {
+            "label" : "Description",
+            "tab" : "description",
+            "description" : "Description for this log."
+          },
+          {
+            "label" : "Index",
+            "tab" : "index",
+            "description" : "Index for log."
+          },
+          {
+            "label" : "Action",
+            "tab" : "action",
+            "description" : "Download this log file from TitanWALL to host or delete it."
+          }
+        ]
+      }
+    }
   },
   "menu-13-4" :
   {

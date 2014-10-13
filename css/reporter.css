@@ -45,7 +45,7 @@ body {
     -moz-border-radius: 25px;
     border-radius: 25px;
     overflow: hidden;
-    /* border: 5px solid #EB2128; */ 
+    /* border: 5px solid #EB2128; */
     /* border-style: none solid none solid; */
 }
 
@@ -97,7 +97,7 @@ body {
 }
 
 /* chart */
-#chart-1, #chart-2, #chart-3, #chart-4, #chart-5, #chart-6 {
+#chart-1, #chart-2, #chart-3, #chart-4, #chart-5, #chart-6, #cSrcIp, #cDstIp, #cVirusName, #cProtocol {
     margin:10px 10px 10px 10px;
     min-width: 800px;
     min-height:480px;
@@ -215,11 +215,11 @@ button.Move2Next span.ui-icon {
 
 button.Move2Last span.ui-icon {
     background-position: -64px -160px;
-}		
+}
 
 button.ExportPDF span.ui-icon {
     background-position: -208px -128px;
-}		
+}
 
 /* copyright */
 #ft {
@@ -231,4 +231,29 @@ button.ExportPDF span.ui-icon {
     font-family: Verdana, Arial, sans-sefir;
     text-align: center;
     vertical-align: middle;
+}
+
+/* loading toggle */
+.modals {
+    display:    none;
+    position:   fixed;
+    z-index:    99999;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 105, 105, 105, .5 )
+                url('images/progress.gif')
+                50% 50%
+                no-repeat;
+}
+
+/* When the body has the loading class, we turn the scrollbar off with overflow:hidden  */
+body.loadingClass {
+    overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our modal element will be visible */
+body.loadingClass .modals {
+    display: block;
 }
