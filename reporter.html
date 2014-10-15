@@ -54,7 +54,7 @@
     <script type="text/javascript" src="assets/jspdf/FileSaver.js"></script>
     <script type="text/javascript" src="assets/jspdf/BlobBuilder.js"></script>
     <script type="text/javascript" src="assets/jspdf/basic.js"></script>
-<!-- custom -->
+<!-- custom CSS -->
     <link rel="stylesheet" type="text/css" href="css/reporter.css" />
 
     <script>
@@ -86,6 +86,24 @@ $(document).ready(function () {
     var gY = YUI({filter:"raw", defaultGraphicEngine: "canvas"}).use('anim', 'charts', 'charts-legend', 'console', 'cookie', 'datasource', 'datasource-get', 'datasource-io', 'datasource-jsonschema', 'datatable-base', 'datatable-sort', 'datatable-datasource', 'dd', 'dd-plugin', 'dump', 'event', 'get', 'io-base', 'io-upload-iframe', 'json', 'json-parse', 'json-stringify', 'node', 'panel', 'uploader', 'yui');
 
     // define vars
+    var gVersion = {
+        0 : {
+            version: "Tech Titan",
+            aka: '',
+            title: 'TitanWALL Web Manager',
+            copyright: 'Copyright &copy; 2014 Tech Titan',
+            multi: true
+        },
+        1: {
+            version: "Kaspersky",
+            aka: 'K',
+            title: 'TitanWALL Web Manager',
+            copyright: 'Copyright &copy; 2014 Titan ARC Corp.',
+            multi: true
+        }
+    }
+
+
     var gCooker = 'TitanWALL';
     var gLang   = 'en';
 
@@ -127,8 +145,8 @@ $(document).ready(function () {
     var gDoc   = new jsPDF('p', 'pt', 'a4');
 
     var gDocNo = { '#nv': function( element, render ) { return true; } };
-    var gImg   = 'css/images/bg_upper_06.png';
-    var gFt    = 'Copyright &copy; 2014 TECH TITAN';
+    var gImg;
+
     var gTitle = {
         "en" : {
             "Move2Firt" : "Move to First Page",
@@ -2543,21 +2561,33 @@ $(document).ready(function () {
     }
 
     $.ajax({
-        url: 'lang/' + gLang + '-protocol.txt',
+        url: 'guiIndex.php',
         dataType: 'json',
         success: function( data ) {
-            for (var i=0,len=data.length; i<len; i++)
-                gProto[ data[ i ].key ] = data[ i ].value;
+            // tell gui index for relative css
+            if (isNaN( parseInt( data ) ) || !gVersion[ data ])
+                data = 0;
+            $('head').append( '<link rel="stylesheet" type="text/css" href="css/version' + gVersion[ data ].aka + '.css" />' );
+            gImg = 'css/images/bg_upper_06' + gVersion[ data ].aka + '.png';
+            gFt  = gVersion[ data ].copyright;
         }
-    }).done( init() );
-
+    }).done( function() {
+        $.ajax({
+            url: 'lang/' + gLang + '-protocol.txt',
+            dataType: 'json',
+            success: function( data ) {
+                for (var i=0,len=data.length; i<len; i++)
+                    gProto[ data[ i ].key ] = data[ i ].value;
+            }
+        }).done( init() );
+    });
 });
 
     </script>
   </head>
   <body>
 
-    <div id="layout">
+    <div id="reporter">
       <div id="hd"></div>
       <div id="bd">
         <div id="bd_hd"></div>

@@ -38,8 +38,9 @@
     <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
     <script type="text/javascript" src="js/jquery.bgiframe.js"></script>
     <script type="text/javascript" src="js/jquery-ui-1.9.2.custom.js"></script>
-<!-- custom css -->
-    <link rel="stylesheet" type="text/css" href="css/onlineHelp.css" />
+<!-- custom CSS -->
+    <link rel="stylesheet" type="text/css" href="css/customCSS.css" />
+
 <!-- javascript -->
 
     <script type="text/javascript">
@@ -49,6 +50,23 @@
     var gRef  = {};
     var gIf   = {};
     var gNode;
+
+    var gVersion = {
+        0 : {
+            version: "Tech Titan",
+            aka: '',
+            title: 'TitanWALL Web Manager',
+            copyright: 'Copyright &copy; 2014 Tech Titan',
+            multi: true
+        },
+        1: {
+            version: "Kaspersky",
+            aka: 'K',
+            title: 'TitanWALL Web Manager',
+            copyright: 'Copyright &copy; 2014 Titan ARC Corp.',
+            multi: true
+        }
+    }
 
     gObj.cooker  = 'TitanWALL';
     gReg.isIndex = /index-(\d{1,2})(-(\d))?(-(\d))?/;
@@ -77,189 +95,201 @@
             }
 
             $.ajax({
-                url:'lang/' + gObj.lang + '-docs.txt',
+                url:'guiIndex.php',
                 dataType:'json',
                 success:function(data) {
-                    // referece by lang
-                    gRef = data;
+                    // tell gui index for relative css
+                    if (isNaN( parseInt( data ) ) || !gVersion[ data ])
+                        data = 0;
+                    $('head').append( '<link rel="stylesheet" type="text/css" href="css/version' + gVersion[ data ].aka + '.css" />' );
                 }
             }).done( function() {
+
                 $.ajax({
-                    url: 'lang/menu.txt',
-                    dataType : 'json',
-                    scriptCharset: 'utf-8',
-                    contentType: 'application/json; charset=utf-8',
+                    url:'lang/' + gObj.lang + '-docs.txt',
+                    dataType:'json',
                     success:function(data) {
-                        gObj.menu = data.menu;
-                        gObj.active = {};
-                        gObj.actived = {};
-                        gObj.active.index  = null;
-                        gObj.active.h3Arr  = [];
-                        gObj.active.h4Arr  = [];
-                        gHtml.html = '<ul class="accordion-ul">';
-
-                        for (var i=0, len=gObj.menu.length; i<len; i++)
-                        {
-                            gObj.active.h3Arr.push(gObj.menu[i].id);
-
-                            if  (gObj.menu[i].panel) {
-                                gHtml.html += '<li id="'+gObj.menu[i].id+'" class="accordion-ul-li"><h3><a href="#">'+gObj.menu[i].label+'</a></h3>';
-                                gHtml.html += '<ul class="accordion-ul-ul">';
-                                for (var j=0, jlen= gObj.menu[i].panel.length; j<jlen; j++)
-                                {
-                                    switch(typeof(gObj.menu[i].panel[j].panel) == 'object')
-                                    {
-                                    case true:
-                                        // h5
-                                        gObj.active.h4Arr.push(gObj.menu[i].panel[j].id);
-                                        gHtml.html += '<ul class="accordion-ul-ul-ul">';
-                                        gHtml.html += '<li id="'+gObj.menu[i].panel[j].id+'" class="accordion-ul-ul-ul-li"><h4><a href="#">'+gObj.menu[i].panel[j].label+'</a></h4>';
-                                        gHtml.html += '<ul class="accordion-ul-ul-ul-ul">';
-                                        for (var k=0, klen= gObj.menu[i].panel[j].panel.length; k<klen; k++)
-                                        {
-                                            gHtml.html += '<li id="'+gObj.menu[i].panel[j].panel[k].id+'" class="accordion-ul-ul-ul-ul-li index-'+i+'-'+j+'-'+k+'"><h5><a href="#">'+gObj.menu[i].panel[j].panel[k].label+'</a></h5></li>';
-                                        }
-                                        gHtml.html += '</ul>';
-                                        gHtml.html += '</li>';
-                                        gHtml.html += '</ul>';
-                                        break;
-                                    case false:
-                                        // h4
-                                        gHtml.html += '<li id="'+gObj.menu[i].panel[j].id+'" class="accordion-ul-ul-li index-'+i+'-'+j+'"><h4><a href="#">'+gObj.menu[i].panel[j].label+'</a></h4></li>';
-                                        break;
-                                    }
-                                }
-                                gHtml.html += '</ul>';
-                                gHtml.html += '</li>';
-                            } else
-                                gHtml.html += '<li id="'+gObj.menu[i].id+'" class="accordion-ul-li index-' + i + ' noPanel"><h3><a href="#">'+gObj.menu[i].label+'</a></h3></li>';
-                        }
-
-                        gHtml.html += '</ul>';
-
-                        $('#menu').html(gHtml.html);
-
-                        gObj.acc3 = $('.accordion-ul').accordion({
-                            collapsible:true,
-                            autoHeight: false
-                        });
-
-                        // remove h3 icon if no panel,,,
-                        $('.noPanel span').remove();
-
-                        gObj.acc4 = $('.accordion-ul-ul-ul').accordion({
-                            collapsible:true,
-                            active:false,
-                            autoHeight: false
-                        });
-
-                        $('.accordion-ul-li h3').on('click', function(e) {
-                            if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
-                                gIf.getSessInfo = true;
-                                gIf.refresh = true;
-                                gObj.actived = gObj.active;
-                                gObj.active = {};
-                                gObj.active.h3Index = RegExp.$1;
-                                gObj.active.h4Index = "NA";
-                                gObj.active.h5Index = "NA";
-                                gObj.active.icon    = $(this);
-                                gObj.active.pid     = $(this).parents('li').attr('id');
-                                gObj.active.target  = $(this);
-                                gObj.active.menu    = '<h3>';
-                                gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index].label+'</b>';
-                                gObj.active.menu    += '</h3>';
-
-                                $('#activedMenu').remove();
-
-                                gObj.active.icon.addClass('ui-actived');
-                                gObj.active.icon.prepend(gHtml.aMenu);
-                                gNode = gObj.menu[gObj.active.h3Index];
-                                $('#main_hd').html( gObj.active.menu );
-
-                                genMain();
-                            }
-                        });
-
-
-                        $('.accordion-ul-ul-li h4').on('click', function(e) {
-                            if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
-                                gObj.actived = gObj.active;
-                                gObj.active = {};
-                                gObj.active.h3Index = RegExp.$1;
-                                gObj.active.h4Index = RegExp.$3;
-                                gObj.active.h5Index = "NA";
-                                gObj.active.icon = $(this);
-                                gObj.active.pid     = $(this).parents('li').attr('id');
-                                gObj.active.target  = $(this);
-                                gObj.active.menu    = '<h3>';
-                                gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index].label+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].label+'</b>';
-
-                                gObj.active.menu    += '</h3>';
-
-                                // navbar
-
-                                $('#activedMenu').remove();
-
-                                gObj.active.icon.addClass('ui-actived');
-                                gObj.active.icon.prepend(gHtml.aMenu);
-                                gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index];
-                                $('#main_hd').html( gObj.active.menu );
-
-                                genMain();
-                            }
-                        });
-
-                        $('.accordion-ul-ul-ul-ul-li h5').on('click', function(e) {
-                            switch(gReg.isIndex.test($(this).parents('li').attr('class')))
-                            {
-                            case true:
-                                gObj.actived = gObj.active;
-                                gObj.active = {};
-                                gObj.active.h3Index = RegExp.$1;
-                                gObj.active.h4Index = RegExp.$3;
-                                gObj.active.h5Index = RegExp.$5;
-                                gObj.active.icon    = $(this);
-                                gObj.active.pid     = $(this).parents('li').attr('id');
-                                gObj.active.target  = $(this);
-                                gObj.active.menu    = '<h3>';
-                                gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index].label+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].label+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].panel[gObj.active.h5Index].label+'</b>';
-                                gObj.active.menu    += '</h3>';
-
-                                // navbar
-
-                                $('#activedMenu').remove();
-
-                                gObj.active.icon.addClass('ui-actived');
-                                gObj.active.icon.prepend(gHtml.aMenu);
-                                gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].panel[gObj.active.h5Index];
-                                $('#main_hd').html( gObj.active.menu );
-
-                                genMain();
-                            }
-                        });
-
-                        $('#ft .content').append('<p>Copyright &copy; 2014 TECH TITAN</p>');
-
-                        gObj.ids = gObj.id.split('-');
-                        for (var i=0, len=gObj.ids.length; i<len; i++)
-                        {
-                            switch( i )
-                            {
-                            case 1:
-                                if (2 == len) {
-                                    gObj.acc3.accordion('activate', gObj.ids[ 1 ]);
-                                }
-                                $('#' + gObj.ids[ 0 ] + '-' + gObj.ids[ 1 ] + ' h3').click();
-                                break;
-                            case 2:
-                                $('#' + gObj.ids[ 0 ] + '-' + gObj.ids[ 1 ] + '-' + gObj.ids[ 2 ] + ' h4').click();
-                                break;
-                            case 3:
-                                $('#' + gObj.ids[ 0 ] + '-' + gObj.ids[ 1 ] + '-' + gObj.ids[ 2 ] + '-' + gObj.ids[ 3 ] + ' h5').click();
-                                break;
-                            }
-                        }
+                        // referece by lang
+                        gRef = data;
                     }
+                }).done( function() {
+                    $.ajax({
+                        url: 'lang/menu.txt',
+                        dataType : 'json',
+                        scriptCharset: 'utf-8',
+                        contentType: 'application/json; charset=utf-8',
+                        success:function(data) {
+                            gObj.menu = data.menu;
+                            gObj.active = {};
+                            gObj.actived = {};
+                            gObj.active.index  = null;
+                            gObj.active.h3Arr  = [];
+                            gObj.active.h4Arr  = [];
+                            gHtml.html = '<ul class="accordion-ul">';
+
+                            for (var i=0, len=gObj.menu.length; i<len; i++)
+                            {
+                                gObj.active.h3Arr.push(gObj.menu[i].id);
+
+                                if  (gObj.menu[i].panel) {
+                                    gHtml.html += '<li id="'+gObj.menu[i].id+'" class="accordion-ul-li"><h3><a href="#">'+gObj.menu[i].label+'</a></h3>';
+                                    gHtml.html += '<ul class="accordion-ul-ul">';
+                                    for (var j=0, jlen= gObj.menu[i].panel.length; j<jlen; j++)
+                                    {
+                                        switch(typeof(gObj.menu[i].panel[j].panel) == 'object')
+                                        {
+                                        case true:
+                                            // h5
+                                            gObj.active.h4Arr.push(gObj.menu[i].panel[j].id);
+                                            gHtml.html += '<ul class="accordion-ul-ul-ul">';
+                                            gHtml.html += '<li id="'+gObj.menu[i].panel[j].id+'" class="accordion-ul-ul-ul-li"><h4><a href="#">'+gObj.menu[i].panel[j].label+'</a></h4>';
+                                            gHtml.html += '<ul class="accordion-ul-ul-ul-ul">';
+                                            for (var k=0, klen= gObj.menu[i].panel[j].panel.length; k<klen; k++)
+                                            {
+                                                gHtml.html += '<li id="'+gObj.menu[i].panel[j].panel[k].id+'" class="accordion-ul-ul-ul-ul-li index-'+i+'-'+j+'-'+k+'"><h5><a href="#">'+gObj.menu[i].panel[j].panel[k].label+'</a></h5></li>';
+                                            }
+                                            gHtml.html += '</ul>';
+                                            gHtml.html += '</li>';
+                                            gHtml.html += '</ul>';
+                                            break;
+                                        case false:
+                                            // h4
+                                            gHtml.html += '<li id="'+gObj.menu[i].panel[j].id+'" class="accordion-ul-ul-li index-'+i+'-'+j+'"><h4><a href="#">'+gObj.menu[i].panel[j].label+'</a></h4></li>';
+                                            break;
+                                        }
+                                    }
+                                    gHtml.html += '</ul>';
+                                    gHtml.html += '</li>';
+                                } else
+                                    gHtml.html += '<li id="'+gObj.menu[i].id+'" class="accordion-ul-li index-' + i + ' noPanel"><h3><a href="#">'+gObj.menu[i].label+'</a></h3></li>';
+                            }
+
+                            gHtml.html += '</ul>';
+
+                            $('#menu').html(gHtml.html);
+
+                            gObj.acc3 = $('.accordion-ul').accordion({
+                                collapsible:true,
+                                autoHeight: false
+                            });
+
+                            // remove h3 icon if no panel,,,
+                            $('.noPanel span').remove();
+
+                            gObj.acc4 = $('.accordion-ul-ul-ul').accordion({
+                                collapsible:true,
+                                active:false,
+                                autoHeight: false
+                            });
+
+                            $('.accordion-ul-li h3').on('click', function(e) {
+                                if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
+                                    gIf.getSessInfo = true;
+                                    gIf.refresh = true;
+                                    gObj.actived = gObj.active;
+                                    gObj.active = {};
+                                    gObj.active.h3Index = RegExp.$1;
+                                    gObj.active.h4Index = "NA";
+                                    gObj.active.h5Index = "NA";
+                                    gObj.active.icon    = $(this);
+                                    gObj.active.pid     = $(this).parents('li').attr('id');
+                                    gObj.active.target  = $(this);
+                                    gObj.active.menu    = '<h3>';
+                                    gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index].label+'</b>';
+                                    gObj.active.menu    += '</h3>';
+
+                                    $('#activedMenu').remove();
+
+                                    gObj.active.icon.addClass('ui-actived');
+                                    gObj.active.icon.prepend(gHtml.aMenu);
+                                    gNode = gObj.menu[gObj.active.h3Index];
+                                    $('#main_hd').html( gObj.active.menu );
+
+                                    genMain();
+                                }
+                            });
+
+
+                            $('.accordion-ul-ul-li h4').on('click', function(e) {
+                                if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
+                                    gObj.actived = gObj.active;
+                                    gObj.active = {};
+                                    gObj.active.h3Index = RegExp.$1;
+                                    gObj.active.h4Index = RegExp.$3;
+                                    gObj.active.h5Index = "NA";
+                                    gObj.active.icon = $(this);
+                                    gObj.active.pid     = $(this).parents('li').attr('id');
+                                    gObj.active.target  = $(this);
+                                    gObj.active.menu    = '<h3>';
+                                    gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index].label+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].label+'</b>';
+
+                                    gObj.active.menu    += '</h3>';
+
+                                    // navbar
+
+                                    $('#activedMenu').remove();
+
+                                    gObj.active.icon.addClass('ui-actived');
+                                    gObj.active.icon.prepend(gHtml.aMenu);
+                                    gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index];
+                                    $('#main_hd').html( gObj.active.menu );
+
+                                    genMain();
+                                }
+                            });
+
+                            $('.accordion-ul-ul-ul-ul-li h5').on('click', function(e) {
+                                switch(gReg.isIndex.test($(this).parents('li').attr('class')))
+                                {
+                                case true:
+                                    gObj.actived = gObj.active;
+                                    gObj.active = {};
+                                    gObj.active.h3Index = RegExp.$1;
+                                    gObj.active.h4Index = RegExp.$3;
+                                    gObj.active.h5Index = RegExp.$5;
+                                    gObj.active.icon    = $(this);
+                                    gObj.active.pid     = $(this).parents('li').attr('id');
+                                    gObj.active.target  = $(this);
+                                    gObj.active.menu    = '<h3>';
+                                    gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index].label+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].label+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].panel[gObj.active.h5Index].label+'</b>';
+                                    gObj.active.menu    += '</h3>';
+
+                                    // navbar
+
+                                    $('#activedMenu').remove();
+
+                                    gObj.active.icon.addClass('ui-actived');
+                                    gObj.active.icon.prepend(gHtml.aMenu);
+                                    gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].panel[gObj.active.h5Index];
+                                    $('#main_hd').html( gObj.active.menu );
+
+                                    genMain();
+                                }
+                            });
+
+                            $('#ft .content').append('<p>Copyright &copy; 2014 TECH TITAN</p>');
+
+                            gObj.ids = gObj.id.split('-');
+                            for (var i=0, len=gObj.ids.length; i<len; i++)
+                            {
+                                switch( i )
+                                {
+                                case 1:
+                                    if (2 == len) {
+                                        gObj.acc3.accordion('activate', gObj.ids[ 1 ]);
+                                    }
+                                    $('#' + gObj.ids[ 0 ] + '-' + gObj.ids[ 1 ] + ' h3').click();
+                                    break;
+                                case 2:
+                                    $('#' + gObj.ids[ 0 ] + '-' + gObj.ids[ 1 ] + '-' + gObj.ids[ 2 ] + ' h4').click();
+                                    break;
+                                case 3:
+                                    $('#' + gObj.ids[ 0 ] + '-' + gObj.ids[ 1 ] + '-' + gObj.ids[ 2 ] + '-' + gObj.ids[ 3 ] + ' h5').click();
+                                    break;
+                                }
+                            }
+                        }
+                    });
                 });
             });
         }
@@ -574,7 +604,7 @@
 
   </head>
   <body>
-    <div id="layout">
+    <div id="onlineHelp">
       <div class="content">
         <div id="menu"></div>
         <div id="main">

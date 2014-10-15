@@ -5,7 +5,6 @@ html {
 
 /* layout outline */
 #outline {
-    background: url('images/bg_upper_06K.png') top center no-repeat;
     min-width: 1024px;
 }
 
@@ -27,7 +26,6 @@ html {
     height: 123px;
     color: black;
 }
-
 
 #hd_timer {
     position: absolute;
@@ -218,7 +216,6 @@ html {
     height: 667px;
     padding: 0;
     top: -2px;
-    background-color: #007260;
 }
 
 #main {
@@ -231,14 +228,6 @@ html {
 
 #main_hd {
     position: relative;
-    background: #007260;
-    width: 824px;
-    height: 26px;
-    padding: 0 3px 3px 3px;
-    margin: 3px 10px;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    border-radius: 8px;
 }
 
 #main_bd {
@@ -271,7 +260,6 @@ html {
     margin: 0;
     padding: 0;
     border: none;
-    background-color: #007260;
 }
 
 /* footer */
@@ -282,7 +270,6 @@ html {
     width: 844px;
     height: 20px;
     padding: 0;
-    background-color: black;
 }
 
 #ft div {
@@ -305,7 +292,6 @@ a:link { text-decoration: none;}
     width: 400px;
     height: 230px;
     margin: 150px auto;
-    background: url('images/bg_upper_06K.png') top center no-repeat;
     border: 1px solid gray;
     letter-spacing: normal;
     word-spacing: normal;
@@ -317,59 +303,12 @@ a:link { text-decoration: none;}
     width: 400px;
     height: 230px;
     margin: 150px auto;
-    background: url('images/banned.png') center center no-repeat, url('images/bg_upper_06K.png') top center no-repeat;
     background-size: 75%, 400%;
     border: 1px solid gray;
     letter-spacing: normal;
     word-spacing: normal;
     color: black;
     overflow: hidden;
-}
-
-#login_top {
-    background: #007260;
-    height: 3px;
-    width: 100%;
-}
-
-#login_mark {
-  position: absolute;
-  width: 110px;
-  height: 50px;
-  border-radius: 50% / 10%;
-  color: white;
-  background: #007260;
-  text-align: center;
-  text-indent: .1em;
-  top: -15px;
-  left: 145px;
-}
-
-#login_mark:before {
-  content: '';
-  position: absolute;
-  top: 10%;
-  bottom: 10%;
-  right: -5%;
-  left: -5%;
-  background: inherit;
-  border-radius: 5% / 50%;
-}
-
-
-#login_label {
-    position: absolute;
-    top: 2px;
-    left: 151px;
-    font:italic bold 12pt/22pt Georgia, serif;
-    color: white;
-    text-shadow: 0.4em 0.4em 0.8em #333;
-}
-
-#login_label span {
-    position: absolute;
-    font-size: 6pt;
-    top: -5px;
 }
 
 #loginDiv table {
@@ -395,7 +334,6 @@ a:link { text-decoration: none;}
 
 #loginButton {
     cursor: pointer;
-    background-color: rgb(248, 248, 248);
 }
 
 #loginButton:hover {
@@ -424,22 +362,6 @@ a:link { text-decoration: none;}
     padding: 0;
     border: none;
     border-radius: 0;
-}
-
-#menu h3 a {
-    font-weight: 900;
-}
-
-#menu h4.ui-state-active a {
-    color: #ea212d;
-}
-
-#menu h4 a {
-    font-weight: 500;
-}
-
-#menu h5 a {
-    font-weight: 100;
 }
 
 #menu li {
@@ -494,7 +416,6 @@ a:link { text-decoration: none;}
 }
 
 #menu .accordion-ul-li h3.ui-state-default:hover a {
-    color: black;
     top: 10px;
 }
 
@@ -507,31 +428,13 @@ a:link { text-decoration: none;}
 }
 
 #menu .accordion-ul-li h3.ui-state-active {
-    background: #007460;
     border: none;
     height: 34px;
-background: #007460;
-background: -moz-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
-background: -webkit-gradient(left top, left bottom, color-stop(0%, #007460), color-stop(51%, #f6f6f6), color-stop(100%, #007260));
-background: -webkit-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
-background: -o-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
-background: -ms-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
-background: linear-gradient(to bottom, #007460 0%, #f6f6f6 51%, #007260 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007460', endColorstr='#007260', GradientType=0 );
 }
 
 #menu .accordion-ul-li h3:hover {
-    background: #007260;
     border: none;
     height: 34px;
-background: #007460;
-background: -moz-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
-background: -webkit-gradient(left top, left bottom, color-stop(0%, #007460), color-stop(51%, #f6f6f6), color-stop(100%, #007260));
-background: -webkit-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
-background: -o-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
-background: -ms-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
-background: linear-gradient(to bottom, #007460 0%, #f6f6f6 51%, #007260 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007460', endColorstr='#007260', GradientType=0 );
 }
 
 #menu .accordion-ul-li h3.ui-state-default:hover span.ui-icon {
@@ -539,7 +442,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007460', end
 }
 
 #menu .accordion-ul-li h3.ui-state-active a {
-    color: #ea212d;
     top: 10px;
 }
 
@@ -552,7 +454,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007460', end
 }
 
 #menu .accordion-ul-ul-li h4, #menu .accordion-ul-ul-ul-li h4.ui-state-default {
-    background: #007260;
     border: none;
     width: 180px;
     height: 26px;
@@ -567,15 +468,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007460', end
 
 #menu .accordion-ul-ul-ul-li h4.ui-state-active {
     border: none;
-background: #008270;
-background: -moz-linear-gradient(top, #008270 0%, #d1d1d1 51%, #008270 100%);
-background: -webkit-gradient(left top, left bottom, color-stop(0%, #008270), color-stop(51%, #d1d1d1), color-stop(100%, #008270));
-background: -webkit-linear-gradient(top, #008270 0%, #d1d1d1 51%, #008270 100%);
-background: -o-linear-gradient(top, #008270 0%, #d1d1d1 51%, #008270 100%);
-background: -ms-linear-gradient(top, #008270 0%, #d1d1d1 51%, #008270 100%);
-background: linear-gradient(to bottom, #008270 0%, #d1d1d1 51%, #008270 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#008270', endColorstr='#008270', GradientType=0 );
 }
+
 #menu .accordion-ul-ul-ul-li h4.ui-state-active span.ui-icon {
     background-image: url('images/icon_switch_s_0.png');
     background-size: 20px 20px;
@@ -584,7 +478,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#008270', end
 }
 
 #menu .accordion-ul-ul-ul-ul-li h5 {
-    background: #008270;
     border: none;
     width: 180px;
     height: 26px;
@@ -614,20 +507,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#008270', end
 #activedMenu {
     width: 16px;
     height: 16px;
-    background-position: -208px -192px;
     position: absolute;
 }
 
 h3 #activedMenu {
     top: 8px;
-    left: 8px;
-    background-image: url('images/ui-icons_cc0000_256x240.png');
-}
-
-h4 #activedMenu, h5 #activedMenu {
-    top: 6px;
-    left: 8px;
-    background-image: url('images/ui-icons_ffffff_256x240.png');
 }
 
 #manaul h4 {
@@ -1664,7 +1548,7 @@ span.newUsername.isKO {
 select[multiple] {
     width: 200px;
     height: 100px;
-    padding: 0;
+    padding: 5px;
     margin: 0;
 }
 
@@ -1686,20 +1570,21 @@ select[multiple] {
     margin:10px 10px 10px 10px;
     width: 800px;
     height:480px;
+    overflow: hidden;
 }
 
 #cpuChart {
+    position: relative;
     width: 150px;
     height: 150px;
-    position: relative;
     top: 5px;
     left: 20px;
 }
 
 #memChart {
+    position: relative;
     width: 150px;
     height: 150px;
-    position: relative;
     top: 5px;
     left: 20px;
 }

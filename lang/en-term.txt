@@ -1,6 +1,6 @@
 {
   "lang" : "en",
-  "term" : 
+  "term" :
   {
     "checkFirmware" : "Check Firmware",
     "switchFirmware" : "Switch Firmware",
@@ -38,6 +38,7 @@
     "wait" : "Wait",
     "for" : "For",
     "aggregateBy" : "Aggregate By",
+
     "severity" : "Severity",
     "facility" : "Facility",
     "source" : "Source",
@@ -57,6 +58,7 @@
     "IP" : "IP",
     "MAC" : "MAC",
     "cMAC" : "Create MAC",
+
     "dhcpBinding" : "DHCP Binding",
     "user" : "User",
     "extension" : "Extension",
@@ -76,6 +78,7 @@
     "NAT" : "NAT",
     "DNS" : "DNS",
     "server" : "Server",
+
     "gateway" : "Gateway",
     "IPsec" : "IPsec",
     "policy" : "Policy",
@@ -95,6 +98,9 @@
     "interface" : "Interface",
     "config" : "Configuration",
     "list" : "List",
+
+    "database" : "Database",
+    "both" : "Both",
     "backup_restore_export" : "export profile",
     "backup_restore_import" : "import profile",
     "ip_mac_binding_import" : "import ip mac binding",
@@ -110,7 +116,9 @@
     "reboot" : "reboot will take ",
     "reset" : "reset will take ",
     "shutdown" : "shutdown will take ",
+    "fpath" : "Select file from usb",
     "btnOK" : "Okay",
+
     "btnNO" : "Cancel",
     "btnSave" : "Save Settings",
     "btnCancel" : "Cancel Settings",
@@ -130,6 +138,7 @@
     "btnStart" : "Start Diagnostic",
     "btnStop" : "Stop Diagnostic",
     "btnCheck" : "Check User Name",
+
     "btnNewFirmware" : "New Firmware Available",
     "btnMove2White" : "Move Selected Settings to Whitelist",
     "btnHistory" : "History of Selected Whitelist",
@@ -139,6 +148,7 @@
     "btnWeekly" : "Show Weekly Report",
     "btnMinimize" : "Minimize Window",
     "btnClose" : "Close Window",
-    "btnSearch" : "Search data"
+    "btnSearch" : "Search data",
+    "btnUpload" : "Select File"
   }
 }

@@ -17,7 +17,7 @@ body {
 }
 
 /* main layout */
-#layout {
+#reporter {
     position: relative;
     margin: 0 auto; /* center in viewport */
     min-width: 1004px; /* fix page width */
@@ -25,7 +25,6 @@ body {
     min-height: 748px; /* fix page width */
     letter-spacing: 0;
     word-spacing: 0;
-    background: url('images/bg_upper_06.png') top center no-repeat;
     overflow: hidden;
 }
 
@@ -45,8 +44,6 @@ body {
     -moz-border-radius: 25px;
     border-radius: 25px;
     overflow: hidden;
-    /* border: 5px solid #EB2128; */
-    /* border-style: none solid none solid; */
 }
 
 /* title */
@@ -54,7 +51,6 @@ body {
     position: relative;
     width: 100%;
     height: 30px;
-    background: #EB2128;
     margin: 0 auto;
     padding: 0 10px;
 }
@@ -63,6 +59,14 @@ body {
     font-family: Verdana, Arial, sans-serif;
     text-align: center;
     color: white;
+    padding-top: 5px;
+}
+
+#bd_bd h1 {
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 18pt;
+    text-align: center;
+    color: black;
     padding-top: 5px;
 }
 
@@ -79,8 +83,6 @@ body {
 
 .tabber ul {
     background: transparent;
-    border: 2px solid #EB2128;
-    border-style: none none solid none;
 }
 
 .tabber ul li {
@@ -171,7 +173,6 @@ table tr th.px100 {
     position: relative;
     width: 100%;
     height: 30px;
-    background: #EB2128;
     margin: 0 auto;
     padding: 0 10px;
 }

@@ -5,7 +5,6 @@ html {
 
 /* layout outline */
 #outline {
-    background: url('images/bg_upper_06.png') top center no-repeat;
     min-width: 1024px;
 }
 
@@ -26,10 +25,6 @@ html {
     width: 1024px;
     height: 123px;
     color: black;
-}
-
-#hd .content {
-
 }
 
 #hd_timer {
@@ -221,7 +216,6 @@ html {
     height: 667px;
     padding: 0;
     top: -2px;
-    background-color: #625b57;
 }
 
 #main {
@@ -234,11 +228,6 @@ html {
 
 #main_hd {
     position: relative;
-    background: url('images/tab_bar_00.png') top left no-repeat;
-    width: 844px;
-    height: 32px;
-    margin: 0;
-    padding: 0;
 }
 
 #main_bd {
@@ -271,7 +260,6 @@ html {
     margin: 0;
     padding: 0;
     border: none;
-    background-color: #b1422f;
 }
 
 /* footer */
@@ -282,7 +270,6 @@ html {
     width: 844px;
     height: 20px;
     padding: 0;
-    background-color: #625b57;
 }
 
 #ft div {
@@ -305,7 +292,6 @@ a:link { text-decoration: none;}
     width: 400px;
     height: 230px;
     margin: 150px auto;
-    background: url('images/bg_upper_06.png') top center no-repeat;
     border: 1px solid gray;
     letter-spacing: normal;
     word-spacing: normal;
@@ -313,15 +299,16 @@ a:link { text-decoration: none;}
 }
 
 #redirectDiv {
+    position: relative;
     width: 400px;
     height: 230px;
     margin: 150px auto;
-    background: url('images/banned.png') center center no-repeat, url('images/bg_upper_06.png') top center no-repeat;
     background-size: 75%, 400%;
     border: 1px solid gray;
     letter-spacing: normal;
     word-spacing: normal;
     color: black;
+    overflow: hidden;
 }
 
 #loginDiv table {
@@ -429,7 +416,6 @@ a:link { text-decoration: none;}
 }
 
 #menu .accordion-ul-li h3.ui-state-default:hover a {
-    color: white;
     top: 10px;
 }
 
@@ -442,13 +428,11 @@ a:link { text-decoration: none;}
 }
 
 #menu .accordion-ul-li h3.ui-state-active {
-    background: url('images/m1.jpg');
     border: none;
     height: 34px;
 }
 
 #menu .accordion-ul-li h3:hover {
-    background: url('images/m1.jpg');
     border: none;
     height: 34px;
 }
@@ -458,7 +442,6 @@ a:link { text-decoration: none;}
 }
 
 #menu .accordion-ul-li h3.ui-state-active a {
-    color: white;
     top: 10px;
 }
 
@@ -471,7 +454,6 @@ a:link { text-decoration: none;}
 }
 
 #menu .accordion-ul-ul-li h4, #menu .accordion-ul-ul-ul-li h4.ui-state-default {
-    background: url('images/m2.jpg');
     border: none;
     width: 180px;
     height: 26px;
@@ -486,8 +468,8 @@ a:link { text-decoration: none;}
 
 #menu .accordion-ul-ul-ul-li h4.ui-state-active {
     border: none;
-    background: url('images/m2.jpg');
 }
+
 #menu .accordion-ul-ul-ul-li h4.ui-state-active span.ui-icon {
     background-image: url('images/icon_switch_s_0.png');
     background-size: 20px 20px;
@@ -496,7 +478,6 @@ a:link { text-decoration: none;}
 }
 
 #menu .accordion-ul-ul-ul-ul-li h5 {
-    background: url('images/m3.jpg');
     border: none;
     width: 180px;
     height: 26px;
@@ -526,11 +507,7 @@ a:link { text-decoration: none;}
 #activedMenu {
     width: 16px;
     height: 16px;
-    background-image: url('images/ui-icons_ffffff_256x240.png');
-    background-position: -208px -192px;
     position: absolute;
-    top: 6px;
-    left: 8px;
 }
 
 h3 #activedMenu {
@@ -1571,7 +1548,7 @@ span.newUsername.isKO {
 select[multiple] {
     width: 200px;
     height: 100px;
-    padding: 0;
+    padding: 5px;
     margin: 0;
 }
 
@@ -1605,9 +1582,9 @@ select[multiple] {
 }
 
 #memChart {
+    position: relative;
     width: 150px;
     height: 150px;
-    position: relative;
     top: 5px;
     left: 20px;
 }
@@ -1626,7 +1603,7 @@ table.DataChart th {
 
 /* overflows */
 #menu {
-//    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 #menu ul {
@@ -1792,7 +1769,6 @@ span.linkStatus.linkDown {
 
 div {
     /* font-family: "Lucida Grande", "Times New Roman", Times, serif; */
-
 }
 
 /* by menu */

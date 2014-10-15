@@ -1,5 +1,5 @@
 ﻿{
-  "pending" : 
+  "pending" :
   {
     "checkFirmware" : 10,
     "upgradeFirmware" : 45,
@@ -14,29 +14,31 @@
     "reboot" : 100,
     "reset" : 100,
     "shutdown" : 20,
-    "restoreConf" : 100
+    "restoreConf" : 100,
+    "backup_restore" : 100,
+    "applyProfile" : 100
   },
-  "div" : 
+  "div" :
   {
-    "tabs": "标签列表", 
-    "tabsForm": "标签形式" 
+    "tabs": "标签列表",
+    "tabsForm": "标签形式"
   },
-  "table" : 
+  "table" :
   {
-    "dual": "DualList", 
-    "list": "DataList", 
+    "dual": "DualList",
+    "list": "DataList",
     "chart": "DataChart"
   },
-  "cgiPerPage" : 
+  "cgiPerPage" :
   [
-    "20", 
-    "50", 
+    "20",
+    "50",
     "100"
   ],
-  "phpPerPage" : 
+  "phpPerPage" :
   [
-    "20", 
-    "50", 
+    "20",
+    "50",
     "100"
   ],
   "mixPerPage" :
@@ -45,21 +47,21 @@
     "50",
     "100"
   ],
-  "dashboard_port" : 
+  "dashboard_port" :
   {
-    "speed" : 
+    "speed" :
     {
-      "0"   : "自动", 
-      "10"  : "10", 
-      "100" : "100", 
+      "0"   : "自动",
+      "10"  : "10",
+      "100" : "100",
       "1000": "1000"
     },
-    "duplex" : 
+    "duplex" :
     {
       "0": "全双工",
       "1": "半双工"
     },
-    "link" : 
+    "link" :
     {
       "0": "Down",
       "1": "Up"
@@ -67,7 +69,7 @@
   },
   "dashboard_lan" :
   {
-    "type" : 
+    "type" :
     {
       "0": "禁用",
       "1": "DHCP 服务器",
@@ -76,7 +78,7 @@
   },
   "dashboard_log" :
   {
-    "level" : 
+    "level" :
     {
       "0": "紧急",
       "1": "警戒",
@@ -85,12 +87,12 @@
       "4": "警告",
       "5": "通知",
       "6": "信息",
-      "7": "调试" 
+      "7": "调试"
     }
   },
-  "query" : 
+  "query" :
   {
-    "wan_bandwidth_report" : 
+    "wan_bandwidth_report" :
     {
       "0": "小时",
       "1": "日",
@@ -107,14 +109,14 @@
     "30" : "每30秒刷新",
     "60" : "每60秒刷新"
   },
-  "privilege" : 
+  "privilege" :
   {
     "1": "只读",
     "3": "管理员"
   },
-  "dhcpLeases" : 
+  "dhcpLeases" :
   {
-    "dhcpLeasesT" : 
+    "dhcpLeasesT" :
     [
       "address",
       "mac",
@@ -130,59 +132,59 @@
       "1" : "Up"
     }
   },
-  "dhcpServer" : 
-  { 
-    "type" : 
+  "dhcpServer" :
+  {
+    "type" :
     {
       "0": "禁用",
       "1": "DHCP 服务器",
       "2": "DHCP 中继"
     }
   },
-  "port" : 
+  "port" :
   {
-    "speed" : 
+    "speed" :
     {
       "0": "自动",
       "10": "10",
       "100": "100",
       "1000": "1000"
     },
-    "duplex" : 
+    "duplex" :
     {
       "0": "全双工",
       "1": "半双工"
     },
-    "type" : 
+    "type" :
     {
       "0": "LAN",
       "1": "WAN",
       "2": "Bridged"
     },
-    "linkStatus" : 
+    "linkStatus" :
     {
       "0": "Down",
       "1": "Up"
     },
-    "dhcpType" : 
+    "dhcpType" :
     {
       "0": "禁用",
       "1": "DHCP服务器",
       "2": "DHCP中继"
     }
   },
-  "lan" : 
+  "lan" :
   {
-    "type" : 
+    "type" :
     {
       "0": "禁用",
       "1": "DHCP服务器",
       "2": "DHCP中继"
     },
-    "stp" : 
+    "stp" :
     {
       "0": "禁用",
-      "1": "qiyong "
+      "1": "启用"
     }
   },
   "vlan" :
@@ -211,21 +213,21 @@
       "GE8" : ""
     }
   },
-  "vlan_interfaces" : 
+  "vlan_interfaces" :
   {
-    "dhcpType" : 
+    "dhcpType" :
     {
       "0": "禁用",
       "1": "DHCP服务器",
       "2": "DHCP中继"
     },
-    "type" : 
+    "type" :
     {
       "0": "LAN",
       "1": "WAN",
       "2": "Bridged"
     },
-    "interface" : 
+    "interface" :
     {
       "GE1" : "",
       "GE2" : "",
@@ -237,9 +239,9 @@
       "GE8" : ""
     }
   },
-  "wan" : 
+  "wan" :
   {
-    "free" : 
+    "free" :
     {
       "WAN1" : true,
       "WAN2" : true,
@@ -248,7 +250,7 @@
       "WAN5" : true,
       "WAN6" : true
     },
-    "weightVal" : 
+    "weightVal" :
     {
       "10" : 10,
       "30" : 30,
@@ -256,7 +258,7 @@
       "70" : 70,
       "90" : 90
     },
-    "weight" : 
+    "weight" :
     {
       "10" : "非常低速",
       "30" : "低速",
@@ -264,51 +266,52 @@
       "70" : "高速",
       "90" : "非常高速"
     },
-    "wanProto" : 
+    "wanProto" :
     {
       "0" : "静态",
-      "1" : "DHCP获取"
+      "1" : "DHCP获取",
+      "2" : "PPPoE"
     },
-    "interfaces" : 
-    { 
+    "interfaces" :
+    {
       "0": "所有",
       "1": "WAN1",
       "2": "WAN2",
       "3": "WAN3",
       "4": "WAN4",
       "5": "WAN5",
-      "6": "WAN6" 
+      "6": "WAN6"
     }
   },
-  "zone" : 
+  "zone" :
   {
     "member" : {}
   },
-  "s2svpn" : 
+  "s2svpn" :
   {
-    "enable" : 
+    "enable" :
     {
       "0": "禁用",
       "1": "启用"
     },
-    "infoStatus" : 
+    "infoStatus" :
     {
       "0": "Down",
       "1": "Up",
       "2": "Down"
     },
-    "remoteGwType" : 
+    "remoteGwType" :
     {
       "0": "动态IP",
-      "1": "静态IPIP",
+      "1": "静态IP",
       "2": "FQDN"
     },
-    "phase1AuthType" : 
+    "phase1AuthType" :
     {
       "0": "预共享密钥(Preshare）",
       "1": "证书"
     },
-    "dpdaction" : 
+    "dpdaction" :
     {
       "1": "保持",
       "2": "清除",
@@ -317,75 +320,76 @@
     "backupPolicy" : {},
     "freez"        : []
   },
-  "ipsectransform" : 
+  "ipsectransform" :
   {
-    "cipher" : 
+    "cipher" :
     {
-      "3des"   : "ESP_3DES", 
-      "aes128" : "ESP_AES_128", 
-      "aes192" : "ESP_AES_192", 
+      "des"   : "ESP_DES",
+      "3des"   : "ESP_3DES",
+      "aes128" : "ESP_AES_128",
+      "aes192" : "ESP_AES_192",
       "aes256" : "ESP_AES_256"
     },
     "hash" : {
-      "sha1" : "SHA_1", 
+      "sha1" : "SHA_1",
       "md5" : "MD5"
     },
-    "pfsgroup" : 
+    "pfsgroup" :
     {
-      "modp1024" : "Group 2 (1024 bits)", 
-      "modp1536" : "Group 5 (1536 bits)", 
-      "modp2048" : "Group 14 (2048 bits)", 
-      "modp3072" : "Group 15 (3072 bits)", 
-      "modp4096" : "Group 16 (4096 bits)", 
-      "modp6144" : "Group 17 (6144 bits)", 
+      "modp1024" : "Group 2 (1024 bits)",
+      "modp1536" : "Group 5 (1536 bits)",
+      "modp2048" : "Group 14 (2048 bits)",
+      "modp3072" : "Group 15 (3072 bits)",
+      "modp4096" : "Group 16 (4096 bits)",
+      "modp6144" : "Group 17 (6144 bits)",
       "modp8192" : "Group 18 (8192 bits)"
     }
   },
-  "ipsecike" : 
+  "ipsecike" :
   {
-    "cipher" : 
+    "cipher" :
     {
-      "des"    : "ESP_DES", 
-      "3des"   : "ESP_3DES", 
-      "aes128" : "ESP_AES_128", 
-      "aes192" : "ESP_AES_192", 
+      "des"    : "ESP_DES",
+      "3des"   : "ESP_3DES",
+      "aes128" : "ESP_AES_128",
+      "aes192" : "ESP_AES_192",
       "aes256" : "ESP_AES_256"
     },
-    "hash" : 
+    "hash" :
     {
-      "sha1" : "SHA_1", 
+      "sha1" : "SHA_1",
       "md5" : "MD5"
     },
-    "dhgroup" : 
+    "dhgroup" :
     {
-      "modp1024" : "Group 2 (1024 bits)", 
-      "modp1536" : "Group 5 (1536 bits)", 
-      "modp2048" : "Group 14 (2048 bits)", 
-      "modp3072" : "Group 15 (3072 bits)", 
-      "modp4096" : "Group 16 (4096 bits)", 
-      "modp6144" : "Group 17 (6144 bits)", 
+      "modp1024" : "Group 2 (1024 bits)",
+      "modp1536" : "Group 5 (1536 bits)",
+      "modp2048" : "Group 14 (2048 bits)",
+      "modp3072" : "Group 15 (3072 bits)",
+      "modp4096" : "Group 16 (4096 bits)",
+      "modp6144" : "Group 17 (6144 bits)",
       "modp8192" : "Group 18 (8192 bits)"
     }
   },
-  "rules" : 
+  "rules" :
   {
-    "enabled" : 
+    "enabled" :
     {
-      "0": "禁用", 
-      "1": "启用" 
+      "0": "禁用",
+      "1": "启用"
     },
-    "log" : 
+    "log" :
     {
-      "0": "禁用", 
-      "1": "启用" 
+      "0": "禁用",
+      "1": "启用"
     },
-    "matchAction" : 
-    { 
-      "0": "拒绝", 
-      "1": "允许", 
-      "2": "Accounting" 
+    "matchAction" :
+    {
+      "0": "拒绝",
+      "1": "允许",
+      "2": "Accounting"
     },
-    "policy" : 
+    "policy" :
     {
       "0" : "拒绝",
       "1" : "允许"
@@ -393,74 +397,82 @@
     "query" : false,
     "move"  : []
   },
-  "dynamicPat" : 
+  "dynamicPat" :
   {
-    "mode" : 
-    { 
-      "0": "自动", 
-      "1": "手动" 
+    "mode" :
+    {
+      "0": "自动",
+      "1": "手动"
     }
   },
-  "advancedNat" : 
+  "advancedNat" :
   {
-    "enabled" : 
+    "enabled" :
     {
-      "0": "禁用", 
-      "1": "启用" 
+      "0": "禁用",
+      "1": "启用"
     }
   },
   "portForwarding" :
   {
-    "wan" : 
-    { 
-      "0": "所有", 
-      "1": "WAN1", 
-      "2": "WAN2", 
-      "3": "WAN3", 
-      "4": "WAN4", 
-      "5": "WAN5", 
-      "6": "WAN6" 
-    }
-  },
-  "staticNat" : 
-  {
-    "wanInterface" : 
-    { 
-      "WAN1": "WAN1", 
-      "WAN2": "WAN2", 
-      "WAN3": "WAN3", 
-      "WAN4": "WAN4", 
-      "WAN5": "WAN5", 
-      "WAN6": "WAN6" 
-    }
-  },
-  "dynamicPat" : 
-  {
-    "mode" : 
+    "wan" :
     {
-      "0": "自动", 
+      "0": "所有",
+      "1": "WAN1",
+      "2": "WAN2",
+      "3": "WAN3",
+      "4": "WAN4",
+      "5": "WAN5",
+      "6": "WAN6"
+    }
+  },
+  "staticNat" :
+  {
+    "wanInterface" :
+    {
+      "WAN1": "WAN1",
+      "WAN2": "WAN2",
+      "WAN3": "WAN3",
+      "WAN4": "WAN4",
+      "WAN5": "WAN5",
+      "WAN6": "WAN6"
+    }
+  },
+  "dynamicPat" :
+  {
+    "mode" :
+    {
+      "0": "自动",
       "1": "手动"
     }
   },
-  "managementInterface" : 
+  "managementInterface" :
   {
-    "enabled" : 
+    "enabled" :
     {
-      "0": "禁用", 
+      "0": "禁用",
       "1": "启用"
     }
   },
-  "group" : 
+  "ipMacBinding" :
+  {
+    "mode" :
+    {
+      "0": "Permit and others drop",
+      "1": "Drop and other permit"
+    }
+  },
+  "group" :
   {
     "defaultGroup" : "default",
     "defaultGroupGid" : 0,
-    "webLoginPriv" : 
+    "webLoginPriv" :
     {
       "0" : "禁用",
       "1" : "只读",
       "3" : "管理员"
     },
-    "portalPriv" : 
+    "portalPriv" :
     {
       "0" : "禁用",
       "1" : "启用"
@@ -482,7 +494,7 @@
       "1" : "启用"
     }
   },
-  "address": 
+  "address":
   {
     "type" :
     {
@@ -505,6 +517,10 @@
     "type4" :
     {
       "1" : "主机"
+    },
+    "type5" :
+    {
+      "4" : "MAC"
     }
   },
   "addressObj":
@@ -530,6 +546,10 @@
     "type4" :
     {
       "1" : "主机"
+    },
+    "type5" :
+    {
+      "4" : "MAC"
     }
   },
   "common_addr_list":
@@ -555,6 +575,10 @@
     "type4" :
     {
       "1" : "主机"
+    },
+    "type5" :
+    {
+      "4" : "MAC"
     }
   },
   "service" :
@@ -574,9 +598,9 @@
       "2" : "UDP"
     }
   },
-  "serviceObj" : 
+  "serviceObj" :
   {
-    "type" : 
+    "type" :
     {
       "0" : "TCP & UDP",
       "1" : "TCP",
@@ -584,7 +608,7 @@
       "3" : "ICMP",
       "4" : "IP"
     },
-    "type2" : 
+    "type2" :
     {
       "0" : "TCP & UDP",
       "1" : "TCP",
@@ -593,7 +617,7 @@
   },
   "common_service_list" :
   {
-    "type" : 
+    "type" :
     {
       "0" : "TCP & UDP",
       "1" : "TCP",
@@ -601,7 +625,7 @@
       "3" : "ICMP",
       "4" : "IP"
     },
-    "type2" : 
+    "type2" :
     {
       "0" : "TCP & UDP",
       "1" : "TCP",
@@ -647,7 +671,6 @@
       "2" : "所有天家规定的时间",
       "3" : "所有天加所有时间",
       "4" : "所有天家规定的时间"
-
     },
     "day" :
     {
@@ -674,28 +697,39 @@
       "1" : "enable",
       "0" : "disable"
     },
-    "httpAct": 
+    "httpAct":
     {
       "0": "无",
       "1": "通知",
       "2": "通知 + 断开连接"
     },
-    "ftpAct": 
+    "ftpAct":
     {
       "0": "无",
       "1": "断开连接"
     },
-    "smtpAct": 
+    "smtpAct":
     {
       "0": "无",
       "1": "通知",
       "2": "通知 + 拦截文件"
     },
-    "pop3Act": 
+    "pop3Act":
     {
       "0": "无",
       "1": "通知",
       "2": "通知 + 拦截文件"
+    },
+    "cifsAct":
+    {
+      "0": "无",
+      "1": "断开连接"
+    },
+    "imapAct":
+    {
+      "0": "None",
+      "1": "Notify",
+      "2": "Notify + Destruct file"
     },
     "features" : {
       "1" : "反病毒",
@@ -705,10 +739,10 @@
     "type" : {
       "0" : "每小时",
       "1" : "每天",
-      "2" : "没星期"
+      "2" : "每周"
     },
     "number" : {
-      "min" : 
+      "min" :
       [
         1,
         1,
@@ -779,7 +813,7 @@
       "4": "警告",
       "5": "通知",
       "6": "信息",
-      "7": "调试" 
+      "7": "调试"
     },
     "facility" :
     {

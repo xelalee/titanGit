@@ -9500,7 +9500,7 @@
                   "label": "警报/通知",
                   "tab": "alerts",
                   "type": "tab",
-                  "col": 
+                  "col":
                   [
                     {
                       "label": "系统",
@@ -9704,14 +9704,14 @@
               "tab": "firmware",
               "tag": "div",
               "type": "submit",
-              "url": 
+              "url":
               {
                 "get": "dev_firmware_get",
                 "post": "dev_firmware_post",
                 "check": "common_usbFile_list"
               },
               "ext": "cgi",
-              "col": 
+              "col":
               [
                 {
                   "label" : "固件版本",
@@ -10439,7 +10439,7 @@
             "services": "guiServiceExpirationTNum"
           },
           "col": {
-            "registration": 
+            "registration":
             [
               {
                 "label" : "Titan 安全中心帐户",
@@ -10653,7 +10653,7 @@
                 ]
               }
             ],
-            "services": 
+            "services":
             [
               {
                 "label" : "服务管理列表",

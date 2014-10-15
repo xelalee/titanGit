@@ -267,7 +267,8 @@
     "wanProto" : 
     {
       "0" : "固定",
-      "1" : "DHCP"
+      "1" : "DHCP",
+      "2" : "PPPoE"
     },
     "interfaces" : 
     { 

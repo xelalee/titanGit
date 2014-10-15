@@ -548,7 +548,7 @@ table.docsTable tr th, table.docsTable tr td {
 
 /* buttons */
 button {
-    font-family: Verdana, Arial, sans-sefir;
+    font-family: Verdana, Arial, sans-serif;
     padding: 2px;
     margin: 2px;
 }
@@ -713,7 +713,7 @@ button.registrationMode-0 span.ui-icon {
 
 /* overflows */
 #menu {
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 #menu ul {
