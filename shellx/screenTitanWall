@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo " Ctrl + A and then Ctrl + \ to terminate screen ";
+
+while true; do
+    read -p "screen to titanWal via us411 or us412? (12)" u12
+    case $u12 in
+    "1" ) 
+        screen /dev/tty.usbserial-411 115200; break
+        ;;
+    "2" ) 
+        screen /dev/tty.usbserial-412 115200; break
+        ;;
+    * ) echo "bye"; exit
+        ;;
+    esac
+done
+    
+

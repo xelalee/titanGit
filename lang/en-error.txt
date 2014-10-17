@@ -10,8 +10,6 @@
     "invalid_data_format" : "invalid data format ( this should never happen )",
     "please_login_first" : "please login first ( GUI access cgi without login first, or session timeout )",
     "session_limit_reached" : "session time exceeds the limit",
-
-    "_comment" : "",
     "ip_blocked" : "IP is blocked for too many failed attempts",
     "no_change_required" : "your current firmware is the newest",
     "check_failed" : "the device cannot check the server firmware",
@@ -24,6 +22,8 @@
     "missing_bootloader_env" : "missing bootloader env",
     "no_dns" : "please remember to set default dns via Default DNS Settings",
     "unknownError" : "unknown error occured",
+
+    "_comment" : "",
     "please_wait_for_check" : "please wait for file uploading and checking",
     "pleaseWait" : "please wait for ",
     "seconds" : " seconds",
@@ -35,6 +35,7 @@
     "smtpErrorCode-0" : "test email had sent to ",
     "please_check_email" : "please check email",
     "defaultRoute" : "The 'configure as default route' option only works in routing table mode",
+
     "overlapCheck" : "fail to connect server for overlap IP check",
     "wanIfIp" : "Conflict with the WAN IP",
     "wanIfNetwork" : "Conflict with the WAN Network",

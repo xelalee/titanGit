@@ -163,11 +163,11 @@ var gVersion = {
         aka: 'K',
         title: 'TitanWALL Web Manager',
         copyright: 'Copyright &copy; 2014 Titan ARC Corp.',
-        multi: true
+        multi: false
     }
 }
 
-var gInfo = 0;
+var gInfo;
 
 var gLang = ['en', 'cn', 'tw']; // languages
 var gRef  = {};
@@ -1150,6 +1150,14 @@ $(document).ready(function () {
                         gObj.active.refresh  = parseInt( $('#refreshPage').val() );
                         gObj.active.counting = gObj.active.refresh;
                     }
+                    break;
+                case 'httpAct':
+                case 'smtpAct':
+                case 'pop3Act':
+                case 'ftpAct':
+                case 'cifsAct':
+                    gCache.tabber[ $(this).attr('id').replace('Act','') ] = true;
+                    gIf.alter = true;
                     break;
                 }
                 break;
@@ -2979,7 +2987,7 @@ $(document).ready(function () {
             break;
         default:
             tar.val = $('#' + tar.pid + ' option:selected');
-            tar.vai.clone().appendTo('#' + tar.pid + 'Pool');
+            tar.val.clone().appendTo('#' + tar.pid + 'Pool');
         }
 
         tar.val.remove();
@@ -19194,11 +19202,6 @@ $(document).ready(function () {
                                             gIf.alter = true;
                                         });
 
-                                        $('#' + pid + 'Act').on('select', function(e) {
-                                            gCache.tabber[ pid ] = true;
-                                            gIf.alter = true;
-                                        });
-
                                         for (var node in data)
                                         {
                                             switch(node)
@@ -20381,8 +20384,10 @@ $(document).ready(function () {
                 gIf.loading = true;
                 var counts = 0;
 
+gY.log( gCache.tabber );
                 for (var x in gCache.tabber)
                 {
+gY.log( x );
                     counts++;
                     switch( x )
                     {
@@ -32176,7 +32181,7 @@ $(document).ready(function () {
         dataType: 'json',
         success: function(data) {
             if (isNaN( parseInt( data ) ) || !gVersion[ data ]) 
-               gInfo = 0;
+               gInfo = 1;
             else 
                gInfo = parseInt( data );
             $('head').append( '<link rel="stylesheet" type="text/css" href="css/version' + gVersion[ gInfo ].aka + '.css" />' );

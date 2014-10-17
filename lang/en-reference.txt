@@ -723,7 +723,7 @@
     "cifsAct": 
     {
       "0": "None",
-      "1": "Notify"
+      "1": "Drop Connection"
     },
     "imapAct": 
     {

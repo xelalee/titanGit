@@ -164,10 +164,17 @@ var gVersion = {
         title: 'TitanWALL Web Manager',
         copyright: 'Copyright &copy; 2014 Titan ARC Corp.',
         multi: false
+    },
+    2 : {
+        version: "泰腾恩",
+        aka: 'CN',
+        title: 'TitanWALL Web Manager',
+        copyright: 'Copyright &copy; 2014 Tech Titan',
+        multi: true
     }
 }
 
-var gInfo = 0;
+var gInfo;
 
 var gLang = ['en', 'cn', 'tw']; // languages
 var gRef  = {};
@@ -522,7 +529,7 @@ $(document).ready(function () {
             title: gTerm[ gObj.lang ].failAlert,
             buttons: [
                 {
-                    text: gObj.btnYes,
+                    text: gObj.btnOk,
                     click: function() {
                         $( this ).dialog( "close" );
                         document.location.reload(true);
@@ -876,6 +883,7 @@ $(document).ready(function () {
                 gObj.label  = 'label';
                 gObj.note   = 'note';
                 gObj.btnYes = 'OK';
+                gObj.btnOk  = 'OK';
                 gObj.btnNo  = 'Cancel';
                 gObj.btnStart = 'Start';
                 gObj.btnStop  = 'Stop';
@@ -884,6 +892,7 @@ $(document).ready(function () {
                 gObj.label  = gObj.lang + '-label';
                 gObj.note   = gObj.lang + '-note';
                 gObj.btnYes = '保存';
+                gObj.btnOk  = '好';
                 gObj.btnNo  = '取消';
                 gObj.btnStart = '开始';
                 gObj.btnStop  = '停止';
@@ -892,6 +901,7 @@ $(document).ready(function () {
                 gObj.label  = gObj.lang + '-label';
                 gObj.note   = gObj.lang + '-note';
                 gObj.btnYes = '確定';
+                gObj.btnOk  = '確定';
                 gObj.btnNo  = '取消';
                 gObj.btnStart = '開始';
                 gObj.btnStop  = '停止';
@@ -1150,6 +1160,14 @@ $(document).ready(function () {
                         gObj.active.refresh  = parseInt( $('#refreshPage').val() );
                         gObj.active.counting = gObj.active.refresh;
                     }
+                    break;
+                case 'httpAct':
+                case 'smtpAct':
+                case 'pop3Act':
+                case 'ftpAct':
+                case 'cifsAct':
+                    gCache.tabber[ $(this).attr('id').replace('Act','') ] = true;
+                    gIf.alter = true;
                     break;
                 }
                 break;
@@ -2979,7 +2997,7 @@ $(document).ready(function () {
             break;
         default:
             tar.val = $('#' + tar.pid + ' option:selected');
-            tar.vai.clone().appendTo('#' + tar.pid + 'Pool');
+            tar.val.clone().appendTo('#' + tar.pid + 'Pool');
         }
 
         tar.val.remove();
@@ -4301,7 +4319,7 @@ $(document).ready(function () {
             title: gTerm[ gObj.lang ].successAlert,
             buttons: [
                 {
-                    text: gObj.btnYes,
+                    text: gObj.btnOk,
                     click: function() {
                         $( this ).dialog( "close" );
                         getCgiList(gObj.active.pid);
@@ -4333,7 +4351,7 @@ $(document).ready(function () {
             title: gTerm[ gObj.lang ].errorAlert,
             buttons: [
                 {
-                    text: gObj.btnYes,
+                    text: gObj.btnOk,
                     click: function() {
                         $( this ).dialog( "close" );
                     }
@@ -4366,7 +4384,7 @@ $(document).ready(function () {
             title: gTerm[ gObj.lang ].noteAlert,
             buttons: [
                 {
-                    text: gObj.btnYes,
+                    text: gObj.btnOk,
                     click: function() {
                         $( this ).dialog( "close" );
                     }
@@ -4402,7 +4420,7 @@ $(document).ready(function () {
             title: gTerm[ gObj.lang ].remindAlert,
             buttons: [
                 {
-                    text: gObj.btnYes,
+                    text: gObj.btnOk,
                     click: function() {
                         $( this ).dialog( "close" );
                     }
@@ -4459,7 +4477,7 @@ $(document).ready(function () {
             title: gTerm[ gObj.lang ][ tar.id ],
             buttons: [
                 {
-                    text: gObj.btnYes,
+                    text: gObj.btnOk,
                     click: function() {
                         switch(tar.id)
                         {
@@ -4667,7 +4685,7 @@ $(document).ready(function () {
             title: gTerm[ gObj.lang ].alterAlert,
             buttons: [
                 {
-                    text: gObj.btnYes,
+                    text: gObj.btnOk,
                     click: function() {
                         gIf.ajaxed = false;
                         gIf.columns = false;
@@ -4739,7 +4757,7 @@ $(document).ready(function () {
             title: gTerm[ gObj.lang ].cmdAlert,
             buttons: [
                 {
-                    text: gObj.btnYes,
+                    text: gObj.btnOk,
                     click: function() {
                         loadingToggle( true );
                         gObj.loading = 99;
@@ -4816,7 +4834,7 @@ $(document).ready(function () {
             title: gTerm[ gObj.lang ].progressTAlert,
             buttons: [
                 {
-                    text: gObj.btnYes,
+                    text: gObj.btnOk,
                     click: function() {
                         if (!gIf.progressT) {
                             $(this).dialog('destroy').remove();
@@ -19194,11 +19212,6 @@ $(document).ready(function () {
                                             gIf.alter = true;
                                         });
 
-                                        $('#' + pid + 'Act').on('select', function(e) {
-                                            gCache.tabber[ pid ] = true;
-                                            gIf.alter = true;
-                                        });
-
                                         for (var node in data)
                                         {
                                             switch(node)
@@ -20381,8 +20394,10 @@ $(document).ready(function () {
                 gIf.loading = true;
                 var counts = 0;
 
+gY.log( gCache.tabber );
                 for (var x in gCache.tabber)
                 {
+gY.log( x );
                     counts++;
                     switch( x )
                     {
