@@ -1,17 +1,25 @@
 <?php
 
-if ( empty( $_GET ) ) {
-    die( 'please make sure what u want !?' );
-}
-
 // get device time
-
 $nd = trim( shell_exec( 'date "+%Y-%m-%d"' ) );
 $nh = trim( shell_exec( 'date "+%H"' ) );
 $nw = trim( shell_exec( 'date "+%w"' ) );
-$ndStamp  = strtotime( $nd. ' 00:00:00' );
-$nhStamp  = strtotime( $nd. ' '. $nh. ':00:00' );
+$ndStamp = trim( shell_exec( 'date -d "'. $nd .' 00:00:00" +%s' ) );
+$nhStamp = trim( shell_exec( 'date -d "'. $nd .' '. $nh .':00:00" +%s' ) );
 $nowStamp = trim( shell_exec( 'date "+%s"' ) );
+
+$db      = str_replace("-", "_", $nd);
+$mysqli  = new mysqli( "127.0.0.1", "archer", "rehcra", "archer", 3306 );
+$json    = array();
+$rows    = array();
+$json[ 'queryResults' ] = [];
+$json[ 'queryRows' ] = 0;
+
+if ('weekly' == $argv[ 1 ]) {
+    weeklyAAV();
+} elseif ( empty( $_GET ) ) {
+    die( 'please make sure what u want !?' );
+}
 
 if ($_GET[ 'ed' ]) {
     $ed = date( str_replace("/", "-", $_GET[ 'ed' ] ) );
@@ -36,13 +44,6 @@ if ($_GET[ 'sd' ]) {
     $sh = $nh;
     $shStamp = $nhStamp;
 }
-
-$db      = str_replace("-", "_", $GLOBALS[ 'nd' ]);
-$mysqli  = new mysqli( "127.0.0.1", "archer", "rehcra", "archer", 3306 );
-$json    = array();
-$rows    = array();
-$json[ 'queryResults' ] = [];
-$json[ 'queryRows' ] = 0;
 
 // switch function via param
 // connect archer first
@@ -1725,8 +1726,8 @@ function weeklyAAV() {
         // free result set
         $result->close();
     }
-    echo json_encode( $GLOBALS[ 'json' ] );
 
+    echo json_encode( $GLOBALS[ 'json' ] );
 }
 
 $GLOBALS[ 'mysqli' ]->close();
