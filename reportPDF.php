@@ -57,7 +57,7 @@ class PDF extends FPDF
         }
     }
 
-    function SectionChart(  $rows, $data, $flag, $key ) {
+    function SectionChart( $counts, $rows, $data, $flag, $key ) {
         // color set
         $rgbs  = array( 
             0 => array(r=>82, g=>90, b=>107),
@@ -72,29 +72,153 @@ class PDF extends FPDF
             8 => array(r=>49, g=>49, b=>49),
             9 => array(r=>8, g=>90, b=>156)
         );
-        // set y
+        // set y to draw boundary
         $this->SetY( 100 );
 
-        // draw bonderary
         $this->SetFillColor( 255, 255, 255 );
         $this->Cell( 540, 400, '', 1, 0, 'C', true );
-
-        // set xy
-        $this->SetXY( 30, 105 );
-        // draw data
-        
-        $this->SetFont('Arial','',12);
-        for ($i=0; $i<$rows; $i++)
+    
+        // draw chart
+        switch( $flag )
         {
-            if ( 0 == $i) {
-                $ruler = $data[ $i ][ 'hitCount' ];
+        case 'topProtocol':
+            // draw pie chart
+            // set xy
+            $xc=350;
+            $yc=300;
+            $r=180;
+            $sd = 0;
+            $ed = 0;
+
+            for ($i=0; $i<$rows; $i++)
+            {
+                $j = $i+1;
+                $ed = 360 * ( $data[ $i ][ 'hitCount' ]/$counts );
+                $this->SetFillColor( $rgbs[ $i ][ 'r' ], $rgbs[ $i ][ 'g' ], $rgbs[ $i ][ 'b' ] );
+                $this->Rect( 40, ( 180 + $i*25 ), 20, 20, 'DF' ); 
+                $this->SetXY( 60, ( 180 + $i*25 ) );
+                $this->SetFont('Arial','',10);
+                $this->Cell( 20, 20, $data[ $i ][ $key ], 0, 0, 'L' );
+                $this->Ln();
+
+                if ($j == $rows) {
+                    $this->Sector($xc, $yc, $r, $sd, 0, 'F');
+                } else {
+                    $this->Sector($xc, $yc, $r, $sd, $sd + $ed, 'F');
+                    $sd += $ed;
+                }
             }
-            $this->Cell( 500, 20, $data[ $i ][ $key ] .' : '. $data[ $i ][ 'hitCount' ], 0, 0, 'L' );
-            $this->Ln();
-            $this->SetFillColor( $rgbs[ $i ][ 'r' ], $rgbs[ $i ][ 'g' ], $rgbs[ $i ][ 'b' ] );
-            $this->Cell( (540 * $data[ $i ][ 'hitCount' ]/$ruler), 10, '', 0, 1, 'L', true );
-            $this->Ln();
+            break;
+        default: 
+            // set xy
+            $this->SetXY( 30, 105 );
+            $this->SetFont('Arial','',12);
+            $ruler = $data[ 0 ][ 'hitCount' ];
+            for ($i=0; $i<$rows; $i++)
+            {
+                $this->Cell( 500, 20, $data[ $i ][ $key ] .' : '. $data[ $i ][ 'hitCount' ], 0, 0, 'L' );
+                $this->Ln();
+                $this->SetFillColor( $rgbs[ $i ][ 'r' ], $rgbs[ $i ][ 'g' ], $rgbs[ $i ][ 'b' ] );
+                $this->Cell( (540 * $data[ $i ][ 'hitCount' ]/$ruler), 10, '', 0, 1, 'L', true );
+                $this->Ln();
+            }
         }
+    }
+
+    function Sector($xc, $yc, $r, $a, $b, $style='FD', $cw=true, $o=90)
+    {
+        if($cw){
+            $d = $b;
+            $b = $o - $a;
+            $a = $o - $d;
+        }else{
+            $b += $o;
+            $a += $o;
+        }
+        $a = ($a%360)+360;
+        $b = ($b%360)+360;
+        if ($a > $b)
+            $b +=360;
+        $b = $b/360*2*M_PI;
+        $a = $a/360*2*M_PI;
+        $d = $b-$a;
+        if ($d == 0 )
+            $d =2*M_PI;
+        $k = $this->k;
+        $hp = $this->h;
+        if ($style=='F')
+            $op='f';
+        elseif ($style=='FD' or $style=='DF')
+            $op='b';
+        else
+            $op='s';
+        if (sin($d/2))
+            $MyArc = 4/3*(1-cos($d/2))/sin($d/2)*$r;
+        //first put the center
+        $this->_out(sprintf('%.2f %.2f m', ($xc)*$k, ($hp-$yc)*$k));
+        //put the first point
+        $this->_out(sprintf('%.2f %.2f l', ($xc+$r*cos($a))*$k, (($hp-($yc-$r*sin($a)))*$k)));
+        //draw the arc
+        if ($d < M_PI/2){
+            $this->_Arc($xc+$r*cos($a)+$MyArc*cos(M_PI/2+$a), 
+                        $yc-$r*sin($a)-$MyArc*sin(M_PI/2+$a), 
+                        $xc+$r*cos($b)+$MyArc*cos($b-M_PI/2), 
+                        $yc-$r*sin($b)-$MyArc*sin($b-M_PI/2), 
+                        $xc+$r*cos($b), 
+                        $yc-$r*sin($b)
+                        );
+        }else{
+            $b = $a + $d/4;
+            $MyArc = 4/3*(1-cos($d/8))/sin($d/8)*$r;
+            $this->_Arc($xc+$r*cos($a)+$MyArc*cos(M_PI/2+$a), 
+                        $yc-$r*sin($a)-$MyArc*sin(M_PI/2+$a), 
+                        $xc+$r*cos($b)+$MyArc*cos($b-M_PI/2), 
+                        $yc-$r*sin($b)-$MyArc*sin($b-M_PI/2), 
+                        $xc+$r*cos($b), 
+                        $yc-$r*sin($b)
+                        );
+            $a = $b;
+            $b = $a + $d/4;
+            $this->_Arc($xc+$r*cos($a)+$MyArc*cos(M_PI/2+$a), 
+                        $yc-$r*sin($a)-$MyArc*sin(M_PI/2+$a), 
+                        $xc+$r*cos($b)+$MyArc*cos($b-M_PI/2), 
+                        $yc-$r*sin($b)-$MyArc*sin($b-M_PI/2), 
+                        $xc+$r*cos($b), 
+                        $yc-$r*sin($b)
+                        );
+            $a = $b;
+            $b = $a + $d/4;
+            $this->_Arc($xc+$r*cos($a)+$MyArc*cos(M_PI/2+$a), 
+                        $yc-$r*sin($a)-$MyArc*sin(M_PI/2+$a), 
+                        $xc+$r*cos($b)+$MyArc*cos($b-M_PI/2), 
+                        $yc-$r*sin($b)-$MyArc*sin($b-M_PI/2), 
+                        $xc+$r*cos($b), 
+                        $yc-$r*sin($b)
+                        );
+            $a = $b;
+            $b = $a + $d/4;
+            $this->_Arc($xc+$r*cos($a)+$MyArc*cos(M_PI/2+$a), 
+                        $yc-$r*sin($a)-$MyArc*sin(M_PI/2+$a), 
+                        $xc+$r*cos($b)+$MyArc*cos($b-M_PI/2), 
+                        $yc-$r*sin($b)-$MyArc*sin($b-M_PI/2), 
+                        $xc+$r*cos($b), 
+                        $yc-$r*sin($b)
+                        );
+        }
+        //terminate drawing
+        $this->_out($op);
+    }
+
+    function _Arc($x1,  $y1,  $x2,  $y2,  $x3,  $y3 )
+    {
+        $h = $this->h;
+        $this->_out(sprintf('%.2f %.2f %.2f %.2f %.2f %.2f c', 
+            $x1*$this->k, 
+            ($h-$y1)*$this->k, 
+            $x2*$this->k, 
+            ($h-$y2)*$this->k, 
+            $x3*$this->k, 
+            ($h-$y3)*$this->k));
     }
 
     function SectionTable( $counts, $rows, $data, $flag ) {
@@ -138,7 +262,7 @@ class PDF extends FPDF
         // Closing line
         $this->Cell(520,0,'','T');
         // draw chart
-        $this->SectionChart( $rows, $data, $flag, $key );
+        $this->SectionChart( $counts, $rows, $data, $flag, $key );
     }
 
     function Footer() {
