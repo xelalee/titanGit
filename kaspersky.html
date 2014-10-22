@@ -164,6 +164,13 @@ var gVersion = {
         title: 'TitanWALL Web Manager',
         copyright: 'Copyright &copy; 2014 Titan ARC Corp.',
         multi: false
+    },
+    2 : {
+        version: "泰腾恩",
+        aka: 'CN',
+        title: 'TitanWALL Web Manager',
+        copyright: 'Copyright &copy; 2014 Tech Titan',
+        multi: true
     }
 }
 
@@ -522,7 +529,7 @@ $(document).ready(function () {
             title: gTerm[ gObj.lang ].failAlert,
             buttons: [
                 {
-                    text: gObj.btnYes,
+                    text: gObj.btnOk,
                     click: function() {
                         $( this ).dialog( "close" );
                         document.location.reload(true);
@@ -876,6 +883,7 @@ $(document).ready(function () {
                 gObj.label  = 'label';
                 gObj.note   = 'note';
                 gObj.btnYes = 'OK';
+                gObj.btnOk  = 'OK';
                 gObj.btnNo  = 'Cancel';
                 gObj.btnStart = 'Start';
                 gObj.btnStop  = 'Stop';
@@ -884,6 +892,7 @@ $(document).ready(function () {
                 gObj.label  = gObj.lang + '-label';
                 gObj.note   = gObj.lang + '-note';
                 gObj.btnYes = '保存';
+                gObj.btnOk  = '好';
                 gObj.btnNo  = '取消';
                 gObj.btnStart = '开始';
                 gObj.btnStop  = '停止';
@@ -892,6 +901,7 @@ $(document).ready(function () {
                 gObj.label  = gObj.lang + '-label';
                 gObj.note   = gObj.lang + '-note';
                 gObj.btnYes = '確定';
+                gObj.btnOk  = '確定';
                 gObj.btnNo  = '取消';
                 gObj.btnStart = '開始';
                 gObj.btnStop  = '停止';
@@ -2546,7 +2556,7 @@ $(document).ready(function () {
         if (!tar.id)
             return false;
 
-        window.open( 'reporter.html?param=weekly', '_blank');
+        window.open( 'reportPDF.php?param=weekly', '_blank');
     }
 
     function btnQuery(e) {
@@ -2953,6 +2963,7 @@ $(document).ready(function () {
             break;
         default:
 // antivirus
+            gCache.tabber[ gNode.tab ] = true;
             tar.val = $('#' + tar.pid + 'Pool option:selected');
             tar.val.clone().appendTo('#' + tar.pid);
         }
@@ -2986,6 +2997,7 @@ $(document).ready(function () {
             tar.val.clone().appendTo('#pool');
             break;
         default:
+            gCache.tabber[ gNode.tab ] = true;
             tar.val = $('#' + tar.pid + ' option:selected');
             tar.val.clone().appendTo('#' + tar.pid + 'Pool');
         }
@@ -4309,7 +4321,7 @@ $(document).ready(function () {
             title: gTerm[ gObj.lang ].successAlert,
             buttons: [
                 {
-                    text: gObj.btnYes,
+                    text: gObj.btnOk,
                     click: function() {
                         $( this ).dialog( "close" );
                         getCgiList(gObj.active.pid);
@@ -4333,15 +4345,15 @@ $(document).ready(function () {
 
         $('#popError').html('<div class="errorForm"><p class="errorMsg"></p></div>');
         gPop.popError = $('#popError').dialog({
-            width: 300,
-            height:200,
+            width: 480,
+            height:320,
             position: "center",
             resizable: false,
             modal: true,
             title: gTerm[ gObj.lang ].errorAlert,
             buttons: [
                 {
-                    text: gObj.btnYes,
+                    text: gObj.btnOk,
                     click: function() {
                         $( this ).dialog( "close" );
                     }
@@ -4374,7 +4386,7 @@ $(document).ready(function () {
             title: gTerm[ gObj.lang ].noteAlert,
             buttons: [
                 {
-                    text: gObj.btnYes,
+                    text: gObj.btnOk,
                     click: function() {
                         $( this ).dialog( "close" );
                     }
@@ -4410,7 +4422,7 @@ $(document).ready(function () {
             title: gTerm[ gObj.lang ].remindAlert,
             buttons: [
                 {
-                    text: gObj.btnYes,
+                    text: gObj.btnOk,
                     click: function() {
                         $( this ).dialog( "close" );
                     }
@@ -4467,7 +4479,7 @@ $(document).ready(function () {
             title: gTerm[ gObj.lang ][ tar.id ],
             buttons: [
                 {
-                    text: gObj.btnYes,
+                    text: gObj.btnOk,
                     click: function() {
                         switch(tar.id)
                         {
@@ -4675,7 +4687,7 @@ $(document).ready(function () {
             title: gTerm[ gObj.lang ].alterAlert,
             buttons: [
                 {
-                    text: gObj.btnYes,
+                    text: gObj.btnOk,
                     click: function() {
                         gIf.ajaxed = false;
                         gIf.columns = false;
@@ -4747,7 +4759,7 @@ $(document).ready(function () {
             title: gTerm[ gObj.lang ].cmdAlert,
             buttons: [
                 {
-                    text: gObj.btnYes,
+                    text: gObj.btnOk,
                     click: function() {
                         loadingToggle( true );
                         gObj.loading = 99;
@@ -4824,7 +4836,7 @@ $(document).ready(function () {
             title: gTerm[ gObj.lang ].progressTAlert,
             buttons: [
                 {
-                    text: gObj.btnYes,
+                    text: gObj.btnOk,
                     click: function() {
                         if (!gIf.progressT) {
                             $(this).dialog('destroy').remove();
@@ -7352,7 +7364,7 @@ $(document).ready(function () {
                                         } else {
                                             if ($('.noData').exists())
                                                 $('#chart-' + tabIndex).empty();
-                                            var catKey, axes, styleDef,
+                                            var catKey, axes, styleDef, chartType, serKey, serCol, legends,
                                                 cData = [],
                                                 tData = data.queryResults.slice(0,10);
 
@@ -7363,7 +7375,7 @@ $(document).ready(function () {
                                                 {
                                                 case 1:
                                                     for (var i=0, len=tData.length; i<len; i++)
-                                                        cData.push( { address: tData[ i ].address, totalBytes: tData[ i ].totalBytes } );
+                                                        cData.push( { address: tData[ i ].address, totalBytes: (tData[ i ].totalBytes/1000000).toFixed(2) } );
                                                     catKey = 'address';
                                                     axes = {
                                                         address : {
@@ -7374,6 +7386,7 @@ $(document).ready(function () {
                                                             keys:["totalBytes"],
                                                             position:"bottom",
                                                             type:"numeric",
+                                                            title:"MB",
                                                             labelFunction: function(label) {
                                                                 return label.toFixed(2);
                                                             }
@@ -7400,7 +7413,7 @@ $(document).ready(function () {
                                                     break;
                                                 case 2:
                                                     for (var i=0, len=tData.length; i<len; i++)
-                                                        cData.push( { srcIp: tData[ i ].srcIp, totalBytes: tData[ i ].totalBytes } );
+                                                        cData.push( { srcIp: tData[ i ].srcIp, totalBytes: (tData[ i ].totalBytes/1000000).toFixed(2) } );
                                                     catKey = 'srcIp';
                                                     axes = {
                                                         srcIp : {
@@ -7411,6 +7424,7 @@ $(document).ready(function () {
                                                             keys:["totalBytes"],
                                                             position:"bottom",
                                                             type:"numeric",
+                                                            title:"MB",
                                                             labelFunction: function(label) {
                                                                 return label.toFixed(2);
                                                             }
@@ -7437,7 +7451,7 @@ $(document).ready(function () {
                                                     break;
                                                 case 3:
                                                     for (var i=0, len=tData.length; i<len; i++)
-                                                        cData.push( { dstIp: tData[ i ].dstIp, totalBytes: tData[ i ].totalBytes } );
+                                                        cData.push( { dstIp: tData[ i ].dstIp, totalBytes: (tData[ i ].totalBytes/1000000).toFixed(2) } );
                                                     catKey = 'dstIp';
                                                     axes = {
                                                         dstIp : {
@@ -7448,6 +7462,7 @@ $(document).ready(function () {
                                                             keys:["totalBytes"],
                                                             position:"bottom",
                                                             type:"numeric",
+                                                            title:"MB",
                                                             labelFunction: function(label) {
                                                                 return label.toFixed(2);
                                                             }
@@ -7474,44 +7489,30 @@ $(document).ready(function () {
                                                     break;
                                                 case 4:
                                                     for (var i=0, len=tData.length; i<len; i++)
-                                                        cData.push( { protocol: gRef.protocol[ tData[ i ].protocol ], totalBytes: tData[ i ].totalBytes } );
+                                                        cData.push( { protocol: gRef.protocol[ tData[ i ].protocol ], totalBytes: (tData[ i ].totalBytes/1000000).toFixed(2) } );
                                                     catKey = 'protocol';
-                                                    axes = {
-                                                        protocol : {
-                                                            keys:["protocol"],
-                                                            position:"left"
-                                                        },
-                                                        totalBytes : {
-                                                            keys:["totalBytes"],
-                                                            position:"bottom",
-                                                            type:"numeric",
-                                                            labelFunction: function(label) {
-                                                                return label.toFixed(2);
-                                                            }
-                                                        }
+                                                    chartType = 'pie';
+                                                    serKey = ['totalBytes'];
+                                                    legends = {
+                                                        position: "left",
+                                                        width: 200,
+                                                        height: 200,
+                                                        styles: { 
+                                                            hAlign: "center",
+                                                            hSpacing: 4
+                                                       }
                                                     };
-                                                    styleDef = {
-                                                        graph : {
-                                                            background : {
-                                                                fill: { color: '#ffffff' }
-                                                            },
-                                                            border : {
-                                                                color: '#ffffff',
-                                                                weight: 1
-                                                            }
-                                                        },
-                                                        series:  {
-                                                            totalBytes: {
-                                                                area: { color: "#eeeeee" },
-                                                                line: { color: "#eeeeee" },
-                                                                marker: { fill: { color: gColor } }
-                                                            }
-                                                        }
-                                                    };
+                                                    serCol = [
+                                                      {
+                                                        categoryKey: "protocol",
+                                                        valueKey: "totalBytes",
+                                                        styles: { fill: { colors: gColor } }
+                                                      }
+                                                    ];
                                                     break;
                                                 case 5:
                                                     for (var i=0, len=tData.length; i<len; i++)
-                                                        cData.push( { dstPort: tData[ i ].dstPort, totalBytes: tData[ i ].totalBytes } );
+                                                        cData.push( { dstPort: tData[ i ].dstPort, totalBytes: (tData[ i ].totalBytes/1000000).toFixed(2) } );
                                                     catKey = 'dstPort';
                                                     axes = {
                                                         dstPort : {
@@ -7522,6 +7523,7 @@ $(document).ready(function () {
                                                             keys:["totalBytes"],
                                                             position:"bottom",
                                                             type:"numeric",
+                                                            title:"MB",
                                                             labelFunction: function(label) {
                                                                 return label.toFixed(2);
                                                             }
@@ -7548,7 +7550,7 @@ $(document).ready(function () {
                                                     break;
                                                 case 6:
                                                     for (var i=0, len=tData.length; i<len; i++)
-                                                        cData.push( { zone: tData[ i ].zone, totalBytes: tData[ i ].totalBytes } );
+                                                        cData.push( { zone: tData[ i ].zone, totalBytes: (tData[ i ].totalBytes/1000000).toFixed(2) } );
                                                     catKey = 'zone';
                                                     axes = {
                                                         zone : {
@@ -7559,6 +7561,7 @@ $(document).ready(function () {
                                                             keys:["totalBytes"],
                                                             position:"bottom",
                                                             type:"numeric",
+                                                            title:"MB",
                                                             labelFunction: function(label) {
                                                                 return label.toFixed(2);
                                                             }
@@ -7814,51 +7817,48 @@ $(document).ready(function () {
                                                     for (var i=0, len=tData.length; i<len; i++)
                                                         cData.push( { protocol: tData[ i ].protocol, hitCount: tData[ i ].hitCount } );
                                                     catKey = 'protocol';
-                                                    axes = {
-                                                        protocol : {
-                                                            keys:["protocol"],
-                                                            position:"left"
-                                                        },
-                                                        hitCount : {
-                                                            keys:["hitCount"],
-                                                            position:"bottom",
-                                                            labelFunction: function(label) {
-                                                                return label.toFixed(2);
-                                                            },
-                                                            type:"numeric"
-                                                        }
+                                                    chartType = 'pie';
+                                                    serKey = ['totalBytes'];
+                                                    legends = {
+                                                        position: "left",
+                                                        width: 200,
+                                                        height: 200,
+                                                        styles: {
+                                                            hAlign: "center",
+                                                            hSpacing: 4
+                                                       }
                                                     };
-                                                    styleDef = {
-                                                        graph : {
-                                                            background : {
-                                                                fill: { color: '#ffffff' }
-                                                            },
-                                                            border : {
-                                                                color: '#ffffff',
-                                                                weight: 1
-                                                            }
-                                                        },
-                                                        series:  {
-                                                            hitCount: {
-                                                                area: { color: "#eeeeee" },
-                                                                line: { color: "#eeeeee" },
-                                                                marker: { fill: { color: gColor } }
-                                                            }
-                                                        }
-                                                    };
+                                                    serCol = [
+                                                      {   
+                                                        categoryKey: "protocol",
+                                                        valueKey: "totalBytes",
+                                                        styles: { fill: { colors: gColor } }
+                                                      }       
+                                                    ]; 
                                                     break;
                                                 }
                                                 break;
                                             }
 
-                                            gObj.chart[ tabIndex ] = new gY.Chart({
-                                                dataProvider: cData, //data.queryResults.slice(0,10),
-                                                categoryKey:catKey,
-                                                type:"bar",
-                                                axes: axes,
-                                                styles: styleDef,
-                                                horizontalGridlines: true
-                                            }).render('#chart-' + tabIndex);
+                                            if ('pie' == chartType) {
+                                                gObj.chart[ tabIndex ] = new gY.Chart({
+                                                    dataProvider: cData, 
+                                                    categoryKey: catKey,
+                                                    type: chartType,
+                                                    legend: legends,
+                                                    seriesKeys: serKey,
+                                                    seriesCollection: serCol
+                                                }).render('#chart-' + tabIndex);
+                                            } else {
+                                                gObj.chart[ tabIndex ] = new gY.Chart({
+                                                    dataProvider: cData, 
+                                                    categoryKey:catKey,
+                                                    type:"bar",
+                                                    axes: axes,
+                                                    styles: styleDef,
+                                                    horizontalGridlines: true
+                                                }).render('#chart-' + tabIndex);
+                                            }
                                         }
                                     }
                                 }
@@ -19197,7 +19197,7 @@ $(document).ready(function () {
                                             gIf.alter = true;
                                         });
 
-                                        $('#table-' + pid + ' input').on('click', function(e) {
+                                        $('#maxFileSize').on('blur', function(e) {
                                             gCache.tabber[ pid ] = true;
                                             gIf.alter = true;
                                         });
@@ -20384,10 +20384,8 @@ $(document).ready(function () {
                 gIf.loading = true;
                 var counts = 0;
 
-gY.log( gCache.tabber );
                 for (var x in gCache.tabber)
                 {
-gY.log( x );
                     counts++;
                     switch( x )
                     {

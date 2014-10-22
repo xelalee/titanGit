@@ -293,7 +293,12 @@ $(document).ready(function () {
                             },
                             totalBytes : {
                                 keys:["totalBytes"],
-                                position:"bottom"
+                                title:"MB",
+                                position:"bottom",
+                                type:"numeric",
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);
+                                }
                             }
                         },
                         styleDef : {
@@ -325,7 +330,12 @@ $(document).ready(function () {
                             },
                             totalBytes : {
                                 keys:["totalBytes"],
-                                position:"bottom"
+                                title:"MB",
+                                position:"bottom",
+                                type:"numeric",
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -357,7 +367,12 @@ $(document).ready(function () {
                             },
                             totalBytes : {
                                 keys:["totalBytes"],
-                                position:"bottom"
+                                title:"MB",
+                                position:"bottom",
+                                type:"numeric",
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -383,6 +398,15 @@ $(document).ready(function () {
                         type : "pie",
                         catKey : 'protocol',
                         serKey : ['totalBytes'],
+                        legend : {
+                            position: "left",
+                            width: 300,
+                            height: 300,
+                            styles: {
+                                hAlign: "center",
+                                hSpacing: 10
+                            }
+                        },
                         serCol : [
                           {
                             categoryKey: "protocol",
@@ -401,7 +425,12 @@ $(document).ready(function () {
                             },
                             totalBytes : {
                                 keys:["totalBytes"],
-                                position:"bottom"
+                                title:"MB",
+                                position:"bottom",
+                                type:"numeric",
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -433,7 +462,12 @@ $(document).ready(function () {
                             },
                             totalBytes : {
                                 keys:["totalBytes"],
-                                position:"bottom"
+                                title:"MB",
+                                position:"bottom",
+                                type:"numeric",
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -467,7 +501,12 @@ $(document).ready(function () {
                             },
                             totalBytes : {
                                 keys:["totalBytes"],
-                                position:"bottom"
+                                title:"MB",
+                                position:"bottom",
+                                type:"numeric",
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -499,7 +538,12 @@ $(document).ready(function () {
                             },
                             totalBytes : {
                                 keys:["totalBytes"],
-                                position:"bottom"
+                                title:"MB",
+                                position:"bottom",
+                                type:"numeric",
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -531,7 +575,12 @@ $(document).ready(function () {
                             },
                             totalBytes : {
                                 keys:["totalBytes"],
-                                position:"bottom"
+                                title:"MB",
+                                position:"bottom",
+                                type:"numeric",
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -557,6 +606,15 @@ $(document).ready(function () {
                         type : "pie",
                         catKey : 'protocol',
                         serKey : ['totalBytes'],
+                        legend : {
+                            position: "left",           
+                            width: 300,                 
+                            height: 300,                
+                            styles: {                   
+                                hAlign: "center",           
+                                hSpacing: 10                 
+                            }                          
+                        },  
                         serCol : [
                           {
                             categoryKey: "protocol",
@@ -575,7 +633,12 @@ $(document).ready(function () {
                             },
                             totalBytes : {
                                 keys:["totalBytes"],
-                                position:"bottom"
+                                title:"MB",
+                                position:"bottom",
+                                type:"numeric",
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -607,7 +670,12 @@ $(document).ready(function () {
                             },
                             totalBytes : {
                                 keys:["totalBytes"],
-                                position:"bottom"
+                                title:"MB",
+                                position:"bottom",
+                                type:"numeric",
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -641,7 +709,12 @@ $(document).ready(function () {
                             },
                             totalBytes : {
                                 keys:["totalBytes"],
-                                position:"bottom"
+                                title:"MB",
+                                position:"bottom",
+                                type:"numeric",
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -673,7 +746,12 @@ $(document).ready(function () {
                             },
                             totalBytes : {
                                 keys:["totalBytes"],
-                                position:"bottom"
+                                title:"MB",
+                                position:"bottom",
+                                type:"numeric",
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -705,7 +783,12 @@ $(document).ready(function () {
                             },
                             totalBytes : {
                                 keys:["totalBytes"],
-                                position:"bottom"
+                                title:"MB",
+                                position:"bottom",
+                                type:"numeric",
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -731,6 +814,15 @@ $(document).ready(function () {
                         type : "pie",
                         catKey : 'protocol',
                         serKey : ['totalBytes'],
+                        legend : {
+                            position: "left",
+                            width: 300,
+                            height: 300,
+                            styles: {
+                                hAlign: "center",
+                                hSpacing: 10
+                            }
+                        },
                         serCol : [
                           {
                             categoryKey: "protocol",
@@ -749,7 +841,12 @@ $(document).ready(function () {
                             },
                             totalBytes : {
                                 keys:["totalBytes"],
-                                position:"bottom"
+                                title:"MB",
+                                position:"bottom",
+                                type:"numeric",
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -781,7 +878,12 @@ $(document).ready(function () {
                             },
                             totalBytes : {
                                 keys:["totalBytes"],
-                                position:"bottom"
+                                title:"MB",
+                                position:"bottom",
+                                type:"numeric",
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -1449,6 +1551,15 @@ $(document).ready(function () {
                         type : "pie",
                         catKey : 'protocol',
                         serKey : ['hitCount'],
+                        legend : {
+                            position: "left",
+                            width: 300,
+                            height: 300,
+                            styles: {
+                                hAlign: "center",
+                                hSpacing: 10
+                            }
+                        },
                         serCol : [
                           {
                             categoryKey: "protocol",
@@ -1559,6 +1670,15 @@ $(document).ready(function () {
                         type : "pie",
                         catKey : 'protocol',
                         serKey : ['hitCount'],
+                        legend : {
+                            position: "left",
+                            width: 300,
+                            height: 300,
+                            styles: {
+                                hAlign: "center",
+                                hSpacing: 10
+                            }
+                        },
                         serCol : [
                           {
                             categoryKey: "protocol",
@@ -1669,6 +1789,15 @@ $(document).ready(function () {
                         type : "pie",
                         catKey : 'protocol',
                         serKey : ['hitCount'],
+                        legend : {
+                            position: "left",
+                            width: 300,
+                            height: 300,
+                            styles: {
+                                hAlign: "center",
+                                hSpacing: 10
+                            }
+                        },
                         serCol : [
                           {
                             categoryKey: "protocol",
@@ -1847,17 +1976,17 @@ $(document).ready(function () {
                     switch( idx )
                     {
                     case 1:
-                        cData.push({ address: data[ i ].address, totalBytes: data[ i ].totalBytes });
+                        cData.push({ address: data[ i ].address, totalBytes: (data[ i ].totalBytes/1000000).toFixed(2) });
                         gData[ 'c-' + idx ].push({ address: data[ i ].address, totalBytes: data[ i ].totalBytes });
                         gData[ 'k-' + idx ].push({ "Address": data[ i ].address, "Total Bytes": data[ i ].totalBytes, "Percent" : 0 });
                         break;
                     case 2:
-                        cData.push({ srcIp: data[ i ].srcIp, totalBytes: data[ i ].totalBytes });
+                        cData.push({ srcIp: data[ i ].srcIp, totalBytes: (data[ i ].totalBytes/1000000).toFixed(2) });
                         gData[ 'c-' + idx ].push({ srcIp: data[ i ].srcIp, totalBytes: data[ i ].totalBytes });
                         gData[ 'k-' + idx ].push({ "Source IP": data[ i ].srcIp, "Total Bytes": data[ i ].totalBytes, "Percent" : 0 });
                         break;
                     case 3:
-                        cData.push({ dstIp: data[ i ].dstIp, totalBytes: data[ i ].totalBytes });
+                        cData.push({ dstIp: data[ i ].dstIp, totalBytes: (data[ i ].totalBytes/1000000).toFixed(2) });
                         gData[ 'c-' + idx ].push({ dstIp: data[ i ].dstIp, totalBytes: data[ i ].totalBytes });
                         gData[ 'k-' + idx ].push({ "Destination IP": data[ i ].dstIp, "Total Bytes": data[ i ].totalBytes, "Percent" : 0 });
                         break;
@@ -1867,12 +1996,12 @@ $(document).ready(function () {
                         gData[ 'k-' + idx ].push({ "Protocol": data[ i ].protocol, "Total Bytes": data[ i ].totalBytes, "Percent" : 0 });
                         break;
                     case 5:
-                        cData.push({ dstPort: data[ i ].dstPort, totalBytes: data[ i ].totalBytes });
+                        cData.push({ dstPort: data[ i ].dstPort, totalBytes: (data[ i ].totalBytes/1000000).toFixed(2) });
                         gData[ 'c-' + idx ].push({ dstPort: data[ i ].dstPort, totalBytes: data[ i ].totalBytes });
                         gData[ 'k-' + idx ].push({ "Destination Port": data[ i ].dstPort, "Total Bytes": data[ i ].totalBytes, "Percent" : 0 });
                         break;
                     case 6:
-                        cData.push({ zone: data[ i ].zone, totalBytes: data[ i ].totalBytes });
+                        cData.push({ zone: data[ i ].zone, totalBytes: (data[ i ].totalBytes/1000000).toFixed(2) });
                         gData[ 'c-' + idx ].push({ zone: data[ i ].zone, totalBytes: data[ i ].totalBytes });
                         gData[ 'k-' + idx ].push({ "Zone": data[ i ].zone, "Total Bytes": data[ i ].totalBytes, "Percent" : 0 });
                         break;
@@ -2013,6 +2142,7 @@ $(document).ready(function () {
                     dataProvider: data,
                     categoryKey: gObj[ param ].chart[ gLang ][ idx ].catKey,
                     type: gObj[ param ].chart[ gLang ][ idx ].type,
+                    legend: gObj[ param ].chart[ gLang ][ idx ].legend,
                     seriesKeys: gObj[ param ].chart[ gLang ][ idx ].serKey,
                     seriesCollection: gObj[ param ].chart[ gLang ][ idx ].serCol
                 }).render( '#chart-' + idx );
@@ -2475,13 +2605,12 @@ $(document).ready(function () {
         {
             $('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + gObj[ param ][ 'tabs' ][ gLang ][ x ] + '</a></li>');
             $('.tabber').append('<div id="panel-' + x + '"></div>');
-            // data ready falg
+            // data ready flag
             gQue[ x ] = true;
             gTabs.push( x );
         }
 
         $('.tabber').tabs({
-            active: q,
             create: function( event, ui ) {
                 if ( 0 == q ) {
                     $('.pdfer').hide();
