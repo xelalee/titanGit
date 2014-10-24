@@ -910,22 +910,22 @@ $(document).ready(function () {
         },
         "file_extension" : {
             "title" : {
-                "en" : "File Extension",
-                "cn" : "File Extension",
-                "tw" : "File Extension"
+                "en" : "Viurs File Extension",
+                "cn" : "Virus File Extension",
+                "tw" : "Virus File Extension"
             },
             "tabs" : {
                 "en" : {
-                    "0": "File Extension Log",
-                    "1": "By File Extension"
+                    "0": "Virus File Extension Log",
+                    "1": "By Virus File Extension"
                  },
                  "cn" : {
-                    "0": "File Extension Log",
-                    "1": "By File Extension"
+                    "0": "Virus File Extension Log",
+                    "1": "By Virus File Extension"
                  },
                  "tw" : {
-                    "0": "File Extension Log",
-                    "1": "By File Extension"
+                    "0": "Virus File Extension Log",
+                    "1": "By Virus File Extension"
                  }
             },
             "table" : {
@@ -1122,7 +1122,7 @@ $(document).ready(function () {
                                 position:"left"
                             },
                             count : {
-                                keys:["firewallCount", "virusCount"],
+                                keys:["virusCount", "firewallCount"],
                                 position:"bottom"
                             }
                         },
@@ -1138,6 +1138,11 @@ $(document).ready(function () {
                             },
                             series:  {
                                 firewallCount: {
+                                    area: { color: "#eeeeee" },
+                                    line: { color: "#eeeeee" },
+                                    marker: { fill: { color: gColor } }
+                                },
+                                virusCount: {
                                     area: { color: "#eeeeee" },
                                     line: { color: "#eeeeee" },
                                     marker: { fill: { color: gColor } }
@@ -1156,7 +1161,7 @@ $(document).ready(function () {
                                 position:"left"
                             },
                             count : {
-                                keys:["firewallCount", "virusCount"],
+                                keys:["virusCount", "firewallCount"],
                                 position:"bottom"
                             }
                         },
@@ -1175,6 +1180,11 @@ $(document).ready(function () {
                                     area: { color: "#eeeeee" },
                                     line: { color: "#eeeeee" },
                                     marker: { fill: { color: gColor } }
+                                },
+                                virusCount: {
+                                    area: { color: "#eeeeee" },
+                                    line: { color: "#eeeeee" },
+                                    marker: { fill: { color: gColor } }
                                 }
                             }
                         }
@@ -1190,7 +1200,7 @@ $(document).ready(function () {
                                 position:"left"
                             },
                             count : {
-                                keys:["firewallCount", "virusCount"],
+                                keys:["virusCount", "firewallCount"],
                                 position:"bottom"
                             }
                         },
@@ -1206,6 +1216,11 @@ $(document).ready(function () {
                             },
                             series:  {
                                 firewallCount: {
+                                    area: { color: "#eeeeee" },
+                                    line: { color: "#eeeeee" },
+                                    marker: { fill: { color: gColor } }
+                                },
+                                virusCount: {
                                     area: { color: "#eeeeee" },
                                     line: { color: "#eeeeee" },
                                     marker: { fill: { color: gColor } }
@@ -1313,6 +1328,11 @@ $(document).ready(function () {
                                     area: { color: "#eeeeee" },
                                     line: { color: "#eeeeee" },
                                     marker: { fill: { color: gColor } }
+                                },
+                                virusHitCount: {
+                                    area: { color: "#eeeeee" },
+                                    line: { color: "#eeeeee" },
+                                    marker: { fill: { color: gColor } }
                                 }
                             }
                         }
@@ -1347,6 +1367,11 @@ $(document).ready(function () {
                                     area: { color: "#eeeeee" },
                                     line: { color: "#eeeeee" },
                                     marker: { fill: { color: gColor } }
+                                },
+                                virusHitCount: {
+                                    area: { color: "#eeeeee" },
+                                    line: { color: "#eeeeee" },
+                                    marker: { fill: { color: gColor } }
                                 }
                             }
                         }
@@ -1378,6 +1403,11 @@ $(document).ready(function () {
                             },
                             series:  {
                                 sigHitCount: {
+                                    area: { color: "#eeeeee" },
+                                    line: { color: "#eeeeee" },
+                                    marker: { fill: { color: gColor } }
+                                },
+                                virusHitCount: {
                                     area: { color: "#eeeeee" },
                                     line: { color: "#eeeeee" },
                                     marker: { fill: { color: gColor } }
@@ -2709,7 +2739,7 @@ $(document).ready(function () {
         }
     }).done( function() {
         $.ajax({
-            url: 'lang/' + gLang + '-protocol.txt',
+            url: 'lang/protocol.txt',
             dataType: 'json',
             success: function( data ) {
                 for (var i=0,len=data.length; i<len; i++)

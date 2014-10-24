@@ -60,7 +60,6 @@
     "cMAC" : "Create MAC",
 
     "dhcpBinding" : "DHCP Binding",
-    "user" : "User",
     "extension" : "Extension",
     "virusName" : "Virus Name",
     "virus" : "Virus",
@@ -70,7 +69,6 @@
     "info" : "Info",
     "from" : "From",
     "to" : "To",
-    "zone" : "Zone",
     "default" : "Default",
     "criterion" : "Criterion",
     "rule" : "Rule",
@@ -149,6 +147,16 @@
     "btnMinimize" : "Minimize Window",
     "btnClose" : "Close Window",
     "btnSearch" : "Search data",
-    "btnUpload" : "Select File"
+    "btnUpload" : "Select File",
+    "btnMove2First" : "Move to First Page",
+    "btnMove2Prev" : "Move to Previous Page",
+    "btnMove2Next" : "Move to Next Page",
+    "btnMove2Last" : "Move to Last Page",
+    "btnMove2Add" : "Move to Add Selected Options",
+    "btnMove2Del" : "Move to Remove Selected Options",
+    "btnLicenseUpgrade" : "Upgrade License",
+    "btnLicenseRefresh" : "Refrsh License",
+    "btnUpdate" : "Update Signature",
+    "btnForce" : "Force Logout"
   }
 }

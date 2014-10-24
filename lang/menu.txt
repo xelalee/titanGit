@@ -114,7 +114,7 @@
           ]
         },
         {
-          "label" : "Top File Extension",
+          "label" : "Top Virus File Extension",
           "cn-label" : "按扩展名排行",
           "tw-label" : "按檔名排序",
           "id" : "menu-0-2",
@@ -3189,7 +3189,7 @@
           "panel" :
           [
             {
-              "label" : "File Extension",
+              "label" : "Virus File Extension",
               "cn-label" : "文件扩展名",
               "tw-label" : "檔案副檔名",
               "id" : "menu-7-0-0",
@@ -16667,9 +16667,9 @@
                             "class" : "registrationMode-0"
                           },
                           {
-                            "label" : "名字",
+                            "label" : "First Name",
                             "cn-label" : "姓氏",
-                            "tw-label" : "First Name",
+                            "tw-label" : "名字",
                             "tab" : "firstName",
                             "tag" : "input",
                             "type" : "text",

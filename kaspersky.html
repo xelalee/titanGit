@@ -58,7 +58,7 @@
 
 <!-- custom css -->
     <link rel="stylesheet" type="text/css" href="css/customCSS.css" /> 
-
+<!-- version code K -->
 <!-- JS Start -->
 <script type="text/javascript">
 // force redirect to https
@@ -265,7 +265,7 @@ gObj.progress = '';
 gObj.tab;
 gObj.tabber;
 gObj.tabIndex   = 0;
-gObj.tabIndexId = 0;
+gObj.tabIndexId = '';
 gObj.tabIndexed = 0;
 gObj.use_common_ip_list = [];
 gObj.isForm    = [];
@@ -1612,7 +1612,7 @@ $(document).ready(function () {
                             tmp +=           '<tbody>';
                             tmp +=           '</tbody>';
                             tmp +=         '</table>';
-                            tmp +=         '<div class="tblAction"><button id="licenseRefresh" class="LicenseRefresh"><span class="ui-icon"></span></button></div>';
+                            tmp +=         '<div class="tblAction"><button id="licenseRefresh" class="LicenseRefresh" title="' + gTerm[ gObj.lang ].btnLicenseRefresh + '"><span class="ui-icon"></span></button></div>';
                             tmp +=       '</div>';
 
                             tmp +=       '<div id="div-services_active" >';
@@ -1626,7 +1626,7 @@ $(document).ready(function () {
                             tmp +=               '<td class="alignLeft BT150">';
                             tmp +=                 '<input type="text" id="activeCode" />';
                             tmp +=               '</td>';
-                            tmp +=               '<td class="alignLeft"><div class="tblAction"><button id="licenseUpgrade" class="LicenseUpgrade"><span class="ui-icon"></span></button></div></td>';
+                            tmp +=               '<td class="alignLeft"><div class="tblAction"><button id="licenseUpgrade" class="LicenseUpgrade" title="' + gTerm[ gObj.lang ].btnLicenseUpgrade + '"><span class="ui-icon"></span></button></div></td>';
                             tmp +=             '</tr>';
                             tmp +=           '</thead>';
                             tmp +=         '</table>';
@@ -1985,9 +1985,18 @@ $(document).ready(function () {
                     gQuery = {};
 
                     $('#main_ft').empty();
+                    if (gObj.actived.icon)
+                        gObj.actived.icon.removeClass('ui-actived');
                     $('#activedMenu').remove();
                     gObj.active.icon.addClass('ui-actived');
                     gObj.active.icon.prepend(gHtml.aMenu);
+
+                    if (gObj.actived.pid == gObj.active.pid) {
+                        gObj.active.icon.addClass('ui-state-active');
+                    } else if (gObj.actived.icon ) {
+                        gObj.actived.icon.removeClass('ui-state-active');
+                    }
+
                     gNode = gObj.menu[gObj.active.h3Index];
                     $('#main_hd').html( gObj.active.menu );
                     if (gIf.refresh) {
@@ -2043,6 +2052,10 @@ $(document).ready(function () {
                     gQuery = {};
 
                     $('#main_ft').empty();
+                    if (gObj.actived.icon)
+                        gObj.actived.icon.removeClass('ui-actived');
+                    if (gObj.actived.icon ) 
+                        gObj.actived.icon.removeClass('ui-state-active');
                     $('#activedMenu').remove();
                     gObj.active.icon.addClass('ui-actived');
                     gObj.active.icon.prepend(gHtml.aMenu);
@@ -2100,6 +2113,10 @@ $(document).ready(function () {
                     gQuery = {};
 
                     $('#main_ft').empty();
+                    if (gObj.actived.icon)
+                        gObj.actived.icon.removeClass('ui-actived');
+                    if (gObj.actived.icon ) 
+                        gObj.actived.icon.removeClass('ui-state-active');
                     $('#activedMenu').remove();
                     gObj.active.icon.addClass('ui-actived');
                     gObj.active.icon.prepend(gHtml.aMenu);
@@ -4017,6 +4034,7 @@ $(document).ready(function () {
         var checker = {};
         var msg = '';
         if ($('#destination').exists() && (gReg.isIPv4.test( $('#destination').val() ) || gReg.isURL.test( $('#destination').val() ) ) ) {
+gY.log( $('#packetcount').val() );
             loadingToggle( true );
             switch( gNode.tab )
             {
@@ -4697,11 +4715,20 @@ $(document).ready(function () {
                         gIf.query = false;
                         gSort = {};
                         gQuery = {};
-                        if (gObj.active.icon) {
-                            gObj.active.icon.removeClass('ui-actived');
-                            $('#activedMenu').remove();
-                        }
+
+                        if (gObj.actived.icon)
+                            gObj.actived.icon.removeClass('ui-actived');
+                        $('#activedMenu').remove();
+
+                        if (gObj.actived.pid == gObj.active.pid) 
+                            gObj.active.icon.addClass('ui-state-active');
+                        else if (gObj.actived.icon ) 
+                            gObj.actived.icon.removeClass('ui-state-active');
+
                         gObj.actived = gObj.active;
+
+                        gObj.active.icon.addClass('ui-actived');
+                        gObj.active.icon.prepend(gHtml.aMenu);
 
                         if ($('#refreshPage').exists())
                             gObj.active.refresh = $('#refreshPage').val();
@@ -6428,10 +6455,10 @@ $(document).ready(function () {
                     }
                     gObj.tabber = $('.tabber').tabs({
                         create: function( event, ui ) {
-                            gObj.tabIndexId = 0;
+                            gObj.tabIndexId = ui.tab[ 0 ].id.split('-').pop();
                         },
                         activate: function( event, ui ) {
-                            gObj.tabIndexId = ui.newTab.index();
+                            gObj.tabIndexId = ui.newTab[ 0 ].id.split('-').pop.index();
                             btnColumns( false );
                         }
                     });
@@ -6539,7 +6566,7 @@ $(document).ready(function () {
                                         if ( gIf.power ) {
                                             for (var z=0, zlen=gObj.btn.length; z<zlen; z++)
                                             {
-                                                tmp += '<button id="' + gObj.btn[z] + '-' + gNode.tab + '-' + j + '" class="' + gObj.btn[z] + '" title="' + gTerm[ 'btn' + gObj.btn[ z ] ] + '"><span class="ui-icon" ></span></button>';
+                                                tmp += '<button id="' + gObj.btn[z] + '-' + gNode.tab + '-' + j + '" class="' + gObj.btn[z] + '" title="' + gTerm[ gObj.lang ][ 'btn' + gObj.btn[ z ] ] + '"><span class="ui-icon" ></span></button>';
                                             }
                                         } else {
                                             tmp += '';
@@ -7245,7 +7272,7 @@ $(document).ready(function () {
                                     if (gIf.power) {
                                         for (var z=0; z<gObj.btn.length; z++)
                                         {
-                                            tmp += '<button id="' + gObj.btn[z] + '-' + gNode.tab + '-' + i + '" class="' + gObj.btn[z] + '" title="' + gTerm[ 'btn' + gObj.btn[ z ] ] + '"><span class="ui-icon" ></span></button>';
+                                            tmp += '<button id="' + gObj.btn[z] + '-' + gNode.tab + '-' + i + '" class="' + gObj.btn[z] + '" title="' + gTerm[ gObj.lang ][ 'btn' + gObj.btn[ z ] ] + '"><span class="ui-icon" ></span></button>';
                                         }
                                     } else {
                                         tmp += '';
@@ -7495,11 +7522,11 @@ $(document).ready(function () {
                                                     serKey = ['totalBytes'];
                                                     legends = {
                                                         position: "left",
-                                                        width: 200,
-                                                        height: 200,
+                                                        width: 300,
+                                                        height: 300,
                                                         styles: { 
                                                             hAlign: "center",
-                                                            hSpacing: 4
+                                                            hSpacing: 10
                                                        }
                                                     };
                                                     serCol = [
@@ -7818,20 +7845,20 @@ $(document).ready(function () {
                                                         cData.push( { protocol: tData[ i ].protocol, hitCount: tData[ i ].hitCount } );
                                                     catKey = 'protocol';
                                                     chartType = 'pie';
-                                                    serKey = ['totalBytes'];
+                                                    serKey = ['hitCount'];
                                                     legends = {
                                                         position: "left",
-                                                        width: 200,
-                                                        height: 200,
+                                                        width: 300,
+                                                        height: 300,
                                                         styles: {
                                                             hAlign: "center",
-                                                            hSpacing: 4
+                                                            hSpacing: 10
                                                        }
                                                     };
                                                     serCol = [
                                                       {   
                                                         categoryKey: "protocol",
-                                                        valueKey: "totalBytes",
+                                                        valueKey: "hitCount",
                                                         styles: { fill: { colors: gColor } }
                                                       }       
                                                     ]; 
@@ -8464,7 +8491,7 @@ $(document).ready(function () {
                                                     if ( gIf.power ) {
                                                         for (var z=0, zlen=gObj.btn.length; z<zlen; z++)
                                                         {
-                                                            tmp += '<button id="' + gObj.btn[z] + '-' + x + '-' + i + '" class="' + gObj.btn[z] + '" title="' + gTerm[ 'btn' + gObj.btn[ z ] ] + '"><span class="ui-icon"></span></button>';
+                                                            tmp += '<button id="' + gObj.btn[z] + '-' + x + '-' + i + '" class="' + gObj.btn[z] + '" title="' + gTerm[ gObj.lang ][ 'btn' + gObj.btn[ z ] ] + '"><span class="ui-icon"></span></button>';
                                                         }
                                                     } else {
                                                         tmp += '';
@@ -8651,7 +8678,7 @@ $(document).ready(function () {
                         if ( gIf.power ) {
                             for (var z=0, zlen=gObj.btn.length; z<zlen; z++)
                             {
-                                tmp += '<button class="' + gObj.btn[ z ] + '" id="' + gObj.btn[ z ] + '-' + pid + '-' + i + '" title="' + gTerm[ 'btn' + gObj.btn[ z ] ] + '"><span class="ui-icon"></span></button>';
+                                tmp += '<button class="' + gObj.btn[ z ] + '" id="' + gObj.btn[ z ] + '-' + pid + '-' + i + '" title="' + gTerm[ gObj.lang ][ 'btn' + gObj.btn[ z ] ] + '"><span class="ui-icon"></span></button>';
                             }
                         } else {
                             tmp += '';
@@ -9657,10 +9684,10 @@ $(document).ready(function () {
                             tmp += '<select id="pool" multiple size="10"></select>';
                             tmp += '</td>';
                             tmp += '<td style="width: ' + gNode.editor[ i ].col[ j ].multiple.del.wiz + '">';
-                            tmp += '<button class="Move2Del" id="Move2Del-interfaces"><span class="ui-icon"></span></button>';
+                            tmp += '<button class="Move2Del" id="Move2Del-interfaces" title="' + gTerm[ gObj.lang ].btnMove2Del + '"><span class="ui-icon"></span></button>';
                             tmp += '</td>';
                             tmp += '<td style="width: ' + gNode.editor[ i ].col[ j ].multiple.add.wiz + '">';
-                            tmp += '<button class="Move2Add" id="Move2Add-interfaces"><span class="ui-icon"></span></button>';
+                            tmp += '<button class="Move2Add" id="Move2Add-interfaces" title="' + gTerm[ gObj.lang ].btnMove2Add + '"><span class="ui-icon"></span></button>';
                             tmp += '</td>';
                             tmp += '<td style="width: ' + gNode.editor[ i ].col[ j ].multiple.pick.wiz + '">';
                             tmp += '<select id="pick" multiple size="10"></select>';
@@ -10092,10 +10119,10 @@ $(document).ready(function () {
                     tmp += '<select id="pool" multiple size="10"></select>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gNode.editor[ i ].multiple.del.wiz + '">';
-                    tmp += '<button class="Move2Del" id="Move2Del-member"><span class="ui-icon"></span></button>';
+                    tmp += '<button class="Move2Del" id="Move2Del-member" title="' + gTerm[ gObj.lang ].btnMove2Del + '"><span class="ui-icon"></span></button>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gNode.editor[ i ].multiple.add.wiz + '">';
-                    tmp += '<button class="Move2Add" id="Move2Add-member"><span class="ui-icon"></span></button>';
+                    tmp += '<button class="Move2Add" id="Move2Add-member" title="' + gTerm[ gObj.lang ].btnMove2Add + '"><span class="ui-icon"></span></button>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gNode.editor[ i ].multiple.pick.wiz + '">';
                     tmp += '<select id="pick" multiple size="10"></select>';
@@ -11162,10 +11189,10 @@ $(document).ready(function () {
                             tmp += '<select id="pool" multiple size="10"></select>';
                             tmp += '</td>';
                             tmp += '<td style="width: ' + gNode.editor[ i ].col[ j ].multiple.del.wiz + '">';
-                            tmp += '<button class="Move2Del" id="Move2Del-interfaces"><span class="ui-icon"></span></button>';
+                            tmp += '<button class="Move2Del" id="Move2Del-interfaces" title="' + gTerm[ gObj.lang ].btnMove2Del + '"><span class="ui-icon"></span></button>';
                             tmp += '</td>';
                             tmp += '<td style="width: ' + gNode.editor[ i ].col[ j ].multiple.add.wiz + '">';
-                            tmp += '<button class="Move2Add" id="Move2Add-interfaces"><span class="ui-icon"></span></button>';
+                            tmp += '<button class="Move2Add" id="Move2Add-interfaces" title="' + gTerm[ gObj.lang ].btnMove2Add + '"><span class="ui-icon"></span></button>';
                             tmp += '</td>';
                             tmp += '<td style="width: ' + gNode.editor[ i ].col[ j ].multiple.pick.wiz + '">';
                             tmp += '<select id="pick" multiple size="10"></select>';
@@ -11648,10 +11675,10 @@ $(document).ready(function () {
                     tmp += '<select id="pool" multiple size="10"></select>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gNode.editor[ i ].multiple.del.wiz + '">';
-                    tmp += '<button class="Move2Del" id="Move2Del-member"><span class="ui-icon"></span></button>';
+                    tmp += '<button class="Move2Del" id="Move2Del-member" title="' + gTerm[ gObj.lang ].btnMove2Del + '"><span class="ui-icon"></span></button>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gNode.editor[ i ].multiple.add.wiz + '">';
-                    tmp += '<button class="Move2Add" id="Move2Add-member"><span class="ui-icon"></span></button>';
+                    tmp += '<button class="Move2Add" id="Move2Add-member" title="' + gTerm[ gObj.lang ].btnMove2Add + '"><span class="ui-icon"></span></button>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gNode.editor[ i ].multiple.pick.wiz + '">';
                     tmp += '<select id="pick" multiple size="10"></select>';
@@ -13978,7 +14005,7 @@ $(document).ready(function () {
                                             for (var k=0, klen=gObj.btn.length; k<klen; k++)
                                             {
                                                 if ( !( 'Delete' === gObj.btn[ k ] && 0 === parseInt( data[ gNode.guiT ][ i ].userDefined ) ) ) {
-                                                    tmp += '<button class="' + gObj.btn[ k ] + '" id="' + gObj.btn[ k ] + '-' + pid + '-' + i + '" title="' + gTerm[ 'btn' + gObj.btn[ k ] ] + '"><span class="ui-icon" ></span></button>';
+                                                    tmp += '<button class="' + gObj.btn[ k ] + '" id="' + gObj.btn[ k ] + '-' + pid + '-' + i + '" title="' + gTerm[ gObj.lang ][ 'btn' + gObj.btn[ k ] ] + '"><span class="ui-icon" ></span></button>';
                                                 }
                                             }
                                         } else {
@@ -14149,7 +14176,7 @@ $(document).ready(function () {
                                             if (gIf.power) {
                                                 for (var z=0, zlen=gObj.btn.length; z<zlen; z++)
                                                 {
-                                                    tmp += '<button class="' + gObj.btn[ z ] + '" id="' + gObj.btn[ z ] + '-' + pid + '-' + i + '" title="' + gTerm[ 'btn' + gObj.btn[ z ] ] + '"><span class="ui-icon" ></span></button>';
+                                                    tmp += '<button class="' + gObj.btn[ z ] + '" id="' + gObj.btn[ z ] + '-' + pid + '-' + i + '" title="' + gTerm[ gObj.lang ][ 'btn' + gObj.btn[ z ] ] + '"><span class="ui-icon" ></span></button>';
                                                 }
                                             } else {
                                                 tmp += '';
@@ -14249,7 +14276,7 @@ $(document).ready(function () {
                                             if (gIf.power) {
                                                 for (var z=0, zlen=gObj.btn.length; z<zlen; z++)
                                                 {
-                                                    tmp += '<button class="' + gObj.btn[ z ] + '" id="' + gObj.btn[ z ] + '-' + pid + '-' + i + '" title="' + gTerm[ 'btn' + gObj.btn[ z ] ] + '"><span class="ui-icon" ></span></button>';
+                                                    tmp += '<button class="' + gObj.btn[ z ] + '" id="' + gObj.btn[ z ] + '-' + pid + '-' + i + '" title="' + gTerm[ gObj.lang ][ 'btn' + gObj.btn[ z ] ] + '"><span class="ui-icon" ></span></button>';
                                                 }
                                             } else {
                                                 tmp += '';
@@ -14410,7 +14437,7 @@ $(document).ready(function () {
                             for (var z=0, zlen=gObj.btn.length; z<zlen; z++)
                             {
                                 if ( !( 'Delete' === gObj.btn[ z ] && 0 === parseInt( gData[ pid ][ gNode.guiT ][ i ].userDefined ) ) ) {
-                                    tmp += '<button class="' + gObj.btn[ z ] + '" id="' + gObj.btn[ z ] + '-' + pid + '-' + i + '" title="' + gTerm[ 'btn' + gObj.btn[ z ] ] + '"><span class="ui-icon" ></span></button>';
+                                    tmp += '<button class="' + gObj.btn[ z ] + '" id="' + gObj.btn[ z ] + '-' + pid + '-' + i + '" title="' + gTerm[ gObj.lang ][ 'btn' + gObj.btn[ z ] ] + '"><span class="ui-icon" ></span></button>';
                                 }
                             }
                         } else {
@@ -14476,7 +14503,7 @@ $(document).ready(function () {
                         if (gIf.power) {
                             for (var z=0, zlen=gObj.btn.length; z<zlen; z++)
                             {
-                                tmp += '<button class="' + gObj.btn[ z ] + '" id="' + gObj.btn[ z ] + '-' + pid + '-' + i + '" title="' + gTerm[ 'btn' + gObj.btn[ z ] ] + '"><span class="ui-icon" ></span></button>';
+                                tmp += '<button class="' + gObj.btn[ z ] + '" id="' + gObj.btn[ z ] + '-' + pid + '-' + i + '" title="' + gTerm[ gObj.lang ][ 'btn' + gObj.btn[ z ] ] + '"><span class="ui-icon" ></span></button>';
                             }
                         } else {
                             tmp += '';
@@ -14523,7 +14550,7 @@ $(document).ready(function () {
                         if (gIf.power) {
                             for (var z=0, zlen=gObj.btn.length; z<zlen; z++)
                             {
-                                tmp += '<button class="' + gObj.btn[ z ] + '" id="' + gObj.btn[ z ] + '-' + pid + '-' + i + '" title="' + gTerm[ 'btn' + gObj.btn[ z ] ] + '"><span class="ui-icon" ></span></button>';
+                                tmp += '<button class="' + gObj.btn[ z ] + '" id="' + gObj.btn[ z ] + '-' + pid + '-' + i + '" title="' + gTerm[ gObj.lang ][ 'btn' + gObj.btn[ z ] ] + '"><span class="ui-icon" ></span></button>';
                             }
                         } else {
                             tmp += '';
@@ -16388,7 +16415,7 @@ $(document).ready(function () {
                                                             if (gNode.guiT[ x ][ i ] == 'guiRulesT' && gIf.power) {
                                                                 for (var z=0, zlen=gObj.btn.length; z<zlen; z++)
                                                                 {
-                                                                    tmp += '<button id="' + gObj.btn[z] + '-' + x + '-' + trNo + '" class="' + gObj.btn[z] + '" title="' + gTerm[ 'btn' + gObj.btn[ z ] ] + '"><span class="ui-icon" ></span></button>';
+                                                                    tmp += '<button id="' + gObj.btn[z] + '-' + x + '-' + trNo + '" class="' + gObj.btn[z] + '" title="' + gTerm[ gObj.lang ][ 'btn' + gObj.btn[ z ] ] + '"><span class="ui-icon" ></span></button>';
                                                                 }
                                                             }else
                                                                 tmp += '';
@@ -16492,10 +16519,10 @@ $(document).ready(function () {
 
                         gObj.tabber = $('.tabber').tabs({
                             create: function( event, ui ) {
-                                gObj.tabIndexId = 0;
+                                gObj.tabIndexId = ui.tab[ 0 ].id.split('-').pop();
                             },
                             activate: function( event, ui ) {
-                                gObj.tabIndexId = ui.newTab.index();
+                                gObj.tabIndexId = ui.newTab[ 0 ].id.split('-').pop.index();
                                 btnColumns( false );
                             }
                         });
@@ -17102,7 +17129,7 @@ $(document).ready(function () {
                             if (gNode.guiT[ pid ][ i ] == 'guiRulesT' && gIf.power) {
                                 for (var z=0, zlen=gObj.btn.length; z<zlen; z++)
                                 {
-                                    tmp += '<button id="' + gObj.btn[z] + '-' + pid + '-' + j + '" class="' + gObj.btn[z] + '" title="' + gTerm[ 'btn' + gObj.btn[ z ] ] + '"><span class="ui-icon" ></span></button>';
+                                    tmp += '<button id="' + gObj.btn[z] + '-' + pid + '-' + j + '" class="' + gObj.btn[z] + '" title="' + gTerm[ gObj.lang ][ 'btn' + gObj.btn[ z ] ] + '"><span class="ui-icon" ></span></button>';
                                 }
                             }else
                                 tmp += '';
@@ -18901,7 +18928,7 @@ $(document).ready(function () {
                                             tmp += '<caption>' + gNode.col[ 0 ].col[ 0 ][ gObj.label ] + '</caption>';
                                             tmp += '<tr>';
                                             tmp += '<td class="alignLeft BT150"><label for="signature-startUpdate">' + gNode.col[ 0 ].col[ 0 ].col[ 0 ][ gObj.label ] + '</td>';
-                                            tmp += '<td class="alignCenter BT40"><button class="Update" id="signature-startUpdate"><span class="ui-icon"></span></td>';
+                                            tmp += '<td class="alignCenter BT40"><button class="Update" id="signature-startUpdate" title="' + gTerm[ gObj.lang ].btnUpdate + '"><span class="ui-icon"></span></td>';
                                             tmp += '<td class="alignLeft "></td>';
                                             tmp += '</tr>';
                                             tmp += '<tr>';
@@ -19069,8 +19096,8 @@ $(document).ready(function () {
                                         tmp += '<select id="selectedZonesTPool" multiple size="10"></select>';
                                         tmp += '</td>';
                                         tmp += '<td class="alignCenter">';
-                                        tmp += '<button id="Move2Del-selectedZonesT" class="Move2Del"><span class="ui-icon"></span></button>';
-                                        tmp += '<button id="Move2Add-selectedZonesT" class="Move2Add"><span class="ui-icon"></span></button>';
+                                        tmp += '<button id="Move2Del-selectedZonesT" class="Move2Del" title="' + gTerm[ gObj.lang ].btnMove2Del + '"><span class="ui-icon"></span></button>';
+                                        tmp += '<button id="Move2Add-selectedZonesT" class="Move2Add" title="' + gTerm[ gObj.lang ].btnMove2Del + '"><span class="ui-icon"></span></button>';
                                         tmp += '</td>';
                                         tmp += '<td class="alignCenter">';
                                         tmp += '<select id="selectedZonesT" multiple size="10"></select>';
@@ -19133,11 +19160,11 @@ $(document).ready(function () {
                                             tmp +=                   '<label for="' + pid + 'PortList-0">' + gNode.col[ y ][ 1 ].col[ 3 ][ gObj.label ] + '</label>';
                                             tmp +=                 '</td>';
                                             tmp +=                 '<td class="alignLeft">';
-                                            tmp +=                   '<input type="text" id="' + pid + 'PortList-0" size="3" />';
-                                            tmp +=                   '<input type="text" id="' + pid + 'PortList-1" size="3" />';
-                                            tmp +=                   '<input type="text" id="' + pid + 'PortList-2" size="3" />';
-                                            tmp +=                   '<input type="text" id="' + pid + 'PortList-3" size="3" />';
-                                            tmp +=                   '<input type="text" id="' + pid + 'PortList-4" size="3" />';
+                                            tmp +=                   '<input type="text" class="PortList" id="' + pid + 'PortList-0" size="3" />';
+                                            tmp +=                   '<input type="text" class="PortList" id="' + pid + 'PortList-1" size="3" />';
+                                            tmp +=                   '<input type="text" class="PortList" id="' + pid + 'PortList-2" size="3" />';
+                                            tmp +=                   '<input type="text" class="PortList" id="' + pid + 'PortList-3" size="3" />';
+                                            tmp +=                   '<input type="text" class="PortList" id="' + pid + 'PortList-4" size="3" />';
                                             tmp +=                 '</td>';
                                             tmp +=               '</tr>';
                                             break;
@@ -19193,6 +19220,16 @@ $(document).ready(function () {
                                                 $('.' + pid + 'Enable input').prop('disabled', true);
                                                 $('.' + pid + 'Enable select').prop('disabled', true);
                                             }
+                                            gCache.tabber[ pid ] = true;
+                                            gIf.alter = true;
+                                        });
+
+                                        $('#' + pid + 'Log').on('click', function(e) {
+                                            gCache.tabber[ pid ] = true;
+                                            gIf.alter = true;
+                                        });
+
+                                        $('.PortList').on('blur', function(e) {
                                             gCache.tabber[ pid ] = true;
                                             gIf.alter = true;
                                         });
@@ -19956,7 +19993,7 @@ $(document).ready(function () {
                 $('#popBase').append('<div id="popError" class="popError"></div>');
 
             $('#popError').html('<div class="errorForm"><p class="errorMsg"></p></div>');
-            gPop.popError$('#popError').dialog({
+            gPop.popError = $('#popError').dialog({
                 width: 300,
                 height:200,
                 position: "center",
@@ -20718,7 +20755,7 @@ $(document).ready(function () {
                                     tmp = '<div class="tblAction">';
                                     var arr = gNode.tblAction[ y ].split(' ');
                                     for (var i=0; i<arr.length; i++)
-                                        tmp += '<button id="' + arr[ i ] + '-' + y + '" class="' + arr[ i ] + '" title="' + gTerm[ 'btn' + arr[ i ] ] + '"><span class="ui-icon"></span></button>';
+                                        tmp += '<button id="' + arr[ i ] + '-' + y + '" class="' + arr[ i ] + '" title="' + gTerm[ gObj.lang ][ 'btn' + arr[ i ] ] + '"><span class="ui-icon"></span></button>';
                                     tmp += '</div>';
                                     $('#table-footer-' + y ).append( tmp );
 
@@ -20790,7 +20827,7 @@ $(document).ready(function () {
                                     tmp = '<div class="tblAction">';
                                     var arr = gNode.tblAction[ y ].split(' ');
                                     for (var i=0; i<arr.length; i++)
-                                        tmp += '<button id="' + arr[ i ] + '-' + y + '" class="' + arr[ i ] + '" title="' + gTerm[ 'btn' + arr[ i ] ] + '"><span class="ui-icon"></span></button>';
+                                        tmp += '<button id="' + arr[ i ] + '-' + y + '" class="' + arr[ i ] + '" title="' + gTerm[ gObj.lang ][ 'btn' + arr[ i ] ] + '"><span class="ui-icon"></span></button>';
                                     tmp += '</div>';
                                     $('#table-footer-' + y).append( tmp );
                                     switch( gData[ y ][ gNode.guiT[ y ] ].length )
@@ -21067,10 +21104,10 @@ $(document).ready(function () {
                             tmp += '<select id="pool" multiple size="10"></select>';
                             tmp += '</td>';
                             tmp += '<td style="width: ' + gNode.editor[ tar.pid ][ i ].col[ j ].multiple.del.wiz + '">';
-                            tmp += '<button class="Move2Del" id="Move2Del-users"><span class="ui-icon"></span></button>';
+                            tmp += '<button class="Move2Del" id="Move2Del-users" title="' + gTerm[ gObj.lang ].btnMove2Del + '"><span class="ui-icon"></span></button>';
                             tmp += '</td>';
                             tmp += '<td style="width: ' + gNode.editor[ tar.pid ][ i ].col[ j ].multiple.add.wiz + '">';
-                            tmp += '<button class="Move2Add" id="Move2Add-users"><span class="ui-icon"></span></button>';
+                            tmp += '<button class="Move2Add" id="Move2Add-users" title="' + gTerm[ gObj.lang ].btnMove2Add + '"><span class="ui-icon"></span></button>';
                             tmp += '</td>';
                             tmp += '<td style="width: ' + gNode.editor[ tar.pid ][ i ].col[ j ].multiple.pick.wiz + '">';
                             tmp += '<select id="pick" multiple size="10"></select>';
@@ -21279,10 +21316,10 @@ $(document).ready(function () {
                             tmp += '<select id="pool" multiple size="10"></select>';
                             tmp += '</td>';
                             tmp += '<td style="width: ' + gNode.editor[ tar.pid ][ i ].col[ j ].multiple.del.wiz + '">';
-                            tmp += '<button class="Move2Del" id="Move2Del-users"><span class="ui-icon"></span></button>';
+                            tmp += '<button class="Move2Del" id="Move2Del-users" title="' + gTerm[ gObj.lang ].btnMove2Del + '"><span class="ui-icon"></span></button>';
                             tmp += '</td>';
                             tmp += '<td style="width: ' + gNode.editor[ tar.pid ][ i ].col[ j ].multiple.add.wiz + '">';
-                            tmp += '<button class="Move2Add" id="Move2Add-users"><span class="ui-icon"></span></button>';
+                            tmp += '<button class="Move2Add" id="Move2Add-users" title="' + gTerm[ gObj.lang ].btnMove2Add + '"><span class="ui-icon"></span></button>';
                             tmp += '</td>';
                             tmp += '<td style="width: ' + gNode.editor[ tar.pid ][ i ].col[ j ].multiple.pick.wiz + '">';
                             tmp += '<select id="pick" multiple size="10"></select>';
@@ -22559,10 +22596,10 @@ $(document).ready(function () {
                     tmp += '<select id="pool" multiple size="10"></select>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gNode.editor[ tar.pid ][ i ].multiple.del.wiz + '">';
-                    tmp += '<button class="Move2Del" id="Move2Del-idList"><span class="ui-icon"></span></button>';
+                    tmp += '<button class="Move2Del" id="Move2Del-idList" title="' + gTerm[ gObj.lang ].btnMove2Del + '"><span class="ui-icon"></span></button>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gNode.editor[ tar.pid ][ i ].multiple.add.wiz + '">';
-                    tmp += '<button class="Move2Add" id="Move2Add-idList"><span class="ui-icon"></span></button>';
+                    tmp += '<button class="Move2Add" id="Move2Add-idList" title="' + gTerm[ gObj.lang ].btnMove2Add + '"><span class="ui-icon"></span></button>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gNode.editor[ tar.pid ][ i ].multiple.pick.wiz + '">';
                     tmp += '<select id="pick" multiple size="10"></select>';
@@ -22790,10 +22827,10 @@ $(document).ready(function () {
                     tmp += '<select id="pool" multiple size="10"></select>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gNode.editor[ tar.pid ][ i ].multiple.del.wiz + '">';
-                    tmp += '<button class="Move2Del" id="Move2Del-idList"><span class="ui-icon"></span></button>';
+                    tmp += '<button class="Move2Del" id="Move2Del-idList" title="' + gTerm[ gObj.lang ].btnMove2Del + '"><span class="ui-icon"></span></button>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gNode.editor[ tar.pid ][ i ].multiple.add.wiz + '">';
-                    tmp += '<button class="Move2Add" id="Move2Add-idList"><span class="ui-icon"></span></button>';
+                    tmp += '<button class="Move2Add" id="Move2Add-idList" title="' + gTerm[ gObj.lang ].btnMove2Add + '"><span class="ui-icon"></span></button>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gNode.editor[ tar.pid ][ i ].multiple.pick.wiz + '">';
                     tmp += '<select id="pick" multiple size="10"></select>';
@@ -23211,10 +23248,10 @@ $(document).ready(function () {
                     tmp += '<select id="pool" multiple size="10"></select>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gNode.editor[ tar.pid ][ i ].multiple.del.wiz + '">';
-                    tmp += '<button class="Move2Del" id="Move2Del-idList"><span class="ui-icon"></span></button>';
+                    tmp += '<button class="Move2Del" id="Move2Del-idList" title="' + gTerm[ gObj.lang ].btnMove2Del + '"><span class="ui-icon"></span></button>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gNode.editor[ tar.pid ][ i ].multiple.add.wiz + '">';
-                    tmp += '<button class="Move2Add" id="Move2Add-idList"><span class="ui-icon"></span></button>';
+                    tmp += '<button class="Move2Add" id="Move2Add-idList" title="' + gTerm[ gObj.lang ].btnMove2Add + '"><span class="ui-icon"></span></button>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gNode.editor[ tar.pid ][ i ].multiple.pick.wiz + '">';
                     tmp += '<select id="pick" multiple size="10"></select>';
@@ -23427,10 +23464,10 @@ $(document).ready(function () {
                     tmp += '<select id="pool" multiple size="10"></select>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gNode.editor[ tar.pid ][ i ].multiple.del.wiz + '">';
-                    tmp += '<button class="Move2Del" id="Move2Del-idList"><span class="ui-icon"></span></button>';
+                    tmp += '<button class="Move2Del" id="Move2Del-idList" title="' + gTerm[ gObj.lang ].btnMove2Del + '"><span class="ui-icon"></span></button>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gNode.editor[ tar.pid ][ i ].multiple.add.wiz + '">';
-                    tmp += '<button class="Move2Add" id="Move2Add-idList"><span class="ui-icon"></span></button>';
+                    tmp += '<button class="Move2Add" id="Move2Add-idList" title="' + gTerm[ gObj.lang ].btnMove2Add + '"><span class="ui-icon"></span></button>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gNode.editor[ tar.pid ][ i ].multiple.pick.wiz + '">';
                     tmp += '<select id="pick" multiple size="10"></select>';
@@ -24507,9 +24544,9 @@ $(document).ready(function () {
                                 tmp += '<li><input type="radio" name="resetMode" id="resetMode-' + x + '" value="' + x + '" /><label for="resetMode-' + x + '"> ' + gNode.col[ i ].option[ x ][ gObj.label ] + ' </label></li>';
                             }
                             tmp += '</ul>';
-                            tmp += '<button class="yui3-button" id="' + gNode.col[ i ].tab + '" title="' + gTerm[ 'btn' + gNode.col[ i ][ gObj.label ] ] + '" >' + gNode.col[ i ][ gObj.label ] + '</button>';
+                            tmp += '<button class="yui3-button" id="' + gNode.col[ i ].tab + '" title="' + gTerm[ gObj.lang ][ 'btn' + gNode.col[ i ][ gObj.label ] ] + '" >' + gNode.col[ i ][ gObj.label ] + '</button>';
                         } else {
-                            tmp += '<button class="yui3-button" id="' + gNode.col[ i ].tab + '" title="' + gTerm[ 'btn' + gNode.col[ i ][ gObj.label ] ] + '" >' + gNode.col[ i ][ gObj.label ] + '</button>';
+                            tmp += '<button class="yui3-button" id="' + gNode.col[ i ].tab + '" title="' + gTerm[ gObj.lang ][ 'btn' + gNode.col[ i ][ gObj.label ] ] + '" >' + gNode.col[ i ][ gObj.label ] + '</button>';
                         }
                         tmp += '</div>';
                         $('#div-' + pid).append(tmp);
@@ -24902,7 +24939,7 @@ $(document).ready(function () {
                                 tmp += '<select id="' + gNode.col[ i ].tab + '" >';
                                 for (var x in gNode.col[ i ].option)
                                 {
-                                    tmp += '<option value="' + gNode.col[ i ].option[ x ] + '">' + gNode.col[ i ].option[ x ][ gObj.label ] + '</option>';
+                                    tmp += '<option value="' + x + '">' + gNode.col[ i ].option[ x ][ gObj.label ] + '</option>';
                                 }
                                 tmp += '</select>';
                                 tmp += '</td>';
@@ -26098,7 +26135,7 @@ $(document).ready(function () {
                                         tmp +=     '<tbody>';
                                         tmp +=     '</tbody>';
                                         tmp +=   '</table>';
-                                        tmp +=   '<div class="tblAction"><button id="licenseRefresh" class="LicenseRefresh"><span class="ui-icon"></span></button></div>';
+                                        tmp +=   '<div class="tblAction"><button id="licenseRefresh" class="LicenseRefresh" title="' + gTerm[ gObj.lang ].btnLicenseRefresh + '"><span class="ui-icon"></span></button></div>';
                                         tmp += '</div>';
 
                                         tmp += '<div id="div-services_active" >';
@@ -26112,9 +26149,9 @@ $(document).ready(function () {
                                         tmp +=         '<td class="alignLeft BT150">';
                                         tmp +=           '<input type="text" id="activeCode" />';
                                         tmp +=         '</td>';
-                                        tmp +=         '<td class="alignLeft"><div class="tblAction"><button id="licenseUpgrade" class="LicenseUpgrade"><span class="ui-icon"></span></button></div></td>';
-                                        tmp +=       '</tr>';
-                                        tmp +=     '</thead>';
+                                        tmp +=         '<td class="alignLeft"><div class="tblAction"><button id="licenseUpgrade" class="LicenseUpgrade" title="' + gTerm[ gObj.lang ].btnLicenseUpgrade + '"><span class="ui-icon"></span></button></div></td>';
+                                        tmm +=       '</tr>';
+                                        mmp +=     '</thead>';
                                         tmp +=   '</table>';
                                         tmp += '</div>';
                                         tmp += '</div>';
@@ -27888,7 +27925,7 @@ $(document).ready(function () {
                                     switch(gReg.isDigit.test(x))
                                     {
                                     case true:
-                                        tmp += '<button id="' + gObj.reg[x] + '-' + id + '-' + i + '" class="' + gObj.reg[x] +    '"><span class="ui-icon" title="' + gTerm[ 'btn' + gObj.reg[x] ] + '"></span></button>';
+                                        tmp += '<button id="' + gObj.reg[x] + '-' + id + '-' + i + '" class="' + gObj.reg[x] +    '"><span class="ui-icon" title="' + gTerm[ gObj.lang ][ 'btn' + gObj.reg[x] ] + '"></span></button>';
                                         break;
                                     }
                                 }
@@ -28574,10 +28611,10 @@ $(document).ready(function () {
                     tmp += '<select id="pool" multiple size="10"></select>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gSelector.editor[ 'group_address' ][ i ].multiple.del.wiz + '">';
-                    tmp += '<button class="Move2Del" id="Move2Del-idList"><span class="ui-icon"></span></button>';
+                    tmp += '<button class="Move2Del" id="Move2Del-idList" title="' + gTerm[ gObj.lang ].btnMove2Del + '"><span class="ui-icon"></span></button>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gSelector.editor[ 'group_address' ][ i ].multiple.add.wiz + '">';
-                    tmp += '<button class="Move2Add" id="Move2Add-idList"><span class="ui-icon"></span></button>';
+                    tmp += '<button class="Move2Add" id="Move2Add-idList" title="' + gTerm[ gObj.lang ].btnMove2Add + '"><span class="ui-icon"></span></button>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gSelector.editor[ 'group_address' ][ i ].multiple.pick.wiz + '">';
                     tmp += '<select id="pick" multiple size="10"></select>';
@@ -28780,10 +28817,10 @@ $(document).ready(function () {
                     tmp += '<select id="pool" multiple size="10"></select>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gSelector.editor[ 'group_service' ][ i ].multiple.del.wiz + '">';
-                    tmp += '<button class="Move2Del" id="Move2Del-idList"><span class="ui-icon"></span></button>';
+                    tmp += '<button class="Move2Del" id="Move2Del-idList" title="' + gTerm[ gObj.lang ].btnMove2Del + '"><span class="ui-icon"></span></button>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gSelector.editor[ 'group_service' ][ i ].multiple.add.wiz + '">';
-                    tmp += '<button class="Move2Add" id="Move2Add-idList"><span class="ui-icon"></span></button>';
+                    tmp += '<button class="Move2Add" id="Move2Add-idList" title="' + gTerm[ gObj.lang ].btnMove2Add + '"><span class="ui-icon"></span></button>';
                     tmp += '</td>';
                     tmp += '<td style="width: ' + gSelector.editor[ 'group_service' ][ i ].multiple.pick.wiz + '">';
                     tmp += '<select id="pick" multiple size="10"></select>';
@@ -31547,7 +31584,7 @@ $(document).ready(function () {
                 for (var x in gObj.reg)
                 {
                     if (gReg.isDigit.test(x)) {
-                        tmp += '<button id="' + gObj.reg[ x ] + '-' + id + '" class="' + gObj.reg[ x ] + '" title="' + gTerm[ 'btn' + gObj.reg[ x ] ] + '">';
+                        tmp += '<button id="' + gObj.reg[ x ] + '-' + id + '" class="' + gObj.reg[ x ] + '" title="' + gTerm[ gObj.lang ][ 'btn' + gObj.reg[ x ] ] + '">';
                         tmp += '<span class="ui-icon" ></span>';
                         tmp += '</button>';
                     }
@@ -31575,7 +31612,7 @@ $(document).ready(function () {
                     tmp = '<div class="tblAction">';
                     var arr = gNode.tblAction[ tid ].split(' ');
                     for (var i=0; i<arr.length; i++)
-                        tmp += '<button id="' + arr[ i ] + '-' + tid + '" class="' + arr[ i ] + '" title="' + gTerm[ 'btn' + arr[ i ] ] + '"><span class="ui-icon"></span></button>';
+                        tmp += '<button id="' + arr[ i ] + '-' + tid + '" class="' + arr[ i ] + '" title="' + gTerm[ gObj.lang ][ 'btn' + arr[ i ] ] + '"><span class="ui-icon"></span></button>';
                     tmp += '</div>';
                     $('#table-' + tid).parent().append( tmp );
                 }
@@ -31583,14 +31620,14 @@ $(document).ready(function () {
                 tmp = '<div class="tblAction">';
                 var arr = gNode.tblAction[ pid ].split(' ');
                 for (var i=0; i<arr.length; i++)
-                    tmp += '<button id="' + arr[ i ] + '-' + pid + '" class="' + arr[ i ] + '" title="' + gTerm[ 'btn' + arr[ i ] ] + '"><span class="ui-icon"></span></button>';
+                    tmp += '<button id="' + arr[ i ] + '-' + pid + '" class="' + arr[ i ] + '" title="' + gTerm[ gObj.lang ][ 'btn' + arr[ i ] ] + '"><span class="ui-icon"></span></button>';
                 tmp += '</div>';
                 $('#table-' + pid).parent().append( tmp );
             } else {
                 tmp = '<div class="tblAction">';
                 var arr = gNode.tblAction.split(' ');
                 for (var i=0; i<arr.length; i++)
-                    tmp += '<button id="' + arr[ i ] + '-' + pid + '" class="' + arr[ i ] + '" title="' + gTerm[ 'btn' + arr[ i ] ] + '"><span class="ui-icon"></span></button>';
+                    tmp += '<button id="' + arr[ i ] + '-' + pid + '" class="' + arr[ i ] + '" title="' + gTerm[ gObj.lang ][ 'btn' + arr[ i ] ] + '"><span class="ui-icon"></span></button>';
                 tmp += '</div>';
                 $('#table-' + pid).parent().append( tmp );
             }
