@@ -286,6 +286,27 @@ $(document).ready(function () {
                     "1" : {
                         type : 'bar',
                         catKey : 'address',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg;
+                            }
+                        },
                         axes : {
                             address : {
                                 keys:["address"],
@@ -323,6 +344,27 @@ $(document).ready(function () {
                     "2" : {
                         type : 'bar',
                         catKey : 'srcIp',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },   
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg; 
+                            }    
+                        },
                         axes : {
                             srcIp : {
                                 keys:["srcIp"],
@@ -360,6 +402,27 @@ $(document).ready(function () {
                     "3" : {
                         type : 'bar',
                         catKey : 'dstIp',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },   
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg; 
+                            }    
+                        },
                         axes : {
                             dstIp : {
                                 keys:["dstIp"],
@@ -397,6 +460,27 @@ $(document).ready(function () {
                     "4" : {
                         type : "pie",
                         catKey : 'protocol',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },   
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg; 
+                            }    
+                        },
                         serKey : ['totalBytes'],
                         legend : {
                             position: "left",
@@ -418,6 +502,27 @@ $(document).ready(function () {
                     "5" : {
                         type : "bar",
                         catKey : 'dstPort',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },   
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg; 
+                            }    
+                        },
                         axes : {
                             dstPort : {
                                 keys:["dstPort"],
@@ -455,6 +560,27 @@ $(document).ready(function () {
                     "6" : {
                         type : "bar",
                         catKey : 'zone',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },   
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg; 
+                            }    
+                        },
                         axes : {
                             zone : {
                                 keys:["zone"],
@@ -494,6 +620,27 @@ $(document).ready(function () {
                     "1" : {
                         type : 'bar',
                         catKey : 'address',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },   
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg; 
+                            }    
+                        },
                         axes : {
                             address : {
                                 keys:["address"],
@@ -531,6 +678,27 @@ $(document).ready(function () {
                     "2" : {
                         type : 'bar',
                         catKey : 'srcIp',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },   
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg; 
+                            }    
+                        },
                         axes : {
                             srcIp : {
                                 keys:["srcIp"],
@@ -568,6 +736,27 @@ $(document).ready(function () {
                     "3" : {
                         type : 'bar',
                         catKey : 'dstIp',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },   
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg; 
+                            }    
+                        },
                         axes : {
                             dstIp : {
                                 keys:["dstIp"],
@@ -605,6 +794,27 @@ $(document).ready(function () {
                     "4" : {
                         type : "pie",
                         catKey : 'protocol',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },   
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg; 
+                            }    
+                        },
                         serKey : ['totalBytes'],
                         legend : {
                             position: "left",           
@@ -626,6 +836,27 @@ $(document).ready(function () {
                     "5" : {
                         type : "bar",
                         catKey : 'dstPort',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },   
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg; 
+                            }    
+                        },
                         axes : {
                             dstPort : {
                                 keys:["dstPort"],
@@ -663,6 +894,27 @@ $(document).ready(function () {
                     "6" : {
                         type : "bar",
                         catKey : 'zone',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },   
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg; 
+                            }    
+                        },
                         axes : {
                             zone : {
                                 keys:["zone"],
@@ -702,6 +954,27 @@ $(document).ready(function () {
                     "1" : {
                         type : 'bar',
                         catKey : 'address',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },   
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg; 
+                            }    
+                        },
                         axes : {
                             address : {
                                 keys:["address"],
@@ -739,6 +1012,27 @@ $(document).ready(function () {
                     "2" : {
                         type : 'bar',
                         catKey : 'srcIp',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },   
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg; 
+                            }    
+                        },
                         axes : {
                             srcIp : {
                                 keys:["srcIp"],
@@ -776,6 +1070,27 @@ $(document).ready(function () {
                     "3" : {
                         type : 'bar',
                         catKey : 'dstIp',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },   
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg; 
+                            }    
+                        },
                         axes : {
                             dstIp : {
                                 keys:["dstIp"],
@@ -813,6 +1128,27 @@ $(document).ready(function () {
                     "4" : {
                         type : "pie",
                         catKey : 'protocol',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },   
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg; 
+                            }    
+                        },
                         serKey : ['totalBytes'],
                         legend : {
                             position: "left",
@@ -834,6 +1170,27 @@ $(document).ready(function () {
                     "5" : {
                         type : "bar",
                         catKey : 'dstPort',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },   
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg; 
+                            }    
+                        },
                         axes : {
                             dstPort : {
                                 keys:["dstPort"],
@@ -871,6 +1228,27 @@ $(document).ready(function () {
                     "6" : {
                         type : "bar",
                         catKey : 'zone',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },   
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg; 
+                            }    
+                        },
                         axes : {
                             zone : {
                                 keys:["zone"],
@@ -974,6 +1352,27 @@ $(document).ready(function () {
                     "1" : {
                         type : "bar",
                         catKey : 'extension',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },   
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg; 
+                            }    
+                        },
                         axes : {
                             extension : {
                                 keys:["extension"],
@@ -981,7 +1380,11 @@ $(document).ready(function () {
                             },
                             accessCount : {
                                 keys:["accessCount"],
-                                position:"bottom"
+                                position:"bottom",
+                                type:"numeric",
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);
+                                }
                             }
                         },
                         styleDef : {
@@ -1008,6 +1411,27 @@ $(document).ready(function () {
                     "1" : {
                         type : "bar",
                         catKey : 'extension',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg;
+                            }
+                        },
                         axes : {
                             extension : {
                                 keys:["extension"],
@@ -1015,7 +1439,10 @@ $(document).ready(function () {
                             },
                             accessCount : {
                                 keys:["accessCount"],
-                                position:"bottom"
+                                position:"bottom",             
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -1042,6 +1469,27 @@ $(document).ready(function () {
                     "1" : {
                         type : "bar",
                         catKey : 'extension',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg;
+                            }
+                        },
                         axes : {
                             extension : {
                                 keys:["extension"],
@@ -1049,7 +1497,10 @@ $(document).ready(function () {
                             },
                             accessCount : {
                                 keys:["accessCount"],
-                                position:"bottom"
+                                position:"bottom",             
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -1116,6 +1567,27 @@ $(document).ready(function () {
                     "1" : {
                         type : "bar",
                         catKey : 'ip',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg;
+                            }
+                        },
                         axes : {
                             ip : {
                                 keys:["ip"],
@@ -1123,7 +1595,10 @@ $(document).ready(function () {
                             },
                             count : {
                                 keys:["virusCount", "firewallCount"],
-                                position:"bottom"
+                                position:"bottom",             
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -1155,6 +1630,27 @@ $(document).ready(function () {
                     "1" : {
                         type : "bar",
                         catKey : 'ip',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg;
+                            }
+                        },
                         axes : {
                             ip : {
                                 keys:["ip"],
@@ -1162,7 +1658,10 @@ $(document).ready(function () {
                             },
                             count : {
                                 keys:["virusCount", "firewallCount"],
-                                position:"bottom"
+                                position:"bottom",             
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -1194,6 +1693,27 @@ $(document).ready(function () {
                     "1" : {
                         type : "bar",
                         catKey : 'ip',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg;
+                            }
+                        },
                         axes : {
                             ip : {
                                 keys:["ip"],
@@ -1201,7 +1721,10 @@ $(document).ready(function () {
                             },
                             count : {
                                 keys:["virusCount", "firewallCount"],
-                                position:"bottom"
+                                position:"bottom",             
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -1303,6 +1826,27 @@ $(document).ready(function () {
                     "1" : {
                         type : "bar",
                         catKey : 'ip',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg;
+                            }
+                        },
                         axes : {
                             ip : {
                                 keys:["ip"],
@@ -1310,7 +1854,10 @@ $(document).ready(function () {
                             },
                             hitCount : {
                                 keys:["sigHitCount", "virusHitCount"],
-                                position:"bottom"
+                                position:"bottom",             
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -1342,6 +1889,27 @@ $(document).ready(function () {
                     "1" : {
                         type : "bar",
                         catKey : 'ip',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg;
+                            }
+                        },
                         axes : {
                             ip : {
                                 keys:["ip"],
@@ -1349,7 +1917,10 @@ $(document).ready(function () {
                             },
                             hitCount : {
                                 keys:["sigHitCount", "virusHitCount"],
-                                position:"bottom"
+                                position:"bottom",             
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -1381,6 +1952,27 @@ $(document).ready(function () {
                     "1" : {
                         type : "bar",
                         catKey : 'ip',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg;
+                            }
+                        },
                         axes : {
                             ip : {
                                 keys:["ip"],
@@ -1388,7 +1980,10 @@ $(document).ready(function () {
                             },
                             hitCount : {
                                 keys:["sigHitCount", "virusHitCount"],
-                                position:"bottom"
+                                position:"bottom",             
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -1484,6 +2079,27 @@ $(document).ready(function () {
                     "1" : {
                         type : "bar",
                         catKey : 'srcIp',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg;
+                            }
+                        },
                         axes: {
                             srcIp : {
                                 keys:["srcIp"],
@@ -1491,7 +2107,10 @@ $(document).ready(function () {
                             },
                             hitCount : {
                                 keys:["hitCount"],
-                                position:"bottom"
+                                position:"bottom",             
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -1516,6 +2135,27 @@ $(document).ready(function () {
                     "2" : {
                         type : "bar",
                         catKey : 'dstIp',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg;
+                            }
+                        },
                         axes : {
                             dstIp : {
                                 keys:["dstIp"],
@@ -1523,7 +2163,10 @@ $(document).ready(function () {
                             },
                             hitCount : {
                                 keys:["hitCount"],
-                                position:"bottom"
+                                position:"bottom",             
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -1548,6 +2191,27 @@ $(document).ready(function () {
                     "3" : {
                         type : "bar",
                         catKey : 'virusName',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg;
+                            }
+                        },
                         axes : {
                             virusName : {
                                 keys:["virusName"],
@@ -1555,7 +2219,10 @@ $(document).ready(function () {
                             },
                             hitCount : {
                                 keys:["hitCount"],
-                                position:"bottom"
+                                position:"bottom",             
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -1580,6 +2247,27 @@ $(document).ready(function () {
                     "4" : {
                         type : "pie",
                         catKey : 'protocol',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg;
+                            }
+                        },
                         serKey : ['hitCount'],
                         legend : {
                             position: "left",
@@ -1603,6 +2291,27 @@ $(document).ready(function () {
                     "1" : {
                         type : "bar",
                         catKey : 'srcIp',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg;
+                            }
+                        },
                         axes: {
                             srcIp : {
                                 keys:["srcIp"],
@@ -1610,7 +2319,10 @@ $(document).ready(function () {
                             },
                             hitCount : {
                                 keys:["hitCount"],
-                                position:"bottom"
+                                position:"bottom",             
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -1635,6 +2347,27 @@ $(document).ready(function () {
                     "2" : {
                         type : "bar",
                         catKey : 'dstIp',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg;
+                            }
+                        },
                         axes : {
                             dstIp : {
                                 keys:["dstIp"],
@@ -1642,7 +2375,10 @@ $(document).ready(function () {
                             },
                             hitCount : {
                                 keys:["hitCount"],
-                                position:"bottom"
+                                position:"bottom",             
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -1667,6 +2403,27 @@ $(document).ready(function () {
                     "3" : {
                         type : "bar",
                         catKey : 'virusName',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg;
+                            }
+                        },
                         axes : {
                             virusName : {
                                 keys:["virusName"],
@@ -1674,7 +2431,10 @@ $(document).ready(function () {
                             },
                             hitCount : {
                                 keys:["hitCount"],
-                                position:"bottom"
+                                position:"bottom",             
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -1699,6 +2459,27 @@ $(document).ready(function () {
                     "4" : {
                         type : "pie",
                         catKey : 'protocol',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg;
+                            }
+                        },
                         serKey : ['hitCount'],
                         legend : {
                             position: "left",
@@ -1722,6 +2503,27 @@ $(document).ready(function () {
                     "1" : {
                         type : "bar",
                         catKey : 'srcIp',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg;
+                            }
+                        },
                         axes: {
                             srcIp : {
                                 keys:["srcIp"],
@@ -1729,7 +2531,10 @@ $(document).ready(function () {
                             },
                             hitCount : {
                                 keys:["hitCount"],
-                                position:"bottom"
+                                position:"bottom",             
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -1754,6 +2559,27 @@ $(document).ready(function () {
                     "2" : {
                         type : "bar",
                         catKey : 'dstIp',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg;
+                            }
+                        },
                         axes : {
                             dstIp : {
                                 keys:["dstIp"],
@@ -1761,7 +2587,10 @@ $(document).ready(function () {
                             },
                             hitCount : {
                                 keys:["hitCount"],
-                                position:"bottom"
+                                position:"bottom",             
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -1786,6 +2615,27 @@ $(document).ready(function () {
                     "3" : {
                         type : "bar",
                         catKey : 'virusName',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg;
+                            }
+                        },
                         axes : {
                             virusName : {
                                 keys:["virusName"],
@@ -1793,7 +2643,10 @@ $(document).ready(function () {
                             },
                             hitCount : {
                                 keys:["hitCount"],
-                                position:"bottom"
+                                position:"bottom",             
+                                labelFunction: function(label) {
+                                    return label.toFixed(2);    
+                                }
                             }
                         },
                         styleDef : {
@@ -1818,6 +2671,27 @@ $(document).ready(function () {
                     "4" : {
                         type : "pie",
                         catKey : 'protocol',
+                        tips : {
+                            styles: {
+                                backgroundColor: "#efefef",
+                                color: "#000",
+                                borderColor: "#fff",
+                                textAlign: "center"
+                            },
+                            markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                var msg = document.createElement("div"),
+                                    underlinedTextBlock = document.createElement("span");
+                                    boldTextBlock = document.createElement("div");
+                                boldTextBlock.style.marginTop = "5px";
+                                boldTextBlock.style.fontWeight = "bold";
+                                underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                msg.appendChild(underlinedTextBlock);
+                                msg.appendChild(document.createElement("br"));
+                                msg.appendChild(boldTextBlock);
+                                return msg;
+                            }
+                        },
                         serKey : ['hitCount'],
                         legend : {
                             position: "left",
@@ -2173,6 +3047,7 @@ $(document).ready(function () {
                     categoryKey: gObj[ param ].chart[ gLang ][ idx ].catKey,
                     type: gObj[ param ].chart[ gLang ][ idx ].type,
                     legend: gObj[ param ].chart[ gLang ][ idx ].legend,
+                    tooltip: gObj[ param ].chart[ gLang ][ idx ].tips,
                     seriesKeys: gObj[ param ].chart[ gLang ][ idx ].serKey,
                     seriesCollection: gObj[ param ].chart[ gLang ][ idx ].serCol
                 }).render( '#chart-' + idx );
@@ -2181,6 +3056,7 @@ $(document).ready(function () {
                     dataProvider: data,
                     categoryKey: gObj[ param ].chart[ gLang ][ idx ].catKey,
                     type: gObj[ param ].chart[ gLang ][ idx ].type,
+                    tooltip: gObj[ param ].chart[ gLang ][ idx ].tips,
                     axes: gObj[ param ].chart[ gLang ][ idx ].axes,
                     styles: gObj[ param ].chart[ gLang ][ idx ].styleDef,
                     horizontalGridlines: true
@@ -2685,7 +3561,7 @@ $(document).ready(function () {
         tmp += '<td class="pager"><select id="rows"><option value="20">20 rows</option><option value="50">50 rows</option><option value="100">100 rows</option></select>';
         tmp += '<td class="pdfer"><select id="tops"><option value="10">Top 10</option><option value="25">Top 25</option><option value="50">Top 50</option></select>';
 
-        tmp += '<td class="pdfer"><button Class="ExportPDF" id="ExportPDF" title="' + gTitle[ gLang ].ExportPDF + '"><span class="ui-icon"></span></button></td>';
+        //tmp += '<td class="pdfer"><button Class="ExportPDF" id="ExportPDF" title="' + gTitle[ gLang ].ExportPDF + '"><span class="ui-icon"></span></button></td>';
         tmp += '</tr>';
         tmp += '</table>';
         tmp += '</div>';

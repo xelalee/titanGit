@@ -7388,7 +7388,8 @@ $(document).ready(function () {
                                         } else {
                                             if ($('.noData').exists())
                                                 $('#chart-' + tabIndex).empty();
-                                            var catKey, axes, styleDef, chartType, serKey, serCol, legends,
+                                            var catKey, axes, styleDef, chartType,
+                                                serKey, serCol, legends, tips,
                                                 cData = [],
                                                 tData = data.queryResults.slice(0,10);
 
@@ -7401,6 +7402,27 @@ $(document).ready(function () {
                                                     for (var i=0, len=tData.length; i<len; i++)
                                                         cData.push( { address: tData[ i ].address, totalBytes: (tData[ i ].totalBytes/1000000).toFixed(2) } );
                                                     catKey = 'address';
+                                                    tips = {
+                                                        styles: {
+                                                            backgroundColor: "#efefef",
+                                                            color: "#000",
+                                                            borderColor: "#fff",
+                                                            textAlign: "center"
+                                                        },
+                                                        markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                            var msg = document.createElement("div"),
+                                                                underlinedTextBlock = document.createElement("span");
+                                                                boldTextBlock = document.createElement("div");
+                                                            boldTextBlock.style.marginTop = "5px";
+                                                            boldTextBlock.style.fontWeight = "bold";
+                                                            underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                            boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                                            msg.appendChild(underlinedTextBlock);
+                                                            msg.appendChild(document.createElement("br"));
+                                                            msg.appendChild(boldTextBlock);
+                                                            return msg;
+                                                        }
+                                                    };
                                                     axes = {
                                                         address : {
                                                             keys:["address"],
@@ -7439,6 +7461,27 @@ $(document).ready(function () {
                                                     for (var i=0, len=tData.length; i<len; i++)
                                                         cData.push( { srcIp: tData[ i ].srcIp, totalBytes: (tData[ i ].totalBytes/1000000).toFixed(2) } );
                                                     catKey = 'srcIp';
+                                                    tips = {
+                                                        styles: {
+                                                            backgroundColor: "#efefef",
+                                                            color: "#000",
+                                                            borderColor: "#fff",
+                                                            textAlign: "center"
+                                                        },
+                                                        markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                            var msg = document.createElement("div"),
+                                                                underlinedTextBlock = document.createElement("span");
+                                                                boldTextBlock = document.createElement("div");
+                                                            boldTextBlock.style.marginTop = "5px";
+                                                            boldTextBlock.style.fontWeight = "bold";
+                                                            underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                            boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                                            msg.appendChild(underlinedTextBlock);
+                                                            msg.appendChild(document.createElement("br"));
+                                                            msg.appendChild(boldTextBlock);
+                                                            return msg;
+                                                        }
+                                                    };
                                                     axes = {
                                                         srcIp : {
                                                             keys:["srcIp"],
@@ -7477,6 +7520,27 @@ $(document).ready(function () {
                                                     for (var i=0, len=tData.length; i<len; i++)
                                                         cData.push( { dstIp: tData[ i ].dstIp, totalBytes: (tData[ i ].totalBytes/1000000).toFixed(2) } );
                                                     catKey = 'dstIp';
+                                                    tips = {
+                                                        styles: {
+                                                            backgroundColor: "#efefef",
+                                                            color: "#000",
+                                                            borderColor: "#fff",
+                                                            textAlign: "center"
+                                                        },
+                                                        markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                            var msg = document.createElement("div"),
+                                                                underlinedTextBlock = document.createElement("span");
+                                                                boldTextBlock = document.createElement("div");
+                                                            boldTextBlock.style.marginTop = "5px";
+                                                            boldTextBlock.style.fontWeight = "bold";
+                                                            underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                            boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                                            msg.appendChild(underlinedTextBlock);
+                                                            msg.appendChild(document.createElement("br"));
+                                                            msg.appendChild(boldTextBlock);
+                                                            return msg;
+                                                        }
+                                                    };
                                                     axes = {
                                                         dstIp : {
                                                             keys:["dstIp"],
@@ -7515,6 +7579,27 @@ $(document).ready(function () {
                                                     for (var i=0, len=tData.length; i<len; i++)
                                                         cData.push( { protocol: gRef.protocol[ tData[ i ].protocol ], totalBytes: (tData[ i ].totalBytes/1000000).toFixed(2) } );
                                                     catKey = 'protocol';
+                                                    tips = {
+                                                        styles: {
+                                                            backgroundColor: "#efefef",
+                                                            color: "#000",
+                                                            borderColor: "#fff",
+                                                            textAlign: "center"
+                                                        },
+                                                        markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                            var msg = document.createElement("div"),
+                                                                underlinedTextBlock = document.createElement("span");
+                                                                boldTextBlock = document.createElement("div");
+                                                            boldTextBlock.style.marginTop = "5px";
+                                                            boldTextBlock.style.fontWeight = "bold";
+                                                            underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                            boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                                            msg.appendChild(underlinedTextBlock);
+                                                            msg.appendChild(document.createElement("br"));
+                                                            msg.appendChild(boldTextBlock);
+                                                            return msg;
+                                                        }
+                                                    };
                                                     chartType = 'pie';
                                                     serKey = ['totalBytes'];
                                                     legends = {
@@ -7538,6 +7623,27 @@ $(document).ready(function () {
                                                     for (var i=0, len=tData.length; i<len; i++)
                                                         cData.push( { dstPort: tData[ i ].dstPort, totalBytes: (tData[ i ].totalBytes/1000000).toFixed(2) } );
                                                     catKey = 'dstPort';
+                                                    tips = {
+                                                        styles: {
+                                                            backgroundColor: "#efefef",
+                                                            color: "#000",
+                                                            borderColor: "#fff",
+                                                            textAlign: "center"
+                                                        },
+                                                        markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                            var msg = document.createElement("div"),
+                                                                underlinedTextBlock = document.createElement("span");
+                                                                boldTextBlock = document.createElement("div");
+                                                            boldTextBlock.style.marginTop = "5px";
+                                                            boldTextBlock.style.fontWeight = "bold";
+                                                            underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                            boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                                            msg.appendChild(underlinedTextBlock);
+                                                            msg.appendChild(document.createElement("br"));
+                                                            msg.appendChild(boldTextBlock);
+                                                            return msg;
+                                                        }
+                                                    };
                                                     axes = {
                                                         dstPort : {
                                                             keys:["dstPort"],
@@ -7576,6 +7682,27 @@ $(document).ready(function () {
                                                     for (var i=0, len=tData.length; i<len; i++)
                                                         cData.push( { zone: tData[ i ].zone, totalBytes: (tData[ i ].totalBytes/1000000).toFixed(2) } );
                                                     catKey = 'zone';
+                                                    tips = {
+                                                        styles: {
+                                                            backgroundColor: "#efefef",
+                                                            color: "#000",
+                                                            borderColor: "#fff",
+                                                            textAlign: "center"
+                                                        },
+                                                        markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                            var msg = document.createElement("div"),
+                                                                underlinedTextBlock = document.createElement("span");
+                                                                boldTextBlock = document.createElement("div");
+                                                            boldTextBlock.style.marginTop = "5px";
+                                                            boldTextBlock.style.fontWeight = "bold";
+                                                            underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                            boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                                            msg.appendChild(underlinedTextBlock);
+                                                            msg.appendChild(document.createElement("br"));
+                                                            msg.appendChild(boldTextBlock);
+                                                            return msg;
+                                                        }
+                                                    };
                                                     axes = {
                                                         zone : {
                                                             keys:["zone"],
@@ -7616,6 +7743,27 @@ $(document).ready(function () {
                                                 for (var i=0, len=tData.length; i<len; i++)
                                                     cData.push( { extension: tData[ i ].extension, accessCount: tData[ i ].accessCount } );
                                                 catKey = 'extension';
+                                                tips = {
+                                                    styles: {
+                                                        backgroundColor: "#efefef",
+                                                        color: "#000",
+                                                        borderColor: "#fff",
+                                                        textAlign: "center"
+                                                    },
+                                                    markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                        var msg = document.createElement("div"),
+                                                            underlinedTextBlock = document.createElement("span");
+                                                            boldTextBlock = document.createElement("div");
+                                                        boldTextBlock.style.marginTop = "5px";
+                                                        boldTextBlock.style.fontWeight = "bold";
+                                                        underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                        boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                                        msg.appendChild(underlinedTextBlock);
+                                                        msg.appendChild(document.createElement("br"));
+                                                        msg.appendChild(boldTextBlock);
+                                                        return msg;
+                                                    }
+                                                };
                                                 axes = {
                                                     extension : {
                                                         keys:["extension"],
@@ -7624,10 +7772,10 @@ $(document).ready(function () {
                                                     accessCount : {
                                                         keys:["accessCount"],
                                                         position:"bottom",
+                                                        type:"numeric",
                                                         labelFunction: function(label) {
                                                             return label.toFixed(2);
-                                                        },
-                                                        type:"numeric"
+                                                        }
                                                     }
                                                 };
                                                 styleDef = {
@@ -7653,6 +7801,27 @@ $(document).ready(function () {
                                                 for (var i=0, len=tData.length; i<len; i++)
                                                     cData.push( { ip: tData[ i ].ip, virusCount: tData[ i ].virusCount, firewallCount: tData[ i ].firewallCount } );
                                                 catKey = 'ip';
+                                                tips = {
+                                                    styles: {
+                                                        backgroundColor: "#efefef",
+                                                        color: "#000",
+                                                        borderColor: "#fff",
+                                                        textAlign: "center"
+                                                    },    
+                                                    markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                        var msg = document.createElement("div"),
+                                                            underlinedTextBlock = document.createElement("span");
+                                                            boldTextBlock = document.createElement("div");
+                                                        boldTextBlock.style.marginTop = "5px";
+                                                        boldTextBlock.style.fontWeight = "bold";
+                                                        underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                        boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                                        msg.appendChild(underlinedTextBlock);
+                                                        msg.appendChild(document.createElement("br"));
+                                                        msg.appendChild(boldTextBlock);
+                                                        return msg;
+                                                    }
+                                                };
                                                 axes = {
                                                     ip : {
                                                         keys:["ip"],
@@ -7661,10 +7830,10 @@ $(document).ready(function () {
                                                     count : {
                                                         keys:["firewallCount", "virusCount"],
                                                         position:"bottom",
+                                                        type:"numeric",
                                                         labelFunction: function(label) {
                                                             return label.toFixed(2);
-                                                        },
-                                                        type:"numeric"
+                                                        }
                                                     }
                                                 };
                                                 styleDef = {
@@ -7682,6 +7851,11 @@ $(document).ready(function () {
                                                             area: { color: "#eeeeee" },
                                                             line: { color: "#eeeeee" },
                                                             marker: { fill: { color: gColor } }
+                                                        },
+                                                        virusCount: {
+                                                            area: { color: "#eeeeee" },
+                                                            line: { color: "#eeeeee" },
+                                                            marker: { fill: { color: gColor } }
                                                         }
                                                     }
                                                 };
@@ -7690,6 +7864,27 @@ $(document).ready(function () {
                                                 for (var i=0, len=tData.length; i<len; i++)
                                                     cData.push( { ip: tData[ i ].ip, virusHitCount: tData[ i ].virusHitCount, sigHitCount: tData[ i ].sigHitCount } );
                                                 catKey = 'ip';
+                                                tips = {
+                                                    styles: {
+                                                        backgroundColor: "#efefef",
+                                                        color: "#000",
+                                                        borderColor: "#fff",
+                                                        textAlign: "center"
+                                                    },    
+                                                    markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                        var msg = document.createElement("div"),
+                                                            underlinedTextBlock = document.createElement("span");
+                                                            boldTextBlock = document.createElement("div");
+                                                        boldTextBlock.style.marginTop = "5px";
+                                                        boldTextBlock.style.fontWeight = "bold";
+                                                        underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                        boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                                        msg.appendChild(underlinedTextBlock);
+                                                        msg.appendChild(document.createElement("br"));
+                                                        msg.appendChild(boldTextBlock);
+                                                        return msg;
+                                                    }
+                                                };
                                                 axes = {
                                                     ip : {
                                                         keys:["ip"],
@@ -7698,10 +7893,10 @@ $(document).ready(function () {
                                                     hitCount : {
                                                         keys:["virusHitCount", "sigHitCount"],
                                                         position:"bottom",
+                                                        type:"numeric",
                                                         labelFunction: function(label) {
                                                             return label.toFixed(2);
-                                                        },
-                                                        type:"numeric"
+                                                        }
                                                     }
                                                 };
                                                 styleDef = {
@@ -7719,6 +7914,11 @@ $(document).ready(function () {
                                                             area: { color: "#eeeeee" },
                                                             line: { color: "#eeeeee" },
                                                             marker: { fill: { color: gColor } }
+                                                        },
+                                                        virusHitCount: {
+                                                            area: { color: "#eeeeee" },
+                                                            line: { color: "#eeeeee" },
+                                                            marker: { fill: { color: gColor } }
                                                         }
                                                     }
                                                 };
@@ -7730,6 +7930,27 @@ $(document).ready(function () {
                                                     for (var i=0, len=tData.length; i<len; i++)
                                                         cData.push( { srcIp: tData[ i ].srcIp, hitCount: tData[ i ].hitCount } );
                                                     catKey = 'srcIp';
+                                                    tips = {
+                                                        styles: {
+                                                            backgroundColor: "#efefef",
+                                                            color: "#000",
+                                                            borderColor: "#fff",
+                                                            textAlign: "center"
+                                                        },    
+                                                        markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                            var msg = document.createElement("div"),
+                                                                underlinedTextBlock = document.createElement("span");
+                                                                boldTextBlock = document.createElement("div");
+                                                            boldTextBlock.style.marginTop = "5px";
+                                                            boldTextBlock.style.fontWeight = "bold";
+                                                            underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                            boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                                            msg.appendChild(underlinedTextBlock);
+                                                            msg.appendChild(document.createElement("br"));
+                                                            msg.appendChild(boldTextBlock);
+                                                            return msg;
+                                                        }
+                                                    };
                                                     axes = {
                                                         srcIp : {
                                                             keys:["srcIp"],
@@ -7738,10 +7959,10 @@ $(document).ready(function () {
                                                         hitCount : {
                                                             keys:["hitCount"],
                                                             position:"bottom",
+                                                            type:"numeric",
                                                             labelFunction: function(label) {
                                                                 return label.toFixed(2);
-                                                            },
-                                                            type:"numeric"
+                                                            }
                                                         }
                                                     };
                                                     styleDef = {
@@ -7767,6 +7988,27 @@ $(document).ready(function () {
                                                     for (var i=0, len=tData.length; i<len; i++)
                                                         cData.push( { dstIp: tData[ i ].dstIp, hitCount: tData[ i ].hitCount } );
                                                     catKey = 'dstIp';
+                                                    tips = {
+                                                        styles: {
+                                                            backgroundColor: "#efefef",
+                                                            color: "#000",
+                                                            borderColor: "#fff",
+                                                            textAlign: "center"
+                                                        },    
+                                                        markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                            var msg = document.createElement("div"),
+                                                                underlinedTextBlock = document.createElement("span");
+                                                                boldTextBlock = document.createElement("div");
+                                                            boldTextBlock.style.marginTop = "5px";
+                                                            boldTextBlock.style.fontWeight = "bold";
+                                                            underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                            boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                                            msg.appendChild(underlinedTextBlock);
+                                                            msg.appendChild(document.createElement("br"));
+                                                            msg.appendChild(boldTextBlock);
+                                                            return msg;
+                                                        }
+                                                    };
                                                     axes = {
                                                         dstIp : {
                                                             keys:["dstIp"],
@@ -7775,10 +8017,10 @@ $(document).ready(function () {
                                                         hitCount : {
                                                             keys:["hitCount"],
                                                             position:"bottom",
+                                                            type:"numeric",
                                                             labelFunction: function(label) {
                                                                 return label.toFixed(2);
-                                                            },
-                                                            type:"numeric"
+                                                            }
                                                         }
                                                     };
                                                     styleDef = {
@@ -7804,6 +8046,27 @@ $(document).ready(function () {
                                                     for (var i=0, len=tData.length; i<len; i++)
                                                         cData.push( { virusName: tData[ i ].virusName, hitCount: tData[ i ].hitCount } );
                                                     catKey = 'virusName';
+                                                    tips = {
+                                                        styles: {
+                                                            backgroundColor: "#efefef",
+                                                            color: "#000",
+                                                            borderColor: "#fff",
+                                                            textAlign: "center"
+                                                        },    
+                                                        markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                            var msg = document.createElement("div"),
+                                                                underlinedTextBlock = document.createElement("span");
+                                                                boldTextBlock = document.createElement("div");
+                                                            boldTextBlock.style.marginTop = "5px";
+                                                            boldTextBlock.style.fontWeight = "bold";
+                                                            underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                            boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                                            msg.appendChild(underlinedTextBlock);
+                                                            msg.appendChild(document.createElement("br"));
+                                                            msg.appendChild(boldTextBlock);
+                                                            return msg;
+                                                        }
+                                                    };
                                                     axes = {
                                                         virusName : {
                                                             keys:["virusName"],
@@ -7812,10 +8075,10 @@ $(document).ready(function () {
                                                         hitCount : {
                                                             keys:["hitCount"],
                                                             position:"bottom",
+                                                            type:"numeric",
                                                             labelFunction: function(label) {
                                                                 return label.toFixed(2);
-                                                            },
-                                                            type:"numeric"
+                                                            }
                                                         }
                                                     };
                                                     styleDef = {
@@ -7841,6 +8104,27 @@ $(document).ready(function () {
                                                     for (var i=0, len=tData.length; i<len; i++)
                                                         cData.push( { protocol: tData[ i ].protocol, hitCount: tData[ i ].hitCount } );
                                                     catKey = 'protocol';
+                                                    tips = {
+                                                        styles: {
+                                                            backgroundColor: "#efefef",
+                                                            color: "#000",
+                                                            borderColor: "#fff",
+                                                            textAlign: "center"
+                                                        },    
+                                                        markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                            var msg = document.createElement("div"),
+                                                                underlinedTextBlock = document.createElement("span");
+                                                                boldTextBlock = document.createElement("div");
+                                                            boldTextBlock.style.marginTop = "5px";
+                                                            boldTextBlock.style.fontWeight = "bold";
+                                                            underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                            boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                                            msg.appendChild(underlinedTextBlock);
+                                                            msg.appendChild(document.createElement("br"));
+                                                            msg.appendChild(boldTextBlock);
+                                                            return msg;
+                                                        }
+                                                    };
                                                     chartType = 'pie';
                                                     serKey = ['hitCount'];
                                                     legends = {
@@ -7870,6 +8154,7 @@ $(document).ready(function () {
                                                     categoryKey: catKey,
                                                     type: chartType,
                                                     legend: legends,
+                                                    tooltip: tips,
                                                     seriesKeys: serKey,
                                                     seriesCollection: serCol
                                                 }).render('#chart-' + tabIndex);
@@ -7880,6 +8165,7 @@ $(document).ready(function () {
                                                     type:"bar",
                                                     axes: axes,
                                                     styles: styleDef,
+                                                    tooltip: tips,
                                                     horizontalGridlines: true
                                                 }).render('#chart-' + tabIndex);
                                             }
@@ -26147,8 +26433,8 @@ $(document).ready(function () {
                                         tmp +=           '<input type="text" id="activeCode" />';
                                         tmp +=         '</td>';
                                         tmp +=         '<td class="alignLeft"><div class="tblAction"><button id="licenseUpgrade" class="LicenseUpgrade" title="' + gTerm[ gObj.lang ].btnLicenseUpgrade + '"><span class="ui-icon"></span></button></div></td>';
-                                        tmm +=       '</tr>';
-                                        mmp +=     '</thead>';
+                                        tmp +=       '</tr>';
+                                        tmp +=     '</thead>';
                                         tmp +=   '</table>';
                                         tmp += '</div>';
                                         tmp += '</div>';

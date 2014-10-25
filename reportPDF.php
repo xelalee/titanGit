@@ -293,14 +293,10 @@ class PDF extends FPDF
     // custom end
 
     // output pdf
-    if ('PDF' == $argv[ 1 ]) {
-        $pdf->Output( $argv[ 3 ] );                         
-        shell_exec( "sendmail.sh ". $argv[ 2 ] ." ". $argv[ 3 ] ." ". $argv[ 4 ] );   
-    } elseif ( 'Email' == $argv[ 1 ] ) {
-        $pdf->Output( $argv[ 2 ] );
-        print_r( json_encode( array( "TABLE_COMMENT" => "data_ready" ) ) );
+    if ($argv[ 1 ]) {
+        $pdf->Output( $argv[ 1 ] );                         
+        print_r( 0 );
     } else {
         $pdf->Output();                      
     }  
-
 ?>
