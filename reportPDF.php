@@ -2,9 +2,7 @@
     // prepare pdf lib
     require('assets/fpdf17/fpdf.php');
     // get guiIndex
-    ob_start();
-    require('guiIndex.php');
-    $guiIndex = ob_get_clean(); 
+    $guiIndex = shell_exec( 'php guiIndex.php' );
 
     $aka = ( 1 == $guiIndex )? 'K' : ( ( 2 == $guiIndex )? 'CN' : '');
 

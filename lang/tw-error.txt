@@ -173,7 +173,7 @@
     "account20" : "帳號設定需使用[a-zA-Z0-9@.-_]並且長度需在1到20碼之間",
     "hostName" : "主機名稱需使用[a-zA-Z0-9]並且長度需在1到31碼之間",
     "domainName" : "網域名稱最大長度為31碼",
-    "adminPwdChange" : "admin 密碼變更失敗,
+    "adminPwdChange" : "admin 密碼變更失敗",
     "memberLimit" : "使用者超出上限",
     "restoreConf" : "將使用的環原設定 ",
     "checkFirmware" : "檢查韌體將需要等待幾秒鐘",

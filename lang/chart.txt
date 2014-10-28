@@ -1,0 +1,2286 @@
+{
+    "traffic_direction" : {
+        "en" : {
+            "1" : {
+                "type" : "bar",
+                "catKey" : "address",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }
+                },
+                "axes" : {
+                    "address" : {
+                        "keys" : ["address"],
+                        "position" : "left"
+                    },
+                    "totalBytes" : {
+                        "keys" : ["totalBytes"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "totalBytes" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : { 
+                                "fill" : { 
+                                    "color" :  
+                                    [
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]
+                                } 
+                            }
+                        }
+                    }
+                }
+            },
+            "2" : {
+                "type" : "bar",
+                "catKey" : "srcIp",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "srcIp" : {
+                        "keys" : ["srcIp"],
+                        "position" : "left"
+                    },
+                    "totalBytes" : {
+                        "keys" : ["totalBytes"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "totalBytes" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            },
+            "3" : {
+                "type" : "bar",
+                "catKey" : "dstIp",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "dstIp" : {
+                        "keys" : ["dstIp"],
+                        "position" : "left"
+                    },
+                    "totalBytes" : {
+                        "keys" : ["totalBytes"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "totalBytes" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            },
+            "4" : {
+                "type" : "pie",
+                "catKey" : "protocol",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "serKey" : ["totalBytes"],
+                "legend" : {
+                    "position" : "left",
+                    "width" : 300,
+                    "height" : 300,
+                    "styles" : {
+                        "hAlign" : "center",
+                        "hSpacing" : 10
+                    }
+                },
+                "serCol" : [
+                  {
+                    "categoryKey" : "protocol",
+                    "valueKey" : "totalBytes",
+                        "styles" : {  
+                            "fill" : {  
+                                "colors" : 
+                                [    
+                                    "#525A6B",
+                                    "#BD2110",
+                                    "#E7BD10",
+                                    "#639429",
+                                    "#9C52AD",
+                                    "#CEC6C6",
+                                    "#A58484",
+                                    "#B5B5B5",
+                                    "#313131",
+                                    "#085A9C"
+                                ]    
+                            }    
+                        }
+                  }
+                ]
+            },
+            "5" : {
+                "type" : "bar",
+                "catKey" : "dstPort",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "dstPort" : {
+                        "keys" : ["dstPort"],
+                        "position" : "left"
+                    },
+                    "totalBytes" : {
+                        "keys" : ["totalBytes"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "totalBytes" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            },
+            "6" : {
+                "type" : "bar",
+                "catKey" : "zone",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "zone" : {
+                        "keys" : ["zone"],
+                        "position" : "left"
+                    },
+                    "totalBytes" : {
+                        "keys" : ["totalBytes"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "totalBytes" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "cn" : {
+            "1" : {
+                "type" : "bar",
+                "catKey" : "address",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "address" : {
+                        "keys" : ["address"],
+                        "position" : "left"
+                    },
+                    "totalBytes" : {
+                        "keys" : ["totalBytes"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "totalBytes" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            },
+            "2" : {
+                "type" : "bar",
+                "catKey" : "srcIp",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "srcIp" : {
+                        "keys" : ["srcIp"],
+                        "position" : "left"
+                    },
+                    "totalBytes" : {
+                        "keys" : ["totalBytes"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "totalBytes" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            },
+            "3" : {
+                "type" : "bar",
+                "catKey" : "dstIp",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "dstIp" : {
+                        "keys" : ["dstIp"],
+                        "position" : "left"
+                    },
+                    "totalBytes" : {
+                        "keys" : ["totalBytes"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "totalBytes" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            },
+            "4" : {
+                "type" : "pie",
+                "catKey" : "protocol",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "serKey" : ["totalBytes"],
+                "legend" : {
+                    "position" : "left",
+                    "width" : 300, 
+                    "height" : 300, 
+                    "styles" : {
+                        "hAlign" : "center",
+                        "hSpacing" : 10 
+                    }    
+                },
+                "serCol" : [
+                  {
+                    "categoryKey" : "protocol",
+                    "valueKey" : "totalBytes",
+                        "styles" : {  
+                            "fill" : {  
+                                "colors" : 
+                                [    
+                                    "#525A6B",
+                                    "#BD2110",
+                                    "#E7BD10",
+                                    "#639429",
+                                    "#9C52AD",
+                                    "#CEC6C6",
+                                    "#A58484",
+                                    "#B5B5B5",
+                                    "#313131",
+                                    "#085A9C"
+                                ]    
+                            }    
+                        }
+                  }
+                ]
+            },
+            "5" : {
+                "type" : "bar",
+                "catKey" : "dstPort",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "dstPort" : {
+                        "keys" : ["dstPort"],
+                        "position" : "left"
+                    },
+                    "totalBytes" : {
+                        "keys" : ["totalBytes"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "totalBytes" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            },
+            "6" : {
+                "type" : "bar",
+                "catKey" : "zone",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "zone" : {
+                        "keys" : ["zone"],
+                        "position" : "left"
+                    },
+                    "totalBytes" : {
+                        "keys" : ["totalBytes"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "totalBytes" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "tw" : {
+            "1" : {
+                "type" : "bar",
+                "catKey" : "address",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "address" : {
+                        "keys" : ["address"],
+                        "position" : "left"
+                    },
+                    "totalBytes" : {
+                        "keys" : ["totalBytes"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "totalBytes" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            },
+            "2" : {
+                "type" : "bar",
+                "catKey" : "srcIp",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "srcIp" : {
+                        "keys" : ["srcIp"],
+                        "position" : "left"
+                    },
+                    "totalBytes" : {
+                        "keys" : ["totalBytes"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "totalBytes" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            },
+            "3" : {
+                "type" : "bar",
+                "catKey" : "dstIp",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "dstIp" : {
+                        "keys" : ["dstIp"],
+                        "position" : "left"
+                    },
+                    "totalBytes" : {
+                        "keys" : ["totalBytes"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "totalBytes" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            },
+            "4" : {
+                "type" : "pie",
+                "catKey" : "protocol",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "serKey" : ["totalBytes"],
+                "legend" : {
+                    "position" : "left",
+                    "width" : 300, 
+                    "height" : 300, 
+                    "styles" : {
+                        "hAlign" : "center",
+                        "hSpacing" : 10 
+                    }    
+                },
+                "serCol" : [
+                  {
+                    "categoryKey" : "protocol",
+                    "valueKey" : "totalBytes",
+                        "styles" : {  
+                            "fill" : {  
+                                "colors" : 
+                                [    
+                                    "#525A6B",
+                                    "#BD2110",
+                                    "#E7BD10",
+                                    "#639429",
+                                    "#9C52AD",
+                                    "#CEC6C6",
+                                    "#A58484",
+                                    "#B5B5B5",
+                                    "#313131",
+                                    "#085A9C"
+                                ]    
+                            }    
+                        }
+                  }
+                ]
+            },
+            "5" : {
+                "type" : "bar",
+                "catKey" : "dstPort",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "dstPort" : {
+                        "keys" : ["dstPort"],
+                        "position" : "left"
+                    },
+                    "totalBytes" : {
+                        "keys" : ["totalBytes"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "totalBytes" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            },
+            "6" : {
+                "type" : "bar",
+                "catKey" : "zone",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "zone" : {
+                        "keys" : ["zone"],
+                        "position" : "left"
+                    },
+                    "totalBytes" : {
+                        "keys" : ["totalBytes"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "totalBytes" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "file_extension" : {
+        "en" : {
+            "1" : {
+                "type" : "bar",
+                "catKey" : "extension",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "extension" : {
+                        "keys" : ["extension"],
+                        "position" : "left"
+                    },
+                    "accessCount" : {
+                        "keys" : ["accessCount"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "accessCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "cn" : {
+            "1" : {
+                "type" : "bar",
+                "catKey" : "extension",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "extension" : {
+                        "keys" : ["extension"],
+                        "position" : "left"
+                    },
+                    "accessCount" : {
+                        "keys" : ["accessCount"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "accessCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "tw" : {
+            "1" : {
+                "type" : "bar",
+                "catKey" : "extension",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "extension" : {
+                        "keys" : ["extension"],
+                        "position" : "left"
+                    },
+                    "accessCount" : {
+                        "keys" : ["accessCount"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "accessCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "blocked_host" : {
+        "en" : {
+            "1" : {
+                "type" : "bar",
+                "catKey" : "ip",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "ip" : {
+                        "keys" : ["ip"],
+                        "position" : "left"
+                    },
+                    "count" : {
+                        "keys" : ["firewallCount", "virusCount"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "firewallCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        },
+                        "virusCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "cn" : {
+            "1" : {
+                "type" : "bar",
+                "catKey" : "ip",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "ip" : {
+                        "keys" : ["ip"],
+                        "position" : "left"
+                    },
+                    "count" : {
+                        "keys" : ["firewallCount", "virusCount"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "firewallCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        },
+                        "virusCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "tw" : {
+            "1" : {
+                "type" : "bar",
+                "catKey" : "ip",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "ip" : {
+                        "keys" : ["ip"],
+                        "position" : "left"
+                    },
+                    "count" : {
+                        "keys" : ["firewallCount", "virusCount"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "firewallCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        },
+                        "virusCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "affected_host" : {
+        "en" : {
+            "1" : {
+                "type" : "bar",
+                "catKey" : "ip",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "ip" : {
+                        "keys" : ["ip"],
+                        "position" : "left"
+                    },
+                    "hitCount" : {
+                        "keys" : ["sigHitCount", "virusHitCount"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "sigHitCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        },
+                        "virusHitCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "cn" : {
+            "1" : {
+                "type" : "bar",
+                "catKey" : "ip",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "ip" : {
+                        "keys" : ["ip"],
+                        "position" : "left"
+                    },
+                    "hitCount" : {
+                        "keys" : ["sigHitCount", "virusHitCount"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "sigHitCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        },
+                        "virusHitCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "tw" : {
+            "1" : {
+                "type" : "bar",
+                "catKey" : "ip",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "ip" : {
+                        "keys" : ["ip"],
+                        "position" : "left"
+                    },
+                    "hitCount" : {
+                        "keys" : ["sigHitCount", "virusHitCount"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "sigHitCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        },
+                        "virusHitCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "antivirus_report" : {
+        "en" : {
+            "1" : {
+                "type" : "bar",
+                "catKey" : "srcIp",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "srcIp" : {
+                        "keys" : ["srcIp"],
+                        "position" : "left"
+                    },
+                    "hitCount" : {
+                        "keys" : ["hitCount"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "hitCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            },
+            "2" : {
+                "type" : "bar",
+                "catKey" : "dstIp",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "dstIp" : {
+                        "keys" : ["dstIp"],
+                        "position" : "left"
+                    },
+                    "hitCount" : {
+                        "keys" : ["hitCount"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "hitCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            },
+            "3" : {
+                "type" : "bar",
+                "catKey" : "virusName",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "virusName" : {
+                        "keys" : ["virusName"],
+                        "position" : "left"
+                    },
+                    "hitCount" : {
+                        "keys" : ["hitCount"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "hitCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            },
+            "4" : {
+                "type" : "pie",
+                "catKey" : "protocol",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "serKey" : ["hitCount"],
+                "legend" : {
+                    "position" : "left",
+                    "width" : 300, 
+                    "height" : 300, 
+                    "styles" : {
+                        "hAlign" : "center",
+                        "hSpacing" : 10 
+                    }    
+                },
+                "serCol" : [
+                  {
+                    "categoryKey" : "protocol",
+                    "valueKey" : "hitCount",
+                        "styles" : {  
+                            "fill" : {  
+                                "colors" : 
+                                [    
+                                    "#525A6B",
+                                    "#BD2110",
+                                    "#E7BD10",
+                                    "#639429",
+                                    "#9C52AD",
+                                    "#CEC6C6",
+                                    "#A58484",
+                                    "#B5B5B5",
+                                    "#313131",
+                                    "#085A9C"
+                                ]    
+                            }    
+                        }
+                  }
+                ]
+            }
+        },
+        "cn" : {
+            "1" : {
+                "type" : "bar",
+                "catKey" : "srcIp",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "srcIp" : {
+                        "keys" : ["srcIp"],
+                        "position" : "left"
+                    },
+                    "hitCount" : {
+                        "keys" : ["hitCount"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "hitCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            },
+            "2" : {
+                "type" : "bar",
+                "catKey" : "dstIp",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "dstIp" : {
+                        "keys" : ["dstIp"],
+                        "position" : "left"
+                    },
+                    "hitCount" : {
+                        "keys" : ["hitCount"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "hitCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            },
+            "3" : {
+                "type" : "bar",
+                "catKey" : "virusName",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "virusName" : {
+                        "keys" : ["virusName"],
+                        "position" : "left"
+                    },
+                    "hitCount" : {
+                        "keys" : ["hitCount"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "hitCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            },
+            "4" : {
+                "type" : "pie",
+                "catKey" : "protocol",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "serKey" : ["hitCount"],
+                "legend" : {
+                    "position" : "left",
+                    "width" : 300, 
+                    "height" : 300, 
+                    "styles" : {
+                        "hAlign" : "center",
+                        "hSpacing" : 10 
+                    }    
+                },
+                "serCol" : [
+                    {
+                      "categoryKey" : "protocol",
+                      "valueKey" : "hitCount",
+                        "styles" : {  
+                            "fill" : {  
+                                "colors" : 
+                                [    
+                                    "#525A6B",
+                                    "#BD2110",
+                                    "#E7BD10",
+                                    "#639429",
+                                    "#9C52AD",
+                                    "#CEC6C6",
+                                    "#A58484",
+                                    "#B5B5B5",
+                                    "#313131",
+                                    "#085A9C"
+                                ]    
+                            }    
+                        }
+                    }
+                ]
+            }
+        },
+        "tw" : {
+            "1" : {
+                "type" : "bar",
+                "catKey" : "srcIp",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "srcIp" : {
+                        "keys" : ["srcIp"],
+                        "position" : "left"
+                    },
+                    "hitCount" : {
+                        "keys" : ["hitCount"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "hitCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            },
+            "2" : {
+                "type" : "bar",
+                "catKey" : "dstIp",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "dstIp" : {
+                        "keys" : ["dstIp"],
+                        "position" : "left"
+                    },
+                    "hitCount" : {
+                        "keys" : ["hitCount"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "hitCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            },
+            "3" : {
+                "type" : "bar",
+                "catKey" : "virusName",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "axes" : {
+                    "virusName" : {
+                        "keys" : ["virusName"],
+                        "position" : "left"
+                    },
+                    "hitCount" : {
+                        "keys" : ["hitCount"],
+                        "position" : "bottom"
+                    }
+                },
+                "styleDef" : {
+                    "graph" : {
+                        "background" : {
+                            "fill" : { "color" : "#ffffff" }
+                        },
+                        "border" : {
+                            "color" : "#ffffff",
+                            "weight" : 1
+                        }
+                    },
+                    "series" :  {
+                        "hitCount" : {
+                            "area" : { "color" : "#eeeeee" },
+                            "line" : { "color" : "#eeeeee" },
+                            "marker" : {  
+                                "fill" : {  
+                                    "color" :  
+                                    [    
+                                      "#525A6B",
+                                      "#BD2110",
+                                      "#E7BD10",
+                                      "#639429",
+                                      "#9C52AD",
+                                      "#CEC6C6",
+                                      "#A58484",
+                                      "#B5B5B5",
+                                      "#313131",
+                                      "#085A9C"
+                                    ]    
+                                }    
+                            }
+                        }
+                    }
+                }
+            },
+            "4" : {
+                "type" : "pie",
+                "catKey" : "protocol",
+                "tips" : {
+                     "styles" : {
+                         "backgroundColor" : "#efefef",
+                         "color" : "#000",
+                         "borderColor" : "#fff",
+                         "textAlign" : "center"
+                     }      
+                },
+                "serKey" : ["hitCount"],
+                "legend" : {
+                    "position" : "left",
+                    "width" : 300, 
+                    "height" : 300, 
+                    "styles" : {
+                        "hAlign" : "center",
+                        "hSpacing" : 10 
+                    }    
+                },
+                "serCol" : [
+                    {
+                        "categoryKey" : "protocol",
+                        "valueKey" : "hitCount",
+                        "styles" : { 
+                            "fill" : { 
+                                "colors" : 
+                                [
+                                    "#525A6B",
+                                    "#BD2110",
+                                    "#E7BD10",
+                                    "#639429",
+                                    "#9C52AD",
+                                    "#CEC6C6",
+                                    "#A58484",
+                                    "#B5B5B5",
+                                    "#313131",
+                                    "#085A9C"
+                                ]
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,98 @@
+/* layout outline */
+#outline {
+    background: url('images/bg_upper_06.png') top center no-repeat;
+}
+
+#loginDiv {
+    background: url('images/bg_upper_06.png') top center no-repeat;
+}
+
+#menu {
+    background-color: #625b57;
+}
+
+#menu .accordion-ul-li h3.ui-state-default:hover a {
+    color: white;
+}
+
+#menu .accordion-ul-li h3.ui-state-active {
+    background: url('images/m1.jpg');
+}
+
+#menu .accordion-ul-li h3:hover {
+    background: url('images/m1.jpg');
+}
+
+#menu .accordion-ul-li h3.ui-state-active a {
+    color: white;
+}
+
+#menu .accordion-ul-ul-li h4, #menu .accordion-ul-ul-ul-li h4.ui-state-default {
+    background: url('images/m2.jpg');
+}
+
+#menu .accordion-ul-ul-ul-li h4.ui-state-active {
+    background: url('images/m2.jpg');
+}
+
+#menu .accordion-ul-ul-ul-ul-li h5 {
+    background: url('images/m3.jpg');
+}
+
+#activedMenu {
+    background-image: url('images/ui-icons_ffffff_256x240.png');
+    background-position: -208px -192px;
+    top: 6px;
+    left: 8px;
+}
+
+#main_hd {
+    background: url('images/tab_bar_00.png') top left no-repeat;
+    width: 844px;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+}
+
+#main_ft {
+    background-color: #b1422f;
+}
+
+#ft {
+    background-color: #625b57;
+}
+
+#onlineHelp {
+    position: relative;
+    margin: 0 auto; /* center in viewport */
+    width: 1024px; /* fix page width */
+    height: 600px;
+    letter-spacing: 0;
+    word-spacing: 0;
+}
+
+#onlineHelp #menu {
+    overflow: hidden;
+    height: 647px;
+}
+
+#reporter {
+    background: url('images/bg_upper_06.png') top center no-repeat;
+}
+
+#reporter #bd_hd {
+    background: #b1422f;
+}
+
+#reporter .tabber ul {
+    border: 2px solid #b1422f;
+    border-style: none none solid none;
+}
+
+#reporter #bd_ft {
+    background: #b1422f;
+}
+
+#redirectDiv {
+    background: url('images/banned.png') center center no-repeat, url('images/bg_upper_06.png') top center no-repeat;
+}

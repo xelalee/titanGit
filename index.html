@@ -150,30 +150,6 @@ var gY = YUI({filter:"raw", defaultGraphicEngine: "canvas"}).use('anim', 'charts
 
 // define global vars
 
-var gVersion = {
-    0 : {
-        version: "Tech Titan",
-        aka: '',
-        title: 'TitanWALL Web Manager',
-        copyright: 'Copyright &copy; 2014 Tech Titan',
-        multi: true
-    },
-    1: {
-        version: "Kaspersky",
-        aka: 'K',
-        title: 'TitanWALL Web Manager',
-        copyright: 'Copyright &copy; 2014 Titan ARC Corp.',
-        multi: false
-    },
-    2 : {
-        version: "泰腾恩",
-        aka: 'CN',
-        title: 'TitanWALL Web Manager',
-        copyright: 'Copyright &copy; 2014 Tech Titan',
-        multi: true
-    }
-}
-
 var gInfo;
 
 var gLang = ['en', 'cn', 'tw']; // languages
@@ -477,6 +453,7 @@ gReg.isIPAddress    = /srcIp|dstIp/;
 
 // yui chart
 gObj.chart = {};
+gCache.chart = {};
 
 // for gid & name
 gCache.list     = {};
@@ -848,11 +825,12 @@ $(document).ready(function () {
         $('#userLangLabel').html( gLogin[ gObj.lang ].userLang + ' : ' );
         $('#loginButton').html( '<b>' + gLogin[ gObj.lang ].loginButton + '</b>' );
 
-        if (gVersion[ gInfo ].multi) {
-            $('#userLang').append('<option value="tw">繁體中文</option>');
-            $('#userLang').append('<option value="cn">简体中文</option>');
+        if (gCache.config.version[ gInfo ].multi) {
+            for (var x in gCache.config.version[ gInfo ].language)
+                $('#userLang').append('<option value="' + x + '">' + gCache.config.version[ gInfo ].language[ x ] + '</option>');
             $('#userLang').val(gObj.lang);
-        }
+        } else
+            $('#userLang').append('<option value="en">English</option>');
 
         // listen to lang
         $('#userLang').change( function() {
@@ -905,7 +883,6 @@ $(document).ready(function () {
                 gObj.btnStop  = '停止';
                 break;
             }
-
 
             if (!gReg.ascii.login.test($('#userName').val()) || !gReg.ascii.login.test($('#userPass').val())) {
                 failAlert('login_fail');
@@ -1018,6 +995,15 @@ $(document).ready(function () {
                                         gRef.docs = data;
                                     }
                                 });
+
+                                // chart
+                                $.ajax({
+                                    url: 'lang/chart.txt',
+                                    dataType: 'json',
+                                    success: function( data ) {
+                                        gCache.chart = data;
+                                    }
+                                })
                             }
                         }).done( function() {
                             $.ajax({
@@ -2146,7 +2132,7 @@ $(document).ready(function () {
 
 
         $('#ft').html( gHtml.foot );
-        $('#ft .content').append('<p>' +  gVersion[ gInfo ].copyright + '</p>');
+        $('#ft .content').append('<p>' +  gCache.config.version[ gInfo ].copyright + '</p>');
         // set row limits
         getLimit();
 
@@ -2595,7 +2581,7 @@ $(document).ready(function () {
         case 'affected_host':
         case 'antivirus_report':
             // cache query status
-            window.open( 'reporter.html?param=' + tar.pid + '&q=' + gObj.tabIndex + '&sd=' + $('#query-startDate').val() + '&sh=' + $('#query-startHour').val() + '&ed=' + $('#query-endDate').val() + '&eh=' + $('#query-endHour').val(), '_blank');
+            window.open( 'reporter.html?param=' + tar.pid + '&l=' + gObj.lang + '&q=' + gObj.tabIndex + '&sd=' + $('#query-startDate').val() + '&sh=' + $('#query-startHour').val() + '&ed=' + $('#query-endDate').val() + '&eh=' + $('#query-endHour').val(), '_blank');
             break;
         case 'view_logs':
             // cache query status
@@ -2937,7 +2923,7 @@ $(document).ready(function () {
         switch(tar.pid)
         {
         case 'idList':
-// group address/service
+        // group address/service
             if ( ( $('#pool option:selected').length + $('#pick option').length) > gRows.maxMemberPerGroupAddress ) {
                 errorAlert('<p>' + gError[ gObj.lang ].memberLimit + '</p>');
                 return false;
@@ -2947,7 +2933,7 @@ $(document).ready(function () {
             }
             break;
         case 'users':
-// users and groups
+        // users and groups
             if ( ( $('#pool option:selected').length + $('#pick option').length) > gRows.maxUserPerGroup ) {
                 errorAlert('<p>' + gError[ gObj.lang ].memberLimit + '</p>');
                 return false;
@@ -2957,7 +2943,7 @@ $(document).ready(function () {
             }
             break;
         case 'member':
-// zone
+        // zone
             if ( ( $('#pool option:selected').length + $('#pick option').length) > gRows.maxMemberPerZone ) {
                 errorAlert('<p>' + gError[ gObj.lang ].memberLimit + '</p>');
                 return false;
@@ -2967,7 +2953,7 @@ $(document).ready(function () {
             }
             break;
         case 'interfaces':
-// lan
+        // lan
             if ( ( $('#pool option:selected').length + $('#pick option').length) > gRows.maxMemberPerLAN ) {
                 errorAlert('<p>' + gError[ gObj.lang ].memberLimit + '</p>');
                 return false;
@@ -2977,7 +2963,7 @@ $(document).ready(function () {
             }
             break;
         default:
-// antivirus
+        // antivirus
             gCache.tabber[ gNode.tab ] = true;
             tar.val = $('#' + tar.pid + 'Pool option:selected');
             tar.val.clone().appendTo('#' + tar.pid);
@@ -4321,7 +4307,7 @@ $(document).ready(function () {
             refreshFirewall( tar.pid );
     }
 
-// alert
+    // alert
     function successAlert( msg ) {
         if (!$('#popError').exists())
             $('#popBase').append('<div id="popError" class="popError"></div>');
@@ -7807,7 +7793,7 @@ $(document).ready(function () {
                                                         color: "#000",
                                                         borderColor: "#fff",
                                                         textAlign: "center"
-                                                    },    
+                                                    },
                                                     markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
                                                         var msg = document.createElement("div"),
                                                             underlinedTextBlock = document.createElement("span");
@@ -7870,7 +7856,7 @@ $(document).ready(function () {
                                                         color: "#000",
                                                         borderColor: "#fff",
                                                         textAlign: "center"
-                                                    },    
+                                                    },
                                                     markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
                                                         var msg = document.createElement("div"),
                                                             underlinedTextBlock = document.createElement("span");
@@ -7936,7 +7922,7 @@ $(document).ready(function () {
                                                             color: "#000",
                                                             borderColor: "#fff",
                                                             textAlign: "center"
-                                                        },    
+                                                        },
                                                         markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
                                                             var msg = document.createElement("div"),
                                                                 underlinedTextBlock = document.createElement("span");
@@ -7994,7 +7980,7 @@ $(document).ready(function () {
                                                             color: "#000",
                                                             borderColor: "#fff",
                                                             textAlign: "center"
-                                                        },    
+                                                        },
                                                         markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
                                                             var msg = document.createElement("div"),
                                                                 underlinedTextBlock = document.createElement("span");
@@ -8052,7 +8038,7 @@ $(document).ready(function () {
                                                             color: "#000",
                                                             borderColor: "#fff",
                                                             textAlign: "center"
-                                                        },    
+                                                        },
                                                         markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
                                                             var msg = document.createElement("div"),
                                                                 underlinedTextBlock = document.createElement("span");
@@ -8110,7 +8096,7 @@ $(document).ready(function () {
                                                             color: "#000",
                                                             borderColor: "#fff",
                                                             textAlign: "center"
-                                                        },    
+                                                        },
                                                         markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
                                                             var msg = document.createElement("div"),
                                                                 underlinedTextBlock = document.createElement("span");
@@ -8147,7 +8133,68 @@ $(document).ready(function () {
                                                 }
                                                 break;
                                             }
+/*
+                                            var title = "";
+                                            if ('pie' == gCache.chart[ tabIndex ].type) {
+                                                if ('traffic_direction' == param) {
+                                                    title = " MB";
+                                                }
 
+                                                gCache.chart[ tabIndex ].tips.markerLabelFunction = function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                    var msg = document.createElement("div"),
+                                                        underlinedTextBlock = document.createElement("span");
+                                                        boldTextBlock = document.createElement("div");
+                                                    boldTextBlock.style.marginTop = "5px";
+                                                    boldTextBlock.style.fontWeight = "bold";
+                                                    underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                    boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + title ));
+                                                    msg.appendChild(underlinedTextBlock);
+                                                    msg.appendChild(document.createElement("br"));
+                                                    msg.appendChild(boldTextBlock);
+                                                    return msg;
+                                                }
+
+                                                gChart[ tabIndex ] = new gY.Chart({
+                                                    dataProvider: data,
+                                                    categoryKey: gCache.chart[ tabIndex ].catKey,
+                                                    type: gCache.chart[ tabIndex ].type,
+                                                    legend: gCache.chart[ tabIndex ].legend,
+                                                    tooltip: gCache.chart[ tabIndex ].tips,
+                                                    seriesKeys: gCache.chart[ tabIndex ].serKey,
+                                                    seriesCollection: gCache.chart[ tabIndex ].serCol
+                                                }).render( '#chart-' + tabIndex );
+                                            } else {
+                                                if ('traffic_direction' == param) {
+                                                    gCache.chart[ tabIndex ].axes.totalBytes.labelFunction = function(label, format) { return label.toFixed(2); }
+                                                    gCache.chart[ tabIndex ].axes.totalBytes.title = "MB";
+                                                    title = " MB";
+                                                }
+
+                                                gCache.chart[ tabIndex ].tips.markerLabelFunction = function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                    var msg = document.createElement("div"),
+                                                        underlinedTextBlock = document.createElement("span");
+                                                        boldTextBlock = document.createElement("div");
+                                                    boldTextBlock.style.marginTop = "5px";
+                                                    boldTextBlock.style.fontWeight = "bold";
+                                                    underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                    boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + title ));
+                                                    msg.appendChild(underlinedTextBlock);
+                                                    msg.appendChild(document.createElement("br"));
+                                                    msg.appendChild(boldTextBlock);
+                                                    return msg;
+                                                }
+
+                                                gChart[ tabIndex ] = new gY.Chart({
+                                                    dataProvider: data,
+                                                    categoryKey: gCache.chart[ tabIndex ].catKey,
+                                                    type: gCache.chart[ tabIndex ].type,
+                                                    tooltip: gCache.chart[ tabIndex ].tips,
+                                                    axes: gCache.chart[ tabIndex ].axes,
+                                                    styles: gCache.chart[ tabIndex ].styleDef,
+                                                    horizontalGridlines: true
+                                                }).render( '#chart-' + tabIndex );
+                                            }
+*/
                                             if ('pie' == chartType) {
                                                 gObj.chart[ tabIndex ] = new gY.Chart({
                                                     dataProvider: cData,
@@ -32493,46 +32540,53 @@ $(document).ready(function () {
         });
     }
 
-
     $.ajax({
-        url: 'guiIndex.php',
+        url: 'lang/config.txt',
         dataType: 'json',
         success: function(data) {
-            if (isNaN( parseInt( data ) ) || !gVersion[ data ])
-               gInfo = 0;
-            else
-               gInfo = parseInt( data );
-            $('head').append( '<link rel="stylesheet" type="text/css" href="css/version' + gVersion[ gInfo ].aka + '.css" />' );
+            gCache.config = data.config;
         }
     }).done( function() {
         $.ajax({
-            url:'lang/login.txt',
-            dataType:'json',
-            success:function(data) {
-                gLogin = data;
-                for (var i=0, len=gLang.length; i<len; i++)
-                {
-                    $.ajax({
-                        url:'lang/' + gLang[ i ] + '-term.txt',
-                        dataType:'json',
-                        success:function(data) {
-                            // prepare query terms
-                            gTerm[ data.lang ] = data.term;
-                        }
-                    });
-
-                    $.ajax({
-                        url:'lang/' + gLang[ i ] + '-error.txt',
-                        dataType:'json',
-                        success:function(data) {
-                            // prepare error message
-                            gError[ data.lang ] = data.error;
-                        }
-                    });
-                }
+            url: 'guiIndex.php',
+            dataType: 'json',
+            success: function(data) {
+                if (isNaN( parseInt( data ) ) || !gCache.config.version[ data ])
+                   gInfo = 0;
+                else
+                   gInfo = parseInt( data );
+                $('head').append( '<link rel="stylesheet" type="text/css" href="css/version' + gCache.config.version[ gInfo ].aka + '.css" />' );
             }
         }).done( function() {
-            ifLogin();
+            $.ajax({
+                url:'lang/login.txt',
+                dataType:'json',
+                success:function(data) {
+                    gLogin = data;
+                    for (var i=0, len=gLang.length; i<len; i++)
+                    {
+                        $.ajax({
+                            url:'lang/' + gLang[ i ] + '-term.txt',
+                            dataType:'json',
+                            success:function(data) {
+                                // prepare query terms
+                                gTerm[ data.lang ] = data.term;
+                            }
+                        });
+
+                        $.ajax({
+                            url:'lang/' + gLang[ i ] + '-error.txt',
+                            dataType:'json',
+                            success:function(data) {
+                                // prepare error message
+                                gError[ data.lang ] = data.error;
+                            }
+                        });
+                    }
+                }
+            }).done( function() {
+                ifLogin();
+            });
         });
     });
 
@@ -32554,9 +32608,7 @@ $(document).ready(function () {
         <tr>
           <th id="userLangLabel"></th>
           <td>
-            <select id="userLang">
-              <option value="en">English</option>
-            </select>
+            <select id="userLang"></select>
           </td>
         </tr>
         <tr>

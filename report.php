@@ -451,7 +451,8 @@ class PDF extends FPDF
     $pdf = new PDF();
 
     // tell from command or web
-    if ( 'PDF' == $argv[ 1 ] ) {
+    if ( $argv[ 1 ] ) {
+print_r('argv');
         // parse argv, prepare to generate pdf
         switch( $argv[ 2 ] )
         {
@@ -476,6 +477,7 @@ class PDF extends FPDF
         }
     } elseif ( $_GET[ 'pdf' ] ) {
         // return pdf
+print_r('pdf');
     } elseif ( $_GET[ 'param' ] ) {
         // echo data
         if ($_GET[ 'sd' ] && $_GET[ 'ed'] ) {
@@ -491,6 +493,7 @@ class PDF extends FPDF
             $shStamp = trim( shell_exec( 'date -d "'. $sd .' '. $sh .':00:00" +%s' ) );
         }
 
+print_r('param');
 
     } else {
         die( 'please make sure what u want !?' );
