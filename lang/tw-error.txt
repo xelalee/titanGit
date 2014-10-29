@@ -35,10 +35,10 @@
     "smtpErrorCode-0" : "test email had sent to ",
     "please_check_email" : "please check email",
     "defaultRoute" : "The 'configure as default route' option only works in routing table mode",
+
     "overlapCheck" : "無法連接伺服器的IP重疊檢查",
     "wanIfIp" : "與 WAN IP 發生衝突",
     "wanIfNetwork" : "與 WAN 網路發生衝突",
-
     "wanIfIpAlias" : "與 WAN IP 別名發生衝突",
     "wanIfIpAliasNetwork" : "與 WAN IP 別名網路發生衝突",
     "lanIfIp" : "與 LAN IP 發生衝突",
@@ -71,16 +71,16 @@
     "ipRange" : "結束IP位址必須大於起始IP",
     "ipNetwork" : "起始/結束IP位址需符合IPv4規範",
     "ipDhcpRelay" : "DHCP relay 需符合IPv4規範",
-    "mtuValue" : "mtu 參數值必須設定在 68 (ipv6 1280) ~ 1500 之間",
+    "mtuValue" : "MTU 參數值必須設定在 68 (ipv6 1280) ~ 1500 之間",
     "mtuValuePPPoE" : "MTU value should between 576 (IPv6 1280) ~ 1492",
     "mtuValue6" : "MTU setting lower than minimum IPv6 link MTU, IPv6 function won't work",
     "dnsMode"  : "DNS 需符合IPv4規範",
     "macAddr" : "mac位址需符合mac規範",
-    "backupWanName" : "無效的備份 wan 名稱", 
+    "backupWanName" : "無效的備份 WAN 名稱", 
     "uniqName15" : "唯一名稱可使用除了 ' ` \" % ?之外的ascii code可見字元(whitespce)並且長度需在1到15碼之間",
-
     "uniqName31" : "唯一名稱可使用除了 ' ` \" % ?之外的ascii code可見字元(whitespce)並且長度需在1到31碼之間",
     "uniqName63" : "唯一名稱可使用除了 ' ` \" % ?之外的ascii code可見字元(whitespce)並且長度需在1到63碼之間",
+
     "uniqDomain" : "unique domain name with length between 1 to 255",
     "password31" : "密碼只能使用除了 ' ` \" % ?之外的ascii code可見字元(whitespce)並且長度需在1到31碼之間",
     "passwordMatch" : "輸入密碼與確認密碼不相符",
@@ -98,9 +98,9 @@
     "presharedkey" : "預設共用金鑰長度應設定在 1 ~ 255之間",
     "localNetworkIdNeed" : "請選擇本機網路", 
     "remoteNetworkIdNeed" : "請選擇遠端網路", 
-
     "dpddelay" : "延遲時間應設定在 10 ~ 300 秒之間",
     "dpdtimeout" : "偵測逾時應設定在 30 ~ 1800 秒之間",
+
     "backupPolicyName" : "無效的備份政策名稱",
     "fallbackTime" : "轉移時間應設定在 3 ~ 59 秒之間",
     "destinatedNetworkNeed" : "網路選定請求",
@@ -118,9 +118,9 @@
     "srcAddressSelect" : "原始來源位址與轉址來源位址必須同時指定或未指定",
     "dstAddressSelect" : "原始目標位址與轉址目標位址必須同時指定或未指定",
     "toIfSelect" : "不應指定介面",
-
     "natAddressSelect" : "原始目標位址與轉址目標位址必須同時指定",
-    "natServiceTypeMatch" : "o原始服務與轉址服務類型需相符",
+    "natServiceTypeMatch" : "原始服務與轉址服務類型需相符",
+
     "natServiceSelect" : "原始服務與轉址服務必須同時指定或未指定",
     "ruleNull" : "您無法新增所有不關注的規則",
     "tcpTimeoutRange" : "TCP 逾時時間應設定在 0 ~ 3600 秒之間",
@@ -138,9 +138,9 @@
     "expireRange" : "到期時間範圍應設定在 1 小時 ~ 300 天之間",
     "adminPwd" : "admin 密碼檢查失敗",
     "adminPwdMatch" : "新密碼與確認密碼不相符",
-
     "inactiveTimeout" : "無活動逾時間隔應設定在 60 ~ 1000 秒之間",
     "sessionLimit" : "登入連線限制應設定在 60 ~ 1000 秒之間",
+
     "blockkPwd" : "封鎖密碼猜測應設定在 0 ~ 1000 次之間",
     "blockAccess" : "封鎖存取應設定在 30 ~ 3600 秒之間",
     "httpsPortRange" : "Https 連接埠號應設定在 1 ~ 65535之間",
@@ -158,9 +158,9 @@
     "proxyAddr" : "請求Proxy伺服器位址",
     "proxyPort" : "Proxy伺服器連接埠應設定在 1 ~ 65535之間",
     "proxyUser" : "請求Proxy伺服器使用者名稱",
-
     "proxyUserPwd" : "請求Proxy伺服器密碼應設定在 1 ~ 31之間",
     "passwordMatch" : "密碼需與確認密碼相符",
+
     "password20" : "密碼設定需使用[a-zA-Z0-9@.-_]並且長度需在6到20碼之間",
     "firstName32" : "名字設定需使用[a-zA-Z0-9@.-_]並且長度需在1到32碼之間",
     "lastName32" : "姓氏設定需使用[a-zA-Z0-9@.-_]並且長度需在1到32碼之間",
@@ -178,9 +178,9 @@
     "restoreConf" : "將使用的環原設定 ",
     "checkFirmware" : "檢查韌體將需要等待幾秒鐘",
     "switchFirmware" : "將切換韌體",
-
     "resetDefault" : "將重置設定回預設值",
     "upgradeFirmware" : "將執行韌體更新",
+
     "reboot" : "reboot will take ",
     "reset" : "reset will take ",
     "shutdown" : "shutdown will take ",
@@ -195,8 +195,6 @@
     "length127": "description length should between 1 to 127",
     "length0127": "description length should between 0 to 127",
     "dhcp_overlap" : "The DHCP range is conflicted with Address setting, please change the pool setting to avoid overlap",
-
-
 
     "_comment" : "========",
     "_comment" : "interface",
@@ -295,6 +293,5 @@
     "pcapIfName": "please choose the Network Interface",
     "logDesc": "description length should between 0 to 127",
     "pcapDesc": "description length should between 1 to 127"
-
   }
 }

@@ -10,8 +10,6 @@
     "invalid_data_format" : "无效的数据格式",
     "please_login_first" : "请先登录",
     "session_limit_reached" : "会话超时",
-
-    "_comment" : "",
     "ip_blocked" : "由于多次错误登录，此IP已经被阻止",
     "no_change_required" : "您当前的固件已经是最新的",
     "check_failed" : "设备无法检查服务器的固件",
@@ -24,6 +22,8 @@
     "missing_bootloader_env" : "引导环境丢失",
     "no_dns" : "请通过“DNS设置”设置默认DNS",
     "unknownError" : "出现未知错误",
+
+    "_comment" : "",
     "please_wait_for_check" : "请等待文件上传和校验",
     "pleaseWait" : "请等待",
     "seconds" : " 秒",
@@ -35,6 +35,7 @@
     "smtpErrorCode-0" : "测试邮件已发送",
     "please_check_email" : "请检查邮件",
     "defaultRoute" : "'配置为默认路由' 选项仅工作在路由模式下",
+
     "overlapCheck" : "连接到服务器失败",
     "wanIfIp" : "和WAN IP地址冲突",
     "wanIfNetwork" : "和WAN网络冲突",
@@ -57,6 +58,7 @@
     "portIfIpDhcps" : "和端口DHCP地址池冲突",
     "avsignature" : "没有新的签名或失败",
     "descriptionLength" : "描述长度应该在0~100",
+
     "netmask" : "子网掩码不符合标准",
     "gateway" : "网关应满足IPv4标准",
     "dnsGateway" : "DNS网关应满足IPv4标准",

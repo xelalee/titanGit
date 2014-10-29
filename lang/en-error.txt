@@ -58,6 +58,7 @@
     "portIfIpDhcps" : "Conflict with the Port DHCP server IP pool setting",
     "avsignature" : "no newer signature or fail",
     "descriptionLength" : "description length should between 0 to 100",
+
     "netmask" : "netmask should be IPv4 spec and mask with address",
     "gateway" : "gateway should be IPv4 spec",
     "dnsGateway" : "dns gateway should be IPv4 spec",
@@ -292,6 +293,5 @@
     "pcapIfName": "please choose the Network Interface",
     "logDesc": "description length should between 0 to 127",
     "pcapDesc": "description length should between 1 to 127"
-
   }
 }

@@ -454,6 +454,14 @@
       "1": "啟用"
     }
   },
+  "ipMacBinding" :
+  {
+    "mode" :
+    {
+      "0": "Permit and others drop",
+      "1": "Drop and other permit"
+    }
+  },
   "group" :
   {
     "defaultGroup" : "default",
@@ -716,6 +724,12 @@
     {
       "0": "無",
       "1": "丟棄連線"
+    },
+    "imapAct":
+    {
+      "0": "None",
+      "1": "Notify",
+      "2": "Notify + Destruct file"
     },
     "features" : {
       "1" : "病毒防護",

@@ -159,6 +159,7 @@
 
     "btnUpdate" : "Update Signature",
     "btnForce" : "Force Logout",
-    "btnExportPDF" : "Export to PDF"
+    "btnExportPDF" : "Export to PDF",
+    "btnMove2Whites" : "Move Selected Settings to Whitelist"
   }
 }

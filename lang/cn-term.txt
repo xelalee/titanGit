@@ -60,7 +60,6 @@
     "cMAC" : "MAC地址",
 
     "dhcpBinding" : "DHCP绑定",
-    "user" : "用户",
     "extension" : "扩展名",
     "virusName" : "病毒名",
     "virus" : "病毒",
@@ -70,7 +69,6 @@
     "info" : "详情",
     "from" : "来自",
     "to" : "到",
-    "zone" : "区域",
     "default" : "默认",
     "criterion" : "标准",
     "rule" : "规则",
@@ -150,5 +148,18 @@
     "btnClose" : "关闭窗口",
     "btnSearch" : "搜索数据",
     "btnUpload" : "选择文件"
+    "btnMove2First" : "Move to First Page",
+    "btnMove2Prev" : "Move to Previous Page",
+    "btnMove2Next" : "Move to Next Page",
+    "btnMove2Last" : "Move to Last Page",
+    "btnMove2Add" : "Move to Add Selected Options",
+    "btnMove2Del" : "Move to Remove Selected Options",
+    "btnLicenseUpgrade" : "Upgrade License",
+    "btnLicenseRefresh" : "Refrsh License",
+
+    "btnUpdate" : "Update Signature",
+    "btnForce" : "Force Logout",
+    "btnExportPDF" : "Export to PDF",
+    "btnMove2Whites" : "Move Selected Settings to Whitelist"
   }
 }

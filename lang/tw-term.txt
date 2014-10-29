@@ -156,8 +156,10 @@
     "btnMove2Del" : "Move to Remove Selected Options",
     "btnLicenseUpgrade" : "Upgrade License",
     "btnLicenseRefresh" : "Refrsh License",
-    "btnUpdate" : "Update Signature",
-    "btnForce" : "Force Logout"
 
+    "btnUpdate" : "Update Signature",
+    "btnForce" : "Force Logout",
+    "btnExportPDF" : "Export to PDF",
+    "btnMove2Whites" : "Move Selected Settings to Whitelist"
   }
 }

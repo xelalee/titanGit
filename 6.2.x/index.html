@@ -150,6 +150,30 @@ var gY = YUI({filter:"raw", defaultGraphicEngine: "canvas"}).use('anim', 'charts
 
 // define global vars
 
+var gVersion = {
+    0 : {
+        version: "Tech Titan",
+        aka: '',
+        title: 'TitanWALL Web Manager',
+        copyright: 'Copyright &copy; 2014 Tech Titan',
+        multi: true
+    },
+    1: {
+        version: "Kaspersky",
+        aka: 'K',
+        title: 'TitanWALL Web Manager',
+        copyright: 'Copyright &copy; 2014 Titan ARC Corp.',
+        multi: false
+    },
+    2 : {
+        version: "泰腾恩",
+        aka: 'CN',
+        title: 'TitanWALL Web Manager',
+        copyright: 'Copyright &copy; 2014 Tech Titan',
+        multi: true
+    }
+}
+
 var gInfo;
 
 var gLang = ['en', 'cn', 'tw']; // languages
@@ -453,7 +477,6 @@ gReg.isIPAddress    = /srcIp|dstIp/;
 
 // yui chart
 gObj.chart = {};
-gCache.chart = {};
 
 // for gid & name
 gCache.list     = {};
@@ -825,12 +848,11 @@ $(document).ready(function () {
         $('#userLangLabel').html( gLogin[ gObj.lang ].userLang + ' : ' );
         $('#loginButton').html( '<b>' + gLogin[ gObj.lang ].loginButton + '</b>' );
 
-        if (gCache.config.version[ gInfo ].multi) {
-            for (var x in gCache.config.version[ gInfo ].language)
-                $('#userLang').append('<option value="' + x + '">' + gCache.config.version[ gInfo ].language[ x ] + '</option>');
+        if (gVersion[ gInfo ].multi) {
+            $('#userLang').append('<option value="tw">繁體中文</option>');
+            $('#userLang').append('<option value="cn">简体中文</option>');
             $('#userLang').val(gObj.lang);
-        } else
-            $('#userLang').append('<option value="en">English</option>');
+        }
 
         // listen to lang
         $('#userLang').change( function() {
@@ -883,6 +905,7 @@ $(document).ready(function () {
                 gObj.btnStop  = '停止';
                 break;
             }
+
 
             if (!gReg.ascii.login.test($('#userName').val()) || !gReg.ascii.login.test($('#userPass').val())) {
                 failAlert('login_fail');
@@ -995,15 +1018,6 @@ $(document).ready(function () {
                                         gRef.docs = data;
                                     }
                                 });
-
-                                // chart
-                                $.ajax({
-                                    url: 'lang/chart.txt',
-                                    dataType: 'json',
-                                    success: function( data ) {
-                                        gCache.chart = data;
-                                    }
-                                })
                             }
                         }).done( function() {
                             $.ajax({
@@ -2132,7 +2146,7 @@ $(document).ready(function () {
 
 
         $('#ft').html( gHtml.foot );
-        $('#ft .content').append('<p>' +  gCache.config.version[ gInfo ].copyright + '</p>');
+        $('#ft .content').append('<p>' +  gVersion[ gInfo ].copyright + '</p>');
         // set row limits
         getLimit();
 
@@ -2581,7 +2595,7 @@ $(document).ready(function () {
         case 'affected_host':
         case 'antivirus_report':
             // cache query status
-            window.open( 'reporter.html?param=' + tar.pid + '&l=' + gObj.lang + '&q=' + gObj.tabIndex + '&sd=' + $('#query-startDate').val() + '&sh=' + $('#query-startHour').val() + '&ed=' + $('#query-endDate').val() + '&eh=' + $('#query-endHour').val(), '_blank');
+            window.open( 'reporter.html?param=' + tar.pid + '&q=' + gObj.tabIndex + '&sd=' + $('#query-startDate').val() + '&sh=' + $('#query-startHour').val() + '&ed=' + $('#query-endDate').val() + '&eh=' + $('#query-endHour').val(), '_blank');
             break;
         case 'view_logs':
             // cache query status
@@ -2923,7 +2937,7 @@ $(document).ready(function () {
         switch(tar.pid)
         {
         case 'idList':
-        // group address/service
+// group address/service
             if ( ( $('#pool option:selected').length + $('#pick option').length) > gRows.maxMemberPerGroupAddress ) {
                 errorAlert('<p>' + gError[ gObj.lang ].memberLimit + '</p>');
                 return false;
@@ -2933,7 +2947,7 @@ $(document).ready(function () {
             }
             break;
         case 'users':
-        // users and groups
+// users and groups
             if ( ( $('#pool option:selected').length + $('#pick option').length) > gRows.maxUserPerGroup ) {
                 errorAlert('<p>' + gError[ gObj.lang ].memberLimit + '</p>');
                 return false;
@@ -2943,7 +2957,7 @@ $(document).ready(function () {
             }
             break;
         case 'member':
-        // zone
+// zone
             if ( ( $('#pool option:selected').length + $('#pick option').length) > gRows.maxMemberPerZone ) {
                 errorAlert('<p>' + gError[ gObj.lang ].memberLimit + '</p>');
                 return false;
@@ -2953,7 +2967,7 @@ $(document).ready(function () {
             }
             break;
         case 'interfaces':
-        // lan
+// lan
             if ( ( $('#pool option:selected').length + $('#pick option').length) > gRows.maxMemberPerLAN ) {
                 errorAlert('<p>' + gError[ gObj.lang ].memberLimit + '</p>');
                 return false;
@@ -2963,7 +2977,7 @@ $(document).ready(function () {
             }
             break;
         default:
-        // antivirus
+// antivirus
             gCache.tabber[ gNode.tab ] = true;
             tar.val = $('#' + tar.pid + 'Pool option:selected');
             tar.val.clone().appendTo('#' + tar.pid);
@@ -4307,7 +4321,7 @@ $(document).ready(function () {
             refreshFirewall( tar.pid );
     }
 
-    // alert
+// alert
     function successAlert( msg ) {
         if (!$('#popError').exists())
             $('#popBase').append('<div id="popError" class="popError"></div>');
@@ -7387,39 +7401,527 @@ $(document).ready(function () {
                                                 case 1:
                                                     for (var i=0, len=tData.length; i<len; i++)
                                                         cData.push( { address: tData[ i ].address, totalBytes: (tData[ i ].totalBytes/1000000).toFixed(2) } );
+                                                    catKey = 'address';
+                                                    tips = {
+                                                        styles: {
+                                                            backgroundColor: "#efefef",
+                                                            color: "#000",
+                                                            borderColor: "#fff",
+                                                            textAlign: "center"
+                                                        },
+                                                        markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                            var msg = document.createElement("div"),
+                                                                underlinedTextBlock = document.createElement("span");
+                                                                boldTextBlock = document.createElement("div");
+                                                            boldTextBlock.style.marginTop = "5px";
+                                                            boldTextBlock.style.fontWeight = "bold";
+                                                            underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                            boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                                            msg.appendChild(underlinedTextBlock);
+                                                            msg.appendChild(document.createElement("br"));
+                                                            msg.appendChild(boldTextBlock);
+                                                            return msg;
+                                                        }
+                                                    };
+                                                    axes = {
+                                                        address : {
+                                                            keys:["address"],
+                                                            position:"left"
+                                                        },
+                                                        totalBytes : {
+                                                            keys:["totalBytes"],
+                                                            position:"bottom",
+                                                            type:"numeric",
+                                                            title:"MB",
+                                                            labelFunction: function(label) {
+                                                                return label.toFixed(2);
+                                                            }
+                                                        }
+                                                    };
+                                                    styleDef = {
+                                                        graph : {
+                                                            background : {
+                                                                fill: { color: '#ffffff' }
+                                                            },
+                                                            border : {
+                                                                color: '#ffffff',
+                                                                weight: 1
+                                                            }
+                                                        },
+                                                        series:  {
+                                                            totalBytes: {
+                                                                area: { color: "#eeeeee" },
+                                                                line: { color: "#eeeeee" },
+                                                                marker: { fill: { color: gColor } }
+                                                            }
+                                                        }
+                                                    };
                                                     break;
                                                 case 2:
                                                     for (var i=0, len=tData.length; i<len; i++)
                                                         cData.push( { srcIp: tData[ i ].srcIp, totalBytes: (tData[ i ].totalBytes/1000000).toFixed(2) } );
+                                                    catKey = 'srcIp';
+                                                    tips = {
+                                                        styles: {
+                                                            backgroundColor: "#efefef",
+                                                            color: "#000",
+                                                            borderColor: "#fff",
+                                                            textAlign: "center"
+                                                        },
+                                                        markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                            var msg = document.createElement("div"),
+                                                                underlinedTextBlock = document.createElement("span");
+                                                                boldTextBlock = document.createElement("div");
+                                                            boldTextBlock.style.marginTop = "5px";
+                                                            boldTextBlock.style.fontWeight = "bold";
+                                                            underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                            boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                                            msg.appendChild(underlinedTextBlock);
+                                                            msg.appendChild(document.createElement("br"));
+                                                            msg.appendChild(boldTextBlock);
+                                                            return msg;
+                                                        }
+                                                    };
+                                                    axes = {
+                                                        srcIp : {
+                                                            keys:["srcIp"],
+                                                            position:"left"
+                                                        },
+                                                        totalBytes : {
+                                                            keys:["totalBytes"],
+                                                            position:"bottom",
+                                                            type:"numeric",
+                                                            title:"MB",
+                                                            labelFunction: function(label) {
+                                                                return label.toFixed(2);
+                                                            }
+                                                        }
+                                                    };
+                                                    styleDef = {
+                                                        graph : {
+                                                            background : {
+                                                                fill: { color: '#ffffff' }
+                                                            },
+                                                            border : {
+                                                                color: '#ffffff',
+                                                                weight: 1
+                                                            }
+                                                        },
+                                                        series:  {
+                                                            totalBytes: {
+                                                                area: { color: "#eeeeee" },
+                                                                line: { color: "#eeeeee" },
+                                                                marker: { fill: { color: gColor } }
+                                                            }
+                                                        }
+                                                    };
+                                                    break;
                                                 case 3:
                                                     for (var i=0, len=tData.length; i<len; i++)
                                                         cData.push( { dstIp: tData[ i ].dstIp, totalBytes: (tData[ i ].totalBytes/1000000).toFixed(2) } );
+                                                    catKey = 'dstIp';
+                                                    tips = {
+                                                        styles: {
+                                                            backgroundColor: "#efefef",
+                                                            color: "#000",
+                                                            borderColor: "#fff",
+                                                            textAlign: "center"
+                                                        },
+                                                        markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                            var msg = document.createElement("div"),
+                                                                underlinedTextBlock = document.createElement("span");
+                                                                boldTextBlock = document.createElement("div");
+                                                            boldTextBlock.style.marginTop = "5px";
+                                                            boldTextBlock.style.fontWeight = "bold";
+                                                            underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                            boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                                            msg.appendChild(underlinedTextBlock);
+                                                            msg.appendChild(document.createElement("br"));
+                                                            msg.appendChild(boldTextBlock);
+                                                            return msg;
+                                                        }
+                                                    };
+                                                    axes = {
+                                                        dstIp : {
+                                                            keys:["dstIp"],
+                                                            position:"left"
+                                                        },
+                                                        totalBytes : {
+                                                            keys:["totalBytes"],
+                                                            position:"bottom",
+                                                            type:"numeric",
+                                                            title:"MB",
+                                                            labelFunction: function(label) {
+                                                                return label.toFixed(2);
+                                                            }
+                                                        }
+                                                    };
+                                                    styleDef = {
+                                                        graph : {
+                                                            background : {
+                                                                fill: { color: '#ffffff' }
+                                                            },
+                                                            border : {
+                                                                color: '#ffffff',
+                                                                weight: 1
+                                                            }
+                                                        },
+                                                        series:  {
+                                                            totalBytes: {
+                                                                area: { color: "#eeeeee" },
+                                                                line: { color: "#eeeeee" },
+                                                                marker: { fill: { color: gColor } }
+                                                            }
+                                                        }
+                                                    };
                                                     break;
                                                 case 4:
                                                     for (var i=0, len=tData.length; i<len; i++)
                                                         cData.push( { protocol: gRef.protocol[ tData[ i ].protocol ], totalBytes: (tData[ i ].totalBytes/1000000).toFixed(2) } );
+                                                    catKey = 'protocol';
+                                                    tips = {
+                                                        styles: {
+                                                            backgroundColor: "#efefef",
+                                                            color: "#000",
+                                                            borderColor: "#fff",
+                                                            textAlign: "center"
+                                                        },
+                                                        markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                            var msg = document.createElement("div"),
+                                                                underlinedTextBlock = document.createElement("span");
+                                                                boldTextBlock = document.createElement("div");
+                                                            boldTextBlock.style.marginTop = "5px";
+                                                            boldTextBlock.style.fontWeight = "bold";
+                                                            underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                            boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                                            msg.appendChild(underlinedTextBlock);
+                                                            msg.appendChild(document.createElement("br"));
+                                                            msg.appendChild(boldTextBlock);
+                                                            return msg;
+                                                        }
+                                                    };
+                                                    chartType = 'pie';
+                                                    serKey = ['totalBytes'];
+                                                    legends = {
+                                                        position: "left",
+                                                        width: 300,
+                                                        height: 300,
+                                                        styles: {
+                                                            hAlign: "center",
+                                                            hSpacing: 10
+                                                       }
+                                                    };
+                                                    serCol = [
+                                                      {
+                                                        categoryKey: "protocol",
+                                                        valueKey: "totalBytes",
+                                                        styles: { fill: { colors: gColor } }
+                                                      }
+                                                    ];
                                                     break;
                                                 case 5:
                                                     for (var i=0, len=tData.length; i<len; i++)
                                                         cData.push( { dstPort: tData[ i ].dstPort, totalBytes: (tData[ i ].totalBytes/1000000).toFixed(2) } );
+                                                    catKey = 'dstPort';
+                                                    tips = {
+                                                        styles: {
+                                                            backgroundColor: "#efefef",
+                                                            color: "#000",
+                                                            borderColor: "#fff",
+                                                            textAlign: "center"
+                                                        },
+                                                        markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                            var msg = document.createElement("div"),
+                                                                underlinedTextBlock = document.createElement("span");
+                                                                boldTextBlock = document.createElement("div");
+                                                            boldTextBlock.style.marginTop = "5px";
+                                                            boldTextBlock.style.fontWeight = "bold";
+                                                            underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                            boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                                            msg.appendChild(underlinedTextBlock);
+                                                            msg.appendChild(document.createElement("br"));
+                                                            msg.appendChild(boldTextBlock);
+                                                            return msg;
+                                                        }
+                                                    };
+                                                    axes = {
+                                                        dstPort : {
+                                                            keys:["dstPort"],
+                                                            position:"left"
+                                                        },
+                                                        totalBytes : {
+                                                            keys:["totalBytes"],
+                                                            position:"bottom",
+                                                            type:"numeric",
+                                                            title:"MB",
+                                                            labelFunction: function(label) {
+                                                                return label.toFixed(2);
+                                                            }
+                                                        }
+                                                    };
+                                                    styleDef = {
+                                                        graph : {
+                                                            background : {
+                                                                fill: { color: '#ffffff' }
+                                                            },
+                                                            border : {
+                                                                color: '#ffffff',
+                                                                weight: 1
+                                                            }
+                                                        },
+                                                        series:  {
+                                                            totalBytes: {
+                                                                area: { color: "#eeeeee" },
+                                                                line: { color: "#eeeeee" },
+                                                                marker: { fill: { color: gColor } }
+                                                            }
+                                                        }
+                                                    };
                                                     break;
                                                 case 6:
                                                     for (var i=0, len=tData.length; i<len; i++)
                                                         cData.push( { zone: tData[ i ].zone, totalBytes: (tData[ i ].totalBytes/1000000).toFixed(2) } );
+                                                    catKey = 'zone';
+                                                    tips = {
+                                                        styles: {
+                                                            backgroundColor: "#efefef",
+                                                            color: "#000",
+                                                            borderColor: "#fff",
+                                                            textAlign: "center"
+                                                        },
+                                                        markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                            var msg = document.createElement("div"),
+                                                                underlinedTextBlock = document.createElement("span");
+                                                                boldTextBlock = document.createElement("div");
+                                                            boldTextBlock.style.marginTop = "5px";
+                                                            boldTextBlock.style.fontWeight = "bold";
+                                                            underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                            boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + " MB"));
+                                                            msg.appendChild(underlinedTextBlock);
+                                                            msg.appendChild(document.createElement("br"));
+                                                            msg.appendChild(boldTextBlock);
+                                                            return msg;
+                                                        }
+                                                    };
+                                                    axes = {
+                                                        zone : {
+                                                            keys:["zone"],
+                                                            position:"left"
+                                                        },
+                                                        totalBytes : {
+                                                            keys:["totalBytes"],
+                                                            position:"bottom",
+                                                            type:"numeric",
+                                                            title:"MB",
+                                                            labelFunction: function(label) {
+                                                                return label.toFixed(2);
+                                                            }
+                                                        }
+                                                    };
+                                                    styleDef = {
+                                                        graph : {
+                                                            background : {
+                                                                fill: { color: '#ffffff' }
+                                                            },
+                                                            border : {
+                                                                color: '#ffffff',
+                                                                weight: 1
+                                                            }
+                                                        },
+                                                        series:  {
+                                                            totalBytes: {
+                                                                area: { color: "#eeeeee" },
+                                                                line: { color: "#eeeeee" },
+                                                                marker: { fill: { color: gColor } }
+                                                            }
+                                                        }
+                                                    };
                                                     break;
                                                 }
                                                 break;
                                             case 'file_extension':
                                                 for (var i=0, len=tData.length; i<len; i++)
                                                     cData.push( { extension: tData[ i ].extension, accessCount: tData[ i ].accessCount } );
+                                                catKey = 'extension';
+                                                tips = {
+                                                    styles: {
+                                                        backgroundColor: "#efefef",
+                                                        color: "#000",
+                                                        borderColor: "#fff",
+                                                        textAlign: "center"
+                                                    },
+                                                    markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                        var msg = document.createElement("div"),
+                                                            underlinedTextBlock = document.createElement("span");
+                                                            boldTextBlock = document.createElement("div");
+                                                        boldTextBlock.style.marginTop = "5px";
+                                                        boldTextBlock.style.fontWeight = "bold";
+                                                        underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                        boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                                        msg.appendChild(underlinedTextBlock);
+                                                        msg.appendChild(document.createElement("br"));
+                                                        msg.appendChild(boldTextBlock);
+                                                        return msg;
+                                                    }
+                                                };
+                                                axes = {
+                                                    extension : {
+                                                        keys:["extension"],
+                                                        position:"left"
+                                                    },
+                                                    accessCount : {
+                                                        keys:["accessCount"],
+                                                        position:"bottom",
+                                                        type:"numeric",
+                                                        labelFunction: function(label) {
+                                                            return label.toFixed(2);
+                                                        }
+                                                    }
+                                                };
+                                                styleDef = {
+                                                    graph : {
+                                                        background : {
+                                                            fill: { color: '#ffffff' }
+                                                        },
+                                                        border : {
+                                                            color: '#ffffff',
+                                                            weight: 1
+                                                        }
+                                                    },
+                                                    series:  {
+                                                        accessCount: {
+                                                            area: { color: "#eeeeee" },
+                                                            line: { color: "#eeeeee" },
+                                                            marker: { fill: { color: gColor } }
+                                                        }
+                                                    }
+                                                };
                                                 break;
                                             case 'blocked_host':
                                                 for (var i=0, len=tData.length; i<len; i++)
                                                     cData.push( { ip: tData[ i ].ip, virusCount: tData[ i ].virusCount, firewallCount: tData[ i ].firewallCount } );
+                                                catKey = 'ip';
+                                                tips = {
+                                                    styles: {
+                                                        backgroundColor: "#efefef",
+                                                        color: "#000",
+                                                        borderColor: "#fff",
+                                                        textAlign: "center"
+                                                    },    
+                                                    markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                        var msg = document.createElement("div"),
+                                                            underlinedTextBlock = document.createElement("span");
+                                                            boldTextBlock = document.createElement("div");
+                                                        boldTextBlock.style.marginTop = "5px";
+                                                        boldTextBlock.style.fontWeight = "bold";
+                                                        underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                        boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                                        msg.appendChild(underlinedTextBlock);
+                                                        msg.appendChild(document.createElement("br"));
+                                                        msg.appendChild(boldTextBlock);
+                                                        return msg;
+                                                    }
+                                                };
+                                                axes = {
+                                                    ip : {
+                                                        keys:["ip"],
+                                                        position:"left"
+                                                    },
+                                                    count : {
+                                                        keys:["firewallCount", "virusCount"],
+                                                        position:"bottom",
+                                                        type:"numeric",
+                                                        labelFunction: function(label) {
+                                                            return label.toFixed(2);
+                                                        }
+                                                    }
+                                                };
+                                                styleDef = {
+                                                    graph : {
+                                                        background : {
+                                                            fill: { color: '#ffffff' }
+                                                        },
+                                                        border : {
+                                                            color: '#ffffff',
+                                                            weight: 1
+                                                        }
+                                                    },
+                                                    series:  {
+                                                        firewallCount: {
+                                                            area: { color: "#eeeeee" },
+                                                            line: { color: "#eeeeee" },
+                                                            marker: { fill: { color: gColor } }
+                                                        },
+                                                        virusCount: {
+                                                            area: { color: "#eeeeee" },
+                                                            line: { color: "#eeeeee" },
+                                                            marker: { fill: { color: gColor } }
+                                                        }
+                                                    }
+                                                };
                                                 break;
                                             case 'affected_host':
                                                 for (var i=0, len=tData.length; i<len; i++)
                                                     cData.push( { ip: tData[ i ].ip, virusHitCount: tData[ i ].virusHitCount, sigHitCount: tData[ i ].sigHitCount } );
+                                                catKey = 'ip';
+                                                tips = {
+                                                    styles: {
+                                                        backgroundColor: "#efefef",
+                                                        color: "#000",
+                                                        borderColor: "#fff",
+                                                        textAlign: "center"
+                                                    },    
+                                                    markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                        var msg = document.createElement("div"),
+                                                            underlinedTextBlock = document.createElement("span");
+                                                            boldTextBlock = document.createElement("div");
+                                                        boldTextBlock.style.marginTop = "5px";
+                                                        boldTextBlock.style.fontWeight = "bold";
+                                                        underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                        boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                                        msg.appendChild(underlinedTextBlock);
+                                                        msg.appendChild(document.createElement("br"));
+                                                        msg.appendChild(boldTextBlock);
+                                                        return msg;
+                                                    }
+                                                };
+                                                axes = {
+                                                    ip : {
+                                                        keys:["ip"],
+                                                        position:"left"
+                                                    },
+                                                    hitCount : {
+                                                        keys:["virusHitCount", "sigHitCount"],
+                                                        position:"bottom",
+                                                        type:"numeric",
+                                                        labelFunction: function(label) {
+                                                            return label.toFixed(2);
+                                                        }
+                                                    }
+                                                };
+                                                styleDef = {
+                                                    graph : {
+                                                        background : {
+                                                            fill: { color: '#ffffff' }
+                                                        },
+                                                        border : {
+                                                            color: '#ffffff',
+                                                            weight: 1
+                                                        }
+                                                    },
+                                                    series:  {
+                                                        sigHitCount: {
+                                                            area: { color: "#eeeeee" },
+                                                            line: { color: "#eeeeee" },
+                                                            marker: { fill: { color: gColor } }
+                                                        },
+                                                        virusHitCount: {
+                                                            area: { color: "#eeeeee" },
+                                                            line: { color: "#eeeeee" },
+                                                            marker: { fill: { color: gColor } }
+                                                        }
+                                                    }
+                                                };
                                                 break;
                                             case 'antivirus_report':
                                                 switch( tabIndex )
@@ -7427,82 +7929,225 @@ $(document).ready(function () {
                                                 case 1:
                                                     for (var i=0, len=tData.length; i<len; i++)
                                                         cData.push( { srcIp: tData[ i ].srcIp, hitCount: tData[ i ].hitCount } );
+                                                    catKey = 'srcIp';
+                                                    tips = {
+                                                        styles: {
+                                                            backgroundColor: "#efefef",
+                                                            color: "#000",
+                                                            borderColor: "#fff",
+                                                            textAlign: "center"
+                                                        },    
+                                                        markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                            var msg = document.createElement("div"),
+                                                                underlinedTextBlock = document.createElement("span");
+                                                                boldTextBlock = document.createElement("div");
+                                                            boldTextBlock.style.marginTop = "5px";
+                                                            boldTextBlock.style.fontWeight = "bold";
+                                                            underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                            boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                                            msg.appendChild(underlinedTextBlock);
+                                                            msg.appendChild(document.createElement("br"));
+                                                            msg.appendChild(boldTextBlock);
+                                                            return msg;
+                                                        }
+                                                    };
+                                                    axes = {
+                                                        srcIp : {
+                                                            keys:["srcIp"],
+                                                            position:"left"
+                                                        },
+                                                        hitCount : {
+                                                            keys:["hitCount"],
+                                                            position:"bottom",
+                                                            type:"numeric",
+                                                            labelFunction: function(label) {
+                                                                return label.toFixed(2);
+                                                            }
+                                                        }
+                                                    };
+                                                    styleDef = {
+                                                        graph : {
+                                                            background : {
+                                                                fill: { color: '#ffffff' }
+                                                            },
+                                                            border : {
+                                                                color: '#ffffff',
+                                                                weight: 1
+                                                            }
+                                                        },
+                                                        series:  {
+                                                            hitCount: {
+                                                                area: { color: "#eeeeee" },
+                                                                line: { color: "#eeeeee" },
+                                                                marker: { fill: { color: gColor } }
+                                                            }
+                                                        }
+                                                    };
                                                     break;
                                                 case 2:
                                                     for (var i=0, len=tData.length; i<len; i++)
                                                         cData.push( { dstIp: tData[ i ].dstIp, hitCount: tData[ i ].hitCount } );
+                                                    catKey = 'dstIp';
+                                                    tips = {
+                                                        styles: {
+                                                            backgroundColor: "#efefef",
+                                                            color: "#000",
+                                                            borderColor: "#fff",
+                                                            textAlign: "center"
+                                                        },    
+                                                        markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                            var msg = document.createElement("div"),
+                                                                underlinedTextBlock = document.createElement("span");
+                                                                boldTextBlock = document.createElement("div");
+                                                            boldTextBlock.style.marginTop = "5px";
+                                                            boldTextBlock.style.fontWeight = "bold";
+                                                            underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                            boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                                            msg.appendChild(underlinedTextBlock);
+                                                            msg.appendChild(document.createElement("br"));
+                                                            msg.appendChild(boldTextBlock);
+                                                            return msg;
+                                                        }
+                                                    };
+                                                    axes = {
+                                                        dstIp : {
+                                                            keys:["dstIp"],
+                                                            position:"left"
+                                                        },
+                                                        hitCount : {
+                                                            keys:["hitCount"],
+                                                            position:"bottom",
+                                                            type:"numeric",
+                                                            labelFunction: function(label) {
+                                                                return label.toFixed(2);
+                                                            }
+                                                        }
+                                                    };
+                                                    styleDef = {
+                                                        graph : {
+                                                            background : {
+                                                                fill: { color: '#ffffff' }
+                                                            },
+                                                            border : {
+                                                                color: '#ffffff',
+                                                                weight: 1
+                                                            }
+                                                        },
+                                                        series:  {
+                                                            hitCount: {
+                                                                area: { color: "#eeeeee" },
+                                                                line: { color: "#eeeeee" },
+                                                                marker: { fill: { color: gColor } }
+                                                            }
+                                                        }
+                                                    };
                                                     break;
                                                 case 3:
                                                     for (var i=0, len=tData.length; i<len; i++)
                                                         cData.push( { virusName: tData[ i ].virusName, hitCount: tData[ i ].hitCount } );
+                                                    catKey = 'virusName';
+                                                    tips = {
+                                                        styles: {
+                                                            backgroundColor: "#efefef",
+                                                            color: "#000",
+                                                            borderColor: "#fff",
+                                                            textAlign: "center"
+                                                        },    
+                                                        markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                            var msg = document.createElement("div"),
+                                                                underlinedTextBlock = document.createElement("span");
+                                                                boldTextBlock = document.createElement("div");
+                                                            boldTextBlock.style.marginTop = "5px";
+                                                            boldTextBlock.style.fontWeight = "bold";
+                                                            underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                            boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                                            msg.appendChild(underlinedTextBlock);
+                                                            msg.appendChild(document.createElement("br"));
+                                                            msg.appendChild(boldTextBlock);
+                                                            return msg;
+                                                        }
+                                                    };
+                                                    axes = {
+                                                        virusName : {
+                                                            keys:["virusName"],
+                                                            position:"left"
+                                                        },
+                                                        hitCount : {
+                                                            keys:["hitCount"],
+                                                            position:"bottom",
+                                                            type:"numeric",
+                                                            labelFunction: function(label) {
+                                                                return label.toFixed(2);
+                                                            }
+                                                        }
+                                                    };
+                                                    styleDef = {
+                                                        graph : {
+                                                            background : {
+                                                                fill: { color: '#ffffff' }
+                                                            },
+                                                            border : {
+                                                                color: '#ffffff',
+                                                                weight: 1
+                                                            }
+                                                        },
+                                                        series:  {
+                                                            hitCount: {
+                                                                area: { color: "#eeeeee" },
+                                                                line: { color: "#eeeeee" },
+                                                                marker: { fill: { color: gColor } }
+                                                            }
+                                                        }
+                                                    };
                                                     break;
                                                 case 4:
                                                     for (var i=0, len=tData.length; i<len; i++)
                                                         cData.push( { protocol: tData[ i ].protocol, hitCount: tData[ i ].hitCount } );
+                                                    catKey = 'protocol';
+                                                    tips = {
+                                                        styles: {
+                                                            backgroundColor: "#efefef",
+                                                            color: "#000",
+                                                            borderColor: "#fff",
+                                                            textAlign: "center"
+                                                        },    
+                                                        markerLabelFunction: function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                                                            var msg = document.createElement("div"),
+                                                                underlinedTextBlock = document.createElement("span");
+                                                                boldTextBlock = document.createElement("div");
+                                                            boldTextBlock.style.marginTop = "5px";
+                                                            boldTextBlock.style.fontWeight = "bold";
+                                                            underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                                                            boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                                            msg.appendChild(underlinedTextBlock);
+                                                            msg.appendChild(document.createElement("br"));
+                                                            msg.appendChild(boldTextBlock);
+                                                            return msg;
+                                                        }
+                                                    };
+                                                    chartType = 'pie';
+                                                    serKey = ['hitCount'];
+                                                    legends = {
+                                                        position: "left",
+                                                        width: 300,
+                                                        height: 300,
+                                                        styles: {
+                                                            hAlign: "center",
+                                                            hSpacing: 10
+                                                       }
+                                                    };
+                                                    serCol = [
+                                                      {
+                                                        categoryKey: "protocol",
+                                                        valueKey: "hitCount",
+                                                        styles: { fill: { colors: gColor } }
+                                                      }
+                                                    ];
                                                     break;
                                                 }
                                                 break;
                                             }
 
-                                            var title = "";
-gY.log( gCache.chart[ pid ][ gObj.lang ] );
-                                            if ('pie' == gCache.chart[ pid ][ gObj.lang ][ tabIndex ].type) {
-
-                                                gCache.chart[ pid ][ gObj.lang ][ tabIndex ].tips.markerLabelFunction = function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
-                                                    var msg = document.createElement("div"),
-                                                        underlinedTextBlock = document.createElement("span");
-                                                        boldTextBlock = document.createElement("div");
-                                                    boldTextBlock.style.marginTop = "5px";
-                                                    boldTextBlock.style.fontWeight = "bold";
-                                                    underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
-                                                    boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
-                                                    msg.appendChild(underlinedTextBlock);
-                                                    msg.appendChild(document.createElement("br"));
-                                                    msg.appendChild(boldTextBlock);
-                                                    return msg;
-                                                }
-
-                                                gChart[ tabIndex ] = new gY.Chart({
-                                                    dataProvider: cData,
-                                                    categoryKey: gCache.chart[ pid ][ gObj.lang ][ tabIndex ].catKey,
-                                                    type: gCache.chart[ pid ][ gObj.lang ][ tabIndex ].type,
-                                                    legend: gCache.chart[ pid ][ gObj.lang ][ tabIndex ].legend,
-                                                    tooltip: gCache.chart[ pid ][ gObj.lang ][ tabIndex ].tips,
-                                                    seriesKeys: gCache.chart[ pid ][ gObj.lang ][ tabIndex ].serKey,
-                                                    seriesCollection: gCache.chart[ pid ][ gObj.lang ][ tabIndex ].serCol
-                                                }).render( '#chart-' + tabIndex );
-                                            } else {
-                                                if ('traffic_direction' == pid) {
-                                                    gCache.chart[ pid ][ gObj.lang ][ tabIndex ].axes.totalBytes.labelFunction = function(label, format) { return label.toFixed(2); }
-                                                    gCache.chart[ pid ][ gObj.lang ][ tabIndex ].axes.totalBytes.title = "MB";
-                                                    title = " MB";
-                                                }
-
-                                                gCache.chart[ pid ][ gObj.lang ][ tabIndex ].tips.markerLabelFunction = function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
-                                                    var msg = document.createElement("div"),
-                                                        underlinedTextBlock = document.createElement("span");
-                                                        boldTextBlock = document.createElement("div");
-                                                    boldTextBlock.style.marginTop = "5px";
-                                                    boldTextBlock.style.fontWeight = "bold";
-                                                    underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
-                                                    boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + title ));
-                                                    msg.appendChild(underlinedTextBlock);
-                                                    msg.appendChild(document.createElement("br"));
-                                                    msg.appendChild(boldTextBlock);
-                                                    return msg;
-                                                }
-
-                                                gChart[ tabIndex ] = new gY.Chart({
-                                                    dataProvider: cData,
-                                                    categoryKey: gCache.chart[ pid ][ gObj.lang ][ tabIndex ].catKey,
-                                                    type: gCache.chart[ pid ][ gObj.lang ][ tabIndex ].type,
-                                                    tooltip: gCache.chart[ pid ][ gObj.lang ][ tabIndex ].tips,
-                                                    axes: gCache.chart[ pid ][ gObj.lang ][ tabIndex ].axes,
-                                                    styles: gCache.chart[ pid ][ gObj.lang ][ tabIndex ].styleDef,
-                                                    horizontalGridlines: true
-                                                }).render( '#chart-' + tabIndex );
-                                            }
-/*
                                             if ('pie' == chartType) {
                                                 gObj.chart[ tabIndex ] = new gY.Chart({
                                                     dataProvider: cData,
@@ -7524,7 +8169,6 @@ gY.log( gCache.chart[ pid ][ gObj.lang ] );
                                                     horizontalGridlines: true
                                                 }).render('#chart-' + tabIndex);
                                             }
-*/
                                         }
                                     }
                                 }
@@ -7717,8 +8361,6 @@ gY.log( gCache.chart[ pid ][ gObj.lang ] );
                         success: function(data) {
                             gTrack[ pid ] = data;
                             gData[ pid ] = data;
-gY.log( 'gen ' + pid );
-gY.log( gData[ pid ] );
                             gData[ gNode.url.get ] = data;
 
                             // cache for name
@@ -13089,9 +13731,6 @@ gY.log( gData[ pid ] );
             }
             break;
         case 'vlan_interfaces':
-gY.log( tar.pid );
-gY.log( gNode.guiT );
-gY.log( gData[ tar.pid ] );
             delete gCache.uniq[ tar.pid ][ gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].name ];
             gCache[ tar.pid ].interface[ gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].interface ].splice( gCache[ tar.pid ].interface[ gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].interface ].indexOf( parseInt( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].vid ) ), 1);
             if (parseInt( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].gid) > 0 ) {
@@ -31854,53 +32493,46 @@ gY.log( gData[ tar.pid ] );
         });
     }
 
+
     $.ajax({
-        url: 'lang/config.txt',
+        url: 'guiIndex.php',
         dataType: 'json',
         success: function(data) {
-            gCache.config = data.config;
+            if (isNaN( parseInt( data ) ) || !gVersion[ data ])
+               gInfo = 0;
+            else
+               gInfo = parseInt( data );
+            $('head').append( '<link rel="stylesheet" type="text/css" href="css/version' + gVersion[ gInfo ].aka + '.css" />' );
         }
     }).done( function() {
         $.ajax({
-            url: 'guiIndex.php',
-            dataType: 'json',
-            success: function(data) {
-                if (isNaN( parseInt( data ) ) || !gCache.config.version[ data ])
-                   gInfo = 0;
-                else
-                   gInfo = parseInt( data );
-                $('head').append( '<link rel="stylesheet" type="text/css" href="css/version' + gCache.config.version[ gInfo ].aka + '.css" />' );
+            url:'lang/login.txt',
+            dataType:'json',
+            success:function(data) {
+                gLogin = data;
+                for (var i=0, len=gLang.length; i<len; i++)
+                {
+                    $.ajax({
+                        url:'lang/' + gLang[ i ] + '-term.txt',
+                        dataType:'json',
+                        success:function(data) {
+                            // prepare query terms
+                            gTerm[ data.lang ] = data.term;
+                        }
+                    });
+
+                    $.ajax({
+                        url:'lang/' + gLang[ i ] + '-error.txt',
+                        dataType:'json',
+                        success:function(data) {
+                            // prepare error message
+                            gError[ data.lang ] = data.error;
+                        }
+                    });
+                }
             }
         }).done( function() {
-            $.ajax({
-                url:'lang/login.txt',
-                dataType:'json',
-                success:function(data) {
-                    gLogin = data;
-                    for (var i=0, len=gLang.length; i<len; i++)
-                    {
-                        $.ajax({
-                            url:'lang/' + gLang[ i ] + '-term.txt',
-                            dataType:'json',
-                            success:function(data) {
-                                // prepare query terms
-                                gTerm[ data.lang ] = data.term;
-                            }
-                        });
-
-                        $.ajax({
-                            url:'lang/' + gLang[ i ] + '-error.txt',
-                            dataType:'json',
-                            success:function(data) {
-                                // prepare error message
-                                gError[ data.lang ] = data.error;
-                            }
-                        });
-                    }
-                }
-            }).done( function() {
-                ifLogin();
-            });
+            ifLogin();
         });
     });
 
@@ -31922,7 +32554,9 @@ gY.log( gData[ tar.pid ] );
         <tr>
           <th id="userLangLabel"></th>
           <td>
-            <select id="userLang"></select>
+            <select id="userLang">
+              <option value="en">English</option>
+            </select>
           </td>
         </tr>
         <tr>
