@@ -150,7 +150,7 @@ var gY = YUI({filter:"raw", defaultGraphicEngine: "canvas"}).use('anim', 'charts
 
 // define global vars
 
-var gInfo;
+var gIndex;
 
 var gLang = ['en', 'cn', 'tw']; // languages
 var gRef  = {};
@@ -825,9 +825,9 @@ $(document).ready(function () {
         $('#userLangLabel').html( gLogin[ gObj.lang ].userLang + ' : ' );
         $('#loginButton').html( '<b>' + gLogin[ gObj.lang ].loginButton + '</b>' );
 
-        if (gCache.config.version[ gInfo ].multi) {
-            for (var x in gCache.config.version[ gInfo ].language)
-                $('#userLang').append('<option value="' + x + '">' + gCache.config.version[ gInfo ].language[ x ] + '</option>');
+        if (gCache.config.version[ gIndex ].multi) {
+            for (var x in gCache.config.version[ gIndex ].language)
+                $('#userLang').append('<option value="' + x + '">' + gCache.config.version[ gIndex ].language[ x ] + '</option>');
             $('#userLang').val(gObj.lang);
         } else
             $('#userLang').append('<option value="en">English</option>');
@@ -2132,7 +2132,7 @@ $(document).ready(function () {
 
 
         $('#ft').html( gHtml.foot );
-        $('#ft .content').append('<p>' +  gCache.config.version[ gInfo ].copyright + '</p>');
+        $('#ft .content').append('<p>' +  gCache.config.version[ gIndex ].copyright + '</p>');
         // set row limits
         getLimit();
 
@@ -31866,10 +31866,10 @@ gY.log( gData[ tar.pid ] );
             dataType: 'json',
             success: function(data) {
                 if (isNaN( parseInt( data ) ) || !gCache.config.version[ data ])
-                   gInfo = 0;
+                   gIndex = 0;
                 else
-                   gInfo = parseInt( data );
-                $('head').append( '<link rel="stylesheet" type="text/css" href="css/version' + gCache.config.version[ gInfo ].aka + '.css" />' );
+                   gIndex = parseInt( data );
+                $('head').append( '<link rel="stylesheet" type="text/css" href="css/version' + gCache.config.version[ gIndex ].aka + '.css" />' );
             }
         }).done( function() {
             $.ajax({

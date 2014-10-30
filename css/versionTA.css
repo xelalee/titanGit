@@ -1,10 +1,10 @@
 /* layout outline */
 #outline {
-    background: url('images/bg_upper_06.png') top center no-repeat;
+    background: url('images/bg_upper_06TA.png') top center no-repeat;
 }
 
 #loginDiv {
-    background: url('images/bg_upper_06.png') top center no-repeat;
+    background: url('images/bg_upper_06TA.png') top center no-repeat;
 }
 
 #menu {
@@ -77,7 +77,7 @@
 }
 
 #reporter {
-    background: url('images/bg_upper_06.png') top center no-repeat;
+    background: url('images/bg_upper_06TA.png') top center no-repeat;
 }
 
 #reporter #bd_hd {

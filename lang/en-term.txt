@@ -160,6 +160,9 @@
     "btnUpdate" : "Update Signature",
     "btnForce" : "Force Logout",
     "btnExportPDF" : "Export to PDF",
-    "btnMove2Whites" : "Move Selected Settings to Whitelist"
+    "btnMove2Whites" : "Move Selected Settings to Whitelist",
+    "btnConnect" : "Connect to VPN",
+    "btnDisconnect" : "Disconnect from VPN",
+    "btnDisconnects" : "Disconnect from VPN"
   }
 }

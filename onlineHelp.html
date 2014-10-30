@@ -44,36 +44,14 @@
 <!-- javascript -->
 
     <script type="text/javascript">
+    var gConf = {};
     var gObj  = {};
     var gHtml = {};
     var gReg  = {};
     var gRef  = {};
     var gIf   = {};
     var gNode;
-
-    var gVersion = {
-        0 : {
-            version: "Tech Titan",
-            aka: '',
-            title: 'TitanWALL Web Manager',
-            copyright: 'Copyright &copy; 2014 Tech Titan',
-            multi: true
-        },
-        1: {
-            version: "Kaspersky",
-            aka: 'K',
-            title: 'TitanWALL Web Manager',
-            copyright: 'Copyright &copy; 2014 Titan ARC Corp.',
-            multi: true
-        },
-        2 : {
-            version: "泰腾恩",
-            aka: 'CN',
-            title: 'TitanWALL Web Manager',
-            copyright: 'Copyright &copy; 2014 Tech Titan',
-            multi: true
-        }
-    }
+    var gIndex   = 0;
 
     gObj.cooker  = 'TitanWALL';
     gReg.isIndex = /index-(\d{1,2})(-(\d))?(-(\d))?/;
@@ -84,34 +62,63 @@
     gIf.menuX    = false;
     gHtml.aMenu  = '<span id="activedMenu"></span>';
 
+$.extend({
+  getUrlVars: function(){
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+      hash = hashes[i].split('=');
+      vars.push(hash[0]);
+      vars[hash[0]] = hash[1];
+    }
+    return vars;
+  },
+  getUrlVar: function(name){
+    return $.getUrlVars()[name];
+  }
+});
+
+$(document).ready(function () {
+
+    // define func
+    jQuery.fn.exists = function() {
+        return this.length > 0;
+    }
+
     // yui instance
     var gY = YUI({filter:"raw", defaultGraphicEngine: "canvas"}).use('anim', 'charts', 'charts-legend', 'console', 'cookie', 'datasource-io', 'datasource-jsonschema', 'datatable-base', 'datatable-sort', 'datatable-datasource', 'dd', 'dd-plugin', 'io-base', 'io-upload-iframe', 'json', 'json-parse', 'json-stringify', 'panel', 'uploader', 'yui');
 
-    $(document).ready(function () {
-        function init() {
-            if ( gY.Cookie.getSub( gObj.cooker, 'lang' ) ) {
-                gObj.lang = gY.Cookie.getSub( gObj.cooker, 'lang');
-            } else {
-                gObj.lang = 'en';
-            }
+    function init() {
+        if ( gY.Cookie.getSub( gObj.cooker, 'lang' ) ) {
+            gObj.lang = gY.Cookie.getSub( gObj.cooker, 'lang');
+        } else {
+            gObj.lang = 'en';
+        }
 
-            if ( gY.Cookie.getSub( gObj.cooker, 'node' ) ) {
-                gObj.id = gY.Cookie.getSub( gObj.cooker, 'node');
-            } else {
-                gObj.id = 'menu-0';
-            }
+        if ( gY.Cookie.getSub( gObj.cooker, 'node' ) ) {
+            gObj.id = gY.Cookie.getSub( gObj.cooker, 'node');
+        } else {
+            gObj.id = 'menu-0';
+        }
 
+        $.ajax({
+            url:'lang/config.txt',
+            dataType:'json',
+            success:function(data) {
+                gConf = data.config;
+            }
+        }).done( function() {
             $.ajax({
                 url:'guiIndex.php',
                 dataType:'json',
                 success:function(data) {
                     // tell gui index for relative css
-                    if (isNaN( parseInt( data ) ) || !gVersion[ data ])
-                        data = 0;
-                    $('head').append( '<link rel="stylesheet" type="text/css" href="css/version' + gVersion[ data ].aka + '.css" />' );
+                    if (!isNaN( parseInt( data ) ) && !gConf.version[ data ])
+                        gIndex = data;
+                    $('head').append( '<link rel="stylesheet" type="text/css" href="css/version' + gConf.version[ gIndex ].aka + '.css" />' );
                 }
             }).done( function() {
-
                 $.ajax({
                     url:'lang/' + gObj.lang + '-docs.txt',
                     dataType:'json',
@@ -133,11 +140,11 @@
                             gObj.active.h3Arr  = [];
                             gObj.active.h4Arr  = [];
                             gHtml.html = '<ul class="accordion-ul">';
-
+    
                             for (var i=0, len=gObj.menu.length; i<len; i++)
                             {
                                 gObj.active.h3Arr.push(gObj.menu[i].id);
-
+    
                                 if  (gObj.menu[i].panel) {
                                     gHtml.html += '<li id="'+gObj.menu[i].id+'" class="accordion-ul-li"><h3><a href="#">'+gObj.menu[i].label+'</a></h3>';
                                     gHtml.html += '<ul class="accordion-ul-ul">';
@@ -170,25 +177,25 @@
                                 } else
                                     gHtml.html += '<li id="'+gObj.menu[i].id+'" class="accordion-ul-li index-' + i + ' noPanel"><h3><a href="#">'+gObj.menu[i].label+'</a></h3></li>';
                             }
-
+    
                             gHtml.html += '</ul>';
-
+    
                             $('#menu').html(gHtml.html);
-
+    
                             gObj.acc3 = $('.accordion-ul').accordion({
                                 collapsible:true,
                                 autoHeight: false
                             });
-
+    
                             // remove h3 icon if no panel,,,
                             $('.noPanel span').remove();
-
+    
                             gObj.acc4 = $('.accordion-ul-ul-ul').accordion({
                                 collapsible:true,
                                 active:false,
                                 autoHeight: false
                             });
-
+    
                             $('.accordion-ul-li h3').on('click', function(e) {
                                 if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
                                     gIf.getSessInfo = true;
@@ -204,19 +211,19 @@
                                     gObj.active.menu    = '<h3>';
                                     gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index].label+'</b>';
                                     gObj.active.menu    += '</h3>';
-
+    
                                     $('#activedMenu').remove();
-
+    
                                     gObj.active.icon.addClass('ui-actived');
                                     gObj.active.icon.prepend(gHtml.aMenu);
                                     gNode = gObj.menu[gObj.active.h3Index];
                                     $('#main_hd').html( gObj.active.menu );
-
+    
                                     genMain();
                                 }
                             });
-
-
+    
+    
                             $('.accordion-ul-ul-li h4').on('click', function(e) {
                                 if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
                                     gObj.actived = gObj.active;
@@ -229,22 +236,22 @@
                                     gObj.active.target  = $(this);
                                     gObj.active.menu    = '<h3>';
                                     gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index].label+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].label+'</b>';
-
+    
                                     gObj.active.menu    += '</h3>';
-
+    
                                     // navbar
-
+    
                                     $('#activedMenu').remove();
-
+    
                                     gObj.active.icon.addClass('ui-actived');
                                     gObj.active.icon.prepend(gHtml.aMenu);
                                     gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index];
                                     $('#main_hd').html( gObj.active.menu );
-
+    
                                     genMain();
                                 }
                             });
-
+    
                             $('.accordion-ul-ul-ul-ul-li h5').on('click', function(e) {
                                 switch(gReg.isIndex.test($(this).parents('li').attr('class')))
                                 {
@@ -260,22 +267,22 @@
                                     gObj.active.menu    = '<h3>';
                                     gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index].label+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].label+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].panel[gObj.active.h5Index].label+'</b>';
                                     gObj.active.menu    += '</h3>';
-
+    
                                     // navbar
-
+    
                                     $('#activedMenu').remove();
-
+    
                                     gObj.active.icon.addClass('ui-actived');
                                     gObj.active.icon.prepend(gHtml.aMenu);
                                     gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].panel[gObj.active.h5Index];
                                     $('#main_hd').html( gObj.active.menu );
-
+    
                                     genMain();
                                 }
                             });
-
-                            $('#ft .content').append('<p>Copyright &copy; 2014 TECH TITAN</p>');
-
+    
+                            $('#ft .content').append('<p>' + gConf.version[ gIndex ].copyright + '</p>');
+    
                             gObj.ids = gObj.id.split('-');
                             for (var i=0, len=gObj.ids.length; i<len; i++)
                             {
@@ -299,313 +306,314 @@
                     });
                 });
             });
-        }
+        });
+    }
 
-        function genMain() {
-            var tmp = '',
-                arr = [];
-            $('#main_bd').empty();
-            $('#main_bd').append('<div id="docDiv"></div>');
+    function genMain() {
+        var tmp = '',
+            arr = [];
+        $('#main_bd').empty();
+        $('#main_bd').append('<div id="docDiv"></div>');
 
-            if ( gRef[ gNode.id ].tabs ) {
-                // use tabs
-                $('#docDiv').append('<ul></ul>');
+        if ( gRef[ gNode.id ].tabs ) {
+            // use tabs
+            $('#docDiv').append('<ul></ul>');
 
-                for (var x in gRef[ gNode.id ].tabs)
-                {
-                    $('#docDiv ul').append('<li id="docDiv-tab-' + x + '"><a href="#docDiv-panel-' + x + '">' + gRef[ gNode.id ].tabs[ x ].label + '</a></li>');
-                    $('#docDiv').append('<div id="docDiv-panel-' + x + '"><div id="docDiv-panel-div-' + x + '"></div></div>');
-                }
-                $('#docDiv').tabs();
+            for (var x in gRef[ gNode.id ].tabs)
+            {
+                $('#docDiv ul').append('<li id="docDiv-tab-' + x + '"><a href="#docDiv-panel-' + x + '">' + gRef[ gNode.id ].tabs[ x ].label + '</a></li>');
+                $('#docDiv').append('<div id="docDiv-panel-' + x + '"><div id="docDiv-panel-div-' + x + '"></div></div>');
+            }
+            $('#docDiv').tabs();
 
-                // content
-                for (var x in gRef[ gNode.id ].tabs)
-                {
-                    $('#docDiv-panel-div-' + x).html('<hr/>');
-                    if ( gRef[ gNode.id ].tabs[ x ].editor ) {
-                        // tabs in tabs
-                        $('#docDiv-panel-div-' + x).append( '<ul><li id="docDiv-tab2-' + x + '"><a href="#docDiv-panel2-' + x + '">Table</a></li><li id="docDiv-tab2-editor-' + x + '"><a href="#docDiv-editor2-' + x + '">Editor</a></li></ul>');
-                        $('#docDiv-panel-div-' + x).append('<div id="docDiv-panel2-' + x + '"><div id="docDiv-panel2-div-' + x + '"></div></div>');
-                        $('#docDiv-panel-div-' + x).append('<div id="docDiv-editor2-' + x + '"><div id="docDiv-editor2-div-' + x + '"></div></div>');
-                        tmp = '<dl id="docDiv-panel2-dl-' + x + '">';
-                        for (var i=0, len=gRef[ gNode.id ].tabs[ x ].content.length; i<len; i++)
-                        {
-                            tmp += '<dt>' + gRef[ gNode.id ].tabs[ x ].content[ i ].label + ' : </dt>';
-                            if ( gReg.isMulti.test( gRef[ gNode.id ].tabs[ x ].content[ i ].description ) ) {
-                                arr = gRef[ gNode.id ].tabs[ x ].content[ i ].description.split( '\n' );
-                                for (var j=0, jlen=arr.length; j<jlen; j++)
-                                {
-                                    tmp += '<dd>' + arr[ j ] + '</dd>';
-                                }
-                            } else {
-                                tmp += '<dd>' + gRef[ gNode.id ].tabs[ x ].content[ i ].description + '</dd>';
-                            }
-                        }
-
-                        tmp += '</dl>';
-                        $('#docDiv-panel2-div-' + x).html( tmp );
-
-                        tmp = '<dl id="docDiv-editor2-dl-' + x + '">';
-                        for (var i=0, len=gRef[ gNode.id ].tabs[ x ].editor.length; i<len; i++)
-                        {
-                            tmp += '<dt>' + gRef[ gNode.id ].tabs[ x ].editor[ i ].label + ' : </dt>';
-                            if ( gReg.isMulti.test( gRef[ gNode.id ].tabs[ x ].editor[ i ].description ) ) {
-                                arr = gRef[ gNode.id ].tabs[ x ].editor[ i ].description.split( '\n' );
-                                for (var j=0, jlen=arr.length; j<jlen; j++)
-                                {
-                                    tmp += '<dd>' + arr[ j ] + '</dd>';
-                                }
-                            } else {
-                                tmp += '<dd>' + gRef[ gNode.id ].tabs[ x ].editor[ i ].description + '</dd>';
-                            }
-                        }
-
-                        tmp += '</dl>';
-                        $('#docDiv-editor2-div-' + x).html( tmp );
-
-                        $('#docDiv-panel-div-' + x).tabs();
-                    } else if ( gRef[ gNode.id ].tabs[ x ].editors ) {
-
-                        // tabs in tabs
-                        $('#docDiv-panel-div-' + x).append( '<ul><li id="docDiv-tab2-' + x + '"><a href="#docDiv-panel2-' + x + '">Table</a></li><li id="docDiv-tab2-editor-' + x + '"><a href="#docDiv-editor2-' + x + '">Editor</a></li></ul>');
-                        $('#docDiv-panel-div-' + x).append('<div id="docDiv-panel2-' + x + '"><div id="docDiv-panel2-div-' + x + '"></div></div>');
-                        $('#docDiv-panel-div-' + x).append('<div id="docDiv-editor2-' + x + '"><div id="docDiv-editor2-div-' + x + '"></div></div>');
-                        tmp = '<dl id="docDiv-panel2-dl-' + x + '">';
-                        for (var i=0, len=gRef[ gNode.id ].tabs[ x ].content.length; i<len; i++)
-                        {
-                            tmp += '<dt>' + gRef[ gNode.id ].tabs[ x ].content[ i ].label + ' : </dt>';
-                            if ( gReg.isMulti.test( gRef[ gNode.id ].tabs[ x ].content[ i ].description ) ) {
-                                arr = gRef[ gNode.id ].tabs[ x ].content[ i ].description.split( '\n' );
-                                for (var j=0, jlen=arr.length; j<jlen; j++)
-                                {
-                                    tmp += '<dd>' + arr[ j ] + '</dd>';
-                                }
-                            } else {
-                                tmp += '<dd>' + gRef[ gNode.id ].tabs[ x ].content[ i ].description + '</dd>';
-                            }
-                        }
-
-                        tmp += '</dl>';
-                        $('#docDiv-panel2-div-' + x).html( tmp );
-                        $('#docDiv-panel-div-' + x).tabs();
-
-                        // tabs in tabs in tabs
-                        $('#docDiv-editor2-div-' + x ).html( '<ul></ul>' );
-
-                        for (var i=0, len=gRef[ gNode.id ].tabs[ x ].editors.length; i<len; i++)
-                        {
-                            $('#docDiv-editor2-div-' + x + ' ul').append('<li id="docDiv-tab3-' + gRef[ gNode.id ].tabs[ x ].editors[ i ].tab + '"><a href="#docDiv-editor3-' + gRef[ gNode.id ].tabs[ x ].editors[ i ].tab + '">' + gRef[ gNode.id ] .tabs[ x ].editors[ i ].label + '</li>');
-                            $('#docDiv-editor2-div-' + x ).append('<div id="docDiv-editor3-' + gRef[ gNode.id ].tabs[ x ].editors[ i ].tab + '"><div id="docDiv-editor3-div-' + gRef[ gNode.id ].tabs[ x ].editors[ i ].tab + '"></div></div>');
-                        }
-
-                        $('#docDiv-editor2-div-' + x).tabs();
-
-                        for (var i=0, len=gRef[ gNode.id ].tabs[ x ].editors.length; i<len; i++)
-                        {
-                            tmp = '<dl id="docDiv-editor3-dl-' + gRef[ gNode.id ].tabs[ x ].editors[ i ].tab + '">';
-                            if ( gRef[ gNode.id ].tabs[ x ].editors[ i ].content ) {
-                                for (var j=0, jlen=gRef[ gNode.id ].tabs[ x ].editors[ i ].content.length; j<jlen; j++)
-                                {
-                                    tmp += '<dt>' + gRef[ gNode.id ].tabs[ x ].editors[ i ].content[ j ].label + ' : </dt>';
-                                    if ( gReg.isMulti.test( gRef[ gNode.id ].tabs[ x ].editors[ i ].content[ j ].description ) ) {
-                                        arr = gRef[ gNode.id ].tabs[ x ].editors[ i ].content[ j ].description.split( '\n' );
-                                        for (var k=0, klen=arr.length; k<klen; k++)
-                                        {
-                                            tmp += '<dd>' + arr[ k ] + '</dd>';
-                                        }
-                                    } else {
-                                        tmp += '<dd>' + gRef[ gNode.id ].tabs[ x ].editors[ i ].content[ j ].description + '</dd>';
-                                    }
-                                }
-                            } else if ( gReg.isMulti.test( gRef[ gNode.id ].tabs[ x ].editors[ i ].description ) ) {
-                                arr = gRef[ gNode.id ].tabs[ x ].editors[ i ].description.split( '\n' );
-                                for (var j=0, jlen=arr.length; j<jlen; j++)
-                                {
-                                    tmp += '<dd>' + arr[ j ] + '</dd>';
-                                }
-                            } else {
-                                tmp += '<dd>' + gRef[ gNode.id ].tabs[ x ].editors[ i ].description + '</dd>';
-                            }
-                            tmp += '</dl>';
-                            $('#docDiv-editor3-div-' + gRef[ gNode.id ].tabs[ x ].editors[ i ].tab).html( tmp );
-                        }
-                    } else if ( gRef[ gNode.id ].tabs[ x ].content ) {
-                        tmp = '<dl id="docDiv-panel-dl-' + x + '">';
-                        for (var i=0, len=gRef[ gNode.id ].tabs[ x ].content.length; i<len; i++)
-                        {
-                            tmp += '<dt>' + gRef[ gNode.id ].tabs[ x ].content[ i ].label + ' : </dt>';
-                            if ( gReg.isMulti.test( gRef[ gNode.id ].tabs[ x ].content[ i ].description ) ) {
-                                arr = gRef[ gNode.id ].tabs[ x ].content[ i ].description.split( '\n' );
-                                for (var j=0, jlen=arr.length; j<jlen; j++)
-                                {
-                                    tmp += '<dd>' + arr[ j ] + '</dd>';
-                                }
-                            } else {
-                                tmp += '<dd>' + gRef[ gNode.id ].tabs[ x ].content[ i ].description + '</dd>';
-                            }
-                        }
-                        tmp += '</dl>';
-                        $('#docDiv-panel-div-' + x).append( tmp );
-                    } else if ( gReg.isMulti.test( gRef[ gNode.id ].tabs[ x ].description ) ) {
-                        arr = gRef[ gNode.id ].tabs[ x ].description.split( '\n' );
-                        for (var i=0, len=arr.length; i<len; i++)
-                        {
-                            $('#docDiv-panel-div-' + x).append( '<h3>' + arr[ i ]+ '</h3>' );
-                        }
-                    } else {
-                        $('#docDiv-panel-div-' + x).append( '<h3>' + gRef[ gNode.id ].tabs[ x ].description + '</h3>' );
-                    }
-                }
-            } else if ( gRef[ gNode.id ].editors ) {
-                // use tabs
-                $('#docDiv').append('<ul></ul>');
-                $('#docDiv ul').append('<li id="docDiv-tab-' + gNode.id + '"><a href="#docDiv-panel-' + gNode.id + '">' + gRef[ gNode.id ].label + '</a></li><li id="docDiv-tab-editor"><a href="#docDiv-editor-' + gNode.id + '">Editor</a></li>');
-                $('#docDiv').append('<div id="docDiv-panel-' + gNode.id + '"><div id="docDiv-panel-div-' + gNode.id + '"></div></div>');
-                $('#docDiv').append('<div id="docDiv-editor-' + gNode.id + '"><div id="docDiv-editor-div-' + gNode.id + '"></div></div>');
-                $('#docDiv').tabs();
-                tmp = '<hr/>';
-                tmp += '<dl id="docDiv-panel-dl-' + gNode.id + '">';
-                for (var i=0, len=gRef[ gNode.id ].content.length; i<len; i++)
-                {
-                    tmp += '<dt>' + gRef[ gNode.id ].content[ i ].label + ' : </dt>';
-                    if ( gReg.isMulti.test( gRef[ gNode.id ].content[ i ].description ) ) {
-                        arr = gRef[ gNode.id ].content[ i ].description.split( '\n' );
-                        for (var j=0, jlen=arr.length; j<jlen; j++)
-                        {
-                            tmp += '<dd>' + arr[ j ] + '</dd>';
-                        }
-                    } else {
-                        tmp += '<dd>' + gRef[ gNode.id ].content[ i ].description + '</dd>';
-                    }
-                }
-                tmp += '</dl>';
-                $('#docDiv-panel-div-' + gNode.id).html( tmp );
-
-                $('#docDiv-editor-div-' + gNode.id).append('<hr/><ul></ul>');
-
-                for (var i=0, len=gRef[ gNode.id ].editors.length; i<len; i++)
-                {
-                    $('#docDiv-editor-div-' + gNode.id + ' ul').append('<li id="docDiv-tab2-' + gRef[ gNode.id ].editors[ i ].tab + '"><a href="#docDiv-editor2-' + gRef[ gNode.id ].editors[ i ].tab + '">' + gRef[ gNode.id ].editors[ i ].label + '</a></li>');
-                    $('#docDiv-editor-div-' + gNode.id).append('<div id="docDiv-editor2-' + gRef[ gNode.id ].editors[ i ].tab + '"><div id="docDiv-editor2-div-' + gRef[ gNode.id ].editors[ i ].tab + '"></div></div>');
-                }
-
-                $('#docDiv-editor-div-' + gNode.id).tabs();
-
-                for (var i=0, len=gRef[ gNode.id ].editors.length; i<len; i++)
-                {
-                    tmp = '<dl id="docDiv-editor2-dl-' + gRef[ gNode.id ].editors[ i ].tab + '">';
-                    for (var j=0, jlen=gRef[ gNode.id ].editors[ i ].content.length; j<jlen; j++)
+            // content
+            for (var x in gRef[ gNode.id ].tabs)
+            {
+                $('#docDiv-panel-div-' + x).html('<hr/>');
+                if ( gRef[ gNode.id ].tabs[ x ].editor ) {
+                    // tabs in tabs
+                    $('#docDiv-panel-div-' + x).append( '<ul><li id="docDiv-tab2-' + x + '"><a href="#docDiv-panel2-' + x + '">Table</a></li><li id="docDiv-tab2-editor-' + x + '"><a href="#docDiv-editor2-' + x + '">Editor</a></li></ul>');
+                    $('#docDiv-panel-div-' + x).append('<div id="docDiv-panel2-' + x + '"><div id="docDiv-panel2-div-' + x + '"></div></div>');
+                    $('#docDiv-panel-div-' + x).append('<div id="docDiv-editor2-' + x + '"><div id="docDiv-editor2-div-' + x + '"></div></div>');
+                    tmp = '<dl id="docDiv-panel2-dl-' + x + '">';
+                    for (var i=0, len=gRef[ gNode.id ].tabs[ x ].content.length; i<len; i++)
                     {
-                        tmp += '<dt>' + gRef[ gNode.id ].editors[ i ].content[ j ].label + ' : </dt>';
-                        if ( gReg.isMulti.test( gRef[ gNode.id ].editors[ i ].content[ j ].description ) ) {
-                            arr = gRef[ gNode.id ].editors[ i ].content[ j ].description.split( '\n' );
-                            for (var k=0, klen=arr.length; k<klen; k++)
-                            {
-                                tmp += '<dd>' + arr[ k ] + '</dd>';
-                            }
-                        } else {
-                            tmp += '<dd>' + gRef[ gNode.id ].editors[ i ].content[ j ].description + '</dd>';
-                        }
-                    }
-                    tmp += '</dl>';
-                    $('#docDiv-editor2-div-' + gRef[ gNode.id ].editors[ i ].tab ).html( tmp );
-                }
-            } else if ( gRef[ gNode.id ].editor ) {
-                // use tabs
-                $('#docDiv').append('<ul></ul>');
-                $('#docDiv ul').append('<li id="docDiv-tab-' + gNode.id + '"><a href="#docDiv-panel-' + gNode.id + '">' + gRef[ gNode.id ].label + '</a></li><li id="docDiv-tab-editor"><a href="#docDiv-editor-' + gNode.id + '">Editor</a></li>');
-                $('#docDiv').append('<div id="docDiv-panel-' + gNode.id + '"><div id="docDiv-panel-div-' + gNode.id + '"></div></div>');
-                $('#docDiv').append('<div id="docDiv-editor-' + gNode.id + '"><div id="docDiv-editor-div-' + gNode.id + '"></div></div>');
-                $('#docDiv').tabs();
-                tmp = '<hr/>';
-                tmp += '<dl id="docDiv-panel-dl-' + gNode.id + '">';
-                for (var i=0, len=gRef[ gNode.id ].content.length; i<len; i++)
-                {
-                    tmp += '<dt>' + gRef[ gNode.id ].content[ i ].label + ' : </dt>';
-                    if ( gReg.isMulti.test( gRef[ gNode.id ].content[ i ].description ) ) {
-                        arr = gRef[ gNode.id ].content[ i ].description.split( '\n' );
-                        for (var j=0, jlen=arr.length; j<jlen; j++)
-                        {
-                            tmp += '<dd>' + arr[ j ] + '</dd>';
-                        }
-                    } else {
-                        tmp += '<dd>' + gRef[ gNode.id ].content[ i ].description + '</dd>';
-                    }
-                }
-                tmp += '</dl>';
-                $('#docDiv-panel-div-' + gNode.id).html( tmp );
-
-                tmp = '<hr/>';
-                tmp += '<dl id="docDiv-editor-dl-' + gNode.id + '">';
-                for (var i=0, len=gRef[ gNode.id ].editor.length; i<len; i++)
-                {
-                    if ( gRef[ gNode.id ].editor[ i ].content ) {
-                        for (var j=0, jlen=gRef[ gNode.id ].editor[ i ].content.length; j<jlen; j++)
-                        {
-                            tmp += '<dt>' + gRef[ gNode.id ].editor[ i ].content[ j ].label + ' : </dt>';
-                            if ( gReg.isMulti.test( gRef[ gNode.id ].editor[ i ].content[ j ].description ) ) {
-                                arr = gRef[ gNode.id ].editor[ i ].content[ j ].description.split( '\n' );
-                                for (var k=0, klen=arr.length; k<klen; k++)
-                                {
-                                    tmp += '<dd>' + arr[ k ] + '</dd>';
-                                }
-                            } else {
-                                tmp += '<dd>' + gRef[ gNode.id ].editor[ i ].content[ j ].description + '</dd>';
-                            }
-                        }
-                    } else {
-                        tmp += '<dt>' + gRef[ gNode.id ].editor[ i ].label + ' : </dt>';
-                        if ( gReg.isMulti.test( gRef[ gNode.id ].editor[ i ].description ) ) {
-                            arr = gRef[ gNode.id ].editor[ i ].description.split( '\n' );
+                        tmp += '<dt>' + gRef[ gNode.id ].tabs[ x ].content[ i ].label + ' : </dt>';
+                        if ( gReg.isMulti.test( gRef[ gNode.id ].tabs[ x ].content[ i ].description ) ) {
+                            arr = gRef[ gNode.id ].tabs[ x ].content[ i ].description.split( '\n' );
                             for (var j=0, jlen=arr.length; j<jlen; j++)
                             {
                                 tmp += '<dd>' + arr[ j ] + '</dd>';
                             }
                         } else {
-                            tmp += '<dd>' + gRef[ gNode.id ].editor[ i ].description + '</dd>';
+                            tmp += '<dd>' + gRef[ gNode.id ].tabs[ x ].content[ i ].description + '</dd>';
                         }
+                    }
+
+                    tmp += '</dl>';
+                    $('#docDiv-panel2-div-' + x).html( tmp );
+
+                    tmp = '<dl id="docDiv-editor2-dl-' + x + '">';
+                    for (var i=0, len=gRef[ gNode.id ].tabs[ x ].editor.length; i<len; i++)
+                    {
+                        tmp += '<dt>' + gRef[ gNode.id ].tabs[ x ].editor[ i ].label + ' : </dt>';
+                        if ( gReg.isMulti.test( gRef[ gNode.id ].tabs[ x ].editor[ i ].description ) ) {
+                            arr = gRef[ gNode.id ].tabs[ x ].editor[ i ].description.split( '\n' );
+                            for (var j=0, jlen=arr.length; j<jlen; j++)
+                            {
+                                tmp += '<dd>' + arr[ j ] + '</dd>';
+                            }
+                        } else {
+                            tmp += '<dd>' + gRef[ gNode.id ].tabs[ x ].editor[ i ].description + '</dd>';
+                        }
+                    }
+
+                    tmp += '</dl>';
+                    $('#docDiv-editor2-div-' + x).html( tmp );
+
+                    $('#docDiv-panel-div-' + x).tabs();
+                } else if ( gRef[ gNode.id ].tabs[ x ].editors ) {
+
+                    // tabs in tabs
+                    $('#docDiv-panel-div-' + x).append( '<ul><li id="docDiv-tab2-' + x + '"><a href="#docDiv-panel2-' + x + '">Table</a></li><li id="docDiv-tab2-editor-' + x + '"><a href="#docDiv-editor2-' + x + '">Editor</a></li></ul>');
+                    $('#docDiv-panel-div-' + x).append('<div id="docDiv-panel2-' + x + '"><div id="docDiv-panel2-div-' + x + '"></div></div>');
+                    $('#docDiv-panel-div-' + x).append('<div id="docDiv-editor2-' + x + '"><div id="docDiv-editor2-div-' + x + '"></div></div>');
+                    tmp = '<dl id="docDiv-panel2-dl-' + x + '">';
+                    for (var i=0, len=gRef[ gNode.id ].tabs[ x ].content.length; i<len; i++)
+                    {
+                        tmp += '<dt>' + gRef[ gNode.id ].tabs[ x ].content[ i ].label + ' : </dt>';
+                        if ( gReg.isMulti.test( gRef[ gNode.id ].tabs[ x ].content[ i ].description ) ) {
+                            arr = gRef[ gNode.id ].tabs[ x ].content[ i ].description.split( '\n' );
+                            for (var j=0, jlen=arr.length; j<jlen; j++)
+                            {
+                                tmp += '<dd>' + arr[ j ] + '</dd>';
+                            }
+                        } else {
+                            tmp += '<dd>' + gRef[ gNode.id ].tabs[ x ].content[ i ].description + '</dd>';
+                        }
+                    }
+
+                    tmp += '</dl>';
+                    $('#docDiv-panel2-div-' + x).html( tmp );
+                    $('#docDiv-panel-div-' + x).tabs();
+
+                    // tabs in tabs in tabs
+                    $('#docDiv-editor2-div-' + x ).html( '<ul></ul>' );
+
+                    for (var i=0, len=gRef[ gNode.id ].tabs[ x ].editors.length; i<len; i++)
+                    {
+                        $('#docDiv-editor2-div-' + x + ' ul').append('<li id="docDiv-tab3-' + gRef[ gNode.id ].tabs[ x ].editors[ i ].tab + '"><a href="#docDiv-editor3-' + gRef[ gNode.id ].tabs[ x ].editors[ i ].tab + '">' + gRef[ gNode.id ] .tabs[ x ].editors[ i ].label + '</li>');
+                        $('#docDiv-editor2-div-' + x ).append('<div id="docDiv-editor3-' + gRef[ gNode.id ].tabs[ x ].editors[ i ].tab + '"><div id="docDiv-editor3-div-' + gRef[ gNode.id ].tabs[ x ].editors[ i ].tab + '"></div></div>');
+                    }
+
+                    $('#docDiv-editor2-div-' + x).tabs();
+
+                    for (var i=0, len=gRef[ gNode.id ].tabs[ x ].editors.length; i<len; i++)
+                    {
+                        tmp = '<dl id="docDiv-editor3-dl-' + gRef[ gNode.id ].tabs[ x ].editors[ i ].tab + '">';
+                        if ( gRef[ gNode.id ].tabs[ x ].editors[ i ].content ) {
+                            for (var j=0, jlen=gRef[ gNode.id ].tabs[ x ].editors[ i ].content.length; j<jlen; j++)
+                            {
+                                tmp += '<dt>' + gRef[ gNode.id ].tabs[ x ].editors[ i ].content[ j ].label + ' : </dt>';
+                                if ( gReg.isMulti.test( gRef[ gNode.id ].tabs[ x ].editors[ i ].content[ j ].description ) ) {
+                                    arr = gRef[ gNode.id ].tabs[ x ].editors[ i ].content[ j ].description.split( '\n' );
+                                    for (var k=0, klen=arr.length; k<klen; k++)
+                                    {
+                                        tmp += '<dd>' + arr[ k ] + '</dd>';
+                                    }
+                                } else {
+                                    tmp += '<dd>' + gRef[ gNode.id ].tabs[ x ].editors[ i ].content[ j ].description + '</dd>';
+                                }
+                            }
+                        } else if ( gReg.isMulti.test( gRef[ gNode.id ].tabs[ x ].editors[ i ].description ) ) {
+                            arr = gRef[ gNode.id ].tabs[ x ].editors[ i ].description.split( '\n' );
+                            for (var j=0, jlen=arr.length; j<jlen; j++)
+                            {
+                                tmp += '<dd>' + arr[ j ] + '</dd>';
+                            }
+                        } else {
+                            tmp += '<dd>' + gRef[ gNode.id ].tabs[ x ].editors[ i ].description + '</dd>';
+                        }
+                        tmp += '</dl>';
+                        $('#docDiv-editor3-div-' + gRef[ gNode.id ].tabs[ x ].editors[ i ].tab).html( tmp );
+                    }
+                } else if ( gRef[ gNode.id ].tabs[ x ].content ) {
+                    tmp = '<dl id="docDiv-panel-dl-' + x + '">';
+                    for (var i=0, len=gRef[ gNode.id ].tabs[ x ].content.length; i<len; i++)
+                    {
+                        tmp += '<dt>' + gRef[ gNode.id ].tabs[ x ].content[ i ].label + ' : </dt>';
+                        if ( gReg.isMulti.test( gRef[ gNode.id ].tabs[ x ].content[ i ].description ) ) {
+                            arr = gRef[ gNode.id ].tabs[ x ].content[ i ].description.split( '\n' );
+                            for (var j=0, jlen=arr.length; j<jlen; j++)
+                            {
+                                tmp += '<dd>' + arr[ j ] + '</dd>';
+                            }
+                        } else {
+                            tmp += '<dd>' + gRef[ gNode.id ].tabs[ x ].content[ i ].description + '</dd>';
+                        }
+                    }
+                    tmp += '</dl>';
+                    $('#docDiv-panel-div-' + x).append( tmp );
+                } else if ( gReg.isMulti.test( gRef[ gNode.id ].tabs[ x ].description ) ) {
+                    arr = gRef[ gNode.id ].tabs[ x ].description.split( '\n' );
+                    for (var i=0, len=arr.length; i<len; i++)
+                    {
+                        $('#docDiv-panel-div-' + x).append( '<h3>' + arr[ i ]+ '</h3>' );
+                    }
+                } else {
+                    $('#docDiv-panel-div-' + x).append( '<h3>' + gRef[ gNode.id ].tabs[ x ].description + '</h3>' );
+                }
+            }
+        } else if ( gRef[ gNode.id ].editors ) {
+            // use tabs
+            $('#docDiv').append('<ul></ul>');
+            $('#docDiv ul').append('<li id="docDiv-tab-' + gNode.id + '"><a href="#docDiv-panel-' + gNode.id + '">' + gRef[ gNode.id ].label + '</a></li><li id="docDiv-tab-editor"><a href="#docDiv-editor-' + gNode.id + '">Editor</a></li>');
+            $('#docDiv').append('<div id="docDiv-panel-' + gNode.id + '"><div id="docDiv-panel-div-' + gNode.id + '"></div></div>');
+            $('#docDiv').append('<div id="docDiv-editor-' + gNode.id + '"><div id="docDiv-editor-div-' + gNode.id + '"></div></div>');
+            $('#docDiv').tabs();
+            tmp = '<hr/>';
+            tmp += '<dl id="docDiv-panel-dl-' + gNode.id + '">';
+            for (var i=0, len=gRef[ gNode.id ].content.length; i<len; i++)
+            {
+                tmp += '<dt>' + gRef[ gNode.id ].content[ i ].label + ' : </dt>';
+                if ( gReg.isMulti.test( gRef[ gNode.id ].content[ i ].description ) ) {
+                    arr = gRef[ gNode.id ].content[ i ].description.split( '\n' );
+                    for (var j=0, jlen=arr.length; j<jlen; j++)
+                    {
+                        tmp += '<dd>' + arr[ j ] + '</dd>';
+                    }
+                } else {
+                    tmp += '<dd>' + gRef[ gNode.id ].content[ i ].description + '</dd>';
+                }
+            }
+            tmp += '</dl>';
+            $('#docDiv-panel-div-' + gNode.id).html( tmp );
+
+            $('#docDiv-editor-div-' + gNode.id).append('<hr/><ul></ul>');
+
+            for (var i=0, len=gRef[ gNode.id ].editors.length; i<len; i++)
+            {
+                $('#docDiv-editor-div-' + gNode.id + ' ul').append('<li id="docDiv-tab2-' + gRef[ gNode.id ].editors[ i ].tab + '"><a href="#docDiv-editor2-' + gRef[ gNode.id ].editors[ i ].tab + '">' + gRef[ gNode.id ].editors[ i ].label + '</a></li>');
+                $('#docDiv-editor-div-' + gNode.id).append('<div id="docDiv-editor2-' + gRef[ gNode.id ].editors[ i ].tab + '"><div id="docDiv-editor2-div-' + gRef[ gNode.id ].editors[ i ].tab + '"></div></div>');
+            }
+
+            $('#docDiv-editor-div-' + gNode.id).tabs();
+
+            for (var i=0, len=gRef[ gNode.id ].editors.length; i<len; i++)
+            {
+                tmp = '<dl id="docDiv-editor2-dl-' + gRef[ gNode.id ].editors[ i ].tab + '">';
+                for (var j=0, jlen=gRef[ gNode.id ].editors[ i ].content.length; j<jlen; j++)
+                {
+                    tmp += '<dt>' + gRef[ gNode.id ].editors[ i ].content[ j ].label + ' : </dt>';
+                    if ( gReg.isMulti.test( gRef[ gNode.id ].editors[ i ].content[ j ].description ) ) {
+                        arr = gRef[ gNode.id ].editors[ i ].content[ j ].description.split( '\n' );
+                        for (var k=0, klen=arr.length; k<klen; k++)
+                        {
+                            tmp += '<dd>' + arr[ k ] + '</dd>';
+                        }
+                    } else {
+                        tmp += '<dd>' + gRef[ gNode.id ].editors[ i ].content[ j ].description + '</dd>';
                     }
                 }
                 tmp += '</dl>';
-                $('#docDiv-editor-div-' + gNode.id).html( tmp );
+                $('#docDiv-editor2-div-' + gRef[ gNode.id ].editors[ i ].tab ).html( tmp );
+            }
+        } else if ( gRef[ gNode.id ].editor ) {
+            // use tabs
+            $('#docDiv').append('<ul></ul>');
+            $('#docDiv ul').append('<li id="docDiv-tab-' + gNode.id + '"><a href="#docDiv-panel-' + gNode.id + '">' + gRef[ gNode.id ].label + '</a></li><li id="docDiv-tab-editor"><a href="#docDiv-editor-' + gNode.id + '">Editor</a></li>');
+            $('#docDiv').append('<div id="docDiv-panel-' + gNode.id + '"><div id="docDiv-panel-div-' + gNode.id + '"></div></div>');
+            $('#docDiv').append('<div id="docDiv-editor-' + gNode.id + '"><div id="docDiv-editor-div-' + gNode.id + '"></div></div>');
+            $('#docDiv').tabs();
+            tmp = '<hr/>';
+            tmp += '<dl id="docDiv-panel-dl-' + gNode.id + '">';
+            for (var i=0, len=gRef[ gNode.id ].content.length; i<len; i++)
+            {
+                tmp += '<dt>' + gRef[ gNode.id ].content[ i ].label + ' : </dt>';
+                if ( gReg.isMulti.test( gRef[ gNode.id ].content[ i ].description ) ) {
+                    arr = gRef[ gNode.id ].content[ i ].description.split( '\n' );
+                    for (var j=0, jlen=arr.length; j<jlen; j++)
+                    {
+                        tmp += '<dd>' + arr[ j ] + '</dd>';
+                    }
+                } else {
+                    tmp += '<dd>' + gRef[ gNode.id ].content[ i ].description + '</dd>';
+                }
+            }
+            tmp += '</dl>';
+            $('#docDiv-panel-div-' + gNode.id).html( tmp );
 
-            } else if ( gRef[ gNode.id ].content ) {
-                tmp = '<dl id="docDiv-dl">';
-                for (var i=0, len=gRef[ gNode.id ].content.length; i<len; i++)
-                {
-                    tmp += '<dt>' + gRef[ gNode.id ].content[ i ].label + ' : </dt>';
-                    if ( gReg.isMulti.test( gRef[ gNode.id ].content[ i ].description ) ) {
-                        arr = gRef[ gNode.id ].content[ i ].description.split( '\n' );
+            tmp = '<hr/>';
+            tmp += '<dl id="docDiv-editor-dl-' + gNode.id + '">';
+            for (var i=0, len=gRef[ gNode.id ].editor.length; i<len; i++)
+            {
+                if ( gRef[ gNode.id ].editor[ i ].content ) {
+                    for (var j=0, jlen=gRef[ gNode.id ].editor[ i ].content.length; j<jlen; j++)
+                    {
+                        tmp += '<dt>' + gRef[ gNode.id ].editor[ i ].content[ j ].label + ' : </dt>';
+                        if ( gReg.isMulti.test( gRef[ gNode.id ].editor[ i ].content[ j ].description ) ) {
+                            arr = gRef[ gNode.id ].editor[ i ].content[ j ].description.split( '\n' );
+                            for (var k=0, klen=arr.length; k<klen; k++)
+                            {
+                                tmp += '<dd>' + arr[ k ] + '</dd>';
+                            }
+                        } else {
+                            tmp += '<dd>' + gRef[ gNode.id ].editor[ i ].content[ j ].description + '</dd>';
+                        }
+                    }
+                } else {
+                    tmp += '<dt>' + gRef[ gNode.id ].editor[ i ].label + ' : </dt>';
+                    if ( gReg.isMulti.test( gRef[ gNode.id ].editor[ i ].description ) ) {
+                        arr = gRef[ gNode.id ].editor[ i ].description.split( '\n' );
                         for (var j=0, jlen=arr.length; j<jlen; j++)
                         {
                             tmp += '<dd>' + arr[ j ] + '</dd>';
                         }
                     } else {
-                        tmp += '<dd>' + gRef[ gNode.id ].content[ i ].description + '</dd>';
+                        tmp += '<dd>' + gRef[ gNode.id ].editor[ i ].description + '</dd>';
                     }
                 }
-                tmp += '</dl>';
-
-                $('#docDiv').append( tmp );
-            } else if ( gReg.isMulti.test( gRef[ gNode.id ].description ) ) {
-                tmp = '<dl id="docDiv-dl">';
-                arr = gRef[ gNode.id ].description.split( '\n' );
-                for (var i=0, len=arr.length; i<len; i++)
-                {
-                    tmp += '<dd>' + arr[ i ] + '</dd>';
-                }
-                tmp += '</dl>';
-
-                $('#docDiv').append( tmp );
-            } else {
-                $('#docDiv').append( '<h3>' + gRef[ gNode.id ].description + '</h3>' );
-
             }
+            tmp += '</dl>';
+            $('#docDiv-editor-div-' + gNode.id).html( tmp );
+
+        } else if ( gRef[ gNode.id ].content ) {
+            tmp = '<dl id="docDiv-dl">';
+            for (var i=0, len=gRef[ gNode.id ].content.length; i<len; i++)
+            {
+                tmp += '<dt>' + gRef[ gNode.id ].content[ i ].label + ' : </dt>';
+                if ( gReg.isMulti.test( gRef[ gNode.id ].content[ i ].description ) ) {
+                    arr = gRef[ gNode.id ].content[ i ].description.split( '\n' );
+                    for (var j=0, jlen=arr.length; j<jlen; j++)
+                    {
+                        tmp += '<dd>' + arr[ j ] + '</dd>';
+                    }
+                } else {
+                    tmp += '<dd>' + gRef[ gNode.id ].content[ i ].description + '</dd>';
+                }
+            }
+            tmp += '</dl>';
+
+            $('#docDiv').append( tmp );
+        } else if ( gReg.isMulti.test( gRef[ gNode.id ].description ) ) {
+            tmp = '<dl id="docDiv-dl">';
+            arr = gRef[ gNode.id ].description.split( '\n' );
+            for (var i=0, len=arr.length; i<len; i++)
+            {
+                tmp += '<dd>' + arr[ i ] + '</dd>';
+            }
+            tmp += '</dl>';
+
+            $('#docDiv').append( tmp );
+        } else {
+            $('#docDiv').append( '<h3>' + gRef[ gNode.id ].description + '</h3>' );
+
         }
+    }
 
-        init();
+    init();
 
-    });
+});
 
     </script>
 
