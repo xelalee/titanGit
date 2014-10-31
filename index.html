@@ -193,33 +193,6 @@ var gHelp;
 var gCook  = {};
 var gRows  = {};
 
-var gColor = [
-        "#525A6B",
-        "#BD2110",
-        "#E7BD10",
-        "#639429",
-        "#9C52AD",
-
-        "#CEC6C6",
-        "#A58484",
-        "#B5B5B5",
-        "#313131",
-        "#085A9C"
-    ];
-var gRgbs  = [
-        {r:82, g:90, b:107},
-        {r:189, g:33, b:16},
-        {r:231, g:189, b:16},
-        {r:99, g:148, b:41},
-        {r:156, g:82, b:173},
-
-        {r:206, g:198, b:198},
-        {r:165, g:132, b:132},
-        {r:181, g:181, b:181},
-        {r:49, g:49, b:49},
-        {r:8, g:90, b:156}
-    ];
-
 // cookie
 gCook.main    = 'TitanWALL';
 gCook.portal  = 'TitanWALLPortal';
@@ -989,7 +962,8 @@ $(document).ready(function () {
 
                                 // online help
                                 $.ajax({
-                                    url:'lang/' + gObj.lang + '-docs.txt',
+                                    //url:'lang/' + gObj.lang + '-docs.txt',
+                                    url:'lang/docs.txt',
                                     dataType:'json',
                                     success:function(data) {
                                         gRef.docs = data;
@@ -1163,6 +1137,9 @@ $(document).ready(function () {
         $(document).on('click', 'button', function(e) {
             e.preventDefault();
             gIf.getSessInfo = true;
+            var tar = {};
+            tar.id = $(e.currentTarget).attr('id');
+            tar.class = $(e.currentTarget).attr('class');
             btnCtrl( e );
         });
 
@@ -1175,7 +1152,6 @@ $(document).ready(function () {
         $(document).on('click', 'input:checkbox', function(e) {
             gIf.getSessInfo = true;
             var tar = {};
-
             tar.id = $(e.currentTarget).attr('id');
             tar.class = $(e.currentTarget).attr('class');
             switch( tar.class )
@@ -1975,11 +1951,10 @@ $(document).ready(function () {
                     gObj.active.icon.addClass('ui-actived');
                     gObj.active.icon.prepend(gHtml.aMenu);
 
-                    if (gObj.actived.pid == gObj.active.pid) {
+                    if (gObj.actived.pid == gObj.active.pid)
                         gObj.active.icon.addClass('ui-state-active');
-                    } else if (gObj.actived.icon ) {
+                    else if (gObj.actived.icon )
                         gObj.actived.icon.removeClass('ui-state-active');
-                    }
 
                     gNode = gObj.menu[gObj.active.h3Index];
                     $('#main_hd').html( gObj.active.menu );
@@ -1987,8 +1962,15 @@ $(document).ready(function () {
                         $('#refreshPage').append( genSelectOption( 'refreshPage' ) ).val( gObj.active.refresh );
                         gObj.active.counting = gObj.active.refresh;
                     }
+                    gObj.actived = gObj.active;
                     getCgiList(gObj.active.pid);
                 }
+            } else {
+                if (gObj.actived.pid == gObj.active.pid)
+                    gObj.active.icon.addClass('ui-state-active');
+                else if (gObj.actived.icon )
+                    gObj.actived.icon.removeClass('ui-state-active');
+
             }
         });
 
@@ -2038,8 +2020,8 @@ $(document).ready(function () {
                     $('#main_ft').empty();
                     if (gObj.actived.icon)
                         gObj.actived.icon.removeClass('ui-actived');
-                    if (gObj.actived.icon )
-                        gObj.actived.icon.removeClass('ui-state-active');
+                    //if (gObj.actived.icon )
+                    //    gObj.actived.icon.removeClass('ui-state-active');
                     $('#activedMenu').remove();
                     gObj.active.icon.addClass('ui-actived');
                     gObj.active.icon.prepend(gHtml.aMenu);
@@ -2049,6 +2031,7 @@ $(document).ready(function () {
                         $('#refreshPage').append( genSelectOption( 'refreshPage' ) ).val( gObj.active.refresh );
                         gObj.active.counting = gObj.active.refresh;
                     }
+                    gObj.actived = gObj.active;
                     getCgiList(gObj.active.pid);
                 }
             }
@@ -2099,8 +2082,8 @@ $(document).ready(function () {
                     $('#main_ft').empty();
                     if (gObj.actived.icon)
                         gObj.actived.icon.removeClass('ui-actived');
-                    if (gObj.actived.icon )
-                        gObj.actived.icon.removeClass('ui-state-active');
+                    //if (gObj.actived.icon )
+                    //    gObj.actived.icon.removeClass('ui-state-active');
                     $('#activedMenu').remove();
                     gObj.active.icon.addClass('ui-actived');
                     gObj.active.icon.prepend(gHtml.aMenu);
@@ -4690,47 +4673,36 @@ $(document).ready(function () {
                 {
                     text: gObj.btnOk,
                     click: function() {
-                        gIf.ajaxed = false;
-                        gIf.columns = false;
-                        gIf.systime = false;
-                        gObj.tabIndex = 0;
                         gIf.alter = false;
+                        gIf.lock = false;
+                        gObj.tabIndex = 0;
+                        gIf.isStart = false;
                         gIf.query = false;
+                        gIf.ajaxed = false;
+                        gIf.systime = false;
+                        gIf.columns = false;
                         gSort = {};
                         gQuery = {};
-
+    
+                        $('#main_ft').empty();
                         if (gObj.actived.icon)
                             gObj.actived.icon.removeClass('ui-actived');
                         $('#activedMenu').remove();
-
-                        if (gObj.actived.pid == gObj.active.pid)
-                            gObj.active.icon.addClass('ui-state-active');
-                        else if (gObj.actived.icon )
-                            gObj.actived.icon.removeClass('ui-state-active');
-
-                        gObj.actived = gObj.active;
-
                         gObj.active.icon.addClass('ui-actived');
                         gObj.active.icon.prepend(gHtml.aMenu);
-
-                        if ($('#refreshPage').exists())
-                            gObj.active.refresh = parseInt( $('#refreshPage').val() );
-
-                        $('#main_hd').html( gObj.active.menu );
-
-                        if (gIf.refresh)
-                            $('#refreshPage').append(genSelectOption( 'refreshPage' )).val( gObj.active.refresh );
-
-                        if (gObj.active.h4Index == 'NA')
+    
+                        if (gObj.active.h4Index == 'NA') 
                             gNode = gObj.menu[gObj.active.h3Index];
                         else if (gObj.active.h5Index == 'NA')
                             gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index];
                         else
                             gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].panel[gObj.active.h5Index];
-                        $('#main_ft').empty();
-                        gObj.active.icon.addClass('ui-actived');
-                        gObj.active.icon.prepend(gHtml.aMenu);
-                        getCgiList( gObj.active.pid );
+                        $('#main_hd').html( gObj.active.menu );
+                        if (gIf.refresh) {
+                            $('#refreshPage').append( genSelectOption( 'refreshPage' ) ).val( gObj.active.refresh );
+                            gObj.active.counting = gObj.active.refresh;
+                        }
+                        getCgiList(gObj.active.pid);
 
                         $( this ).dialog( "close" );
                     }
@@ -7445,7 +7417,6 @@ $(document).ready(function () {
                                             }
 
                                             var title = "";
-gY.log( gCache.chart[ pid ][ gObj.lang ] );
                                             if ('pie' == gCache.chart[ pid ][ gObj.lang ][ tabIndex ].type) {
 
                                                 gCache.chart[ pid ][ gObj.lang ][ tabIndex ].tips.markerLabelFunction = function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
@@ -7717,8 +7688,6 @@ gY.log( gCache.chart[ pid ][ gObj.lang ] );
                         success: function(data) {
                             gTrack[ pid ] = data;
                             gData[ pid ] = data;
-gY.log( 'gen ' + pid );
-gY.log( gData[ pid ] );
                             gData[ gNode.url.get ] = data;
 
                             // cache for name
@@ -13089,9 +13058,6 @@ gY.log( gData[ pid ] );
             }
             break;
         case 'vlan_interfaces':
-gY.log( tar.pid );
-gY.log( gNode.guiT );
-gY.log( gData[ tar.pid ] );
             delete gCache.uniq[ tar.pid ][ gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].name ];
             gCache[ tar.pid ].interface[ gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].interface ].splice( gCache[ tar.pid ].interface[ gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].interface ].indexOf( parseInt( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].vid ) ), 1);
             if (parseInt( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].gid) > 0 ) {
@@ -20103,7 +20069,6 @@ gY.log( gData[ tar.pid ] );
                             }
                         });
 
-                        // bp
                         break;
                     case 'http_notification':
                         gData.http_notification.httpNotify = $('#httpNotify').val();
@@ -23840,7 +23805,6 @@ gY.log( gData[ tar.pid ] );
         if (gIf.lock)
             return false;
         gIf.lock = true;
-        var sum = 0;
         var cnt = 0;
         switch( pid )
         {
@@ -23853,8 +23817,8 @@ gY.log( gData[ tar.pid ] );
                     if ( 0 === gData[ pid ][ gNode.guiT[ pid ] ][ i ].action )
                         gData[ pid ][ gNode.guiT[ pid ] ][ i ].gid = 0;
                     $.post('cgi-bin/' + gNode.url.post[ pid ] + '.cgi', gY.JSON.stringify( gData[ pid ][ gNode.guiT[ pid ] ][ i ] ), function( poster ) {
-                        sum++;
-                        if (sum == cnt) {
+                        cnt--;
+                        if (0 === cnt) {
                             $.ajax({
                                 url: 'cgi-bin/' + gNode.url.get[ pid ] + '.' + gNode.ext,
                                 dataType: 'json',
@@ -23888,8 +23852,8 @@ gY.log( gData[ tar.pid ] );
                     if ( 0 === gData[ pid ][ gNode.guiT[ pid ] ][ i ].action )
                         gData[ pid ][ gNode.guiT[ pid ] ][ i ].gid = 0;
                     $.post('cgi-bin/' + gNode.url.post[ pid ] + '.cgi', gY.JSON.stringify( gData[ pid ][ gNode.guiT[ pid ] ][ i ] ), function( poster ) {
-                        sum++;
-                        if (sum == cnt) {
+                        cnt--;
+                        if (0 == cnt) {
                             $.ajax({
                                 url: 'cgi-bin/' + gNode.url.get[ pid ] + '.' + gNode.ext,
                                 dataType: 'json',
@@ -23922,9 +23886,8 @@ gY.log( gData[ tar.pid ] );
                     if ( 0 === gData[ pid ][ gNode.guiT ][ i ].action )
                         gData[ pid ][ gNode.guiT ][ i ].gid = 0;
                     $.post('cgi-bin/' + gNode.url.post + '.cgi', gY.JSON.stringify( gData[ pid ][ gNode.guiT ][ i ] ), function( poster ) {
-                        sum++;
-
-                        if (sum == cnt) {
+                        cnt--;
+                        if (0 == cnt) {
                             $.ajax({
                                 url: 'cgi-bin/' + gNode.url.get + '.' + gNode.ext,
                                 dataType: 'json',
@@ -23941,6 +23904,8 @@ gY.log( gData[ tar.pid ] );
             }
             break;
         }
+        if ( 0 === cnt )
+            gIf.lock = false;
     }
 
     function genDevice(pid) {
@@ -26417,8 +26382,6 @@ gY.log( gData[ tar.pid ] );
                 tmp += '</tr>';
                 $('#Editor-table-' + tar.pid).append( tmp );
             }
-
-            // bp
 
             break;
         }

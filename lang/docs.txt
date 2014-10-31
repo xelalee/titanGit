@@ -14,48 +14,48 @@
       {
         "label" : "System Information",
         "cn-label" : "CNL",
-        "tw-label" : "TWL",
+        "tw-label" : "系統資訊",
         "tab" : "system_information",
         "description" : "",
-        "cn-description" : "CND",
-        "tw-description" : "TWD",
+        "cn-description" : "",
+        "tw-description" : "",
         "content" :
         [
           {
             "label" : "System Name",
             "cn-label" : "CNL",
-            "tw-label" : "TWL",
+            "tw-label" : "系統名稱",
             "tab" : "system_name",
             "description" : "The descriptive name for the device.",
             "cn-description" : "CND",
-            "tw-description" : "TWD"
+            "tw-description" : "顯示裝置名稱。"
           },
           {
             "label" : "Model",
             "cn-label" : "CNL",
-            "tw-label" : "TWL",
+            "tw-label" : "型號",
             "tab" : "model",
             "description" : "The model name of the device.",
             "cn-description" : "CND",
-            "tw-description" : "TWD"
+            "tw-description" : "顯示裝置型號。"
           },
           {
             "label" : "Primary Firmware",
             "cn-label" : "CNL",
-            "tw-label" : "TWL",
+            "tw-label" : "目前韌體版本",
             "tab" : "primary_firmware",
             "description" : "The Firmware version the device is currently using.",
             "cn-description" : "CND",
-            "tw-description" : "TWD"
+            "tw-description" : "裝置目前使用的韌體版本。"
           },
           {
             "label" : "Secondary Firmware",
             "cn-label" : "CNL",
-            "tw-label" : "TWL",
+            "tw-label" : "前次韌體版",
             "tab" : "secondary_firmware",
             "description" : "The Firmware version the device used last time.",
             "cn-description" : "CND",
-            "tw-description" : "TWD"
+            "tw-description" : "裝置前次使用的韌體版本。"
           },
           {
             "label" : "Signature Version",
@@ -87,20 +87,20 @@
           {
             "label" : "Serial Number",
             "cn-label" : "CNL",
-            "tw-label" : "TWL",
+            "tw-label" : "序號",
             "tab" : "serial_number",
             "description" : "The serial number of the device.",
             "cn-description" : "CND",
-            "tw-description" : "TWD"
+            "tw-description" : "顯示裝置序號"
           },
           {
             "label" : "System Uptime",
             "cn-label" : "CNL",
-            "tw-label" : "TWL",
+            "tw-label" : "系統更新時間",
             "tab" : "system_uptime",
             "description" : "The amount of time the device has been running since it was last booted up.",
             "cn-description" : "CND",
-            "tw-description" : "TWD"
+            "tw-description" : "裝置啟動執行的時間量。"
           }
         ]
       },
@@ -108,21 +108,21 @@
       {
         "label" : "Resource Utilization",
         "cn-label" : "CNL",
-        "tw-label" : "TWL",
+        "tw-label" : "系統資源使用量",
         "tab" : "resource_utilization",
         "description" : "",
-        "cn-description" : "CND",
-        "tw-description" : "TWD",
+        "cn-description" : "",
+        "tw-description" : "",
         "content" :
         [
           {
             "label" : "CPU Utilization",
             "cn-label" : "CNL",
-            "tw-label" : "TWL",
+            "tw-label" : "CPU 使用率",
             "tab" : "cpu_utilization",
             "description" : "The percentage of CPU usage.",
             "cn-description" : "CND",
-            "tw-description" : "TWD"
+            "tw-description" : "顯示CPU使用率。"
           },
           {
             "label" : "Memory Utilization",
@@ -660,7 +660,7 @@
         "tab" : "whitelist",
         "description" : "If you find a URL in the blacklist database is actually a non-virus web or FTP site, you can manually move it to the whitelist database. The anti-virus function does not take any action on connections accessing URLs in the whitelist database but just records them in the system log. The TitanWALL can store up to 4096 whitelist entries.\n Use this screen to the view and remove whitelist entries.",
         "cn-description" : "CND",
-        "tw-description" : "TWD"
+        "tw-description" : "TWD",
         "content" :
         [
           {
@@ -1141,7 +1141,7 @@
         "tab" : "whitelist",
         "description" : "If you find a URL in the blacklist database is actually a non-virus web or FTP site, you can manually move it to the whitelist database. The anti-virus function does not take any action on connections accessing URLs in the whitelist database but just records them in the system log. The TitanWALL can store up to 4096 whitelist entries.\n Use this screen to the view and remove whitelist entries.",
         "cn-description" : "CND",
-        "tw-description" : "TWD"
+        "tw-description" : "TWD",
         "content" :
         [
           {
@@ -1261,7 +1261,7 @@
         "tab" : "email",
         "description" : "Use this screen to configure the alert message sent to the mail sender and receiver when you set Action for SMTP or POP3 to notify or notify + destruct file in the General Setting screen.\n This screen also shows you whether the e-mail notification function is enabled and the following read-only information.",
         "cn-description" : "CND",
-        "tw-description" : "TWD"
+        "tw-description" : "TWD",
         "content" :
         [
           {
@@ -1622,7 +1622,7 @@
         "tab" : "whitelist",
         "description" : "If you find a URL in the blacklist database is actually a non-virus web or FTP site, you can manually move it to the whitelist database. The anti-virus function does not take any action on connections accessing URLs in the whitelist database but just records them in the system log. The TitanWALL can store up to 4096 whitelist entries.\n Use this screen to the view and remove whitelist entries.",
         "cn-description" : "CND",
-        "tw-description" : "TWD"
+        "tw-description" : "TWD",
         "content" :
         [
           {
@@ -2045,7 +2045,7 @@
         "tab" : "whitelist",
         "description" : "If you find a URL in the blacklist database is actually a non-virus web or FTP site, you can manually move it to the whitelist database. The anti-virus function does not take any action on connections accessing URLs in the whitelist database but just records them in the system log. The TitanWALL can store up to 4096 whitelist entries.\n Use this screen to the view and remove whitelist entries.",
         "cn-description" : "CND",
-        "tw-description" : "TWD"
+        "tw-description" : "TWD",
         "content" :
         [
           {
@@ -2087,7 +2087,7 @@
     "tab" : "cifs",
     "description" : "Use this screen to enable CIFS anti-virus and configure the related general settings.",
     "cn-description" : "CND",
-    "tw-description" : "TWD"
+    "tw-description" : "TWD",
     "tabs" :
     {
       "general" :
@@ -2106,7 +2106,7 @@
             "cn-label" : "CNL",
             "tw-label" : "TWL",
             "tab" : "zone_to_scan",
-            "description" : "Select the zones to which you want to apply the anti-virus settings and scan the traffic for viruses.\n Select the zone(s) from the Available Zones text box and click the right arrow to add the zone(s) to the Selected Zones text box in order to check the incoming/outgoing packets content of the selected zones. Otherwise, select the zones(s) from the Selected Zones and click the left arrow to move the zones(s) to the Available Zones text box."
+            "description" : "Select the zones to which you want to apply the anti-virus settings and scan the traffic for viruses.\n Select the zone(s) from the Available Zones text box and click the right arrow to add the zone(s) to the Selected Zones text box in order to check the incoming/outgoing packets content of the selected zones. Otherwise, select the zones(s) from the Selected Zones and click the left arrow to move the zones(s) to the Available Zones text box.",
             "cn-description" : "CND",
             "tw-description" : "TWD"
           },
@@ -2459,7 +2459,7 @@
         "tab" : "whitelist",
         "description" : "If you find a URL in the blacklist database is actually a non-virus web or FTP site, you can manually move it to the whitelist database. The anti-virus function does not take any action on connections accessing URLs in the whitelist database but just records them in the system log. The TitanWALL can store up to 4096 whitelist entries.\n Use this screen to the view and remove whitelist entries.",
         "cn-description" : "CND",
-        "tw-description" : "TWD"
+        "tw-description" : "TWD",
         "content" :
         [
           {
@@ -2666,49 +2666,49 @@
   "menu-7-0-0" :
   {
     "label" : "File Extension",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+    "cn-label" : "CNL",
+    "tw-label" : "TWL",
     "tab" : "file_extension",
     "description" : "Use this screen to view the security related records by the type of virus-infected file. You can enter a start/end date and time, and then click the search button to display the records within the specified time period. You can also group your records by the filename extension and display the sum of the access count.",
     "cn-description" : "CND",
-    "tw-description" : "TWD"
+    "tw-description" : "TWD",
     "content" :
     [
       {
         "label" : "ID",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "id",
-        "description" : "This is the index number of the record."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This is the index number of the record.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "Extension",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "extension",
-        "description" : "This is the filename extension of the file that the TitanWALL scanned and detected a virus."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This is the filename extension of the file that the TitanWALL scanned and detected a virus.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "Access Count",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "access_count",
-        "description" : "This shows how many times the file has been accessed."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This shows how many times the file has been accessed.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "Datetime",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "datetime",
-        "description" : "This is the date and time the event was recorded."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This is the date and time the event was recorded.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       }
     ]
   },
@@ -3621,7 +3621,7 @@
             "tab" : "name",
             "description" : "This is the name of VLAN interface.",
             "cn-description" : "CND",
-            "tw-description" : "TWD",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Tx Pkts",
@@ -4652,7 +4652,7 @@
         "tab" : "basic_settings",
         "description" : "Use this screen to configure the basic settings of the VLAN interface and assign the interface to a zone.",
         "cn-description" : "CND",
-        "tw-description" : "TWD"
+        "tw-description" : "TWD",
         "content" :
         [
           {
@@ -5285,26 +5285,26 @@
           },
           {
             "label" : "Weight",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "weight",
-            "description" : "This shows the weight of the WAN interface."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "This shows the weight of the WAN interface.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Backup",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "backup",
-            "description" : "This shows the name of the backup WAN interface that will be enabled if this WAN interface failed."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "This shows the name of the backup WAN interface that will be enabled if this WAN interface failed.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Zone",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "zone",
             "description" : "This shows the zone to which the WAN interface is assigned.",
             "cn-description" : "CND",
@@ -5409,18 +5409,18 @@
                 "cn-label" : "CNL",
                 "tw-label" : "TWL",
                 "tab" : "mtu",
-                "description" : "Specify the Maximum Transmission Unit (MTU) of the interface.\n Select Auto to have the interface use the default MTU size.\n Select Manual and enter the maximum packet size (in bytes) allowed on this interface."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+                "description" : "Specify the Maximum Transmission Unit (MTU) of the interface.\n Select Auto to have the interface use the default MTU size.\n Select Manual and enter the maximum packet size (in bytes) allowed on this interface.",
+                "cn-description" : "CND",
+                "tw-description" : "TWD"
               },
               {
                 "label" : "DNS",
                 "cn-label" : "CNL",
                 "tw-label" : "TWL",
                 "tab" : "dns",
-                "description" : "Select Auto to have the interface obtain the IP address of the DNS server(s) from a connected DHCP server.\n Select Manual and enter the IP address of the primary and secondary DNS servers."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+                "description" : "Select Auto to have the interface obtain the IP address of the DNS server(s) from a connected DHCP server.\n Select Manual and enter the IP address of the primary and secondary DNS servers.",
+                "cn-description" : "CND",
+                "tw-description" : "TWD"
               },
               {
                 "label" : "MAC Address",
@@ -5850,339 +5850,341 @@
   "menu-9-1-0" :
   {
     "label" : "IPSec Policies",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+    "cn-label" : "CNL",
+    "tw-label" : "TWL",
     "tab" : "ipsec_policies",
     "description" : "A VPN (Virtual Private Network) tunnel connects two routers to secure traffic transmitted between the separate networks behind the two routers.\n A VPN tunnel is established in two phases. In the first phase (phase-1), an IKE (Internet Key Exchange) negotiation is performed to authenticate the VPN routers to each other. In the second phase (phase-2), another negotiation is performed to negotiate parameters for the VPN tunnel and generate a phase-2 key from the phase-1 key to protect VPN traffic.\n A VPN policy defines the settings used to set up a VPN tunnel. \n Use this screen to view and manage the IPSec VPN policies created on the TitanWALL.",
     "cn-description" : "CND",
-    "tw-description" : "TWD"
+    "tw-description" : "TWD",
     "content" :
     [
       {
         "label" : "Enable (checkbox)",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "enable",
-        "description" : "Select this check box to turn on the site-to-site VPN function on the TitanWALL."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "Select this check box to turn on the site-to-site VPN function on the TitanWALL.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "Name",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "name",
-        "description" : "This shows the name of the VPN policy."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This shows the name of the VPN policy.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "Enable",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "enables",
-        "description" : "This shows whether the policy is turned on or not."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This shows whether the policy is turned on or not.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "Status",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "status",
-        "description" : "This shows whether the VPN connection is up or down."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This shows whether the VPN connection is up or down.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "WAN",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "wan",
-        "description" : "This shows the WAN interface of the TitanWALL, through which the VPN traffic passes over this VPN tunnel."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This shows the WAN interface of the TitanWALL, through which the VPN traffic passes over this VPN tunnel.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "Peers",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "peers",
-        "description" : "This shows the IP address of the remote router to which the TitanWALL connects to set up the VPN tunnel."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This shows the IP address of the remote router to which the TitanWALL connects to set up the VPN tunnel.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "Local",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "local",
-        "description" : "This shows the name of the address object of the local network behind the TitanWALL to send traffic over the VPN tunnel."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This shows the name of the address object of the local network behind the TitanWALL to send traffic over the VPN tunnel.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "Remote",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "remote",
-        "description" : "This shows the name of the address object of the remote network behind the remote router to send traffic over the VPN tunnel."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This shows the name of the address object of the remote network behind the remote router to send traffic over the VPN tunnel.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "IKE",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "ike",
-        "description" : "This shows the name of the IKE policy used by the VPN policy."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This shows the name of the IKE policy used by the VPN policy.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "Transform",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "transform",
-        "description" : "This shows the name of the transform policy used by the VPN policy."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This shows the name of the transform policy used by the VPN policy.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "Action",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "action",
-        "description" : "Click the Edit button to configure the policy.\n Click the Delete button to delete the policy.\n Click the Connect button to start the VPN connection.\n Click the Disconnect button to terminate the VPN connection.\n Click the Create button to add a new policy.\n Select the check box of the entry and click the Remove button to delete the selected policy."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "Click the Edit button to configure the policy.\n Click the Delete button to delete the policy.\n Click the Connect button to start the VPN connection.\n Click the Disconnect button to terminate the VPN connection.\n Click the Create button to add a new policy.\n Select the check box of the entry and click the Remove button to delete the selected policy.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       }
     ],
     "editors" :
     [
       {
         "label" : "Basic Settings",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "basic_settings",
         "description" : "Use this screen to configure the basic settings of a VPN policy. ",
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "cn-description" : "CND",
+        "tw-description" : "TWD",
         "content" :
         [
           {
             "label" : "Description",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "description",
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
-            "description" : "Enter a descriptive name for the policy."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Enter a descriptive name for the policy.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Enable",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "enable",
-            "description" : "Select this option to activate the policy."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Select this option to activate the policy.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Remote Type",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "remote_type",
-            "description" : "Select Dynamic IP if the remote router receives a dynamic IP address from a DHCP server.\n Select Static IP if the remote router has a static IP address. Enter the static IP address in the Remote Address field.\n Select FQDN if the remote router uses the IP address of a domain name (vpn.titan.com for example) to connect to the TitanWALL. Enter the domain name in the Remote Address field."
+            "description" : "Select Dynamic IP if the remote router receives a dynamic IP address from a DHCP server.\n Select Static IP if the remote router has a static IP address. Enter the static IP address in the Remote Address field.\n Select FQDN if the remote router uses the IP address of a domain name (vpn.titan.com for example) to connect to the TitanWALL. Enter the domain name in the Remote Address field.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Authentication Method",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "authentication_method",
-            "description" : "Enter a key of up to 255 alphanumeric characters for the remote route to authenticate with the TitanWALL. The TitanWALL and the remote router must use the same key in order to establish a VPN connection."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Enter a key of up to 255 alphanumeric characters for the remote route to authenticate with the TitanWALL. The TitanWALL and the remote router must use the same key in order to establish a VPN connection.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "WAN Interface",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "wan_interface",
-            "description" : "Select a WAN interface through which the VPN traffic passes."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Select a WAN interface through which the VPN traffic passes.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Local Network",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "local_network",
-            "description" : "Select an address object to specify the local network behind the TitanWALL that is allowed to use the VPN tunnel.\n Select Any and you can use the Access Control screen to control the incoming traffic from the remote network to a zone over the VPN tunnel."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Select an address object to specify the local network behind the TitanWALL that is allowed to use the VPN tunnel.\n Select Any and you can use the Access Control screen to control the incoming traffic from the remote network to a zone over the VPN tunnel.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Remote Network",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "remote_network",
-            "description" : "Select an address object to specify the remote network behind the remote router that is allowed to use the VPN tunnel."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Select an address object to specify the remote network behind the remote router that is allowed to use the VPN tunnel.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           }
         ]
       },
       {
         "label" : "Advance Settings",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "advance_settings",
         "description" : "Use this screen to configure the advanced settings of a VPN policy.",
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "cn-description" : "CND",
+        "tw-description" : "TWD",
         "content" :
         [
           {
             "label" : "PFS",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "pfs",
-            "description" : "Select this option to enable Perfect Forward Secrecy (PFS) to improve VPN security. When PFS is enabled, a new Diffie-Hellman key exchange is performed to generate a new set of phase-1 key for every new phase-2 negotiation.\n Both the TitanWALL and the remote router must support PFS for it to work."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Select this option to enable Perfect Forward Secrecy (PFS) to improve VPN security. When PFS is enabled, a new Diffie-Hellman key exchange is performed to generate a new set of phase-1 key for every new phase-2 negotiation.\n Both the TitanWALL and the remote router must support PFS for it to work.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "DPD",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "dpd",
-            "description" : "Select this option to enable Dead Peer Detection (DPD) to detect whether the remote peer router at the other end of the VPN tunnel is still active. This helps minimize the number of messages required to confirm the availability of a peer."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Select this option to enable Dead Peer Detection (DPD) to detect whether the remote peer router at the other end of the VPN tunnel is still active. This helps minimize the number of messages required to confirm the availability of a peer.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Delay Time",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "delay_time",
-            "description" : "Specify the time interval (in seconds) between DPD R-U-THERE messages. The TitanWALL sends the DPD R-U-THERE messages only when the VPN tunnel is idle and there is no VPN traffic from the remote peer.  "
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Specify the time interval (in seconds) between DPD R-U-THERE messages. The TitanWALL sends the DPD R-U-THERE messages only when the VPN tunnel is idle and there is no VPN traffic from the remote peer.  ",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Detection Timeout",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "detection_timeout",
-            "description" : "Enter the number of seconds for the TitanWALL to wait for a response or VPN traffic from the remote peer before considering the remote peer is dead."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Enter the number of seconds for the TitanWALL to wait for a response or VPN traffic from the remote peer before considering the remote peer is dead.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "DPD Action",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "dpd_action",
-            "description" : "Select an action the TitanWALL takes when the remote peer is considered dead.\n Select hold to wait for the peer to become active again. VPN traffic from the local network behind the TitanWALL can trigger the TitanWALL to restart the VPN connection. It is recommended that you select this option when the remote peer has a static IP address.\n Select clear to remove the VPN tunnel. You need to manually restart the VPN tunnel. It is recommended that you select this option when the remote peer has a dynamic IP address.\n Select restart to have the TitanWALL try to restart the VPN tunnel three times."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Select an action the TitanWALL takes when the remote peer is considered dead.\n Select hold to wait for the peer to become active again. VPN traffic from the local network behind the TitanWALL can trigger the TitanWALL to restart the VPN connection. It is recommended that you select this option when the remote peer has a static IP address.\n Select clear to remove the VPN tunnel. You need to manually restart the VPN tunnel. It is recommended that you select this option when the remote peer has a dynamic IP address.\n Select restart to have the TitanWALL try to restart the VPN tunnel three times.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "IKE",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "ike",
-            "description" : "Select the name of the IKE policy to be used by the VPN policy."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Select the name of the IKE policy to be used by the VPN policy.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Transform",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "transform",
-            "description" : "Select the name of the transform policy to be used by the VPN policy."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Select the name of the transform policy to be used by the VPN policy.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           }
         ]
       },
       {
         "label" : "VPN Failover",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "vpn_failover",
         "description" : "Use this screen to configure the failover settings of an IPSec policy.",
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "cn-description" : "CND",
+        "tw-description" : "TWD",
         "content" :
         [
           {
             "label" : "WAN Failover Enable",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "wan_failover_enable",
-            "description" : "Select this option to use the backup WAN interface to forward VPN traffic when the primary WAN interface fails. In order to support this function, you need to configure dynamic DNS on the TitanWALL or set the remote route to use a dynamic IP address (see the Remote Type field in the Basic Settings screen)."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Select this option to use the backup WAN interface to forward VPN traffic when the primary WAN interface fails. In order to support this function, you need to configure dynamic DNS on the TitanWALL or set the remote route to use a dynamic IP address (see the Remote Type field in the Basic Settings screen).",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Redundant Gateway",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "redundant_gateway",
-            "description" : "Select this option to have the TitanWALL uses an alternative IPSec policy to connect to the backup remote router and set up a new VPN connection when the primary remote router fails. You must enable DPD in order to use this function."
+            "description" : "Select this option to have the TitanWALL uses an alternative IPSec policy to connect to the backup remote router and set up a new VPN connection when the primary remote router fails. You must enable DPD in order to use this function.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Select Backup Policy",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "select_backup_policy",
-            "description" : "Select a VPN policy as the backup IPSec policy."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Select a VPN policy as the backup IPSec policy.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Fallback Time to Switch From Backup to Primary",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "fallback_time",
-            "description" : "The TitanWALL periodically checks whether the primary remote router becomes active.\n Enter the number of seconds that must pass for the TitanWALL to confirm that the primary tunnel has recovered from a failure. If the primary tunnel is up for the specified time period, the TitanWALL will switch to the primary tunnel by disabling the backup tunnel. Enter a value between 3 and 59 seconds. The default value is 5 seconds.\n Note: DPD should be enabled if you want to use the Redundant Gateway feature for IPsec VPN connections."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "The TitanWALL periodically checks whether the primary remote router becomes active.\n Enter the number of seconds that must pass for the TitanWALL to confirm that the primary tunnel has recovered from a failure. If the primary tunnel is up for the specified time period, the TitanWALL will switch to the primary tunnel by disabling the backup tunnel. Enter a value between 3 and 59 seconds. The default value is 5 seconds.\n Note: DPD should be enabled if you want to use the Redundant Gateway feature for IPsec VPN connections.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           }
         ]
       },
       {
         "label" : "Access Control",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "access_control",
         "description" : "Use this screen to configure the access control settings of a VPN policy. This screen is configurable only when you set the local network to Any in the IPSec Policies > Basic Settings screen.",
-    "cn-description" : "CND",
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
-    "tw-description" : "TWD"
+        "cn-description" : "CND",
+        "tw-description" : "TWD",
         "content" :
         [
           {
             "label" : "To Zone List",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "to_zone_list",
-            "description" : "Thie is the name of the zone created on the TitanWALL."
+            "description" : "Thie is the name of the zone created on the TitanWALL.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Access Setting",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "access_setting",
-            "description" : "Select Permit to allow traffic from the remote network to go to the zone through the VPN tunnel.\n Select Deny to block traffic originated on the remote network from going to the zone through the VPN tunnel."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Select Permit to allow traffic from the remote network to go to the zone through the VPN tunnel.\n Select Deny to block traffic originated on the remote network from going to the zone through the VPN tunnel.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           }
         ]
       }
@@ -6191,123 +6193,125 @@
   "menu-9-1-1" :
   {
     "label" : "IKE Policy",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+    "cn-label" : "CNL",
+    "tw-label" : "TWL",
     "tab" : "ike_policy",
     "description" : "Internet Key Exchange (IKE) is a protocol used to establish a security association (SA) between two IPSec routers. It uses Diffie-Hellman (D-H) key exchange to generate a key to encrypt data and also uses an authentication algorithm to verify the identity of the peer router.\n Use this screen to manage or create IKE policy, which defines the security parameters used to set up an IKE SA in phase-1.",
     "cn-description" : "CND",
-    "tw-description" : "TWD"
+    "tw-description" : "TWD",
     "content" :
     [
       {
         "label" : "Name",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "name",
-        "description" : "This shows the name of the IKE policy."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This shows the name of the IKE policy.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "Encryption",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "encryption",
-        "description" : "This shows the encryption algorithm used in this policy."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This shows the encryption algorithm used in this policy.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "Authentication",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "authentication",
-        "description" : "This shows the authentication algorithm used in this policy."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This shows the authentication algorithm used in this policy.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "D-H Group",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "d_h_group",
-        "description" : "This shows the D-H key group used in this policy."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This shows the D-H key group used in this policy.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "Lifetime",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "lifetime",
-        "description" : "This shows how long the IKE SA remains valid."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This shows how long the IKE SA remains valid.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "Action",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "action",
-        "description" : "Click the Edit button to configure the policy.\n Click the Delete button to delete the policy.\n Click the Create button to add a new policy.\n Select the check box of the entry and click the Remove button to delete the selected policy."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "Click the Edit button to configure the policy.\n Click the Delete button to delete the policy.\n Click the Create button to add a new policy.\n Select the check box of the entry and click the Remove button to delete the selected policy.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       }
     ],
     "editor" :
     [
       {
         "label" : "IKE Policy Editor",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "ike_policy_editor",
         "description" : "Use this screen to create a new IKE policy or edit an existing one.",
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "cn-description" : "CND",
+        "tw-description" : "TWD",
         "content" :
         [
           {
             "label" : "Name",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "name",
-            "description" : "Enter a name for the IKE policy."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Enter a name for the IKE policy.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Encryption",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "encryption",
-            "description" : "DES (Data Encryption Standard) is a block cipher that operates on a 64-bit block of data at a time. It uses a shared secret key to encrypt and decrypt data. 3DES increases the key size of DES to protect data. AES (Advanced Encryption Standard) is a newer method of data encryption to replace DES and is faster than 3DES.\n ESP_DES uses a 56-bit key.\n ESP_3DES is more secure than ESP_DES and uses a 168-bit key.\n ESP_AES_128, ESP_AES_192 and ESP_AES_256 use a 128-bit key, 192-bit key and 256-bit key to encrypt/decrypt each 128-bit block of data respectively."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "DES (Data Encryption Standard) is a block cipher that operates on a 64-bit block of data at a time. It uses a shared secret key to encrypt and decrypt data. 3DES increases the key size of DES to protect data. AES (Advanced Encryption Standard) is a newer method of data encryption to replace DES and is faster than 3DES.\n ESP_DES uses a 56-bit key.\n ESP_3DES is more secure than ESP_DES and uses a 168-bit key.\n ESP_AES_128, ESP_AES_192 and ESP_AES_256 use a 128-bit key, 192-bit key and 256-bit key to encrypt/decrypt each 128-bit block of data respectively.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Authentication",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "authentication",
-            "description" : "Select an authentication algorithm (SHA_1 or MD5) used to negotiate the IKE SA\n MD5 (Message-Digest Algorithm 5) is a cryptographic hash function that produces a 128-bit hash value to verify data integrity. SHA1 is a family of hash functions and produces a 160-bit hash value. SHA1 is more secure than MD5."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Select an authentication algorithm (SHA_1 or MD5) used to negotiate the IKE SA\n MD5 (Message-Digest Algorithm 5) is a cryptographic hash function that produces a 128-bit hash value to verify data integrity. SHA1 is a family of hash functions and produces a 160-bit hash value. SHA1 is more secure than MD5.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "D-H Group",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "d_h_group",
-            "description" : "Select a D-H key group used by the IPSec routers to derive a shared secret key.\n Options are Group2 (1024 bits), Group5 (1536 bits), Group14 (2048 bits), Group15 (3072 bits), Group16 (4096 bits), Group17 (6144 bits) and Group18 (8192 bits). A longer key provides more secure encryption than a shorter key. But a shorter key takes a shorter time to encrypt and decrypt data."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Select a D-H key group used by the IPSec routers to derive a shared secret key.\n Options are Group2 (1024 bits), Group5 (1536 bits), Group14 (2048 bits), Group15 (3072 bits), Group16 (4096 bits), Group17 (6144 bits) and Group18 (8192 bits). A longer key provides more secure encryption than a shorter key. But a shorter key takes a shorter time to encrypt and decrypt data.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Lifetime",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "lifetime",
-            "description" : "Specify how long the IKE SA remains valid. A short life time provides more secure ISAKMP (Internet Security Association and Key Management Protocol) negotiations."
+            "description" : "Specify how long the IKE SA remains valid. A short life time provides more secure ISAKMP (Internet Security Association and Key Management Protocol) negotiations.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           }
         ]
       }
@@ -6316,123 +6320,125 @@
   "menu-9-1-2" :
   {
     "label" : "Transform Policy",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+    "cn-label" : "CNL",
+    "tw-label" : "TWL",
     "tab" : "transform_policy",
     "description" : "Use this screen to manage or create a transform policy, which defines the security parameters used to set up an IPSec SA in phase-2.",
     "cn-description" : "CND",
-    "tw-description" : "TWD"
+    "tw-description" : "TWD",
     "content" :
     [
       {
         "label" : "Name",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "name",
-        "description" : "This shows the name of the Transform policy."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This shows the name of the Transform policy.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "Encryption",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "encryption",
-        "description" : "This shows the encryption algorithm used in this policy."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This shows the encryption algorithm used in this policy.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "Authentication",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "authentication",
-        "description" : "This shows the authentication algorithm used in this policy."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This shows the authentication algorithm used in this policy.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "PFS Group",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "pfs_group",
-        "description" : "This shows the PFS key group used in this policy."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This shows the PFS key group used in this policy.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "Lifetime",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "lifetime",
-        "description" : "This shows how long the Transform SA remains valid."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "This shows how long the Transform SA remains valid.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "Action",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "action",
-        "description" : "Click the Edit button to configure the policy.\n Click the Delete button to delete the policy.\n Click the Create button to add a new policy.\n Select the check box of the entry and click the Remove button to delete the selected policy."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "Click the Edit button to configure the policy.\n Click the Delete button to delete the policy.\n Click the Create button to add a new policy.\n Select the check box of the entry and click the Remove button to delete the selected policy.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       }
     ],
     "editor" :
     [
       {
         "label" : "Transform Policy Editor",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "transform_policy_editor",
         "description" : "Use this screen to create a new Transform policy or edit an existing one.",
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "cn-description" : "CND",
+        "tw-description" : "TWD",
         "content" :
         [
           {
             "label" : "Name",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "name",
-            "description" : "Enter a name for the Transform policy."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Enter a name for the Transform policy.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Encryption",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "encryption",
-            "description" : "DES (Data Encryption Standard) is a block cipher that operates on a 64-bit block of data at a time. It uses a shared secret key to encrypt and decrypt data. 3DES increases the key size of DES to protect data. AES (Advanced Encryption Standard) is a newer method of data encryption to replace DES and is faster than 3DES.\n ESP_DES uses a 56-bit key.\n ESP_3DES is more secure than ESP_DES and uses a 168-bit key.\n ESP_AES_128, ESP_AES_192 and ESP_AES_256 use a 128-bit key, 192-bit key and 256-bit key to encrypt/decrypt each 128-bit block of data respectively."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "DES (Data Encryption Standard) is a block cipher that operates on a 64-bit block of data at a time. It uses a shared secret key to encrypt and decrypt data. 3DES increases the key size of DES to protect data. AES (Advanced Encryption Standard) is a newer method of data encryption to replace DES and is faster than 3DES.\n ESP_DES uses a 56-bit key.\n ESP_3DES is more secure than ESP_DES and uses a 168-bit key.\n ESP_AES_128, ESP_AES_192 and ESP_AES_256 use a 128-bit key, 192-bit key and 256-bit key to encrypt/decrypt each 128-bit block of data respectively.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Authentication",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "authentication",
-            "description" : "Select an authentication algorithm (SHA_1 or MD5) used to negotiate the Transform SA\n MD5 (Message-Digest Algorithm 5) is a cryptographic hash function that produces a 128-bit hash value to verify data integrity. SHA1 is a family of hash functions and produces a 160-bit hash value. SHA1 is more secure than MD5."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Select an authentication algorithm (SHA_1 or MD5) used to negotiate the Transform SA\n MD5 (Message-Digest Algorithm 5) is a cryptographic hash function that produces a 128-bit hash value to verify data integrity. SHA1 is a family of hash functions and produces a 160-bit hash value. SHA1 is more secure than MD5.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "D-H Group",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "d_h_group",
-            "description" : "The TitanWALL uses Perfect Forward Secrecy (PFS) to ensure that the IPSec SA key is not derived from an IKE SA key that has been used to generate a key already. Select a D-H key group used by the IPSec routers to derive a shared secret key.\n Options are Group2 (1024 bits), Group5 (1536 bits), Group14 (2048 bits), Group15 (3072 bits), Group16 (4096 bits), Group17 (6144 bits) and Group18 (8192 bits). A longer key provides more secure encryption than a shorter key. But a shorter key takes a shorter time to encrypt and decrypt data."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "The TitanWALL uses Perfect Forward Secrecy (PFS) to ensure that the IPSec SA key is not derived from an IKE SA key that has been used to generate a key already. Select a D-H key group used by the IPSec routers to derive a shared secret key.\n Options are Group2 (1024 bits), Group5 (1536 bits), Group14 (2048 bits), Group15 (3072 bits), Group16 (4096 bits), Group17 (6144 bits) and Group18 (8192 bits). A longer key provides more secure encryption than a shorter key. But a shorter key takes a shorter time to encrypt and decrypt data.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Lifetime",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "lifetime",
-            "description" : "Specify how long the IPsec SA remains valid. When the SA times out, the IPSec routers need to negotiate."
+            "description" : "Specify how long the IPsec SA remains valid. When the SA times out, the IPSec routers need to negotiate.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           }
         ]
       }
@@ -6441,143 +6447,141 @@
   "menu-10-0" :
   {
     "label" : "Rules",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+    "cn-label" : "CNL",
+    "tw-label" : "TWL",
     "tab" : "rules",
     "description" : "The firewall allows you to set access control for a zone. The firewall rules are applied according to the order they appear in the list. A user-defined firewall rule has priority over the default firewall rule.\n The TitanWALL applies the default firewall rule to traffic that does not match any user-defined firewall rule. You cannot delete or re-order a default firewall rule or a firewall rule that is generated automatically by the system. See the table below for the default firewall policies.",
     "cn-description" : "CND",
-    "tw-description" : "TWD"
+    "tw-description" : "TWD",
     "tabs" :
     {
       "rule" :
       {
         "label" : "Rule",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "rule",
         "description" : "Use this screen to view all the firewall rules on the TitanWALL, manage user-defined firewall rules or add a new firewall rule. Click the Columns button in the upper right corner to hide or show a column.",
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "cn-description" : "CND",
+        "tw-description" : "TWD",
         "content" :
         [
           {
             "label" : "Select Criterion For Rule Table",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "criterion",
-            "description" : "Set the following criteria and click the Query button to search and only display the firewall rules you want to see in this screen. User-defined rules are displayed always.\n From Zone – Select a zone from which the matched traffic comes.\n To Zone – select a zone to which the matched traffic goes.\n Default Rule – Select this option to show the default firewall rules.\n VPN Rule – Select this option to show the firewall rules for traffic that is transmitted through a VPN tunnel.\n NAT Rule – Select this option to show the firewall rules that the TitanWALL automatically creates for each NAT entry."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Set the following criteria and click the Query button to search and only display the firewall rules you want to see in this screen. User-defined rules are displayed always.\n From Zone – Select a zone from which the matched traffic comes.\n To Zone – select a zone to which the matched traffic goes.\n Default Rule – Select this option to show the default firewall rules.\n VPN Rule – Select this option to show the firewall rules for traffic that is transmitted through a VPN tunnel.\n NAT Rule – Select this option to show the firewall rules that the TitanWALL automatically creates for each NAT entry.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Priority",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "priority",
-            "description" : "This shows the firewall rule number in the list. The order of the firewall rules is important."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "This shows the firewall rule number in the list. The order of the firewall rules is important.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Enable",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "enable",
-            "description" : "This shows whether the firewall rule is active or not."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "This shows whether the firewall rule is active or not.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "From Zone",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "fromZone",
-            "description" : "This shows the name of the source zone. The TitanWALL applies this rule to traffic that comes from this zone."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "This shows the name of the source zone. The TitanWALL applies this rule to traffic that comes from this zone.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "To Zone",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "toZone",
-            "description" : "This shows the name of the destination zone. The TitanWALL applies this rule to traffic that goes to this zone."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "This shows the name of the destination zone. The TitanWALL applies this rule to traffic that goes to this zone.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Src Addr",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "src_addr",
-            "description" : "This shows the name of the source address object. The TitanWALL applies this rule to packets that have the matched source address."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "This shows the name of the source address object. The TitanWALL applies this rule to packets that have the matched source address.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Dst Addr",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "dst_addr",
-            "description" : "This shows the name of the destination address object. The TitanWALL applies this rule to packets that have the matched destination address."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "This shows the name of the destination address object. The TitanWALL applies this rule to packets that have the matched destination address.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Service",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "service",
-            "description" : "This shows the name of the service to which the TitanWALL applies this rule."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "This shows the name of the service to which the TitanWALL applies this rule.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Schedule",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "schedule",
-            "description" : "This shows the name of the schedule object used in this rule. The schedule defines when the rule will be applied."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "This shows the name of the schedule object used in this rule. The schedule defines when the rule will be applied.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Hit",
-                "cn-label" : "CNL",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "hit",
-            "description" : "This shows how many times the rule has been applied to the matched traffic."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "This shows how many times the rule has been applied to the matched traffic.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Log",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "log",
-            "description" : "This shows whether the TitanWALL will create a log when any traffic matches this rule."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "This shows whether the TitanWALL will create a log when any traffic matches this rule.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Match Action",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "match_action",
-            "description" : "This shows the action the TitanWALL takes when any traffic matches this rule."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "This shows the action the TitanWALL takes when any traffic matches this rule.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Action",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "action",
-            "description" : "Click Edit to modify the rule’s settings.\n Click Delete to remove the rule.\n Click MoveUp to move the rule up one row.\n Click MoveDown to move the rule down one row."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Click Edit to modify the rule’s settings.\n Click Delete to remove the rule.\n Click MoveUp to move the rule up one row.\n Click MoveDown to move the rule down one row.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           }
         ],
         "editor" :
@@ -6659,7 +6663,7 @@
             "cn-label" : "CNL",
             "tw-label" : "TWL",
             "tab" : "match_action",
-            "description" : "Select Permit to have the TitanWALL allow the matched traffic.\n Select Deny to have the TitanWALL block the matched traffic.\n Select Accounting to have the TitanWALL count how many times the rule has been applied. The number displays in the Block Count field of the Security Dashbaord. The number will be reset to 0 if you modified the rule settings"
+            "description" : "Select Permit to have the TitanWALL allow the matched traffic.\n Select Deny to have the TitanWALL block the matched traffic.\n Select Accounting to have the TitanWALL count how many times the rule has been applied. The number displays in the Block Count field of the Security Dashbaord. The number will be reset to 0 if you modified the rule settings",
             "cn-description" : "CND",
             "tw-description" : "TWD"
           }
@@ -6715,28 +6719,28 @@
     "tab" : "dynamic_pat",
     "description" : "Dynamic Port Address Translation (Dynamic PAT) lets you translate multiple private addresses and the source port to one public address and a unique dynamic port. Each connection has the same mapped address but uses a different source port. The remote side can initiate a connection to the host behind the TitanWALL when the firewall allows it and the mapped source port does not change.",
     "cn-description" : "CND",
-    "tw-description" : "TWD"
+    "tw-description" : "TWD",
     "tabs" :
     {
       "pat_settings" :
       {
         "label" : "PAT Settings",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "pat_settings",
         "description" : "Use this screen to enable or disable dynamic PAT on an interface.",
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "cn-description" : "CND",
+        "tw-description" : "TWD",
         "content" :
         [
           {
             "label" : "Interface Name",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "interface_name",
-            "description" : "This shows the name of the LAN interface or physical Ethernet port from which traffic comes."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "This shows the name of the LAN interface or physical Ethernet port from which traffic comes.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Interface Address",
@@ -7103,21 +7107,21 @@
         "cn-label" : "CNL",
         "tw-label" : "TWL",
         "tab" : "action",
-        "description" : "Click Edit to modify the rule’s settings.\n Click Delete to remove the rule."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "Click Edit to modify the rule’s settings.\n Click Delete to remove the rule.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       }
     ],
     "editor" :
     [
       {
         "label" : "Enable",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+        "cn-label" : "CNL",
+        "tw-label" : "TWL",
         "tab" : "enable",
-        "description" : "Select this option turn on the rule."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+        "description" : "Select this option turn on the rule.",
+        "cn-description" : "CND",
+        "tw-description" : "TWD"
       },
       {
         "label" : "Trigger Service",
@@ -7461,7 +7465,7 @@
         "cn-label" : "CNL",
         "tw-label" : "TWL",
         "tab" : "block_fragmented_packets",
-        "description" : "Select the check box to block any fragmented packets transmitted between zones."
+        "description" : "Select the check box to block any fragmented packets transmitted between zones.",
         "cn-description" : "CND",
         "tw-description" : "TWD"
       },
@@ -7762,7 +7766,7 @@
                 "tw-label" : "TWL",
                 "tab" : "user",
                 "description" : "Type the descriptive name for the user.",
-                "cn-description" : "CND",,
+                "cn-description" : "CND",
                 "tw-description" : "TWD"
               },
               {
@@ -7900,27 +7904,27 @@
             "cn-label" : "CNL",
             "tw-label" : "TWL",
             "tab" : "address_list",
-            "description" : "If you want to add an address object to the group, select it from the Address List and click the right arrow. It will be added to the Address Selected list. To remove an address object from the group, select the address object from the Address Selected list and click the left arrow. The details, name, type and value of the selected address will be displayed in the lower section of this screen."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "If you want to add an address object to the group, select it from the Address List and click the right arrow. It will be added to the Address Selected list. To remove an address object from the group, select the address object from the Address Selected list and click the left arrow. The details, name, type and value of the selected address will be displayed in the lower section of this screen.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "OK",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "ok",
-            "description" : "Click this button to save your changes and close this screen."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Click this button to save your changes and close this screen.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           },
           {
             "label" : "Cancel",
-                "cn-label" : "CNL",
-                "tw-label" : "TWL",
+            "cn-label" : "CNL",
+            "tw-label" : "TWL",
             "tab" : "cancel",
-            "description" : "Click this button to close this screen without saving any changes."
-    "cn-description" : "CND",
-    "tw-description" : "TWD"
+            "description" : "Click this button to close this screen without saving any changes.",
+            "cn-description" : "CND",
+            "tw-description" : "TWD"
           }
         ]
       },
@@ -7967,7 +7971,7 @@
             "cn-label" : "CNL",
             "tw-label" : "TWL",
             "tab" : "type",
-            "description" : "This shows Host if the object is defined by a single host by its IP address.\n This shows Range if the object is defined by a range of contiguous IP addresses.\n This shows Network if the object is defined by a network IP address and netmask.\n This shows MAC if the object is defined by a host by its MAC address".
+            "description" : "This shows Host if the object is defined by a single host by its IP address.\n This shows Range if the object is defined by a range of contiguous IP addresses.\n This shows Network if the object is defined by a network IP address and netmask.\n This shows MAC if the object is defined by a host by its MAC address.",
             "cn-description" : "CND",
             "tw-description" : "TWD"
           },
