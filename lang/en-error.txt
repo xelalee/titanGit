@@ -272,6 +272,7 @@
 
     "_comment" : "--------",
     "_comment" : "email alert",
+    "schReportMailSubject" : "len:63, [0-9a-zA-Z -_.'[]]",
 
     "_comment" : "--------",
     "_comment" : "backup restore",

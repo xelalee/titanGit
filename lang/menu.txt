@@ -14874,6 +14874,43 @@
                               "tw-note" : "( 3-1440 分 )"
                             }
                           ]
+                        },
+                        {
+                          "label" : "Schedule Report",
+                          "cn-label" : "时间表报告",
+                          "tw-label" : "排程報告",
+                          "tab" : "schReportEnable",
+                          "tag" : "input",
+                          "type" : "checkbox",
+                          "col" :
+                          [
+                            {
+                              "label" : "Interval",
+                              "cn-label" : "间隔",
+                              "tw-label" : "間隔",
+                              "tab" : "schReportSchDay",
+                              "tag" : "select",
+                              "type" : "select",
+                              "option" : 
+                              {
+                                "0" : { "label" : "Sunday", "cn-label" : "星期日", "tw-label" : "星期日" },
+                                "1" : { "label" : "Monday", "cn-label" : "星期一", "tw-label" : "星期一" },
+                                "2" : { "label" : "Tuesday", "cn-label" : "星期二", "tw-label" : "星期二" },
+                                "3" : { "label" : "Wednesday", "cn-label" : "星期三", "tw-label" : "星期三" },
+                                "4" : { "label" : "Thursday", "cn-label" : "星期四", "tw-label" : "星期四" },
+                                "5" : { "label" : "Friday", "cn-label" : "星期五", "tw-label" : "星期五" },
+                                "6" : { "label" : "Saturday", "cn-label" : "星期六", "tw-label" : "星期六" }
+                              }
+                            },
+                            {
+                              "label" : "Mail Subject",
+                              "cn-label" : "邮件主题",
+                              "tw-label" : "郵件主題",
+                              "tab" : "schReportMailSubject",
+                              "tag" : "input",
+                              "type" : "text"
+                            }
+                          ]
                         }
                       ]
                     }

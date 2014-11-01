@@ -71,11 +71,6 @@
     word-spacing: 0;
 }
 
-#onlineHelp #menu {
-    overflow: hidden;
-    height: 647px;
-}
-
 #reporter {
     background: url('images/bg_upper_06TA.png') top center no-repeat;
 }

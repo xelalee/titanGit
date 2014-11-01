@@ -307,6 +307,7 @@ gReg.ascii.email    = /^[\x2D\x2E\x5F\x30-x39\x40-\x5A\x61-\x7A]{6,63}$/;
 gReg.ascii.description  = /^[\x20\x21\x23\x24\x26\x28-\x3E\x40-\x5F\x61-\x7E]{0,100}$/;
 gReg.ascii.remoteGw     = /^[\x21\x23\x24\x26\x28-\x3E\x40-\x5F\x61-\x7E]{0,127}$/;
 gReg.ascii.presharedkey = /^[\x21\x23\x24\x26\x28-\x3E\x40-\x5F\x61-\x7E]{1,255}$/;
+gReg.ascii.schReportMailSubject = /^[\x20\x27\x2D\x2E\x30-\x39\x41-\x5B\x5D\x5F\x61-\x7A]{1,63}$/;
 
 gReg.vpn = 0x12 << 16;
 
@@ -25059,6 +25060,16 @@ $(document).ready(function () {
                                 tmp += '<td class="alignLeft ">' + gNode.col[ 1 ].col[ 2 ].col[ 0 ].col[ 0 ][ gObj.label ] + '&nbsp;<input type="text" id="virusAlertInterval" size="8"/>&nbsp;' + gNode.col[ 1 ].col[ 2 ].col[ 0 ].col[ 0 ][ gObj.note ] + '</td>';
                                 tmp += '</tr>';
 
+                                tmp += '<tr>';
+                                tmp += '<td class="alignLeft BT200"><input type="checkbox" id="schReportEnable" />&nbsp;<label for="schReportEnable">' + gNode.col[ 1 ].col[ 2 ].col[ 1 ][ gObj.label ] + '</td>';
+                                tmp += '<td class="alignLeft ">' + gNode.col[ 1 ].col[ 2 ].col[ 1 ].col[ 0 ][ gObj.label ] + '&nbsp;<select id="schReportSchDay" ></select></td>';
+                                tmp += '</tr>';
+
+                                tmp += '<tr>';
+                                tmp += '<td class="alignLeft BT200"></td>';
+                                tmp += '<td class="alignLeft ">' + gNode.col[ 1 ].col[ 2 ].col[ 1 ].col[ 1 ][ gObj.label ] + '&nbsp;<input id="schReportMailSubject" /></td>';
+                                tmp += '</tr>';
+
                                 tmp += '</table>';
                                 tmp += '</div>';
                                 tmp += '</div>';
@@ -25091,11 +25102,13 @@ $(document).ready(function () {
                                 gObj.toEmails = data.toEmail.split(';');
 
                                 for (var i=0, len=gObj.toEmails.length; i<len; i++)
-                                {
                                     $('#toEmail' + i ).val( gObj.toEmails[ i ] );
-                                }
 
                                 // alerts
+                                for (var x in gNode.col[ 1 ].col[ 2 ].col[ 1 ].col[ 0 ].option)
+                                    $('#schReportSchDay').append('<option value="' + x + '">' + gNode.col[ 1 ].col[ 2 ].col[ 1 ].col[ 0 ].option[ x ][ gObj.label ] + '</option>');
+
+
                                 if (parseInt( data.cpuAlertEnable ) == 1)
                                     $('#cpuAlertEnable').attr('checked', true);
                                 $('#cpuAlertThreshold').val( data.cpuAlertThreshold );
@@ -25117,6 +25130,10 @@ $(document).ready(function () {
                                     $('#virusAlertEnable').attr('checked', true);
                                 $('#virusAlertInterval').val( data.virusAlertInterval );
 
+                                if (parseInt( data.schReportEnable ) == 1)
+                                    $('#schReportEnable').attr('checked', true);
+                                $('#schReportSchDay').val( data.schReportSchDay );
+                                $('#schReportMailSubject').val( data.schReportMailSubject );
                                 if (!gIf.power) {
                                     $('.templateDiv input').prop('disabled', true);
                                     $('.templateDiv select').prop('disabled', true);
@@ -26901,6 +26918,13 @@ $(document).ready(function () {
                 msg += '<p>' + gError[ gObj.lang ].virusAlertInterval + '</p>';
             }
 
+gY.log( $('#schReportMailSubject').val() );
+            gY.log (gReg.ascii.schReportMailSubject.test( 123 )) 
+            gY.log (gReg.ascii.schReportMailSubject.test( $('#schReportMailSubject').val() )) 
+            if ($('#schReportEnable').is(':checked') && !gReg.ascii.schReportMailSubject.test( $('#schReportMailSubject').val() )) {
+                pass = false;
+                msg += '<p>' + gError[ gObj.lang ].schReportMailSubject + '</p>';
+            }
             break;
         case 'backup_restore':
             if (!gReg.ascii.default.test($('#Editor-name').val()) || gCache[ tar.pid ].name[ $('#Editor-name').val() ] ) {
@@ -27150,6 +27174,9 @@ $(document).ready(function () {
                 gData.email_alert.wanAlertInterval = $('#wanAlertInterval').val();
                 gData.email_alert.virusAlertEnable = ($('#virusAlertEnable').is(':checked'))? 1 : 0;
                 gData.email_alert.virusAlertInterval = $('#virusAlertInterval').val();
+                gData.email_alert.schReportEnable = ($('#schReportEnable').is(':checked'))? 1 : 0;
+                gData.email_alert.schReportSchDay = $('#schReportSchDay').val();
+                gData.email_alert.schReportMailSubject = $('#schReportMailSubject').val();
 
             } else {
                 gIf.lock = false;

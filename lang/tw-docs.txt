@@ -392,7 +392,7 @@
       {
         "label" : "白名單",
         "tab" : "whitelist",
-        "description" : "如果您發現黑名單資料庫中的URL實際上是並非病毒網頁或FTP站點，您可以手動將其移動到白名單資料庫。 病毒防護功能並不需要連線存取白名單資料庫的URL，只是將它們記錄在系統日誌中。 TitanWALL可顯示此頁面儲存的4096個白名單項目。\ n可使用頁面查看白名單與刪除指定項目。",
+        "description" : "如果您發現黑名單資料庫中的URL實際上是並非病毒網頁或FTP站點，您可以手動將其移動到白名單資料庫。 病毒防護功能並不需要連線存取白名單資料庫的URL，只是將它們記錄在系統日誌中。 TitanWALL可顯示此頁面儲存的4096個白名單項目。\n可使用頁面查看白名單與刪除指定項目。",
         "content" :
         [
           {
@@ -677,7 +677,7 @@
       {
         "label" : "白名單",
         "tab" : "whitelist",
-        "description" : "如果您發現黑名單資料庫中的URL實際上是並非病毒網頁或FTP站點，您可以手動將其移動到白名單資料庫。 病毒防護功能並不需要連線存取白名單資料庫的URL，只是將它們記錄在系統日誌中。 TitanWALL可顯示此頁面儲存的4096個白名單項目。\ n可使用頁面查看白名單與刪除指定項目。",
+        "description" : "如果您發現黑名單資料庫中的URL實際上是並非病毒網頁或FTP站點，您可以手動將其移動到白名單資料庫。 病毒防護功能並不需要連線存取白名單資料庫的URL，只是將它們記錄在系統日誌中。 TitanWALL可顯示此頁面儲存的4096個白名單項目。\n可使用頁面查看白名單與刪除指定項目。",
         "content" :
         [
           {
@@ -962,7 +962,7 @@
       {
         "label" : "白名單",
         "tab" : "whitelist",
-        "description" : "如果您發現黑名單資料庫中的URL實際上是並非病毒網頁或FTP站點，您可以手動將其移動到白名單資料庫。 病毒防護功能並不需要連線存取白名單資料庫的URL，只是將它們記錄在系統日誌中。 TitanWALL可顯示此頁面儲存的4096個白名單項目。\ n可使用頁面查看白名單與刪除指定項目。",
+        "description" : "如果您發現黑名單資料庫中的URL實際上是並非病毒網頁或FTP站點，您可以手動將其移動到白名單資料庫。 病毒防護功能並不需要連線存取白名單資料庫的URL，只是將它們記錄在系統日誌中。 TitanWALL可顯示此頁面儲存的4096個白名單項目。\n可使用頁面查看白名單與刪除指定項目。",
         "content" :
         [
           {
@@ -1213,7 +1213,7 @@
       {
         "label" : "白名單",
         "tab" : "whitelist",
-        "description" : "如果您發現黑名單資料庫中的URL實際上是並非病毒網頁或FTP站點，您可以手動將其移動到白名單資料庫。 病毒防護功能並不需要連線存取白名單資料庫的URL，只是將它們記錄在系統日誌中。 TitanWALL可顯示此頁面儲存的4096個白名單項目。\ n可使用頁面查看白名單與刪除指定項目。",
+        "description" : "如果您發現黑名單資料庫中的URL實際上是並非病毒網頁或FTP站點，您可以手動將其移動到白名單資料庫。 病毒防護功能並不需要連線存取白名單資料庫的URL，只是將它們記錄在系統日誌中。 TitanWALL可顯示此頁面儲存的4096個白名單項目。\n可使用頁面查看白名單與刪除指定項目。",
         "content" :
         [
           {
@@ -1459,7 +1459,7 @@
       {
         "label" : "白名單",
         "tab" : "whitelist",
-        "description" : "如果您發現黑名單資料庫中的URL實際上是並非病毒網頁或FTP站點，您可以手動將其移動到白名單資料庫。 病毒防護功能並不需要連線存取白名單資料庫的URL，只是將它們記錄在系統日誌中。 TitanWALL可顯示此頁面儲存的4096個白名單項目。\ n可使用頁面查看白名單與刪除指定項目。",
+        "description" : "如果您發現黑名單資料庫中的URL實際上是並非病毒網頁或FTP站點，您可以手動將其移動到白名單資料庫。 病毒防護功能並不需要連線存取白名單資料庫的URL，只是將它們記錄在系統日誌中。 TitanWALL可顯示此頁面儲存的4096個白名單項目。\n可使用頁面查看白名單與刪除指定項目。",
         "content" :
         [
           {
@@ -1483,61 +1483,61 @@
   },
   "menu-6-0" :
   {
-        "label" : "簽章",
-        "tab" : "sig",
-        "description" : "使用此頁面可配置病毒防護簽章設定和查看簽章資訊。 您可以手動更新簽章或由TitanWALL依排程自動更新的簽章。 ",
-        "content" :
-        [
-          {
-            "label" : "手動更新",
-            "tab" : "manually_update",
-            "description" : "點擊更新按鈕TitanWALL將立即檢查簽章伺服器。 如有發現新檔案TitanWALL將會自伺服器下載更新檔案。"
-          },
-          {
-            "label" : "自動更新",
-            "tab" : "auto_update",
-            "description" : "選定複選框並選擇簽章自動更新設定的類型和時間間隔。"
-          },
-          {
-            "label" : "類型",
-            "tab" : "type",
-            "description" : "選擇TitanWALL自動檢查簽章伺服器的頻率（每週，每天，每小時）。"
-          },
-          {
-            "label" : "時間間隔",
-            "tab" : "interval",
-            "description" : "選擇TitanWALL自動檢查簽章伺服器的時間間隔。 例如，如果您選擇在每週類型欄位輸入3，這表示TitanWALL將每3週執行一次自動檢查簽章伺服器。"
-          },
-          {
-            "label" : "簽章版本",
-            "tab" : "sig_ver",
-            "description" : "病毒資料庫的版本號。"
-          },
-          {
-            "label" : "MD5 版本",
-            "tab" : "md5_ver",
-            "description" : "病毒防護MD5資料庫的版本號"
-          },
-          {
-            "label" : "簽章數量編號",
-            "tab" : "sig_pat_no",
-            "description" : "病毒資料庫的數量。"
-          },
-          {
-            "label" : "MD5數量編號",
-            "tab" : "md5_pat_no",
-            "description" : "病毒防護MD5資料庫的數量。"
-          },
-          {
-            "label" : "最後檢查時間",
-            "tab" : "last_checked",
-            "description" : "顯示最後一次執行TitanWALL檢查簽章更新伺服器的最新時間。"
-          },
-          {
-            "label" : "最後成功更新時間",
-            "tab" : "last_updated",
-            "description" : "顯示最後一次成功執行TitanWALL更新的時間。"
-          }
+    "label" : "簽章",
+    "tab" : "sig",
+    "description" : "使用此頁面可配置病毒防護簽章設定和查看簽章資訊。 您可以手動更新簽章或由TitanWALL依排程自動更新的簽章。 ",
+    "content" :
+    [
+      {
+        "label" : "手動更新",
+        "tab" : "manually_update",
+        "description" : "點擊更新按鈕TitanWALL將立即檢查簽章伺服器。 如有發現新檔案TitanWALL將會自伺服器下載更新檔案。"
+      },
+      {
+        "label" : "自動更新",
+        "tab" : "auto_update",
+        "description" : "選定複選框並選擇簽章自動更新設定的類型和時間間隔。"
+      },
+      {
+        "label" : "類型",
+        "tab" : "type",
+        "description" : "選擇TitanWALL自動檢查簽章伺服器的頻率（每週，每天，每小時）。"
+      },
+      {
+        "label" : "時間間隔",
+        "tab" : "interval",
+        "description" : "選擇TitanWALL自動檢查簽章伺服器的時間間隔。 例如，如果您選擇在每週類型欄位輸入3，這表示TitanWALL將每3週執行一次自動檢查簽章伺服器。"
+      },
+      {
+        "label" : "簽章版本",
+        "tab" : "sig_ver",
+        "description" : "病毒資料庫的版本號。"
+      },
+      {
+        "label" : "MD5 版本",
+        "tab" : "md5_ver",
+        "description" : "病毒防護MD5資料庫的版本號"
+      },
+      {
+        "label" : "簽章數量編號",
+        "tab" : "sig_pat_no",
+        "description" : "病毒資料庫的數量。"
+      },
+      {
+        "label" : "MD5數量編號",
+        "tab" : "md5_pat_no",
+        "description" : "病毒防護MD5資料庫的數量。"
+      },
+      {
+        "label" : "最後檢查時間",
+        "tab" : "last_checked",
+        "description" : "顯示最後一次執行TitanWALL檢查簽章更新伺服器的最新時間。"
+      },
+      {
+        "label" : "最後成功更新時間",
+        "tab" : "last_updated",
+        "description" : "顯示最後一次成功執行TitanWALL更新的時間。"
+      }
     ]
   },
   "menu-6-1" :
@@ -1906,7 +1906,7 @@
       {
         "label" :"VLAN 介面列表",
         "tab" : "vlan_table",
-        "description" : 使用此頁面您可以查看VLAN 介面列表的詳細資訊。",
+        "description" : "使用此頁面您可以查看VLAN 介面列表的詳細資訊。",
         "content" :
         [
           {
@@ -2708,7 +2708,7 @@
       {
         "label" : "VID",
         "tab" : "vid",
-        "description" : "此為VLAN連接介面的VLAN ID。"。
+        "description" : "此為VLAN連接介面的VLAN ID。"
       },
       {
         "label" : "位址",
@@ -2757,7 +2757,7 @@
           {
             "label" : "位址",
             "tab" : "address",
-            "description" : VLAN連接介面輸入的IPv4位址，如果您已經指定該連接埠連接至LAN或WAN區域，則此項目將無法設定。"
+            "description" : "VLAN連接介面輸入的IPv4位址，如果您已經指定該連接埠連接至LAN或WAN區域，則此項目將無法設定。"
           },
           {
             "label" : "網路遮罩",
@@ -3205,7 +3205,7 @@
               {
                 "label" : "偵測連結是由",
                 "tab" : "detect_link_by",
-                "description" : "選擇發送一個ping指令的測試連線到預設閘道（預設情況下）。 您也可以選擇一個IP位址來針對指定的主機發送Ping指令。\ n選擇DNS查詢會發送一個DNS查詢的測試連線到DNS伺服器（預設情況下）。 您也可以選擇一個IP位址來針對指定的主機發送DNS查詢。"
+                "description" : "選擇發送一個ping指令的測試連線到預設閘道（預設情況下）。 您也可以選擇一個IP位址來針對指定的主機發送Ping指令。\n選擇DNS查詢會發送一個DNS查詢的測試連線到DNS伺服器（預設情況下）。 您也可以選擇一個IP位址來針對指定的主機發送DNS查詢。"
               },
               {
                 "label" : "如果連結失效請啟動",
@@ -3329,7 +3329,7 @@
       {
         "label" : "安全層級",
         "tab" : "security_level",
-        "description" : "顯示區域的安全層級"。
+        "description" : "顯示區域的安全層級。"
       },
       {
         "label" : "使用者登入列表",
@@ -3377,7 +3377,7 @@
     "tab" : "routing",
     "description" : "使用此頁面可為WAN和LAN之間的流量傳遞選擇路由模式。\n 如果ISP僅分派您一個IP位址，並且在您的內網有多台主機需要共享時可選擇NAT模式。\n 如果您網路中的每台主機都可以從ISP獲得一個獨立的IP位址，則可選擇典型路由模式。\n 您也可以使用此頁面設定TitanWALL傳送IPv4封包時僅可用IPv4網路或是也可使用IPv6網路。 \n IPv6 (網際網路通訊協定第6版) IP位址長度從32位增加到128位，並且比IPv4提供更大的IP位址空間。 但目前釋出的韌體版本中防火牆、VPN和其他的安全防護服務不支援IPv6。\n 點擊儲存可套用您新的設定。"
   },
-  "menu-3-0-1" :
+  "menu-9-0-1" :
   {
     "label" : "靜態路由",
     "tab" : "static_routing",
@@ -3546,6 +3546,11 @@
         ]
       },
       {
+        "label" : "進階設定",
+        "tab" : "advance_settings",
+        "description" : "使用此頁面可設定VPN政策的進階設定。",
+        "content" :
+        [
           {
             "label" : "PFS",
             "tab" : "pfs",
@@ -3635,7 +3640,7 @@
   {
     "label" : "IKE 政策",
     "tab" : "ike_policy",
-    "description" : "網際網路金鑰交換（IKE）是用於建立兩個IPSec路由之間的安全參數組合（SA）的協議。 它使用的迪菲－赫爾曼金鑰交換（DH）產生金鑰對資料進行加密，並使用驗證演算法來驗證對端路由器的身份。\ n可使用介面來管理或建立IKE政策，它定義了階段1建立使用的安全參數（IKE SA）。",
+    "description" : "網際網路金鑰交換（IKE）是用於建立兩個IPSec路由之間的安全參數組合（SA）的協議。 它使用的迪菲－赫爾曼金鑰交換（DH）產生金鑰對資料進行加密，並使用驗證演算法來驗證對端路由器的身份。 \n可使用介面來管理或建立IKE政策，它定義了階段1建立使用的安全參數（IKE SA）。",
     "content" :
     [
       {
@@ -4144,7 +4149,7 @@
   {
     "label" : "連接埠觸發",
     "tab" : "port_trigger",
-    "description" : "連接埠觸發讓TitanWALL接收到由主機在內網中使用特定的連接埠號和協議（TCP或UDP）發送的傳送流量響應打開指定的輸入連接埠。 TitanWALL的流量轉發到指定的輸入連接埠上的本地主機的IP位址，並在資料交換完成時的600秒（10分鐘）之後關閉連接埠。\ n使用該介面可查看和管理連接埠觸發的規則。",
+    "description" : "連接埠觸發讓TitanWALL接收到由主機在內網中使用特定的連接埠號和協議（TCP或UDP）發送的傳送流量響應打開指定的輸入連接埠。 TitanWALL的流量轉發到指定的輸入連接埠上的本地主機的IP位址，並在資料交換完成時的600秒（10分鐘）之後關閉連接埠。\n使用該介面可查看和管理連接埠觸發的規則。",
     "content" :
     [
       {
@@ -4285,7 +4290,7 @@
       {
         "label" : "原始目標位址",
         "tab" : "orig_dst_addr",
-        "description" : "選擇一個位址物件來指定匹配封包規則的原始接收端IP位址。
+        "description" : "選擇一個位址物件來指定匹配封包規則的原始接收端IP位址。"
       },
       {
         "label" : "原始服務",
@@ -5325,7 +5330,7 @@
             "description" : "輸入來源IP位址進行防火牆記錄的篩選。"
           },
           {
-            "label" : 目標IP位址 (篩選)",
+            "label" : "目標IP位址 (篩選)",
             "tab" : "dst_ip_f",
             "description" : "輸入目標IP位址進行防火牆記錄的篩選。"
           },
@@ -5347,7 +5352,7 @@
           {
             "label" : "設施",
             "tab" : "facility",
-            "description" : 此為設施的事件記錄"
+            "description" : "此為設施的事件記錄"
           },
           {
             "label" : "來源IP位址",
