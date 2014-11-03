@@ -1951,12 +1951,6 @@ $(document).ready(function () {
                     $('#activedMenu').remove();
                     gObj.active.icon.addClass('ui-actived');
                     gObj.active.icon.prepend(gHtml.aMenu);
-
-                    if (gObj.actived.pid == gObj.active.pid)
-                        gObj.active.icon.addClass('ui-state-active');
-                    else if (gObj.actived.icon )
-                        gObj.actived.icon.removeClass('ui-state-active');
-
                     gNode = gObj.menu[gObj.active.h3Index];
                     $('#main_hd').html( gObj.active.menu );
                     if (gIf.refresh) {
@@ -1966,12 +1960,6 @@ $(document).ready(function () {
                     gObj.actived = gObj.active;
                     getCgiList(gObj.active.pid);
                 }
-            } else {
-                if (gObj.actived.pid == gObj.active.pid)
-                    gObj.active.icon.addClass('ui-state-active');
-                else if (gObj.actived.icon )
-                    gObj.actived.icon.removeClass('ui-state-active');
-
             }
         });
 
@@ -2021,8 +2009,6 @@ $(document).ready(function () {
                     $('#main_ft').empty();
                     if (gObj.actived.icon)
                         gObj.actived.icon.removeClass('ui-actived');
-                    //if (gObj.actived.icon )
-                    //    gObj.actived.icon.removeClass('ui-state-active');
                     $('#activedMenu').remove();
                     gObj.active.icon.addClass('ui-actived');
                     gObj.active.icon.prepend(gHtml.aMenu);
@@ -2083,8 +2069,6 @@ $(document).ready(function () {
                     $('#main_ft').empty();
                     if (gObj.actived.icon)
                         gObj.actived.icon.removeClass('ui-actived');
-                    //if (gObj.actived.icon )
-                    //    gObj.actived.icon.removeClass('ui-state-active');
                     $('#activedMenu').remove();
                     gObj.active.icon.addClass('ui-actived');
                     gObj.active.icon.prepend(gHtml.aMenu);
@@ -7345,8 +7329,8 @@ $(document).ready(function () {
                                         if (0 === parseInt( data.queryRows )) {
                                             $('#chart-' + tabIndex).html('<div class="noData"><b>' + gTerm[ gObj.lang ].noData + '</b></div>');
                                         } else {
-                                            if ($('.noData').exists())
-                                                $('#chart-' + tabIndex).empty();
+                                            //if ($('.noData').exists())
+                                            //    $('#chart-' + tabIndex).empty();
                                             var catKey, axes, styleDef, chartType,
                                                 serKey, serCol, legends, tips,
                                                 cData = [],
@@ -7419,6 +7403,9 @@ $(document).ready(function () {
 
                                             var title = "";
                                             if ('pie' == gCache.chart[ pid ][ gObj.lang ][ tabIndex ].type) {
+                                                $('#chart-' + tabIndex).empty();
+                                                if ('traffic_direction' == pid) 
+                                                    title = " MB";
 
                                                 gCache.chart[ pid ][ gObj.lang ][ tabIndex ].tips.markerLabelFunction = function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
                                                     var msg = document.createElement("div"),
@@ -7427,7 +7414,7 @@ $(document).ready(function () {
                                                     boldTextBlock.style.marginTop = "5px";
                                                     boldTextBlock.style.fontWeight = "bold";
                                                     underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
-                                                    boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value])));
+                                                    boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + title ));
                                                     msg.appendChild(underlinedTextBlock);
                                                     msg.appendChild(document.createElement("br"));
                                                     msg.appendChild(boldTextBlock);
@@ -7438,12 +7425,21 @@ $(document).ready(function () {
                                                     dataProvider: cData,
                                                     categoryKey: gCache.chart[ pid ][ gObj.lang ][ tabIndex ].catKey,
                                                     type: gCache.chart[ pid ][ gObj.lang ][ tabIndex ].type,
-                                                    legend: gCache.chart[ pid ][ gObj.lang ][ tabIndex ].legend,
+                                                    // legend: gCache.chart[ pid ][ gObj.lang ][ tabIndex ].legend,
                                                     tooltip: gCache.chart[ pid ][ gObj.lang ][ tabIndex ].tips,
                                                     seriesKeys: gCache.chart[ pid ][ gObj.lang ][ tabIndex ].serKey,
                                                     seriesCollection: gCache.chart[ pid ][ gObj.lang ][ tabIndex ].serCol
                                                 }).render( '#chart-' + tabIndex );
+
+                                                // silly legend
+                                                $('#chart-' + tabIndex).append( '<div id="chart-' + tabIndex + '-legend"><ul></ul></div>' );
+                                                for (var i=0, len=cData.length; i<len; i++) {
+                                                    var j = i%10;
+                                                    $('#chart-' + tabIndex + '-legend ul').append( '<li><span style="background-color:' + gCache.config.colors.hex[ j ] + '"></span><b>' + cData[ i ].protocol + '</b></li>' );
+                                                }
                                             } else {
+                                                if ($('.noData').exists())
+                                                    $('#chart-' + tabIndex).empty();
                                                 if ('traffic_direction' == pid) {
                                                     gCache.chart[ pid ][ gObj.lang ][ tabIndex ].axes.totalBytes.labelFunction = function(label, format) { return label.toFixed(2); }
                                                     gCache.chart[ pid ][ gObj.lang ][ tabIndex ].axes.totalBytes.title = "MB";
@@ -7474,29 +7470,6 @@ $(document).ready(function () {
                                                     horizontalGridlines: true
                                                 }).render( '#chart-' + tabIndex );
                                             }
-/*
-                                            if ('pie' == chartType) {
-                                                gObj.chart[ tabIndex ] = new gY.Chart({
-                                                    dataProvider: cData,
-                                                    categoryKey: catKey,
-                                                    type: chartType,
-                                                    legend: legends,
-                                                    tooltip: tips,
-                                                    seriesKeys: serKey,
-                                                    seriesCollection: serCol
-                                                }).render('#chart-' + tabIndex);
-                                            } else {
-                                                gObj.chart[ tabIndex ] = new gY.Chart({
-                                                    dataProvider: cData,
-                                                    categoryKey:catKey,
-                                                    type:"bar",
-                                                    axes: axes,
-                                                    styles: styleDef,
-                                                    tooltip: tips,
-                                                    horizontalGridlines: true
-                                                }).render('#chart-' + tabIndex);
-                                            }
-*/
                                         }
                                     }
                                 }
@@ -26918,9 +26891,6 @@ $(document).ready(function () {
                 msg += '<p>' + gError[ gObj.lang ].virusAlertInterval + '</p>';
             }
 
-gY.log( $('#schReportMailSubject').val() );
-            gY.log (gReg.ascii.schReportMailSubject.test( 123 )) 
-            gY.log (gReg.ascii.schReportMailSubject.test( $('#schReportMailSubject').val() )) 
             if ($('#schReportEnable').is(':checked') && !gReg.ascii.schReportMailSubject.test( $('#schReportMailSubject').val() )) {
                 pass = false;
                 msg += '<p>' + gError[ gObj.lang ].schReportMailSubject + '</p>';
@@ -31867,10 +31837,34 @@ gY.log( $('#schReportMailSubject').val() );
                 dataType:'json',
                 success:function(data) {
                     gLogin = data;
-                    for (var i=0, len=gLang.length; i<len; i++)
-                    {
+
+                    // change to tell from config
+                    
+                    if (gCache.config.version[ gIndex ].multi) {
+                        for (var x in gCache.config.version[ gIndex ].language)
+                        {
+                            $.ajax({
+                                url:'lang/' + x + '-term.txt',
+                                dataType:'json',
+                                success:function(data) {
+                                    // prepare query terms
+                                    gTerm[ data.lang ] = data.term;
+                                }
+                            });
+    
+                            $.ajax({
+                                url:'lang/' + x + '-error.txt',
+                                dataType:'json',
+                                success:function(data) {
+                                    // prepare error message
+                                    gError[ data.lang ] = data.error;
+                                }
+                            });
+                        }
+                    } else {
+                        // en
                         $.ajax({
-                            url:'lang/' + gLang[ i ] + '-term.txt',
+                            url:'lang/en-term.txt',
                             dataType:'json',
                             success:function(data) {
                                 // prepare query terms
@@ -31879,7 +31873,7 @@ gY.log( $('#schReportMailSubject').val() );
                         });
 
                         $.ajax({
-                            url:'lang/' + gLang[ i ] + '-error.txt',
+                            url:'lang/en-error.txt',
                             dataType:'json',
                             success:function(data) {
                                 // prepare error message

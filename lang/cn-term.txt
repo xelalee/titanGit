@@ -147,7 +147,7 @@
     "btnMinimize" : "最小化窗口",
     "btnClose" : "关闭窗口",
     "btnSearch" : "搜索数据",
-    "btnUpload" : "选择文件"
+    "btnUpload" : "选择文件",
     "btnMove2First" : "Move to First Page",
     "btnMove2Prev" : "Move to Previous Page",
     "btnMove2Next" : "Move to Next Page",

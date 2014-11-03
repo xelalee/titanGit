@@ -413,14 +413,12 @@ $(document).ready(function () {
         if ( 0 === parseInt( data.length ) )
             $('#chart-' + idx).html( '<div class="noData"><b>No Data</b></div>' );
         else {
-            if ($('.noData').exists())
-                $('#chart-' + idx).empty();
+            $('#chart-' + idx).empty();
 
             var title = "";
             if ('pie' == gCache.chart[ idx ].type) {
-                if ('traffic_direction' == param) {
+                if ('traffic_direction' == param) 
                     title = " MB";
-                }
 
                 gCache.chart[ idx ].tips.markerLabelFunction = function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
                     var msg = document.createElement("div"),
@@ -435,16 +433,22 @@ $(document).ready(function () {
                     msg.appendChild(boldTextBlock);
                     return msg;
                 }
-
                 gChart[ idx ] = new gY.Chart({
                     dataProvider: data,
                     categoryKey: gCache.chart[ idx ].catKey,
                     type: gCache.chart[ idx ].type,
-                    legend: gCache.chart[ idx ].legend,
+                    // legend: gCache.chart[ idx ].legend,
                     tooltip: gCache.chart[ idx ].tips,
                     seriesKeys: gCache.chart[ idx ].serKey,
                     seriesCollection: gCache.chart[ idx ].serCol
                 }).render( '#chart-' + idx );
+
+                // silly legend
+                $('#chart-' + idx).append( '<div id="chart-' + idx + '-legend"><ul></ul></div>' );
+                for (var i=0, len=data.length; i<len; i++) {
+                    var j = i%10;
+                    $('#chart-' + idx + '-legend ul').append( '<li><span style="background-color:' + gCache.config.colors.hex[ j ] + '"></span><b>' + data[ i ].protocol + '</b></li>' );
+                }
             } else {
                 if ('traffic_direction' == param) {
                     gCache.chart[ idx ].axes.totalBytes.labelFunction = function(label, format) { return label.toFixed(2); }

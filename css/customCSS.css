@@ -1555,22 +1555,52 @@ select[multiple] {
 /* chart */
 
 #chart-cpu, #chart-memory {
-    margin:10px 10px 10px 10px;
+    margin:10px;
     width: 750px;
     height:480px;
 }
 
 #chart-wan1, #chart-wan2, #chart-wan3, #chart-wan4, #chart-wan5, #chart-wan6 {
-    margin:10px 10px 10px 10px;
+    margin: 10px;
     width: 750px;
     height:480px;
 }
 
-#chart-1, #chart-2, #chart-3, #chart-4, #chart-5, #chart-6 {
-    margin:10px 10px 10px 10px;
+#chart-1, #chart-2, #chart-3, #chart-5, #chart-6 {
+    margin: 10px;
     width: 800px;
     height:480px;
     overflow: hidden;
+}
+
+/* for protocol pie chart */
+#chart-4 {
+    position: relative;
+    margin:10px;
+    padding: 0 0 0 200px;
+    min-width: 600px;
+    min-height:480px;
+    overflow: hidden;
+}
+
+#chart-4-legend {
+    position: absolute;
+    background: #efefef;
+    top: 0;
+    left: 0;
+    width: 100px;
+}
+
+#chart-4-legend ul li {
+    position: relative;
+    padding: 3px 0 3px 20px;
+}
+
+#chart-4-legend ul li span {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    left: 5px;
 }
 
 #cpuChart {
