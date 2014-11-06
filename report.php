@@ -1,191 +1,19 @@
 <?php
-    // prepare fpdf lib
+    // prepare pdf lib
     require('assets/fpdf17/fpdf.php');
     // get guiIndex
     $guiIndex = shell_exec( 'php guiIndex.php' );
+    // get config
+    $json = json_decode(file_get_contents('lang/config.txt', true));
 
-    // get device time
-    $nd = trim( shell_exec( 'date "+%Y-%m-%d"' ) );
-    $nh = trim( shell_exec( 'date "+%H"' ) );
-    $nw = trim( shell_exec( 'date "+%w"' ) );
-    $ndStamp = trim( shell_exec( 'date -d "'. $nd .' 00:00:00" +%s' ) );
-    $nhStamp = trim( shell_exec( 'date -d "'. $nd .' '. $nh .':00:00" +%s' ) );
-    $nowStamp = trim( shell_exec( 'date "+%s"' ) );
-
-    $db = str_replace("-", "_", $nd);
-
-// define class for query and pdf usage
-
-// define Query
-class CQuery
-{
-    var $mysqli;  // mysql instance
-    var $query;   // query string
-    var $tmp;     // create temp table string
-    var $table;   // table name
-    var $hourly;  // hourly table
-    var $daily;   // daily table
-    var $groupBy; // group by
-    var $orderBy; // order by
-    var $hourlyQ; // hourly query statement
-    var $dailyQ;  // daily query statement
-
-    function CQuery() {
-
-    }
-
-    function dbCon( $db ) {
-        $this->mysqli = new mysqli("127.0.0.1", "", "", $db, 3306);
-    }
-
-    function dbSet( $param, $q, $db, $stamp ) {
-        $this->tmp = "(";
-        $this->tmp .= "`id` int(11) NOT NULL AUTO_INCREMENT,";
-
-        switch( $param )
-        {
-        case 'traffic_direction':
-
-            $this->hourly = 'row_sessions';
-            switch( $q )
-            {
-            case 1:
-                $this->daily  = 'daily_addrTraffic';
-
-                $this->tmp .= "`srcIp` varchar(16) NOT NULL DEFAULT '',";
-                $this->tmp .= "`dstIp` varchar(16) NOT NULL DEFAULT '',";
-                $this->tmp .= "`txBytes` bigint(20) DEFAULT NULL,";
-                $this->tmp .= "`rxBytes` bigint(20) DEFAULT NULL,";
-                $this->tmp .= "`totalBytes` bigint(20) DEFAULT NULL,";
-                $this->tmp .= "`sessions` bigint(20) DEFAULT NULL,";
-                break;
-            case 2:
-                $this->daily  = 'daily_srcAddrTraffic';
-
-                $this->tmp .= "`srcIp` varchar(16) NOT NULL DEFAULT '',";
-                $this->tmp .= "`txBytes` bigint(20) DEFAULT NULL,";
-                $this->tmp .= "`rxBytes` bigint(20) DEFAULT NULL,";
-                $this->tmp .= "`totalBytes` bigint(20) DEFAULT NULL,";
-                $this->tmp .= "`sessions` bigint(20) DEFAULT NULL,";
-                break;
-            case 3:
-                $this->daily  = 'daily_dstAddrTraffic';
-
-                $this->tmp .= "`dstIp` varchar(16) NOT NULL DEFAULT '',";
-                $this->tmp .= "`txBytes` bigint(20) DEFAULT NULL,";
-                $this->tmp .= "`rxBytes` bigint(20) DEFAULT NULL,";
-                $this->tmp .= "`totalBytes` bigint(20) DEFAULT NULL,";
-                $this->tmp .= "`sessions` bigint(20) DEFAULT NULL,";
-                break;
-            case 4:
-                $this->daily  = 'daily_protoTraffic';
-
-                $this->tmp .= "`protocol` int(11) DEFAULT NULL,";
-                $this->tmp .= "`txBytes` bigint(20) DEFAULT NULL,";
-                $this->tmp .= "`rxBytes` bigint(20) DEFAULT NULL,";
-                $this->tmp .= "`totalBytes` bigint(20) DEFAULT NULL,";
-                $this->tmp .= "`sessions` bigint(20) DEFAULT NULL,";
-                break;
-            case 5:
-                $this->daily  = 'daily_dstPortTraffic';
-
-                $this->tmp .= "`dstPort` int(11) DEFAULT NULL,";
-                $this->tmp .= "`txBytes` bigint(20) DEFAULT NULL,";
-                $this->tmp .= "`rxBytes` bigint(20) DEFAULT NULL,";
-                $this->tmp .= "`totalBytes` bigint(20) DEFAULT NULL,";
-                $this->tmp .= "`sessions` bigint(20) DEFAULT NULL,";
-                break;
-            case 6:
-                $this->daily  = 'daily_zoneTraffic';
-
-                $this->tmp .= "`fromZone` varchar(64) NOT NULL DEFAULT '',";
-                $this->tmp .= "`toZone` varchar(64) NOT NULL DEFAULT '',";
-                $this->tmp .= "`txBytes` bigint(20) DEFAULT NULL,";
-                $this->tmp .= "`rxBytes` bigint(20) DEFAULT NULL,";
-                $this->tmp .= "`totalBytes` bigint(20) DEFAULT NULL,";
-                $this->tmp .= "`sessions` bigint(20) DEFAULT NULL,";
-                break;
-            }
-            break;
-        case 'file_extension':
-            $this->daily  = 'daily_file_access';
-            $this->hourly = 'row_file_access';
-
-            $this->tmp .= "`extension` varchar(64) NOT NULL DEFAULT '',";
-            $this->tmp .= "`accessCount` int(11) DEFAULT NULL,";
-            $this->tmp .= "`date` datetime NOT NULL,";
-            break;
-        case 'blocked_host':
-            $this->daily  = 'daily_blocked_host';
-            $this->hourly = 'row_blocked_host';
-
-            $this->tmp .= "`ip` varchar(16) NOT NULL DEFAULT '',";
-            $this->tmp .= "`virusCount` int(11) DEFAULT NULL,";
-            $this->tmp .= "`firewallCount` int(11) DEFAULT NULL,";
-            $this->tmp .= "`date` datetime NOT NULL,";
-            break;
-        case 'affected_host':
-            $this->daily  = 'daily_affected_host';
-            $this->hourly = 'row_affected_host';
-
-            $this->tmp .= "`ip` varchar(16) NOT NULL DEFAULT '',";
-            $this->tmp .= "`virusHitCount` int(11) DEFAULT NULL,";
-            $this->tmp .= "`sigHitCount` int(11) DEFAULT NULL,";
-            $this->tmp .= "`date` datetime NOT NULL,";
-            break;
-        case 'antivirus_report':
-            $this->daily  = 'daily_antivirus';
-            $this->hourly = 'row_antivirus';
-
-            $this->tmp .= "`srcIp` varchar(16) NOT NULL DEFAULT '',";
-            $this->tmp .= "`dstIp` varchar(16) NOT NULL DEFAULT '',";
-            $this->tmp .= "`protocol` varchar(32) NOT NULL DEFAULT '',";
-            $this->tmp .= "`virusName` varchar(64) NOT NULL DEFAULT '',";
-            $this->tmp .= "`hitCount` int(11) DEFAULT NULL,";
-            $this->tmp .= "`date` datetime NOT NULL,";
-            break;
-        }
-
-        $this->tmp .= "PRIMARY KEY (`id`)";
-        $this->tmp .= ")";
-
-        $this->tmp  = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $db . "`". $this->daily ."-". $stamp ."`". $this->tmp;
-    }
-
-    function dbInfo( $db, $tbl ) {
-        $this->query = "SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$db' AND TABLE_NAME = '$tbl'";
-    }
-
-    function dbQuery( $db, $tbl ) {
-        $this->query = "wtf";
-    }
-
-    function dbWeekly() {
-
-    }
-
-    function dbInsert( $tbl, $stmt ) {
-        $this->query = "INSERT INTO $tbl SELECT $stmt";
-    }
-
-    function dbCreate( $db, $tbl, $q ) {
-
-    }
-
-    function dbDisCon() {
-        $this->mysqli->close();
-    }
-}
-
-// pdf generator
 class PDF extends FPDF
 {
     function Header() {
-        $this->Image('css/images/bg_upper_06'. $GLOBALS[ 'aka' ] .'.jpg', -100, 0, 800);
+        $this->Image('css/images/bg_logo'. $GLOBALS[ 'json' ]->config->version->$GLOBALS[ 'guiIndex' ]->aka  .'.jpg', -100, 0, 800);
     }
 
-    function LoadData() {
-        return shell_exec( 'php report.php weekly' );
+    function LoadWeekly() {
+        return shell_exec( 'php advancedQuery.php weekly' );
     }
 
     function CoverTitle( $title, $subject ) {
@@ -442,61 +270,59 @@ class PDF extends FPDF
         // Page number
         $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
     }
-
 }
 
-    // init db lib
-    $cq = new CQuery();
-    // init pdf lib
-    $pdf = new PDF();
-
-    // tell from command or web
-    if ( $argv[ 1 ] ) {
-print_r('argv');
-        // parse argv, prepare to generate pdf
-        switch( $argv[ 2 ] )
-        {
-        case 'weekly':
-
-            break;
-        case 'traffic_direction':
-
-            break;
-        case 'file_extension':
-
-            break;
-        case 'blocked_host':
-
-            break;
-        case 'affected_host':
-
-            break;
-        case 'antivirus_report':
-
-            break;
-        }
-    } elseif ( $_GET[ 'pdf' ] ) {
-        // return pdf
-print_r('pdf');
+    // output pdf
+    if ($argv[ 1 ]) {
+        // declair new pdf
+        $pdf = new PDF("P", "pt", "A4");
+        // get data
+        $data = json_decode( $pdf->LoadWeekly(), true );
+        // add page counts
+        $pdf->AliasNbPages();
+        // weekly start
+        $pdf->CoverTitle('Weekly Report', 'Date : '. $data[ 'sd' ] .'~'. $data[ 'ed' ]);
+        $pdf->printSection('Top Source IP', $data[ 'topSrcIp' ][ 'queryRows' ], $data[ 'topSrcIp' ][ 'queryResults' ], 'topSrcIp');
+        $pdf->printSection('Top Destination IP', $data[ 'topDstIp' ][ 'queryRows' ], $data[ 'topDstIp' ][ 'queryResults' ], 'topDstIp');
+        $pdf->printSection('Top Virus Name', $data[ 'topVirusName' ][ 'queryRows' ], $data[ 'topVirusName' ][ 'queryResults' ], 'topVirusName');
+        $pdf->printSection('Top Protocol', $data[ 'topProtocol' ][ 'queryRows' ], $data[ 'topProtocol' ][ 'queryResults' ], 'topProtocol');
+        // weekly end
+        $pdf->Output( $argv[ 1 ] );
+        print_r( 0 );
     } elseif ( $_GET[ 'param' ] ) {
-        // echo data
-        if ($_GET[ 'sd' ] && $_GET[ 'ed'] ) {
-            // range query
-            $ed = date( str_replace("/", "-", $_GET[ 'ed' ] ) );
-            $eh = sprintf("%02d", $_GET[ 'eh' ]);
-            $edStamp = trim( shell_exec( 'date -d "'. $ed .' 00:00:00" +%s' ) );
-            $ehStamp = trim( shell_exec( 'date -d "'. $ed .' '. $eh .':00:00" +%s' ) );
+        if ($_GET[ 'r' ]) {
 
-            $sd = date( str_replace("/", "-", $_GET[ 'sd' ] ) );
-            $sh = sprintf("%02d", $_GET[ 'sh' ]);
-            $sdStamp = trim( shell_exec( 'date -d "'. $sd .' 00:00:00" +%s' ) );
-            $shStamp = trim( shell_exec( 'date -d "'. $sd .' '. $sh .':00:00" +%s' ) );
+        } else {
+echo $_GET[ 'param' ] ;
+            switch( $_GET[ 'param' ] )
+            {
+            case 'traffic_direction':
+                break;
+            case 'file_extension':
+                break;
+            case 'blocked_host':
+                break;
+            case 'affected_host':
+                break;
+            case 'antivirus_report':
+                break;
+            }
+
         }
-
-print_r('param');
-
     } else {
-        die( 'please make sure what u want !?' );
+        // declair new pdf
+        $pdf = new PDF("P", "pt", "A4");
+        // get data
+        $data = json_decode( $pdf->LoadWeekly(), true );
+        // add page counts
+        $pdf->AliasNbPages();
+        // weekly start
+        $pdf->CoverTitle('Weekly Report', 'Date : '. $data[ 'sd' ] .'~'. $data[ 'ed' ]);
+        $pdf->printSection('Top Source IP', $data[ 'topSrcIp' ][ 'queryRows' ], $data[ 'topSrcIp' ][ 'queryResults' ], 'topSrcIp');
+        $pdf->printSection('Top Destination IP', $data[ 'topDstIp' ][ 'queryRows' ], $data[ 'topDstIp' ][ 'queryResults' ], 'topDstIp');
+        $pdf->printSection('Top Virus Name', $data[ 'topVirusName' ][ 'queryRows' ], $data[ 'topVirusName' ][ 'queryResults' ], 'topVirusName');
+        $pdf->printSection('Top Protocol', $data[ 'topProtocol' ][ 'queryRows' ], $data[ 'topProtocol' ][ 'queryResults' ], 'topProtocol');
+        // weekly end
+        $pdf->Output();
     }
-
 ?>

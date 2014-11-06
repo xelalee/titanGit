@@ -1,10 +1,10 @@
 /* layout outline */
 #outline {
-    background: url('images/bg_upper_06K.png') top center no-repeat;
+    background: url('images/bg_logoK.png') top center no-repeat;
 }
 
 #loginDiv {
-    background: url('images/bg_upper_06K.png') top center no-repeat;
+    background: url('images/bg_logoK.png') top center no-repeat;
 }
 
 #loginButton {
@@ -130,7 +130,7 @@ div.mod h2 {
 }
 
 #reporter {
-    background: url('images/bg_upper_06K.png') top center no-repeat;
+    background: url('images/bg_logoK.png') top center no-repeat;
 }
 
 #reporter #bd_hd {
@@ -148,9 +148,5 @@ div.mod h2 {
 
 #reporter .pager span.rows {
     color: white;
-}
-
-#redirectDiv {
-    background: url('images/banned.png') center center no-repeat, url('images/bg_upper_06K.png') top center no-repeat;
 }
 

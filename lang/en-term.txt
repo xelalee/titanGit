@@ -155,7 +155,7 @@
     "btnMove2Add" : "Move to Add Selected Options",
     "btnMove2Del" : "Move to Remove Selected Options",
     "btnLicenseUpgrade" : "Upgrade License",
-    "btnLicenseRefresh" : "Refrsh License",
+    "btnLicenseRefresh" : "Refresh License",
 
     "btnUpdate" : "Update Signature",
     "btnForce" : "Force Logout",
@@ -163,6 +163,12 @@
     "btnMove2Whites" : "Move Selected Settings to Whitelist",
     "btnConnect" : "Connect to VPN",
     "btnDisconnect" : "Disconnect from VPN",
-    "btnDisconnects" : "Disconnect from VPN"
+    "btnDisconnects" : "Disconnect from VPN",
+    "btnLink" : "Move to Detail Page",
+    "btnMoveUp" : "Move Selected Settings Up",
+    "btnMoveDown" : "Move Selected Settings Down",
+    "btnReboot" : "Reboot Device",
+    "btnReset" : "Reset Device",
+    "btnShutdown" : "Shut device down"
   }
 }

@@ -368,7 +368,7 @@ $(document).ready(function () {
                     for (var i=0, len=data.queryResults.length; i<len; i++)
                     {
                         var tmp = '<tr class="' + ((i%2==0)? 'odd' : 'even') + '">';
-                        for ( var j=0, jlen=gCache.menu.col[ 0 ]; j<jlen; j++)
+                        for ( var j=0, jlen=gCache.menu.col[ 0 ].length; j<jlen; j++)
                         {
                             tmp += '<td>';
                             switch( gCache.menu.col[ 0 ][ j ].tab )
@@ -378,17 +378,17 @@ $(document).ready(function () {
                                 break;
                             case 'protocol':
                                 if ('traffic_direction' == gCache.param)
-                                    data.queryResults[ i ][ x ] = gProto[ data.queryResults[ i ][ x ] ];
-                                tmp += data.queryResults[ i ][ x ];
+                                    data.queryResults[ i ][ gCache.menu.col[ 0 ][ j ].tab ] = gProto[ data.queryResults[ i ][ gCache.menu.col[ 0 ][ j ].tab ] ];
+                                tmp += data.queryResults[ i ][ gCache.menu.col[ 0 ][ j ].tab ];
                                 break;
                             case 'txBytes':
                             case 'rxBytes':
                             case 'totalBytes':
-                                var mkbs = parseInt( data.queryResults[ i ][ x ] );
+                                var mkbs = parseInt( data.queryResults[ i ][ gCache.menu.col[ 0 ][ j ].tab ] );
                                 tmp += ( ( mkbs > 1000000000 )? (mkbs/1000000000).toFixed(2) + ' GB' : ( ( mkbs > 1000000 )? (mkbs/1000000).toFixed(2) + ' MB' : ( ( 0 == mkbs )? 0 : (mkbs/1000).toFixed(2) + ' KB' ) ) );
                                 break;
                             default:
-                                tmp += data.queryResults[ i ][ x ];
+                                tmp += data.queryResults[ i ][ gCache.menu.col[ 0 ][ j ].tab ];
                             }
                             tmp += '</td>';
                         }
@@ -417,7 +417,7 @@ $(document).ready(function () {
 
             var title = "";
             if ('pie' == gCache.chart[ idx ].type) {
-                if ('traffic_direction' == param) 
+                if ('traffic_direction' == param)
                     title = " MB";
 
                 gCache.chart[ idx ].tips.markerLabelFunction = function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
@@ -531,15 +531,15 @@ $(document).ready(function () {
         var tmp = '<div id="pagerDiv">';
         tmp += '<table id="pagerTable-' + param + '" class="BorderNone">';
         tmp += '<tr>';
-        tmp += '<td class="pager"><button Class="Move2First" id="Move2First" title="' + gCache.term.Move2First + '"><span class="ui-icon"></span></button></td>';
-        tmp += '<td class="pager"><button Class="Move2Prev" id="Move2Prev" title="' + gCache.term.Move2Prev + '"><span class="ui-icon"></span></button></td>';
+        tmp += '<td class="pager"><button Class="Move2First" id="Move2First" title="' + gCache.term.btnMove2First + '"><span class="ui-icon"></span></button></td>';
+        tmp += '<td class="pager"><button Class="Move2Prev" id="Move2Prev" title="' + gCache.term.btnMove2Prev + '"><span class="ui-icon"></span></button></td>';
         tmp += '<td class="pager" style="width: 100px"><span id="rowsPage" class="rows">1</span><span class="rows"> / </span><span id="rowsPages" class="rows">1</span></td>';
-        tmp += '<td class="pager"><button Class="Move2Next" id="Move2Next" title="' + gCache.term.Move2Next + '"><span class="ui-icon"></span></button></td>';
-        tmp += '<td class="pager"><button Class="Move2Last" id="Move2Last" title="' + gCache.term.Move2Last + '"><span class="ui-icon"></span></button></td>';
+        tmp += '<td class="pager"><button Class="Move2Next" id="Move2Next" title="' + gCache.term.btnMove2Next + '"><span class="ui-icon"></span></button></td>';
+        tmp += '<td class="pager"><button Class="Move2Last" id="Move2Last" title="' + gCache.term.btnMove2Last + '"><span class="ui-icon"></span></button></td>';
         tmp += '<td class="pager"><select id="rows"><option value="20">20</option><option value="50">50</option><option value="100">100</option></select>';
         tmp += '<td class="pdfer"><select id="tops"><option value="10">10</option><option value="25">25</option><option value="50">50</option></select>';
 
-        //tmp += '<td class="pdfer"><button Class="ExportPDF" id="ExportPDF" title="' + gCache.term.ExportPDF + '"><span class="ui-icon"></span></button></td>';
+        //tmp += '<td class="pdfer"><button Class="ExportPDF" id="ExportPDF" title="' + gCache.term.btnExportPDF + '"><span class="ui-icon"></span></button></td>';
         tmp += '</tr>';
         tmp += '</table>';
         tmp += '</div>';
@@ -619,6 +619,7 @@ $(document).ready(function () {
                             dataType: 'json',
                             success: function( data ) {
                                 gCache.term = data.term;
+gY.log( gCache.term );
                             }
                         }).done( function() {
                             $.ajax({
@@ -633,7 +634,7 @@ $(document).ready(function () {
                                 gCache.sh = $.getUrlVar( 'sh' );
                                 gCache.ed = $.getUrlVar( 'ed' );
                                 gCache.eh = $.getUrlVar( 'eh' );
-                                gCache.tabIndex = parseInt( $.getUrlVar( 'q' ) );
+                                gCache.tabIndex = 0;
                                 gCache.pi = 1;
                                 gCache.pp = 20;
 

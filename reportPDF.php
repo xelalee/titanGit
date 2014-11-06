@@ -4,13 +4,12 @@
     // get guiIndex
     $guiIndex = shell_exec( 'php guiIndex.php' );
 
-    $aka = ( 1 == $guiIndex )? 'K' : ( ( 2 == $guiIndex )? 'CN' : '');
+    $json = json_decode(file_get_contents('lang/config.txt', true));
 
-    //  print_r( $data );
-class PDF extends FPDF 
+class PDF extends FPDF
 {
     function Header() {
-        $this->Image('css/images/bg_upper_06'. $GLOBALS[ 'aka' ] .'.jpg', -100, 0, 800);
+        $this->Image('css/images/bg_logo'. $GLOBALS[ 'json' ]->config->version->$GLOBALS[ 'guiIndex' ]->aka  .'.jpg', -100, 0, 800);
     }
 
     function LoadData() {
@@ -57,7 +56,7 @@ class PDF extends FPDF
 
     function SectionChart( $counts, $rows, $data, $flag, $key ) {
         // color set
-        $rgbs  = array( 
+        $rgbs  = array(
             0 => array(r=>82, g=>90, b=>107),
             1 => array(r=>189, g=>33, b=>16),
             2 => array(r=>231, g=>189, b=>16),
@@ -75,7 +74,7 @@ class PDF extends FPDF
 
         $this->SetFillColor( 255, 255, 255 );
         $this->Cell( 540, 400, '', 1, 0, 'C', true );
-    
+
         // draw chart
         switch( $flag )
         {
@@ -93,7 +92,7 @@ class PDF extends FPDF
                 $j = $i+1;
                 $ed = 360 * ( $data[ $i ][ 'hitCount' ]/$counts );
                 $this->SetFillColor( $rgbs[ $i ][ 'r' ], $rgbs[ $i ][ 'g' ], $rgbs[ $i ][ 'b' ] );
-                $this->Rect( 40, ( 180 + $i*25 ), 20, 20, 'DF' ); 
+                $this->Rect( 40, ( 180 + $i*25 ), 20, 20, 'DF' );
                 $this->SetXY( 60, ( 180 + $i*25 ) );
                 $this->SetFont('Arial','',10);
                 $this->Cell( 20, 20, $data[ $i ][ $key ], 0, 0, 'L' );
@@ -107,7 +106,7 @@ class PDF extends FPDF
                 }
             }
             break;
-        default: 
+        default:
             // set xy
             $this->SetXY( 30, 105 );
             $this->SetFont('Arial','',12);
@@ -158,48 +157,48 @@ class PDF extends FPDF
         $this->_out(sprintf('%.2f %.2f l', ($xc+$r*cos($a))*$k, (($hp-($yc-$r*sin($a)))*$k)));
         //draw the arc
         if ($d < M_PI/2){
-            $this->_Arc($xc+$r*cos($a)+$MyArc*cos(M_PI/2+$a), 
-                        $yc-$r*sin($a)-$MyArc*sin(M_PI/2+$a), 
-                        $xc+$r*cos($b)+$MyArc*cos($b-M_PI/2), 
-                        $yc-$r*sin($b)-$MyArc*sin($b-M_PI/2), 
-                        $xc+$r*cos($b), 
+            $this->_Arc($xc+$r*cos($a)+$MyArc*cos(M_PI/2+$a),
+                        $yc-$r*sin($a)-$MyArc*sin(M_PI/2+$a),
+                        $xc+$r*cos($b)+$MyArc*cos($b-M_PI/2),
+                        $yc-$r*sin($b)-$MyArc*sin($b-M_PI/2),
+                        $xc+$r*cos($b),
                         $yc-$r*sin($b)
                         );
         }else{
             $b = $a + $d/4;
             $MyArc = 4/3*(1-cos($d/8))/sin($d/8)*$r;
-            $this->_Arc($xc+$r*cos($a)+$MyArc*cos(M_PI/2+$a), 
-                        $yc-$r*sin($a)-$MyArc*sin(M_PI/2+$a), 
-                        $xc+$r*cos($b)+$MyArc*cos($b-M_PI/2), 
-                        $yc-$r*sin($b)-$MyArc*sin($b-M_PI/2), 
-                        $xc+$r*cos($b), 
+            $this->_Arc($xc+$r*cos($a)+$MyArc*cos(M_PI/2+$a),
+                        $yc-$r*sin($a)-$MyArc*sin(M_PI/2+$a),
+                        $xc+$r*cos($b)+$MyArc*cos($b-M_PI/2),
+                        $yc-$r*sin($b)-$MyArc*sin($b-M_PI/2),
+                        $xc+$r*cos($b),
                         $yc-$r*sin($b)
                         );
             $a = $b;
             $b = $a + $d/4;
-            $this->_Arc($xc+$r*cos($a)+$MyArc*cos(M_PI/2+$a), 
-                        $yc-$r*sin($a)-$MyArc*sin(M_PI/2+$a), 
-                        $xc+$r*cos($b)+$MyArc*cos($b-M_PI/2), 
-                        $yc-$r*sin($b)-$MyArc*sin($b-M_PI/2), 
-                        $xc+$r*cos($b), 
+            $this->_Arc($xc+$r*cos($a)+$MyArc*cos(M_PI/2+$a),
+                        $yc-$r*sin($a)-$MyArc*sin(M_PI/2+$a),
+                        $xc+$r*cos($b)+$MyArc*cos($b-M_PI/2),
+                        $yc-$r*sin($b)-$MyArc*sin($b-M_PI/2),
+                        $xc+$r*cos($b),
                         $yc-$r*sin($b)
                         );
             $a = $b;
             $b = $a + $d/4;
-            $this->_Arc($xc+$r*cos($a)+$MyArc*cos(M_PI/2+$a), 
-                        $yc-$r*sin($a)-$MyArc*sin(M_PI/2+$a), 
-                        $xc+$r*cos($b)+$MyArc*cos($b-M_PI/2), 
-                        $yc-$r*sin($b)-$MyArc*sin($b-M_PI/2), 
-                        $xc+$r*cos($b), 
+            $this->_Arc($xc+$r*cos($a)+$MyArc*cos(M_PI/2+$a),
+                        $yc-$r*sin($a)-$MyArc*sin(M_PI/2+$a),
+                        $xc+$r*cos($b)+$MyArc*cos($b-M_PI/2),
+                        $yc-$r*sin($b)-$MyArc*sin($b-M_PI/2),
+                        $xc+$r*cos($b),
                         $yc-$r*sin($b)
                         );
             $a = $b;
             $b = $a + $d/4;
-            $this->_Arc($xc+$r*cos($a)+$MyArc*cos(M_PI/2+$a), 
-                        $yc-$r*sin($a)-$MyArc*sin(M_PI/2+$a), 
-                        $xc+$r*cos($b)+$MyArc*cos($b-M_PI/2), 
-                        $yc-$r*sin($b)-$MyArc*sin($b-M_PI/2), 
-                        $xc+$r*cos($b), 
+            $this->_Arc($xc+$r*cos($a)+$MyArc*cos(M_PI/2+$a),
+                        $yc-$r*sin($a)-$MyArc*sin(M_PI/2+$a),
+                        $xc+$r*cos($b)+$MyArc*cos($b-M_PI/2),
+                        $yc-$r*sin($b)-$MyArc*sin($b-M_PI/2),
+                        $xc+$r*cos($b),
                         $yc-$r*sin($b)
                         );
         }
@@ -210,12 +209,12 @@ class PDF extends FPDF
     function _Arc($x1,  $y1,  $x2,  $y2,  $x3,  $y3 )
     {
         $h = $this->h;
-        $this->_out(sprintf('%.2f %.2f %.2f %.2f %.2f %.2f c', 
-            $x1*$this->k, 
-            ($h-$y1)*$this->k, 
-            $x2*$this->k, 
-            ($h-$y2)*$this->k, 
-            $x3*$this->k, 
+        $this->_out(sprintf('%.2f %.2f %.2f %.2f %.2f %.2f c',
+            $x1*$this->k,
+            ($h-$y1)*$this->k,
+            $x2*$this->k,
+            ($h-$y2)*$this->k,
+            $x3*$this->k,
             ($h-$y3)*$this->k));
     }
 
@@ -275,26 +274,24 @@ class PDF extends FPDF
 
     // declair new pdf
     $pdf = new PDF("P", "pt", "A4");
+
     // get data
     $data = json_decode( $pdf->LoadData(), true );
     // add page counts
     $pdf->AliasNbPages();
-
-    // custom start
+    // weekly start
     $pdf->CoverTitle('Weekly Report', 'Date : '. $data[ 'sd' ] .'~'. $data[ 'ed' ]);
-
     $pdf->printSection('Top Source IP', $data[ 'topSrcIp' ][ 'queryRows' ], $data[ 'topSrcIp' ][ 'queryResults' ], 'topSrcIp');
     $pdf->printSection('Top Destination IP', $data[ 'topDstIp' ][ 'queryRows' ], $data[ 'topDstIp' ][ 'queryResults' ], 'topDstIp');
     $pdf->printSection('Top Virus Name', $data[ 'topVirusName' ][ 'queryRows' ], $data[ 'topVirusName' ][ 'queryResults' ], 'topVirusName');
     $pdf->printSection('Top Protocol', $data[ 'topProtocol' ][ 'queryRows' ], $data[ 'topProtocol' ][ 'queryResults' ], 'topProtocol');
-    
-    // custom end
+    // weekly end
 
     // output pdf
     if ($argv[ 1 ]) {
-        $pdf->Output( $argv[ 1 ] );                         
+        $pdf->Output( $argv[ 1 ] );
         print_r( 0 );
     } else {
-        $pdf->Output();                      
-    }  
+        $pdf->Output();
+    }
 ?>

@@ -1,10 +1,10 @@
 /* layout outline */
 #outline {
-    background: url('images/bg_upper_06CN.png') top center no-repeat;
+    background: url('images/bg_logoCN.png') top center no-repeat;
 }
 
 #loginDiv {
-    background: url('images/bg_upper_06CN.png') top center no-repeat;
+    background: url('images/bg_logoCN.png') top center no-repeat;
 }
 
 #menu {
@@ -72,7 +72,7 @@
 }
 
 #reporter {
-    background: url('images/bg_upper_06CN.png') top center no-repeat;
+    background: url('images/bg_logoCN.png') top center no-repeat;
 }
 
 #reporter #bd_hd {
@@ -88,6 +88,3 @@
     background: #b1422f;
 }
 
-#redirectDiv {
-    background: url('images/banned.png') center center no-repeat, url('images/bg_upper_06CN.png') top center no-repeat;
-}

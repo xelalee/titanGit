@@ -14891,7 +14891,7 @@
                               "tab" : "schReportSchDay",
                               "tag" : "select",
                               "type" : "select",
-                              "option" : 
+                              "option" :
                               {
                                 "0" : { "label" : "Sunday", "cn-label" : "星期日", "tw-label" : "星期日" },
                                 "1" : { "label" : "Monday", "cn-label" : "星期一", "tw-label" : "星期一" },
@@ -16684,9 +16684,9 @@
                             "class" : "registrationMode-0"
                           },
                           {
-                            "label" : "名字",
+                            "label" : "First Name",
                             "cn-label" : "姓氏",
-                            "tw-label" : "First Name",
+                            "tw-label" : "名字",
                             "tab" : "firstName",
                             "tag" : "input",
                             "type" : "text",
