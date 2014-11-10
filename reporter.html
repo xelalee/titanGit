@@ -37,23 +37,6 @@
     <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
     <script type="text/javascript" src="js/jquery.bgiframe.js"></script>
     <script type="text/javascript" src="js/jquery-ui-1.9.2.custom.js"></script>
-<!-- chart js -->
-    <script type="text/javascript" src="js/Chart.js"></script>
-<!-- jspdf -->
-    <script type="text/javascript" src="assets/jspdf/jspdf.js"></script>
-    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.addimage.js"></script>
-    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.cell.js"></script>
-    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.from_html.js"></script>
-    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.ie_below_9_shim.js"></script>
-    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.javascript.js"></script>
-    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.sillysvgrenderer.js"></script>
-    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.split_text_to_size.js"></script>
-    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.standard_fonts_metrics.js"></script>
-    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.table.js"></script>
-    <script type="text/javascript" src="assets/jspdf/adler32cs.js"></script>
-    <script type="text/javascript" src="assets/jspdf/FileSaver.js"></script>
-    <script type="text/javascript" src="assets/jspdf/BlobBuilder.js"></script>
-    <script type="text/javascript" src="assets/jspdf/basic.js"></script>
 <!-- custom CSS -->
     <link rel="stylesheet" type="text/css" href="css/reporter.css" />
 
@@ -619,7 +602,6 @@ $(document).ready(function () {
                             dataType: 'json',
                             success: function( data ) {
                                 gCache.term = data.term;
-gY.log( gCache.term );
                             }
                         }).done( function() {
                             $.ajax({

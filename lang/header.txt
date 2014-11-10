@@ -15,7 +15,7 @@
     "hd_ip" : "登陆IP",
     "hd_idle" : "超时时间",
     "hd_force" : "强制注销",
-    "hd_config" : "Current Configuration"
+    "hd_config" : "当前配置"
   },
   "tw":
   {
@@ -24,6 +24,6 @@
     "hd_ip" : "登入IP",
     "hd_idle" : "閒置登出",
     "hd_force" : "強制登出",
-    "hd_config" : "Current Configuration"
+    "hd_config" : "當前配置"
   }
 }

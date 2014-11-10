@@ -7,7 +7,7 @@
           "aka" : "",
           "title" : "TitanWALL Web Manager",
           "cookie" : "TitanWALL",
-          "copyright" : "Copyright &copy; 2014 ",
+          "copyright" : "Copyright &copy; 2014 Titan ARC Corp.",
           "multi" : true,
           "language" : {
                "en" : "English",
@@ -36,7 +36,7 @@
           "aka" : "CN",
           "title" : "TitanWALL Web Manager",
           "cookie" : "TitanWALL",
-          "copyright" : "Copyright &copy; 2014 Tech Titan",
+          "copyright" : "Copyright &copy; 2014 泰腾恩",
           "multi" : true,
           "language" : {
                "en" : "English",

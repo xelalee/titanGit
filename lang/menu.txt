@@ -46,7 +46,7 @@
             {
               "label" : "Secondary Firmware",
               "cn-label" : "次要固件版本",
-              "tw-label" : "前次韌體版本",
+              "tw-label" : "備用韌體版本",
               "tab" : "secondaryVer"
             },
             {
@@ -58,13 +58,13 @@
             {
               "label" : "Sig Engine Version",
               "cn-label" : "特征码引擎版本",
-              "tw-label" : "Sig Engine Version",
+              "tw-label" : "特徵碼引擎版本",
               "tab" : "sigEng"
             },
             {
               "label" : "MD5 Engine Version",
               "cn-label" : "MD5引擎版本",
-              "tw-label" : "MD5 Engine Version",
+              "tw-label" : "MD5引擎版本",
               "tab" : "md5Eng"
             },
             {
@@ -76,7 +76,7 @@
             {
               "label" : "System Uptime",
               "cn-label" : "系统运行时间",
-              "tw-label" : "系統更新時間",
+              "tw-label" : "系統開機時間",
               "tab" : "sysUptime"
             }
           ]
@@ -84,7 +84,7 @@
         {
           "label" : "Resource Utilization",
           "cn-label" : "资源使用率",
-          "tw-label" : "可用資源",
+          "tw-label" : "系統資源使用率",
           "id" : "menu-0-1",
           "tab" : "dashboard_resource",
           "links": "reports-system_status-resource_utilization",
@@ -116,7 +116,7 @@
         {
           "label" : "Top File Extension",
           "cn-label" : "按扩展名排序",
-          "tw-label" : "按檔名排序",
+          "tw-label" : "副檔名前10名排行",
           "id" : "menu-0-2",
           "tab" : "top_file_extension",
           "tag" : "table",
@@ -140,7 +140,7 @@
             {
               "label" : "Access Count",
               "cn-label" : "访问计数",
-              "tw-label" : "存取數量",
+              "tw-label" : "統計次數",
               "tab" : "accessCount",
               "wiz" : "auto",
               "sortable" : true
@@ -150,7 +150,7 @@
         {
           "label" : "Top Affected Host",
           "cn-label" : "按受影响的主机排序",
-          "tw-label" : "按受感染的主機排序",
+          "tw-label" : "感染主機前10名排行",
           "id" : "menu-0-3",
           "tab" : "top_affected_host",
           "tag" : "table",
@@ -174,7 +174,7 @@
             {
               "label" : "Virus Hit Count",
               "cn-label" : "检测病毒数",
-              "tw-label" : "病毒偵測數",
+              "tw-label" : "統計次數",
               "tab" : "virusHitCount",
               "wiz" : "auto",
               "sortable" : true
@@ -184,7 +184,7 @@
         {
           "label" : "Top Virus Name",
           "cn-label" : "按病毒名称排序",
-          "tw-label" : "按病毒名稱排序",
+          "tw-label" : "病毒名稱前10名排行",
           "id" : "menu-0-4",
           "tab" : "top_antivirus",
           "tag" : "table",
@@ -208,7 +208,7 @@
             {
               "label" : "Hit Count",
               "cn-label" : "检测数",
-              "tw-label" : "偵測數",
+              "tw-label" : "統計次數",
               "tab" : "hitCount",
               "wiz" : "auto",
               "sortable" : true
@@ -218,7 +218,7 @@
         {
           "label" : "Top Blocked Host",
           "cn-label" : "按被阻止的主机排序",
-          "tw-label" : "按已封鎖主機的主機排序",
+          "tw-label" : "依已封鎖主機的主機排序",
           "id" : "menu-0-5",
           "tab" : "top_blocked_host",
           "tag" : "table",
@@ -244,7 +244,7 @@
               {
                 "label" : "Block Count",
                 "cn-label" : "阻止数量",
-                "tw-label" : "封鎖數量",
+                "tw-label" : "封鎖次數",
                 "colspan": 2
               }
             ],
@@ -483,15 +483,15 @@
                       "type" : "select",
                       "option" :
                       {
-                        "0" : { "label" : "None", "cn-label" : "无", "tw-label" : "無" },
-                        "1" : { "label" : "Notify", "cn-label" : "通知", "tw-label" : "提醒" },
-                        "2" : { "label" : "Notify + Drop Connection", "cn-label" : "通知 + 断开连接", "tw-label" : "Notify + Drop Connection" }
+                        "0" : { "label" : "None", "cn-label" : "无", "tw-label" : "監視模式" },
+                        "1" : { "label" : "Notify", "cn-label" : "通知", "tw-label" : "警告" },
+                        "2" : { "label" : "Notify + Drop Connection", "cn-label" : "通知 + 断开连接", "tw-label" : "警告並中斷連線" }
                       }
                     },
                     {
                       "label" : "Port List",
                       "cn-label" : "端口列表",
-                      "tw-label" : "端口列表",
+                      "tw-label" : "連接埠列表",
                       "tab" : "httpPort",
                       "tag" : "input",
                       "type" : "texts",
@@ -502,7 +502,7 @@
             {
               "label" : "Maximum File Size to Scan",
               "cn-label" : "扫描档案大小上限",
-              "tw-label" : "掃描檔案大小上限",
+              "tw-label" : "掃描檔案大小限制",
               "tab" : "maxFileSize",
               "tag" : "input",
               "type" : "text",
@@ -516,7 +516,7 @@
             {
               "label" : "Notification Content",
               "cn-label" : "Http通知",
-              "tw-label" : "提醒內容",
+              "tw-label" : "自訂提醒內容",
               "tab" : "httpNotify",
               "tag" : "textarea",
               "type" : "textarea"
@@ -533,13 +533,13 @@
             {
               "label" : "Source",
               "cn-label" : "源地址",
-              "tw-label" : "源",
+              "tw-label" : "來源位址",
               "tab" : "sAddrId"
             },
             {
               "label" : "Destination",
               "cn-label" : "目的地址",
-              "tw-label" : "目的",
+              "tw-label" : "目的位址",
               "tab" : "dAddrId"
             },
             {
@@ -777,7 +777,7 @@
             {
               "label" : "Destination Address",
               "cn-label" : "目的地址",
-              "tw-label" : "目標位址",
+              "tw-label" : "目的位址",
               "tab" : "dAddrId",
               "tag" : "select",
               "type" : "select"
@@ -804,7 +804,7 @@
             {
               "label" : "Sub Type",
               "cn-label" : "子类型",
-              "tw-label" : "Sub Type",
+              "tw-label" : "子類型",
               "tab" : "sub",
               "tag" : "select",
               "type" : "select"
@@ -1009,15 +1009,15 @@
                       "type" : "select",
                       "option" :
                       {
-                        "0" : { "label" : "None", "cn-label" : "无", "tw-label" : "無" },
-                        "1" : { "label" : "Notify", "cn-label" : "通知", "tw-label" : "提醒" },
-                        "2" : { "label" : "Notify + Destruct File", "cn-label" : "通知 + 拦截文件", "tw-label" : "通知 + 毀損檔案" }
+                        "0" : { "label" : "None", "cn-label" : "无", "tw-label" : "監視模式" },
+                        "1" : { "label" : "Notify", "cn-label" : "通知", "tw-label" : "警告" },
+                        "2" : { "label" : "Notify + Destruct File", "cn-label" : "通知 + 拦截文件", "tw-label" : "警告並刪除檔案" }
                       }
                     },
                     {
                       "label" : "Port List",
                       "cn-label" : "端口列表",
-                      "tw-label" : "端口列表",
+                      "tw-label" : "連接埠列表",
                       "tab" : "smtpPort",
                       "tag" : "input",
                       "type" : "texts",
@@ -1028,7 +1028,7 @@
             {
               "label" : "Maximum File Size to Scan",
               "cn-label" : "扫描档案大小上限",
-              "tw-label" : "掃描檔案大小上限",
+              "tw-label" : "掃描檔案大小限制",
               "tab" : "maxFileSize",
               "tag" : "input",
               "type" : "text",
@@ -1042,21 +1042,21 @@
             {
               "label" : "Email Notification Status",
               "cn-label" : "邮件通知状态",
-              "tw-label" : "Email 提醒狀態",
+              "tw-label" : "Email 提醒",
               "tab" : "mailStatus",
               "tag" : "p"
             },
             {
               "label" : "From Email",
               "cn-label" : "发送邮箱",
-              "tw-label" : "From Email",
+              "tw-label" : "寄件者郵件位址",
               "tab" : "fromMail",
               "tag" : "p"
             },
             {
               "label" : "SMTP Server",
               "cn-label" : "SMTP服务器",
-              "tw-label" : "SMTP 伺服器",
+              "tw-label" : "郵件伺服器",
               "tab" : "smtpServer",
               "tag" : "p"
             },
@@ -1070,7 +1070,7 @@
             {
               "label" : "Mail Tag",
               "cn-label" : "邮件标签",
-              "tw-label" : "郵件標籤",
+              "tw-label" : "郵件主旨",
               "tab" : "mailTag",
               "tag" : "input",
               "type" : "text"
@@ -1095,13 +1095,13 @@
             {
               "label" : "Source",
               "cn-label" : "源地址",
-              "tw-label" : "源",
+              "tw-label" : "來源位址",
               "tab" : "sAddrId"
             },
             {
               "label" : "Destination",
               "cn-label" : "目的地址",
-              "tw-label" : "目的",
+              "tw-label" : "目的位址",
               "tab" : "dAddrId"
             },
             {
@@ -1122,7 +1122,7 @@
             {
               "label" : "MIME Exception List",
               "cn-label" : "MIME 例外列表",
-              "tw-label" : "MIME Exception List",
+              "tw-label" : "MIME 列外清單",
               "tab" : "mime",
               "tag" : "table",
               "type" : "table",
@@ -1339,7 +1339,7 @@
             {
               "label" : "Destination Address",
               "cn-label" : "目的地址",
-              "tw-label" : "目標位址",
+              "tw-label" : "目的位址",
               "tab" : "dAddrId",
               "tag" : "select",
               "type" : "select"
@@ -1366,7 +1366,7 @@
             {
               "label" : "Sub Type",
               "cn-label" : "子类型",
-              "tw-label" : "Sub Type",
+              "tw-label" : "子類型",
               "tab" : "sub",
               "tag" : "select",
               "type" : "select"
@@ -1570,15 +1570,15 @@
                   "type" : "select",
                   "option" :
                   {
-                    "0" : { "label" : "None", "cn-label" : "无", "tw-label" : "無" },
-                    "1" : { "label" : "Notify", "cn-label" : "通知", "tw-label" : "提醒" },
-                    "2" : { "label" : "Notify + Destruct File", "cn-label" : "通知 + 拦截文件", "tw-label" : "通知 + 毀損檔案" }
+                    "0" : { "label" : "None", "cn-label" : "无", "tw-label" : "監視模式" },
+                    "1" : { "label" : "Notify", "cn-label" : "通知", "tw-label" : "警告" },
+                    "2" : { "label" : "Notify + Destruct File", "cn-label" : "通知 + 拦截文件", "tw-label" : "警告並刪除檔案" }
                   }
                 },
                 {
                   "label" : "Port List",
                   "cn-label" : "端口列表",
-                  "tw-label" : "端口列表",
+                  "tw-label" : "連接埠列表",
                   "tab" : "pop3Port",
                   "tag" : "input",
                   "type" : "texts",
@@ -1589,7 +1589,7 @@
             {
               "label" : "Maximum File Size to Scan",
               "cn-label" : "扫描的档案上限",
-              "tw-label" : "掃描檔案大小上限",
+              "tw-label" : "掃描檔案大小限制",
               "tab" : "maxFileSize",
               "tag" : "input",
               "type" : "text",
@@ -1603,21 +1603,21 @@
             {
               "label" : "Email Notification Status",
               "cn-label" : "邮件通知状态",
-              "tw-label" : "Email 提醒狀態",
+              "tw-label" : "Email 提醒",
               "tab" : "mailStatus",
               "tag" : "p"
             },
             {
               "label" : "From Email",
               "cn-label" : "发送邮箱",
-              "tw-label" : "From Email",
+              "tw-label" : "寄件者郵件位址",
               "tab" : "fromMail",
               "tag" : "p"
             },
             {
               "label" : "SMTP Server",
               "cn-label" : "SMTP服务器",
-              "tw-label" : "SMTP 伺服器",
+              "tw-label" : "郵件伺服器",
               "tab" : "smtpServer",
               "tag" : "p"
             },
@@ -1631,7 +1631,7 @@
             {
               "label" : "Mail Tag",
               "cn-label" : "邮件标签",
-              "tw-label" : "郵件標籤",
+              "tw-label" : "郵件主旨",
               "tab" : "mailTag",
               "tag" : "input",
               "type" : "text"
@@ -1656,13 +1656,13 @@
             {
               "label" : "Source",
               "cn-label" : "源地址",
-              "tw-label" : "源",
+              "tw-label" : "來源位址",
               "tab" : "sAddrId"
             },
             {
               "label" : "Destination",
               "cn-label" : "目的地址",
-              "tw-label" : "目的",
+              "tw-label" : "目的位址",
               "tab" : "dAddrId"
             },
             {
@@ -1683,7 +1683,7 @@
             {
               "label" : "MIME Exception List",
               "cn-label" : "MIME 例外列表",
-              "tw-label" : "MIME Exception List",
+              "tw-label" : "MIME 例外清單",
               "tab" : "mime",
               "tag" : "table",
               "type" : "table",
@@ -1900,7 +1900,7 @@
             {
               "label" : "Destination Address",
               "cn-label" : "目的地址",
-              "tw-label" : "目標位址",
+              "tw-label" : "目的位址",
               "tab" : "dAddrId",
               "tag" : "select",
               "type" : "select"
@@ -1927,7 +1927,7 @@
             {
               "label" : "Sub Type",
               "cn-label" : "子类型",
-              "tw-label" : "Sub Type",
+              "tw-label" : "子類型",
               "tab" : "sub",
               "tag" : "select",
               "type" : "select"
@@ -2123,14 +2123,14 @@
                   "type" : "select",
                   "option" :
                   {
-                    "0" : { "label" : "None", "cn-label" : "无", "tw-label" : "無" },
-                    "1" : { "label" : "Drop Connection", "cn-label" : "断开连接", "tw-label" : "丟棄連線" }
+                    "0" : { "label" : "None", "cn-label" : "无", "tw-label" : "監視模式" },
+                    "1" : { "label" : "Drop Connection", "cn-label" : "断开连接", "tw-label" : "中斷連線" }
                   }
                 },
                 {
                   "label" : "Port List",
                   "cn-label" : "端口列表",
-                  "tw-label" : "端口列表",
+                  "tw-label" : "連接埠列表",
                   "tab" : "ftpPort",
                   "tag" : "input",
                   "type" : "texts",
@@ -2141,7 +2141,7 @@
             {
               "label" : "Maximum File Size to Scan",
               "cn-label" : "扫描档案大小上限",
-              "tw-label" : "掃描檔案大小上限",
+              "tw-label" : "掃描檔案大小限制",
               "tab" : "maxFileSize",
               "tag" : "input",
               "type" : "text",
@@ -2161,13 +2161,13 @@
             {
               "label" : "Source",
               "cn-label" : "源地址",
-              "tw-label" : "源",
+              "tw-label" : "來源位址",
               "tab" : "sAddrId"
             },
             {
               "label" : "Destination",
               "cn-label" : "目的地址",
-              "tw-label" : "目的",
+              "tw-label" : "目的位址",
               "tab" : "dAddrId"
             },
             {
@@ -2188,7 +2188,7 @@
             {
               "label" : "MIME Exception List",
               "cn-label" : "MIME 例外列表",
-              "tw-label" : "MIME Exception List",
+              "tw-label" : "MIME 例外清單",
               "tab" : "mime",
               "tag" : "table",
               "type" : "table",
@@ -2405,7 +2405,7 @@
             {
               "label" : "Destination Address",
               "cn-label" : "目的地址",
-              "tw-label" : "目標位址",
+              "tw-label" : "目的位址",
               "tab" : "dAddrId",
               "tag" : "select",
               "type" : "select"
@@ -2432,7 +2432,7 @@
             {
               "label" : "Sub Type",
               "cn-label" : "子类型",
-              "tw-label" : "Sub Type",
+              "tw-label" : "子類型",
               "tab" : "sub",
               "tag" : "select",
               "type" : "select"
@@ -2629,8 +2629,8 @@
                       "type" : "select",
                       "option" :
                       {
-                        "0" : { "label" : "None", "cn-label" : "无", "tw-label" : "無" },
-                        "1" : { "label" : "None", "cn-label" : "通知", "tw-label" : "通知" }
+                        "0" : { "label" : "None", "cn-label" : "无", "tw-label" : "監視模式" },
+                        "1" : { "label" : "None", "cn-label" : "通知", "tw-label" : "警告" }
                       }
                     }
                   ]
@@ -2638,7 +2638,7 @@
             {
               "label" : "Maximum File Size to Scan",
               "cn-label" : "扫描档案大小上限",
-              "tw-label" : "掃描檔案大小上限",
+              "tw-label" : "掃描檔案大小限制",
               "tab" : "maxFileSize",
               "tag" : "input",
               "type" : "text",
@@ -2659,13 +2659,13 @@
             {
               "label" : "Source",
               "cn-label" : "源地址",
-              "tw-label" : "源",
+              "tw-label" : "來源位址",
               "tab" : "sAddrId"
             },
             {
               "label" : "Destination",
               "cn-label" : "目的地址",
-              "tw-label" : "目的",
+              "tw-label" : "目的位址",
               "tab" : "dAddrId"
             },
             {
@@ -2686,7 +2686,7 @@
             {
               "label" : "MIME Exception List",
               "cn-label" : "MIME 例外列表",
-              "tw-label" : "MIME Exception List",
+              "tw-label" : "MIME 例外清單",
               "tab" : "mime",
               "tag" : "table",
               "type" : "table",
@@ -2903,7 +2903,7 @@
             {
               "label" : "Destination Address",
               "cn-label" : "目的地址",
-              "tw-label" : "目標位址",
+              "tw-label" : "目的位址",
               "tab" : "dAddrId",
               "tag" : "select",
               "type" : "select"
@@ -2930,7 +2930,7 @@
             {
               "label" : "Sub Type",
               "cn-label" : "子类型",
-              "tw-label" : "Sub Type",
+              "tw-label" : "子類型",
               "tab" : "sub",
               "tag" : "select",
               "type" : "select"
@@ -2976,7 +2976,7 @@
              {
                "label" : "Virus Database",
                "cn-label" : "病毒数据库",
-               "tw-label" : "病毒資料庫",
+               "tw-label" : "更新設定",
                "tab" : "signatures",
                "tag" : "div",
                "type" : "div",
@@ -2986,7 +2986,7 @@
                  {
                    "label" : "Signature Update",
                    "cn-label" : "病毒数据库更新",
-                   "tw-label" : "Signature 更新",
+                   "tw-label" : "病毒特徵碼更新",
                    "tab" : "signature_update",
                    "tag" : "table",
                    "type" : "table",
@@ -3012,7 +3012,7 @@
                          {
                            "label" : "Type",
                            "cn-label" : "类型",
-                           "tw-label" : "類型",
+                           "tw-label" : "更新頻率",
                            "tab" : "type",
                            "tag" : "select",
                            "type" : "select",
@@ -3021,7 +3021,7 @@
                          {
                            "label" : "Interval",
                            "cn-label" : "间隔",
-                           "tw-label" : "間隔",
+                           "tw-label" : "執行次數",
                            "tab" : "number",
                            "tag" : "select",
                            "type" : "select",
@@ -3034,7 +3034,7 @@
                  {
                    "label" : "Version & Pattern Number",
                    "cn-label" : "版本及样本数量",
-                   "tw-label" : "版本與圖案編號",
+                   "tw-label" : "版本與病毒特徵碼數量",
                    "tab" : "version_pattern",
                    "tag" : "table",
                    "type" : "table",
@@ -3066,13 +3066,13 @@
                      {
                        "label" : "Last Successful Checked",
                        "cn-label" : "最后检查日期",
-                       "tw-label" : "上一次檢查",
+                       "tw-label" : "上一次檢查成功時間",
                        "tab" : "lastChecked"
                      },
                      {
                        "label" : "Last Successful Updated",
                        "cn-label" : "最后更新日期",
-                       "tw-label" : "上一次更新",
+                       "tw-label" : "上一次更新成功時間",
                        "tab" : "lastUpdated"
                      }
                    ]
@@ -3084,7 +3084,7 @@
         {
           "label" : "Proxy",
           "cn-label" : "代理",
-          "tw-label" : "Proxy",
+          "tw-label" : "代理伺服器",
           "id" : "menu-6-1",
           "tab" : "proxy",
           "tag" : "div",
@@ -3101,7 +3101,7 @@
             {
               "label" : "Proxy Server",
               "cn-label" : "代理服务",
-              "tw-label" : "Proxy 伺服器",
+              "tw-label" : "代理伺服器",
               "tab" : "proxy_server",
               "tag" : "div",
               "type" : "div",
@@ -3110,7 +3110,7 @@
                 {
                   "label" : "Proxy Enable",
                   "cn-label" : "启用代理",
-                  "tw-label" : "Proxy 啟用",
+                  "tw-label" : "代理伺服器啟用",
                   "tab" : "enable",
                   "tag" : "input",
                   "type" : "checkbox",
@@ -3120,7 +3120,7 @@
                 {
                   "label" : "Proxy Server",
                   "cn-label" : "代理服务器",
-                  "tw-label" : "Proxy 伺服器",
+                  "tw-label" : "代理伺服器位址",
                   "tab" : "serverAddr",
                   "tag" : "input",
                   "type" : "text",
@@ -3129,7 +3129,7 @@
                 {
                   "label" : "Proxy Server Port",
                   "cn-label" : "代理服务器端口",
-                  "tw-label" : "Proxy 伺服器連接埠",
+                  "tw-label" : "代理伺服器連接埠",
                   "tab" : "serverPort",
                   "tag" : "input",
                   "type" : "text",
@@ -3141,7 +3141,7 @@
                 {
                   "label" : "Use Proxy Authenication",
                   "cn-label" : "使用代理认证",
-                  "tw-label" : "使用 Proxy 驗證",
+                  "tw-label" : "使用代理伺服器驗證",
                   "tab" : "proxyAuthenicationMode",
                   "tag" : "input",
                   "type" : "checkbox",
@@ -3175,7 +3175,7 @@
     {
       "label" : "Reports",
       "cn-label" : "报告",
-      "tw-label" : "報告",
+      "tw-label" : "統計報表",
       "id" : "menu-7",
       "tab" : "reports",
       "panel" :
@@ -3183,7 +3183,7 @@
         {
           "label" : "Security Reports",
           "cn-label" : "安全报告",
-          "tw-label" : "安全防護報告",
+          "tw-label" : "安全防護報表",
           "id" : "menu-7-0",
           "tab" : "security_reports",
           "panel" :
@@ -3199,7 +3199,7 @@
               "tabs" :
               {
                 "0" : { "label" : "File Extension Log", "cn-label" : "文件扩展名日志排序", "tw-label" : "檔案副檔名記錄" },
-                "1" : { "label" : "By File Extension", "cn-label" : "按文件扩展名排序", "tw-label" : "按檔名排序"}
+                "1" : { "label" : "By File Extension", "cn-label" : "按文件扩展名排序", "tw-label" : "依副檔名排序"}
               },
               "url" : "reportQuery",
               "ext" : "php",
@@ -3234,7 +3234,7 @@
                   {
                     "label" : "Access Count",
                     "cn-label" : "访问次数",
-                    "tw-label" : "存取數量",
+                    "tw-label" : "統計數量",
                     "tab" : "accessCount",
                     "wiz" : "30%" ,
                     "display" : true,
@@ -3277,7 +3277,7 @@
                   {
                     "label" : "Access Count",
                     "cn-label" : "访问次数",
-                    "tw-label" : "存取數量",
+                    "tw-label" : "統計次數",
                     "tab" : "accessCount",
                     "wiz" : "60%" ,
                     "display" : true,
@@ -3298,7 +3298,7 @@
               "tabs" :
               {
                 "0" : { "label" : "Blocked Host Log", "cn-label" : "被阻止的主机日志", "tw-label" : "被封鎖的主機記錄" },
-                "1" : { "label" : "By Blocked Host", "cn-label" : "按被阻止的主机排序", "tw-label" : "按已封鎖主機的主機排序" }
+                "1" : { "label" : "By Blocked Host", "cn-label" : "按被阻止的主机排序", "tw-label" : "依已封鎖主機的主機排序" }
               },
               "url" : "reportQuery",
               "ext" : "php",
@@ -3313,7 +3313,7 @@
                   {
                     "label" : "ID",
                     "cn-label" : "ID",
-                    "tw-label" : "ID",
+                    "tw-label" : "索引",
                     "tab" : "id",
                     "wiz" : "10%" ,
                     "display" : true,
@@ -3323,7 +3323,7 @@
                   {
                     "label" : "IP",
                     "cn-label" : "IP",
-                    "tw-label" : "IP",
+                    "tw-label" : "主機位址",
                     "tab" : "ip",
                     "wiz" : "30%" ,
                     "display" : true,
@@ -3333,7 +3333,7 @@
                   {
                     "label" : "Virus Count",
                     "cn-label" : "病毒",
-                    "tw-label" : "病毒",
+                    "tw-label" : "病毒計數",
                     "tab" : "virusCount",
                     "wiz" : "20%" ,
                     "display" : true,
@@ -3343,7 +3343,7 @@
                   {
                     "label" : "Firewall Count",
                     "cn-label" : "防火墙",
-                    "tw-label" : "防火牆",
+                    "tw-label" : "防火牆計數",
                     "tab" : "firewallCount",
                     "wiz" : "20%" ,
                     "display" : true,
@@ -3366,7 +3366,7 @@
                   {
                     "label" : "ID",
                     "cn-label" : "ID",
-                    "tw-label" : "ID",
+                    "tw-label" : "索引",
                     "tab" : "id",
                     "wiz" : "10%" ,
                     "display" : true,
@@ -3376,7 +3376,7 @@
                   {
                     "label" : "IP",
                     "cn-label" : "IP",
-                    "tw-label" : "IP",
+                    "tw-label" : "主機位址",
                     "tab" : "ip",
                     "wiz" : "30%" ,
                     "display" : true,
@@ -3386,7 +3386,7 @@
                   {
                     "label" : "Virus Count",
                     "cn-label" : "病毒",
-                    "tw-label" : "病毒",
+                    "tw-label" : "病毒計數",
                     "tab" : "virusCount",
                     "wiz" : "30%" ,
                     "display" : true,
@@ -3396,7 +3396,7 @@
                   {
                     "label" : "Firewall Count",
                     "cn-label" : "防火墙",
-                    "tw-label" : "防火牆",
+                    "tw-label" : "防火牆計數",
                     "tab" : "firewallCount",
                     "wiz" : "30%" ,
                     "display" : true,
@@ -3417,7 +3417,7 @@
               "tabs" :
               {
                 "0" : { "label" : "Affected Host Log", "cn-label" : "受影响的主机日志", "tw-label" : "受感染的主機記錄" },
-                "1" : { "label" : "By Affected Host", "cn-label" : "按受影响的主机排序", "tw-label" : "按受感染的主機排序" }
+                "1" : { "label" : "By Affected Host", "cn-label" : "按受影响的主机排序", "tw-label" : "依受感染的主機排序" }
               },
               "url" : "reportQuery",
               "ext" : "php",
@@ -3432,7 +3432,7 @@
                   {
                     "label" : "ID",
                     "cn-label" : "ID",
-                    "tw-label" : "ID",
+                    "tw-label" : "索引",
                     "tab" : "id",
                     "wiz" : "10%" ,
                     "display" : true,
@@ -3442,7 +3442,7 @@
                   {
                     "label" : "IP",
                     "cn-label" : "IP",
-                    "tw-label" : "IP",
+                    "tw-label" : "主機位址",
                     "tab" : "ip",
                     "wiz" : "30%" ,
                     "display" : true,
@@ -3475,7 +3475,7 @@
                   {
                     "label" : "ID",
                     "cn-label" : "ID",
-                    "tw-label" : "ID",
+                    "tw-label" : "索引",
                     "tab" : "id",
                     "wiz" : "10%" ,
                     "display" : true,
@@ -3485,7 +3485,7 @@
                   {
                     "label" : "IP",
                     "cn-label" : "IP",
-                    "tw-label" : "IP",
+                    "tw-label" : "主機位址",
                     "tab" : "ip",
                     "wiz" : "30%",
                     "display" : true,
@@ -3508,7 +3508,7 @@
             {
               "label" : "Antivirus",
               "cn-label" : "防病毒报告",
-              "tw-label" : "病毒防護",
+              "tw-label" : "病毒防護統計表",
               "id" : "menu-7-0-3",
               "tab" : "antivirus_report",
               "tag" : "div",
@@ -3516,10 +3516,10 @@
               "tabs" :
               {
                 "0" : { "label" : "Anitivirus Log", "cn-label" : "防病毒日志", "tw-label" : "病毒防護記錄" },
-                "1" : { "label" : "By Src IP", "cn-label" : "按源IP", "tw-label" : "按源IP" },
-                "2" : { "label" : "By Dst IP", "cn-label" : "按目的IP", "tw-label" : "按目的IP" },
-                "3" : { "label" : "By Virus Name", "cn-label" : "按病毒名称", "tw-label" : "按病毒名稱" },
-                "4" : { "label" : "By Protocol", "cn-label" : "按协议", "tw-label" : "按協定" }
+                "1" : { "label" : "By Src IP", "cn-label" : "按源IP", "tw-label" : "依來源位址" },
+                "2" : { "label" : "By Dst IP", "cn-label" : "按目的IP", "tw-label" : "依目的位址" },
+                "3" : { "label" : "By Virus Name", "cn-label" : "按病毒名称", "tw-label" : "依病毒名稱" },
+                "4" : { "label" : "By Protocol", "cn-label" : "按协议", "tw-label" : "依通訊協定" }
               },
               "url" : "reportQuery",
               "ext" : "php",
@@ -3534,7 +3534,7 @@
                   {
                     "label" : "ID",
                     "cn-label" : "ID",
-                    "tw-label" : "ID",
+                    "tw-label" : "索引",
                     "tab" : "id",
                     "wiz" : "10%" ,
                     "display" : true,
@@ -3544,7 +3544,7 @@
                   {
                     "label" : "Src IP",
                     "cn-label" : "源IP",
-                    "tw-label" : "源IP",
+                    "tw-label" : "來源位址",
                     "tab" : "srcIp",
                     "wiz" : "20%" ,
                     "display" : true,
@@ -3554,7 +3554,7 @@
                   {
                     "label" : "Dst IP",
                     "cn-label" : "目的IP",
-                    "tw-label" : "目的IP",
+                    "tw-label" : "目的位址",
                     "tab" : "dstIp",
                     "wiz" : "20%" ,
                     "display" : true,
@@ -3564,7 +3564,7 @@
                   {
                     "label" : "Protocol",
                     "cn-label" : "协议",
-                    "tw-label" : "協定",
+                    "tw-label" : "通訊協定",
                     "tab" : "protocol",
                     "wiz" : "10%" ,
                     "display" : true,
@@ -3584,7 +3584,7 @@
                   {
                     "label" : "Datetime",
                     "cn-label" : "日期时间",
-                    "tw-label" : "時間日期",
+                    "tw-label" : "日期時間",
                     "tab" : "datetime",
                     "wiz" : "20%" ,
                     "display" : true,
@@ -3597,7 +3597,7 @@
                   {
                     "label" : "ID",
                     "cn-label" : "ID",
-                    "tw-label" : "ID",
+                    "tw-label" : "索引",
                     "tab" : "id",
                     "wiz" : "10%" ,
                     "display" : true,
@@ -3607,7 +3607,7 @@
                   {
                     "label" : "Src IP",
                     "cn-label" : "源IP",
-                    "tw-label" : "源IP",
+                    "tw-label" : "來源位址",
                     "tab" : "srcIp",
                     "wiz" : "40%" ,
                     "display" : true,
@@ -3630,7 +3630,7 @@
                   {
                     "label" : "ID",
                     "cn-label" : "ID",
-                    "tw-label" : "ID",
+                    "tw-label" : "索引",
                     "tab" : "id",
                     "wiz" : "10%" ,
                     "display" : true,
@@ -3640,7 +3640,7 @@
                   {
                     "label" : "Dst IP",
                     "cn-label" : "目的IP",
-                    "tw-label" : "目的IP",
+                    "tw-label" : "目的位址",
                     "tab" : "dstIp",
                     "wiz" : "40%" ,
                     "display" : true,
@@ -3663,7 +3663,7 @@
                   {
                     "label" : "ID",
                     "cn-label" : "ID",
-                    "tw-label" : "ID",
+                    "tw-label" : "索引",
                     "tab" : "id",
                     "wiz" : "10%" ,
                     "display" : true,
@@ -3696,7 +3696,7 @@
                   {
                     "label" : "ID",
                     "cn-label" : "ID",
-                    "tw-label" : "ID",
+                    "tw-label" : "索引",
                     "tab" : "id",
                     "wiz" : "10%" ,
                     "display" : true,
@@ -3706,7 +3706,7 @@
                   {
                     "label" : "Protocol",
                     "cn-label" : "协议",
-                    "tw-label" : "協定",
+                    "tw-label" : "通訊協定",
                     "tab" : "protocol",
                     "wiz" : "60%" ,
                     "display" : true,
@@ -3731,7 +3731,7 @@
         {
           "label" : "Network Reports",
           "cn-label" : "网络报告",
-          "tw-label" : "網路報告",
+          "tw-label" : "流量統計報表",
           "id" : "menu-7-1",
           "tab" : "network_reports",
           "panel" :
@@ -3739,7 +3739,7 @@
             {
               "label" : "Traffic Direction",
               "cn-label" : "流量统计",
-              "tw-label" : "流量指示",
+              "tw-label" : "流量統計",
               "id" : "menu-7-1-0",
               "tab" : "traffic_direction",
               "tag" : "div",
@@ -3747,12 +3747,12 @@
               "tabs" :
               {
                 "0" : { "label" : "Traffic Log", "cn-label" : "流量日志排序", "tw-label" : "流量記錄" },
-                "1" : { "label" : "By Addr", "cn-label" : "按地址", "tw-label" : "按位址" },
-                "2" : { "label" : "By Src IP", "cn-label" : "按源IP", "tw-label" : "按源IP" },
-                "3" : { "label" : "By Dst IP", "cn-label" : "按目的IP", "tw-label" : "按目的IP" },
-                "4" : { "label" : "By Protocol", "cn-label" : "按协议", "tw-label" : "按協定" },
-                "5" : { "label" : "By Dst Port", "cn-label" : "按目的端口", "tw-label" : "按目的埠" },
-                "6" : { "label" : "By Zone", "cn-label" : "按区域", "tw-label" : "按區域" }
+                "1" : { "label" : "By Addr", "cn-label" : "按地址", "tw-label" : "依位址" },
+                "2" : { "label" : "By Src IP", "cn-label" : "按源IP", "tw-label" : "依來源位址" },
+                "3" : { "label" : "By Dst IP", "cn-label" : "按目的IP", "tw-label" : "依目的位址" },
+                "4" : { "label" : "By Protocol", "cn-label" : "按协议", "tw-label" : "依通訊協定" },
+                "5" : { "label" : "By Dst Port", "cn-label" : "按目的端口", "tw-label" : "依目的埠" },
+                "6" : { "label" : "By Zone", "cn-label" : "按区域", "tw-label" : "依區域" }
               },
               "url" : "reportQuery",
               "ext" : "php",
@@ -3768,7 +3768,7 @@
                   {
                     "label" : "ID",
                     "cn-label" : "ID",
-                    "tw-label" : "ID",
+                    "tw-label" : "索引",
                     "tab" : "id",
                     "wiz" : "20px" ,
                     "display" : true,
@@ -3788,7 +3788,7 @@
                   {
                     "label" : "DAddr",
                     "cn-label" : "目的地址",
-                    "tw-label" : "目標位址",
+                    "tw-label" : "目的位址",
                     "tab" : "dstIp",
                     "wiz" : "100px" ,
                     "display" : true,
@@ -3798,7 +3798,7 @@
                   {
                     "label" : "Protocol",
                     "cn-label" : "协议",
-                    "tw-label" : "協定",
+                    "tw-label" : "通訊協定",
                     "tab" : "protocol",
                     "wiz" : "60px" ,
                     "display" : true,
@@ -3808,7 +3808,7 @@
                   {
                     "label" : "SPort",
                     "cn-label" : "源端口",
-                    "tw-label" : "源埠",
+                    "tw-label" : "來源埠",
                     "tab" : "srcPort",
                     "wiz" : "40px" ,
                     "display" : true,
@@ -3848,7 +3848,7 @@
                   {
                     "label" : "Tx",
                     "cn-label" : "上行",
-                    "tw-label" : "Tx",
+                    "tw-label" : "上傳",
                     "tab" : "txBytes",
                     "wiz" : "50px" ,
                     "display" : true,
@@ -3858,7 +3858,7 @@
                   {
                     "label" : "Rx",
                     "cn-label" : "下行",
-                    "tw-label" : "Rx",
+                    "tw-label" : "下載",
                     "tab" : "rxBytes",
                     "wiz" : "50px" ,
                     "display" : true,
@@ -3868,7 +3868,7 @@
                   {
                     "label" : "Total",
                     "cn-label" : "总字节",
-                    "tw-label" : "Total",
+                    "tw-label" : "傳輸量",
                     "tab" : "totalBytes",
                     "wiz" : "50px" ,
                     "display" : true,
@@ -3888,7 +3888,7 @@
                   {
                     "label" : "End",
                     "cn-label" : "结束时间",
-                    "tw-label" : "時間",
+                    "tw-label" : "結束時間",
                     "tab" : "endDatetime",
                     "wiz" : "125px" ,
                     "display" : true,
@@ -3901,7 +3901,7 @@
                   {
                     "label" : "ID",
                     "cn-label" : "ID",
-                    "tw-label" : "ID",
+                    "tw-label" : "索引",
                     "tab" : "id",
                     "wiz" : "40px" ,
                     "display" : true,
@@ -3921,7 +3921,7 @@
                   {
                     "label" : "Tx Bytes",
                     "cn-label" : "上行字节",
-                    "tw-label" : "Tx Bytes",
+                    "tw-label" : "上傳量",
                     "tab" : "txBytes",
                     "wiz" : "100px" ,
                     "display" : true,
@@ -3931,7 +3931,7 @@
                   {
                     "label" : "Rx Bytes",
                     "cn-label" : "下行字节",
-                    "tw-label" : "Rx Bytes",
+                    "tw-label" : "下載量",
                     "tab" : "rxBytes",
                     "wiz" : "100px" ,
                     "display" : true,
@@ -3941,7 +3941,7 @@
                   {
                     "label" : "Total Bytes",
                     "cn-label" : "总字节",
-                    "tw-label" : "Total Bytes",
+                    "tw-label" : "總流量",
                     "tab" : "totalBytes",
                     "wiz" : "100px" ,
                     "display" : true,
@@ -3964,7 +3964,7 @@
                   {
                     "label" : "ID",
                     "cn-label" : "ID",
-                    "tw-label" : "ID",
+                    "tw-label" : "索引",
                     "tab" : "id",
                     "wiz" : "40px" ,
                     "display" : true,
@@ -3974,7 +3974,7 @@
                   {
                     "label" : "Src IP",
                     "cn-label" : "源IP",
-                    "tw-label" : "源IP",
+                    "tw-label" : "來源位址",
                     "tab" : "srcIp",
                     "wiz" : "180px" ,
                     "display" : true,
@@ -3984,7 +3984,7 @@
                   {
                     "label" : "Tx Bytes",
                     "cn-label" : "上行字节",
-                    "tw-label" : "Tx Bytes",
+                    "tw-label" : "上傳量",
                     "tab" : "txBytes",
                     "wiz" : "150px" ,
                     "display" : true,
@@ -3994,7 +3994,7 @@
                   {
                     "label" : "Rx Bytes",
                     "cn-label" : "下行字节",
-                    "tw-label" : "Rx Bytes",
+                    "tw-label" : "下載量",
                     "tab" : "rxBytes",
                     "wiz" : "150px" ,
                     "display" : true,
@@ -4004,7 +4004,7 @@
                   {
                     "label" : "Total Bytes",
                     "cn-label" : "总字节",
-                    "tw-label" : "Total Bytes",
+                    "tw-label" : "總流量",
                     "tab" : "totalBytes",
                     "wiz" : "150px" ,
                     "display" : true,
@@ -4027,7 +4027,7 @@
                   {
                     "label" : "ID",
                     "cn-label" : "ID",
-                    "tw-label" : "ID",
+                    "tw-label" : "索引",
                     "tab" : "id",
                     "wiz" : "40px" ,
                     "display" : true,
@@ -4037,7 +4037,7 @@
                   {
                     "label" : "Dst IP",
                     "cn-label" : "目的IP",
-                    "tw-label" : "目的IP",
+                    "tw-label" : "目的位址",
                     "tab" : "dstIp",
                     "wiz" : "180px" ,
                     "display" : true,
@@ -4047,7 +4047,7 @@
                   {
                     "label" : "Tx Bytes",
                     "cn-label" : "上行字节",
-                    "tw-label" : "Tx Bytes",
+                    "tw-label" : "上傳量",
                     "tab" : "txBytes",
                     "wiz" : "150px" ,
                     "display" : true,
@@ -4057,7 +4057,7 @@
                   {
                     "label" : "Rx Bytes",
                     "cn-label" : "下行字节",
-                    "tw-label" : "Rx Bytes",
+                    "tw-label" : "下載量",
                     "tab" : "rxBytes",
                     "wiz" : "150px" ,
                     "display" : true,
@@ -4067,7 +4067,7 @@
                   {
                     "label" : "Total Bytes",
                     "cn-label" : "总字节",
-                    "tw-label" : "Total Bytes",
+                    "tw-label" : "總流量",
                     "tab" : "totalBytes",
                     "wiz" : "150px" ,
                     "display" : true,
@@ -4090,7 +4090,7 @@
                   {
                     "label" : "ID",
                     "cn-label" : "ID",
-                    "tw-label" : "ID",
+                    "tw-label" : "索引",
                     "tab" : "id",
                     "wiz" : "40px" ,
                     "display" : true,
@@ -4100,7 +4100,7 @@
                   {
                     "label" : "Protocol",
                     "cn-label" : "协议",
-                    "tw-label" : "協定",
+                    "tw-label" : "通訊協定",
                     "tab" : "protocol",
                     "wiz" : "180px",
                     "display" : true,
@@ -4110,7 +4110,7 @@
                   {
                     "label" : "Tx Bytes",
                     "cn-label" : "上行字节",
-                    "tw-label" : "Tx Bytes",
+                    "tw-label" : "上傳量",
                     "tab" : "txBytes",
                     "wiz" : "150px" ,
                     "display" : true,
@@ -4120,7 +4120,7 @@
                   {
                     "label" : "Rx Bytes",
                     "cn-label" : "下行字节",
-                    "tw-label" : "Rx Bytes",
+                    "tw-label" : "下載量",
                     "tab" : "rxBytes",
                     "wiz" : "150px" ,
                     "display" : true,
@@ -4130,7 +4130,7 @@
                   {
                     "label" : "Total Bytes",
                     "cn-label" : "总字节",
-                    "tw-label" : "Total Bytes",
+                    "tw-label" : "總流量",
                     "tab" : "totalBytes",
                     "wiz" : "150px" ,
                     "display" : true,
@@ -4153,7 +4153,7 @@
                   {
                     "label" : "ID",
                     "cn-label" : "ID",
-                    "tw-label" : "ID",
+                    "tw-label" : "索引",
                     "tab" : "id",
                     "wiz" : "40px" ,
                     "display" : true,
@@ -4173,7 +4173,7 @@
                   {
                     "label" : "Tx Bytes",
                     "cn-label" : "上行字节",
-                    "tw-label" : "Tx Bytes",
+                    "tw-label" : "上傳量",
                     "tab" : "txBytes",
                     "wiz" : "150px" ,
                     "display" : true,
@@ -4183,7 +4183,7 @@
                   {
                     "label" : "Rx Bytes",
                     "cn-label" : "下行字节",
-                    "tw-label" : "Rx Bytes",
+                    "tw-label" : "下載量",
                     "tab" : "rxBytes",
                     "wiz" : "150px" ,
                     "display" : true,
@@ -4193,7 +4193,7 @@
                   {
                     "label" : "Total Bytes",
                     "cn-label" : "总字节",
-                    "tw-label" : "Total Bytes",
+                    "tw-label" : "總流量",
                     "tab" : "totalBytes",
                     "wiz" : "150px" ,
                     "display" : true,
@@ -4216,7 +4216,7 @@
                   {
                     "label" : "ID",
                     "cn-label" : "ID",
-                    "tw-label" : "ID",
+                    "tw-label" : "索引",
                     "tab" : "id",
                     "wiz" : "40px" ,
                     "display" : true,
@@ -4236,7 +4236,7 @@
                   {
                     "label" : "Tx Bytes",
                     "cn-label" : "上行字节",
-                    "tw-label" : "Tx Bytes",
+                    "tw-label" : "上傳量",
                     "tab" : "txBytes",
                     "wiz" : "100px" ,
                     "display" : true,
@@ -4246,7 +4246,7 @@
                   {
                     "label" : "Rx Bytes",
                     "cn-label" : "下行字节",
-                    "tw-label" : "Rx Bytes",
+                    "tw-label" : "下載量",
                     "tab" : "rxBytes",
                     "wiz" : "100px" ,
                     "display" : true,
@@ -4256,7 +4256,7 @@
                   {
                     "label" : "Total Bytes",
                     "cn-label" : "总字节",
-                    "tw-label" : "Total Bytes",
+                    "tw-label" : "總流量",
                     "tab" : "totalBytes",
                     "wiz" : "100px" ,
                     "display" : true,
@@ -4289,7 +4289,7 @@
             {
               "label" : "Show ARP Table",
               "cn-label" : "查看ARP表",
-              "tw-label" : "顯示 ARP 列",
+              "tw-label" : "顯示ARP表",
               "id" : "menu-7-2-0",
               "tab" : "show_arp_table",
               "tag" : "table",
@@ -4307,7 +4307,7 @@
                 {
                   "label" : "IP Address",
                   "cn-label" : "IP 地址",
-                  "tw-label" : "IP 位址",
+                  "tw-label" : "主機位址",
                   "tab" : "address",
                   "display" : true,
                   "wiz" : "auto",
@@ -4337,7 +4337,7 @@
                 {
                   "label" : "Device",
                   "cn-label" : "设备",
-                  "tw-label" : "裝置",
+                  "tw-label" : "連接埠",
                   "tab" : "device",
                   "display" : true,
                   "wiz" : "auto",
@@ -4349,7 +4349,7 @@
             {
               "label" : "Show Routing Table",
               "cn-label" : "查看路由表",
-              "tw-label" : "顯示路由列表",
+              "tw-label" : "顯示路由表",
               "id" : "menu-7-2-1",
               "tab" : "show_routing_table",
               "tag" : "table",
@@ -4368,7 +4368,7 @@
                 {
                   "label" : "Destination Address",
                   "cn-label" : "目的地址",
-                  "tw-label" : "目標位址",
+                  "tw-label" : "目的位址",
                   "tab" : "dstAddress",
                   "display" : true,
                   "wiz" : "auto",
@@ -4492,7 +4492,7 @@
             {
               "label" : "Status Summary",
               "cn-label" : "状态概要",
-              "tw-label" : "狀態摘",
+              "tw-label" : "網路介面狀態",
               "id" : "menu-7-2-3",
               "tab" : "status_summary",
               "tag" : "div",
@@ -4500,10 +4500,10 @@
               "columns" : true,
               "tabs" :
               {
-                "port" : { "label" : "Port Table", "cn-label" : "端口列表", "tw-label" : "連接埠列表" },
-                "vlan" : { "label" : "VLAN Interface Table", "cn-label" : "VLAN 接口表", "tw-label" : "VLAN Interface Table" },
-                "wan" : { "label" : "WAN Table", "cn-label" : "WAN 列表", "tw-label" : "WAN Table" },
-                "lan" : { "label" : "LAN Table", "cn-label" : "LAN 列表", "tw-label" : "LAN Table" }
+                "port" : { "label" : "Port Table", "cn-label" : "端口列表", "tw-label" : "網路埠列表" },
+                "vlan" : { "label" : "VLAN Interface Table", "cn-label" : "VLAN 接口表", "tw-label" : "虛擬區域網路" },
+                "wan" : { "label" : "WAN Table", "cn-label" : "WAN 列表", "tw-label" : "廣域網路" },
+                "lan" : { "label" : "LAN Table", "cn-label" : "LAN 列表", "tw-label" : "區域網路" }
               },
               "url" :
               {
@@ -4555,7 +4555,7 @@
                   {
                     "label" : "LAN",
                     "cn-label" : "LAN",
-                    "tw-label" : "LAN",
+                    "tw-label" : "區網名稱",
                     "tab" : "lan",
                     "display" : true,
                     "wiz" : "auto",
@@ -4628,7 +4628,7 @@
                   {
                     "label" : "LAN",
                     "cn-label" : "LAN",
-                    "tw-label" : "LAN",
+                    "tw-label" : "區網名稱",
                     "tab" : "lan",
                     "display" : true,
                     "wiz" : "auto",
@@ -4701,7 +4701,7 @@
                   {
                     "label" : "IP Assignment Method",
                     "cn-label" : "IP 分配方式",
-                    "tw-label" : "IP 分派方式",
+                    "tw-label" : "IP 取得方式",
                     "tab" : "protocol",
                     "display" : true,
                     "wiz" : "auto",
@@ -4731,7 +4731,7 @@
                   {
                     "label" : "IP Address",
                     "cn-label" : "IP 地址",
-                    "tw-label" : "IP 位址",
+                    "tw-label" : "主機位址",
                     "tab" : "address",
                     "display" : true,
                     "wiz" : "auto",
@@ -4761,7 +4761,7 @@
                   {
                     "label" : "DNS Server",
                     "cn-label" : "DNS服务器",
-                    "tw-label" : "DNS Server",
+                    "tw-label" : "名稱伺服器",
                     "tab" : "dns",
                     "display" : true,
                     "wiz" : "auto",
@@ -4791,7 +4791,7 @@
                   {
                     "label" : "DHCP Server",
                     "cn-label" : "DHCP服务",
-                    "tw-label" : "DNS 伺服器",
+                    "tw-label" : "DHCP伺服器",
                     "tab" : "dhcpServer",
                     "display" : true,
                     "wiz" : "auto",
@@ -4884,7 +4884,7 @@
                   {
                     "label" : "Port List",
                     "cn-label" : "端口列表",
-                    "tw-label" : "端口列表",
+                    "tw-label" : "連接埠列表",
                     "tab" : "portList",
                     "display" : true,
                     "wiz" : "auto",
@@ -4916,9 +4916,9 @@
               "tabs" :
               {
                 "port" : { "label" : "Port Table", "cn-label" : "端口列表", "tw-label" : "連接埠列表" },
-                "vlan" : { "label" : "VLAN Interface Table", "cn-label" : "VLAN 接口表", "tw-label" : "VLAN Interface Table" },
-                "wan" : { "label" : "WAN Table", "cn-label" : "WAN 列表", "tw-label" : "WAN Table" },
-                "lan" : { "label" : "LAN Table", "cn-label" : "LAN 列表", "tw-label" : "LAN Table" }
+                "vlan" : { "label" : "VLAN Interface Table", "cn-label" : "VLAN 接口表", "tw-label" : "虛擬區域網路" },
+                "wan" : { "label" : "WAN Table", "cn-label" : "WAN 列表", "tw-label" : "廣域網路" },
+                "lan" : { "label" : "LAN Table", "cn-label" : "LAN 列表", "tw-label" : "區域網路" }
               },
               "url" :
               {
@@ -4966,7 +4966,7 @@
                   {
                     "label" : "Tx Pkts",
                     "cn-label" : "发送数据包",
-                    "tw-label" : "Tx 封包數量",
+                    "tw-label" : "上傳量",
                     "tab" : "txPkts",
                     "display" : true,
                     "wiz" : "auto",
@@ -4976,7 +4976,7 @@
                   {
                     "label" : "Rx Pkts",
                     "cn-label" : "接收数据包",
-                    "tw-label" : "Rx 封包數量",
+                    "tw-label" : "下載量",
                     "tab" : "rxPkts",
                     "display" : true,
                     "wiz" : "auto",
@@ -4996,7 +4996,7 @@
                   {
                     "label" : "Tx",
                     "cn-label" : "发送",
-                    "tw-label" : "Tx",
+                    "tw-label" : "上傳",
                     "tab" : "txBps",
                     "display" : true,
                     "wiz" : "auto",
@@ -5006,7 +5006,7 @@
                   {
                     "label" : "Rx",
                     "cn-label" : "接收",
-                    "tw-label" : "Rx",
+                    "tw-label" : "下載",
                     "tab" : "rxBps",
                     "display" : true,
                     "wiz" : "auto",
@@ -5039,7 +5039,7 @@
                   {
                     "label" : "Tx Pkts",
                     "cn-label" : "发送数据包",
-                    "tw-label" : "Tx 封包數量",
+                    "tw-label" : "傳送封包數量",
                     "tab" : "txPkts",
                     "display" : true,
                     "wiz" : "auto",
@@ -5049,7 +5049,7 @@
                   {
                     "label" : "Rx Pkts",
                     "cn-label" : "接收数据包",
-                    "tw-label" : "Rx 封包數量",
+                    "tw-label" : "接收封包數量",
                     "tab" : "rxPkts",
                     "display" : true,
                     "wiz" : "auto",
@@ -5069,7 +5069,7 @@
                   {
                     "label" : "Tx",
                     "cn-label" : "发送",
-                    "tw-label" : "Tx",
+                    "tw-label" : "上傳",
                     "tab" : "txBps",
                     "display" : true,
                     "wiz" : "auto",
@@ -5079,7 +5079,7 @@
                   {
                     "label" : "Rx",
                     "cn-label" : "接收",
-                    "tw-label" : "Rx",
+                    "tw-label" : "下載",
                     "tab" : "rxBps",
                     "display" : true,
                     "wiz" : "auto",
@@ -5112,7 +5112,7 @@
                   {
                     "label" : "Tx Pkts",
                     "cn-label" : "发送数据包",
-                    "tw-label" : "Tx 封包數量",
+                    "tw-label" : "傳送封包數量",
                     "tab" : "txPkts",
                     "display" : true,
                     "wiz" : "auto",
@@ -5122,7 +5122,7 @@
                   {
                     "label" : "Rx Pkts",
                     "cn-label" : "接收数据包",
-                    "tw-label" : "Rx 封包數量",
+                    "tw-label" : "接收封包數量",
                     "tab" : "rxPkts",
                     "display" : true,
                     "wiz" : "auto",
@@ -5142,7 +5142,7 @@
                   {
                     "label" : "Tx",
                     "cn-label" : "发送",
-                    "tw-label" : "Tx",
+                    "tw-label" : "上傳",
                     "tab" : "txBps",
                     "display" : true,
                     "wiz" : "auto",
@@ -5152,7 +5152,7 @@
                   {
                     "label" : "Rx",
                     "cn-label" : "接收",
-                    "tw-label" : "Rx",
+                    "tw-label" : "下載",
                     "tab" : "rxBps",
                     "display" : true,
                     "wiz" : "auto",
@@ -5185,7 +5185,7 @@
                   {
                     "label" : "Tx Pkts",
                     "cn-label" : "发送数据包",
-                    "tw-label" : "Tx 封包數量",
+                    "tw-label" : "傳送封包數量",
                     "tab" : "txPkts",
                     "display" : true,
                     "wiz" : "auto",
@@ -5195,7 +5195,7 @@
                   {
                     "label" : "Rx Pkts",
                     "cn-label" : "接收数据包",
-                    "tw-label" : "Rx 封包數量",
+                    "tw-label" : "接收封包數量",
                     "tab" : "rxPkts",
                     "display" : true,
                     "wiz" : "auto",
@@ -5215,7 +5215,7 @@
                   {
                     "label" : "Tx",
                     "cn-label" : "发送",
-                    "tw-label" : "Tx",
+                    "tw-label" : "上傳",
                     "tab" : "txBps",
                     "display" : true,
                     "wiz" : "auto",
@@ -5225,7 +5225,7 @@
                   {
                     "label" : "Rx",
                     "cn-label" : "接收",
-                    "tw-label" : "Rx",
+                    "tw-label" : "下載",
                     "tab" : "rxBps",
                     "display" : true,
                     "wiz" : "auto",
@@ -5248,7 +5248,7 @@
             {
               "label" : "WAN Bandwidth Report",
               "cn-label" : "WAN 带宽报告",
-              "tw-label" : "WAN 頻寬報告",
+              "tw-label" : "WAN 頻寬統計",
               "id" : "menu-7-2-5",
               "tab" : "wan_bandwidth_report",
               "tag" : "div",
@@ -5321,7 +5321,7 @@
             {
               "label" : "Src Port",
               "cn-label" : "源端口",
-              "tw-label" : "來源埠號",
+              "tw-label" : "來源埠",
               "tab" : "originalSrcPort",
               "display" : true,
               "wiz" : "auto",
@@ -5331,7 +5331,7 @@
             {
               "label" : "Dst Port",
               "cn-label" : "目的端口",
-              "tw-label" : "目的埠號",
+              "tw-label" : "目的埠",
               "tab" : "originalDstPort",
               "display" : false,
               "wiz" : "auto",
@@ -5381,7 +5381,7 @@
             {
               "label" : "Tx Pkt Cnt",
               "cn-label" : "发送数据包",
-              "tw-label" : "Tx Pkt Cnt",
+              "tw-label" : "傳送封包量",
               "tab" : "txPkt",
               "display" : false,
               "wiz" : "auto",
@@ -5391,7 +5391,7 @@
             {
               "label" : "Rx Pkt Cnt",
               "cn-label" : "接收数据包",
-              "tw-label" : "Rx Pkt Cnt",
+              "tw-label" : "接收封包量",
               "tab" : "rxPkt",
               "display" : false,
               "wiz" : "auto",
@@ -5401,7 +5401,7 @@
             {
               "label" : "Tx Byte",
               "cn-label" : "发送",
-              "tw-label" : "Tx Byte",
+              "tw-label" : "傳送量(位元組)",
               "tab" : "txByte",
               "display" : false,
               "wiz" : "auto",
@@ -5411,7 +5411,7 @@
             {
               "label" : "Rx Byte",
               "cn-label" : "接收",
-              "tw-label" : "Rx Byte",
+              "tw-label" : "接收量(位元組)",
               "tab" : "rxByte",
               "display" : false,
               "wiz" : "auto",
@@ -5423,7 +5423,7 @@
         {
           "label" : "VPN Status",
           "cn-label" : "VPN状态",
-          "tw-label" : "VPN 狀態",
+          "tw-label" : "虛擬私人網路狀態",
           "id" : "menu-7-4",
           "tab" : "vpn_status",
           "panel" :
@@ -5431,7 +5431,7 @@
             {
               "label" : "Active Sessions",
               "cn-label" : "活动会话",
-              "tw-label" : "活躍連線",
+              "tw-label" : "連線狀態",
               "id" : "menu-7-4-0",
               "tab" : "active_sessions",
               "tag" : "table",
@@ -5495,7 +5495,7 @@
                 {
                   "label" : "Local Network",
                   "cn-label" : "本地网络",
-                  "tw-label" : "本機網路",
+                  "tw-label" : "本地端網路",
                   "tab" : "localNetwork",
                   "display" : true,
                   "wiz" : "auto",
@@ -5597,7 +5597,7 @@
                 {
                   "label" : "Tx",
                   "cn-label" : "发送",
-                  "tw-label" : "Tx",
+                  "tw-label" : "上傳",
                   "tab" : "tx_bytes",
                   "display" : true,
                   "wiz" : "80px",
@@ -5607,7 +5607,7 @@
                 {
                   "label" : "Rx",
                   "cn-label" : "接收",
-                  "tw-label" : "Rx",
+                  "tw-label" : "下載",
                   "tab" : "rx_bytes",
                   "display" : true,
                   "wiz" : "80px",
@@ -5617,7 +5617,7 @@
                 {
                   "label" : "Tx Pkts",
                   "cn-label" : "发送数据包",
-                  "tw-label" : "Tx 封包數量",
+                  "tw-label" : "傳送封包數量",
                   "tab" : "tx_pkts",
                   "display" : true,
                   "wiz" : "auto",
@@ -5627,7 +5627,7 @@
                 {
                   "label" : "Rx Pkts",
                   "cn-label" : "接收数据包",
-                  "tw-label" : "Rx 封包數量",
+                  "tw-label" : "接收封包數量",
                   "tab" : "rx_pkts",
                   "display" : true,
                   "wiz" : "auto",
@@ -5649,7 +5649,7 @@
             {
               "label" : "Resource Utilization",
               "cn-label" : "资源使用率",
-              "tw-label" : "可用資源",
+              "tw-label" : "系統資源統計",
               "id" : "menu-7-5-0",
               "tab" : "resource_utilization",
               "tag" : "div",
@@ -5672,7 +5672,7 @@
         {
           "label" : "Active Users",
           "cn-label" : "活动用户",
-          "tw-label" : "活躍使用者",
+          "tw-label" : "使用者狀態",
           "id" : "menu-7-6",
           "tab" : "active_users",
           "tag" : "table",
@@ -5715,7 +5715,7 @@
             {
               "label" : "Address Information",
               "cn-label" : "地址信息",
-              "tw-label" : "位址資訊",
+              "tw-label" : "登入位址",
               "tab" : "address",
               "display" : true,
               "wiz" : "auto",
@@ -5761,7 +5761,7 @@
     {
       "label" : "Interface",
       "cn-label" : "接口",
-      "tw-label" : "介面",
+      "tw-label" : "網路介面",
       "id" : "menu-8",
       "tab" : "interface",
       "panel" :
@@ -5769,7 +5769,7 @@
         {
           "label" : "Port",
           "cn-label" : "端口",
-          "tw-label" : "埠號",
+          "tw-label" : "實體網路介面",
           "id" : "menu-8-0",
           "tab" : "ports",
           "tag" : "table",
@@ -5794,7 +5794,7 @@
             {
               "label" : "Port#",
               "cn-label" : "端口",
-              "tw-label" : "Port#",
+              "tw-label" : "網路埠代號",
               "tab" : "port",
               "wiz" : "10%",
               "display" : true,
@@ -5804,7 +5804,7 @@
             {
               "label" : "Name",
               "cn-label" : "名称",
-              "tw-label" : "名稱",
+              "tw-label" : "網路介面名稱",
               "tab" : "name",
               "wiz" : "15%",
               "display" : true,
@@ -5844,7 +5844,7 @@
             {
               "label" : "Link Status",
               "cn-label" : "链接状态",
-              "tw-label" : "連結狀態",
+              "tw-label" : "連接狀態",
               "tab" : "linkStatus",
               "wiz" : "10%",
               "display" : true,
@@ -5914,7 +5914,7 @@
                 {
                   "label" : "Netmask",
                   "cn-label" : "子网掩码",
-                  "tw-label" : "網路遮罩",
+                  "tw-label" : "子網路遮罩",
                   "tab" : "netmask",
                   "tag" : "input",
                   "type" : "text",
@@ -5935,9 +5935,9 @@
                   "option" :
                   {
                     "0" : { "label" : "Auto", "cn-label" : "自动", "tw-label" : "自動" },
-                    "10" : { "label" : "10Mb", "cn-label" : "10Mb", "tw-label" : "10Mb" },
-                    "100" : { "label" : "100Mb", "cn-label" : "100Mb", "tw-label" : "100Mb" },
-                    "1000" : { "label" : "1000Mb", "cn-label" : "1000Mb", "tw-label" : "1000Mb" }
+                    "10" : { "label" : "10Mb", "cn-label" : "10Mb", "tw-label" : "10Mbps" },
+                    "100" : { "label" : "100Mb", "cn-label" : "100Mb", "tw-label" : "100Mbps" },
+                    "1000" : { "label" : "1000Mb", "cn-label" : "1000Mb", "tw-label" : "1000Mbps" }
                   },
                   "align" :
                   [
@@ -5955,8 +5955,8 @@
                   "type" : "select",
                   "option" :
                   {
-                    "0" : { "label" : "Full", "cn-label" : "全双工", "tw-label" : "Full" },
-                    "1" : { "label" : "Half", "cn-label" : "半双工", "tw-label" : "Half" }
+                    "0" : { "label" : "Full", "cn-label" : "全双工", "tw-label" : "全雙工" },
+                    "1" : { "label" : "Half", "cn-label" : "半双工", "tw-label" : "半雙工" }
                   },
                   "align" :
                   [
@@ -5991,7 +5991,7 @@
                       {
                         "label" : "Value",
                         "cn-label" : "MTU值",
-                        "tw-label" : "參數值",
+                        "tw-label" : "自訂值",
                         "tab" : "mtuValue",
                         "tag" : "input",
                         "type" : "text",
@@ -6023,7 +6023,7 @@
             {
               "label" : "DHCP Pool Settings",
               "cn-label" : "DHCP 池设置",
-              "tw-label" : "DHCP Pool Settings",
+              "tw-label" : "DHCP 範圍設定",
               "tab" : "dhcp_pool_settings",
               "tag" : "div",
               "type" : "tabs",
@@ -6039,8 +6039,8 @@
                   "option" :
                   {
                     "0" : { "label" : "Disable", "cn-label" : "禁用", "tw-label" : "停用" },
-                    "1" : { "label" : "DHCP Server", "cn-label" : "DHCP 服务器", "tw-label" : "DNS 伺服器" },
-                    "2" : { "label" : "DHCP Relay", "cn-label" : "DHCP Relay", "tw-label" : "DHCP Relay" }
+                    "1" : { "label" : "DHCP Server", "cn-label" : "DHCP 服务器", "tw-label" : "DHCP 伺服器" },
+                    "2" : { "label" : "DHCP Relay", "cn-label" : "DHCP Relay", "tw-label" : "DHCP 中繼代理" }
                   },
                   "align" :
                   [
@@ -6085,7 +6085,7 @@
                       {
                         "label" : "Gateway",
                         "cn-label" : "网关",
-                        "tw-label" : "閘道",
+                        "tw-label" : "預設閘道",
                         "tab" : "gateway",
                         "tag" : "input",
                         "type" : "text",
@@ -6094,7 +6094,7 @@
                       {
                         "label" : "DNS1",
                         "cn-label" : "DNS1",
-                        "tw-label" : "DNS1",
+                        "tw-label" : "主要名稱伺服器",
                         "tab" : "dns1",
                         "tag" : "input",
                         "type" : "text",
@@ -6103,7 +6103,7 @@
                       {
                         "label" : "DNS2",
                         "cn-label" : "DNS2",
-                        "tw-label" : "DNS2",
+                        "tw-label" : "次要名稱伺服器",
                         "tab" : "dns2",
                         "tag" : "input",
                         "type" : "text",
@@ -6142,7 +6142,7 @@
                       {
                         "label" : "DHCP Relay",
                         "cn-label" : "DHCP中继",
-                        "tw-label" : "DHCP Relay",
+                        "tw-label" : "DHCP 中繼代理",
                         "tab" : "relayIp",
                         "tag" : "input",
                         "type" : "text",
@@ -6188,7 +6188,7 @@
                     {
                       "label" : "IP",
                       "cn-label" : "IP",
-                      "tw-label" : "IP",
+                      "tw-label" : "主機位址",
                       "tab" : "assignIpId",
                       "wiz" : "120px"
                     },
@@ -6240,7 +6240,7 @@
                     {
                       "label" : "Netmask",
                       "cn-label" : "子网掩码",
-                      "tw-label" : "網路遮罩",
+                      "tw-label" : "子網路遮罩",
                       "tab" : "netmask",
                       "wiz" : "40%"
                     },
@@ -6292,7 +6292,7 @@
         {
           "label" : "VLAN Interfaces",
           "cn-label" : "VLAN接口",
-          "tw-label" : "VLAN Interfaces",
+          "tw-label" : "虛擬區網介面",
           "id" : "menu-8-1",
           "tab" : "vlan_interfaces",
           "tag" : "table",
@@ -6331,7 +6331,7 @@
             {
               "label" : "Port#",
               "cn-label" : "端口#",
-              "tw-label" : "Port#",
+              "tw-label" : "序號",
               "tab" : "port",
               "wiz" : "5%",
               "display" : true,
@@ -6351,7 +6351,7 @@
             {
               "label" : "Interface",
               "cn-label" : "接口",
-              "tw-label" : "介面",
+              "tw-label" : "實體網路介面",
               "tab" : "interface",
               "wiz" : "15%",
               "display" : true,
@@ -6424,7 +6424,7 @@
                 {
                   "label" : "* Name",
                   "cn-label" : "* 名称",
-                  "tw-label" : "* Name",
+                  "tw-label" : "* 名稱",
                   "tab" : "name",
                   "tag" : "input",
                   "type" : "text",
@@ -6438,7 +6438,7 @@
                 {
                   "label" : "Interface",
                   "cn-label" : "接口",
-                  "tw-label" : "介面",
+                  "tw-label" : "實體網路介面",
                   "tab" : "interface",
                   "tag" : "select",
                   "type" : "select",
@@ -6485,7 +6485,7 @@
                 {
                   "label" : "Netmask",
                   "cn-label" : "子网掩码",
-                  "tw-label" : "網路遮罩",
+                  "tw-label" : "子網路遮罩",
                   "tab" : "netmask",
                   "tag" : "input",
                   "type" : "text",
@@ -6522,7 +6522,7 @@
                       {
                         "label" : "Value",
                         "cn-label" : "MTU值",
-                        "tw-label" : "參數值",
+                        "tw-label" : "自訂值",
                         "tab" : "mtuValue",
                         "tag" : "input",
                         "type" : "text",
@@ -6554,7 +6554,7 @@
             {
               "label" : "DHCP Pool Settings",
               "cn-label" : "DHCP 池的设置",
-              "tw-label" : "DHCP Pool Settings",
+              "tw-label" : "DHCP 位址範圍",
               "tab" : "dhcp_pool_settings",
               "tag" : "div",
               "type" : "tabs",
@@ -6570,8 +6570,8 @@
                   "option" :
                   {
                     "0" : { "label" : "Disable", "cn-label" : "禁用", "tw-label" : "停用" },
-                    "1" : { "label" : "DHCP Server", "cn-label" : "DHCP 服务器", "tw-label" : "DNS 伺服器" },
-                    "2" : "DHCP Relay"
+                    "1" : { "label" : "DHCP Server", "cn-label" : "DHCP 服务器", "tw-label" : "DHCP 伺服器" },
+                    "2" : "DHCP 中繼代理"
                   },
                   "align" :
                   [
@@ -6617,7 +6617,7 @@
                       {
                         "label" : "Gateway",
                         "cn-label" : "网关",
-                        "tw-label" : "閘道",
+                        "tw-label" : "預設閘道",
                         "tab" : "gateway",
                         "tag" : "input",
                         "type" : "text",
@@ -6626,7 +6626,7 @@
                       {
                         "label" : "DNS1",
                         "cn-label" : "DNS1",
-                        "tw-label" : "DNS1",
+                        "tw-label" : "主要名稱伺服器",
                         "tab" : "dns1",
                         "tag" : "input",
                         "type" : "text",
@@ -6635,7 +6635,7 @@
                       {
                         "label" : "DNS2",
                         "cn-label" : "DNS2",
-                        "tw-label" : "DNS2",
+                        "tw-label" : "次要名稱伺服器",
                         "tab" : "dns2",
                         "tag" : "input",
                         "type" : "text",
@@ -6674,7 +6674,7 @@
                       {
                         "label" : "DHCP Relay",
                         "cn-label" : "DHCP中继",
-                        "tw-label" : "DHCP Relay",
+                        "tw-label" : "DHCP 中繼代理",
                         "tab" : "relayIp",
                         "tag" : "input",
                         "type" : "text",
@@ -6720,7 +6720,7 @@
                     {
                       "label" : "IP",
                       "cn-label" : "IP",
-                      "tw-label" : "IP",
+                      "tw-label" : "主機位址",
                       "tab" : "assignIpId",
                       "wiz" : "120px"
                     },
@@ -6771,7 +6771,7 @@
                     {
                       "label" : "Netmask",
                       "cn-label" : "子网掩码",
-                      "tw-label" : "網路遮罩",
+                      "tw-label" : "子網路遮罩",
                       "tab" : "netmask",
                       "wiz" : "40%"
                     },
@@ -6823,7 +6823,7 @@
         {
           "label" : "LAN",
           "cn-label" : "LAN",
-          "tw-label" : "LAN",
+          "tw-label" : "區域網路",
           "id" : "menu-8-2",
           "tab" : "lan",
           "tag" : "table",
@@ -6892,7 +6892,7 @@
             {
               "label" : "Interfaces",
               "cn-label" : "接口",
-              "tw-label" : "Interfaces",
+              "tw-label" : "實體網路介面",
               "tab" : "interfaces",
               "wiz" : "30%",
               "display" : true,
@@ -6963,7 +6963,7 @@
                 {
                   "label" : "Netmask",
                   "cn-label" : "子网掩码",
-                  "tw-label" : "網路遮罩",
+                  "tw-label" : "子網路遮罩",
                   "tab" : "netmask",
                   "tag" : "input",
                   "type" : "text",
@@ -6992,7 +6992,7 @@
                 {
                   "label" : "Interfaces",
                   "cn-label" : "接口",
-                  "tw-label" : "Interfaces",
+                  "tw-label" : "網路介面",
                   "tab" : "interfaces",
                   "tag" : "select",
                   "type" : "multiple",
@@ -7002,7 +7002,7 @@
                     {
                       "label" : "Interface List",
                       "cn-label" : "接口列表",
-                      "tw-label" : "Interface List",
+                      "tw-label" : "可用網路介面",
                       "tab" : "pool",
                       "wiz" : "40%"
                     },
@@ -7030,7 +7030,7 @@
                     {
                       "label" : "Selected interface List",
                       "cn-label" : "选择的接口列表",
-                      "tw-label" : "Selected interface List",
+                      "tw-label" : "已選擇網路介面",
                       "tab" : "pick",
                       "wiz" : "40%"
                     }
@@ -7056,7 +7056,7 @@
             {
               "label" : "DHCP Pool Settings",
               "cn-label" : "DHCP 池设置",
-              "tw-label" : "DHCP Pool Settings",
+              "tw-label" : "DHCP 位址範圍",
               "tab" : "dhcp_pool_settings",
               "tag" : "div",
               "type" : "tabs",
@@ -7072,7 +7072,7 @@
                   "option" :
                   {
                     "0" : { "label" : "Disable", "cn-label" : "禁用", "tw-label" : "停用" },
-                    "1" : { "label" : "DHCP Server", "cn-label" : "DHCP 服务器", "tw-label" : "DNS 伺服器" },
+                    "1" : { "label" : "DHCP Server", "cn-label" : "DHCP 服务器", "tw-label" : "DHCP 伺服器" },
                     "2" : "DHCP Relay"
                   },
                   "align" :
@@ -7119,7 +7119,7 @@
                       {
                         "label" : "Gateway",
                         "cn-label" : "网关",
-                        "tw-label" : "閘道",
+                        "tw-label" : "預設閘道",
                         "tab" : "gateway",
                         "tag" : "input",
                         "type" : "text",
@@ -7128,7 +7128,7 @@
                       {
                         "label" : "DNS1",
                         "cn-label" : "DNS1",
-                        "tw-label" : "DNS1",
+                        "tw-label" : "主要名稱伺服器",
                         "tab" : "dns1",
                         "tag" : "input",
                         "type" : "text",
@@ -7137,7 +7137,7 @@
                       {
                         "label" : "DNS2",
                         "cn-label" : "DNS2",
-                        "tw-label" : "DNS2",
+                        "tw-label" : "次要名稱伺服器",
                         "tab" : "dns2",
                         "tag" : "input",
                         "type" : "text",
@@ -7176,7 +7176,7 @@
                       {
                         "label" : "DHCP Relay",
                         "cn-label" : "DHCP中继",
-                        "tw-label" : "DHCP Relay",
+                        "tw-label" : "DHCP 中繼代理",
                         "tab" : "relayIp",
                         "tag" : "input",
                         "type" : "text",
@@ -7222,7 +7222,7 @@
                     {
                       "label" : "IP",
                       "cn-label" : "IP",
-                      "tw-label" : "IP",
+                      "tw-label" : "主機位址",
                       "tab" : "assignIpId",
                       "wiz" : "120px"
                     },
@@ -7274,7 +7274,7 @@
                     {
                       "label" : "Netmask",
                       "cn-label" : "子网掩码",
-                      "tw-label" : "網路遮罩",
+                      "tw-label" : "子網路遮罩",
                       "tab" : "netmask",
                       "wiz" : "40%"
                     },
@@ -7326,16 +7326,16 @@
         {
           "label" : "WAN",
           "cn-label" : "WAN",
-          "tw-label" : "WAN",
+          "tw-label" : "廣域網路",
           "id" : "menu-8-3",
           "tab" : "wan",
           "tag" : "div",
           "type" : "tabs",
           "tabs" :
           {
-            "wan_settings" : { "label" : "WAN Settings", "cn-label" : "WAN设置", "tw-label" : "WAN 設定" },
-            "multiwan_settings" : { "label" : "Multiple WAN Settings", "cn-label" : "多WAN口设置", "tw-label" : "Multiple WAN 設定" },
-            "default_dns_settings" : { "label" : "Default DNS Settings", "cn-label" : "默认DNS设置", "tw-label" : "Default DNS 設定" }
+            "wan_settings" : { "label" : "WAN Settings", "cn-label" : "WAN设置", "tw-label" : "廣域網路設定" },
+            "multiwan_settings" : { "label" : "Multiple WAN Settings", "cn-label" : "多WAN口设置", "tw-label" : "多 WAN 設定" },
+            "default_dns_settings" : { "label" : "Default DNS Settings", "cn-label" : "默认DNS设置", "tw-label" : "預設 DNS 設定" }
           },
           "url" :
           {
@@ -7422,7 +7422,7 @@
               {
                 "label" : "WAN Type",
                 "cn-label" : "WAN类型",
-                "tw-label" : "WAN 類型",
+                "tw-label" : "位址設定方式",
                 "tab" : "wanProto",
                 "wiz" : "10%",
                 "display" : true,
@@ -7452,7 +7452,7 @@
               {
                 "label" : "Weight",
                 "cn-label" : "权重",
-                "tw-label" : "權數",
+                "tw-label" : "權重",
                 "tab" : "weight",
                 "wiz" : "10%",
                 "display" : true,
@@ -7462,7 +7462,7 @@
               {
                 "label" : "Backup",
                 "cn-label" : "备份",
-                "tw-label" : "備份",
+                "tw-label" : "備援線路",
                 "tab" : "backupWanName",
                 "wiz" : "7%",
                 "display" : true,
@@ -7496,7 +7496,7 @@
               {
                 "label" : "Multiple WAN Settings",
                 "cn-label" : "多WAN口设置",
-                "tw-label" : "Multiple WAN 設定",
+                "tw-label" : "多 WAN 設定",
                 "tab" : "mode",
                 "tag" : "input",
                 "type" : "radio",
@@ -7520,7 +7520,7 @@
                       {
                         "label" : "Detection Period",
                         "cn-label" : "检测周期",
-                        "tw-label" : "偵測週期",
+                        "tw-label" : "偵測頻率(秒)",
                         "tab" : "period",
                         "tag" : "input",
                         "type" : "text",
@@ -7539,7 +7539,7 @@
                       {
                         "label" : "Detection Relay Count",
                         "cn-label" : "检测中继计数",
-                        "tw-label" : "Relay 偵測數",
+                        "tw-label" : "偵測中斷次數",
                         "tab" : "count",
                         "tag" : "input",
                         "type" : "text",
@@ -7561,7 +7561,7 @@
                   {
                     "label" : "Routing Table Mode",
                     "cn-label" : "路由表模式",
-                    "tw-label" : "路由列表模式",
+                    "tw-label" : "路由模式",
                     "tab" : "mode-1",
                     "align" :
                     [
@@ -7579,7 +7579,7 @@
               {
                 "label" : "Primary DNS",
                 "cn-label" : "首选DNS服务器",
-                "tw-label" : "慣用 DNS",
+                "tw-label" : "主要名稱伺服器",
                 "tab" : "defaultDNS1",
                 "tag" : "input",
                 "type" : "text",
@@ -7588,7 +7588,7 @@
               {
                 "label" : "Secondary DNS",
                 "cn-label" : "备用DNS服务器",
-                "tw-label" : "其他 DNS",
+                "tw-label" : "次要名稱伺服器",
                 "tab" : "defaultDNS2",
                 "tag" : "input",
                 "type" : "text",
@@ -7637,7 +7637,7 @@
                 {
                   "label" : "Port Setting",
                   "cn-label" : "端口设置",
-                  "tw-label" : "埠號設定",
+                  "tw-label" : "實體網路介面",
                   "tab" : "portId",
                   "tag" : "select",
                   "type" : "select",
@@ -7667,7 +7667,7 @@
                 {
                   "label" : "IP Assignment Method",
                   "cn-label" : "IP指定方法",
-                  "tw-label" : "IP 分派方式",
+                  "tw-label" : "IP 取得方式",
                   "tab" : "wanProto",
                   "tag" : "select",
                   "type" : "select",
@@ -7762,7 +7762,7 @@
                               {
                                 "label" : "Value",
                                 "cn-label" : "MTU值",
-                                "tw-label" : "參數值",
+                                "tw-label" : "自訂值",
                                 "tab" : "mtu",
                                 "tag" : "input",
                                 "type" : "text",
@@ -7820,7 +7820,7 @@
                               {
                                 "label" : "DNS1",
                                 "cn-label" : "DNS1",
-                                "tw-label" : "DNS1",
+                                "tw-label" : "主要名稱伺服器",
                                 "tab" : "userDns1",
                                 "tag" : "input",
                                 "type" : "text",
@@ -7834,7 +7834,7 @@
                               {
                                 "label" : "DNS2",
                                 "cn-label" : "DNS2",
-                                "tw-label" : "DNS2",
+                                "tw-label" : "次要名稱伺服器",
                                 "tab" : "userDns2",
                                 "tag" : "input",
                                 "type" : "text",
@@ -7891,7 +7891,7 @@
                               {
                                 "label" : "Value",
                                 "cn-label" : "MTU值",
-                                "tw-label" : "參數值",
+                                "tw-label" : "自訂值",
                                 "tab" : "mtu",
                                 "tag" : "input",
                                 "type" : "text",
@@ -7949,7 +7949,7 @@
                               {
                                 "label" : "DNS1",
                                 "cn-label" : "DNS1",
-                                "tw-label" : "DNS1",
+                                "tw-label" : "主要名稱伺服器",
                                 "tab" : "userDns1",
                                 "tag" : "input",
                                 "type" : "text",
@@ -7963,7 +7963,7 @@
                               {
                                 "label" : "DNS2",
                                 "cn-label" : "DNS2",
-                                "tw-label" : "DNS2",
+                                "tw-label" : "次要名稱伺服器",
                                 "tab" : "userDns2",
                                 "tag" : "input",
                                 "type" : "text",
@@ -8018,7 +8018,7 @@
                       {
                         "label" : "Authentication Type",
                         "cn-label" : "认证类型",
-                        "tw-label" : "認証類型",
+                        "tw-label" : "認証方式",
                         "tab" : "authType",
                         "tag" : "select",
                         "type" : "select",
@@ -8051,14 +8051,14 @@
                           {
                             "label" : "Keep Alive",
                             "cn-label" : "保持连接",
-                            "tw-label" : "Keep Alive",
+                            "tw-label" : "保持連線",
                             "tab" : "ondemand-0"
                           },
                           "1" :
                           {
                             "label" : "Connect Idle (dial on demand)",
                             "cn-label" : "按需连接",
-                            "tw-label" : "Connect Idle (dial on demand)",
+                            "tw-label" : "有連線才撥接，持續未連線到達設定時間，即斷線",
                             "tab" : "ondemand-1",
                             "col" :
                             [
@@ -8117,7 +8117,7 @@
                               {
                                 "label" : "Value",
                                 "cn-label" : "MTU值",
-                                "tw-label" : "參數值",
+                                "tw-label" : "自訂值",
                                 "tab" : "mtu",
                                 "tag" : "input",
                                 "type" : "text",
@@ -8175,7 +8175,7 @@
                               {
                                 "label" : "DNS1",
                                 "cn-label" : "DNS1",
-                                "tw-label" : "DNS1",
+                                "tw-label" : "主要名稱伺服器",
                                 "tab" : "userDns1",
                                 "tag" : "input",
                                 "type" : "text",
@@ -8189,7 +8189,7 @@
                               {
                                 "label" : "DNS2",
                                 "cn-label" : "DNS2",
-                                "tw-label" : "DNS2",
+                                "tw-label" : "次要名稱伺服器",
                                 "tab" : "userDns2",
                                 "tag" : "input",
                                 "type" : "text",
@@ -8272,7 +8272,7 @@
             {
               "label" : "Multiple WAN Settings",
               "cn-label" : "多WAN口设置",
-              "tw-label" : "Multiple WAN 設定",
+              "tw-label" : "多 WAN 設定",
               "tab" : "multiple_wan_settings",
               "tag" : "div",
               "type" : "tabs",
@@ -8281,7 +8281,7 @@
                 {
                   "label" : "Weight",
                   "cn-label" : "权重",
-                  "tw-label" : "權數",
+                  "tw-label" : "權重",
                   "tab" : "weight",
                   "tag" : "select",
                   "type" : "select",
@@ -8303,7 +8303,7 @@
                 {
                   "label" : "Detect link by",
                   "cn-label" : "检测链路",
-                  "tw-label" : "偵測連結是由",
+                  "tw-label" : "偵測線路方式",
                   "tab" : "netDetectEnable",
                   "tag" : "input",
                   "type" : "checkbox",
@@ -8394,7 +8394,7 @@
                 {
                   "label" : "If link fails, activate",
                   "cn-label" : "当链接出现故障时，激活",
-                  "tw-label" : "如果連結失效請啟動",
+                  "tw-label" : "如果連結失效，切換至",
                   "tab" : "failoverEnable",
                   "tag" : "input",
                   "type" : "checkbox",
@@ -8452,7 +8452,7 @@
                     {
                       "label" : "Netmask",
                       "cn-label" : "子网掩码",
-                      "tw-label" : "網路遮罩",
+                      "tw-label" : "子網路遮罩",
                       "tab" : "netmask",
                       "wiz" : "40%"
                     },
@@ -8488,7 +8488,7 @@
                   "option" :
                   {
                     "0" : { "label" : "Static IP", "cn-label" : "静态IP", "tw-label" : "固定 IP " },
-                    "1" : { "label" : "SLAAC", "cn-label" : "自动设定(SLAAC)", "tw-label" : "SLAAC" }
+                    "1" : { "label" : "SLAAC", "cn-label" : "自动设定(SLAAC)", "tw-label" : "自動(SLAAC)" }
                   },
                   "col" :
                   {
@@ -8540,7 +8540,7 @@
                       {
                         "label" : "Primary DNS Server",
                         "cn-label" : "首选DNS服务器",
-                        "tw-label" : "慣用 DNS 伺服器",
+                        "tw-label" : "主要名稱伺服器",
                         "tab" : "userDns1",
                         "tag" : "input",
                         "type" : "text",
@@ -8554,7 +8554,7 @@
                       {
                         "label" : "Secondary DNS Server",
                         "cn-label" : "备用DNS服务器",
-                        "tw-label" : "其他 DNS 伺服器",
+                        "tw-label" : "次要名稱伺服器",
                         "tab" : "userDns2",
                         "tag" : "input",
                         "type" : "text",
@@ -8634,7 +8634,7 @@
             {
               "label" : "Joined Member List",
               "cn-label" : "包含的成员列表",
-              "tw-label" : "使用者登入列表",
+              "tw-label" : "已選區域",
               "tab" : "member",
               "wiz": "55%",
               "display" : true,
@@ -8700,7 +8700,7 @@
                 {
                   "label" : "Member List",
                   "cn-label" : "成员列表",
-                  "tw-label" : "Member List",
+                  "tw-label" : "可用區域",
                   "tab" : "pool",
                   "wiz" : "45%"
                 },
@@ -8728,7 +8728,7 @@
                 {
                   "label" : "Joined Member List",
                   "cn-label" : "包含成员列表",
-                  "tw-label" : "使用者登入列表",
+                  "tw-label" : "已選擇區域",
                   "tab" : "pick",
                   "wiz" : "45%"
                 }
@@ -8749,7 +8749,7 @@
         {
           "label" : "Routing",
           "cn-label" : "路由",
-          "tw-label" : "路由",
+          "tw-label" : "路由設定",
           "id" : "menu-9-0",
           "tab" : "routings",
           "panel" :
@@ -8757,7 +8757,7 @@
             {
               "label" : "Routing",
               "cn-label" : "路由模式",
-              "tw-label" : "路由",
+              "tw-label" : "路由模式",
               "id" : "menu-9-0-0",
               "tab" : "routing",
               "tag" : "div",
@@ -8847,7 +8847,7 @@
                 {
                   "label" : "Destinated Network",
                   "cn-label" : "目标网络",
-                  "tw-label" : "網路選定",
+                  "tw-label" : "目的網路",
                   "tab" : "destinatedNetwork",
                   "wiz" : "35%",
                   "display" : true,
@@ -8857,7 +8857,7 @@
                 {
                   "label" : "Next Hop",
                   "cn-label" : "下一跳",
-                  "tw-label" : "次站路徑",
+                  "tw-label" : "閘道器",
                   "tab" : "nextHop",
                   "wiz" : "35%",
                   "display" : true,
@@ -8867,7 +8867,7 @@
                 {
                   "label" : "Metric",
                   "cn-label" : "度量值",
-                  "tw-label" : "衡量標準",
+                  "tw-label" : "距離",
                   "tab" : "metric",
                   "wiz" : "10%",
                   "display" : true,
@@ -8892,7 +8892,7 @@
                 {
                   "label" : "Destinated Network",
                   "cn-label" : "目标网络",
-                  "tw-label" : "網路選定",
+                  "tw-label" : "目的網路",
                   "tab" : "dstIpId",
                   "tag" : "select",
                   "type" : "select",
@@ -8925,7 +8925,7 @@
                 {
                   "label" : "Next Hop",
                   "cn-label" : "下一跳",
-                  "tw-label" : "次站路徑",
+                  "tw-label" : "閘道器",
                   "tab" : "nhType",
                   "tag" : "input",
                   "type" : "radio",
@@ -8976,7 +8976,7 @@
                 {
                   "label" : "Metric",
                   "cn-label" : "度量值",
-                  "tw-label" : "衡量標準",
+                  "tw-label" : "距離",
                   "tab" : "metric",
                   "tag" : "input",
                   "type" : "text",
@@ -8993,7 +8993,7 @@
         {
           "label" : "Site-to-Site VPN",
           "cn-label" : "站点到站点 VPN",
-          "tw-label" : "Site-to-Site VPN",
+          "tw-label" : "點對點私人虛擬網路",
           "id" : "menu-9-1",
           "tab" : "site_to_site_vpn",
           "panel" :
@@ -9083,7 +9083,7 @@
                     {
                       "label" : "WAN",
                       "cn-label" : "WAN",
-                      "tw-label" : "WAN",
+                      "tw-label" : "連接埠",
                       "tab" : "wanId",
                       "wiz" : "5%",
                       "display" : true,
@@ -9093,7 +9093,7 @@
                     {
                       "label" : "Peers",
                       "cn-label" : "对端地址",
-                      "tw-label" : "Peers",
+                      "tw-label" : "連接端",
                       "tab" : "remoteGw",
                       "wiz" : "10%",
                       "display" : true,
@@ -9103,7 +9103,7 @@
                     {
                       "label" : "Local",
                       "cn-label" : "本地网络",
-                      "tw-label" : "本機",
+                      "tw-label" : "本地端網路",
                       "tab" : "localNetworkId",
                       "wiz" : "12%",
                       "display" : true,
@@ -9113,7 +9113,7 @@
                     {
                       "label" : "Remote",
                       "cn-label" : "远程网络",
-                      "tw-label" : "遠端",
+                      "tw-label" : "遠端網路",
                       "tab" : "remoteNetworkId",
                       "wiz" : "12%",
                       "display" : true,
@@ -9123,7 +9123,7 @@
                     {
                       "label" : "IKE",
                       "cn-label" : "IKE",
-                      "tw-label" : "IKE",
+                      "tw-label" : "IKE政策",
                       "tab" : "ikePolicyId",
                       "wiz" : "10%",
                       "display" : true,
@@ -9133,7 +9133,7 @@
                     {
                       "label" : "Transform",
                       "cn-label" : "转换策略ID",
-                      "tw-label" : "轉換",
+                      "tw-label" : "轉換政策",
                       "tab" : "transformPolicyId",
                       "wiz" : "10%",
                       "display" : true,
@@ -9199,7 +9199,7 @@
                     {
                       "label" : "Remote Type",
                       "cn-label" : "对端地址类型",
-                      "tw-label" : "遠端類型",
+                      "tw-label" : "遠端連線方式",
                       "tab" : "remoteGwType",
                       "tag" : "select",
                       "type" : "select",
@@ -9208,7 +9208,7 @@
                       {
                         "0" : { "label" : "Dynamic IP", "cn-label" : "动态IP", "tw-label" : "浮動 IP" },
                         "1" : { "label" : "Static IP", "cn-label" : "静态IP", "tw-label" : "固定 IP" },
-                        "2" : { "label" : "FQDN", "cn-label" : "FQDN", "tw-label" : "FQDN" }
+                        "2" : { "label" : "FQDN", "cn-label" : "FQDN", "tw-label" : "網址" }
                       },
                       "align" :
                       [
@@ -9320,7 +9320,7 @@
                     {
                       "label" : "Local Network",
                       "cn-label" : "本地网络",
-                      "tw-label" : "本機網路",
+                      "tw-label" : "本地端網路",
                       "tab" : "localNetworkId",
                       "tag" : "select",
                       "type" : "select",
@@ -9434,7 +9434,7 @@
                         {
                           "tw-label" : "DPDAction",
                           "cn-label" : "DPD操作",
-                          "tw-label" : "執行 DPD",
+                          "tw-label" : "DPD執行方式",
                           "tab" : "dpdaction",
                           "tag" : "select",
                           "type" : "select",
@@ -9517,7 +9517,7 @@
                     {
                       "label" : "Redundant Gateway",
                       "cn-label" : "冗余网关",
-                      "tw-label" : "冗餘閘道",
+                      "tw-label" : "備援閘道",
                       "tab" : "backupPolicyEnable",
                       "tag" : "input",
                       "type" : "checkbox",
@@ -9534,7 +9534,7 @@
                         {
                           "label" : "Select Backup Policy",
                           "cn-label" : "选择备份策略",
-                          "tw-label" : "選擇備份政策",
+                          "tw-label" : "選擇備援線路",
                           "tab" : "backupPolicyName",
                           "tag" : "select",
                           "type" : "select",
@@ -9662,7 +9662,7 @@
                 {
                   "label" : "Encryption",
                   "cn-label" : "加密类型",
-                  "tw-label" : "加密",
+                  "tw-label" : "加密方式",
                   "tab" : "cipher",
                   "wiz" : "20%",
                   "display" : true,
@@ -9672,7 +9672,7 @@
                 {
                   "label" : "Authentication",
                   "cn-label" : "认证方式",
-                  "tw-label" : "驗證",
+                  "tw-label" : "驗證方式",
                   "tab" : "hash",
                   "wiz" : "15%",
                   "display" : true,
@@ -9733,7 +9733,7 @@
                 {
                   "label" : "Encryption",
                   "cn-label" : "加密类型",
-                  "tw-label" : "加密",
+                  "tw-label" : "加密方式",
                   "tab" : "cipher",
                   "tag" : "select",
                   "type" : "select",
@@ -9757,7 +9757,7 @@
                 {
                   "label" : "Authentication",
                   "cn-label" : "认证",
-                  "tw-label" : "驗證",
+                  "tw-label" : "驗證方式",
                   "tab" : "hash",
                   "tag" : "select",
                   "type" : "select",
@@ -9869,7 +9869,7 @@
                 {
                   "label" : "Encryption",
                   "cn-label" : "加密类型",
-                  "tw-label" : "加密",
+                  "tw-label" : "加密方式",
                   "tab" : "cipher",
                   "wiz" : "20%",
                   "display" : true,
@@ -9879,7 +9879,7 @@
                 {
                   "label" : "Authentication",
                   "cn-label" : "认证方式",
-                  "tw-label" : "驗證",
+                  "tw-label" : "驗證方式",
                   "tab" : "hash",
                   "wiz" : "15%",
                   "display" : true,
@@ -9939,7 +9939,7 @@
                 {
                   "label" : "Encryption",
                   "cn-label" : "加密类型",
-                  "tw-label" : "加密",
+                  "tw-label" : "加密方式",
                   "tab" : "cipher",
                   "tag" : "select",
                   "type" : "select",
@@ -9963,7 +9963,7 @@
                 {
                   "label" : "Authentication",
                   "cn-label" : "认证方式",
-                  "tw-label" : "驗證",
+                  "tw-label" : "驗證方式",
                   "tab" : "hash",
                   "tag" : "select",
                   "type" : "select",
@@ -10034,7 +10034,7 @@
         {
           "label" : "DNS Forwarder",
           "cn-label" : "DNS 转发",
-          "tw-label" : "DNS Forwarder",
+          "tw-label" : "DNS 轉送",
           "id" : "menu-9-2",
           "tab" : "dns_forwarder",
           "tag" : "table",
@@ -10064,7 +10064,7 @@
                 {
                   "label" : "Cache",
                   "cn-label" : "缓存",
-                  "tw-label" : "Cache",
+                  "tw-label" : "快取",
                   "tab" : "enableCache",
                   "tag" : "input",
                   "type" : "radio",
@@ -10078,7 +10078,7 @@
                 {
                   "label" : "Cache",
                   "cn-label" : "缓存",
-                  "tw-label" : "Cache",
+                  "tw-label" : "快取時間",
                   "tab" : "cacheSize",
                   "tag" : "input",
                   "type" : "text",
@@ -10090,7 +10090,7 @@
                 {
                   "label" : "Static Mapping",
                   "cn-label" : "静态绑定",
-                  "tw-label" : "固定 Mapping",
+                  "tw-label" : "靜態對應",
                   "tab" : "enableStaticDNS",
                   "tag" : "input",
                   "type" : "radio",
@@ -10158,7 +10158,7 @@
             {
               "label" : "IP",
               "cn-label" : "IP",
-              "tw-label" : "IP",
+              "tw-label" : "IP位址",
               "tab" : "ipAddr",
               "tag" : "input",
               "type" : "text"
@@ -10322,7 +10322,7 @@
               {
                 "label" : "Dst Addr",
                 "cn-label" : "目的地址",
-                "tw-label" : "目標位址",
+                "tw-label" : "目的位址",
                 "tab" : "destinationAddress",
                 "display" : true,
                 "sortable" : false,
@@ -10368,7 +10368,7 @@
               {
                 "label" : "Match Action",
                 "cn-label" : "匹配操作",
-                "tw-label" : "啟用匹配",
+                "tw-label" : "執行方式",
                 "tab" : "matchAction",
                 "tag" : "select",
                 "type" : "select",
@@ -10608,7 +10608,7 @@
               {
                 "0" : { "label" : "Deny", "cn-label" : "拒绝", "tw-label" : "封鎖" },
                 "1" : { "label" : "Permit", "cn-label" : "允许", "tw-label" : "允許" },
-                "2" : { "label" : "Accounting", "cn-label" : "Accounting", "tw-label" : "計量" }
+                "2" : { "label" : "Accounting", "cn-label" : "Accounting", "tw-label" : "計數" }
               },
               "align" :
               [
@@ -10637,8 +10637,8 @@
               "type" : "tabs",
               "tabs" :
               {
-                "pat_settings" : { "label" : "PAT Settings", "cn-label" : "PAT设置", "tw-label" : "PAT Settings" },
-                "wan_address_settings" : { "label" : "WAN Address Settings", "cn-label" : "WAN地址设置", "tw-label" : "WAN Address Settings" }
+                "pat_settings" : { "label" : "PAT Settings", "cn-label" : "PAT设置", "tw-label" : "PAT 設定" },
+                "wan_address_settings" : { "label" : "WAN Address Settings", "cn-label" : "WAN地址设置", "tw-label" : "WAN 位址設定" }
               },
               "url" :
               {
@@ -10774,7 +10774,7 @@
                   {
                     "label" : "WAN",
                     "cn-label" : "WAN名称",
-                    "tw-label" : "WAN",
+                    "tw-label" : "WAN 名稱",
                     "tab" : "wanName",
                     "wiz" : "25%",
                     "display" : true,
@@ -10886,7 +10886,7 @@
             {
               "label" : "Static NAT",
               "cn-label" : "静态NAT",
-              "tw-label" : "固定 NAT",
+              "tw-label" : "靜態 NAT",
               "id" : "menu-10-1-1",
               "tab" : "static_nat",
               "tag" : "table",
@@ -10939,7 +10939,7 @@
                 {
                   "label" : "Public IP",
                   "cn-label" : "公有IP",
-                  "tw-label" : "公共 IP",
+                  "tw-label" : "外部 IP",
                   "tab" : "publicIp",
                   "wiz" : "25%",
                   "display" : true,
@@ -10949,7 +10949,7 @@
                 {
                   "label" : "Private IP",
                   "cn-label" : "私有IP",
-                  "tw-label" : "私有 IP",
+                  "tw-label" : "對應 IP",
                   "tab" : "privateIp",
                   "wiz" : "25%",
                   "display" : true,
@@ -10988,7 +10988,7 @@
                 {
                   "label" : "Public IP",
                   "cn-label" : "公有IP",
-                  "tw-label" : "公共 IP",
+                  "tw-label" : "對外 IP",
                   "tab" : "publicIp",
                   "tag" : "select",
                   "type" : "select",
@@ -11003,7 +11003,7 @@
                 {
                   "label" : "Private IP",
                   "cn-label" : "私有IP",
-                  "tw-label" : "私有 IP",
+                  "tw-label" : "對應 IP",
                   "tab" : "privateIp",
                   "tag" : "select",
                   "type" : "select",
@@ -11053,7 +11053,7 @@
                 {
                   "label" : "Seq#",
                   "cn-label" : "序号",
-                  "tw-label" : "Seq#",
+                  "tw-label" : "索引",
                   "tab" : "index",
                   "wiz" : "5%",
                   "display" : true,
@@ -11083,7 +11083,7 @@
                 {
                   "label" : "Trans Service",
                   "cn-label" : "转换后服务",
-                  "tw-label" : "轉址服務",
+                  "tw-label" : "對應服務",
                   "tab" : "translatedService",
                   "wiz" : "10%",
                   "display" : true,
@@ -11103,7 +11103,7 @@
                 {
                   "label" : "WAN",
                   "cn-label" : "WAN",
-                  "tw-label" : "WAN",
+                  "tw-label" : "WAN 介面",
                   "tab" : "wan",
                   "wiz" : "10%",
                   "display" : true,
@@ -11137,7 +11137,7 @@
                 {
                   "label" : "Service",
                   "cn-label" : "服务",
-                  "tw-label" : "服務",
+                  "tw-label" : "原始服務",
                   "tab" : "originalService",
                   "tag" : "select",
                   "type" : "select",
@@ -11152,7 +11152,7 @@
                 {
                   "label" : "Trans Service",
                   "cn-label" : "转换后服务",
-                  "tw-label" : "轉址服務",
+                  "tw-label" : "對應服務",
                   "tab" : "translatedService",
                   "tag" : "select",
                   "type" : "select",
@@ -11318,7 +11318,7 @@
                 {
                   "label" : "Seq",
                   "cn-label" : "序号",
-                  "tw-label" : "Seq",
+                  "tw-label" : "索引",
                   "tab" : "index",
                   "wiz" : "5%",
                   "display" : true,
@@ -11452,7 +11452,7 @@
                 {
                   "label" : "Seq",
                   "cn-label" : "序号",
-                  "tw-label" : "Seq",
+                  "tw-label" : "索引",
                   "tab" : "index",
                   "wiz" : "30px",
                   "display" : true,
@@ -11472,7 +11472,7 @@
                 {
                   "label" : "From",
                   "cn-label": "从",
-                  "tw-label" : "來自",
+                  "tw-label" : "來源介面",
                   "tab" : "fromIf",
                   "wiz" : "auto",
                   "display" : true,
@@ -11482,7 +11482,7 @@
                 {
                   "label" : "To",
                   "cn-label" : "到",
-                  "tw-label" : "到",
+                  "tw-label" : "目的介面",
                   "tab" : "toIf",
                   "wiz" : "auto",
                   "display" : true,
@@ -11581,7 +11581,7 @@
                 {
                   "label" : "From",
                   "cn-label" : "从",
-                  "tw-label" : "來自",
+                  "tw-label" : "來源介面",
                   "tab" : "fromIf",
                   "tag" : "select",
                   "type" : "select",
@@ -11596,7 +11596,7 @@
                 {
                   "label" : "To",
                   "cn-label" : "到",
-                  "tw-label" : "到",
+                  "tw-label" : "目的介面",
                   "tab" : "toIf",
                   "tag" : "select",
                   "type" : "select",
@@ -11769,7 +11769,7 @@
         {
           "label" : "VPN Passthrough",
           "cn-label" : "VPN 隧道",
-          "tw-label" : "VPN 通透",
+          "tw-label" : "VPN 透通",
           "id" : "menu-10-3",
           "tab" : "vpn_passthrough",
           "tag" : "div",
@@ -12077,9 +12077,9 @@
               ]
             },
             {
-              "label" : "Dos Attacks",
-              "cn-label" : "Dos攻击防护",
-              "tw-label" : "Dos 攻擊",
+              "label" : "DoS Attacks",
+              "cn-label" : "DoS攻击防护",
+              "tw-label" : "DoS 攻擊",
               "tab" : "dos_attacks",
               "tag" : "table",
               "type" : "table",
@@ -12181,14 +12181,14 @@
             {
               "label" : "Mode",
               "cn-label" : "模式",
-              "tw-label" : "模式",
+              "tw-label" : "預設政策",
               "tab" : "mode",
               "tag" : "select",
               "type" : "select",
               "option" :
               {
-                "0": { "label" : "Permit and Others Drop", "cn-label" : "仅允许", "tw-label" : "Permit and Others Drop" },
-                "1": { "label" : "Drop and Others Permit", "cn-label" : "仅阻止", "tw-label" : "Drop and Others Permit" }
+                "0": { "label" : "Permit and Others Drop", "cn-label" : "仅允许", "tw-label" : "允許清單之內其他阻擋" },
+                "1": { "label" : "Drop and Others Permit", "cn-label" : "仅阻止", "tw-label" : "阻擋清單之內其他允許" }
               },
               "wiz" : "100px"
             },
@@ -12307,7 +12307,7 @@
     {
       "label" : "Users",
       "cn-label" : "用户",
-      "tw-label" : "使用者",
+      "tw-label" : "使用者管理",
       "id" : "menu-11",
       "tab" : "users",
       "panel" :
@@ -12315,7 +12315,7 @@
         {
           "label" : "Users & Groups",
           "cn-label" : "用户 & 组",
-          "tw-label" : "使用者 & 群組",
+          "tw-label" : "使用者與群組",
           "id" : "menu-11-0",
           "tab" : "users_and_groups",
           "doc" : "Users.1.1",
@@ -12390,7 +12390,7 @@
               {
                 "label" : "Name",
                 "cn-label" : "名称",
-                "tw-label" : "名稱",
+                "tw-label" : "群組名稱",
                 "tab" : "name",
                 "wiz" : "140px",
                 "display" : true,
@@ -12400,7 +12400,7 @@
               {
                 "label" : "User Membership List",
                 "cn-label" : "组成员",
-                "tw-label" : "使用者身分資料列表",
+                "tw-label" : "群組成員",
                 "tab" : "cgiSetListId",
                 "wiz" : "auto",
                 "display" : true,
@@ -12410,7 +12410,7 @@
               {
                 "label" : "Services",
                 "cn-label" : "权限",
-                "tw-label" : "服務",
+                "tw-label" : "使用者權限",
                 "tab" : "services",
                 "wiz" : "150px",
                 "display" : true,
@@ -12456,7 +12456,7 @@
               {
                 "label" : "Group",
                 "cn-label" : "所属组",
-                "tw-label" : "群組",
+                "tw-label" : "隸屬群組",
                 "tab" : "groupId",
                 "wiz" : "auto",
                 "display" : true,
@@ -12506,7 +12506,7 @@
                   {
                     "label" : "Services",
                     "cn-label" : "权限",
-                    "tw-label" : "服務",
+                    "tw-label" : "權限",
                     "tab" : "webLoginPriv",
                     "tag" : "select",
                     "type" : "select",
@@ -12528,7 +12528,7 @@
               {
                 "label" : "Membership",
                 "cn-label" : "成员",
-                "tw-label" : "身分資料",
+                "tw-label" : "成員設定",
                 "tab" : "membership",
                 "tag" : "div",
                 "type" : "tabs",
@@ -12575,7 +12575,7 @@
                       {
                         "label" : "Joined User List",
                         "cn-label" : "包含的用户列表",
-                        "tw-label" : "使用者登入列表",
+                        "tw-label" : "成員列表",
                         "tab" : "pick",
                         "wiz" : "45%"
                       }
@@ -12642,7 +12642,7 @@
               {
                 "label" : "Membership",
                 "cn-label" : "所属组",
-                "tw-label" : "身分資料",
+                "tw-label" : "隸屬群組",
                 "tab" : "membership",
                 "tag" : "div",
                 "type" : "tabs",
@@ -12752,7 +12752,7 @@
               {
                 "label" : "#",
                 "cn-label" : "#",
-                "tw-label" : "#",
+                "tw-label" : "索引",
                 "tab" : "index",
                 "wiz" : "30px",
                 "display" : true,
@@ -12807,7 +12807,7 @@
               {
                 "label" : "Address Detail",
                 "cn-label" : "地址详情",
-                "tw-label" : "詳細位址",
+                "tw-label" : "群組成員",
                 "tab" : "tooltip_address",
                 "type" : "tooltip",
                 "wiz" : "250px",
@@ -12911,7 +12911,7 @@
               {
                 "label" : "* Group Name",
                 "cn-label" : "* 群名称",
-                "tw-label" : "群名稱",
+                "tw-label" : "群組名稱",
                 "tab" : "name",
                 "tag" : "input",
                 "type" : "text",
@@ -12963,7 +12963,7 @@
                   {
                     "label" : "Selected Address List",
                     "cn-label" : "已选择的地址",
-                    "tw-label" : "已選擇的地址",
+                    "tw-label" : "已選擇的位址",
                     "tab" : "pick",
                     "wiz" : "40%"
                   }
@@ -12978,7 +12978,7 @@
               {
                 "label" : "Address Detail",
                 "cn-label" : "地址详情",
-                "tw-label" : "地址詳情",
+                "tw-label" : "詳細資料",
                 "tab" : "address_detail",
                 "tag" : "p",
                 "type" : "p",
@@ -13092,7 +13092,7 @@
                   {
                     "label" : "Network",
                     "cn-label" : "网络",
-                    "tw-label" : "網路遮罩",
+                    "tw-label" : "網路",
                     "tab" : "2",
                     "col" :
                     [
@@ -13113,7 +13113,7 @@
                       {
                         "label" : "* Netmask",
                         "cn-label" : "* 掩码",
-                        "tw-label" : "網路遮罩",
+                        "tw-label" : "子網路遮罩",
                         "tab" : "netmask",
                         "tag" : "input",
                         "type" : "text",
@@ -13218,7 +13218,7 @@
                       {
                         "label" : "Manual Input",
                         "cn-label" : "手动输入",
-                        "tw-label" : "Manual Input",
+                        "tw-label" : "手動輸入",
                         "tab" : "macInput",
                         "tag" : "input",
                         "type" : "text",
@@ -13312,7 +13312,7 @@
               {
                 "label" : "#",
                 "cn-label" : "#",
-                "tw-label" : "#",
+                "tw-label" : "索引",
                 "tab" : "index",
                 "wiz" : "30px",
                 "display" : true,
@@ -13435,7 +13435,7 @@
               {
                 "label" : "#",
                 "cn-label" : "#",
-                "tw-label" : "#",
+                "tw-label" : "索引",
                 "tab" : "index",
                 "wiz" : "30px",
                 "display" : true,
@@ -13501,7 +13501,7 @@
               {
                 "label" : "* Group Name",
                 "cn-label" : "* 群名称",
-                "tw-label" : "群名稱",
+                "tw-label" : "群組名稱",
                 "tab" : "name",
                 "tag" : "input",
                 "type" : "text",
@@ -13515,7 +13515,7 @@
               {
                 "label" : "Members",
                 "cn-label" : "群成员",
-                "tw-label" : "成員",
+                "tw-label" : "群組成員",
                 "tab" : "idList",
                 "tag" : "select",
                 "type" : "multiple",
@@ -13568,7 +13568,7 @@
               {
                 "label" : "Service Detail",
                 "cn-label" : "服务详情",
-                "tw-label" : "服務詳情",
+                "tw-label" : "詳細資料",
                 "tab" : "service_detail",
                 "tag" : "p",
                 "type" : "p",
@@ -13630,7 +13630,7 @@
               {
                 "label" : "* Name",
                 "cn-label" : "* 名称",
-                "tw-label" : "* Name",
+                "tw-label" : "* 名稱",
                 "tab" : "name",
                 "tag" : "input",
                 "type" : "text",
@@ -13644,7 +13644,7 @@
               {
                 "label" : "* Protocol",
                 "cn-label" : "协议",
-                "tw-label" : "* Protocol",
+                "tw-label" : "* 協定",
                 "tab" : "type",
                 "tag" : "select",
                 "type" : "select",
@@ -13660,7 +13660,7 @@
                       {
                         "label" : "* Port Range Start",
                         "cn-label" : "* 起始端口范围",
-                        "tw-label" : "端口範圍開始",
+                        "tw-label" : "通訊埠範圍起始值",
                         "tab" : "param1",
                         "tag" : "input",
                         "type" : "text",
@@ -13677,7 +13677,7 @@
                       {
                         "label" : "* Port Range End",
                         "cn-label" : "* 结束端口范围",
-                        "tw-label" : "端口範圍結束",
+                        "tw-label" : "通訊埠範圍最終值",
                         "tab" : "param2",
                         "tag" : "input",
                         "type" : "text",
@@ -13709,7 +13709,7 @@
                       {
                         "label" : "* Port Range Start",
                         "cn-label" : "* 起始端口范围",
-                        "tw-label" : "端口範圍開始",
+                        "tw-label" : "通訊埠範圍起始值",
                         "tab" : "param1",
                         "tag" : "input",
                         "type" : "text",
@@ -13726,7 +13726,7 @@
                       {
                         "label" : "* Port Range End",
                         "cn-label" : "* 结束端口范围",
-                        "tw-label" : "端口範圍結束",
+                        "tw-label" : "通訊埠範圍最終值",
                         "tab" : "param2",
                         "tag" : "input",
                         "type" : "text",
@@ -13758,7 +13758,7 @@
                       {
                         "label" : "* Port Range Start",
                         "cn-label" : "* 起始端口范围",
-                        "tw-label" : "端口範圍開始",
+                        "tw-label" : "通訊埠範圍起始值",
                         "tab" : "param1",
                         "tag" : "input",
                         "type" : "text",
@@ -13775,7 +13775,7 @@
                       {
                         "label" : "* Port Range End",
                         "cn-label" : "* 结束端口范围",
-                        "tw-label" : "端口範圍結束",
+                        "tw-label" : "通訊埠範圍最終值",
                         "tab" : "param2",
                         "tag" : "input",
                         "type" : "text",
@@ -13908,7 +13908,7 @@
             {
               "label" : "#",
               "cn-label" : "#",
-              "tw-label" : "#",
+              "tw-label" : "索引",
               "tab" : "index",
               "wiz" : "30px",
               "display" : true,
@@ -13928,7 +13928,7 @@
             {
               "label" : "Days",
               "cn-label" : "日期",
-              "tw-label" : "天",
+              "tw-label" : "星期",
               "tab" : "days",
               "wiz" : "280px",
               "display" : true,
@@ -14003,7 +14003,7 @@
             {
               "label" : "Days",
               "cn-label" : "日期",
-              "tw-label" : "天",
+              "tw-label" : "星期",
               "tab" : "days",
               "tag" : "select",
               "type" : "select",
@@ -14012,13 +14012,13 @@
                 {
                   "label" : "All Days",
                   "cn-label" : "所有天",
-                  "tw-label" : "所有天",
+                  "tw-label" : "所有時間",
                   "tab" : "0"
                 },
                 {
                   "label" : "Specific Days",
                   "cn-label" : "特定天",
-                  "tw-label" : "特定天",
+                  "tw-label" : "指定時間",
                   "tab" : "1",
                   "col" :
                   [
@@ -14130,7 +14130,7 @@
                 {
                   "label" : "Specific Times",
                   "cn-label" : "特定时间",
-                  "tw-label" : "特定時間",
+                  "tw-label" : "指定時間",
                   "tab" : "1",
                   "col" :
                   [
@@ -14146,7 +14146,7 @@
                         {
                           "label" : "Start Hour",
                           "cn-label" : "开始时",
-                          "tw-label" : "開始時",
+                          "tw-label" : "小時(開始)",
                           "tab" : "startHour",
                           "tag" : "select",
                           "type" : "select",
@@ -14155,7 +14155,7 @@
                         {
                           "label" : "Start Minute",
                           "cn-label" : "开始分",
-                          "tw-label" : "開始分",
+                          "tw-label" : "分鐘(開始)",
                           "tab" : "startMin",
                           "tag" : "select",
                           "type" : "select",
@@ -14178,7 +14178,7 @@
                         {
                           "label" : "End Hour",
                           "cn-label" : "结束时",
-                          "tw-label" : "結束時",
+                          "tw-label" : "小時(結束)",
                           "tab" : "endHour",
                           "tag" : "select",
                           "type" : "select",
@@ -14187,7 +14187,7 @@
                         {
                           "label" : "End Minute",
                           "cn-label" : "结束分",
-                          "tw-label" : "結束分",
+                          "tw-label" : "分鐘(結束)",
                           "tab" : "endMin",
                           "tag" : "select",
                           "type" : "select",
@@ -14215,7 +14215,7 @@
     {
       "label" : "Device",
       "cn-label" : "设备",
-      "tw-label" : "裝置",
+      "tw-label" : "系統管理",
       "id" : "menu-13",
       "tab" : "device",
       "panel" :
@@ -14223,7 +14223,7 @@
         {
           "label" : "Administration",
           "cn-label" : "管理",
-          "tw-label" : "管理功能",
+          "tw-label" : "管理設定",
           "id" : "menu-13-0",
           "tab" : "administration",
           "panel" :
@@ -14231,7 +14231,7 @@
             {
               "label" : "Administrator Settings",
               "cn-label" : "管理员设置",
-              "tw-label" : "管理員設定",
+              "tw-label" : "管理者設定",
               "id" : "menu-13-0-0",
               "tab" : "administrator_settings",
               "tag" : "div",
@@ -14248,7 +14248,7 @@
                 {
                   "label" : "Administrator Name and Password",
                   "cn-label" : "管理员名称和密码",
-                  "tw-label" : "管理員名稱與密碼",
+                  "tw-label" : "管理者名稱與密碼",
                   "tab" : "administrator_name_and_password",
                   "tag" : "table",
                   "type" : "table",
@@ -14259,7 +14259,7 @@
                     {
                       "label" : "User Name",
                       "cn-label" : "用户名称",
-                      "tw-label" : "使用者名稱",
+                      "tw-label" : "管理者名稱",
                       "tab" : "adminName",
                       "tag" : "input",
                       "align" :
@@ -14328,7 +14328,7 @@
                     {
                       "label" : "Inactivity Timeout",
                       "cn-label" : "空闲超时",
-                      "tw-label" : "無活動逾時",
+                      "tw-label" : "無活動逾時(秒)",
                       "tab" : "loginInactiveTimeout",
                       "tag" : "input",
                       "type" : "text",
@@ -14392,7 +14392,7 @@
                     {
                       "label" : "Max Attempts",
                       "cn-label" : "最高尝试次数",
-                      "tw-label" : "嘗試上限",
+                      "tw-label" : "最高密碼錯誤上限(次)",
                       "tab" : "loginFailBlockMaxAttempts",
                       "tag" : "input",
                       "type" : "text",
@@ -14410,7 +14410,7 @@
                     {
                       "label" : "Limit Login Session for Web Login",
                       "cn-label" : "阻止访问时间",
-                      "tw-label" : "封鎖存取",
+                      "tw-label" : "封鎖存取時間(秒)",
                       "tab" : "loginFailBlockTime",
                       "tag" : "input",
                       "type" : "text",
@@ -14432,7 +14432,7 @@
             {
               "label" : "Management Settings",
               "cn-label" : "管理设置",
-              "tw-label" : "管理設定",
+              "tw-label" : "設備連線設定",
               "id" : "menu-13-0-1",
               "tab" : "management_settings",
               "tag" : "div",
@@ -14452,7 +14452,7 @@
                 {
                   "label" : "HTTPS Listen Port Number",
                   "cn-label" : "HTTPS监听端口号",
-                  "tw-label" : "HTTPS 聽候連接埠號",
+                  "tw-label" : "HTTPS 連接埠",
                   "tab" : "httpsPort",
                   "tag" : "input",
                   "type" : "text",
@@ -14470,7 +14470,7 @@
                 {
                   "label" : "SSH Listen Port Number",
                   "cn-label" : "SSH监听端口号",
-                  "tw-label" : "SSH 聽候連接埠號",
+                  "tw-label" : "SSH 連接埠",
                   "tab" : "sshPort",
                   "tag" : "input",
                   "type" : "text",
@@ -14598,7 +14598,7 @@
                 {
                   "label" : "Allow Access",
                   "cn-label" : "允许访问",
-                  "tw-label" : "允許存取",
+                  "tw-label" : "允許存取來源",
                   "tab" : "accessAddressId",
                   "tag" : "select",
                   "type" : "select",
@@ -14626,7 +14626,7 @@
                 {
                   "label" : "Settings",
                   "cn-label" : "设置",
-                  "tw-label" : "設定",
+                  "tw-label" : "郵件設定",
                   "tab" : "settings",
                   "type" : "tab",
                   "col" :
@@ -14634,7 +14634,7 @@
                     {
                       "label" : "* SMTP Server",
                       "cn-label" : "* SMTP服务器",
-                      "tw-label" : "SMTP 伺服器",
+                      "tw-label" : "郵件伺服器位址",
                       "tab" : "server",
                       "tag" : "input",
                       "type" : "text"
@@ -14685,7 +14685,7 @@
                     {
                       "label" : "* From Email Address",
                       "cn-label" : "* 发送电子邮件地址",
-                      "tw-label" : "發送端郵件位址",
+                      "tw-label" : "寄件者郵件位址",
                       "tab" : "fromEmail",
                       "tag" : "input",
                       "type" : "text"
@@ -14693,7 +14693,7 @@
                     {
                       "label" : "* To Email Address 1",
                       "cn-label" : "* 接收电子邮件地址 1",
-                      "tw-label" : "接收端郵件位址 1",
+                      "tw-label" : "收件者郵件位址 1",
                       "tab" : "toEmail0",
                       "tag" : "input",
                       "type" : "text"
@@ -14701,7 +14701,7 @@
                     {
                       "label" : "To Email Address 2",
                       "cn-label" : "接收电子邮件地址 2",
-                      "tw-label" : "接收端郵件位址 2",
+                      "tw-label" : "收件者郵件位址 2",
                       "tab" : "toEmail1",
                       "tag" : "input",
                       "type" : "text"
@@ -14709,7 +14709,7 @@
                     {
                       "label" : "To Email Address 3",
                       "cn-label" : "接收电子邮件地址 3",
-                      "tw-label" : "接收端郵件位址 3",
+                      "tw-label" : "收件者郵件位址 3",
                       "tab" : "toEmail2",
                       "tag" : "input",
                       "type" : "text"
@@ -14719,7 +14719,7 @@
                 {
                   "label" : "Alerts",
                   "cn-label" : "警报/通知",
-                  "tw-label" : "警報",
+                  "tw-label" : "警示設定",
                   "tab" : "alerts",
                   "type" : "tab",
                   "col" :
@@ -14727,7 +14727,7 @@
                     {
                       "label" : "Systems",
                       "cn-label" : "系统",
-                      "tw-label" : "系統",
+                      "tw-label" : "系統監測",
                       "tab" : "systems",
                       "tag" : "table",
                       "type" : "table",
@@ -14745,7 +14745,7 @@
                             {
                               "label" : "CPU Threshold Settings",
                               "cn-label" : "CPU 阈值设定",
-                              "tw-label" : "CPU 門檻設定",
+                              "tw-label" : "CPU 監控值",
                               "tab" : "cpuAlertThreshold",
                               "tag" : "input",
                               "type" : "text",
@@ -14758,7 +14758,7 @@
                         {
                           "label" : "New Firmware Alert",
                           "cn-label" : "新固件警报",
-                          "tw-label" : "新韌體警示",
+                          "tw-label" : "新韌體通知",
                           "tab" : "newFwAlertEnable",
                           "tag" : "input",
                           "type" : "checkbox"
@@ -14766,7 +14766,7 @@
                         {
                           "label" : "System Restart Alert",
                           "cn-label" : "系统重启警报",
-                          "tw-label" : "系統重啟警示",
+                          "tw-label" : "系統重啟通知",
                           "tab" : "restartAlertEnable",
                           "tag" : "input",
                           "type" : "checkbox"
@@ -14774,7 +14774,7 @@
                         {
                           "label" : "Failed Administrator Login Alert",
                           "cn-label" : "管理员登录失败警报",
-                          "tw-label" : "管理員登入失敗警示",
+                          "tw-label" : "管理員登入失敗通知",
                           "tab" : "failLoginAlertEnable",
                           "tag" : "input",
                           "type" : "checkbox"
@@ -14782,7 +14782,7 @@
                         {
                           "label" : "Disk Filling Up Alert",
                           "cn-label" : "硬盘空间警报",
-                          "tw-label" : "硬碟空間警示",
+                          "tw-label" : "硬碟空間通知",
                           "tab" : "diskAlertEnable",
                           "tag" : "input",
                           "type" : "checkbox",
@@ -14791,7 +14791,7 @@
                             {
                               "label" : "Threshold by",
                               "cn-label" : "阈值",
-                              "tw-label" : "門檻",
+                              "tw-label" : "監控值",
                               "tab" : "diskAlertThreshold",
                               "tag" : "input",
                               "type" : "text",
@@ -14806,7 +14806,7 @@
                     {
                       "label" : "Networks",
                       "cn-label" : "网络",
-                      "tw-label" : "網路",
+                      "tw-label" : "網路監測",
                       "tab" : "networks",
                       "tag" : "table",
                       "type" : "table",
@@ -14815,7 +14815,7 @@
                         {
                           "label" : "Site-to-Site VPN Up/Down Alert",
                           "cn-label" : "站点到站后 VPN 启用/关闭 警报",
-                          "tw-label" : "Site-to-Site VPN 啟用/關閉 警示",
+                          "tw-label" : "Site-to-Site VPN 啟用/關閉 通知",
                           "tab" : "vpnAlertEnable",
                           "tag" : "input",
                           "type" : "checkbox"
@@ -14823,7 +14823,7 @@
                         {
                           "label" : "WAN Up/Down Alert",
                           "cn-label" : "WAN 启用/关闭 警报",
-                          "tw-label" : "WAN 啟用/關閉 警示",
+                          "tw-label" : "WAN 啟用/關閉 通知",
                           "tab" : "wanAlertEnable",
                           "tag" : "input",
                           "type" : "checkbox",
@@ -14832,7 +14832,7 @@
                             {
                               "label" : "Alert Interval",
                               "cn-label" : "警报间隔",
-                              "tw-label" : "警示間隔",
+                              "tw-label" : "通知排程",
                               "tab" : "wanAlertInterval",
                               "tag" : "input",
                               "type" : "text",
@@ -14847,7 +14847,7 @@
                     {
                       "label" : "Security Threat and Prevention",
                       "cn-label" : "安全威协及防范",
-                      "tw-label" : "安全威脇與保護",
+                      "tw-label" : "安全威脅與保護監測",
                       "tab" : "email_security",
                       "tag" : "table",
                       "type" : "table",
@@ -14856,7 +14856,7 @@
                         {
                           "label" : "Anti-Virus Alert",
                           "cn-label" : "Anti-Virus 警报",
-                          "tw-label" : "Anti-Virus 警示",
+                          "tw-label" : "病毒防護通知",
                           "tab" : "virusAlertEnable",
                           "tag" : "input",
                           "type" : "checkbox",
@@ -14865,7 +14865,7 @@
                             {
                               "label" : "Alert Interval",
                               "cn-label" : "警报间隔",
-                              "tw-label" : "警示間隔",
+                              "tw-label" : "通知排程",
                               "tab" : "virusAlertInterval",
                               "tag" : "input",
                               "type" : "text",
@@ -14921,7 +14921,7 @@
             {
               "label" : "Backup/Restore",
               "cn-label" : "备份/恢复",
-              "tw-label" : "備份/還原",
+              "tw-label" : "設定檔維護",
               "id" : "menu-13-0-3",
               "tab" : "backup_restore",
               "tag" : "table",
@@ -14972,7 +14972,7 @@
                 {
                   "label" : "Time",
                   "cn-label" : "时间",
-                  "tw-label" : "Time",
+                  "tw-label" : "建立時間",
                   "tab" : "time",
                   "wiz" : "170px"
                 },
@@ -15007,14 +15007,14 @@
                     {
                       "label" : "Export to PC",
                       "cn-label" : "导出到PC",
-                      "tw-label" : "Export to PC",
+                      "tw-label" : "匯出到電腦",
                       "tab" : "exportTo-pc"
                     },
                     "2" :
                     {
                       "label" : "Export to USB",
                       "cn-label" : "导出到USB",
-                      "tw-label" : "Export to USB",
+                      "tw-label" : "匯出至隨身碟",
                       "tab" : "exportTo-usb"
                     }
                   }
@@ -15033,7 +15033,7 @@
                     {
                       "label" : "Import from Device",
                       "cn-label" : "从设备导入",
-                      "tw-label" : "Import from Device",
+                      "tw-label" : "從設備匯入",
                       "tab" : "importFrom-device",
                       "tag" : "select",
                       "tag" : "select",
@@ -15043,7 +15043,7 @@
                     {
                       "label" : "Import from PC",
                       "cn-label" : "从PC导入",
-                      "tw-label" : "Import from PC",
+                      "tw-label" : "從電腦端匯入",
                       "tab" : "importFrom-pc",
                       "tag" : "input",
                       "tag" : "file"
@@ -15052,7 +15052,7 @@
                     {
                       "label" : "Import from USB",
                       "cn-label" : "从USB导入",
-                      "tw-label" : "Import from USB",
+                      "tw-label" : "從隨身碟匯入",
                       "tab" : "importFrom-usb",
                       "tag" : "select",
                       "tag" : "select",
@@ -15083,7 +15083,7 @@
                   {
                     "label" : "Based On",
                     "cn-label" : "基于",
-                    "tw-label" : "Based On",
+                    "tw-label" : "使用裝置",
                     "tab" : "baseOn",
                     "tag" : "input",
                     "type" : "radio",
@@ -15093,7 +15093,7 @@
                       {
                         "label" : "device",
                         "cn-label" : "设备",
-                        "tw-label" : "device",
+                        "tw-label" : "從本機",
                         "tab" : "baseOn-device",
                         "tag" : "select",
                         "tag" : "select",
@@ -15104,7 +15104,7 @@
                       {
                         "label" : "pc",
                         "cn-label" : "pc",
-                        "tw-label" : "pc",
+                        "tw-label" : "從電腦",
                         "tab" : "baseOn-pc",
                         "tag" : "input",
                         "tag" : "file",
@@ -15114,7 +15114,7 @@
                       {
                         "label" : "usb",
                         "cn-label" : "usb",
-                        "tw-label" : "usb",
+                        "tw-label" : "從隨身碟",
                         "tab" : "baseOn-usb",
                         "tag" : "select",
                         "tag" : "select",
@@ -15130,7 +15130,7 @@
             {
               "label" : "Firmware",
               "cn-label" : "固件",
-              "tw-label" : "韌體",
+              "tw-label" : "韌體維護",
               "id" : "menu-13-0-4",
               "tab" : "firmware",
               "tag" : "div",
@@ -15171,7 +15171,7 @@
                     {
                       "label" : "Secondary Firmware Version",
                       "cn-label" : "次要固件版本",
-                      "tw-label" : "前次韌體版本",
+                      "tw-label" : "備援韌體版本",
                       "tab" : "secondaryVer",
                       "tag" : "p",
                       "type" : "p",
@@ -15263,21 +15263,21 @@
                         {
                           "label" : "Upgrade Firmware from Local",
                           "cn-label" : "从本地升级固件",
-                          "tw-label" : "自本地端更新韌體",
+                          "tw-label" : "從電腦端",
                           "tab" : "type-0"
                         },
                         "1" :
                         {
                           "label" : "Upgrade Firmware from Server",
                           "cn-label" : "从服务器升级固件",
-                          "tw-label" : "自伺服器更新韌體",
+                          "tw-label" : "從伺服器",
                           "tab" : "type-1"
                         },
                         "2" :
                         {
                           "label" : "Upgrade Firmware from USB",
                           "cn-label" : "从USB升级固件",
-                          "tw-label" : "自 USB 更新韌體",
+                          "tw-label" : "從隨身碟",
                           "tab" : "type-2"
                         }
                       },
@@ -15308,7 +15308,7 @@
                         {
                           "label" : "Upgrade and Factory Reset",
                           "cn-label" : "升级并恢复出厂值",
-                          "tw-label" : "更新並回復出廠值",
+                          "tw-label" : "更新並回復出廠預設值",
                           "tab" : "resetDefault",
                           "colspan" : "2"
                         }
@@ -15322,7 +15322,7 @@
             {
               "label" : "Reboot/Reset/Shutdown",
               "cn-label" : "重启/重置/关机",
-              "tw-label" : "重新啟動/重設/關閉",
+              "tw-label" : "開關機設定",
               "id" : "menu-13-0-5",
               "tab" : "reboot_reset_shutdown",
               "tag" : "div",
@@ -15346,7 +15346,7 @@
                 {
                   "label" : "Reset",
                   "cn-label" : "重置",
-                  "tw-label" : "重設",
+                  "tw-label" : "清除設定",
                   "tab" : "reset",
                   "icon" : "css/images/i_128_reset_00.png",
                   "key" : "action",
@@ -15381,7 +15381,7 @@
                 {
                   "label" : "Shutdown",
                   "cn-label" : "关机",
-                  "tw-label" : "關閉",
+                  "tw-label" : "設備關機",
                   "tab" : "shutdown",
                   "icon" : "css/images/shutdown.png",
                   "key" : "action",
@@ -15392,7 +15392,7 @@
             {
               "label" : "Properties",
               "cn-label" : "属性",
-              "tw-label" : "內容",
+              "tw-label" : "設備內容",
               "id" : "menu-13-0-6",
               "tab" : "properties",
               "tag" : "div",
@@ -15425,7 +15425,7 @@
         {
           "label" : "Date and Time",
           "cn-label" : "日期和时间",
-          "tw-label" : "日期和時間",
+          "tw-label" : "系統時間",
           "id" : "menu-13-1",
           "tab" : "date_and_time",
           "tag" : "div",
@@ -15481,7 +15481,7 @@
                 {
                   "label" : "Manual Set System Time",
                   "cn-label" : "手动设置系统时间",
-                  "tw-label" : "手動設定系統時間",
+                  "tw-label" : "手動設定",
                   "tab" : "mode-0",
                   "icon" : "css/images/i_128_manual_set_system_time_00.png",
                   "col" :
@@ -15539,7 +15539,7 @@
                 {
                   "label" : "Automatically Set System Time",
                   "cn-label" : "自动设置系统时间",
-                  "tw-label" : "自動設定系統時間",
+                  "tw-label" : "自動校時設定",
                   "tab" : "mode-1",
                   "icon" : "css/images/i_128_automatically_set_system_time_00.png",
                   "col" :
@@ -15547,7 +15547,7 @@
                     {
                       "label" : "Daylight Saving Time Adjustment",
                       "cn-label" : "夏令时调整",
-                      "tw-label" : "調整日光節約時間",
+                      "tw-label" : "日光節約時間",
                       "tab" : "dstEnable",
                       "tag" : "input",
                       "type" : "checkbox",
@@ -15556,7 +15556,7 @@
                     {
                       "label" : "NTP Server",
                       "cn-label" : "NTP服务器",
-                      "tw-label" : "NTP 伺服器",
+                      "tw-label" : "時間伺服器",
                       "tab" : "ntpServerType",
                       "tag" : "input",
                       "type" : "radio",
@@ -15566,14 +15566,14 @@
                         {
                           "label" : "Default NTP Server",
                           "cn-label" : "默认NTP服务器",
-                          "tw-label" : "預設 NTP 伺服器",
+                          "tw-label" : "預設時間伺服器",
                           "tab" : "ntpServerType-0"
                         },
                         "1" :
                         {
                           "label" : "Custom NTP Server",
                           "cn-label" : "自定义NTP服务器",
-                          "tw-label" : "自訂 NTP 伺服器",
+                          "tw-label" : "自訂時間伺服器",
                           "tab" : "ntpServerType-1",
                           "col" :
                           [
@@ -15615,7 +15615,7 @@
           {
             "view_logs" : { "label" : "View Logs", "cn-label" : "查看日志", "tw-label" : "查看記錄" },
             "log_settings" : { "label" : "Log Settings", "cn-label" : "日志设置", "tw-label" : "記錄設定" },
-            "logs_facility" : { "label" : "Logs Facility", "cn-label" : "日志设施", "tw-label" : "記錄設施" }
+            "logs_facility" : { "label" : "Logs Facility", "cn-label" : "日志设施", "tw-label" : "事件記錄設定" }
           },
           "url" :
           {
@@ -15708,7 +15708,7 @@
               {
                 "label" : "Log Data",
                 "cn-label" : "日志数据",
-                "tw-label" : "Log Data",
+                "tw-label" : "事件記錄",
                 "tab" : "msg",
                 "wiz" : "auto",
                 "align" : "Left",
@@ -15932,7 +15932,7 @@
         {
           "label" : "Diagnostics",
           "cn-label" : "诊断",
-          "tw-label" : "Diagnostics",
+          "tw-label" : "診斷工具",
           "id" : "menu-13-3",
           "tab" : "diagnostics",
           "panel" :
@@ -15940,7 +15940,7 @@
             {
               "label" : "DNS Lookup",
               "cn-label" : "DNS Lookup",
-              "tw-label" : "DNS Lookup",
+              "tw-label" : "網域名稱查詢",
               "id" : "menu-13-3-0",
               "tab" : "dns_lookup",
               "tag" : "div",
@@ -15957,7 +15957,7 @@
                 {
                   "label" : "IP Address/URL",
                   "cn-label" : "IP 地址/URL",
-                  "tw-label" : "IP Address/URL",
+                  "tw-label" : "IP 位址/網址",
                   "tab" : "queryString",
                   "tag" : "input",
                   "type" : "text"
@@ -15965,7 +15965,7 @@
                 {
                   "label" : "Query Result",
                   "cn-label" : "查询结果",
-                  "tw-label" : "Query Result",
+                  "tw-label" : "查詢結果",
                   "tab" : "queryResult",
                   "tag" : "ul",
                   "type" : "ul"
@@ -15992,7 +15992,7 @@
                 {
                   "label" : "IP Address/URL",
                   "cn-label" : "IP 地址/URL",
-                  "tw-label" : "IP Address/URL",
+                  "tw-label" : "IP 位址/網址",
                   "tab" : "destination",
                   "tag" : "input",
                   "type" : "text"
@@ -16000,7 +16000,7 @@
                 {
                   "label" : "Packet Size",
                   "cn-label" : "包大小",
-                  "tw-label" : "Packet Size",
+                  "tw-label" : "封包大小",
                   "tab" : "packetsize",
                   "tag" : "input",
                   "type" : "text",
@@ -16009,7 +16009,7 @@
                 {
                   "label" : "Number of ping",
                   "cn-label" : "ping数量",
-                  "tw-label" : "Number of ping",
+                  "tw-label" : "偵測次數",
                   "tab" : "packetcount",
                   "tag" : "select",
                   "type" : "select",
@@ -16023,7 +16023,7 @@
                 {
                   "label" : "Results",
                   "cn-label" : "结果",
-                  "tw-label" : "Results",
+                  "tw-label" : "結果",
                   "tab" : "result",
                   "tag" : "ul",
                   "type" : "ul"
@@ -16033,7 +16033,7 @@
             {
               "label" : "Traceroute",
               "cn-label" : "Tracert",
-              "tw-label" : "Traceroute",
+              "tw-label" : "路由追蹤",
               "id" : "menu-13-3-2",
               "tab" : "traceroute",
               "tag" : "div",
@@ -16050,7 +16050,7 @@
                 {
                   "label" : "IP Address/URL",
                   "cn-label" : "IP 地址/URL",
-                  "tw-label" : "IP Address/URL",
+                  "tw-label" : "IP 位址/網址",
                   "tab" : "destination",
                   "tag" : "input",
                   "type" : "text"
@@ -16058,7 +16058,7 @@
                 {
                   "label" : "Maximum Number of Hops",
                   "cn-label" : "最大跳数",
-                  "tw-label" : "Maximum Number of Hops",
+                  "tw-label" : "最大跳躍數",
                   "tab" : "ttl",
                   "tag" : "select",
                   "type" : "select",
@@ -16073,7 +16073,7 @@
                 {
                   "label" : "Result",
                   "cn-label" : "结果",
-                  "tw-label" : "Result",
+                  "tw-label" : "追蹤結果",
                   "tab" : "result",
                   "tag" : "ul",
                   "type" : "ul"
@@ -16083,7 +16083,7 @@
             {
               "label" : "Packet Capture",
               "cn-label" : "数据包捕获",
-              "tw-label" : "Packet Capture",
+              "tw-label" : "封包錄製",
               "id" : "menu-13-3-3",
               "tab" : "packet_capture",
               "tag" : "table",
@@ -16156,7 +16156,7 @@
                 {
                   "label" : "Network Interface",
                   "cn-label" : "网络接口",
-                  "tw-label" : "Network Interface",
+                  "tw-label" : "網路介面",
                   "tab" : "ifname",
                   "tag" : "select",
                   "type" : "select",
@@ -16165,7 +16165,7 @@
                 {
                   "label" : "Auto Stop",
                   "cn-label" : "自动停止",
-                  "tw-label" : "Auto Stop",
+                  "tw-label" : "自動停止",
                   "tab" : "autoStop",
                   "tag" : "input",
                   "type" : "checkbox",
@@ -16174,7 +16174,7 @@
                 {
                   "label" : "Port Range",
                   "cn-label" : "端口范围",
-                  "tw-label" : "Port Range",
+                  "tw-label" : "連接埠範圍",
                   "tab" : "port_table",
                   "tag" : "table",
                   "type" : "table",
@@ -16183,7 +16183,7 @@
                     {
                       "label" : "Start",
                       "cn-label" : "开始",
-                      "tw-label" : "Start",
+                      "tw-label" : "起始",
                       "tab" : "portStart",
                       "tag" : "input",
                       "type" : "text",
@@ -16193,7 +16193,7 @@
                     {
                       "label" : "End",
                       "cn-label" : "结束",
-                      "tw-label" : "End",
+                      "tw-label" : "結束",
                       "tab" : "portEnd",
                       "tag" : "input",
                       "type" : "text",
@@ -16224,7 +16224,7 @@
                 {
                   "label" : "Net",
                   "cn-label" : "网络",
-                  "tw-label" : "Net",
+                  "tw-label" : "網段",
                   "tab" : "net_table",
                   "tag" : "table",
                   "type" : "table",
@@ -16241,7 +16241,7 @@
                     {
                       "label" : "Netmask",
                       "cn-label" : "子网掩码",
-                      "tw-label" : "網路遮罩",
+                      "tw-label" : "子網路遮罩",
                       "tab" : "netmask",
                       "tag" : "input",
                       "type" : "text"
@@ -16272,7 +16272,7 @@
             {
               "label" : "Advanced Debug",
               "cn-label" : "Debug",
-              "tw-label" : "Advanced Debug",
+              "tw-label" : "進階工具",
               "id" : "menu-13-3-4",
               "tab" : "advanced_debug",
               "tag" : "div",
@@ -16280,7 +16280,7 @@
               "tabs" :
               {
                 "log" : { "label" : "Log", "cn-label" : "日志", "tw-label" : "記錄" },
-                "debug" : { "label" : "Packet Capture", "cn-label" : "数据包捕获", "tw-label" : "Packet Capture" }
+                "debug" : { "label" : "Packet Capture", "cn-label" : "数据包捕获", "tw-label" : "封包錄製" }
               },
               "url" :
               {
@@ -16325,7 +16325,7 @@
                       {
                         "label" : "Enable Log",
                         "cn-label" : "Enable Log",
-                        "tw-label" : "Enable記錄",
+                        "tw-label" : "啟用封包錄製",
                         "tab" : "logEnable",
                         "tag" : "input",
                         "type" : "checkbox",
@@ -16415,7 +16415,7 @@
                       {
                         "label" : "Network Interface",
                         "cn-label" : "网络接口",
-                        "tw-label" : "Network Interface",
+                        "tw-label" : "網路介面",
                         "tab" : "pcapIfName",
                         "tag" : "select",
                         "type" : "select",
@@ -16425,7 +16425,7 @@
                       {
                         "label" : "Port Range",
                         "cn-label" : "端口范围",
-                        "tw-label" : "Port Range",
+                        "tw-label" : "連接埠範圍",
                         "tab" : "port_table",
                         "tag" : "table",
                         "type" : "table",
@@ -16434,7 +16434,7 @@
                           {
                             "label" : "Start",
                             "cn-label" : "开始",
-                            "tw-label" : "Start",
+                            "tw-label" : "起始",
                             "tab" : "pcapPortStart",
                             "tag" : "input",
                             "type" : "text",
@@ -16445,7 +16445,7 @@
                           {
                             "label" : "End",
                             "cn-label" : "结束",
-                            "tw-label" : "End",
+                            "tw-label" : "結束",
                             "tab" : "pcapPortEnd",
                             "tag" : "input",
                             "type" : "text",
@@ -16478,7 +16478,7 @@
                       {
                         "label" : "Net",
                         "cn-label" : "网络",
-                        "tw-label" : "Net",
+                        "tw-label" : "網段",
                         "tab" : "net_table",
                         "tag" : "table",
                         "type" : "table",
@@ -16496,7 +16496,7 @@
                           {
                             "label" : "Netmask",
                             "cn-label" : "子网掩码",
-                            "tw-label" : "網路遮罩",
+                            "tw-label" : "子網路遮罩",
                             "tab" : "pcapNetmask",
                             "tag" : "input",
                             "type" : "text",
@@ -16582,15 +16582,15 @@
         {
           "label" : "License",
           "cn-label" : "授权许可",
-          "tw-label" : "授權",
+          "tw-label" : "授權管理",
           "id" : "menu-13-4",
           "tab" : "license",
           "tag" : "div",
           "type" : "tabsForm",
           "tabs" :
           {
-            "registration" : { "label" : "Registration", "cn-label" : "注册信息", "tw-label" : "授權" },
-            "services" : { "label" : "Service", "cn-label" : "服务", "tw-label" : "服務" }
+            "registration" : { "label" : "Registration", "cn-label" : "注册信息", "tw-label" : "註冊資訊" },
+            "services" : { "label" : "Service", "cn-label" : "服务", "tw-label" : "授權更新" }
           },
           "url" :
           {
@@ -16713,7 +16713,7 @@
                           {
                             "label" : "Company",
                             "cn-label" : "公司",
-                            "tw-label" : "公司",
+                            "tw-label" : "公司名稱",
                             "tab" : "company",
                             "tag" : "input",
                             "type" : "text",
@@ -16842,7 +16842,7 @@
                       {
                         "label" : "Company",
                         "cn-label" : "公司",
-                        "tw-label" : "公司",
+                        "tw-label" : "公司名稱",
                         "tab" : "company"
                       },
                       {
@@ -16854,7 +16854,7 @@
                       {
                         "label" : "City",
                         "cn-label" : "城市",
-                        "tw-label" : "公司",
+                        "tw-label" : "城市",
                         "tab" : "city"
                       },
                       {
@@ -16866,7 +16866,7 @@
                       {
                         "label" : "State",
                         "cn-label" : "省/自治区/直辖市",
-                        "tw-label" : "郵遞區號",
+                        "tw-label" : "鄉鎮市區",
                         "tab" : "state"
                       },
                       {
@@ -16910,7 +16910,7 @@
               {
                 "label" : "Service Management Table",
                 "cn-label" : "服务管理列表",
-                "tw-label" : "服務管理列表",
+                "tw-label" : "授權管理列表",
                 "tab" : "service_management",
                 "tag" : "table",
                 "type" : "table",
@@ -16919,7 +16919,7 @@
                   {
                     "label" : "Service",
                     "cn-label" : "服务",
-                    "tw-label" : "服務",
+                    "tw-label" : "授權名稱",
                     "tab" : "service"
                   },
                   {

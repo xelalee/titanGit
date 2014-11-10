@@ -18,8 +18,7 @@ class TTWQuery
     var $daily;     // daily table
     var $hourlyQ;   // hourly query string
     var $dailyQ;    // daily query string
-    var $aggQ;      // query string
-    var $rowQ;      // row data query string
+    var $qeuryStr;  // query string
 
 /*******************************************************************************
 *                                                                              *
@@ -43,7 +42,7 @@ class TTWQuery
         }
     }
 
-    function doSet( $param, $q ) {
+    function doSet( $param, $q, $flag=false, $db=false, $hr=false ) {
 
     }
 
@@ -56,12 +55,20 @@ class TTWQuery
     }
 
     function doInfo( $db, $tbl ) {
-        $this->mysqli->query( "SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$db' AND TABLE_NAME = '$tbl'" );
+        if ($result = $this->mysqli->query( "SELECT TABLE_ROWS FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '$db' AND TABLE_NAME = '$tbl'" ) ) {
+            return $result->fetch_row()[ 0 ];
+            $result->close();
+        }
+        return 0;
     }
 
-    function doQuery( $tbl, $stmt, $gno ) {
+    function doQueue( $param ) {
+
+    }
+
+    function doQuery( $stmt ) {
         $json = array();
-        if ($result = $this->mysqli->query( "SELECT $stmt FROM $tbl $gno" )) {
+        if ($result = $this->mysqli->query( $stmt )) {
             $json[ 'queryRows' ] = $result->num_rows;
             while ( $obj = $result->fetch_object() ) {
                 $json[ 'queryResults' ][] = $obj;
@@ -72,8 +79,8 @@ class TTWQuery
         return $json;
     }
 
-    function doInsert( $tbl, $stmt ) {
-        $this->mysqli->query( "INSERT INTO $tbl SELECT $stmt" );
+    function doInsert( $stmt ) {
+        $this->mysqli->query( $stmt );
     }
 
     function doCreate( $stmt ) {

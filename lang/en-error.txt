@@ -146,6 +146,7 @@
     "httpsPortRange" : "https port should between 1 to 65535",
     "sshPortRange" : "ssh port should between 1 to 65535",
     "smtpServer" : "smtp server should be address/domain and length should less than 62",
+    "smtpPortRange" : "smtp port should between 1 to 65535",
     "account31" : "account can only use all viewable ascii code except (whitespace) ' ` \" % ? and length should between 1 to 31",
     "passwordLength31" : "password length should between 1 to 31",
     "fromEmail" : "from email should be email type and length should between 6 to 63",

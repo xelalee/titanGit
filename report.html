@@ -37,23 +37,6 @@
     <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
     <script type="text/javascript" src="js/jquery.bgiframe.js"></script>
     <script type="text/javascript" src="js/jquery-ui-1.9.2.custom.js"></script>
-<!-- chart js -->
-    <script type="text/javascript" src="js/Chart.js"></script>
-<!-- jspdf -->
-    <script type="text/javascript" src="assets/jspdf/jspdf.js"></script>
-    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.addimage.js"></script>
-    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.cell.js"></script>
-    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.from_html.js"></script>
-    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.ie_below_9_shim.js"></script>
-    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.javascript.js"></script>
-    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.sillysvgrenderer.js"></script>
-    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.split_text_to_size.js"></script>
-    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.standard_fonts_metrics.js"></script>
-    <script type="text/javascript" src="assets/jspdf/jspdf.plugin.table.js"></script>
-    <script type="text/javascript" src="assets/jspdf/adler32cs.js"></script>
-    <script type="text/javascript" src="assets/jspdf/FileSaver.js"></script>
-    <script type="text/javascript" src="assets/jspdf/BlobBuilder.js"></script>
-    <script type="text/javascript" src="assets/jspdf/basic.js"></script>
 <!-- custom CSS -->
     <link rel="stylesheet" type="text/css" href="css/reporter.css" />
 
@@ -143,82 +126,48 @@ $(document).ready(function () {
 
     function getData( param, sd, sh, ed, eh, idx, q ) {
         $.ajax({
-            url: 'advancedQuery.php?param=' + param + '&sd=' + sd + '&sh=' + sh + '&ed=' + ed + '&eh=' + eh + '&q=' + idx,
+            url: 'report.php?param=' + param + '&sd=' + sd + '&sh=' + sh + '&ed=' + ed + '&eh=' + eh + '&q=99',
             dataType: 'json',
             success: function(data) {
                 loadingToggle( false );
-                var restuls;
-                gData[ idx ] = data;
-                // enable tab
-                $('.tabber').tabs( "enable", idx );
-
-                if ( parseInt( data.queryRows ) > 0 ) {
-                    if ('traffic_direction' == param) {
-                        // translate protocol from number to name
-                        for (var i=0, len=data.queryResults.length; i<len; i++)
-                            data.queryResults[ i ].protocol = gProto[ data.queryResults[ i ].protocol ];
-                    }
-
-                    // draw frame here
-                    if ( 0 == idx ) {
-                        // table with rows
-                        $('#panel-' + idx).html('<div id="div-table-' + idx + '"><table id="table-' + idx + '"><thead></thead><tbody></tbody></table></div>');
-                        // limit 20
-                        results = data.queryResults;
-                        // update rows
-                        $('#rowsPages').html( Math.ceil( parseInt( data.queryRows )/20 ) );
-                    } else {
-                        // chart
-                        $('#panel-' + idx).html('<div id="div-chart-' + idx + '"><div id="chart-' + idx + '"></div></div>');
-
-                        // table
-                        $('#panel-' + idx).append('<div id="div-table-' + idx + '"><table id="table-' + idx + '"><thead></thead><tbody></tbody></table></div>');
-
-                        // limit 10
-                        results = data.queryResults.slice(0,10);
-                    }
-                } else {
-                    // draw frame here
-                    if ( 0 == idx ) {
-                        // table with rows
-                        $('#panel-' + idx).html('<div id="div-table-' + idx + '"><table id="table-' + idx + '"><thead></thead><tbody></tbody></table></div>');
-                        // update rows
-                        $('#rowsPages').html( 1 );
-                    } else {
-                        // chart
-                        $('#panel-' + idx).html('<div id="div-chart-' + idx + '"><div id="chart-' + idx + '"></div></div>');
-
-                        // table
-                        $('#panel-' + idx).append('<div id="div-table-' + idx + '"><table id="table-' + idx + '"><thead></thead><tbody></tbody></table></div>');
-
-                    }
-                    results = [];
-                }
-
-                setData( param, idx, q, results );
-                // remove que
-                delete gQue[ idx ];
-
-                // get next que
-                for (var x in gQue)
+                gData = data.queries;
+                for (var x in data.queries)
                 {
-                    if ( gQue[ x ] ) {
-                        getData( param, sd, sh, ed, eh, x, q );
-                        break;
+                    // resolve all data
+                    $('.tabber').tabs("enable", x);
+
+                    if ( parseInt( data.queries[ x ].queryResults ) > 0 ) {
+                        if ( 'traffic_direction' == param ) {
+                            for (var i=0, len=data.queries[ x ].queryResults.length; i<len; i++)
+                                data.queries[ x ].queryResults[ i ].protocol = gProto[ data.queries[ x ].queryResults[ i ].protocol ];
+                        }
                     }
+
+                    if ( 0 == x ) {
+                        // pages
+                        if ( data.queries[ x ].queryRows > 0 )
+                            $('#rowsPages').html( Math.ceil( parseInt( data.queries[ x ].queryRows )/20 ) );
+                        else
+                            $('#rowsPages').html(1);
+                    } else {
+                        // chart
+                        $('#panel-' + x).html('<div id="div-chart-' + x + '"><div id="chart-' + x + '"></div></div>');
+                    }
+                    // table
+                    $('#panel-' + x).append('<div id="div-table-' + x + '"><table id="table-' + x + '"><thead><tr></tr></thead><tbody></tbody></table></div>');
+
+                    for (var i=0, len=gCache.menu.col[ x ].length; i<len; i++)
+                        $('#table-' + x + ' thead tr').append( '<th class="ui-state-default">' + gCache.menu.col[ x ][ i ][ gCache.label ] + '</th>' );
                 }
             }
+        }).done( function() {
+            setData( param );
         });
     }
 
-    function setData( param, idx, q, data ) {
-        // draw table
-        $('#table-' + idx + ' thead').html('<tr></tr>');
+    function setData( param ) {
+return false;
 
-        for ( var i=0, len=gCache.menu.col[ idx ].length; i<len; i++)
-            $('#table-' + idx + ' thead tr').append( '<th class="ui-state-default">' + gCache.menu.col[ idx ][ i ][ gCache.label ] + '</th>' );
-
-        $('#table-' + idx + ' tbody').empty();
         var cData = [];
         gData[ 'c-' + idx ] = [];
         gData[ 'k-' + idx ] = [];
@@ -417,7 +366,7 @@ $(document).ready(function () {
 
             var title = "";
             if ('pie' == gCache.chart[ idx ].type) {
-                if ('traffic_direction' == param) 
+                if ('traffic_direction' == param)
                     title = " MB";
 
                 gCache.chart[ idx ].tips.markerLabelFunction = function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
@@ -581,6 +530,9 @@ $(document).ready(function () {
                         data = 0;
                     $('head').append( '<link rel="stylesheet" type="text/css" href="css/version' + gCache.config.version[ data ].aka + '.css" />' );
                     gCache.ft = gCache.config.version[ data ].copyright;
+                    genFooter();
+                    if (!gCache.param)
+                        return false;
                 }
             }).done( function() {
                 $.ajax({
@@ -640,7 +592,7 @@ $(document).ready(function () {
                                 genHd( gCache.menu[ gCache.label ] );
                                 genFt( gCache.param );
                                 genBd( gCache.param, gCache.sd, gCache.sh, gCache.ed, gCache.eh, gCache.tabIndex );
-                                genFooter();
+
                             });
                         });
                     });

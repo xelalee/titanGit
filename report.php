@@ -12,8 +12,21 @@ class PDF extends FPDF
         $this->Image('css/images/bg_logo'. $GLOBALS[ 'json' ]->config->version->$GLOBALS[ 'guiIndex' ]->aka  .'.jpg', -100, 0, 800);
     }
 
-    function LoadWeekly() {
-        return shell_exec( 'php advancedQuery.php weekly' );
+    function LoadData( $param='weekly', $flag=false, $sd='', $sh='', $ed='', $eh='' ) {
+        switch( $param )
+        {
+        case 'traffic_direction':
+            return shell_exec( 'php networkQuery.php '. $param );
+            break;
+        case 'file_extension':
+        case 'blocked_host':
+        case 'affected_host':
+        case 'antivirus_report':
+            return shell_exec( 'php securityQuery.php '. $param );
+            break;
+        default:
+            return shell_exec( 'php advancedQuery.php '. $param );
+        }
     }
 
     function CoverTitle( $title, $subject ) {
@@ -272,12 +285,13 @@ class PDF extends FPDF
     }
 }
 
+    // prepare pdf lib
+    $pdf = new PDF("P", "pt", "A4");
     // output pdf
     if ($argv[ 1 ]) {
-        // declair new pdf
-        $pdf = new PDF("P", "pt", "A4");
+        // call from command
         // get data
-        $data = json_decode( $pdf->LoadWeekly(), true );
+        $data = json_decode( $pdf->LoadData(), true );
         // add page counts
         $pdf->AliasNbPages();
         // weekly start
@@ -290,39 +304,40 @@ class PDF extends FPDF
         $pdf->Output( $argv[ 1 ] );
         print_r( 0 );
     } elseif ( $_GET[ 'param' ] ) {
-        if ($_GET[ 'r' ]) {
+        // call from report.html, deal with aggregate only, export reulst as pdf and return data set
+        switch( $_GET[ 'param' ] )
+        {
+        case 'traffic_direction':
+            $data = json_decode( $pdf->LoadData( $_GET[ 'param' ] ), true);
+            print_r( json_encode( $data ) );
+            break;
+        case 'file_extension':
 
-        } else {
-echo $_GET[ 'param' ] ;
-            switch( $_GET[ 'param' ] )
-            {
-            case 'traffic_direction':
-                break;
-            case 'file_extension':
-                break;
-            case 'blocked_host':
-                break;
-            case 'affected_host':
-                break;
-            case 'antivirus_report':
-                break;
-            }
+            break;
+        case 'blocked_host':
 
+            break;
+        case 'affected_host':
+
+            break;
+        case 'antivirus_report':
+
+            break;
+        case 'weekly':
+            // direct call from gui, output weekly as pdf
+            // get data
+            $data = json_decode( $pdf->LoadData(), true );
+            // add page counts
+            $pdf->AliasNbPages();
+            // weekly start
+            $pdf->CoverTitle('Weekly Report', 'Date : '. $data[ 'sd' ] .'~'. $data[ 'ed' ]);
+            $pdf->printSection('Top Source IP', $data[ 'topSrcIp' ][ 'queryRows' ], $data[ 'topSrcIp' ][ 'queryResults' ], 'topSrcIp');
+            $pdf->printSection('Top Destination IP', $data[ 'topDstIp' ][ 'queryRows' ], $data[ 'topDstIp' ][ 'queryResults' ], 'topDstIp');
+            $pdf->printSection('Top Virus Name', $data[ 'topVirusName' ][ 'queryRows' ], $data[ 'topVirusName' ][ 'queryResults' ], 'topVirusName');
+            $pdf->printSection('Top Protocol', $data[ 'topProtocol' ][ 'queryRows' ], $data[ 'topProtocol' ][ 'queryResults' ], 'topProtocol');
+            // weekly end
+            $pdf->Output();
+            break;
         }
-    } else {
-        // declair new pdf
-        $pdf = new PDF("P", "pt", "A4");
-        // get data
-        $data = json_decode( $pdf->LoadWeekly(), true );
-        // add page counts
-        $pdf->AliasNbPages();
-        // weekly start
-        $pdf->CoverTitle('Weekly Report', 'Date : '. $data[ 'sd' ] .'~'. $data[ 'ed' ]);
-        $pdf->printSection('Top Source IP', $data[ 'topSrcIp' ][ 'queryRows' ], $data[ 'topSrcIp' ][ 'queryResults' ], 'topSrcIp');
-        $pdf->printSection('Top Destination IP', $data[ 'topDstIp' ][ 'queryRows' ], $data[ 'topDstIp' ][ 'queryResults' ], 'topDstIp');
-        $pdf->printSection('Top Virus Name', $data[ 'topVirusName' ][ 'queryRows' ], $data[ 'topVirusName' ][ 'queryResults' ], 'topVirusName');
-        $pdf->printSection('Top Protocol', $data[ 'topProtocol' ][ 'queryRows' ], $data[ 'topProtocol' ][ 'queryResults' ], 'topProtocol');
-        // weekly end
-        $pdf->Output();
     }
 ?>

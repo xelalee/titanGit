@@ -169,6 +169,12 @@
     "btnMoveDown" : "Move Selected Settings Down",
     "btnReboot" : "Reboot Device",
     "btnReset" : "Reset Device",
-    "btnShutdown" : "Shut device down"
+    "btnShutdown" : "Shut device down",
+    "btnNew" : "Create new capture",
+    "btnDownloadPCap" : "Download selected file",
+    "btnDeletePCap" : "Remove selected file",
+    "btnRemovePCap" : "Remove selected files",
+    "btnExportLog" : "Export logs",
+    "btnExportIPMAC" : "Export IP MAC Bindings"
   }
 }
