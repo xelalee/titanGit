@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>TitanWALL web manager</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+<!--[if IE 8]>
+    <meta http-equiv="X-UA-Compatible" content="IE=7">
+<![endif]-->
+<!-- css -->
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.structure.css" />
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.theme.css" />
+<!-- custom css -->
+    <link rel="stylesheet" type="text/css" href="css/custom.css" />
+<!-- JS Start -->
+<!-- jquery -->
+    <script type="text/javascript" src="js/jquery-1.11.1.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+<!-- jquery plugins -->
+    <script type="text/javascript" src="js/plugins/jquery.cookie.js"></script>
+<!-- custom js -->
+<script type="text/javascript">
+// force redirect to https
+if ('http:' === window.location.protocol)
+    window.location = 'https:' + window.location.href.substr(5);
+
+// fix ie's indexOf issue
+if (!Array.prototype.indexOf) {
+    Array.prototype.indexOf = function (searchElement /*, fromIndex */ ) {
+        "use strict";
+        if (this == null) 
+            throw new TypeError();
+        
+        var t = Object(this);
+        var len = t.length >>> 0;
+        if (len === 0) 
+            return -1;
+        var n = 0;
+        if (arguments.length > 1) {
+            n = Number(arguments[1]);
+            // shortcut for verifying if it's NaN
+            if (n != n) 
+                n = 0;
+            else if (n != 0 && n != Infinity && n != -Infinity) 
+                n = (n > 0 || -1) * Math.floor(Math.abs(n));
+        }
+        if (n >= len) 
+            return -1;
+
+        var k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
+        for (; k < len; k++) {
+            if (k in t && t[k] === searchElement) 
+                return k;
+        }
+        return -1;
+    }
+}
+
+// fix older env,
+if (!Object.keys) {
+  Object.keys = (function () {
+    var hasOwnProperty = Object.prototype.hasOwnProperty,
+        hasDontEnumBug = !({toString: null}).propertyIsEnumerable('toString'),
+        dontEnums = [
+          'toString',
+          'toLocaleString',
+          'valueOf',
+          'hasOwnProperty',
+          'isPrototypeOf',
+          'propertyIsEnumerable',
+          'constructor'
+        ],
+        dontEnumsLength = dontEnums.length;
+
+    return function (obj) {
+      if (typeof obj !== 'object' && typeof obj !== 'function' || obj === null) throw new TypeError('Object.keys called on non-object');
+
+      var result = [];
+
+      for (var prop in obj) 
+        if (hasOwnProperty.call(obj, prop)) result.push(prop);
+
+      if (hasDontEnumBug) {
+        for (var i=0; i < dontEnumsLength; i++) 
+          if (hasOwnProperty.call(obj, dontEnums[i])) result.push(dontEnums[i]);
+      }
+      return result;
+    };
+  })();
+}
+
+// add plugin for object length calc
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key))
+            size++;
+    }
+    return size;
+}
+
+// custom javascript 
+// define global vars
+
+$(document).ready( function() {
+    var gObj   = {};
+    var gConf  = {};
+    var gIndex = 0;
+    var gPath  = '../';
+
+    function ifLogin() {
+        // check if cookie
+        
+        goManager();
+    }
+
+    function goRegister() {
+
+    }
+
+    funciton goManager() {
+
+    }
+
+    // get config 
+    $.ajax({
+        url: "assets/config.json",
+        dataType: 'json',
+        success: function( data ) {
+            gConf  = data.config;
+            gColor = data.colors;
+            // get gui index flag
+            $.ajax({
+                url: gPath + "guiIndex.php",
+                dataType: 'json',
+                success: function( data ) {
+                    if (gConf.version[ data ])
+                        gIndex = parseInt( data );
+                    // differ by version
+                    $('head').append( '<link rel="stylesheet" type="text/css" href="css/version' + gConf.version[ gIndex ].aka + '.css" />' );
+                }
+            });
+        }
+    }).done( function() {
+        ifLogin();
+    });
+});
+
+</script>
+</head>
+<body>
+    <!-- login div -->
+    <div id="loginDiv">
+    </div>
+    <!-- register div -->
+    <div id="registerDiv" class="hiddenDiv">
+    </div>
+    <!-- manager div -->
+    <div id="managerDiv" class="hiddenDiv">
+    </div>
+</body>
+</html>

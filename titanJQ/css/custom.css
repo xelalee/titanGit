@@ -1,0 +1,79 @@
+/* nomalize */
+ul { list-style-type: none; }
+ul { margin: 0; padding: 0; }
+ul li { margin: 0; padding: 0}
+a:link { text-decoration: none;}
+
+/* html */
+html {
+    background: url('images/bg_plain.jpg')
+}
+
+/* login layou */
+#loginDiv {
+    width: 400px;
+    height: 230px;
+    margin: 150px auto;
+    border: 1px solid gray;
+    letter-spacing: normal;
+    word-spacing: normal;
+    color: black;
+}
+
+#loginDiv table {
+    margin: 70px 0 0 70px;
+}
+
+#loginDiv table tr {
+    height: 30px;
+}
+
+#loginDiv table th {
+    width: 80px;
+    text-align: right;
+    padding: 0 10px 0 0;
+    border: none;
+}
+
+#loginDiv table td {
+    text-align: left;
+    padding: 0 0 0 10px;
+    border: none;
+}
+
+#loginButton {
+    cursor: pointer;
+}
+
+#loginButton:hover {
+
+}
+
+#loginError {
+    display: none;
+}
+
+#loginRegister {
+    width: 800px;
+    margin: 100px auto;
+}
+
+#loginRegister .tabber div {
+    background-color: #efefef;
+    margin: 0;
+}
+
+/* layout outline */
+#outline {
+    min-width: 1024px;
+}
+
+/* main layout */
+#layout {
+    position: relative;
+    margin: 0 auto; /* center in viewport */
+    width: 1024px; /* fix page width */
+    height: 768px;
+    letter-spacing: 0;
+    word-spacing: 0;
+}

@@ -61,7 +61,7 @@ class TTWNQuery extends TTWQuery
                 break;
             }
 
-            $this->queryStr .= ' ORDER BY totalBytes DESC LIMIT '. $limit;
+            $this->queryStr .= ' ORDER BY totalBytes DESC ';
             break;
         }
     }

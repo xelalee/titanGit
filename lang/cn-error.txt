@@ -146,7 +146,7 @@
     "httpsPortRange" : "https端口应在1 ~ 65535之间",
     "sshPortRange" : "SSH端口应在1 ~ 65535之间",
     "smtpServer" : "SMTP服务器IP地址/域名长度应少于62",
-    "smtpPortRange" : "smtp port should between 1 to 65535",
+    "smtpPortRange" : "smtp端口应该在1~65535之间",
     "account31" : "账号仅可以使用除 [空格] ' ` \" % ?以外的ascii编码，并且长度应该在1~31个字符",
     "passwordLength31" : "密码长度应在1 ~ 31之间",
     "fromEmail" : "发信邮箱应该为电子邮件地址格式并且长度应该在6~63个字符",
@@ -273,7 +273,7 @@
 
     "_comment" : "--------",
     "_comment" : "email alert",
-    "schReportMailSubject" : "len:63, [0-9a-zA-Z -_.'[]]",
+    "schReportMailSubject" : "长度63, 允许的字符[0-9a-zA-Z -_.'[]]",
 
     "_comment" : "--------",
     "_comment" : "备份恢复",

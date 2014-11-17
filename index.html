@@ -11333,6 +11333,7 @@ $(document).ready(function () {
                                     dataType: 'json',
                                     data: gY.JSON.stringify( gObj.calc.checkIp ),
                                     success: function(data) {
+                                        msg = '';
                                         if ( 0 === parseInt( data.status ) && 0 === parseInt( data.isConflict ) ) {
                                             gIf.alter = true;
 
@@ -12842,7 +12843,6 @@ $(document).ready(function () {
         var checker = {};
         checker.pass = true;
         checker.msg = '';
-
         checker.tarIp = (gObj.calc.ip_1 << 24) + (gObj.calc.ip_2 << 16) + (gObj.calc.ip_3 << 8) + gObj.calc.ip_4;
         checker.tarMask = (gObj.calc.snm_1 << 24) + (gObj.calc.snm_2 << 16) + (gObj.calc.snm_3 << 8) + gObj.calc.snm_4;
         switch( pid )
@@ -12874,8 +12874,8 @@ $(document).ready(function () {
                         } else {
                             checker.arrIp    = gData[ pid ].staticipT[ i ].ip.split('.');
                             checker.arrMask  = gData[ pid ].staticipT[ i ].netmask.split('.');
-                            checker.compIp   = (checker.arrIp[ 0 ] << 24) + (checker.arrIp[ 1 ] << 16) + (checker.arrIp[ 2 ] << 8) + checker.arrIp[ 3 ];
-                            checker.compMask = (checker.arrMask[ 0 ] << 24) + (checker.arrMask[ 1 ] << 16) + (checker.arrMask[ 2 ] << 8) + checker.arrMask[ 3 ];
+                            checker.compIp   = (parseInt(checker.arrIp[ 0 ]) << 24) + (parseInt(checker.arrIp[ 1 ]) << 16) + (parseInt(checker.arrIp[ 2 ]) << 8) + parseInt(checker.arrIp[ 3 ]);
+                            checker.compMask = (parseInt(checker.arrMask[ 0 ]) << 24) + (parseInt(checker.arrMask[ 1 ]) << 16) + (parseInt(checker.arrMask[ 2 ]) << 8) + parseInt(checker.arrMask[ 3 ]);
 
                             if ( (checker.tarIp & checker.tarMask & checker.compMask) == (checker.compIp & checker.compMask & checker.tarMask) ) {
                                 checker.pass = false;
@@ -12930,8 +12930,8 @@ $(document).ready(function () {
                     } else {
                         checker.arrIp    = gData[ pid ][ gNode.guiT ][ i ].address.split('.');
                         checker.arrMask  = gData[ pid ][ gNode.guiT ][ i ].netmask.split('.');
-                        checker.compIp   = (checker.arrIp[ 0 ] << 24) + (checker.arrIp[ 1 ] << 16) + (checker.arrIp[ 2 ] << 8) + checker.arrIp[ 3 ];
-                        checker.compMask = (checker.arrMask[ 0 ] << 24) + (checker.arrMask[ 1 ] << 16) + (checker.arrMask[ 2 ] << 8) + checker.arrMask[ 3 ];
+                        checker.compIp   = (parseInt(checker.arrIp[ 0 ]) << 24) + (parseInt(checker.arrIp[ 1 ]) << 16) + (parseInt(checker.arrIp[ 2 ]) << 8) + parseInt(checker.arrIp[ 3 ]);
+                        checker.compMask = (parseInt(checker.arrMask[ 0 ]) << 24) + (parseInt(checker.arrMask[ 1 ]) << 16) + (parseInt(checker.arrMask[ 2 ]) << 8) + parseInt(checker.arrMask[ 3 ]);
 
                         if ( (checker.tarIp & checker.tarMask & checker.compMask) == (checker.compIp & checker.compMask & checker.tarMask) ) {
                             checker.pass = false;
@@ -25181,7 +25181,7 @@ $(document).ready(function () {
                                 tmp += '<tbody>';
                                 tmp += '<tr>';
                                 tmp += '<td class="BT40"></td>';
-                                tmp += '<th class="alignLeft BT110">Description</th>';
+                                tmp += '<th class="alignLeft BT110">' + gNode.col[ "debug" ][ 0 ].col[ 0 ][ gObj.label ] + '</th>';
                                 tmp += '<td class="alignLeft BT200" colspan="2"> <input class="debugging" type="text" id="pcapDesc" /> </td>';
                                 tmp += '<td class="BT40"></td>';
                                 tmp += '<th class="alignLeft BT120"></th>';
@@ -25191,7 +25191,7 @@ $(document).ready(function () {
 
                                 tmp += '<tr>';
                                 tmp += '<td class="BT40"></td>';
-                                tmp += '<th class="alignLeft BT110">Network Interface </th>';
+                                tmp += '<th class="alignLeft BT110">' + gNode.col[ "debug" ][ 0 ].col[ 1 ][ gObj.label ] + '</th>';
                                 tmp += '<td class="alignLeft BT200" colspan="2">';
                                 tmp += '<select id="pcapIfName" class="debugging"></select>';
                                 tmp += '</td>';
@@ -25204,19 +25204,19 @@ $(document).ready(function () {
 
                                 tmp += '<tr>';
                                 tmp += '<td class="BT40"></td>';
-                                tmp += '<th class="alignLeft BT110">Port Range </th>';
-                                tmp += '<td class="alignLeft BT100">Start</td>';
+                                tmp += '<th class="alignLeft BT110">' + gNode.col[ "debug" ][ 0 ].col[ 2 ][ gObj.label ] + '</th>';
+                                tmp += '<td class="alignLeft BT100">' + gNode.col[ "debug" ][ 0 ].col[ 2 ].col[ 0 ][ gObj.label ] + '</td>';
                                 tmp += '<td class="alignLeft BT100"> <input class="debugging" type="text" id="pcapPortStart" size="8"> </td>';
 
                                 tmp += '<td class="BT40"></td>';
-                                tmp += '<td class="alignLeft BT120">End</td>';
+                                tmp += '<td class="alignLeft BT120">' + gNode.col[ "debug" ][ 0 ].col[ 2 ].col[ 1 ][ gObj.label ] + '</td>';
                                 tmp += '<td class="alignLeft BT200" colspan="2"> <input class="debugging" type="text" id="pcapPortEnd" size="8"> </td>';
                                 tmp += '<td class="BT100"></td>';
                                 tmp += '</tr>';
                                 tmp += '<tr>';
                                 tmp += '<td class="BT40"></td>';
-                                tmp += '<th class="alignLeft BT110">Host</th>';
-                                tmp += '<td class="alignLeft BT100">Address</td>';
+                                tmp += '<th class="alignLeft BT110">' + gNode.col[ "debug" ][ 0 ].col[ 3 ][ gObj.label ] + '</th>';
+                                tmp += '<td class="alignLeft BT100">' + gNode.col[ "debug" ][ 0 ].col[ 3 ].col[ 0 ][ gObj.label ] + '</td>';
                                 tmp += '<td class="alignLeft BT100"> <input class="debugging" type="text" id="pcapHost"> </td>';
 
                                 tmp += '<td class="BT40"></td>';
@@ -25226,19 +25226,19 @@ $(document).ready(function () {
                                 tmp += '</tr>';
                                 tmp += '<tr>';
                                 tmp += '<td class="BT40"></td>';
-                                tmp += '<th class="alignLeft BT110">Net </th>';
-                                tmp += '<td class="alignLeft BT100">Address</td>';
+                                tmp += '<th class="alignLeft BT110">' + gNode.col[ "debug" ][ 0 ].col[ 4 ][ gObj.label ] + '</th>';
+                                tmp += '<td class="alignLeft BT100">' + gNode.col[ "debug" ][ 0 ].col[ 4 ].col[ 0 ][ gObj.label ] + '</td>';
                                 tmp += '<td class="alignLeft BT100"> <input class="debugging" type="text" id="pcapNetAddress"> </td>';
                                 tmp += '<td class="BT40"></td>';
-                                tmp += '<td class="alignLeft BT120" >Netmask</td>';
+                                tmp += '<td class="alignLeft BT120" >' + gNode.col[ "debug" ][ 0 ].col[ 4 ].col[ 1 ][ gObj.label ] + '</td>';
                                 tmp += '<td class="alignLeft" colspan="2"> <input class="debugging" type="text" id="pcapNetmask"> </td>';
 
                                 tmp += '<td class="BT100"></td>';
                                 tmp += '</tr>';
                                 tmp += '<tr>';
                                 tmp += '<td class="BT40"></td>';
-                                tmp += '<th class="alignLeft BT110">MAC </th>';
-                                tmp += '<td class="alignLeft BT100">Address</td>';
+                                tmp += '<th class="alignLeft BT110">' + gNode.col[ "debug" ][ 0 ].col[ 5 ][ gObj.label ] + '</th>';
+                                tmp += '<td class="alignLeft BT100">' + gNode.col[ "debug" ][ 0 ].col[ 5 ].col[ 0 ][ gObj.label ] + '</td>';
                                 tmp += '<td class="alignLeft BT100"> <input class="debugging" type="text" id="pcapMac"> </td>';
 
                                 tmp += '<td class="BT40"></td>';
@@ -29533,6 +29533,7 @@ $(document).ready(function () {
                                             dataType: 'json',
                                             data: gY.JSON.stringify( gObj.alias.checkIp ),
                                             success: function(data) {
+                                                msg = '';
                                                 if ( 0 === parseInt( data.status ) && 0 === parseInt( data.isConflict ) ) {
                                                     switch( tar.type )
                                                     {
