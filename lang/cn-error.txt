@@ -166,7 +166,8 @@
     "firstName32" : "姓氏允许的字符集 [a-z,A-Z,0-9,@.-_] 并且长度应该在1~32之间",
     "lastName32" : "名字允许的字符集 [a-z,A-Z,0-9,@.-_] 并且长度应该在1~32之间",
     "email" : "邮件地址应为 [a-z,A-Z,0-9,@.-_] 并且长度应该在6~63字符之间",
-    "address65" : "地址长度应该在1~65之间",
+    "comapny64" : "公司长度应该在0~64之间",
+    "address64" : "地址长度应该在1~64之间",
     "city32" : "城市 应为 [a-z,A-Z,0-9,@.-_]并且长度应该在1~32字符之间",
     "zipCode" : "允许的zip码应为[a-z,A-Z,0-9,]",
     "state32" : "国家 应为 [a-z.A-Z.0-9,@.-_]并且长度应该在1~32位之间",
@@ -294,6 +295,10 @@
     "packetCapturing": "数据包捕获",
     "pcapIfName": "请选择网络接口",
     "logDesc": "描述长度应在0~127之间",
-    "pcapDesc": "描述长度应在0~127之间"
+    "pcapDesc": "描述长度应在0~127之间",
+
+    "_comment" : "--------",
+    "_comment" : "license",
+    "conn_fail" : "register server connecting failed"
   }
 }

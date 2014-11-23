@@ -1,0 +1,74 @@
+{
+    "dashboard_sys_info" :
+    {
+        "sysName" :
+        {
+            "en-label" : "System Name",
+            "cn-label" : "系统名称",
+            "tw-label" : "系統名稱"
+        },
+        "model" :
+        {
+            "en-label" : "Model",
+            "cn-label" : "模式",
+            "tw-label" : "型號"
+        },
+        "primaryVer" :
+        {
+            "en-label" : "Primary Firmware",
+            "cn-label" : "主要固件版本",
+            "tw-label" : "目前韌體版本"
+        },
+        "secondaryVer" :
+        {
+            "en-label" : "Secondary Firmware",
+            "cn-label" : "次要固件版本",
+            "tw-label" : "備用韌體版本"
+        },
+        "sigVer" :
+        {
+            "en-label" : "Signature Version",
+            "cn-label" : "病毒数据库版本",
+            "tw-label" : "病毒資料庫版本"
+        },
+        "sigEng" :
+        {
+            "en-label" : "Sig Engine Version",
+            "cn-label" : "特征码引擎版本",
+            "tw-label" : "特徵碼引擎版本"
+        },
+        "md5Eng" :
+        {
+            "en-label" : "MD5 Engine Version",
+            "cn-label" : "MD5引擎版本",
+            "tw-label" : "MD5引擎版本"
+        },
+        "serial" :
+        {
+            "en-label" : "Serial Number",
+            "cn-label" : "序号",
+            "tw-label" : "序號"
+        },
+        "sysUptime" :
+        {
+            "en-label" : "System Uptime",
+            "cn-label" : "系统运行时间",
+            "tw-label" : "系統開機時間"
+        }
+    },
+    "dashboard_resource" :
+    {
+        "cpuUtilization" :
+        {
+            "en-label" : "CPU Utilization",
+            "cn-label" : "CPU 使用率",
+            "tw-label" : "CPU 使用率"
+        },
+        "memoryUtilization" :
+        {
+            "en-label" : "Memory Utilization",
+            "cn-label" : "内存使用率",
+            "tw-label" : "記憶體使用量"
+        }
+    }
+}

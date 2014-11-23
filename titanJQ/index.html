@@ -110,6 +110,7 @@ $(document).ready( function() {
     var gConf  = {};
     var gIndex = 0;
     var gPath  = '../';
+    var gAsset = 'assets/';
 
     function ifLogin() {
         // check if cookie
@@ -127,7 +128,7 @@ $(document).ready( function() {
 
     // get config 
     $.ajax({
-        url: "assets/config.json",
+        url: gAsset + "config.json",
         dataType: 'json',
         success: function( data ) {
             gConf  = data.config;

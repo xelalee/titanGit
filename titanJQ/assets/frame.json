@@ -1,0 +1,97 @@
+{
+    "dashboard" :
+    {
+        "type" : "portal",
+        "panel" :
+        {
+            "dashboard_sys_info" :
+            {
+                "tag" : "table",
+                "type" : "dual",
+                "url" :
+                {
+                    "get" : "dashboard_sys_info.cgi"
+                }
+            },
+            "dashboard_resource" :
+            {
+                "links": "reports-system_status-resource_utilization",
+                "tag" : "table",
+                "type" : "chart",
+                "url" :
+                {
+                    "get" : "dashboard_resource.cgi"
+                }
+            }
+        }
+    },
+    "http" :
+    {
+        "type" : "tabs",
+        "panel" :
+        {
+            "av_general" :
+            {
+                "url" :
+                {
+                    "get" : "av_general.cgi",
+                    "post" : "av_general.cgi"
+                },
+                "pgAction" : "Save Cancel"
+            },
+            "av_http_notify" :
+            {
+                "url" :
+                {
+                    "get" : "av_http_notify.cgi",
+                    "post" : "av_http_notify.cgi"
+                },
+                "pgAction" : "Save Cancel"
+            },
+            "addr_filter" :
+            {
+                "url" :
+                {
+                    "get" : "addr_filter.cgi",
+                    "post" : "addr_filter.cgi"
+                },
+                "pgAction" : "Save Cancel",
+                "tblAction" : "Create Remove",
+                "rowAction" : "Edit Delete"
+            },
+            "av_file_exception" :
+            {
+                "url" :
+                {
+                    "get" : "av_file_exception.cgi",
+                    "post" : "av_file_exception.cgi"
+                },
+                "pgAction" : "Save Cancel",
+                "tblAction" : "Create Remove",
+                "rowAction" : "Edit Delete"
+            },
+            "av_blacklist" :
+            {
+                "url" :
+                {
+                    "get" : "av_blacklist.cgi",
+                    "post" : "av_blacklist.cgi"
+                },
+                "pgAction" : "Save Cancel",
+                "tblAction" : "Move2Whites Remove",
+                "rowAction" : "Move2White Delete"
+            },
+            "av_whitelist" :
+            {
+                "url" :
+                {
+                    "get" : "av_whitelist.cgi",
+                    "post" : "av_whitelist.cgi"
+                },
+                "pgAction" : "Save Cancel",
+                "tblAction" : "Remove",
+                "rowAction" : "History Delete"
+            }
+        }
+    }
+}

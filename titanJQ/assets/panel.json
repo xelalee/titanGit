@@ -1,0 +1,14 @@
+{
+    "dashboard_sys_info" :
+    {
+        "en-label" : "System Information",
+        "cn-label" : "系统信息",
+        "tw-label" : "系統資訊"
+    },
+    "dashboard_resource" :
+    {
+        "en-label" : "Resource Utilization",
+        "cn-label" : "资源使用率",
+        "tw-label" : "系統資源使用率"
+    }
+}

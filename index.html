@@ -1624,12 +1624,12 @@ $(document).ready(function () {
                                                         errorAlert( '<p>' + poster.msg + '</p>' );
                                                     }
                                                 }).fail( function(){
-                                                    errorAlert( 'register server connecting failed' );
+                                                    errorAlert( '<p>' + gError[ gObj.lang ].conn_fail + '</p>' );
                                                 });
                                             }else {
                                                 $('.newUsername').removeClass('isOK');
                                                 $('.newUsername').addClass('isKO');
-                                                errorAlert( 'username can only be [a-zA-Z0-9.@_-] and length should between 6 ~ 20' );
+                                                errorAlert( '<p>' + gError[ gObj.lang ].password20 + '</p>' );
                                             }
                                         });
 
@@ -13417,6 +13417,7 @@ $(document).ready(function () {
                     position: "center",
                     resizable: false,
                     modal: true,
+                    title: gTerm[ gObj.lang ].errorAlert,
                     buttons: [
                         {
                             text: gObj.btnYes,
@@ -15849,6 +15850,7 @@ $(document).ready(function () {
                     position: "center",
                     resizable: false,
                     modal: true,
+                    title: gTerm[ gObj.lang ].errorAlert,
                     buttons: [
                         {
                             text: gObj.btnYes,
@@ -18352,6 +18354,7 @@ $(document).ready(function () {
                     position: "center",
                     resizable: false,
                     modal: true,
+                    title: gTerm[ gObj.lang ].errorAlert,
                     buttons: [
                         {
                             text: gObj.btnYes,
@@ -18674,7 +18677,7 @@ $(document).ready(function () {
                                         tmp += '</td>';
                                         tmp += '<td class="alignCenter">';
                                         tmp += '<button id="Move2Del-selectedZonesT" class="Move2Del" title="' + gTerm[ gObj.lang ].btnMove2Del + '"><span class="ui-icon"></span></button>';
-                                        tmp += '<button id="Move2Add-selectedZonesT" class="Move2Add" title="' + gTerm[ gObj.lang ].btnMove2Del + '"><span class="ui-icon"></span></button>';
+                                        tmp += '<button id="Move2Add-selectedZonesT" class="Move2Add" title="' + gTerm[ gObj.lang ].btnMove2Add + '"><span class="ui-icon"></span></button>';
                                         tmp += '</td>';
                                         tmp += '<td class="alignCenter">';
                                         tmp += '<select id="selectedZonesT" multiple size="10"></select>';
@@ -25789,6 +25792,7 @@ $(document).ready(function () {
                                                 position: "center",
                                                 resizable: false,
                                                 modal: true,
+                                                title: gTerm[ gObj.lang ].errorAlert,
                                                 buttons: [
                                                     {
                                                         text: gObj.btnYes,
@@ -27339,6 +27343,7 @@ $(document).ready(function () {
                         position: "center",
                         resizable: false,
                         modal: true,
+                        title: gTerm[ gObj.lang ].errorAlert,
                         buttons: [
                             {
                                 text: gObj.btnYes,
