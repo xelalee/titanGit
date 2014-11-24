@@ -1064,18 +1064,18 @@ $(document).ready(function () {
             switch( parseInt( e.keyCode ) )
             {
             case 13 :
-                if ($('#loginButton').exists()) {
+                if ( $('#popError').parent().find('button:contains("' + gObj.btnYes + '")').exists() )
+                    $('#popError').parent().find('button:contains("' + gObj.btnYes + '")').click();
+                else if ( $('#popError').parent().find('button:contains("' + gObj.btnOk + '")').exists() )
+                    $('#popError').parent().find('button:contains("' + gObj.btnOk + '")').click();
+                else if ( $('#popMore').parent().find('button:contains("' + gObj.btnYes + '")').exists() )
+                    $('#popMore').parent().find('button:contains("' + gObj.btnYes + '")').click();
+                else if ( $('#popPlus').parent().find('button:contains("' + gObj.btnYes + '")').exists() )
+                    $('#popPlus').parent().find('button:contains("' + gObj.btnYes + '")').click();
+                else if ( $('#popForm').parent().find('button:contains("' + gObj.btnYes + '")').exists() )
+                    $('#popForm').parent().find('button:contains("' + gObj.btnYes + '")').click();
+                else if ($('#loginButton').exists()) 
                     $('#loginButton').click();
-                } else if ( $(':button:contains("' + gObj.btnYes + '")').exists() ) {
-                    if ( $('#popError').parent().find('button:contains("' + gObj.btnYes + '")').exists() )
-                        $('#popError').parent().find('button:contains("' + gObj.btnYes + '")').click();
-                    else if ( $('#popMore').parent().find('button:contains("' + gObj.btnYes + '")').exists() )
-                        $('#popMore').parent().find('button:contains("' + gObj.btnYes + '")').click();
-                    else if ( $('#popPlus').parent().find('button:contains("' + gObj.btnYes + '")').exists() )
-                        $('#popPlus').parent().find('button:contains("' + gObj.btnYes + '")').click();
-                    else if ( $('#popForm').parent().find('button:contains("' + gObj.btnYes + '")').exists() )
-                        $('#popForm').parent().find('button:contains("' + gObj.btnYes + '")').click();
-                }
                 break;
             case 32:
                 switch( $( document.activeElement ).attr('type') )
@@ -3942,7 +3942,7 @@ $(document).ready(function () {
 
             });
         }else {
-            errorAlert('<p>invalid active code!</p>');
+            errorAlert('<p>' + gError[ gObj.lang ].invalid_active + '</p>');
         }
     }
 
@@ -4705,7 +4705,7 @@ $(document).ready(function () {
             }
         });
 
-        $('.errorMsg').html('Change will not be saved!');
+        $('.errorMsg').html( gError[ gObj.lang ].change_no_save );
     }
 
     function cmdAlert(cmd, thisNo) {
@@ -29697,7 +29697,8 @@ $(document).ready(function () {
             });
 
             for (var i=0, len=gRef.mime.length; i<len; i++)
-                tmp += '<option value="' + gRef.mime[ i ].tab + '">' + gRef.mime[ i ][ gObj.label ] + '</option>';
+                tmp += '<option value="' + gRef.mime[ i ].tab + '">' + gRef.mime[ i ].label + '</option>';
+                //tmp += '<option value="' + gRef.mime[ i ].tab + '">' + gRef.mime[ i ][ gObj.label ] + '</option>';
             break;
         case 'Editor-sub':
             if (reg) {

@@ -191,11 +191,12 @@
     "desc255" : "描述長度需在0到255之間",
     "cacheSize" : "暫存大小需在150到10000之間",
     "maxIdleTime" : "閒置時間需在5到999秒之間",
-    "fail2Get": "get cgi error",
+    "fail2Get": "cgi 呼叫錯誤",
     "ifname": "請選擇網路介面",
     "length127": "描述長度應該在1到127之間",
     "length0127": "描述長度應該在0到127之間",
     "dhcp_overlap" : "DHCP範圍與地址設定衝突，請更改位址範圍設定避免重複",
+    "change_no_save" : "變更將不保存",
 
     "_comment" : "========",
     "_comment" : "interface",
@@ -298,6 +299,7 @@
 
     "_comment" : "--------",
     "_comment" : "license",
-    "conn_fail" : "register server connecting failed"
+    "conn_fail" : "連接註冊伺服器失敗",
+    "invalid_code" : "無效的註冊碼"
   }
 }

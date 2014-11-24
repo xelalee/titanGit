@@ -197,6 +197,7 @@
     "length127": "描述的长度应该在0~127之间",
     "length0127": "描述的长度应该在0~127之间",
     "dhcp_overlap" : "DHCP地址池已经被配置，请改变地址池设置以免冲突",
+    "change_no_save" : "更改将不保存",
 
     "_comment" : "========",
     "_comment" : "interface",
@@ -299,6 +300,7 @@
 
     "_comment" : "--------",
     "_comment" : "license",
-    "conn_fail" : "register server connecting failed"
+    "conn_fail" : "注册服务器连接失败",
+    "invalid_active" : "无效的注册码"
   }
 }

@@ -1,4 +1,28 @@
 {
+    "loginDiv" : 
+    {
+        "type" : "outline",
+        "panel" : 
+        {
+            "login" :
+            {
+                "tag" : "div",
+                "type" : "form",
+                "url" : 
+                {
+                    
+                }
+            }
+        }
+    },
+    "registerDiv" :
+    {
+
+    },
+    "managerDiv" :
+    {
+
+    },
     "dashboard" :
     {
         "type" : "portal",

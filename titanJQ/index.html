@@ -114,16 +114,26 @@ $(document).ready( function() {
 
     function ifLogin() {
         // check if cookie
+        if ($.cookie( gConf.version[ gIndex ].cookie )) {
+            goManager();
+        } else {
+            goLogin();
+        }       
+    }
+
+    function goLogin() {
+        $('#loginDiv').show();
         
-        goManager();
     }
 
     function goRegister() {
-
+        $('#registerDiv').show();
+        
     }
 
     funciton goManager() {
-
+        $('#managerDiv').show();
+        
     }
 
     // get config 
@@ -154,7 +164,7 @@ $(document).ready( function() {
 </head>
 <body>
     <!-- login div -->
-    <div id="loginDiv">
+    <div id="loginDiv" class="hiddenDiv">
     </div>
     <!-- register div -->
     <div id="registerDiv" class="hiddenDiv">

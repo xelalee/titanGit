@@ -6334,7 +6334,7 @@
             },
             {
               "label" : "Port#",
-              "cn-label" : "端口#",
+              "cn-label" : "端口",
               "tw-label" : "序號",
               "tab" : "port",
               "wiz" : "5%",
@@ -8791,7 +8791,7 @@
                   "option" :
                   {
                     "0" : { "label" : "NAT", "cn-label" : "NAT", "tw-label" : "NAT" },
-                    "1" : { "label" : "Classical Routing", "cn-label" : "Classical Routing", "tw-label" : "典型路由" }
+                    "1" : { "label" : "Classical Routing", "cn-label" : "经典路由", "tw-label" : "典型路由" }
                   }
                 },
                 {
@@ -15943,7 +15943,7 @@
           [
             {
               "label" : "DNS Lookup",
-              "cn-label" : "DNS Lookup",
+              "cn-label" : "DNS查找",
               "tw-label" : "網域名稱查詢",
               "id" : "menu-13-3-0",
               "tab" : "dns_lookup",
@@ -16275,7 +16275,7 @@
             },
             {
               "label" : "Advanced Debug",
-              "cn-label" : "Debug",
+              "cn-label" : "调试",
               "tw-label" : "進階工具",
               "id" : "menu-13-3-4",
               "tab" : "advanced_debug",
@@ -16808,7 +16808,7 @@
                   },
                   {
                     "label" : "Registered",
-                    "cn-label" : "Registered",
+                    "cn-label" : "已注册",
                     "tw-label" : "已註冊",
                     "tab" : "haveAccount-1" ,
                     "col" :

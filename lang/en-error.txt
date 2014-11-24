@@ -196,6 +196,7 @@
     "length127": "description length should between 1 to 127",
     "length0127": "description length should between 0 to 127",
     "dhcp_overlap" : "The DHCP range is conflicted with Address setting, please change the pool setting to avoid overlap",
+    "change_no_save" : "change will not be saved!",
 
     "_comment" : "========",
     "_comment" : "interface",
@@ -298,6 +299,7 @@
 
     "_comment" : "--------",
     "_comment" : "license",
-    "conn_fail" : "register server connecting failed"
+    "conn_fail" : "register server connecting failed",
+    "invalid_active" : "invalid active code"
   }
 }
