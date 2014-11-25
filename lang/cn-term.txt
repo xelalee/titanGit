@@ -168,6 +168,31 @@
     "btnDeletePCap" : "移除选择的文件",
     "btnRemovePCap" : "移除选择的文件",
     "btnExportLog" : "导出日志",
-    "btnExportIPMAC" : "导出MAC地址绑定列表"
+    "btnExportIPMAC" : "导出MAC地址绑定列表",
+
+    "selectBackupPolicyName" : "Select From Existing IPSec Policy",
+    "selectBackupWanName" : "Select From Existing WAN",
+    "selectZone" : "Select From Existing Zone",
+    "selectAddress" : "Select From Existing Address",
+    "selectMACAddress" : "Select From Existing MAC Address",
+    "selectService" : "Select From Existing Service",
+    "selectSchedule" : "Select From Existing Schedule",
+    "selectInterface" : "Select From Existing Interface",
+    "selectInterfaces" : "Select From Existing Interface List",
+    "selectCountry" : "Select Country",
+    "createAddress" : "Create New Address",
+    "createGAddress" : "Create New Group Address",
+    "createMACAddress" : "Create New MAC Address",
+    "createHostAddress" : "Create New Host Address",
+    "createService" : "Create New Service",
+    "createGService" : "Create New Group Service",
+    "createSchedule" : "Create New Schedule",
+    "defaultRule" : "Default Rule",
+    "VPNRule" : "VPN Rule",
+    "NATRule" : "NAT Rule",
+    "defaultGateway" : "Select Default Gateway",
+    "defaultDNS" : "Select Default DNS",
+    "waitFor" : "Wait for",
+    "shutdownDone" : "Shutdown Done"
   }
 }

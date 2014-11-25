@@ -90,11 +90,12 @@ $(document).ready(function () {
     var gY = YUI({filter:"raw", defaultGraphicEngine: "canvas"}).use('anim', 'charts', 'charts-legend', 'console', 'cookie', 'datasource-io', 'datasource-jsonschema', 'datatable-base', 'datatable-sort', 'datatable-datasource', 'dd', 'dd-plugin', 'io-base', 'io-upload-iframe', 'json', 'json-parse', 'json-stringify', 'panel', 'uploader', 'yui');
 
     function init() {
-        if ( gY.Cookie.getSub( gObj.cooker, 'lang' ) ) {
-            gObj.lang = gY.Cookie.getSub( gObj.cooker, 'lang');
-        } else {
+        // mark multi lang for UG not ready for all yet
+        //if ( gY.Cookie.getSub( gObj.cooker, 'lang' ) ) {
+        //    gObj.lang = gY.Cookie.getSub( gObj.cooker, 'lang');
+        //} else {
             gObj.lang = 'en';
-        }
+        //}
 
         if ( 'en' == gObj.lang ) {
             gObj.mLabel  = 'label';

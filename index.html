@@ -29631,8 +29631,8 @@ $(document).ready(function () {
         case 'vpn_failover-backupPolicyName':
             var cnt=0;
             //tmp = '<option value="NA" >Select From Existing IPSec Policy</option>';
-            tmp = '<option value="NA" >Select From Existing IPSec Policy</option>';
-            tmp = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].IPSec + ' ' + gTerm[ gObj.lang ].policy + '</option>';
+            //tmp = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].IPSec + ' ' + gTerm[ gObj.lang ].policy + '</option>';
+            tmp = '<option value="NA">' + gTerm[ gObj.lang ].selectBackupPolicyName + '</option>';
 
             var backups = {};
             for (var i=0; i<gData.ipsec_policies.guiS2svpnTNum; i++)
@@ -29669,7 +29669,8 @@ $(document).ready(function () {
         case 'multiple_wan_settings-backupWanName':
             var cnt = 0;
 
-            tmp = '<option value="NA" >Select From Existing WAN</option>';
+            //tmp = '<option value="NA" >Select From Existing WAN</option>';
+            tmp = '<option value="NA" >' + gTerm[ gObj.lang ].selectBackupWanName + '</option>';
             for (var x in gCache.wan.wan)
             {
                 if (!gCache.wan.wan[ x ]) {
@@ -29844,7 +29845,8 @@ $(document).ready(function () {
             cgiID   = 'common_zoneIf_list';
             cgiT    = 'guiZoneIfT';
             cgiTNum = 'guiZoneIfTNum';
-            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].zone + '</option>';
+            //tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].zone + '</option>';
+            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].selectZone + '</option>';
             break;
         case 'ports-zoneId':
         case 'lan-zoneId':
@@ -29881,15 +29883,18 @@ $(document).ready(function () {
                 cgiID   = 'common_addr_list';
                 cgiT    = 'guiAddrT';
                 cgiTNum = 'guiAddrTNum';
-                tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].address + '</option>';
+                //tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].address + '</option>';
+                tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].selectAddress + '</option>';
                 tmp    += '<option value="cAddr"';
                 if (gObj.thisNo>= gLimit.common_addr_list.rows)
                     tmp += '"disabled=disabled"';
-                tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].address + '</option>';
+                //tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].address + '</option>';
+                tmp    += '>' + gTerm[ gObj.lang ].createAddress + '</option>';
                 tmp    += '<option value="cGAddr"';
                 if (gObj.thisNo>= gLimit.common_gAddr_list.rows)
                     tmp += '"disabled=disabled"';
-                tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].group + ' ' + gTerm[ gObj.lang ].address + '</option>';
+                //tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].group + ' ' + gTerm[ gObj.lang ].address + '</option>';
+                tmp    += '>' + gTerm[ gObj.lang ].createGAddress + '</option>';
                 tmp    += '<option value="0" >' + gTerm[ gObj.lang ].Any + '</option>';
                 break;
             }
@@ -29909,15 +29914,18 @@ $(document).ready(function () {
                 cgiID   = 'common_addr_list';
                 cgiT    = 'guiAddrT';
                 cgiTNum = 'guiAddrTNum';
-                tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].address + '</option>';
+                //tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].address + '</option>';
+                tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].selectAddress + '</option>';
                 tmp    += '<option value="cAddr"';
                 if (gObj.thisNo>= gLimit.common_addr_list.rows)
                     tmp += '"disabled=disabled"';
-                tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].address + '</option>';
+                //tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].address + '</option>';
+                tmp    += '>' + gTerm[ gObj.lang ].createAddress + '</option>';
                 tmp    += '<option value="cGAddr"';
                 if (gObj.thisNo>= gLimit.common_gAddr_list.rows)
                     tmp += '"disabled=disabled"';
-                tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].group + ' ' + gTerm[ gObj.lang ].address + '</option>';
+                //tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].group + ' ' + gTerm[ gObj.lang ].address + '</option>';
+                tmp    += '>' + gTerm[ gObj.lang ].createGAddress + '</option>';
                 break;
             }
             break;
@@ -29937,11 +29945,13 @@ $(document).ready(function () {
                 tmp    += '<option value="cAddr"';
                 if (gObj.thisNo>= gLimit.common_addr_list.rows)
                     tmp += '"disabled=disabled"';
-                tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].address + '</option>';
+                //tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].address + '</option>';
+                tmp    += '>' + gTerm[ gObj.lang ].createAddress + '</option>';
                 tmp    += '<option value="cGAddr"';
                 if (gObj.thisNo>= gLimit.common_gAddr_list.rows)
                     tmp += '"disabled=disabled"';
-                tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].group + ' ' + gTerm[ gObj.lang ].address + '</option>';
+                //tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].group + ' ' + gTerm[ gObj.lang ].address + '</option>';
+                tmp    += '>' + gTerm[ gObj.lang ].createGAddress + '</option>';
                 break;
             }
             break;
@@ -29958,15 +29968,18 @@ $(document).ready(function () {
                 cgiID   = 'common_addr_list';
                 cgiT    = 'guiAddrT';
                 cgiTNum = 'guiAddrTNum';
-                tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].address + '</option>';
+                //tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].address + '</option>';
+                tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].selectAddress + '</option>';
                 tmp    += '<option value="cAddr"';
                 if (gObj.thisNo>= gLimit.common_addr_list.rows)
                     tmp += '"disabled=disabled"';
-                tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].address + '</option>';
+                //tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].address + '</option>';
+                tmp    += '>' + gTerm[ gObj.lang ].createAddress + '</option>';
                 tmp    += '<option value="cGAddr"';
                 if (gObj.thisNo>= gLimit.common_gAddr_list.rows)
                     tmp += '"disabled=disabled"';
-                tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].group + ' ' + gTerm[ gObj.lang ].address + '</option>';
+                //tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].group + ' ' + gTerm[ gObj.lang ].address + '</option>';
+                tmp    += '>' + gTerm[ gObj.lang ].createGAddress + '</option>';
                 tmp    += '<option value="0" >' + gTerm[ gObj.lang ].Any + '</option>';
                 break;
             }
@@ -29974,7 +29987,8 @@ $(document).ready(function () {
         case 'vpn_failover-backupPolicyName':
             cgiID = 's2svpn';
             cgiT  = 'guiS2svpnT';
-            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].IPSec + ' ' + gTerm[ gObj.lang ].policy + '</option>';
+            //tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].IPSec + ' ' + gTerm[ gObj.lang ].policy + '</option>';
+            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].selecBackupPolicyNamet + '</option>';
             break;
         case 'Editor-originalSrc':
         case 'Editor-originalDst':
@@ -29984,11 +29998,13 @@ $(document).ready(function () {
             cgiID   = 'common_addr_list';
             cgiT    = 'guiAddrT';
             cgiTNum = 'guiAddrTNum';
-            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            //tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].selectAddress + '</option>';
             tmp    += '<option value="cAddr"';
             if (gObj.thisNo>= gLimit.common_addr_list.rows)
                 tmp += '"disabled=disabled"';
-            tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            //tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            tmp    += '>' + gTerm[ gObj.lang ].createAddress + '</option>';
             break;
         case 'Editor-wanIpId':
             cgiID   = 'common_addr_list';
@@ -30028,13 +30044,15 @@ $(document).ready(function () {
                 cgiT    = 'guiWanIfT';
                 cgiTNum = 'guiWanIfTNum';
                 if ($('#Editor-isDefaultRt').is(':checked'))
-                    tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].interface + '</option>';
+                    //tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].interface + '</option>';
+                    tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].selectInterface  + '</option>';
                 break;
             case 4:
                 cgiID   = 'common_portIf_list';
                 cgiT    = 'guiPortIfT';
                 cgiTNum = 'guiPortIfTNum';
-                tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].interface + '</option>';
+                //tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].interface + '</option>';
+                tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].selectInterface  + '</option>';
                 break;
             }
             break;
@@ -30045,11 +30063,13 @@ $(document).ready(function () {
             cgiID   = 'common_service_list';
             cgiT    = 'guiServiceT';
             cgiTNum = 'guiServiceTNum';
-            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].service + '</option>';
+            //tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].service + '</option>';
+            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].selectService  + '</option>';
             tmp    += '<option value="cService"';
             if (gObj.thisNo>= gLimit.common_service_list.rows)
                 tmp += '"disabled=disabled"';
-            tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].service + '</option>';
+            //tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].service + '</option>';
+            tmp    += '>' + gTerm[ gObj.lang ].createService + '</option>';
             break;
         case 'Editor-service':
             switch( tag )
@@ -30063,15 +30083,18 @@ $(document).ready(function () {
                 cgiID   = 'common_service_list';
                 cgiT    = 'guiServiceT';
                 cgiTNum = 'guiServiceTNum';
-                tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].service + '</option>';
+                //tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].service + '</option>';
+                tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].selectService  + '</option>';
                 tmp    += '<option value="cService"';
                 if (gObj.thisNo>= gLimit.common_service_list.rows)
                     tmp += '"disabled=disabled"';
-                tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].service + '</option>';
+                //tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].service + '</option>';
+                tmp    += '>' + gTerm[ gObj.lang ].createService + '</option>';
                 tmp    += '<option value="cGService"';
                 if (gObj.thisNo>= gLimit.common_gService_list.rows)
                     tmp += '"disabled=disabled"';
-                tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].group + ' ' + gTerm[ gObj.lang ].service + '</option>';
+                //tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].group + ' ' + gTerm[ gObj.lang ].service + '</option>';
+                tmp    += '>' + gTerm[ gObj.lang ].createGService + '</option>';
                 break;
             }
             break;
@@ -30079,31 +30102,37 @@ $(document).ready(function () {
             cgiID   = 'common_time_list';
             cgiT    = 'guiTimeT';
             cgiTNum = 'guiTimeTNum';
-            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].schedule + '</option>';
+            //tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].schedule + '</option>';
+            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].selectSchedule  + '</option>';
             tmp    += '<option value="cSchedule"';
             if (gObj.thisNo>= gLimit.common_time_list.rows)
                 tmp += '"disabled=disabled"';
-            tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].schedule + '</option>';
+            //tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].schedule + '</option>';
+            tmp    += '>' + gTerm[ gObj.lang ].createSchedule + '</option>';
             break;
         case 'multiple_wan_settings-netDetectPingIpId':
             cgiID   = 'common_addr_list';
             cgiT    = 'guiAddrT';
             cgiTNum = 'guiAddrTNum';
-            tmp     = '<option value="0"> -- ' + gTerm[ gObj.lang ].default + ' ' + gTerm[ gObj.lang ].gateway + ' -- </option>';
+            //tmp     = '<option value="0"> -- ' + gTerm[ gObj.lang ].default + ' ' + gTerm[ gObj.lang ].gateway + ' -- </option>';
+            tmp     = '<option value="0"> -- ' + gTerm[ gObj.lang ].defaultGateway + ' -- </option>';
             tmp    += '<option value="cAddr"';
             if (gObj.thisNo>= gLimit.common_addr_list.rows)
                 tmp += '"disabled=disabled"';
-            tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            //tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            tmp    += '>' + gTerm[ gObj.lang ].createAddress + '</option>';
             break;
         case 'multiple_wan_settings-netDetectDnsIpId':
             cgiID   = 'common_addr_list';
             cgiT    = 'guiAddrT';
             cgiTNum = 'guiAddrTNum';
-            tmp     = '<option value="0"> -- ' + gTerm[ gObj.lang ].default + ' ' + gTerm[ gObj.lang ].DNS + ' ' + gTerm[ gObj.lang ].server + ' -- </option>';
+            //tmp     = '<option value="0"> -- ' + gTerm[ gObj.lang ].default + ' ' + gTerm[ gObj.lang ].DNS + ' ' + gTerm[ gObj.lang ].server + ' -- </option>';
+            tmp     = '<option value="0"> -- ' + gTerm[ gObj.lang ].defaultDNS + ' -- </option>';
             tmp    += '<option value="cAddr"';
             if (gObj.thisNo>= gLimit.common_addr_list.rows)
                 tmp += '"disabled=disabled"';
-            tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            //tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            tmp    += '>' + gTerm[ gObj.lang ].createAddress + '</option>';
             break;
         case 'Editor-dstIpId':
         case 'Editor-nhIpId':
@@ -30111,49 +30140,58 @@ $(document).ready(function () {
             cgiID   = 'common_addr_list';
             cgiT    = 'guiAddrT';
             cgiTNum = 'guiAddrTNum';
-            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            //tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].selectAddress + '</option>';
             tmp    += '<option value="cAddr"';
             if (gObj.thisNo>= gLimit.common_addr_list.rows)
                 tmp += '"disabled=disabled"';
-            tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            //tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            tmp    += '>' + gTerm[ gObj.lang ].createAddress + '</option>';
             break;
         case 'dhcpBindingIP':
             cgiID   = 'common_addr_list';
             cgiT    = 'guiAddrT';
             cgiTNum = 'guiAddrTNum';
-            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            //tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].selectAddress + '</option>';
             tmp    += '<option value="cAddr"';
             if (gObj.thisNo>= gLimit.common_addr_list.rows)
                 tmp += '"disabled=disabled"';
-            tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].host + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            //tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].host + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            tmp    += '>' + gTerm[ gObj.lang ].createHostAddress + '</option>';
             break;
         case 'More-type-4-mac':
         case 'Editor-type-4-mac':
             cgiID   = 'arpTable';
             cgiT    = 'guiArpTableT';
             cgiTNum = 'guiArpTableTNum';
-            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].MAC + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            //tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].MAC + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].selectMACAddress + '</option>';
             tmp    += '<option value="macInput"';
             if (gObj.thisNo>= gLimit.common_addr_list.rows)
                 tmp += '"disabled=disabled"';
-            tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].MAC + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            //tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].MAC + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            tmp    += '>' + gTerm[ gObj.lang ].createMACAddress + '</option>';
             break;
         case 'dhcpBindingMAC':
             cgiID   = 'common_addr_list';
             cgiT    = 'guiAddrT';
             cgiTNum = 'guiAddrTNum';
-            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].MAC + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            //tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].MAC + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].selectMACAddress + '</option>';
             tmp    += '<option value="cMAC"';
             if (gObj.thisNo>= gLimit.dhcpBindingMAC.rows)
                 tmp += '"disabled=disabled"';
-            tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].MAC + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            //tmp    += '>' + gTerm[ gObj.lang ].create + ' ' + gTerm[ gObj.lang ].new + ' ' + gTerm[ gObj.lang ].MAC + ' ' + gTerm[ gObj.lang ].address + '</option>';
+            tmp    += '>' + gTerm[ gObj.lang ].createMACAddress + '</option>';
             break;
         case 'Editor-ifname' :
         case 'pcapIfName' :
             cgiID   = 'common_if_list';
             cgiT    = 'guiIfT';
             cgiTNum = 'guiIfTNum';
-            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].interface + ' ' + gTerm[ gObj.lang ].list + '</option>';
+            //tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].existing + ' ' + gTerm[ gObj.lang ].interface + ' ' + gTerm[ gObj.lang ].list + '</option>';
+            tmp     = '<option value="NA" >' + gTerm[ gObj.lang ].selectInterfaces + '</option>';
             break;
         case 'Editor-baseOn-device' :
         case 'Editor-importFrom-device' :
@@ -30398,7 +30436,8 @@ $(document).ready(function () {
         switch(id)
         {
         case 'country':
-            tmp += '<option value="NA">' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].country + '</option>';
+            //tmp += '<option value="NA">' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].country + '</option>';
+            tmp += '<option value="NA">' + gTerm[ gObj.lang ].selectCountry + '</option>';
             for (var x in gRef.country)
                 tmp += '<option value="' + x + '">' + gRef.country[ x ] + '</option>';
             break;
@@ -30950,13 +30989,16 @@ $(document).ready(function () {
         switch(id)
         {
         case 'rule':
-            tmp += '<caption>' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].criterion + ' ' + gTerm[ gObj.lang ].for + ' ' + gTerm[ gObj.lang ].rule + ' ' + gTerm[ gObj.lang ].table + '</caption>';
+            //tmp += '<caption>' + gTerm[ gObj.lang ].select + ' ' + gTerm[ gObj.lang ].criterion + ' ' + gTerm[ gObj.lang ].for + ' ' + gTerm[ gObj.lang ].rule + ' ' + gTerm[ gObj.lang ].table + '</caption>';
+            tmp += '<caption>' + gTerm[ gObj.lang ].selectCriterion4Rule + '</caption>';
             tmp +=   '<tr>';
-            tmp +=      '<td class="BT225">' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].zone + ' <select id="query-fromZone"></select></td>';
-            tmp +=      '<td class="BT225">' + gTerm[ gObj.lang ].to + ' ' + gTerm[ gObj.lang ].zone + ' <select id="query-toZone"></select></td>';
-            tmp +=      '<td class="BT100"><input type="checkbox" id="query-default" value="1" checked /> <label for="query-default">' + gTerm[ gObj.lang ].default + ' ' + gTerm[ gObj.lang ].rule + '</label></td>';
-            tmp +=      '<td class="BT80"><input type="checkbox" id="query-vpn" value="1" checked /> <label for="query-vpn">' + gTerm[ gObj.lang ].VPN + ' ' + gTerm[ gObj.lang ].rule + '</label></td>';
-            tmp +=      '<td class="BT80"><input type="checkbox" id="query-nat" value="1" checked /> <label for="query-nat">' + gTerm[ gObj.lang ].NAT + ' ' + gTerm[ gObj.lang ].rule + '</label></td>';
+            //tmp +=      '<td class="BT225">' + gTerm[ gObj.lang ].from + ' ' + gTerm[ gObj.lang ].zone + ' <select id="query-fromZone"></select></td>';
+            tmp +=      '<td class="BT225">' + gTerm[ gObj.lang ].fromZone + ' <select id="query-fromZone"></select></td>';
+            //tmp +=      '<td class="BT225">' + gTerm[ gObj.lang ].to + ' ' + gTerm[ gObj.lang ].zone + ' <select id="query-toZone"></select></td>';
+            tmp +=      '<td class="BT225">' + gTerm[ gObj.lang ].toZone + ' <select id="query-toZone"></select></td>';
+            tmp +=      '<td class="BT100"><input type="checkbox" id="query-default" value="1" checked /> <label for="query-default">' + gTerm[ gObj.lang ].defaultRule + '</label></td>';
+            tmp +=      '<td class="BT80"><input type="checkbox" id="query-vpn" value="1" checked /> <label for="query-vpn">' + gTerm[ gObj.lang ].VPNRule + '</label></td>';
+            tmp +=      '<td class="BT80"><input type="checkbox" id="query-nat" value="1" checked /> <label for="query-nat">' + gTerm[ gObj.lang ].NATRule + '</label></td>';
             tmp +=      '<td class="BT40"><button class="Query" id="query-rule" title="' + gTerm[ gObj.lang ].btnQuery + '"><span class="ui-icon" ></span></button></td>';
             tmp +=   '</tr>';
             break;
@@ -31301,10 +31343,10 @@ $(document).ready(function () {
                 document.location.reload(true);
                 gIf.reboot = false;
             } else if ( gIf.shutdown ) {
-                $('.titleA').html( gTerm[ gObj.lang ].wait + ' ' + gTerm[ gObj.lang ].for );
+                $('.titleA').html( gTerm[ gObj.lang ].waitFor );
                 $('.titleB').html( gTerm[ gObj.lang ].seconds );
                 $('#divSec').hide();
-                errorAlert( 'shudown done' );
+                errorAlert( '<p>' + gTerm[ gObj.lang ].shutdownDone + '</p>' );
             } else {
                 $('body').removeClass('loadingClass');
             }
