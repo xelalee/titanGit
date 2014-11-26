@@ -1,0 +1,654 @@
+<html>
+  <head>
+    <title>TitanWALL web report</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+<!--[if IE 8]>
+    <meta http-equiv="X-UA-Compatible" content="IE=7">
+<![endif]-->
+<!-- css -->
+    <link rel="stylesheet" type="text/css" href="css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="css/console.css" />
+    <link rel="stylesheet" type="text/css" href="css/cssbutton-min.css" />
+    <link rel="stylesheet" type="text/css" href="css/datatable-base.css" />
+    <link rel="stylesheet" type="text/css" href="css/datatable-sort.css" />
+    <link rel="stylesheet" type="text/css" href="css/panel.css" />
+    <link rel="stylesheet" type="text/css" href="css/portal.css" />
+    <link rel="stylesheet" type="text/css" href="css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="css/widget-base.css" />
+    <link rel="stylesheet" type="text/css" href="css/widget-stack.css" />
+    <link rel="stylesheet" type="text/css" href="css/widget-modality.css" />
+<!-- yui -->
+    <script type="text/javascript" src="js/yui-min.js"></script>
+    <script type="text/javascript" src="js/yuiCombo1.js"></script>
+    <script type="text/javascript" src="js/yuiCombo2.js"></script>
+    <script type="text/javascript" src="js/yuiCombo3.js"></script>
+    <script type="text/javascript" src="js/yuiCombo4.js"></script>
+    <script type="text/javascript" src="js/yuiCombo5.js"></script>
+    <script type="text/javascript" src="js/yuiCombo6.js"></script>
+    <script type="text/javascript" src="js/yuiCombo7.js"></script>
+    <script type="text/javascript" src="js/yuiCombo8.js"></script>
+    <script type="text/javascript" src="js/yuiCombo9.js"></script>
+    <script type="text/javascript" src="js/widget-base-ie.js"></script>
+<!-- jquery -->
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.9.2.custom.css" />
+    <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="js/jquery.bgiframe.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.9.2.custom.js"></script>
+<!-- custom CSS -->
+    <link rel="stylesheet" type="text/css" href="css/reporter.css" />
+
+    <script>
+
+$.extend({
+  getUrlVars: function(){
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+      hash = hashes[i].split('=');
+      vars.push(hash[0]);
+      vars[hash[0]] = hash[1];
+    }
+    return vars;
+  },
+  getUrlVar: function(name){
+    return $.getUrlVars()[name];
+  }
+});
+
+$(document).ready(function () {
+    // define func
+    jQuery.fn.exists = function() {
+        return this.length > 0;
+    }
+
+    // yui instance
+    var gY = YUI({filter:"raw", defaultGraphicEngine: "canvas"}).use('anim', 'charts', 'charts-legend', 'console', 'cookie', 'datasource', 'datasource-get', 'datasource-io', 'datasource-jsonschema', 'datatable-base', 'datatable-sort', 'datatable-datasource', 'dd', 'dd-plugin', 'dump', 'event', 'get', 'io-base', 'io-upload-iframe', 'json', 'json-parse', 'json-stringify', 'node', 'panel', 'uploader', 'yui');
+
+    // define vars
+    var gData  = {};
+    var gQue   = {};
+    var gTabs  = [];
+    var gProto = {};
+    var gChart = {};
+    var gLabel = 'label';
+    var gCache = {};
+
+    $(document).on('click', 'button', function(e) {
+        e.preventDefault();
+        switch( $(this).attr('id') )
+        {
+        case 'Move2First':
+            if (gCache.pi > 1) {
+                gCache.pi = 1;
+                resetData();
+            }
+            break;
+        case 'Move2Prev':
+            if (gCache.pi > 1) {
+                gCache.pi--;
+                resetData();
+            }
+            break;
+        case 'Move2Next':
+            if (gCache.pi < parseInt( $('#rowsPages').html() )) {
+                gCache.pi++;
+                resetData();
+            }
+            break;
+        case 'Move2Last':
+            if ( gCache.pi < parseInt( $('#rowsPages').html() ) ) {
+                gCache.pi = parseInt( $('#rowsPages').html() );
+                resetData();
+            }
+            break;
+        case 'ExportPDF':
+            break;
+        }
+    });
+
+    $(document).on('change', 'select', function(e) {
+        e.preventDefault();
+        if ( 0 === gCache.tabIndex ) {
+            gCache.pp = parseInt( $('#rows').val() );
+            resetData();
+        } else {
+            if ( parseInt( gData[ gCache.tabIndex ].queryRows ) > 0 ) {
+                setData( gCache.param, gCache.tabIndex, gCache.tabIndex, gData[ gCache.tabIndex ].queryResults.slice( 0, $('#tops').val() ) );
+            } else {
+                genChart( gCache.param, gCache.tabIndex, [] );
+            }
+        }
+    });
+
+    function getData( param, sd, sh, ed, eh, idx, q ) {
+        $.ajax({
+            url: 'advancedQuery.php?param=' + param + '&sd=' + sd + '&sh=' + sh + '&ed=' + ed + '&eh=' + eh + '&q=' + idx,
+            dataType: 'json',
+            success: function(data) {
+                loadingToggle( false );
+                var restuls;
+                gData[ idx ] = data;
+                // enable tab
+                $('.tabber').tabs( "enable", idx );
+
+                if ( parseInt( data.queryRows ) > 0 ) {
+                    if ('traffic_direction' == param) {
+                        // translate protocol from number to name
+                        for (var i=0, len=data.queryResults.length; i<len; i++)
+                            data.queryResults[ i ].protocol = gProto[ data.queryResults[ i ].protocol ];
+                    }
+
+                    // draw frame here
+                    if ( 0 == idx ) {
+                        // table with rows
+                        $('#panel-' + idx).html('<div id="div-table-' + idx + '"><table id="table-' + idx + '"><thead></thead><tbody></tbody></table></div>');
+                        // limit 20
+                        results = data.queryResults;
+                        // update rows
+                        $('#rowsPages').html( Math.ceil( parseInt( data.queryRows )/20 ) );
+                    } else {
+                        // chart
+                        $('#panel-' + idx).html('<div id="div-chart-' + idx + '"><div id="chart-' + idx + '"></div></div>');
+
+                        // table
+                        $('#panel-' + idx).append('<div id="div-table-' + idx + '"><table id="table-' + idx + '"><thead></thead><tbody></tbody></table></div>');
+
+                        // limit 10
+                        results = data.queryResults.slice(0,10);
+                    }
+                } else {
+                    // draw frame here
+                    if ( 0 == idx ) {
+                        // table with rows
+                        $('#panel-' + idx).html('<div id="div-table-' + idx + '"><table id="table-' + idx + '"><thead></thead><tbody></tbody></table></div>');
+                        // update rows
+                        $('#rowsPages').html( 1 );
+                    } else {
+                        // chart
+                        $('#panel-' + idx).html('<div id="div-chart-' + idx + '"><div id="chart-' + idx + '"></div></div>');
+
+                        // table
+                        $('#panel-' + idx).append('<div id="div-table-' + idx + '"><table id="table-' + idx + '"><thead></thead><tbody></tbody></table></div>');
+
+                    }
+                    results = [];
+                }
+
+                setData( param, idx, q, results );
+                // remove que
+                delete gQue[ idx ];
+
+                // get next que
+                for (var x in gQue)
+                {
+                    if ( gQue[ x ] ) {
+                        getData( param, sd, sh, ed, eh, x, q );
+                        break;
+                    }
+                }
+            }
+        });
+    }
+
+    function setData( param, idx, q, data ) {
+        // draw table
+        $('#table-' + idx + ' thead').html('<tr></tr>');
+
+        for ( var i=0, len=gCache.menu.col[ idx ].length; i<len; i++)
+            $('#table-' + idx + ' thead tr').append( '<th class="ui-state-default">' + gCache.menu.col[ idx ][ i ][ gCache.label ] + '</th>' );
+
+        $('#table-' + idx + ' tbody').empty();
+        var cData = [];
+        gData[ 'c-' + idx ] = [];
+        gData[ 'k-' + idx ] = [];
+        gData[ 's-' + idx ] = 0;
+        if ( data.length > 0 ) {
+            for (var i=0, len=data.length; i<len; i++)
+            {
+                var tmp = '<tr class="' + ( ( i%2==0 )? 'odd' : 'even' ) + '">';
+                for ( var j=0, jlen=gCache.menu.col[ idx ].length; j<jlen; j++)
+                {
+                    tmp += '<td>';
+                    switch( gCache.menu.col[ idx ][ j ].tab )
+                    {
+                    case 'id':
+                        tmp += (i+1);
+                        break;
+                    case 'txBytes':
+                    case 'rxBytes':
+                    case 'totalBytes':
+                        var mkbs = parseInt( data[ i ][ gCache.menu.col[ idx ][ j ].tab ] );
+                        tmp += ( ( mkbs > 1000000000 )? (mkbs/1000000000).toFixed(2) + ' GB' : ( ( mkbs > 1000000 )? (mkbs/1000000).toFixed(2) + ' MB' : ( ( 0 == mkbs )? 0 : (mkbs/1000).toFixed(2) + ' KB' ) ) );
+                        break;
+                    default:
+                        tmp += data[ i ][ gCache.menu.col[ idx ][ j ].tab ];
+                    }
+                    tmp += '</td>';
+                }
+                tmp += '</tr>';
+                $('#table-' + idx + ' tbody').append( tmp );
+
+                switch( param )
+                {
+                case 'traffic_direction':
+                    switch( idx )
+                    {
+                    case 1:
+                        cData.push({ address: data[ i ].address, totalBytes: (data[ i ].totalBytes/1000000).toFixed(2) });
+                        gData[ 'c-' + idx ].push({ address: data[ i ].address, totalBytes: data[ i ].totalBytes });
+                        gData[ 'k-' + idx ].push({ "Address": data[ i ].address, "Total Bytes": data[ i ].totalBytes, "Percent" : 0 });
+                        break;
+                    case 2:
+                        cData.push({ srcIp: data[ i ].srcIp, totalBytes: (data[ i ].totalBytes/1000000).toFixed(2) });
+                        gData[ 'c-' + idx ].push({ srcIp: data[ i ].srcIp, totalBytes: data[ i ].totalBytes });
+                        gData[ 'k-' + idx ].push({ "Source IP": data[ i ].srcIp, "Total Bytes": data[ i ].totalBytes, "Percent" : 0 });
+                        break;
+                    case 3:
+                        cData.push({ dstIp: data[ i ].dstIp, totalBytes: (data[ i ].totalBytes/1000000).toFixed(2) });
+                        gData[ 'c-' + idx ].push({ dstIp: data[ i ].dstIp, totalBytes: data[ i ].totalBytes });
+                        gData[ 'k-' + idx ].push({ "Destination IP": data[ i ].dstIp, "Total Bytes": data[ i ].totalBytes, "Percent" : 0 });
+                        break;
+                    case 4:
+                        cData.push({ protocol: data[ i ].protocol, totalBytes: (data[ i ].totalBytes/1000000).toFixed(2) });
+                        gData[ 'c-' + idx ].push({ protocol: data[ i ].protocol, totalBytes: data[ i ].totalBytes });
+                        gData[ 'k-' + idx ].push({ "Protocol": data[ i ].protocol, "Total Bytes": data[ i ].totalBytes, "Percent" : 0 });
+                        break;
+                    case 5:
+                        cData.push({ dstPort: data[ i ].dstPort, totalBytes: (data[ i ].totalBytes/1000000).toFixed(2) });
+                        gData[ 'c-' + idx ].push({ dstPort: data[ i ].dstPort, totalBytes: data[ i ].totalBytes });
+                        gData[ 'k-' + idx ].push({ "Destination Port": data[ i ].dstPort, "Total Bytes": data[ i ].totalBytes, "Percent" : 0 });
+                        break;
+                    case 6:
+                        cData.push({ zone: data[ i ].zone, totalBytes: (data[ i ].totalBytes/1000000).toFixed(2) });
+                        gData[ 'c-' + idx ].push({ zone: data[ i ].zone, totalBytes: data[ i ].totalBytes });
+                        gData[ 'k-' + idx ].push({ "Zone": data[ i ].zone, "Total Bytes": data[ i ].totalBytes, "Percent" : 0 });
+                        break;
+                    }
+                    gData[ 's-' + idx ] += data[ i ].totalBytes;
+                    break;
+                case 'file_extension':
+                    switch( idx )
+                    {
+                    case 1:
+                        cData.push({ extension: data[ i ].extension, accessCount: data[ i ].accessCount });
+                        gData[ 'c-' + idx ].push({ extension: data[ i ].extension, accessCount: data[ i ].accessCount });
+                        gData[ 'k-' + idx ].push({ "Extension": data[ i ].extension, "Access Count": data[ i ].accessCount, "Percent" : 0 });
+                        gData[ 's-' + idx ] += data[ i ].accessCount;
+                        break;
+                    }
+                    break;
+                case 'blocked_host':
+                    switch( idx )
+                    {
+                    case 1:
+                        cData.push({ ip: data[ i ].ip, virusCount: data[ i ].virusCount, firewallCount: data[ i ].firewallCount });
+                        gData[ 'c-' + idx ].push({ ip: data[ i ].ip, virusCount: data[ i ].virusCount, firewallCount: data[ i ].firewallCount });
+                        gData[ 'k-' + idx ].push({ "IP": data[ i ].ip, "Virus Count": data[ i ].virusCount, "Firewall Count": data[ i ].firewallCount, "Percent" : 0 });
+                        gData[ 's-' + idx ] += data[ i ].virusCount + data[ i ].firewallCount;
+                        break;
+                    }
+                    break;
+                case 'affected_host':
+                    switch( idx )
+                    {
+                    case 1:
+                        cData.push({ ip: data[ i ].ip, virusHitCount: data[ i ].virusHitCount, sigHitCount: data[ i ].sigHitCount });
+                        gData[ 'c-' + idx ].push({ ip: data[ i ].ip, virusHitCount: data[ i ].virusHitCount, sigHitCount: data[ i ].sigHitCount });
+                        gData[ 'k-' + idx ].push({ "IP": data[ i ].ip, "Virus Hit Count": data[ i ].virusHitCount, "Sig Hit Count": data[ i ].sigHitCount, "Percent" : 0 });
+                        gData[ 's-' + idx ] += data[ i ].virusHitCount + data[ i ].sigHitCount;
+                        break;
+                    }
+                    break;
+                case 'antivirus_report':
+                    switch( idx )
+                    {
+                    case 1:
+                        cData.push({ srcIp: data[ i ].srcIp, hitCount: data[ i ].hitCount });
+                        gData[ 'c-' + idx ].push({ srcIp: data[ i ].srcIp, hitCount: data[ i ].hitCount });
+                        gData[ 'k-' + idx ].push({ "Source IP": data[ i ].srcIp, "Hit Count": data[ i ].hitCount, "Percent" : 0 });
+                        break;
+                    case 2:
+                        cData.push({ dstIp: data[ i ].dstIp, hitCount: data[ i ].hitCount });
+                        gData[ 'c-' + idx ].push({ dstIp: data[ i ].dstIp, hitCount: data[ i ].hitCount });
+                        gData[ 'k-' + idx ].push({ "Destination IP": data[ i ].dstIp, "Hit Count": data[ i ].hitCount, "Percent" : 0 });
+                        break;
+                    case 3:
+                        cData.push({ virusName: data[ i ].virusName, hitCount: data[ i ].hitCount });
+                        gData[ 'c-' + idx ].push({ virusName: data[ i ].virusName, hitCount: data[ i ].hitCount });
+                        gData[ 'k-' + idx ].push({ "Virus Name": data[ i ].virusName, "Hit Count": data[ i ].hitCount, "Percent" : 0 });
+                        break;
+                    case 4:
+                        cData.push({ protocol: data[ i ][ "protocol" ], hitCount: data[ i ].hitCount });
+                        gData[ 'c-' + idx ].push({ protocol: data[ i ][ "protocol" ], hitCount: data[ i ].hitCount });
+                        gData[ 'k-' + idx ].push({ "Protocol": data[ i ][ "protocol" ], "Hit Count": data[ i ].hitCount, "Percent" : 0 });
+                        break;
+                    }
+                    gData[ 's-' + idx ] += data[ i ].hitCount;
+                    break;
+                }
+            }
+        }
+
+        if ( ( idx > 0 ) && ( q == idx ) ) {
+            genChart( param, idx, cData );
+        }
+    }
+
+    function resetData()
+    {
+        $('#table-0 tbody').empty();
+        $.ajax({
+            url: 'advancedQuery.php?param=' + gCache.param + '&sd=' + gCache.sd + '&sh=' + gCache.sh + '&ed=' + gCache.ed + '&eh=' + gCache.eh + '&q=0' + '&pi=' + gCache.pi + '&pp=' + gCache.pp,
+            dataType: 'json',
+            success: function(data) {
+                gData[ 0 ] = data;
+                // draw frame here
+                if ( parseInt( data.queryRows ) > 0 )  {
+                    for (var i=0, len=data.queryResults.length; i<len; i++)
+                    {
+                        var tmp = '<tr class="' + ((i%2==0)? 'odd' : 'even') + '">';
+                        for ( var j=0, jlen=gCache.menu.col[ 0 ].length; j<jlen; j++)
+                        {
+                            tmp += '<td>';
+                            switch( gCache.menu.col[ 0 ][ j ].tab )
+                            {
+                            case 'id':
+                                tmp += (((gCache.pi - 1) * gCache.pp) + ( i + 1 ));
+                                break;
+                            case 'protocol':
+                                if ('traffic_direction' == gCache.param)
+                                    data.queryResults[ i ][ gCache.menu.col[ 0 ][ j ].tab ] = gProto[ data.queryResults[ i ][ gCache.menu.col[ 0 ][ j ].tab ] ];
+                                tmp += data.queryResults[ i ][ gCache.menu.col[ 0 ][ j ].tab ];
+                                break;
+                            case 'txBytes':
+                            case 'rxBytes':
+                            case 'totalBytes':
+                                var mkbs = parseInt( data.queryResults[ i ][ gCache.menu.col[ 0 ][ j ].tab ] );
+                                tmp += ( ( mkbs > 1000000000 )? (mkbs/1000000000).toFixed(2) + ' GB' : ( ( mkbs > 1000000 )? (mkbs/1000000).toFixed(2) + ' MB' : ( ( 0 == mkbs )? 0 : (mkbs/1000).toFixed(2) + ' KB' ) ) );
+                                break;
+                            default:
+                                tmp += data.queryResults[ i ][ gCache.menu.col[ 0 ][ j ].tab ];
+                            }
+                            tmp += '</td>';
+                        }
+                        tmp += '</tr>';
+                        $('#table-0 tbody').append( tmp );
+                    }
+                    $('#rowsPage').html( gCache.pi );
+                    $('#rowsPages').html( Math.ceil( parseInt( data.queryRows )/gCache.pp ) );
+                } else {
+                    $('#rowsPage').html(0);
+                    $('#rowsPages').html(0);
+                }
+            }
+        });
+    }
+
+    function genChart( param, idx, data )
+    {
+        if (gChart[ idx ])
+            gChart[ idx ].destroy();
+
+        if ( 0 === parseInt( data.length ) )
+            $('#chart-' + idx).html( '<div class="noData"><b>No Data</b></div>' );
+        else {
+            $('#chart-' + idx).empty();
+
+            var title = "";
+            if ('pie' == gCache.chart[ idx ].type) {
+                if ('traffic_direction' == param)
+                    title = " MB";
+
+                gCache.chart[ idx ].tips.markerLabelFunction = function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                    var msg = document.createElement("div"),
+                        underlinedTextBlock = document.createElement("span");
+                        boldTextBlock = document.createElement("div");
+                    boldTextBlock.style.marginTop = "5px";
+                    boldTextBlock.style.fontWeight = "bold";
+                    underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                    boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + title ));
+                    msg.appendChild(underlinedTextBlock);
+                    msg.appendChild(document.createElement("br"));
+                    msg.appendChild(boldTextBlock);
+                    return msg;
+                }
+                gChart[ idx ] = new gY.Chart({
+                    dataProvider: data,
+                    categoryKey: gCache.chart[ idx ].catKey,
+                    type: gCache.chart[ idx ].type,
+                    // legend: gCache.chart[ idx ].legend,
+                    tooltip: gCache.chart[ idx ].tips,
+                    seriesKeys: gCache.chart[ idx ].serKey,
+                    seriesCollection: gCache.chart[ idx ].serCol
+                }).render( '#chart-' + idx );
+
+                // silly legend
+                $('#chart-' + idx).append( '<div id="chart-' + idx + '-legend"><ul></ul></div>' );
+                for (var i=0, len=data.length; i<len; i++) {
+                    var j = i%10;
+                    $('#chart-' + idx + '-legend ul').append( '<li><span style="background-color:' + gCache.config.colors.hex[ j ] + '"></span><b>' + data[ i ].protocol + '</b></li>' );
+                }
+            } else {
+                if ('traffic_direction' == param) {
+                    gCache.chart[ idx ].axes.totalBytes.labelFunction = function(label, format) { return label.toFixed(2); }
+                    gCache.chart[ idx ].axes.totalBytes.title = "MB";
+                    title = " MB";
+                }
+
+                gCache.chart[ idx ].tips.markerLabelFunction = function( categoryItem, valueItem, itemIndex, series, seriesIndex ) {
+                    var msg = document.createElement("div"),
+                        underlinedTextBlock = document.createElement("span");
+                        boldTextBlock = document.createElement("div");
+                    boldTextBlock.style.marginTop = "5px";
+                    boldTextBlock.style.fontWeight = "bold";
+                    underlinedTextBlock.appendChild(document.createTextNode(valueItem.displayName + " for " + categoryItem.axis.get("labelFunction").apply(this, [categoryItem.value, categoryItem.axis.get("labelFormat")])));
+                    boldTextBlock.appendChild(document.createTextNode(valueItem.axis.get("labelFunction").apply(this, [valueItem.value]) + title ));
+                    msg.appendChild(underlinedTextBlock);
+                    msg.appendChild(document.createElement("br"));
+                    msg.appendChild(boldTextBlock);
+                    return msg;
+                }
+
+                gChart[ idx ] = new gY.Chart({
+                    dataProvider: data,
+                    categoryKey: gCache.chart[ idx ].catKey,
+                    type: gCache.chart[ idx ].type,
+                    tooltip: gCache.chart[ idx ].tips,
+                    axes: gCache.chart[ idx ].axes,
+                    styles: gCache.chart[ idx ].styleDef,
+                    horizontalGridlines: true
+                }).render( '#chart-' + idx );
+            }
+        }
+    }
+
+    function genHd( content ) {
+        $('#bd_hd').html( '<p>' + content + '</p>' );
+    }
+
+    function genBd( param, sd, sh, ed, eh, q ) {
+        $('#bd_bd').append('<div id="bd_bd_' + param + '" class="tabber"><ul></ul></div>');
+
+        for ( var x in gCache.menu.tabs )
+        {
+            $('.tabber ul').append('<li id="tab-' + x + '"><a href="#panel-' + x + '">' + gCache.menu.tabs[ x ][ gCache.label ] + '</a></li>');
+            $('.tabber').append('<div id="panel-' + x + '"></div>');
+            // data ready flag
+            gQue[ x ] = true;
+            gTabs.push( x );
+        }
+
+        $('.tabber').tabs({
+            create: function( event, ui ) {
+                $('.pdfer').hide();
+                $('.pager').show();
+            },
+            activate: function( event, ui ) {
+                gCache.tabIndex = parseInt( ui.newTab.index() );
+                if ( 0 === parseInt( ui.newTab.index() ) ) {
+                    $('.pdfer').hide();
+                    $('.pager').show();
+                } else {
+                    $('.pdfer').show();
+                    $('.pager').hide();
+                    if (gData[ gCache.tabIndex ].queryRows && ( parseInt( gData[ gCache.tabIndex ].queryRows ) > 0 )) {
+                        setData( param, gCache.tabIndex, gCache.tabIndex, gData[ gCache.tabIndex ].queryResults.slice( 0, $('#tops').val() ) );
+                    } else {
+                        genChart( param, gCache.tabIndex, [] );
+                    }
+                }
+            },
+            disabled: gTabs
+        });
+
+        // data
+        loadingToggle( true );
+        getData( param, sd, sh, ed, eh, q, q );
+    }
+
+    function genFt( param ) {
+        var tmp = '<div id="pagerDiv">';
+        tmp += '<table id="pagerTable-' + param + '" class="BorderNone">';
+        tmp += '<tr>';
+        tmp += '<td class="pager"><button Class="Move2First" id="Move2First" title="' + gCache.term.btnMove2First + '"><span class="ui-icon"></span></button></td>';
+        tmp += '<td class="pager"><button Class="Move2Prev" id="Move2Prev" title="' + gCache.term.btnMove2Prev + '"><span class="ui-icon"></span></button></td>';
+        tmp += '<td class="pager" style="width: 100px"><span id="rowsPage" class="rows">1</span><span class="rows"> / </span><span id="rowsPages" class="rows">1</span></td>';
+        tmp += '<td class="pager"><button Class="Move2Next" id="Move2Next" title="' + gCache.term.btnMove2Next + '"><span class="ui-icon"></span></button></td>';
+        tmp += '<td class="pager"><button Class="Move2Last" id="Move2Last" title="' + gCache.term.btnMove2Last + '"><span class="ui-icon"></span></button></td>';
+        tmp += '<td class="pager"><select id="rows"><option value="20">20</option><option value="50">50</option><option value="100">100</option></select>';
+        tmp += '<td class="pdfer"><select id="tops"><option value="10">10</option><option value="25">25</option><option value="50">50</option></select>';
+
+        //tmp += '<td class="pdfer"><button Class="ExportPDF" id="ExportPDF" title="' + gCache.term.btnExportPDF + '"><span class="ui-icon"></span></button></td>';
+        tmp += '</tr>';
+        tmp += '</table>';
+        tmp += '</div>';
+
+        $('#bd_ft').html( tmp );
+    }
+
+    function genFooter() {
+        $('#ft').html('<p>' + gCache.ft+ '</p>');
+    }
+
+    function loadingToggle( flag ) {
+        if (flag) {
+            $('body').addClass('loadingClass');
+        } else {
+            $('body').removeClass('loadingClass');
+        }
+    }
+
+    function init() {
+        gCache.param = $.getUrlVar( 'param' );
+        gCache.lang  = $.getUrlVar('l') || 'en';
+        gCache.label = ( 'en' == gCache.lang )? 'label' : gCache.lang + '-label';
+
+        $.ajax({
+            url: 'lang/config.txt',
+            dataType: 'json',
+            success: function( data ) {
+                // load config
+                gCache.config = data.config;
+            }
+        }).done( function() {
+            $.ajax({
+                url: 'guiIndex.php',
+                dataType: 'json',
+                success: function( data ) {
+                    // tell gui index for relative css
+                    if (isNaN( parseInt( data ) ) || !gCache.config.version[ data ])
+                        data = 0;
+                    $('head').append( '<link rel="stylesheet" type="text/css" href="css/version' + gCache.config.version[ data ].aka + '.css" />' );
+                    gCache.ft = gCache.config.version[ data ].copyright;
+                }
+            }).done( function() {
+                $.ajax({
+                    url: 'lang/menu.txt',
+                    dataType: 'json',
+                    success: function( data ) {
+                        switch( gCache.param )
+                        {
+                        case 'traffic_direction':
+                            gCache.menu = data.menu[ 7 ].panel[ 1 ].panel[ 0 ];
+                            break;
+                        case 'file_extension':
+                            gCache.menu = data.menu[ 7 ].panel[ 0 ].panel[ 0 ];
+                            break;
+                        case 'blocked_host':
+                            gCache.menu = data.menu[ 7 ].panel[ 0 ].panel[ 1 ];
+                            break;
+                        case 'affected_host':
+                            gCache.menu = data.menu[ 7 ].panel[ 0 ].panel[ 2 ];
+                            break;
+                        case 'antivirus_report':
+                            gCache.menu = data.menu[ 7 ].panel[ 0 ].panel[ 3 ];
+                            break;
+                        }
+                    }
+                }).done( function() {
+                    $.ajax({
+                        url: 'lang/chart.txt',
+                        dataType: 'json',
+                        success: function( data ) {
+                            gCache.chart = data[ gCache.param ][ gCache.lang ];
+                        }
+                    }).done( function() {
+                        $.ajax({
+                            url: 'lang/' + gCache.lang + '-term.txt',
+                            dataType: 'json',
+                            success: function( data ) {
+                                gCache.term = data.term;
+                            }
+                        }).done( function() {
+                            $.ajax({
+                                url: 'lang/protocol.txt',
+                                dataType: 'json',
+                                success: function( data ) {
+                                    for (var i=0,len=data.length; i<len; i++)
+                                        gProto[ data[ i ].key ] = data[ i ].value;
+                                }
+                            }).done( function() {
+                                gCache.sd = $.getUrlVar( 'sd' );
+                                gCache.sh = $.getUrlVar( 'sh' );
+                                gCache.ed = $.getUrlVar( 'ed' );
+                                gCache.eh = $.getUrlVar( 'eh' );
+                                gCache.tabIndex = 0;
+                                gCache.pi = 1;
+                                gCache.pp = 20;
+
+                                genHd( gCache.menu[ gCache.label ] );
+                                genFt( gCache.param );
+                                genBd( gCache.param, gCache.sd, gCache.sh, gCache.ed, gCache.eh, gCache.tabIndex );
+                                genFooter();
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    }
+
+    init();
+});
+
+    </script>
+  </head>
+  <body>
+
+    <div id="reporter">
+      <div id="hd"></div>
+      <div id="bd">
+        <div id="bd_hd"></div>
+        <div id="bd_bd"></div>
+        <div id="bd_ft"></div>
+      </div>
+      <div id="ft"></div>
+      <div class="modals"></div>
+    </div>
+
+  </body>
+</html>

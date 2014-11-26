@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [ "$#" -eq 1 ]; then
+    date
+    echo "rsync start"
+    rsync -v "$1" xelalee@192.168.99.168:~/Desktop/titanGit/"$1"
+    echo "rsync done"
+elif [ -e "index.html" ]; then
+    date
+    echo "rsync index start"
+    rsync -v index.html xelalee@192.168.99.168:~/Desktop/titanGit/index.html
+    echo "rsync done"
+else 
+    read -p "file to rsync? " fl
+    if [ -e "$fl" ]; then
+        date
+        echo "rsync start"
+        rsync -v "$fl" xelalee@192.168.99.168:~/Desktop/titanGit/"$fl"
+        echo "rsync done"
+    fi
+fi

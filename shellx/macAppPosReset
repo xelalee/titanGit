@@ -1,0 +1,9 @@
+tell application "iTunes"
+	set minimized of front browser window to true
+	delay 1
+	set bounds of front browser window to {51, 31, 496, 96}
+	delay 1
+	set minimized of front browser window to false
+	delay 1
+	set bounds of front browser window to {6, 65, 1102, 740}
+end tell

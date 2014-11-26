@@ -1,0 +1,5642 @@
+{
+  "menu-0" :
+  {
+    "label" : "仪表板",
+    "tab" : "dashboard",
+    "description" : "您可在此页面查询系统信息，如CPU/内存使用率、 文件类型统计、常见病毒和受影响主机的统计。",
+    "tabs" :
+    {
+      "system_information" :
+      {
+        "label" : "系统仪表板",
+        "tab" : "system_information",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "系统名称",
+            "tab" : "system_name",
+            "description" : "此为设备的名称。"
+          },
+          {
+            "label" : "型号",
+            "tab" : "model",
+            "description" : "此为设备的型号。"
+          },
+          {
+            "label" : "主要固件版本",
+            "tab" : "primary_firmware",
+            "description" : "此为设备目前使用的固件版本。"
+          },
+          {
+            "label" : "次要固件版本",
+            "tab" : "secondary_firmware",
+            "description" : "此为设备前次使用的固件版本。"
+          },
+          {
+            "label" : "病毒数据库版本",
+            "tab" : "sigVer",
+            "description" : "病毒数据库最后更新的版本号。"
+          },
+          {
+            "label" : "特征码引擎版本",
+            "tab" : "sigEng",
+            "description" : "反病毒特征码引擎的版本。"
+          },
+          {
+            "label" : "MD5引擎版本",
+            "tab" : "md5Eng",
+            "description" : "反病毒MD5引擎的版本。"
+          },
+          {
+            "label" : "序号",
+            "tab" : "serial_number",
+            "description" : "此为设备的序号。"
+          },
+          {
+            "label" : "系统运行时间",
+            "tab" : "system_uptime",
+            "description" : "从上次系统启动到目前，系统运行时间的统计。"
+          }
+        ]
+      },
+      "resource_utilization" :
+      {
+        "label" : "资源使用率",
+        "tab" : "resource_utilization",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "CPU使用率",
+            "tab" : "cpu_utilization",
+            "description" : "CPU使用的百分比。"
+          },
+          {
+            "label" : "内存使用率",
+            "tab" : "memory_utilization",
+            "description" : "内存使用的百分比。"
+          }
+        ]
+      },
+      "top_file_extension" :
+      {
+        "label" : "按扩展名排序",
+        "tab" : "top_file_extension",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "扩展名",
+            "tab" : "extension",
+            "description" : "文件的扩展名。"
+          },
+          {
+            "label" : "访计数问",
+            "tab" : "access_count",
+            "description" : "对特定类型文件访问数量的统计。"
+          }
+        ]
+      },
+      "top_virus_name" :
+      {
+        "label" : "按病毒名称排序",
+        "tab" : "top_virus_name",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "病毒名称",
+            "tab" : "virus_name",
+            "description" : "病毒文件的名称。"
+          },
+          {
+            "label" : "检测数",
+            "tab" : "hit_count",
+            "description" : "同时间检测到的病毒数量。"
+          }
+        ]
+      },
+      "top_affected_host" :
+      {
+        "label" : "按受影响的主机排序",
+        "tab" : "top_affected_host",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "主机 IP/用户",
+            "tab" : "host_ip_user",
+            "description" : "感染病毒的主机IP地址。"
+          },
+          {
+            "label" : "检测病毒数",
+            "tab" : "virus_hit_count",
+            "description" : "病毒防护功能侦测到特定主机发送病毒的数量。"
+          }
+        ]
+      },
+      "top_blocked_host" :
+      {
+        "label" : "按被阻止的主机排序",
+        "tab" : "top_blocked_host",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "主机 IP/用户",
+            "tab" : "host_ip_user",
+            "description" : "被阻止主机的IP地址或用户名称。"
+          },
+          {
+            "label" : "阻止数量",
+            "tab" : "block_count",
+            "description" : "被设备的防火墙或是病毒防护功能从指定主机拒绝的文件传输或封包的数量。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-1" :
+  {
+    "label" : "HTTP",
+    "tab" : "http",
+    "description" : "使用此页面启用 HTTP防病毒功能并配置相关设置。",
+    "tabs" :
+    {
+      "general" :
+      {
+        "label" : "一般设置",
+        "tab" : "general",
+        "description" : "使用此页面可启用病毒防护并配置相关设置。",
+        "content" :
+        [
+          {
+            "label" : "区域扫描",
+            "tab" : "zone_to_scan",
+            "description" : "选择您要套用的病毒防护设置和扫描病毒流量的区域。\n 从可用区域选框中选择区域，然后点击向右箭头，新增到选定区域，以查看所选区域进/出封包的内容。 否则，可从选定区域选择区域，然后点击左箭头将区域移回可用区域中."
+          },
+          {
+            "label" : "启用",
+            "tab" : "app_enable",
+            "description" : "选定复选框以开启病毒防护功能."
+          },
+          {
+            "label" : "日志",
+            "tab" : "app_logging",
+            "description" : "选定复选框以检测到病毒时建立日志。您还需要在\"设备\">\"日志\"上进行配置。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "app_action",
+            "description" : "选择检测到病毒时采取的动作。\n 无 - 将不会进行任何动作。\n 通知 - 在HTTP端对于在首次被检测到的病毒不会有任何动作。当第二次检测到该病毒时，它将会发送关于所述网页尝试存取受感染的文件或网页帐户信息的警报通知。.\n 通知 + 断开连接 – 将在第一次检测到病毒感染时拒绝存取的网页。当第二次检测到该病毒时，它将会发送关于所述网页尝试存取受感染的文件或网页帐户信息的警报通知。\n"
+          },
+          {
+            "label" : "端口列表",
+            "tab" : "app_port",
+            "description" : "指定用于识别应用程序（服务）服务器的端口。您可以设置多个端口。"
+          },
+          {
+            "label" : "扫描档案大小上限",
+            "tab" : "max_file_size",
+            "description" : "设备不会扫描超过指定值大小的文件 ，\"0\" 表示不限制。"
+          }
+        ]
+      },
+      "http" :
+      {
+        "label" : "Http通知",
+        "tab" : "http",
+        "description" : "使用此页面输入当病毒在一个网页或文件中被检测到时发送警报通知。您最多可以输入255个字符。 点击\"保存\"按钮以应用您的变更。若要使用\"警报通知\"您必须启用HTTP的\"通知\"或\"通知 + 断开连接\"功能 "
+      },
+      "address_except" :
+      {
+        "label" : "地址排除",
+        "tab" : "address_except",
+        "description" : "使用此页面可设置IP地址的白名单。指定地址的封包将不会进行病毒扫描。 ",
+        "content" :
+        [
+          {
+            "label" : "启用",
+            "tab" : "enable",
+            "description" : "显示该规则是否被启用。"
+          },
+          {
+            "label" : "源地址",
+            "tab" : "source",
+            "description" : "显示封包的来源IP地址将不会被病毒引擎扫描。."
+          },
+          {
+            "label" : "目的地址",
+            "tab" : "destination",
+            "description" : "显示封包的目标IP地址将不会被病毒引擎扫描。"
+          },
+          {
+            "label" : "日志",
+            "tab" : "log",
+            "description" : "在接收到具有指定来源或目标IP地址的封包时将会产生日志。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击\"编辑\"可变更规则设置。\n 点击\"移除\"按钮可删除规则。"
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "启用",
+            "tab" : "enable",
+            "description" : "选择要启用的规则。"
+          },
+          {
+            "label" : "源地址",
+            "tab" : "source",
+            "description" : "选择将不会被病毒引擎扫描封包的来源IP地址。"
+          },
+          {
+            "label" : "目的地址",
+            "tab" : "destination",
+            "description" : "选择将不会被病毒引擎扫描封包的目标IP地址。"
+          },
+          {
+            "label" : "日志",
+            "tab" : "log",
+            "description" : "选择复选框将在接收到指定IP地址的封包时产生日志。"
+          },
+          {
+            "label" : "确定",
+            "tab" : "ok",
+            "description" : "点击此按钮将会储存您的设置并且关闭页面。"
+          },
+          {
+            "label" : "取消",
+            "tab" : "cancel",
+            "description" : "点击此按钮将不会储存您的设置并且关闭页面。"
+          }
+        ]
+      },
+      "file_ext" :
+      {
+        "label" : "文件扩展名",
+        "tab" : "file_ext",
+        "description" : "使用此页面可设置扩展名的白名单。指定的扩展名将不会进行病毒扫描。您可以根据的MIME（多用途因特网邮件附档名）类型或文件扩展名设置规则。",
+        "content" :
+        [
+          {
+            "label" : "MIME",
+            "tab" : "mime",
+            "description" : "MIME类型/子类型的文件（例如，音频/ mpeg或image / jpeg文件）。"
+          },
+          {
+            "label" : "文件扩展名",
+            "tab" : "file_ext",
+            "description" : "显示该文件的文件扩展名（例如，doc或MP3）。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击\"编辑\"可变更规则设置。 \n 点击移除按钮可删除规则。"
+          }
+        ],
+        "editors" :
+        [
+          {
+            "label" : "MIME 建立/编辑",
+            "tab" : "mime",
+            "description" : "使用该页面可建立新的MIME类型的文件扩展名规则或编辑现有的规则。",
+            "content" :
+            [
+              {
+                "label" : "类型",
+                "tab" : "type",
+                "description" : "选定的MIME类型的文件扩展名将不会被扫描。"
+              },
+              {
+                "label" : "子类型",
+                "tab" : "subtype",
+                "description" : "选定的MIME子类型的文件扩展名将不会被扫描。"
+              },
+              {
+                "label" : "确定",
+                "tab" : "ok",
+                "description" : "点击此按钮将会储存您的设置并且关闭页面。"
+              },
+              {
+                "label" : "取消",
+                "tab" : "cancel",
+                "description" : "点击此按钮将不会储存您的设置并且关闭页面。"
+              }
+            ]
+          },
+          {
+            "label" : "文件扩展名建立/编辑",
+            "tab" : "file_ext",
+            "description" : "使用该页面可建立新的文件扩展名规则或编辑现有的。",
+            "content" :
+            [
+              {
+                "label" : "文件扩展名",
+                "tab" : "file_ext",
+                "description" : "输入的文件扩展名将不会被扫描。"
+              },
+              {
+                "label" : "确定",
+                "tab" : "ok",
+                "description" : "点击此按钮将会储存您的设置并且关闭页面。"
+              },
+              {
+                "label" : "取消",
+                "tab" : "cancel",
+                "description" : "点击此按钮将不会储存您的设置并且关闭页面。"
+              }
+            ]
+          }
+        ]
+      },
+      "blacklist" :
+      {
+        "label" : "黑名单",
+        "tab" : "blacklist",
+        "description" : "当一个病毒被病毒防护检测到时，将记录受感染网站的网址进入黑名单数据库，并拒绝用户存取。 每个黑名单项目都有自己的生命周期在这个数据库中。\n 使用此页面指定所有黑名单项目的生命周期。在项目过期时，系统重新启动时，或病毒防护特征库更新时将会移除该数据库中的黑名单。最多可记录多达4096个黑名单。如果您发现他们是误报也可以手动将黑名单项目移到到白名单数据库。",
+        "content" :
+        [
+          {
+            "label" : "过期时间",
+            "tab" : "expire_duration",
+            "description" : "指定数据库中每一个黑名单项目的存在时间。"
+          },
+          {
+            "label" : "索引",
+            "tab" : "index",
+            "description" : "这是项目的索引编号。"
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "是由的病毒防护检测到含有病毒的URL（网页地址）。 例如， http://www.eicar.org/download/eicar.com.txt 或 ftp://1.1.1.1/aaa.com"
+          },
+          {
+            "label" : "到期时间",
+            "tab" : "expire_date",
+            "description" : "将在这个时间到期时从数据库中删除 URL黑名单项目。 "
+          },
+          {
+            "label" : "操作",
+            "tab" : "actiove",
+            "description" : "点击\"移动到白名单\"按钮来删除黑名单数据库中的项目，并把它添加到白名单数据库。点击\"删除\"按钮，可删除该项目。"
+          }
+        ]
+      },
+      "whitelist" :
+      {
+        "label" : "白名单",
+        "tab" : "whitelist",
+        "description" : "如果您发现黑名单数据库中的URL实际上是并非病毒网页或FTP站点，您可以手动将其移动到白名单数据库。病毒防护功能并不需要联机存取白名单数据库的URL，只是将它们记录在系统日志中。最多可记录多达4096个白名单。\n 可使用页面查阅白名单与删除指定项目。",
+        "content" :
+        [
+          {
+            "label" : "索引",
+            "tab" : "index",
+            "description" : "显示项目的索引编号。"
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "此为您的信任网址。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击\"移除\"按钮可删除规则。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-2" :
+  {
+    "label" : "SMTP",
+    "tab" : "smtp",
+    "description" : "使用此页面启用SMTP防病毒功能并配置相关设置。",
+    "tabs" :
+    {
+      "general" :
+      {
+        "label" : "一般设置",
+        "tab" : "general",
+        "description" : "使用此页面可启用病毒防护并配置相关设置。",
+        "content" :
+        [
+          {
+            "label" : "区域扫描",
+            "tab" : "zone_to_scan",
+            "description" : "选择您要套用的病毒防护设置和扫描病毒流量的区域。\n 从可用区域选框中选择区域，然后点击向右箭头，新增到选定区域，以查看所选区域进/出封包的内容。 否则，可从选定区域选择区域，然后点击左箭头将区域移回可用区域中."
+          },
+          {
+            "label" : "启用",
+            "tab" : "app_enable",
+            "description" : "选定复选框以开启病毒防护功能."
+          },
+          {
+            "label" : "日志",
+            "tab" : "app_logging",
+            "description" : "选定复选框以检测到病毒时建立日志。您还需要在\"设备\">\"日志\"上进行配置。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "app_action",
+            "description" : "选择检测到病毒时采取的动作。\n 无 - 将不会进行任何动作。\n 通知 - 在SMTP和POP3流量中，在SMTP或POP3端，当病毒在附件中被检测到， 它仍然会发送原始邮件给收件人并同时发送邮件警报通知给寄件人和收件人。\n 通知 + 断开连接 - 将在第一次检测到病毒感染时拒绝存取的网页。当第二次检测到该病毒时，它将会发送关于所述网页尝试存取受感染的文件或网页帐户信息的警报通知。\n 通知 + 拦截文件 – 当检测到附件存在病毒时，破坏并拦截附件文件。它还会使用命令通知邮件服务器，并发送电子邮件警报给邮件寄件人和收件人。\n 备注：如果您针对HTTP端选用通知或通知 + 拒绝联机，需在安全防护 > 病毒防护 > HTTP通知中设置警报通知。\n 备注：如果您针对SMTP/POP3端选用通知或通知 + 损毁文件，需在安全防护 > 病毒防护 > 电子邮件通知中设置警报通知。"
+          },
+          {
+            "label" : "端口列表",
+            "tab" : "app_port",
+            "description" : "指定用于识别应用程序（服务）服务器的端口。您可以设置多个端口。"
+          },
+          {
+            "label" : "扫描档案大小上限",
+            "tab" : "max_file_size",
+            "description" : "设备不会扫描超过指定值大小的文件 ，\"0\" 表示不限制."
+          }
+        ]
+      },
+      "email" :
+      {
+        "label" : "邮件通知",
+        "tab" : "email",
+        "description" : "使用此页面可配置发送到邮件发件人和收件者的警报通知，当您设置SMTP或POP3的通知或通知+损毁文件功能时。 \n 此页面还显示了电子邮件通知功能是否被启用及通知的内容信息。",
+        "content" :
+        [
+          {
+            "label" : "发送邮箱",
+            "tab" : "from_email",
+            "description" : "此为用来发送电子邮件警报的电子邮件地址。"
+          },
+          {
+            "label" : "SMTP 服务器",
+            "tab" : "smtp_server",
+            "description" : "此为可以帮助转发邮件的IP地址或域名的SMTP服务器。"
+          },
+          {
+            "label" : "SMTP 认证",
+            "tab" : "smtp_auth",
+            "description" : "验证SMTP服务器是否已启用。"
+          },
+          {
+            "label" : "邮件标签",
+            "tab" : "mail_tag",
+            "description" : "输入卷标长度最多30个字符。卷标将插入到邮件主题，然后在“[卷标]电子邮件主题”的格式中显示。"
+          },
+          {
+            "label" : "邮件内容",
+            "tab" : "mail_content",
+            "description" : "输入您想要发送警报时的通知内容。您最多可以输入255个字符。"
+          }
+        ]
+      },
+      "address_except" :
+      {
+        "label" : "地址排除",
+        "tab" : "address_except",
+        "description" : "使用此页面可设置IP地址的白名单。指定地址的封包将不会进行病毒扫描。",
+        "content" :
+        [
+          {
+            "label" : "启用",
+            "tab" : "enable",
+            "description" : "显示该规则是否被启用。"
+          },
+          {
+            "label" : "源地址",
+            "tab" : "source",
+            "description" : "显示封包的来源IP地址将不会被病毒引擎扫描。"
+          },
+          {
+            "label" : "目的地址",
+            "tab" : "destination",
+            "description" : "显示封包的目标IP地址将不会被病毒引擎扫描。"
+          },
+          {
+            "label" : "日志",
+            "tab" : "log",
+            "description" : "在接收到具有指定来源或目标IP地址的封包时将会产生日志。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击编辑可变更规则设置。 \n 点击移除按钮可删除规则。"
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "启用",
+            "tab" : "enable",
+            "description" : "选择要启用的规则。"
+          },
+          {
+            "label" : "源地址",
+            "tab" : "source",
+            "description" : "选择将不会被病毒引擎扫描封包的来源IP地址。."
+          },
+          {
+            "label" : "目的地址",
+            "tab" : "destination",
+            "description" : "选择将不会被病毒引擎扫描封包的目标IP地址。"
+          },
+          {
+            "label" : "日志",
+            "tab" : "log",
+            "description" : "选择在接收到指定IP地址的封包时产生日志。"
+          },
+          {
+            "label" : "确定",
+            "tab" : "ok",
+            "description" : "点击此按钮将会储存您的设置并且关闭页面。"
+          },
+          {
+            "label" : "取消",
+            "tab" : "cancel",
+            "description" : "点击此按钮将不会储存您的设置并且关闭页面。"
+          }
+        ]
+      },
+      "file_ext" :
+      {
+        "label" : "文件扩展名",
+        "tab" : "file_ext",
+        "description" : "使用此页面可设置扩展名的白名单。指定的扩展名将不会进行病毒扫描。您可以根据的MIME（多用途因特网邮件附档名）类型或文件扩展名设置规则。",
+        "content" :
+        [
+          {
+            "label" : "MIME",
+            "tab" : "mime",
+            "description" : "MIME类型/子类型的文件（例如，音频/ mpeg或image / jpeg文件）。"
+          },
+          {
+            "label" : "文件扩展名",
+            "tab" : "file_ext",
+            "description" : "显示该文件的文件扩展名（例如，doc或MP3）。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击编辑可变更规则设置。 \n 点击移除按钮可删除规则。"
+          }
+        ],
+        "editors" :
+        [
+          {
+            "label" : "MIME 建立/编辑",
+            "tab" : "mime",
+            "description" : "使用该页面可建立新的MIME类型的文件扩展名规则或编辑现有的规则。",
+            "content" :
+            [
+              {
+                "label" : "类型",
+                "tab" : "type",
+                "description" : "选定的MIME类型的文件扩展名将不会被扫描。"
+              },
+              {
+                "label" : "子类型",
+                "tab" : "subtype",
+                "description" : "选定的MIME子类型的文件扩展名将不会被扫描。"
+              },
+              {
+                "label" : "确定",
+                "tab" : "ok",
+                "description" : "点击此按钮将会储存您的设置并且关闭页面。"
+              },
+              {
+                "label" : "取消",
+                "tab" : "cancel",
+                "description" : "点击此按钮将不会储存您的设置并且关闭页面。"
+              }
+            ]
+          },
+          {
+            "label" : "文件扩展名建立/编辑",
+            "tab" : "file_ext",
+            "description" : "使用该页面可建立新的文件扩展名规则或编辑现有的。",
+            "content" :
+            [
+              {
+                "label" : "文件扩展名",
+                "tab" : "file_ext",
+                "description" : "输入的文件扩展名将不会被扫描。"
+              },
+              {
+                "label" : "确定",
+                "tab" : "ok",
+                "description" : "点击此按钮将会储存您的设置并且关闭页面。"
+              },
+              {
+                "label" : "取消",
+                "tab" : "cancel",
+                "description" : "点击此按钮将不会储存您的设置并且关闭页面。"
+              }
+            ]
+          }
+        ]
+      },
+      "blacklist" :
+      {
+        "label" : "黑名单",
+        "tab" : "blacklist",
+        "description" : "当一个病毒被病毒防护检测到时，将记录受感染网站的网址进入黑名单数据库，并拒绝用户存取。 每个黑名单项目都有自己的生命周期在这个数据库中。\n 使用此页面指定所有黑名单项目的生命周期。在项目过期时，系统重新启动时，或病毒防护特征库更新时将会移除该数据库中的黑名单。最多可记录多达4096个黑名单。如果您发现他们是误报也可以手动将黑名单项目移到到白名单数据库。",
+        "content" :
+        [
+          {
+            "label" : "过期时间",
+            "tab" : "expire_duration",
+            "description" : "指定数据库中每一个黑名单项目的存在时间。"
+          },
+          {
+            "label" : "索引",
+            "tab" : "index",
+            "description" : "这是项目的索引编号。"
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "是由的病毒防护检测到含有病毒的URL（网页地址）。 例如，http://www.eicar.org/download/eicar.com.txt 或 ftp://1.1.1.1/aaa.com"
+          },
+          {
+            "label" : "到期时间",
+            "tab" : "expire_date",
+            "description" : "将在这个时间到期时从数据库中删除 URL黑名单项目。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "actiove",
+            "description" : "点击\"移动到白名单\"按钮来删除黑名单数据库中的项目，并把它添加到白名单数据库。点击\"删除\"按钮，可删除该项目。"
+          }
+        ]
+      },
+      "whitelist" :
+      {
+        "label" : "白名单",
+        "tab" : "whitelist",
+        "description" : "如果您发现黑名单数据库中的URL实际上是并非病毒网页或FTP站点，您可以手动将其移动到白名单数据库。病毒防护功能并不需要联机存取白名单数据库的URL，只是将它们记录在系统日志中。最多可记录多达4096个白名单。\n 可使用页面查阅白名单与删除指定项目。",
+        "content" :
+        [
+          {
+            "label" : "索引",
+            "tab" : "index",
+            "description" : "显示项目的索引编号。"
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "此为您的信任网址。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击移除按钮可删除规则。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-3" :
+  {
+    "label" : "POP3",
+    "tab" : "pop3",
+    "description" : "使用此页面启用POP3防病毒功能并配置相关设置。",
+    "tabs" :
+    {
+      "general" :
+      {
+        "label" : "一般设置",
+        "tab" : "general",
+        "description" : "使用此页面可启用病毒防护并配置相关设置。",
+        "content" :
+        [
+          {
+            "label" : "扫描区域",
+            "tab" : "zone_to_scan",
+            "description" : "选择您要套用的病毒防护设置和扫描病毒流量的区域。\n 从可用区域选框中选择区域，然后点击向右箭头，新增到选定区域，以查看所选区域进/出封包的内容。否则，可从选定区域选择区域，然后点击左箭头将区域移回可用区域中。"
+          },
+          {
+            "label" : "启用",
+            "tab" : "app_enable",
+            "description" : "选定复选框以检查对应类型的流量。"
+          },
+          {
+            "label" : "日志",
+            "tab" : "app_logging",
+            "description" : "选定复选框以检测到病毒时建立日志。您还需要在\"设备\">\"日志\"上进行配置。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "app_action",
+            "description" : "选择检测到病毒时采取的动作。\n 无 - 将不会进行任何动作。\n 通知 - 在POP3端，当病毒在附件中被检测到， 它仍然会发送原始邮件给收件人并同时发送邮件警报通知给寄件人和收件人。。\n 通知 + 拦截文件 – 当检测到附件存在病毒时，破坏并拦截附件文件。它还会使用命令通知邮件服务器，并发送电子邮件警报给邮件寄件人和收件人。"
+          },
+          {
+            "label" : "端口列表",
+            "tab" : "app_port",
+            "description" : "指定用于识别应用程序（服务）服务器的端口。您可以设置多个端口。"
+          },
+          {
+            "label" : "扫描档案大小上限",
+            "tab" : "max_file_size",
+            "description" : "设备不会扫描超过指定值大小的文件 ，\"0\" 表示不限制."
+          }
+        ]
+      },
+      "email" :
+      {
+        "label" : "邮件通知",
+        "tab" : "email",
+        "description" : "使用此页面可配置发送到邮件发件人和收件者的警报通知，当您设置SMTP或POP3的通知或通知+损毁文件功能时。 \n 此页面还显示了电子邮件通知功能是否被启用及通知的内容信息。",
+        "content" :
+        [
+          {
+            "label" : "发送邮箱",
+            "tab" : "from_email",
+            "description" : "此为用来发送电子邮件警报的电子邮件地址。"
+          },
+          {
+            "label" : "SMTP 服务器",
+            "tab" : "smtp_server",
+            "description" : "此为可以帮助转发邮件的IP地址或域名的SMTP服务器。"
+          },
+          {
+            "label" : "SMTP 认证",
+            "tab" : "smtp_auth",
+            "description" : "验证SMTP服务器是否已启用。"
+          },
+          {
+            "label" : "邮件标签",
+            "tab" : "mail_tag",
+            "description" : "输入卷标长度最多30个字符。卷标将插入到邮件主题，然后在“[卷标]电子邮件主题”的格式中显示。"
+          },
+          {
+            "label" : "邮件内容",
+            "tab" : "mail_content",
+            "description" : "输入您想要发送警报时的通知内容。您最多可以输入255个字符。"
+          }
+        ]
+      },
+      "address_except" :
+      {
+        "label" : "地址排除",
+        "tab" : "address_except",
+        "description" : "使用此页面可设置IP地址的白名单。指定地址的封包将不会进行病毒扫描。",
+        "content" :
+        [
+          {
+            "label" : "启用",
+            "tab" : "enable",
+            "description" : "显示该规则是否被启用。"
+          },
+          {
+            "label" : "源地址",
+            "tab" : "source",
+            "description" : "显示封包的来源IP地址将不会被病毒引擎扫描。"
+          },
+          {
+            "label" : "目的地址",
+            "tab" : "destination",
+            "description" : "显示封包的目标IP地址将不会被病毒引擎扫描。"
+          },
+          {
+            "label" : "日志",
+            "tab" : "log",
+            "description" : "在接收到具有指定来源或目标IP地址的封包时将会产生日志。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击编辑可变更规则设置。 \n 点击移除按钮可删除规则。"
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "启用",
+            "tab" : "enable",
+            "description" : "选择要启用的规则。"
+          },
+          {
+            "label" : "源地址",
+            "tab" : "source",
+            "description" : "选择将不会被病毒引擎扫描封包的来源IP地址。."
+          },
+          {
+            "label" : "目的地址",
+            "tab" : "destination",
+            "description" : "选择将不会被病毒引擎扫描封包的目标IP地址。"
+          },
+          {
+            "label" : "日志",
+            "tab" : "log",
+            "description" : "选择在接收到指定IP地址的封包时产生日志。"
+          },
+          {
+            "label" : "确定",
+            "tab" : "ok",
+            "description" : "点击此按钮将会储存您的设置并且关闭页面。"
+          },
+          {
+            "label" : "取消",
+            "tab" : "cancel",
+            "description" : "点击此按钮将不会储存您的设置并且关闭页面。"
+          }
+        ]
+      },
+      "file_ext" :
+      {
+        "label" : "文件扩展名",
+        "tab" : "file_ext",
+        "description" : "使用此页面可设置扩展名的白名单。指定的扩展名将不会进行病毒扫描。您可以根据的MIME（多用途因特网邮件附档名）类型或文件扩展名设置规则。",
+        "content" :
+        [
+          {
+            "label" : "MIME",
+            "tab" : "mime",
+            "description" : "MIME类型/子类型的文件（例如，音频/ mpeg或image / jpeg文件）。"
+          },
+          {
+            "label" : "文件扩展名",
+            "tab" : "file_ext",
+            "description" : "显示该文件的文件扩展名（例如，doc或MP3）。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击编辑可变更规则设置。 \n 点击移除按钮可删除规则。"
+          }
+        ],
+        "editors" :
+        [
+          {
+            "label" : "MIME 建立/编辑",
+            "tab" : "mime",
+            "description" : "使用该页面可建立新的MIME类型的文件扩展名规则或编辑现有的规则。",
+            "content" :
+            [
+              {
+                "label" : "类型",
+                "tab" : "type",
+                "description" : "选定的MIME类型的文件扩展名将不会被扫描。"
+              },
+              {
+                "label" : "子类型",
+                "tab" : "subtype",
+                "description" : "选定的MIME子类型的文件扩展名将不会被扫描。"
+              },
+              {
+                "label" : "确定",
+                "tab" : "ok",
+                "description" : "点击此按钮将会储存您的设置并且关闭页面。"
+              },
+              {
+                "label" : "取消",
+                "tab" : "cancel",
+                "description" : "点击此按钮将不会储存您的设置并且关闭页面。"
+              }
+            ]
+          },
+          {
+            "label" : "文件扩展名建立/编辑",
+            "tab" : "file_ext",
+            "description" : "使用该页面可建立新的文件扩展名规则或编辑现有的。",
+            "content" :
+            [
+              {
+                "label" : "文件扩展名",
+                "tab" : "file_ext",
+                "description" : "输入的文件扩展名将不会被扫描。"
+              },
+              {
+                "label" : "确定",
+                "tab" : "ok",
+                "description" : "点击此按钮将会储存您的设置并且关闭页面。"
+              },
+              {
+                "label" : "取消",
+                "tab" : "cancel",
+                "description" : "点击此按钮将不会储存您的设置并且关闭页面。"
+              }
+            ]
+          }
+        ]
+      },
+      "blacklist" :
+      {
+        "label" : "黑名单",
+        "tab" : "blacklist",
+        "description" : "当一个病毒被病毒防护检测到时，将记录受感染网站的网址进入黑名单数据库，并拒绝用户存取。 每个黑名单项目都有自己的生命周期在这个数据库中。\n 使用此页面指定所有黑名单项目的生命周期。在项目过期时，系统重新启动时，或病毒防护特征库更新时将会移除该数据库中的黑名单。最多可记录多达4096个黑名单。如果您发现他们是误报也可以手动将黑名单项目移到到白名单数据库。",
+        "content" :
+        [
+          {
+            "label" : "过期时间",
+            "tab" : "expire_duration",
+            "description" : "指定数据库中每一个黑名单项目的存在时间。"
+          },
+          {
+            "label" : "索引",
+            "tab" : "index",
+            "description" : "这是项目的索引编号。"
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "是由的病毒防护检测到含有病毒的URL（网页地址）。 例如，http://www.eicar.org/download/eicar.com.txt 或 ftp://1.1.1.1/aaa.com"
+          },
+          {
+            "label" : "到期时间",
+            "tab" : "expire_date",
+            "description" : "将在这个时间到期时从数据库中删除 URL黑名单项目。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "actiove",
+            "description" : "点击\"移动到白名单\"按钮来删除黑名单数据库中的项目，并把它添加到白名单数据库。点击\"删除\"按钮，可删除该项目。"
+          }
+        ]
+      },
+      "whitelist" :
+      {
+        "label" : "白名单",
+        "tab" : "whitelist",
+        "description" : "如果您发现黑名单数据库中的URL实际上是并非病毒网页或FTP站点，您可以手动将其移动到白名单数据库。病毒防护功能并不需要联机存取白名单数据库的URL，只是将它们记录在系统日志中。最多可记录多达4096个白名单。\n 可使用页面查阅白名单与删除指定项目。",
+        "content" :
+        [
+          {
+            "label" : "索引",
+            "tab" : "index",
+            "description" : "显示项目的索引编号。"
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "此为您的信任网址。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击移除按钮可删除规则。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-4" :
+  {
+    "label" : "FTP",
+    "tab" : "ftp",
+    "description" : "使用此页面启用FTP 防病毒功能并配置相关设置。",
+    "tabs" :
+    {
+      "general" :
+      {
+        "label" : "一般设置",
+        "tab" : "general",
+        "description" : "使用此页面可启用病毒防护并配置相关设置。",
+        "content" :
+        [
+          {
+            "label" : "扫描区域",
+            "tab" : "zone_to_scan",
+            "description" : "选择您要套用的病毒防护设置和扫描病毒流量的区域。\n 从可用区域选框中选择区域，然后点击向右箭头，新增到选定区域，以查看所选区域进/出封包的内容。否则，可从选定区域选择区域，然后点击左箭头将区域移回可用区域中。"
+          },
+          {
+            "label" : "启用",
+            "tab" : "app_enable",
+            "description" : "选定复选框以检查对应类型的流量。"
+          },
+          {
+            "label" : "日志",
+            "tab" : "app_logging",
+            "description" : "选定复选框以检测到病毒时建立日志。您还需要在\"设备\">\"日志\"上进行配置。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "app_action",
+            "description" : "选择检测到病毒时采取的动作。\n 无 - 将不会进行任何动作。\n 通知 - 在POP3端，当病毒在附件中被检测到， 它仍然会发送原始邮件给收件人并同时发送邮件警报通知给寄件人和收件人。。\n 通知 + 拦截文件 – 当检测到附件存在病毒时，破坏并拦截附件文件。它还会使用命令通知邮件服务器，并发送电子邮件警报给邮件寄件人和收件人。"
+          },
+          {
+            "label" : "端口列表",
+            "tab" : "app_port",
+            "description" : "指定用于识别应用程序（服务）服务器的端口。您可以设置多个端口。"
+          },
+          {
+            "label" : "扫描档案大小上限",
+            "tab" : "max_file_size",
+            "description" : "设备不会扫描超过指定值大小的文件 ，\"0\" 表示不限制."
+          }
+        ]
+      },
+      "address_except" :
+      {
+        "label" : "地址排除",
+        "tab" : "address_except",
+        "description" : "使用此页面可设置IP地址的白名单。指定地址的封包将不会进行病毒扫描。",
+        "content" :
+        [
+          {
+            "label" : "启用",
+            "tab" : "enable",
+            "description" : "显示该规则是否被启用。"
+          },
+          {
+            "label" : "源地址",
+            "tab" : "source",
+            "description" : "显示封包的来源IP地址将不会被病毒引擎扫描。"
+          },
+          {
+            "label" : "目的地址",
+            "tab" : "destination",
+            "description" : "显示封包的目标IP地址将不会被病毒引擎扫描。"
+          },
+          {
+            "label" : "日志",
+            "tab" : "log",
+            "description" : "在接收到具有指定来源或目标IP地址的封包时将会产生日志。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击编辑可变更规则设置。 \n 点击移除按钮可删除规则。"
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "启用",
+            "tab" : "enable",
+            "description" : "选择要启用的规则。"
+          },
+          {
+            "label" : "源地址",
+            "tab" : "source",
+            "description" : "选择将不会被病毒引擎扫描封包的来源IP地址。."
+          },
+          {
+            "label" : "目的地址",
+            "tab" : "destination",
+            "description" : "选择将不会被病毒引擎扫描封包的目标IP地址。"
+          },
+          {
+            "label" : "日志",
+            "tab" : "log",
+            "description" : "选择在接收到指定IP地址的封包时产生日志。"
+          },
+          {
+            "label" : "确定",
+            "tab" : "ok",
+            "description" : "点击此按钮将会储存您的设置并且关闭页面。"
+          },
+          {
+            "label" : "取消",
+            "tab" : "cancel",
+            "description" : "点击此按钮将不会储存您的设置并且关闭页面。"
+          }
+        ]
+      },
+      "file_ext" :
+      {
+        "label" : "文件扩展名",
+        "tab" : "file_ext",
+        "description" : "使用此页面可设置扩展名的白名单。指定的扩展名将不会进行病毒扫描。您可以根据的MIME（多用途因特网邮件附档名）类型或文件扩展名设置规则。",
+        "content" :
+        [
+          {
+            "label" : "MIME",
+            "tab" : "mime",
+            "description" : "MIME类型/子类型的文件（例如，音频/ mpeg或image / jpeg文件）。"
+          },
+          {
+            "label" : "文件扩展名",
+            "tab" : "file_ext",
+            "description" : "显示该文件的文件扩展名（例如，doc或MP3）。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击编辑可变更规则设置。 \n 点击移除按钮可删除规则。"
+          }
+        ],
+        "editors" :
+        [
+          {
+            "label" : "MIME 建立/编辑",
+            "tab" : "mime",
+            "description" : "使用该页面可建立新的MIME类型的文件扩展名规则或编辑现有的规则。",
+            "content" :
+            [
+              {
+                "label" : "类型",
+                "tab" : "type",
+                "description" : "选定的MIME类型的文件扩展名将不会被扫描。"
+              },
+              {
+                "label" : "子类型",
+                "tab" : "subtype",
+                "description" : "选定的MIME子类型的文件扩展名将不会被扫描。"
+              },
+              {
+                "label" : "确定",
+                "tab" : "ok",
+                "description" : "点击此按钮将会储存您的设置并且关闭页面。"
+              },
+              {
+                "label" : "取消",
+                "tab" : "cancel",
+                "description" : "点击此按钮将不会储存您的设置并且关闭页面。"
+              }
+            ]
+          },
+          {
+            "label" : "文件扩展名建立/编辑",
+            "tab" : "file_ext",
+            "description" : "使用该页面可建立新的文件扩展名规则或编辑现有的。",
+            "content" :
+            [
+              {
+                "label" : "文件扩展名",
+                "tab" : "file_ext",
+                "description" : "输入的文件扩展名将不会被扫描。"
+              },
+              {
+                "label" : "确定",
+                "tab" : "ok",
+                "description" : "点击此按钮将会储存您的设置并且关闭页面。"
+              },
+              {
+                "label" : "取消",
+                "tab" : "cancel",
+                "description" : "点击此按钮将不会储存您的设置并且关闭页面。"
+              }
+            ]
+          }
+        ]
+      },
+      "blacklist" :
+      {
+        "label" : "黑名单",
+        "tab" : "blacklist",
+        "description" : "当一个病毒被病毒防护检测到时，将记录受感染网站的网址进入黑名单数据库，并拒绝用户存取。 每个黑名单项目都有自己的生命周期在这个数据库中。\n 使用此页面指定所有黑名单项目的生命周期。在项目过期时，系统重新启动时，或病毒防护特征库更新时将会移除该数据库中的黑名单。最多可记录多达4096个黑名单。如果您发现他们是误报也可以手动将黑名单项目移到到白名单数据库。",
+        "content" :
+        [
+          {
+            "label" : "过期时间",
+            "tab" : "expire_duration",
+            "description" : "指定数据库中每一个黑名单项目的存在时间。"
+          },
+          {
+            "label" : "索引",
+            "tab" : "index",
+            "description" : "这是项目的索引编号。"
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "是由的病毒防护检测到含有病毒的URL（网页地址）。 例如，http://www.eicar.org/download/eicar.com.txt 或 ftp://1.1.1.1/aaa.com"
+          },
+          {
+            "label" : "到期时间",
+            "tab" : "expire_date",
+            "description" : "将在这个时间到期时从数据库中删除 URL黑名单项目。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "actiove",
+            "description" : "点击\"移动到白名单\"按钮来删除黑名单数据库中的项目，并把它添加到白名单数据库。点击\"删除\"按钮，可删除该项目。"
+          }
+        ]
+      },
+      "whitelist" :
+      {
+        "label" : "白名单",
+        "tab" : "whitelist",
+        "description" : "如果您发现黑名单数据库中的URL实际上是并非病毒网页或FTP站点，您可以手动将其移动到白名单数据库。病毒防护功能并不需要联机存取白名单数据库的URL，只是将它们记录在系统日志中。最多可记录多达4096个白名单。\n 可使用页面查阅白名单与删除指定项目。",
+        "content" :
+        [
+          {
+            "label" : "索引",
+            "tab" : "index",
+            "description" : "显示项目的索引编号。"
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "此为您的信任网址。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击移除按钮可删除规则。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-5" :
+  {
+    "label" : "CIFS",
+    "tab" : "cifs",
+    "description" : "使用此页面启用CIFS防病毒功能并配置相关设置。",
+    "tabs" :
+    {
+      "general" :
+      {
+        "label" : "一般设置",
+        "tab" : "general",
+        "description" : "使用此页面可启用病毒防护并配置相关设置。",
+        "content" :
+        [
+          {
+            "label" : "扫描区域",
+            "tab" : "zone_to_scan",
+            "description" : "选择您要套用的病毒防护设置和扫描病毒流量的区域。\n 从可用区域选框中选择区域，然后点击向右箭头，新增到选定区域，以查看所选区域进/出封包的内容。否则，可从选定区域选择区域，然后点击左箭头将区域移回可用区域中。"
+          },
+          {
+            "label" : "启用",
+            "tab" : "app_enable",
+            "description" : "选定复选框以检查对应类型的流量。"
+          },
+          {
+            "label" : "日志",
+            "tab" : "app_logging",
+            "description" : "选定复选框以检测到病毒时建立日志。您还需要在\"设备\">\"日志\"上进行配置。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "app_action",
+            "description" : "选择检测到病毒时采取的动作。\n 无 - 将不会进行任何动作。\n 通知 - 在POP3端，当病毒在附件中被检测到， 它仍然会发送原始邮件给收件人并同时发送邮件警报通知给寄件人和收件人。。\n 通知 + 拦截文件 – 当检测到附件存在病毒时，破坏并拦截附件文件。它还会使用命令通知邮件服务器，并发送电子邮件警报给邮件寄件人和收件人。"
+          },
+          {
+            "label" : "端口列表",
+            "tab" : "app_port",
+            "description" : "指定用于识别应用程序（服务）服务器的端口。您可以设置多个端口。"
+          },
+          {
+            "label" : "扫描档案大小上限",
+            "tab" : "max_file_size",
+            "description" : "设备不会扫描超过指定值大小的文件 ，\"0\" 表示不限制."
+          }
+        ]
+      },
+      "address_except" :
+      {
+        "label" : "地址排除",
+        "tab" : "address_except",
+        "description" : "使用此页面可设置IP地址的白名单。指定地址的封包将不会进行病毒扫描。",
+        "content" :
+        [
+          {
+            "label" : "启用",
+            "tab" : "enable",
+            "description" : "显示该规则是否被启用。"
+          },
+          {
+            "label" : "源地址",
+            "tab" : "source",
+            "description" : "显示封包的来源IP地址将不会被病毒引擎扫描。"
+          },
+          {
+            "label" : "目的地址",
+            "tab" : "destination",
+            "description" : "显示封包的目标IP地址将不会被病毒引擎扫描。"
+          },
+          {
+            "label" : "日志",
+            "tab" : "log",
+            "description" : "在接收到具有指定来源或目标IP地址的封包时将会产生日志。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击编辑可变更规则设置。 \n 点击移除按钮可删除规则。"
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "启用",
+            "tab" : "enable",
+            "description" : "选择要启用的规则。"
+          },
+          {
+            "label" : "源地址",
+            "tab" : "source",
+            "description" : "选择将不会被病毒引擎扫描封包的来源IP地址。."
+          },
+          {
+            "label" : "目的地址",
+            "tab" : "destination",
+            "description" : "选择将不会被病毒引擎扫描封包的目标IP地址。"
+          },
+          {
+            "label" : "日志",
+            "tab" : "log",
+            "description" : "选择在接收到指定IP地址的封包时产生日志。"
+          },
+          {
+            "label" : "确定",
+            "tab" : "ok",
+            "description" : "点击此按钮将会储存您的设置并且关闭页面。"
+          },
+          {
+            "label" : "取消",
+            "tab" : "cancel",
+            "description" : "点击此按钮将不会储存您的设置并且关闭页面。"
+          }
+        ]
+      },
+      "file_ext" :
+      {
+        "label" : "文件扩展名",
+        "tab" : "file_ext",
+        "description" : "使用此页面可设置扩展名的白名单。指定的扩展名将不会进行病毒扫描。您可以根据的MIME（多用途因特网邮件附档名）类型或文件扩展名设置规则。",
+        "content" :
+        [
+          {
+            "label" : "MIME",
+            "tab" : "mime",
+            "description" : "MIME类型/子类型的文件（例如，音频/ mpeg或image / jpeg文件）。"
+          },
+          {
+            "label" : "文件扩展名",
+            "tab" : "file_ext",
+            "description" : "显示该文件的文件扩展名（例如，doc或MP3）。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击编辑可变更规则设置。 \n 点击移除按钮可删除规则。"
+          }
+        ],
+        "editors" :
+        [
+          {
+            "label" : "MIME 建立/编辑",
+            "tab" : "mime",
+            "description" : "使用该页面可建立新的MIME类型的文件扩展名规则或编辑现有的规则。",
+            "content" :
+            [
+              {
+                "label" : "类型",
+                "tab" : "type",
+                "description" : "选定的MIME类型的文件扩展名将不会被扫描。"
+              },
+              {
+                "label" : "子类型",
+                "tab" : "subtype",
+                "description" : "选定的MIME子类型的文件扩展名将不会被扫描。"
+              },
+              {
+                "label" : "确定",
+                "tab" : "ok",
+                "description" : "点击此按钮将会储存您的设置并且关闭页面。"
+              },
+              {
+                "label" : "取消",
+                "tab" : "cancel",
+                "description" : "点击此按钮将不会储存您的设置并且关闭页面。"
+              }
+            ]
+          },
+          {
+            "label" : "文件扩展名建立/编辑",
+            "tab" : "file_ext",
+            "description" : "使用该页面可建立新的文件扩展名规则或编辑现有的。",
+            "content" :
+            [
+              {
+                "label" : "文件扩展名",
+                "tab" : "file_ext",
+                "description" : "输入的文件扩展名将不会被扫描。"
+              },
+              {
+                "label" : "确定",
+                "tab" : "ok",
+                "description" : "点击此按钮将会储存您的设置并且关闭页面。"
+              },
+              {
+                "label" : "取消",
+                "tab" : "cancel",
+                "description" : "点击此按钮将不会储存您的设置并且关闭页面。"
+              }
+            ]
+          }
+        ]
+      },
+      "blacklist" :
+      {
+        "label" : "黑名单",
+        "tab" : "blacklist",
+        "description" : "当一个病毒被病毒防护检测到时，将记录受感染网站的网址进入黑名单数据库，并拒绝用户存取。 每个黑名单项目都有自己的生命周期在这个数据库中。\n 使用此页面指定所有黑名单项目的生命周期。在项目过期时，系统重新启动时，或病毒防护特征库更新时将会移除该数据库中的黑名单。最多可记录多达4096个黑名单。如果您发现他们是误报也可以手动将黑名单项目移到到白名单数据库。",
+        "content" :
+        [
+          {
+            "label" : "过期时间",
+            "tab" : "expire_duration",
+            "description" : "指定数据库中每一个黑名单项目的存在时间。"
+          },
+          {
+            "label" : "索引",
+            "tab" : "index",
+            "description" : "这是项目的索引编号。"
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "是由的病毒防护检测到含有病毒的URL（网页地址）。 例如，http://www.eicar.org/download/eicar.com.txt 或 ftp://1.1.1.1/aaa.com"
+          },
+          {
+            "label" : "到期时间",
+            "tab" : "expire_date",
+            "description" : "将在这个时间到期时从数据库中删除 URL黑名单项目。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "actiove",
+            "description" : "点击\"移动到白名单\"按钮来删除黑名单数据库中的项目，并把它添加到白名单数据库。点击\"删除\"按钮，可删除该项目。"
+          }
+        ]
+      },
+      "whitelist" :
+      {
+        "label" : "白名单",
+        "tab" : "whitelist",
+        "description" : "如果您发现黑名单数据库中的URL实际上是并非病毒网页或FTP站点，您可以手动将其移动到白名单数据库。病毒防护功能并不需要联机存取白名单数据库的URL，只是将它们记录在系统日志中。最多可记录多达4096个白名单。\n 可使用页面查阅白名单与删除指定项目。",
+        "content" :
+        [
+          {
+            "label" : "索引",
+            "tab" : "index",
+            "description" : "显示项目的索引编号。"
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "此为您的信任网址。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击移除按钮可删除规则。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-6-0" :
+  {
+    "label" : "病毒数据库",
+    "tab" : "sig",
+    "description" : "使用此页面可配置病毒数据库设置和查阅特征库信息。您可以手动更新数据库或由依时间表自动更新的数据库。",
+    "content" :
+    [
+      {
+        "label" : "手动更新",
+        "tab" : "manually_update",
+        "description" : "点击更新按钮将立即检查特征库服务器。如有发现新文件将会自服务器下载更新文件。"
+      },
+      {
+        "label" : "自动更新",
+        "tab" : "auto_update",
+        "description" : "选定复选框并选择特征库自动更新设置的类型和时间间隔。"
+      },
+      {
+        "label" : "类型",
+        "tab" : "type",
+        "description" : "选择自动检查数据库服务器的频率（每周，每天，每小时）。"
+      },
+      {
+        "label" : "间隔",
+        "tab" : "interval",
+        "description" : "选择自动检查数据库服务器的时间间隔。例如，如果您选择在每周类型字段输入3，这表示将每3周执行一次自动检查数据库服务器。"
+      },
+      {
+        "label" : "数据库版本",
+        "tab" : "sig_ver",
+        "description" : "这里查看特征码数据库版本号。"
+      },
+      {
+        "label" : "MD5版本",
+        "tab" : "md5_ver",
+        "description" : "这里查看MD5数据库版本号。"
+      },
+      {
+        "label" : "特征码数量",
+        "tab" : "sig_pat_no",
+        "description" : "这里可以查看特征码数据库中病毒样本的数量。"
+      },
+      {
+        "label" : "MD5数量",
+        "tab" : "md5_pat_no",
+        "description" : "这里可以查看MD5数据库中病毒样本的数量。"
+      },
+      {
+        "label" : "最后检查日期",
+        "tab" : "last_checked",
+        "description" : "显示最后一次执行检查数据库更新服务器的最新时间。"
+      },
+      {
+        "label" : "最后更新日期",
+        "tab" : "last_updated",
+        "description" : "显示最后一次成功执行更新的时间。"
+      }
+    ]
+  },
+  "menu-6-1" :
+  {
+    "label" : "代理",
+    "tab" : "proxy",
+    "description" : "如果您的公司使用代理服务器处理客户端请求的某些服务（如FTP, 网页访问)，您需要配置代理服务器设置。否则病毒防护与授权更新可能会失败。\n 您可使用此页面来设置代理服务器。如果您不需使用代理服务器则不需设置此选项。",
+    "content" :
+    [
+      {
+        "label" : "启用代理",
+        "tab" : "enable",
+        "description" : "选择此选项可启用代理服务器功能。"
+      },
+      {
+        "label" : "代理服务器",
+        "tab" : "server",
+        "description" : "请输入您的代理服务器IP地址或域名。"
+      },
+      {
+        "label" : "代理服务器端口",
+        "tab" : "port",
+        "description" : "输入代理服务器的听候端口。"
+      },
+      {
+        "label" : "使用代理验证",
+        "tab" : "auth",
+        "description" : "如果代理服务器需要 用户验证请选定此复选框。请输入用户名称及密码到以下字段中。"
+      },
+      {
+        "label" : "用户名",
+        "tab" : "user",
+        "description" : "输入用户账号"
+      },
+      {
+        "label" : "密码",
+        "tab" : "pass",
+        "description" : "输入用户账号密码。"
+      }
+    ]
+  },
+  "menu-7-0-0" :
+  {
+    "label" : "文件扩展名",
+    "tab" : "file_extension",
+    "description" : "透过此页面可由病毒感染的文件类型来查阅安全防护的相关日志。 您还可以输入开始/结束日期和时间，然后点击搜寻按钮以显示指定时间区段内的日志。您也可以显示文件附文件名和存取数量的组日志。",
+    "content" :
+    [
+      {
+        "label" : "ID",
+        "tab" : "id",
+        "description" : "此为日志中的索引编号。"
+      },
+      {
+        "label" : "扩展名",
+        "tab" : "extension",
+        "description" : "此为扫描并侦测到含有病毒的文件扩展名。"
+      },
+      {
+        "label" : "访问次数",
+        "tab" : "access_count",
+        "description" : "显示该文件已被存取过的数量。"
+      },
+      {
+        "label" : "日期时间",
+        "tab" : "datetime",
+        "description" : "此为日志事件的日期和时间。"
+      }
+    ]
+  },
+  "menu-7-0-1" :
+  {
+    "label" : "被阻止的主机",
+    "tab" : "blocked_host",
+    "description" : "使用此页面可以查阅被防火墙规则或病毒防护拒绝的网域IP地址的相关日志。 您还可以输入开始/结束日期和时间，然后点击搜寻按钮以显示指定时间区段内的日志。您还可以记录您主机IP地址和防火墙拒绝及病毒数量的统计。",
+    "content" :
+    [
+      {
+        "label" : "ID",
+        "tab" : "id",
+        "description" : "此为日志中的索引编号。"
+      },
+      {
+        "label" : "IP",
+        "tab" : "ip",
+        "description" : "被拒绝主机的IP地址。"
+      },
+      {
+        "label" : "病毒",
+        "tab" : "virus_count",
+        "description" : "显示已被防护拒绝的主机病毒数量。"
+      },
+      {
+        "label" : "防火墙",
+        "tab" : "firewall_count",
+        "description" : "显示已被防火墙拒绝的主机病毒数量。"
+      },
+      {
+        "label" : "日期时间",
+        "tab" : "datetime",
+        "description" : "此为日志事件的日期和时间。"
+      }
+    ]
+  },
+  "menu-7-0-2" :
+  {
+    "label" : "受影响的主机",
+    "tab" : "affected_host",
+    "description" : "可使用此页面上被感染主机的IP地址来查看相关的安全防护日志。您还可以输入开始/结束日期和时间，然后点击搜寻按钮以显示指定时间区段内的日志。您还可以透过主机的IP地址日志，来显示病毒侦测数的统计。",
+    "content" :
+    [
+      {
+        "label" : "ID",
+        "tab" : "id",
+        "description" : "此为日志中的索引编号。"
+      },
+      {
+        "label" : "IP",
+        "tab" : "ip",
+        "description" : "被拒绝主机的IP地址。"
+      },
+      {
+        "label" : "检测病毒数",
+        "tab" : "virus_count",
+        "description" : "显示已被防护拒绝的主机病毒数量。"
+      },
+      {
+        "label" : "日期时间",
+        "tab" : "datetime",
+        "description" : "此为日志事件的日期和时间。"
+      }
+    ]
+  },
+  "menu-7-0-3" :
+  {
+    "label" : "病毒防护",
+    "tab" : "antivurs_report",
+    "description" : "可使用此页面上被病毒感染的联机来查看相关的安全防护日志。您还可以输入开始/结束日期和时间，然后点击搜寻按钮以显示指定时间区段内的日志。您还可以日志您来源/目标IP地址，用户或病毒名称并显示侦测计数的总和。",
+    "content" :
+    [
+      {
+        "label" : "ID",
+        "tab" : "id",
+        "description" : "此为日志中的索引编号。"
+      },
+      {
+        "label" : "源IP",
+        "tab" : "src_ip",
+        "description" : "被病毒感染的联机来源IP地址。"
+      },
+      {
+        "label" : "目的IP",
+        "tab" : "dst_ip",
+        "description" : "被病毒感染的联机目标IP地址。"
+      },
+      {
+        "label" : "P协议",
+        "tab" : "protocol",
+        "description" : "一个用来携带病毒的IP协议"
+      },
+      {
+        "label" : "病毒名称",
+        "tab" : "virus_name",
+        "description" : "已侦测到的病毒名称。"
+      },
+      {
+        "label" : "日期时间",
+        "tab" : "datetime",
+        "description" : "此为日志事件的日期和时间。"
+      },
+      {
+        "label" : "检测数",
+        "tab" : "hit_count",
+        "description" : "可显示由病毒防护侦测到的病毒发送/主机接收的传递数量。这也可以显示已侦测到的病毒名称日志。"
+      }
+    ]
+  },
+  "menu-7-1-0" :
+  {
+    "label" : "流量统计",
+    "tab" : "traffic_direction",
+    "description" : "使用此页面可以依传送行进的方向，查阅每个联机的流量统计。您还可以输入开始/结束日期和时间，然后点击搜寻按钮以显示指定时间区段内的日志。 您也可以显示传送方向和流量统计的组日志。",
+    "content" :
+    [
+      {
+        "label" : "ID",
+        "tab" : "id",
+        "description" : "此为日志中的索引编号。"
+      },
+      {
+        "label" : "来自区域",
+        "tab" : "from_zone",
+        "description" : "此为流量来源端的区域名称。"
+      },
+      {
+        "label" : "发往区域",
+        "tab" : "to_zone",
+        "description" : "此为流量传送端的区域名称。"
+      },
+      {
+        "label" : "流量",
+        "tab" : "traffic_amount",
+        "description" : "显示流量传送使用的数量。"
+      },
+      {
+        "label" : "开始时间",
+        "tab" : "start",
+        "description" : "联机开始的日期和时间。"
+      },
+      {
+        "label" : "结束时间",
+        "tab" : "end",
+        "description" : "联机结束的日期和时间。"
+      }
+    ]
+  },
+  "menu-7-2-0" :
+  {
+    "label" : "查看ARP表",
+    "tab" : "show_arp_table",
+    "description" : "使用此页面可查看 的ARP (地址解析协议)列表。ARP列表的IP地址会转译到一个联机主机的物理地址或MAC地址。\n 此列表中的信息会依您在刷新页面字段中设置的时间间隔进行自动更新。直接点击刷新按钮，将会立即更新列表的讯息。",
+    "content" :
+    [
+      {
+        "label" : "IP地址",
+        "tab" : "address",
+        "description" : "此为连接到设备的主机 IP地址。"
+      },
+      {
+        "label" : "标记",
+        "tab" : "flag",
+        "description" : "联机主机的状态信息。\n 可联机 – 表示可取得主机联机。 \n 等待 – 表示TitanWAL在等待联机主机的响应。\n 失败 – 表示无法取得主机联机。\n 延迟 – 延迟发送请求以确认主机可否正常联机。"
+      },
+      {
+        "label" : "MAC地址",
+        "tab" : "mac_address",
+        "description" : "此为联机主机的MAC 地址。"
+      },
+      {
+        "label" : "设备",
+        "tab" : "device",
+        "description" : "此为主机连接接口的名称。"
+      }
+    ]
+  },
+  "menu-7-2-1" :
+  {
+    "label" : "查看路由列表",
+    "tab" : "show_routing_table",
+    "description" : "使用此页面可查阅的路由列表，包含默认路由和静态路由。静态路由的优先层级高于预设路由。此列表中的信息会依您在刷新页面字段中设置的时间间隔进行自动更新。直接点击刷新按钮，将会立即更新列表的讯息。",
+    "content" :
+    [
+      {
+        "label" : "目的地址",
+        "tab" : "destination_address",
+        "description" : "此为最终目标（主机或网络）的IP地址。"
+      },
+      {
+        "label" : "子网掩码",
+        "tab" : "subnet_mask",
+        "description" : "此为最终目标的子网掩码。"
+      },
+      {
+        "label" : "网关",
+        "tab" : "gateway",
+        "description" : "此为转发封包到目标地址的网关IP地址。"
+      },
+      {
+        "label" : "标记",
+        "tab" : "flags",
+        "description" : "显示路由状态。\n U – 表示此路由目前为启动状态。\n H – 表示此网关为一主机。\n G – 表示此网关为一路由器。"
+      },
+      {
+        "label" : "度量值",
+        "tab" : "metric",
+        "description" : "此为路由等价路径计算。其数值是用来决定路径的优先层级。"
+      },
+      {
+        "label" : "接口",
+        "tab" : "interface",
+        "description" : "此为物理连接接口的名称，透过它进行路由流量发送。"
+      }
+    ]
+  },
+  "menu-7-2-2" :
+  {
+    "label" : "DHCP服务",
+    "tab" : "dhcp_bindings",
+    "description" : "此用此页面可查阅目前分派给DHCP客户端的IP地址。",
+    "content" :
+    [
+      {
+        "label" : "IP地址",
+        "tab" : "ip_address",
+        "description" : "此为分派给DHCP客户端的IP地址。"
+      },
+      {
+        "label" : "MAC地址",
+        "tab" : "mac_address",
+        "description" : "此为DHCP客户端的MAC地址。"
+      },
+      {
+        "label" : "租约开始时间",
+        "tab" : "lease_start_time",
+        "description" : "此为 DHCP客户端开始启用分派 IP 地址的起始时间。"
+      },
+      {
+        "label" : "租约结束时间",
+        "tab" : "lease_end_time",
+        "description" : "此为分派 IP 地址租用的到期时间。"
+      }
+    ]
+  },
+  "menu-7-2-3" :
+  {
+    "label" : "状态概要",
+    "tab" : "status_summary",
+    "description" : "此列表中的信息会依您在刷新页面字段中设置的时间间隔进行自动更新。直接点击刷新按钮，将会立即更新列表的讯息。",
+    "tabs" :
+    {
+      "port" :
+      {
+        "label" : "端口列表",
+        "tab" : "port_table",
+        "description" : "使用此页面可查阅目前物理网络端口的详细信息和状态。",
+        "content" :
+        [
+          {
+            "label" : "名称",
+            "tab" : "name",
+            "description" : "在上的物理端口名称。"
+          },
+          {
+            "label" : "LAN",
+            "tab" : "lan",
+            "description" : "显示与该端口关联的LAN连接接口名称。如果该端口不属于此LAN连接接口则名称字段会显示空白。"
+          },
+          {
+            "label" : "DHCP池",
+            "tab" : "dhcp_pool",
+            "description" : "此页面会显示DHCP地址范围，它定义了在此端口可分派给连接主机取得的IP地址范围。"
+          },
+          {
+            "label" : "地址",
+            "tab" : "address",
+            "description" : "显示端口目前的IP地址。"
+          },
+          {
+            "label" : "区域",
+            "tab" : "zone",
+            "description" : "显示该端口的区域名称。如果该端口不属于此区域则名称字段会显示空白。"
+          },
+          {
+            "label" : "链路状态",
+            "tab" : "link_state",
+            "description" : "显示端口目前的联机状态。"
+          },
+          {
+            "label" : "链接设置",
+            "tab" : "link_settings",
+            "description" : "显示端口目前的传输速度与双工设置。"
+          }
+        ]
+      },
+      "vlan" :
+      {
+        "label" :"VLAN 接口表",
+        "tab" : "vlan_table",
+        "description" : "使用此页面可查阅 VLAN 连接接口的详细信息。",
+        "content" :
+        [
+          {
+            "label" : "名称",
+            "tab" : "name",
+            "description" : "此为VLAN 连接接口的名称。"
+          },
+          {
+            "label" : "LAN",
+            "tab" : "lan",
+            "description" : "显示与VLAN连接接口对应的LAN连接接口名称。如果该连接接口不属于此LAN连接接口则名称字段会显示空白。"
+          },
+          {
+            "label" : "DHCP池",
+            "tab" : "dhcp_pool",
+            "description" : "此页面会显示DHCP地址范围，它定义了在此VLAN连接接口可分派给连接主机取得的IP地址范围。"
+          },
+          {
+            "label" : "地址",
+            "tab" : "address",
+            "description" : "显示VLAN连接接口目前的IP地址。"
+          },
+          {
+            "label" : "区域",
+            "tab" : "zone",
+            "description" : "T显示该VLAN连接接口的区域名称。如果该VLAN连接接口不属于此区域则名称字段会显示空白。"
+          },
+          {
+            "label" : "物理端口",
+            "tab" : "physical_port",
+            "description" : "显示与VLAN连接接口对应的物理端口名称。"
+          },
+          {
+            "label" : "VID",
+            "tab" : "vid",
+            "description" : "显示VLAN ID。"
+          }
+        ]
+      },
+      "wan" :
+      {
+        "label" : "WAN 列表",
+        "tab" : "wan_table",
+        "description" : "使用此页面可查阅目前WAN列表的详细信息和状态。",
+        "content" :
+        [
+          {
+            "label" : "名称",
+            "tab" : "name",
+            "description" : "此为WAN 连接接口的名称。"
+          },
+          {
+            "label" : "IP 分配方法",
+            "tab" : "ip_assignment_method",
+            "description" : "显示WAN接口取得 IP 地址的方式是采用 固定 IP 或是 DHCP。您可以自定义调整WAN设置。 让连接接口采用固定IP或是选用DHCP服务器分派。"
+          },
+          {
+            "label" : "连接时间",
+            "tab" : "connection_time",
+            "description" : "此项目将会显示WAN连接接口的总连接时间。 "
+          },
+          {
+            "label" : "连接状态",
+            "tab" : "connection_state",
+            "description" : "若显示 已连接 表示WAN连接接口已成功取得IP。"
+          },
+          {
+            "label" : "IP地址",
+            "tab" : "ip_address",
+            "description" : "此项目将会显示WAN 连接接口的IP 地址。"
+          },
+          {
+            "label" : "子网掩码",
+            "tab" : "subnet_mask",
+            "description" : "此项目将会显示WAN 连接接口的子网掩码。"
+          },
+          {
+            "label" : "网关",
+            "tab" : "gateway",
+            "description" : "此项目将会显示WAN 连接接口IP地址的默认网关。"
+          },
+          {
+            "label" : "DNS服务器",
+            "tab" : "dns_server",
+            "description" : "此项目将会显示提供WAN 连接接口IP地址的DNS服务器。"
+          },
+          {
+            "label" : "物理端口",
+            "tab" : "physical_port",
+            "description" : "此项目将会显示与WAN连接接口相关连的物理端口。"
+          },
+          {
+            "label" : "链路状态",
+            "tab" : "link_state",
+            "description" : "显示连接连接口目前的联机状态。"
+          },
+          {
+            "label" : "DHCP服务器",
+            "tab" : "dhcp_server",
+            "description" : "显示DHCP服务器从WAN接口取得的IP地址。"
+          },
+          {
+            "label" : "获得租约",
+            "tab" : "lease_obtained",
+            "description" : "此项目将会显示WAN连接接口从DHCP服务器取得IP的时间 。"
+          },
+          {
+            "label" : "租约期限",
+            "tab" : "lease_duration",
+            "description" : "此项目将会显示WAN连接接口IP使用的有效时间，其有效期间的长短是由DHCP服务器指定。"
+          },
+          {
+            "label" : "MAC 地址",
+            "tab" : "mac_address",
+            "description" : "此项目将会显示WAN连接接口的MAC地址。"
+          },
+          {
+            "label" : "区域",
+            "tab" : "zone",
+            "description" : "此项目将会显示WAN连接接口所属的区域名称。"
+          }
+        ]
+      },
+      "lan" :
+      {
+        "label" : "LAN 列表",
+        "tab" : "lan_table",
+        "description" : "使用此页面可查阅目前LAN列表的详细信息和状态。",
+        "content" :
+        [
+          {
+            "label" : "名称",
+            "tab" : "name",
+            "description" : "此为LAN 连接接口的名称。"
+          },
+          {
+            "label" : "DHCP池",
+            "tab" : "dhcp_pool",
+            "description" : "此页面会显示DHCP地址范围，它定义了在此LAN连接接口可分派给连接主机取得的IP地址范围。"
+          },
+          {
+            "label" : "地址",
+            "tab" : "address",
+            "description" : "显示LAN连接接口目前的IP地址。"
+          },
+          {
+            "label" : "区域",
+            "tab" : "zone",
+            "description" : "显示该LAN连接接口的区域名称。如果该LAN连接接口不属于此区域则名称字段会显示空白。"
+          },
+          {
+            "label" : "端口列表",
+            "tab" : "port_list",
+            "description" : "此项目将会显示物理端口和/或是与VLAN对应的LAN连接接口。"
+          },
+          {
+            "label" : "MAC地址",
+            "tab" : "mac_address",
+            "description" : "此项目将会显示LAN连接接口的MAC地址。如果物理端口未被指派到LAN连接接口则此字段将会显示空白。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-7-2-4" :
+  {
+    "label" : "流量统计",
+    "tab" : "traffic_statistics",
+    "description" : "此列表中的信息会依您在刷新页面字段中设置的时间间隔进行自动更新。直接点击刷新按钮，将会立即更新列表的讯息。",
+    "tabs" :
+    {
+      "port" :
+      {
+        "label" : "端口列表",
+        "tab" : "port_table",
+        "description" : "使用此页面可查阅物理端口的流量统计。",
+        "content" :
+        [
+          {
+            "label" : "名称",
+            "tab" : "name",
+            "description" : "在上的物理端口名称。"
+          },
+          {
+            "label" : "链路状态",
+            "tab" : "link_status",
+            "description" : "显示端口目前的联机状态。"
+          },
+          {
+            "label" : "发送数据包",
+            "tab" : "tx_pkts",
+            "description" : "此项目将会显示端口的发送封包数量。"
+          },
+          {
+            "label" : "接收数据包",
+            "tab" : "rx_pkts",
+            "description" : "This shows the number of packets received on this port."
+          },
+          {
+            "label" : "冲突",
+            "tab" : "collisions",
+            "description" : "显示在这个端口上发生讯号冲突的数量。冲突发生情况通常是多个设备试图同时对同一网段发送封包所造成。"
+          },
+          {
+            "label" : "发送 B/s",
+            "tab" : "tx_b_s",
+            "description" : "显示在这个接口上每秒发送的Byte数。"
+          },
+          {
+            "label" : "接收 B/s",
+            "tab" : "rx_b_s",
+            "description" : "显示在这个接口上每秒接收的Byte数。"
+          },
+          {
+            "label" : "启动时间",
+            "tab" : "up_time",
+            "description" : "显示端口已启动联机的时间总量。"
+          }
+        ]
+      },
+      "vlan" :
+      {
+        "label" : "VLAN接口表",
+        "tab" : "vlan_table",
+        "description" : "使用此页面可查阅VLAN接口的流量统计。",
+        "content" :
+        [
+          {
+            "label" : "名称",
+            "tab" : "name",
+            "description" : "此为VLAN 连接接口的名称。"
+          },
+          {
+            "label" : "发送数据包",
+            "tab" : "tx_pkts",
+            "description" : "显示此接口发送封包的数量。"
+          },
+          {
+            "label" : "接收数据包",
+            "tab" : "rx_pkts",
+            "description" : "显示此接口接收封包的数量。"
+          },
+          {
+            "label" : "冲突",
+            "tab" : "collisions",
+            "description" : "显示在这个端口上发生讯号冲突的数量。冲突发生情况通常是多个设备试图同时对同一网段发送封包所造成。"
+          },
+          {
+            "label" : "发送 B/s",
+            "tab" : "tx_b_s",
+            "description" : "显示在这个接口上每秒发送的Byte数。"
+          },
+          {
+            "label" : "接收 B/s",
+            "tab" : "rx_b_s",
+            "description" : "显示在这个接口上每秒接收的Byte数。"
+          },
+          {
+            "label" : "启动时间",
+            "tab" : "up_time",
+            "description" : "显示端口已启动联机的时间总量。"
+          }
+        ]
+      },
+      "wan" :
+      {
+        "label" : "WAN 列表",
+        "tab" : "wan_table",
+        "description" : "使用此页面可查阅WAN接口的流量统计。",
+        "content" :
+        [
+          {
+            "label" : "名称",
+            "tab" : "name",
+            "description" : "此为WAN 连接接口的名称。"
+          },
+          {
+            "label" : "发送数据包",
+            "tab" : "tx_pkts",
+            "description" : "显示此接口发送封包的数量。"
+          },
+          {
+            "label" : "接收数据包",
+            "tab" : "rx_pkts",
+            "description" : "显示此接口接收封包的数量。"
+          },
+          {
+            "label" : "冲突",
+            "tab" : "collisions",
+            "description" : "显示在这个端口上发生讯号冲突的数量。冲突发生情况通常是多个设备试图同时对同一网段发送封包所造成。"
+          },
+          {
+            "label" : "发送 B/s",
+            "tab" : "tx_b_s",
+            "description" : "显示在这个接口上每秒发送的Byte数。"
+          },
+          {
+            "label" : "接收 B/s",
+            "tab" : "rx_b_s",
+            "description" : "显示在这个接口上每秒接收的Byte数。"
+          },
+          {
+            "label" : "启动时间",
+            "tab" : "up_time",
+            "description" : "显示端口已启动联机的时间总量。"
+          }
+        ]
+      },
+      "lan" :
+      {
+        "label" : "LAN 列表",
+        "tab" : "lan_table",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "Name",
+            "tab" : "name",
+            "description" : "使用此页面可查阅LAN接口的流量统计。"
+          },
+          {
+            "label" : "发送数据包",
+            "tab" : "tx_pkts",
+            "description" : "显示此接口发送封包的数量。"
+          },
+          {
+            "label" : "接收数据包",
+            "tab" : "rx_pkts",
+            "description" : "显示此接口接收封包的数量。"
+          },
+          {
+            "label" : "冲突",
+            "tab" : "collisions",
+            "description" : "显示在这个端口上发生讯号冲突的数量。冲突发生情况通常是多个设备试图同时对同一网段发送封包所造成。"
+          },
+          {
+            "label" : "发送 B/s",
+            "tab" : "tx_b_s",
+            "description" : "显示在这个接口上每秒发送的Byte数。"
+          },
+          {
+            "label" : "接收 B/s",
+            "tab" : "rx_b_s",
+            "description" : "显示在这个接口上每秒接收的Byte数。"
+          },
+          {
+            "label" : "启动时间",
+            "tab" : "up_time",
+            "description" : "显示端口已启动联机的时间总量。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-7-2-5" :
+  {
+    "label" : "WAN 带宽报告",
+    "tab" : "wan_bandwidth report",
+    "description" : "可查阅WAN连接接口在过去24小时的带宽使用情形。您还可以输入开始\/结束日期和时间，然后点击搜寻按钮以显示指定时间区段内的带宽使用量。\n y-轴显示WAN接口上已传送或接收的byte数。 \n x轴显示带宽使用的时间区段。\n 此列表中的信息会依您在刷新页面字段中设置的时间间隔进行自动更新。直接点击刷新按钮，将会立即更新列表的讯息。"
+  },
+  "menu-7-3" :
+  {
+    "label" : "NAT 状态",
+    "tab" : "nat_status",
+    "description" : "使用此页面可以查阅NAT(网络地址转换)规则列表。此页面上显示的项目将依照您的设置而定。此列表中的信息会依您在刷新页面字段中设置的时间间隔进行自动更新。直接点击刷新按钮，将会立即更新列表的讯息。",
+    "content" :
+    [
+      {
+        "label" : "#",
+        "tab" : "index",
+        "description" : "这是列表中NAT规则的索引编号。"
+      },
+      {
+        "label" : "原始源地址",
+        "tab" : "original_source_address",
+        "description" : "此为匹配该流量规则的原始IP地址。"
+      },
+      {
+        "label" : "原始目标地址",
+        "tab" : "original_source_address",
+        "description" : "此为匹配该流量规则的目标IP地址。"
+      },
+      {
+        "label" : "源端口",
+        "tab" : "source_port",
+        "description" : "此为匹配该流量规则的原始端口号。"
+      },
+      {
+        "label" : "目标端口",
+        "tab" : "destination_port",
+        "description" : "此为匹配该流量规则的目标端口号。"
+      },
+      {
+        "label" : "转换后源地址",
+        "tab" : "translated_source_address",
+        "description" : "此为匹配该流量规则的新原始IP地址。"
+      },
+      {
+        "label" : "转换后目的地址",
+        "tab" : "translated_destination_address",
+        "description" : "此为匹配该流量规则的新目标IP地址"
+      },
+      {
+        "label" : "转换后源端口",
+        "tab" : "translated_source_port",
+        "description" : "此为匹配该流量规则的新原始端口号。"
+      },
+      {
+        "label" : "转换后目的端口",
+        "tab" : "translated_destination_port",
+        "description" : "此为匹配该流量规则的新目标端口号。"
+      },
+      {
+        "label" : "发送数据包",
+        "tab" : "tx_pkt_cnt",
+        "description" : "显示传送到目标地址的封包数量。"
+      },
+      {
+        "label" : "接收数据包",
+        "tab" : "rx_pkt_cnt",
+        "description" : "显示接收到来源地址的封包数量。"
+      },
+      {
+        "label" : "发送",
+        "tab" : "tx_byte",
+        "description" : "显示传送到目标地址的Byte数量。"
+      },
+      {
+        "label" : "接收",
+        "tab" : "rx_byte",
+        "description" : "显示接收到来源地址的Byte数量。"
+      }
+    ]
+  },
+  "menu-7-4-0" :
+  {
+    "label" : "活动用户",
+    "tab" : "active_sessions",
+    "description" : "使用此页面可以查阅VPN联机的活动状态。",
+    "content" :
+    [
+      {
+        "label" : "策略名称",
+        "tab" : "policy_name",
+        "description" : "此为VPN联机设置的策略名称。"
+      },
+      {
+        "label" : "WAN 接口",
+        "tab" : "wan_interface",
+        "description" : "显示WAN连接接口使用的VPN联机设置。"
+      },
+      {
+        "label" : "远程网关",
+        "tab" : "remote_gateway",
+        "description" : "此为与远程网关建立VPN联机的IP地址。"
+      },
+      {
+        "label" : "本第网络",
+        "tab" : "local_network",
+        "description" : "显示您后端网络的IP地址和子网掩码。"
+      },
+      {
+        "label" : "远程网络",
+        "tab" : "remote_network",
+        "description" : "显示您后端网络的远程网关。"
+      },
+      {
+        "label" : "操作",
+        "tab" : "action",
+        "description" : "选择一个项目的复选框，然后点击断线按钮以停止活动的VPN联机，或者点击联机按钮来建立VPN联机。"
+      }
+    ]
+  },
+  "menu-7-4-1" :
+  {
+    "label" : "IPSec VPN 统计",
+    "tab" : "ipsec_vpn_statistics",
+    "description" : "使用此页面可查阅VPN联机的流量统计与详细信息。",
+    "content" :
+    [
+      {
+        "label" : "策略名称",
+        "tab" : "policy_name",
+        "description" : "此为VPN联机设置的策略名称。"
+      },
+      {
+        "label" : "WAN 接口",
+        "tab" : "wan_interface",
+        "description" : "显示WAN连接接口使用的VPN联机设置。"
+      },
+      {
+        "label" : "远程网关",
+        "tab" : "remote_gateway",
+        "description" : "此为与远程网关建立VPN联机的IP地址。"
+      },
+      {
+        "label" : "本地网络",
+        "tab" : "local_network",
+        "description" : "显示您后端网络的IP地址和子网掩码。"
+      },
+      {
+        "label" : "远程网络",
+        "tab" : "remote_netowrk",
+        "description" : "显示您后端网络的远程网关。"
+      },
+      {
+        "label" : "发送数据包",
+        "tab" : "tx_bytes",
+        "description" : "显示透过VPN联机传送的KB数量。"
+      },
+      {
+        "label" : "接收数据包",
+        "tab" : "rx_bytes",
+        "description" : "显示透过VPN联机接收的KB数量。"
+      },
+      {
+        "label" : "发送 Pkts",
+        "tab" : "tx_pkts",
+        "description" : "显示透过VPN联机传送的封包数量。"
+      },
+      {
+        "label" : "接收 Pkts",
+        "tab" : "rx_pkts",
+        "description" : "显示透过VPN联机接收的封包数量。"
+      }
+    ]
+  },
+  "menu-7-5-0" :
+  {
+    "label" : "资源使用率",
+    "tab" : "resource_utilization",
+    "description" : "此列表中的信息会依您在刷新页面字段中设置的时间间隔进行自动更新。直接点击刷新按钮，将会立即更新列表的讯息。",
+    "tabs" :
+    {
+      "cpu_utilization" :
+      {
+        "label" : "CPU 使用率",
+        "tab" : "cpu_utilization",
+        "description" : "使用此页面可以查看过去24小时内的CPU使用状态。您还可以输入开始/结束日期和时间，然后点击搜寻按钮以显示指定时间区段内的CPU使用量。\n y-轴显示CPU使用量。x轴显示指定的时间区段。"
+      },
+      "memory_utilization" :
+      {
+        "label" : "内存使用率",
+        "tab" : "memory_utilization",
+        "description" : "使用此页面可以查看过去24小时内的内存使用状态。您还可以输入开始/结束日期和时间，然后点击搜寻按钮以显示指定时间区段内的内存使用量\n y-轴显示CPU使用量。\n x轴显示指定的时间区段。"
+      }
+    }
+  },
+  "menu-7-6" :
+  {
+    "label" : "活动用户",
+    "tab" : "active_users",
+    "description" : "可查阅目前登入到设备的用户状态.\n 此列表中的信息会依您在刷新页面字段中设置的时间间隔进行自动更新。直接点击刷新按钮，将会立即更新列表的讯息。您可以点击右上角的分类按钮来指定此页面上的显示项目。",
+    "content" :
+    [
+      {
+        "label" : "用户名称",
+        "tab" : "user_name",
+        "description" : "此为用户账号名称。"
+      },
+      {
+        "label" : "地址信息",
+        "tab" : "address_information",
+        "description" : "此为用户IP地址。"
+      },
+      {
+        "label" : "登录方式",
+        "tab" : "login_method",
+        "description" : "显示用户登入方式。 用户可以使用HTTPs或是Telnet来登入。"
+      },
+      {
+        "label" : "会话时间",
+        "tab" : "session_time",
+        "description" : "显示用户登入时间。"
+      },
+      {
+        "label" : "操作",
+        "tab" : "action",
+        "description" : "选取一个账号的复选框，然后点击强制按钮以停止指定账号的联机。"
+      }
+    ]
+  },
+  "menu-8-0" :
+  {
+    "label" : "端口",
+    "tab" : "ports",
+    "description" : "可使用此页面查看所要连接的物理网络端口的设置和状态。如果您已经指定一个网络端口连接到LAN或WAN接口，您便只能改变其速度和MTU的设置。",
+    "content" :
+    [
+      {
+        "label" : "端口#",
+        "tab" : "port",
+        "description" : "此为端口号码。"
+      },
+      {
+        "label" : "名称",
+        "tab" : "name",
+        "description" : "此为端口名称。"
+      },
+      {
+        "label" : "地址",
+        "tab" : "address",
+        "description" : "此为端口的IP地址。"
+      },
+      {
+        "label" : "DHCP池",
+        "tab" : "dhcp_pool",
+        "description" : "显示DHCP 地址范围使用的端口。"
+      },
+      {
+        "label" : "速率(全/半双工)",
+        "tab" : "speed_duplex",
+        "description" : "此为端口的传输速度与双工模式。"
+      },
+      {
+        "label" : "连接状态",
+        "tab" : "link_status",
+        "description" : "显示端口是否能正常联机。"
+      },
+      {
+        "label" : "区域",
+        "tab" : "zone",
+        "description" : "显示端口被分派的区域。"
+      },
+      {
+        "label" : "操作",
+        "tab" : "action",
+        "description" : "可点击 编辑 按钮来设置端口。\n 备注：如果端口不能设置，将会派给LAN接口。从LAN接口上删除端口之前，您可以设置它。"
+      }
+    ],
+    "editors" :
+    [
+      {
+        "label" : "基本设置",
+        "tab" : "basic_settings",
+        "description" : "使用此页面可设置端口的基本设置和指定端口区域。",
+        "content" :
+        [
+          {
+            "label" : "名称",
+            "tab" : "name",
+            "description" : "此项目仅能只读及显示端口名称。"
+          },
+          {
+            "label" : "地址",
+            "tab" : "address",
+            "description" : "输入端口的IPv4地址。如果您已经指定该端口连接至LAN或WAN区域，则此项目将无法设置。"
+          },
+          {
+            "label" : "掩码",
+            "tab" : "netmask",
+            "description" : "输入端口的地址掩码。如果您已经指定该端口连接至LAN或WAN区域，则此项目将无法设置。"
+          },
+          {
+            "label" : "速度",
+            "tab" : "speed",
+            "description" : "选定端口速度(Mbps)。如果您选择自动，端口将会与对等设备沟通（在链接的另一端），以确定连接速度和双工模式。"
+          },
+          {
+            "label" : "双工",
+            "tab" : "duplex",
+            "description" : "可指定端口的双工模式。若您速度选择自动将无法进行设置调整。\n 当在全双工 的数据交换模式下，数据可以在交换数据的双方以双向同时传输。\n 如果是使用半双工 时，则一次仅能有一方传输数据。"
+          },
+          {
+            "label" : "MTU",
+            "tab" : "mtu",
+            "description" : "指定端口的最大传输单位(MTU)。\n 选择自动则会使用预设的最大封包大小。\n 选择手动则可自行输入最大封包大小（以为bytes单位）。"
+          },
+          {
+            "label" : "区域",
+            "tab" : "zone",
+            "description" : "您可点击储存上一个画面指派的端口区域。如果您已经指定该端口连接至LAN或WAN区域，则此项目将无法设置。"
+          }
+        ]
+      },
+      {
+        "label" : "DHCP 池设置",
+        "tab" : "dhcp_pool_settings",
+        "description" : "可使用此页面将端口设为DHCP服务器或DHCP中继代理。",
+        "content" :
+        [
+          {
+            "label" : "DHCP 类型",
+            "tab" : "dhcp_type",
+            "description" : "若选择停用则此端口将不提供DHCP服务。您需要有一台DHCP服务器已在网络中运行或手动设置连接到这个端口的计算机IP地址。\n 选择DHCP服务器则会设置做为DHCP服务器。\n 选择DHCP中继则将会转发DHCP请求给其它网络上的DHCP服务器。"
+          },
+          {
+            "label" : "IP 起始地址",
+            "tab" : "start_ip_address",
+            "description" : "请输入DHCP地址范围的第一个IPv4地址， 将会分派IP地址给DHCP客户端。"
+          },
+          {
+            "label" : "IP 结束地址",
+            "tab" : "end_ip_address",
+            "description" : "请输入DHCP地址范围的最后一个IPv4地址， 将会分派IP地址给DHCP客户端。"
+          },
+          {
+            "label" : "租约时间",
+            "tab" : "lease_time",
+            "description" : "指定DHCP客户端可以使用分配的IP地址的时效（以秒计算）。"
+          },
+          {
+            "label" : "网关",
+            "tab" : "gateway",
+            "description" : "输入预设网关，它将会分配给DHCP客户端的IP地址使用。"
+          },
+          {
+            "label" : "DNS1",
+            "tab" : "dns1",
+            "description" : "输入常用DNS，它将会分配给DHCP客户端的IP地址使用"
+          },
+          {
+            "label" : "DNS2",
+            "tab" : "dns2",
+            "description" : "输入其他DNS，它将会分配给DHCP客户端的IP地址使用。"
+          },
+          {
+            "label" : "WINS1",
+            "tab" : "dns1",
+            "description" : "输入常用WINS，它将会分配给DHCP客户端的IP地址使用。"
+          },
+          {
+            "label" : "WINS2",
+            "tab" : "dns2",
+            "description" : "输入备用WINS，它将会分配给DHCP客户端的IP地址使用。"
+          },
+          {
+            "label" : "域名",
+            "tab" : "domain_name",
+            "description" : "端口输入的域名。"
+          }
+        ]
+      },
+      {
+        "label" : "IPV6设置",
+        "tab" : "ipv6_settings",
+        "description" : "可使用此页面查阅或配置端口的IPv6地址。您可以在页面中的网络联机>路由>路由模式页面来启用IPv6。",
+        "content" :
+        [
+          {
+            "label" : "IPv6地址",
+            "tab" : "ipv6_address",
+            "description" : "显示端口本机的IPv6地址，该地址是由自动产生。您可以手动指定固定的IPv6地址。"
+          },
+          {
+            "label" : "IPv6前缀长度",
+            "tab" : "ipv6_prefix_lengtth",
+            "description" : "显示IPv6的前缀长度。前缀长度相当于IPv4中的子网掩码。 输入一个新号码来指定该网络中有多少个IPv6地址。在同一网段中的主机其IPv6地址拥有共同的前缀。 "
+          }
+        ]
+      },
+      {
+        "label" : "IP别名。",
+        "tab" : "ip_alias",
+        "description" : "IP别名可以让您一个网络端口有多个路由的IP地址。\n 使用此页面可查看或设置端口的IP别名。如果您已经指定该端口连接至LAN或WAN区域，则此项目将无法设置。",
+        "content" :
+        [
+          {
+            "label" : "地址",
+            "tab" : "address",
+            "description" : "端口的IP地址。"
+          },
+          {
+            "label" : "掩码",
+            "tab" : "netmask",
+            "description" : "端口的子网掩码。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击编辑按钮可设置IP别名。\n 点击移除按钮可删除IP别名。\n 点击创建按钮可新增IP别名。"
+          }
+        ]
+      }
+    ]
+  },
+  "menu-8-1" :
+  {
+    "label" : "VLAN接口",
+    "tab" : "vlan_interfaces",
+    "description" : "您可以在物理端口上建立多个虚拟网络（VLANs）以将一个物理网络划分成多个虚拟网络。 每个VLAN都可以有自己的IP地址和一个专属ID。\n 使用此页面可建立或设置VLAN连接接口。如果您有相关的VLAN连接接口 与LAN连接接口或端口，您将只能改变其速度和MTU的设置。",
+    "content" :
+    [
+      {
+        "label" : "端口#",
+        "tab" : "port",
+        "description" : "VLAN 连接接口的索引号码。"
+      },
+      {
+        "label" : "名称",
+        "tab" : "name",
+        "description" : "此为VLAN 连接接口的名称。"
+      },
+      {
+        "label" : "接口",
+        "tab" : "interface",
+        "description" : "显示与VLAN连接接口对应的物理端口名称。"
+      },
+      {
+        "label" : "VID",
+        "tab" : "vid",
+        "description" : "此为VLAN连接接口的VLAN ID。"
+      },
+      {
+        "label" : "地址",
+        "tab" : "address",
+        "description" : "此为VLAN连接接口的IP地址。"
+      },
+      {
+        "label" : "DHCP 池",
+        "tab" : "dhcp_pool",
+        "description" : "此页面将显示VLAN连接接口使用的DHCP地址范围。"
+      },
+      {
+        "label" : "区域",
+        "tab" : "zone",
+        "description" : "此页面将显示VLAN连接接口分派的区域。"
+      },
+      {
+        "label" : "操作",
+        "tab" : "action",
+        "description" : "点击编辑按钮可设置VLAN连接接口项目\n 点击移除按钮可删除VLAN连接接口项目。\n 点击创建按钮可新增VLAN连接接口项目。\n 勾选复选框并点击删除钮，可删除指定的连接接口。"
+      }
+    ],
+    "editors" :
+    [
+      {
+        "label" : "基本设置",
+        "tab" : "basic_settings",
+        "description" : "使用此页面可设置VLAN连接接口的基本设置和端口的分派区域。",
+        "content" :
+        [
+          {
+            "label" : "名称",
+            "tab" : "name",
+            "description" : "输入VLAN端口的名称。"
+          },
+          {
+            "label" : "接口",
+            "tab" : "interface",
+            "description" : "选择您要在VLAN连接接口建立的物理网络端口。"
+          },
+          {
+            "label" : "VID",
+            "tab" : "vid",
+            "description" : "从VLAN连接接口输入一个编号(1~4094)。"
+          },
+          {
+            "label" : "地址",
+            "tab" : "address",
+            "description" : "输入VLAN连接接口的IPv4地址。如果您已经指定该端口连接至LAN或WAN区域，则此项目将无法设置。"
+          },
+          {
+            "label" : "掩码",
+            "tab" : "netmask",
+            "description" : "输入VLAN连接接口的网络屏蔽地址。如果您已经指定该端口连接至LAN或WAN区域，则此项目将无法设置。"
+          },
+          {
+            "label" : "MTU",
+            "tab" : "mtu",
+            "description" : "指定VLAN连接接口的最大传输单位(MTU)。\n 选择自动则会使用预设的最大封包大小。\n 选择手动则可自行输入最大封包大小（以为bytes单位）。"
+          },
+          {
+            "label" : "区域",
+            "tab" : "zone",
+            "description" : "您可点击储存上一个画面指派的端口区域。如果您已经指定该端口连接至LAN或WAN区域，则此项目将无法设置。"
+          }
+        ]
+      },
+      {
+        "label" : "DHCP池设置",
+        "tab" : "dhcp_pool_settings",
+        "description" : "可使用此页面将端口设为DHCP服务器或DHCP中继代理。",
+        "content" :
+        [
+          {
+            "label" : "DHCP类型",
+            "tab" : "dhcp_type",
+            "description" : "若选择停用则此端口将不提供DHCP服务。您需要有一台DHCP服务器已在网络中运行或手动设置连接到这个端口的计算机IP地址。\n 选择DHCP服务器则会设置做为DHCP服务器。\n 选择DHCP中继则将会转发DHCP请求给其它网络上的DHCP服务器。"
+          },
+          {
+            "label" : "IP 起始地址",
+            "tab" : "start_ip_address",
+            "description" : "请输入DHCP地址范围的第一个IPv4地址， 将会分派IP地址给DHCP客户端。"
+          },
+          {
+            "label" : "IP 结束地址",
+            "tab" : "end_ip_address",
+            "description" : "请输入DHCP地址范围的最后一个IPv4地址， 将会分派IP地址给DHCP客户端。"
+          },
+          {
+            "label" : "租约时间",
+            "tab" : "lease_time",
+            "description" : "指定DHCP客户端可以使用分配的IP地址的时效（以秒计算）。"
+          },
+          {
+            "label" : "网关",
+            "tab" : "gateway",
+            "description" : "输入预设网关，它将会分配给DHCP客户端的IP地址使用。"
+          },
+          {
+            "label" : "DNS1",
+            "tab" : "dns1",
+            "description" : "输入常用DNS，它将会分配给DHCP客户端的IP地址使用"
+          },
+          {
+            "label" : "DNS2",
+            "tab" : "dns2",
+            "description" : "输入其他DNS，它将会分配给DHCP客户端的IP地址使用。"
+          },
+          {
+            "label" : "WINS1",
+            "tab" : "dns1",
+            "description" : "输入常用WINS，它将会分配给DHCP客户端的IP地址使用。"
+          },
+          {
+            "label" : "WINS2",
+            "tab" : "dns2",
+            "description" : "输入备用WINS，它将会分配给DHCP客户端的IP地址使用。"
+          },
+          {
+            "label" : "域名",
+            "tab" : "domain_name",
+            "description" : "端口输入的域名。"
+          }
+        ]
+      },
+      {
+        "label" : "IPV6设置",
+        "tab" : "ipv6_settings",
+        "description" : "可使用此页面查阅或配置端口的IPv6地址。您可以在页面中的网络联机>路由>路由模式页面来启用IPv6。",
+        "content" :
+        [
+          {
+            "label" : "IPv6地址",
+            "tab" : "ipv6_address",
+            "description" : "显示端口本机的IPv6地址，该地址是由自动产生。您可以手动指定固定的IPv6地址。"
+          },
+          {
+            "label" : "IPv6前缀长度",
+            "tab" : "ipv6_prefix_lengtth",
+            "description" : "显示IPv6的前缀长度。前缀长度相当于IPv4中的子网掩码。 输入一个新号码来指定该网络中有多少个IPv6地址。在同一网段中的主机其IPv6地址拥有共同的前缀。 "
+          }
+        ]
+      },
+      {
+        "label" : "IP别名。",
+        "tab" : "ip_alias",
+        "description" : "IP别名可以让您一个网络端口有多个路由的IP地址。\n 使用此页面可查看或设置端口的IP别名。如果您已经指定该端口连接至LAN或WAN区域，则此项目将无法设置。",
+        "content" :
+        [
+          {
+            "label" : "地址",
+            "tab" : "address",
+            "description" : "端口的IP地址。"
+          },
+          {
+            "label" : "掩码",
+            "tab" : "netmask",
+            "description" : "端口的子网掩码。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击编辑按钮可设置IP别名。\n 点击移除按钮可删除IP别名。\n 点击创建按钮可新增IP别名。"
+          }
+        ]
+      }
+    ]
+  },
+  "menu-8-2" :
+  {
+    "label" : "LAN",
+    "tab" : "lan",
+    "description" : "使用此页面可建立或设置LAN连接接口。备注：您不能删除LAN连接接口的默认和访客项目。",
+    "content" :
+    [
+      {
+        "label" : "名称",
+        "tab" : "name",
+        "description" : "此为LAN接口的名称"
+      },
+      {
+        "label" : "地址",
+        "tab" : "address",
+        "description" : "此为LAN连接接口的IP地址。"
+      },
+      {
+        "label" : "DHCP 池",
+        "tab" : "dhcp_pool",
+        "description" : "此页面将显示LAN连接接口使用的DHCP地址范围。"
+      },
+      {
+        "label" : "接口",
+        "tab" : "interface",
+        "description" : "这是与该LAN连接接口对应的物理端口"
+      },
+      {
+        "label" : "区域",
+        "tab" : "zone",
+        "description" : "此页面将显示LAN连接接口分派的区域。"
+      },
+      {
+        "label" : "操作",
+        "tab" : "action",
+        "description" : "点击编辑按钮可设置LAN连接接口项目。\n 点击移除按钮可删除LAN连接接口项目。\n 点击创建按钮可新增LAN连接接口项目。\n 勾选复选框并点击删除钮，可删除指定的连接接口。"
+      }
+    ],
+    "editors" :
+    [
+      {
+        "label" : "基本设置",
+        "tab" : "basic_settings",
+        "description" : "使用此页面可设置LAN连接接口的基本设置和端口的分派区域。",
+        "content" :
+        [
+          {
+            "label" : "名称",
+            "tab" : "name",
+            "description" : "LAN端口的输入名称。"
+          },
+          {
+            "label" : "IP 地址",
+            "tab" : "ip_address",
+            "description" : "LAN连接接口输入的IPv4地址。如果您已经指定该端口连接至LAN或WAN区域，则此项目将无法设置。"
+          },
+          {
+            "label" : "掩码",
+            "tab" : "netmask",
+            "description" : "LAN连接接口输入的网络屏蔽地址。如果您已经指定该端口连接至LAN或WAN区域，则此项目将无法设置"
+          },
+          {
+            "label" : "生成树协议",
+            "tab" : "spanning_tree",
+            "description" : "选定该复选框使LAN连接接口上能启用生成树协议（STP），以防止桥接环路产生。"
+          },
+          {
+            "label" : "接口列表",
+            "tab" : "interface_list",
+            "description" : "此列表包含可用的物理网络端口。"
+          },
+          {
+            "label" : "添加/删除",
+            "tab" : "left_right_arrow",
+            "description" : "从接口列表中选择网络端口，然后点击右箭头新增端口到选定的接口列表，以便端口与LAN连接接口联系。否则，请从选定的接口列表选择端口，然后点击左箭头移动端口到接口列表。选定的接口列表：列表将列出要与LAN连接接口联系的物理网络端口。"
+          },
+          {
+            "label" : "选定的接口列表",
+            "tab" : "selected_interface_list",
+            "description" : "列表将列出要与LAN连接接口联系的物理网络端口"
+          },
+          {
+            "label" : "区域",
+            "tab" : "zone",
+            "description" : "您可点击储存上一个画面中LAN连接接口指派的端口区域。如果您已经指定该端口连接至LAN或WAN区域，则此项目将无法设置。"
+          }
+        ]
+      },
+      {
+        "label" : "DHCP 池设置",
+        "tab" : "dhcp_pool_settings",
+        "description" : "可使用此页面将端口设为DHCP服务器或DHCP中继代理。",
+        "content" :
+        [
+          {
+            "label" : "DHCP类型",
+            "tab" : "dhcp_type",
+            "description" : "若选择停用则此端口将不提供DHCP服务。您需要有一台DHCP服务器已在网络中运行或手动设置连接到这个端口的计算机IP地址。\n 选择DHCP服务器则会设置做为DHCP服务器。\n 选择DHCP中继则将会转发DHCP请求给其它网络上的DHCP服务器。"
+          },
+          {
+            "label" : "IP 起始地址",
+            "tab" : "start_ip_address",
+            "description" : "请输入DHCP地址范围的第一个IPv4地址， 将会分派IP地址给DHCP客户端。"
+          },
+          {
+            "label" : "IP 结束地址",
+            "tab" : "end_ip_address",
+            "description" : "请输入DHCP地址范围的最后一个IPv4地址， 将会分派IP地址给DHCP客户端。"
+          },
+          {
+            "label" : "租约时间",
+            "tab" : "lease_time",
+            "description" : "指定DHCP客户端可以使用分配的IP地址的时效（以秒计算）。"
+          },
+          {
+            "label" : "网关",
+            "tab" : "gateway",
+            "description" : "输入预设网关，它将会分配给DHCP客户端的IP地址使用。"
+          },
+          {
+            "label" : "DNS1",
+            "tab" : "dns1",
+            "description" : "输入常用DNS，它将会分配给DHCP客户端的IP地址使用"
+          },
+          {
+            "label" : "DNS2",
+            "tab" : "dns2",
+            "description" : "输入其他DNS，它将会分配给DHCP客户端的IP地址使用。"
+          },
+          {
+            "label" : "WINS1",
+            "tab" : "dns1",
+            "description" : "输入常用WINS，它将会分配给DHCP客户端的IP地址使用。"
+          },
+          {
+            "label" : "WINS2",
+            "tab" : "dns2",
+            "description" : "输入备用WINS，它将会分配给DHCP客户端的IP地址使用。"
+          },
+          {
+            "label" : "域名",
+            "tab" : "domain_name",
+            "description" : "端口输入的域名。"
+          }
+        ]
+      },
+      {
+        "label" : "IPV6设置",
+        "tab" : "ipv6_settings",
+        "description" : "可使用此页面查阅或配置端口的IPv6地址。您可以在页面中的网络联机>路由>路由模式页面来启用IPv6。",
+        "content" :
+        [
+          {
+            "label" : "IPv6地址",
+            "tab" : "ipv6_address",
+            "description" : "显示端口本机的IPv6地址，该地址是由自动产生。您可以手动指定固定的IPv6地址。"
+          },
+          {
+            "label" : "IPv6前缀长度",
+            "tab" : "ipv6_prefix_lengtth",
+            "description" : "显示IPv6的前缀长度。前缀长度相当于IPv4中的子网掩码。 输入一个新号码来指定该网络中有多少个IPv6地址。在同一网段中的主机其IPv6地址拥有共同的前缀。 "
+          }
+        ]
+      },
+      {
+        "label" : "IP别名。",
+        "tab" : "ip_alias",
+        "description" : "IP别名可以让您一个网络端口有多个路由的IP地址。\n 使用此页面可查看或设置端口的IP别名。如果您已经指定该端口连接至LAN或WAN区域，则此项目将无法设置。",
+        "content" :
+        [
+          {
+            "label" : "地址",
+            "tab" : "address",
+            "description" : "端口的IP地址。"
+          },
+          {
+            "label" : "掩码",
+            "tab" : "netmask",
+            "description" : "端口的子网掩码。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击编辑按钮可设置IP别名。\n 点击移除按钮可删除IP别名。\n 点击创建按钮可新增IP别名。"
+          }
+        ]
+      }
+    ]
+  },
+  "menu-8-3" :
+  {
+    "label" : "WAN",
+    "tab" : "wan",
+    "description" : "使用此页面可调整的WAN设置。",
+    "tabs" :
+    {
+      "wan_settings" :
+      {
+        "label" : "WAN设置",
+        "tab" : "wan_settings",
+        "description" : "使用此页面可设置或建立WAN连接接口。预设情况下，GE1将被分派到WAN1连接接口。",
+        "content":
+        [
+          {
+            "label" : "名称",
+            "tab" : "name",
+            "description" : "此为WAN 连接接口的名称。"
+          },
+          {
+            "label" : "描述",
+            "tab" : "description",
+            "description" : "显示WAN连接接口的描述名称。"
+          },
+          {
+            "label" : "WAN 类型",
+            "tab" : "wan_type",
+            "description" : "显示WAN连接接口是否被分派固定IP地址或从DHCP服务器获取IP地址。"
+          },
+          {
+            "label" : "IP 地址",
+            "tab" : "ip_address",
+            "description" : "此为WAN连接接口的IP地址。"
+          },
+          {
+            "label" : "物理端口",
+            "tab" : "physical_port",
+            "description" : "这是与该WAN连接接口对应的物理端口。"
+          },
+          {
+            "label" : "权重",
+            "tab" : "weight",
+            "description" : "显示WAN连接接口的权数。"
+          },
+          {
+            "label" : "备份",
+            "tab" : "backup",
+            "description" : "如果目前的WAN连接接口发生失败将启用备用的WAN连接接口。"
+          },
+          {
+            "label" : "区域",
+            "tab" : "zone",
+            "description" : "此页面将显示WAN连接接口分派的区域。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击编辑按钮可设置WAN连接接口项目。\n 点击移除按钮可删除WAN连接接口项目。\n 点击创建按钮可新增WAN连接接口项目。\n 勾选复选框并点击删除钮，可删除指定的连接接口。"
+          }
+        ],
+        "editors" :
+        [
+          {
+            "label" : "基本设置",
+            "tab" : "basic_settings",
+            "description" : "使用此页面可设置WAN连接接口的基本设置和端口的分派区域。",
+            "content" :
+            [
+              {
+                "label" : "名称",
+                "tab" : "name",
+                "description" : "此为WAN 连接接口的名称。此名称是由自动产成，无法更改。"
+              },
+              {
+                "label" : "描述",
+                "tab" : "description",
+                "description" : " 输入对WAN连接接口的描述。"
+              },
+              {
+                "label" : "端口设置",
+                "tab" : "port_setting",
+                "description" : "选择您要与WAN连接接口对应的网络端口。"
+              },
+              {
+                "label" : "区域",
+                "tab" : "zone",
+                "description" : "您可点击储存上一个画面中WAN连接接口指派的端口区域。"
+              },
+              {
+                "label" : "IP 分配方式",
+                "tab" : "ip_assigment_method",
+                "description" : "选择DHCP让WAN连接接口从所连接的DHCP服务器获取IP地址。\n 选择固定可为WAN连接接口设置一个固定IP地址和子网掩码。"
+              },
+              {
+                "label" : "IP 地址",
+                "tab" : "ip_address",
+                "description" : "如果您选择固定IP，需输入WAN连接接口的IPv4地址。 "
+              },
+              {
+                "label" : "掩码",
+                "tab" : "sub_mask",
+                "description" : "如果您选择固定IP，需输入WAN连接接口的子网掩码。"
+              },
+              {
+                "label" : "网关",
+                "tab" : "gateway",
+                "description" : "如果您选择固定IP，需输入WAN连接接口的默认网关来转送数据。"
+              },
+              {
+                "label" : "MTU",
+                "tab" : "mtu",
+                "description" : "指定连接接口的最大传输单位(MTU)。\n 选择自动将会使用预设设置。\n 选择手动则可自行输入最大封包大小（以为bytes单位）。"
+              },
+              {
+                "label" : "DNS",
+                "tab" : "dns",
+                "description" : "选择自动连接接口将从联机的DHCP服务器获取DNS服务器的IP地址。\n 若选择手动则需要自行输入惯用与其他DNS的IP地址。"
+              },
+              {
+                "label" : "MAC 地址",
+                "tab" : "mac_address",
+                "description" : "选择自动WAN将会使用默认的MAC地址。\n 选择手动则需要自行输入MAC地址。"
+              }
+            ]
+          },
+          {
+            "label" : "多WAN口设置",
+            "tab" : "multiple_wan_settings",
+            "description" : "使用此页面可设置以及多WAN连接接口的优先层级。",
+            "content" :
+            [
+              {
+                "label" : "权重",
+                "tab" : "weight",
+                "description" : "选择WAN连接接口的权数。\n 很低- 10\n 低 - 30\n 一般 - 50\n 高 - 70\n 很高 -90"
+              },
+              {
+                "label" : "检测周期",
+                "tab" : "detect_link_by",
+                "description" : "选择发送一个ping指令的测试联机到默认网关（预设情况下）。您也可以选择一个IP地址来针对指定的主机发送Ping指令。\n 选择DNS查询会发送一个DNS查询的测试联机到DNS服务器（预设情况下）。您也可以选择一个IP地址来针对指定的主机发送DNS查询。"
+              },
+              {
+                "label" : "当链接出现故障时，激活",
+                "tab" : "if_link_fails_activate",
+                "description" : "S选择一个备用WAN连接接口，这将会在目前WAN连接接口无法正常执行时启用。"
+              }
+            ]
+          },
+          {
+            "label" : "IPv6设置",
+            "tab" : "ipv6_settings",
+            "description" : "可使用此页面查阅或设置端口的IPv6地址。您可以在页面中的网络联机>路由>路由模式页面来启用IPv6。",
+            "content" :
+            [
+              {
+                "label" : "P地址分配",
+                "tab" : "ip_address_assignment",
+                "description" : "选择SLAAC（无状态地址自动配置）将会由自动链接建立WAN连接接口的本机地址。选择固定IP则需设置WAN连接接口的固定IP地址，前缀长度，默认网关和DNS服务器地址。"
+              },
+              {
+            "label" : "IPv6地址",
+            "tab" : "ipv6_address",
+            "description" : "显示端口本机的IPv6地址，该地址是由自动产生。您可以手动指定固定的IPv6地址。"
+          },
+          {
+            "label" : "IPv6前缀长度",
+            "tab" : "ipv6_prefix_lengtth",
+            "description" : "显示IPv6的前缀长度。前缀长度相当于IPv4中的子网掩码。 输入一个新号码来指定该网络中有多少个IPv6地址。在同一网段中的主机其IPv6地址拥有共同的前缀。 "
+              },
+              {
+                "label" : "默认 IPv6 网关",
+                "tab" : "default_ipv6_gateway",
+                "description" : "输入默认网关的IPv6地址。"
+              },
+              {
+                "label" : "首选 DNS 服务器",
+                "tab" : "primary_dns_server",
+                "description" : "输入惯用 DNS 服务器的IPv6地址。"
+              },
+              {
+                "label" : "备用 DNS 服务器",
+                "tab" : "secondary_dns_server",
+                "description" : "输入其他 DNS 服务器的IPv6地址。"
+              }
+            ]
+          },
+          {
+            "label" : "IP 别名",
+            "tab" : "ip_alias",
+            "description" : "IP别名可以让您一个网络端口有多个路由的IP地址。\n 使用此页面可查看或设置端口的IP别名。如果您已经指定该端口连接至LAN或WAN区域，则此项目将无法设置。",
+            "content" :
+            [
+              {
+            "label" : "地址",
+            "tab" : "address",
+            "description" : "端口的IP地址。"
+          },
+          {
+            "label" : "掩码",
+            "tab" : "netmask",
+            "description" : "端口的子网掩码。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击编辑按钮可设置IP别名。\n 点击移除按钮可删除IP别名。\n 点击创建按钮可新增IP别名。"
+              }
+            ]
+          }
+        ]
+      },
+      "multiwan_setting" :
+      {
+        "label" : "多WAN口设置",
+        "tab" : "multiwan_setting",
+        "description" : "使用此页面可调整多WAN口的负载平衡设置。",
+        "content" :
+        [
+          {
+            "label" : "负载平衡和故障转移",
+            "tab" : "load_balance",
+            "description" : "选择此选项可让每个流量能根据其优先层级来进行发送。取得较高层级的WAN连接接口其流量传输带宽将大于层级较低的连接串流。如果主要WAN连接接口无法正常转发时将会启用备用的WAN连接接口。"
+          },
+          {
+            "label" : "检测周期",
+            "tab" : "detection_period",
+            "description" : "指定传送ping或是DNS查询确认WAN联机状态的侦测周期(在 Multiple WAN 设置页面中指定)。"
+          },
+          {
+            "label" : "Relay 侦测数",
+            "tab" : "detection_relay",
+            "description" : "指定传送ping或是DNS查询时，若无法取得对方响应而判定该WAN连接接口断线的上限次数。"
+          },
+          {
+            "label" : "路由表模式",
+            "tab" : "routing_mode",
+            "description" : "您可在网络联机> 路由 > 静态路由页面中指定的流量转送设置。当此WAN联机正常时，设备不会使用建立WAN连接接口时的的默认路由。"
+          }
+        ]
+      },
+      "default_dns" :
+      {
+        "label" : "默认DNS设置",
+        "tab" : "default_dns",
+        "description" : "使用此页面可设置WAN连接接口，默认惯用和其他DNS服务器的IP地址。点击 储存 以套用您的变更。当没有任何WAN连接接口时，可使用DNS设置来查询域名。\n 备注：当启用桥接时，您必须在此页面布局DNS设置。"
+      }
+    }
+  },
+  "menu-8-4" :
+  {
+    "label" : "区域",
+    "tab" : "zone",
+    "description" : "使用此页面可以查阅的区域设置或建立一个区域。",
+    "content" :
+    [
+      {
+        "label" : "名称",
+        "tab" : "name",
+        "description" : "此为区域名称。"
+      },
+      {
+        "label" : "安全级别",
+        "tab" : "security_level",
+        "description" : "显示区域的安全层级。"
+      },
+      {
+        "label" : "包含的成员列表：",
+        "tab" : "joined_member_list",
+        "description" : "显示分配给该区域的端口和/或接口名称。"
+      },
+      {
+        "label" : "操作",
+        "tab" : "action",
+        "description" : "可点击 编辑 按钮来设置区域。\n 点击移除按钮可删除区域。\n 点击创建按钮可新增区域。\n 勾选复选框并点击删除钮，可删除指定的连接接口。"
+      }
+    ],
+    "editor" :
+    [
+      {
+        "label" : "名称",
+        "tab" : "name",
+        "description" : "输入的区域名称。."
+      },
+      {
+        "label" : "安全级别",
+        "tab" : "security_level",
+        "description" : "可输入一个数字从0到100来指定该区域的安全层级。数字越高，代表是越安全的区域。预设的防火墙策略是自动设置安全层级。具有较高安全层级的区域可以传送去具有较低安全层级的区域，而从具有较低安全层级区域的传送不能进入预设建立具有更高安全层级的区域。"
+      },
+      {
+        "label" : "成员列表",
+        "tab" : "member_list",
+        "description" : "此列表包含上可用的物理端口或接口。"
+      },
+      {
+        "label" : "添加/删除",
+        "tab" : "left_right_arrow",
+        "description" : "从接口列表中选择端口或接口，然后点击右箭头新增端口到用户登入列表，以便分派区域。否则，请从接口列表选择端口，然后点击左箭头移动端口到用户列表。"
+      },
+      {
+        "label" : "包含成员列表",
+        "tab" : "joined_member_list",
+        "description" : "这里列出分派到该区域的端口或接口。"
+      }
+    ]
+  },
+  "menu-9-0-0" :
+  {
+    "label" : "路由",
+    "tab" : "routing",
+    "description" : "使用此页面可为WAN和LAN之间的流量传递选择路由模式。\n 如果ISP仅分派您一个IP地址，并且在您的内网有多台主机需要共享时可选择NAT模式。\n 如果您网络中的每台主机都可以从ISP获得一个独立的IP地址，则可选择典型路由模式。\n 您也可以使用此页面设置传送IPv4封包时，仅可用IPv4网络或是也可使用IPv6网络。\n IPv6 (因特网通讯协议第6版) IP地址长度从32位增加到128位，并且比IPv4提供更大的IP地址空间。但目前释出的固件版本中防火墙、VPN和其他的安全防护服务不支持IPv6。\n 点击 保存 可套用您新的设置。"
+  },
+  "menu-9-0-1" :
+  {
+    "label" : "静态路由",
+    "tab" : "static_routing",
+    "description" : "使用此页面可查阅和管理上的静态路由。",
+    "content" :
+    [
+      {
+        "label" : "目标网络",
+        "tab" : "destinated_network",
+        "description" : " 显示指定流量传输的路由主机或网络的地址名称。"
+      },
+      {
+        "label" : "下一跳",
+        "tab" : "next_hop",
+        "description" : "显示接口/物理网络端口或是路由中下一站网关的地址名称。"
+      },
+      {
+        "label" : "度量值",
+        "tab" : "metric",
+        "description" : "此为路由等价路径计算。其数值是用来决定路径的优先层级。"
+      },
+      {
+        "label" : "操作",
+        "tab" : "action",
+        "description" : "可点击 编辑 按钮来设置路由。\n 点击移除按钮可删除路由。\n 点击创建按钮可新增路由。\n 呢勾选复选框并点击删除钮，可删除所选定的路由项目。"
+      }
+    ],
+    "editor" :
+    [
+      {
+        "label" : "静态路由编辑",
+        "tab" : "static_routing_editor",
+        "description" : "使用此页面可建立一个新路由或编辑现有的。",
+        "content" :
+        [
+          {
+            "label" : "目标网络",
+            "tab" : "destinated_network",
+            "description" : "请从下拉选单中选择现有的对象地址。 否则，请选择新建地址，在页面中您可以建立一个新的对象地址。可至对象>地址> 地址列表 中查阅详细信息。"
+          },
+          {
+            "label" : "配置为默认路由",
+            "tab" : "configure_as_default_route",
+            "description" : "选择此选项可以使用这条路线做为预设路由。您可在WAN的 路由列表模式> Multiple WAN设置 中进行设置。"
+          },
+          {
+            "label" : "下一跳",
+            "tab" : "next_hop",
+            "description" : "选择接口并选择透过哪个连接接口或物理网络端口进行指定路由的流量传送。\n 选择IP地址，然后选择确定做为下一站网关的对象IP地址。下一跳路径有助于流量转发到目标主机/网络。"
+          },
+          {
+            "label" : "度量值",
+            "tab" : "metric",
+            "description" : "输入一个数字来设置路由的优先层级。当多个路由为同一目标建立，将使用具有最低度量值的路由。数值越低，优先层级越高。"
+          }
+        ]
+      }
+    ]
+  },
+  "menu-9-1-0" :
+  {
+    "label" : "IPSec 策略",
+    "tab" : "ipsec_policies",
+    "description" : "VPN (虚拟私有网络) 隧道连接两个路由器，以确保两台路由器后端的独立网络之间传输的流量。\n VPN 隧道是建立在两段之间。在第一阶段（阶段1）通讯双方建立一个安全通道，进行IKE（因特网密钥交换）验证。在第二阶段（阶段2），会建立其他安全服务所使用的密钥，且第一阶段所建立密钥可以用來建立许多第二阶段的密钥来保护VPN流量。VPN策略设置将在建立VPN通道时套用。 \n VPN策略设置将在建立VPN通道时套用。\n 使用此页面可以查阅和管理上的IPSec VPN 策略。",
+    "content" :
+    [
+      {
+        "label" : "启用(checkbox)",
+        "tab" : "enable",
+        "description" : "选定此复选框以开启在的点对点VPN功能。"
+      },
+      {
+        "label" : "名称",
+        "tab" : "name",
+        "description" : "显示VPN的策略名称。"
+      },
+      {
+        "label" : "启用",
+        "tab" : "enables",
+        "description" : "显示策略是否开启。"
+      },
+      {
+        "label" : "状态",
+        "tab" : "status",
+        "description" : "说明VPN联机是处于連线或中断。"
+      },
+      {
+        "label" : "WAN",
+        "tab" : "wan",
+        "description" : "显示的WAN连接接口， 透过此VPN隧道传送VPN流量。"
+      },
+      {
+        "label" : "对端地址",
+        "tab" : "peers",
+        "description" : "显示连接建立VPN隧道的远程路由器IP地址。"
+      },
+      {
+        "label" : "本地网络",
+        "tab" : "local",
+        "description" : "显示后端透过VPN隧道发送流量的本机网络地址的对象名称。"
+      },
+      {
+        "label" : "远程网络",
+        "tab" : "remote",
+        "description" : "说明远程路由器透过VPN隧道后端发送流量的远程网络地址的对象名称。"
+      },
+      {
+        "label" : "IKE",
+        "tab" : "ike",
+        "description" : "显示VPN策略使用的IKE策略名称。"
+      },
+      {
+        "label" : "转换策略ID",
+        "tab" : "transform",
+        "description" : "显示VPN策略使用的转换策略名称。"
+      },
+      {
+        "label" : "操作",
+        "tab" : "action",
+        "description" : "可点击 编辑 按钮来设置策略。\n 点击移除按钮可删除策略。\n 点击联机按钮可启用VPN联机。\n 点击断线按钮可中断VPN联机。\n 点击创建按钮可新增策略。\n 选定策略并点击删除钮，可删除策略项目。"
+      }
+   ],
+    "editors" :
+    [
+      {
+        "label" : "基本设置",
+        "tab" : "basic_settings",
+        "description" : "使用此页面可设置VPN策略的基本设置。 ",
+        "content" :
+        [
+          {
+            "label" : "描述",
+            "tab" : "description",
+            "description" : "策略的描述名称。"
+          },
+          {
+            "label" : "启用",
+            "tab" : "enable",
+            "description" : "选定启用的策略。"
+          },
+          {
+            "label" : "对端地址类型",
+            "tab" : "remote_type",
+            "description" : "如果远程路由器是使用从DHCP服务器接收的浮动IP地址，请选择浮动IP选项。\n 如果远程路由器是使用固定IP地址，请选择固定IP选项。在远程地址字段中输入固定IP地址。\n 如果远程路由器是使用域名，请选择固定FQDN选项(例如 vpn.titan.com)。在远程地址字段中输入域名。"
+          },
+          {
+            "label" : "认证方法",
+            "tab" : "authentication_method",
+            "description" : "输入最多255个字母数字字符做为验证远程路由的密钥。 设备和远程路由器必须使用相同的密钥才能建立VPN联机。"
+          },
+          {
+            "label" : "WAN 接口",
+            "tab" : "wan_interface",
+            "description" : "选择透过WAN连接接口传递的VPN流量。"
+          },
+          {
+            "label" : "本地网络",
+            "tab" : "local_network",
+            "description" : "选择一个地址对象来指定允许使用VPN通道的后端的本机网络。\n 选择任何您可以使用访问控制页面来管制远程网络VPN隧道到指定区域的传入流量。"
+          },
+          {
+            "label" : "远程网络",
+            "tab" : "remote_network",
+            "description" : "选择一个地址对象来指定允许使用VPN隧道联机远程路由器后端的远程网络。"
+          }
+        ]
+      },
+      {
+        "label" : "高级设置",
+        "tab" : "advance_settings",
+        "description" : "使用此页面可设置VPN策略的高级设置。",
+        "content" :
+        [
+          {
+            "label" : "PFS",
+            "tab" : "pfs",
+            "description" : "选择此选项可启用完美远期加密（PFS），以提高VPN的安全性。当PFS启用后，会建立密钥分发及交换，且第一阶段所建立密钥可以用來与第二阶段的密钥进行沟通。\n 同时和远程路由必须支持PFS才能正常运作此功能。"
+          },
+          {
+            "label" : "DPD",
+            "tab" : "dpd",
+            "description" : "选择此选项可启用联机侦测（DPD）来检测VPN通道的另一端远程路由器是否仍处于联机状态。这有助于最小化确认对方可用性所需的讯息数量。"
+          },
+          {
+            "label" : "延迟时间",
+            "tab" : "delay_time",
+            "description" : "指定DPD RU-THERE讯息之间的时间间隔（以秒为单位）。 只有当VPN隧道处于闲置状态，并且远程没有任何VPN流量传递，才会发送DPD RU-THERE讯息。"
+          },
+          {
+            "label" : "检测超时",
+            "tab" : "detection_timeout",
+            "description" : "输入的超时秒数为等待来自远程的响应或VPN流量传递的时间。"
+          },
+          {
+            "label" : "DPD操作",
+            "tab" : "dpd_action",
+            "description" : "选择当远程断线时采取的行动。\n 选择保持等待到远程重新联机。从后端的本机网络VPN流量可以触发重新启动VPN联机。建议您选择此选项时，远程节点使用固定IP地址。\n 选择清除以删除VPN隧道。您需要手动重新启动VPN隧道。 建议您 选择此选项时，远程节点使用浮动IP地址。\n选择重启会尝试重新启动VPN隧道三次。"
+          },
+          {
+            "label" : "IKE策咯",
+            "tab" : "ike",
+            "description" : "选择VPN策略要使用的IKE策略名称。"
+          },
+          {
+            "label" : "转换转换",
+            "tab" : "transform",
+            "description" : "显示VPN策略使用的转换策略名称。"
+          }
+        ]
+      },
+      {
+        "label" : "VPN 故障转移",
+        "tab" : "vpn_failover",
+        "description" : "使用此页面可以设置IPSec策略的故障转移。",
+        "content" :
+        [
+          {
+            "label" : "启用 WAN 故障转移",
+            "tab" : "wan_failover_enable",
+            "description" : "选择此选项，可在主要WAN连接接口无法正常转发VPN流量时启用备用的WAN连接接口。为支持此功能，您需要在设置动态DNS或设置远程路由使用浮动IP地址（请参阅基本设置画面的远程类型）。"
+          },
+          {
+            "label" : "冗余网关",
+            "tab" : "redundant_gateway",
+            "description" : "选择此选项可让使用替代的IPSec策略来连接到远程备份路由器，在建立新的VPN联机主要远程路由器失败时使用。 若要使用此功能您必须启用DPD功能。"
+          },
+          {
+            "label" : "选择备份策略",
+            "tab" : "select_backup_policy",
+            "description" : "选择一个VPN策略做为IPSec备份策略。"
+          },
+          {
+            "label" : "从备份切换到主要的时间",
+            "tab" : "fallback_time",
+            "description" : "将定期检查惯用的远程路由器是否有被启动。\n 输入秒数是必须经过确认主要隧道已经从故障中恢复的时间。如果主隧道在指定的时间内被启动，将会停用备份隧道转换为主隧道。可输入3 ~ 59秒之间的参数值。默认值为5秒。\n 备注：若您要为IPsec VPN使用冗余网关您必须启用DPD功能。"
+          }
+        ]
+      },
+      {
+        "label" : "访问控制",
+        "tab" : "access_control",
+        "description" : "使用此页面可以设置VPN策略的访问控制设置。您可在IPSec策略>基本设置页面中设置本机网络的策略。",
+        "content" :
+        [
+          {
+            "label" : "区域列表",
+            "tab" : "to_zone_list",
+            "description" : "此为建立的区域名称。"
+          },
+          {
+            "label" : "访问类型",
+            "tab" : "access_setting",
+            "description" : "选择允许，远程网络流量将可透过VPN隧道进入该区域。\n 选择拒绝，将会阻挡远程网络透过VPN隧道前往该区域。"
+          }
+        ]
+      }
+    ]
+  },
+  "menu-9-1-1" :
+  {
+    "label" : "IKE 策略",
+    "tab" : "ike_policy",
+    "description" : "因特网密钥交换（IKE）是用于建立两个IPSec路由之间的安全参数组合（SA）的协议。它使用的迪菲－赫尔曼密钥交换（DH）产生密钥对数据进行加密，并使用验证算法来验证对端路由器的身份。 可使用接口来管理或建立IKE策略，它定义了阶段1建立使用的安全参数（IKE SA）。",
+    "content" :
+    [
+      {
+        "label" : "名称",
+        "tab" : "name",
+        "description" : "显示IKE策略名称。"
+      },
+      {
+        "label" : "加密类型",
+        "tab" : "encryption",
+        "description" : "显示在这个策略中使用的加密算法。"
+      },
+      {
+        "label" : "认证方法：",
+        "tab" : "authentication",
+        "description" : "显示在这个策略中使用的验证算法。"
+      },
+      {
+        "label" : "D-H 组",
+        "tab" : "d_h_group",
+        "description" : "显示在这个策略中使用的D-H 组。"
+      },
+      {
+        "label" : "生存时间",
+        "tab" : "lifetime",
+        "description" : "显示IKE SA的有效日期。"
+      },
+      {
+        "label" : "操作",
+        "tab" : "action",
+        "description" : "可点击 编辑 按钮来设置策略。\n 点击移除按钮可删除策略。\n 点击创建按钮可新增策略。\n 选定策略并点击删除钮，可删除策略项目"
+      }
+    ],
+    "editor" :
+    [
+      {
+        "label" : "IKE 策略编辑",
+        "tab" : "ike_policy_editor",
+        "description" : "使用此页面可以新增或编辑现有的IKE策略。",
+        "content" :
+        [
+          {
+            "label" : "名称",
+            "tab" : "name",
+            "description" : "KE的策略名称。"
+          },
+          {
+            "label" : "加密类型",
+            "tab" : "encryption",
+            "description" : "选择与IKE SA沟通使用的加密算法。DES (数据加密标准)属于区块加密法，每次加密解密的区块大小均为64 位。它将使用 分享的密钥来加解密文件。3DES设计用来增加DES的密钥长度来避免暴力破解。 AES (高级加密标准) 是新的数据加密方式用来取代DES并且比3DES执行效能更快速。\n ESP_DES  是使用56位的密钥长度。\n ESP_3DES 是比 ESP_DES 更安全并且使用的是168位的密钥长度。\n ESP_AES的区块长度固定为128 位，密钥长度则可以是128，192或256位，来进行加解密的动作。"
+          },
+          {
+            "label" : "认证方式",
+            "tab" : "authentication",
+            "description" : "选择验证算法 (SHA_1 或 MD5) 来与IKE SA进行沟通。\n MD5 (讯息概要算法第五版) 是输入不定长度讯息，输出固定长度128-bits的算法。经过程序流程，SHA-1可将一个2的64次方位元讯息，转换成一串160位的讯息概要。SHA1安全性是比MD5要来的高。"
+          },
+          {
+            "label" : "D-H 组",
+            "tab" : "d_h_group",
+            "description" : "选择IPSec路由将共享使用的D-H 组密钥。\n 选项设置分为  组2 (1024 bits)、组5 (1536 bits)、组14 (2048 bits)、  组15 (3072 bits)、  组16 (4096 bits)、  组17 (6144 bits)  和 组18 (8192 bits)。较长的密钥提供比短密钥更安全的加密。但在速度上较短的密钥可在较短时间内完成加解密动作。"
+          },
+          {
+            "label" : "生存时间",
+            "tab" : "lifetime",
+            "description" : "指定IKE SA的有效日期。较短的生命周期能提供更安全的ISAKMP(因特网安全关联钥匙管理协议)沟通。"
+          }
+        ]
+      }
+    ]
+  },
+  "menu-9-1-2" :
+  {
+    "label" : "转换策略",
+    "tab" : "transform_policy",
+    "description" : "使用此页面来建立或管理转换策略，它用于建立IPSec在阶段2的SA安全参数。",
+    "content" :
+    [
+      {
+        "label" : "名称",
+        "tab" : "name",
+        "description" : "显示转换策略的名称。"
+      },
+      {
+        "label" : "加密类型",
+        "tab" : "encryption",
+        "description" : "显示在这个策略中使用的加密算法。"
+      },
+      {
+        "label" : "认证方式",
+        "tab" : "authentication",
+        "description" : "显示在这个策略中使用的验证算法。"
+      },
+      {
+        "label" : "PFS 组",
+        "tab" : "pfs_group",
+        "description" : "显示在这个策略中使用的PFS密钥组。"
+      },
+      {
+        "label" : "生存时间",
+        "tab" : "lifetime",
+        "description" : "显示转移SA的有效日期。"
+      },
+      {
+        "label" : "操作",
+        "tab" : "action",
+        "description" : "可点击 编辑 按钮来设置策略。\n 点击移除按钮可删除策略。\n 点击创建按钮可新增策略。\n 选定策略并点击删除钮，可删除策略项目。"
+      }
+    ],
+    "editor" :
+    [
+      {
+        "label" : "转移策略编辑",
+        "tab" : "transform_policy_editor",
+        "description" : "使用此页面可以新增或编辑现有的转移策略。",
+        "content" :
+        [
+          {
+            "label" : "名称",
+            "tab" : "name",
+            "description" : "转换策略的名称。"
+          },
+          {
+            "label" : "加密类型",
+            "tab" : "encryption",
+            "description" : "选择用于保护IPSec VPN与IPSec路由器之间数据传输安全的 加密算法。DES (数据加密标准)属于区块加密法，每次加密解密的区块大小均为64 位。它将使用 分享的密钥来加解密文件。3DES设计用来增加DES的密钥长度来避免暴力破解。AES (高级加密标准) 是新的数据加密方式用来取代DES并且比3DES执行效能更快速。\n ESP_DES  是使用56位的密钥长度。\n ESP_3DES 是比 ESP_DES 更安全并且使用的是168位的密钥长度。\n ESP_AES的区块长度固定为128 位，密钥长度则可以是128，192或256位，来进行加解密的动作。"
+          },
+          {
+            "label" : "认证方式",
+            "tab" : "authentication",
+            "description" : "选择验证算法 (SHA_1 或 MD5) 来与IKE SA进行沟通。\n MD5 (讯息概要算法第五版) 是输入不定长度讯息，输出固定长度128-bits的算法。经过程序流程，SHA-1可将一个2的64次方位元讯息，转换成一串160位的讯息概要。SHA1安全性是比MD5要来的高。"
+          },
+          {
+            "label" : "PFS Group",
+            "tab" : "d_h_group",
+            "description" : "使用PFS，以确保IPSec SA的密钥不是取用既有已建立的IKE SA密钥。选择IPSec路由 将共享使用的D-H 组密钥。\n 选项设置分为组2 (1024 bits)、 组5 (1536 bits)、 组14 (2048 bits)、 组15 (3072 bits)、组16  (4096 bits)、 组17 (6144 bits) 和组18 (8192 bits)。 较长的密钥提供比短密钥更安全的加密。但在速度上较短的密钥可在较短时间内完成加解密动作。"
+          },
+          {
+            "label" : "生存时间",
+            "tab" : "lifetime",
+            "description" : "指定IKE SA的有效日期。较短的生命周期能提供更安全的ISAKMP(因特网安全关联钥匙管理协议)沟通。"
+          }
+        ]
+      }
+    ]
+  },
+  "menu-10-0" :
+  {
+    "label" : "规则",
+    "tab" : "rules",
+    "description" : "防火墙允许您设置区域的访问控制。防火墙规则是按照在列表中出现的顺序进行套用。 用户自定义的防火墙规则优先层级高于默认的防火墙规\n 在没有任何用户自定义规则的情况下将会使用默认的防火墙规则。您无法删除或重新排序默认的防火墙规则，或由系统自动产生的防火墙规则。请参阅下表预设的防火墙策略。",
+    "tabs" :
+    {
+      "rule" :
+      {
+        "label" : "规则",
+        "tab" : "rule",
+        "description" : "使用此页面可查阅所有的防火墙规则并且可自定义新增或管理防火墙策略。您可以点击右上角的分类按钮来指定此页面上的显示项目。",
+        "content" :
+        [
+          {
+            "label" : "选择规则表对应标准",
+            "tab" : "criterion",
+            "description" : "设置以下条件，点击查询按钮进行搜寻，只显示您希望在此页面中看到的防火墙规则。\n 来源区域 - 选择传送流量的来源区域。\n 传送区域 - 选择接收流量的目标区域。\n 默认规则 - 选择此选项将会显示默认的防火墙规则。\n VPN 规则 - 选择此选项可显示正在透过VPN隧道传输流量的防火墙规则。\n NAT 规则 - 选择此选项可显示，自动建立的每个NAT防火墙规则。"
+          },
+          {
+            "label" : "优先级",
+            "tab" : "priority",
+            "description" : "显示在列表中的防火墙规则数量。防火墙规则的顺序优先安排很重要。"
+          },
+          {
+            "label" : "启用",
+            "tab" : "enable",
+            "description" : "此项显示防火墙规则是否启用。"
+          },
+          {
+            "label" : "来自区域",
+            "tab" : "fromZone",
+            "description" : "此为流量来源端的区域名称。将套用此规则到流量的来源区域。"
+          },
+          {
+            "label" : "传送区域",
+            "tab" : "toZone",
+            "description" : "此为流量传送端的区域名称。将套用此规则到流量的接收区域。"
+          },
+          {
+            "label" : "源地址",
+            "tab" : "src_addr",
+            "description" : "显示来源地址的对象名称。将套用此规则在有与来源地址匹配的封包。"
+          },
+          {
+            "label" : "目标地址",
+            "tab" : "dst_addr",
+            "description" : "显示目标地址的对象名称。将套用此规则在有与目标地址匹配的封包。"
+          },
+          {
+            "label" : "服务",
+            "tab" : "service",
+            "description" : "显示套用此规则的服务名称。"
+          },
+          {
+            "label" : "时间表",
+            "tab" : "schedule",
+            "description" : "显示在这个规则中使用的时间表工作名称。时间表定义将会被规则套用。"
+          },
+          {
+            "label" : "计数器",
+            "tab" : "hit",
+            "description" : "显示该规则被套用于匹配流量的次数。"
+          },
+          {
+            "label" : "日志",
+            "tab" : "log",
+            "description" : "无论任何流量只要匹配此规则就会建立一个日志。"
+          },
+          {
+            "label" : "匹配操作",
+            "tab" : "match_action",
+            "description" : "表示在发生与规则相符时的匹配操作。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击编辑按钮可设置规则。\n 点击移除按钮可删除规则。\n 点击上移，规则将会上移一行。\n 点击下移，规则将会下移一行。"
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "启用",
+            "tab" : "enable",
+            "description" : "启用的规则"
+          },
+          {
+            "label" : "来自区域",
+            "tab" : "fromZone",
+            "description" : " 择流量来源端的区域名称。"
+          },
+          {
+            "label" : "传送区域",
+            "tab" : "to_zone",
+            "description" : "选择流量传送端的区域名称。"
+          },
+          {
+            "label" : "源地址",
+            "tab" : "source",
+            "description" : "选择使用此规则的来源地址。套用此规则到流量的来源区域。"
+          },
+          {
+            "label" : "目的地址",
+            "tab" : "destination",
+            "description" : "择使用此规则的目标地址。套用此规则到流量的接收区域。"
+          },
+          {
+            "label" : "服务/App/URL",
+            "tab" : "service_app_url",
+            "description" : "选择使用此规则的服务。该规则只适用于指定的服务。"
+          },
+          {
+            "label" : "时间表",
+            "tab" : "schedule",
+            "description" : "选择使用此规则的时间表。时间表定义将会被规则套用。"
+          },
+          {
+            "label" : "日志",
+            "tab" : "log",
+            "description" : "Select this option to have the TitanWALL create a log when the rule is applied."
+          },
+          {
+            "label" : "匹配操作",
+            "tab" : "match_action",
+            "description" : "选择允许表示允许匹配的流量进入。\n 选择拒绝表示会阻挡匹配的流量进入。\n 选择计数会统计套用此规则的次数。该数量会显示在安全防护仪表板的拒绝数量中。\n 如果您修改了规则设置，该计数将会归零。"
+          }
+        ]
+      },
+      "default_policy" :
+      {
+        "label" : "默认策略",
+        "tab" : "default_policy",
+        "description" : "使用此页面可启用默认防火墙规则此项目将不同于您手动建立的规则。根据它们所属区域的安全层级设置建立默认的防火墙规则。",
+        "content" :
+        [
+          {
+            "label" : "From Zone",
+            "tab" : "from_zone",
+            "description" : "此为流量来源端的区域名称。将套用此规则到流量的来源区域。"
+          },
+          {
+            "label" : "To Zone",
+            "tab" : "to_zone",
+            "description" : "将套用此规则到流量的来源区域。"
+          },
+          {
+            "label" : "匹配操作",
+            "tab" : "match_action",
+            "description" : "选择允许表示允许匹配的流量进入。\n 选择拒绝表示会阻挡匹配的流量进入。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-10-1-0" :
+  {
+    "label" : "动态 PAT",
+    "tab" : "dynamic_pat",
+    "description" : "动态端口地址转译 (动态PAT)让您可将多个私人地址和来源端口转译为一个公用地址和一个独特的动态端口。每个连接都具有相同的映像地址，但使用不同来源的端口。当远程可以联机到后端主机时，防火墙允许它和映射的来源端口不会改变。",
+    "tabs" :
+    {
+      "pat_settings" :
+      {
+        "label" : "PAT 设置",
+        "tab" : "pat_settings",
+        "description" : "使用此页面可以启用或停用动态PAT。",
+        "content" :
+        [
+          {
+            "label" : "接口名称",
+            "tab" : "interface_name",
+            "description" : "显示通讯流量的LAN连接接口或物理端口名称。"
+          },
+          {
+            "label" : "地址",
+            "tab" : "interface_address",
+            "description" : "表示传入流量的来源IP地址将会被转译。"
+          },
+          {
+            "label" : "WANx",
+            "tab" : "wanx",
+            "description" : "选择WAN复选框来启用动态PAT和从LAN连接接口的来源IP地址映像到WAN连接接口的公用IP地址。如果清除该复选框，从LAN连接接口使用来源IP地址的流量将连接到其它网络。"
+          }
+        ]
+      },
+      "wan_address_settings" :
+      {
+        "label" : "WAN 地址设置",
+        "tab" : "wan_address_settings",
+        "description" : "使用此页面可设置当已启用动态PAT 时，将一个LAN IP地址映像成一个 WAN IP地址。",
+        "content" :
+        [
+          {
+            "label" : "WAN",
+            "tab" : "wan",
+            "description" : "此为WAN 连接接口的名称。将一个来源端的LAN IP地址映像成一个WAN IP地址。"
+          },
+          {
+            "label" : "模式",
+            "tab" : "mode",
+            "description" : "表示是否将LAN IP地址映像到WAN IP地址（自动）或指定一个IP地址（手动）。"
+          },
+          {
+            "label" : "地址",
+            "tab" : "address",
+            "description" : "显示动态PAT的WAN IP地址。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击编辑开启页面，您就可更改动态PAT的WAN IP地址。"
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "WAN接口",
+            "tab" : "wan_interface",
+            "description" : "此为WAN 连接接口的名称。"
+          },
+          {
+            "label" : "模式",
+            "tab" : "mode",
+            "description" : "选择自动将会从LAN 来源IP地址链接到WAN的原始IP地址。选择手动并指定一个预先定义的地址对象。\n 选择手动并指定一个预先定义的地址对象。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-10-1-1" :
+  {
+    "label" : "静态 NAT",
+    "tab" : "static_nat",
+    "description" : "使用此页面可以查阅和管理固定地址的对应规则。来自本机主机私有IP的封包未被转换为指定的公共IP地址之前，将会为其转换到公共网络，反之亦然。远程可以随时使用映射的公共IP来存取指定私有IP的主机。",
+    "content" :
+    [
+      {
+        "label" : "序号",
+        "tab" : "seq",
+        "description" : "静态NAT规则的索引编号。"
+      },
+      {
+        "label" : "WAN接口",
+        "tab" : "wan_interface",
+        "description" : "表示传输封包的WAN名称。"
+      },
+      {
+        "label" : "公有IP",
+        "tab" : "public_ip",
+        "description" : "此为公共地址的名称，它定义了转发到WAN专用IP地址时将被映像的名称。"
+      },
+      {
+        "label" : "私有IP",
+        "tab" : "private_ip",
+        "description" : "此为私有地址的名称，它定义此规则匹配封包的私有IP地址名称。"
+      },
+      {
+        "label" : "操作",
+        "tab" : "action",
+        "description" : "点击编辑按钮可设置规则。\n 点击移除按钮可删除规则。"
+      }
+    ],
+    "editor" :
+    [
+      {
+        "label" : "WAN 接口",
+        "tab" : "wan_interface",
+        "description" : "选择指定传输私有IP地址封包的WAN端口。"
+      },
+      {
+        "label" : "公有 IP",
+        "tab" : "public_ip",
+        "description" : "选择匹配封包的IP地址映像到一个指定地址。"
+      },
+      {
+        "label" : "私有 IP",
+        "tab" : "private_ip",
+        "description" : "选择一个地址来指定此规则匹配封包的原始IP地址。"
+      }
+    ]
+  },
+  "menu-10-1-2" :
+  {
+    "label" : "端口转发",
+    "tab" : "port_forwarding",
+    "description" : "端口转送的功能是将外部联机转向到内部服务器或本机其他端口，例如FTP服务器、邮件服务器或是网页服务器，其通常具有专属的IP地址并且布署应用程序服务在NAT路由器（）的本机网络。\n 使用此页面可以查看和管理端口转送服务并可指定内网IP的转送服务。",
+    "content" :
+    [
+      {
+        "label" : "序号",
+        "tab" : "seq",
+        "description" : "此为列表规则的索引编号。"
+      },
+      {
+        "label" : "描述",
+        "tab" : "description",
+        "description" : "描述规则的名称。"
+      },
+      {
+        "label" : "原始服务",
+        "tab" : "orig_service",
+        "description" : "显示外部联机服务的远程主机。"
+      },
+      {
+        "label" : "转换后服务",
+        "tab" : "trans_service",
+        "description" : "显示您需要进行联机转址的服务。"
+      },
+      {
+        "label" : "私有IP转址",
+        "tab" : "trans_private_ip",
+        "description" : "您指定转址传入内部服务器的私有IP地址。"
+      },
+      {
+        "label" : "WAN",
+        "tab" : "wan",
+        "description" : "显示接收到外部传入服务的WAN端口。"
+      },
+      {
+        "label" : "WAN IP",
+        "tab" : "wan_ip",
+        "description" : "显示内部服务器的公共IP地址。"
+      },
+      {
+        "label" : "操作",
+        "tab" : "action",
+        "description" : "点击编辑可变更规则设置。\n 点击移除按钮可删除规则。"
+      }
+    ],
+    "editor" :
+    [
+      {
+        "label" : "服务",
+        "tab" : "service",
+        "description" : "指定外部联机服务的远程主机。"
+      },
+      {
+        "label" : "转换后服务",
+        "tab" : "trans_service",
+        "description" : "选择指定您要转址传入的服务和端口。"
+      },
+      {
+        "label" : "私有IP转址",
+        "tab" : "trans_private_ip",
+        "description" : "选择指定内部服务器的私有IP地址。"
+      },
+      {
+        "label" : "WAN",
+        "tab" : "wan",
+        "description" : "选择要在其接收传入服务的WAN连接接口。当您选择一个特定的WAN连接接口，WAN IP地址将会套用给内部服务器做为公共IP地址使用。"
+      },
+      {
+        "label" : "描述",
+        "tab" : "description",
+        "description" : "输入规则的描述名称。"
+      }
+    ]
+  },
+  "menu-10-1-3" :
+  {
+    "label" : "端口触发",
+    "tab" : "port_trigger",
+    "description" : "端口触发让接收到由主机在内网中使用特定的端口号和协议（TCP或UDP）发送的传送流量响应打开指定的输入端口。的流量转发到指定的输入端口上的本地主机的IP地址，并在数据交换完成时的600秒（10分钟）之后关闭端口。\n 使用该接口可查阅和管理端口触发的规则。",
+    "content" :
+    [
+      {
+        "label" : "序号",
+        "tab" : "seq",
+        "description" : "此为列表规则的索引编号。"
+      },
+      {
+        "label" : "描述",
+        "tab" : "description",
+        "description" : "描述规则的名称。"
+      },
+      {
+        "label" : "触发服务",
+        "tab" : "trigger_service",
+        "description" : "显示后端本地主机发送的服务。"
+      },
+      {
+        "label" : "开启服务",
+        "tab" : "opened_service",
+        "description" : "显示远程主机并触发开启指定端口的服务。"
+      },
+      {
+        "label" : "操作",
+        "tab" : "action",
+        "description" : "点击编辑可变更规则设置。\n 点击移除按钮可删除规则。"
+      }
+    ],
+    "editor" :
+    [
+      {
+        "label" : "启用",
+        "tab" : "enable",
+        "description" : "选择要启用的规则。"
+      },
+      {
+        "label" : "触发服务",
+        "tab" : "trigger_service",
+        "description" : "选择一个服务对象来指定本地主机发送到远程主机的传送服务。"
+      },
+      {
+        "label" : "开启服务",
+        "tab" : "opened_service",
+        "description" : "选择一个服务对象来指定远程主机发送的传送服务。"
+      },
+      {
+        "label" : "描述",
+        "tab" : "description",
+        "description" : "输入规则的描述名称。"
+      }
+    ]
+  },
+  "menu-10-1-4" :
+  {
+    "label" : "高级 NAT",
+    "tab" : "advanced_nat",
+    "description" : "您还可以设置高级NAT规则来指定原始来源/目标地址和原有的服务和新的来源/目标和服务，当符合匹配条件时进行转译。\n 使用此页面可以查阅和管理高级NAT规则。",
+    "content" :
+    [
+      {
+        "label" : "序号",
+        "tab" : "seq",
+        "description" : "此为列表规则的索引编号。"
+      },
+      {
+        "label" : "启用",
+        "tab" : "enable",
+        "description" : "显示规则是否启用或停用。"
+      },
+      {
+        "label" : "从",
+        "tab" : "from",
+        "description" : "显示传送匹配封包的连接接口或物理端口。"
+      },
+      {
+        "label" : "到",
+        "tab" : "to",
+        "description" : "显示接收匹配封包的连接接口或物理端口。"
+      },
+      {
+        "label" : "原始源地址",
+        "tab" : "orig_src_addr",
+        "description" : "显示匹配封包规则的原始发送端IP地址。"
+      },
+      {
+        "label" : "原始目标地址",
+        "tab" : "orig_dst_addr",
+        "description" : "显示匹配封包规则的原始接收端IP地址。"
+      },
+      {
+        "label" : "原始服务",
+        "tab" : "orig_serivce",
+        "description" : "显示匹配封包规则的原始服务。"
+      },
+      {
+        "label" : "转换后来源地址",
+        "tab" : "trans_src_addr",
+        "description" : "显示匹配封包规则的新来源IP地址。."
+      },
+      {
+        "label" : "转换后目标地址",
+        "tab" : "trans_dst_addr",
+        "description" : "显示匹配封包规则的新目标IP地址。"
+      },
+      {
+        "label" : "转换后服务",
+        "tab" : "trans_service",
+        "description" : "显示匹配封包规则的新服务。"
+      },
+      {
+        "label" : "操作",
+        "tab" : "action",
+        "description" : "点击编辑可变更规则设置。点击移除按钮可删除规则。"
+      }
+    ],
+    "editor" :
+    [
+      {
+        "label" : "启用",
+        "tab" : "enable",
+        "description" : "选择要启用的规则。"
+      },
+      {
+        "label" : "从",
+        "tab" : "from",
+        "description" : "选择传送匹配封包的连接接口或物理端口。"
+      },
+      {
+        "label" : "到",
+        "tab" : "to",
+        "description" : "选择接收匹配封包的连接接口或物理端口。"
+      },
+      {
+        "label" : "原始源地址",
+        "tab" : "orig_src_addr",
+        "description" : "选择一个地址对象来指定匹配封包规则的原始发送端IP地址。"
+      },
+      {
+        "label" : "原始目标地址",
+        "tab" : "orig_dst_addr",
+        "description" : "选择一个地址对象来指定匹配封包规则的原始接收端IP地址。"
+      },
+      {
+        "label" : "原始服务",
+        "tab" : "orig_serive",
+        "description" : "指定匹配封包规则的原始服务。"
+      },
+      {
+        "label" : "转换后来源地址",
+        "tab" : "trans_src_addr",
+        "description" : "选择一个地址为匹配封包指定新的（映像）来源IP地址。"
+      },
+      {
+        "label" : "转换后目标地址",
+        "tab" : "trans_dst_addr",
+        "description" : "选择一个地址为匹配封包指定新的（映像）目标IP地址。"
+      },
+      {
+        "label" : "转换后服务",
+        "tab" : "trans_service",
+        "description" : "选择一个服务来为匹配封包指定使用的新服务。"
+      }
+    ]
+  },
+  "menu-10-2" :
+  {
+    "label" : "ALG",
+    "tab" : "alg",
+    "description" : "应用层网关（ALG）允许NAT不兼容的应用程序，例如SIP或H.323。支援SIP、H.323和FTP的ALG。 \n 使用此页面可以启用上的ALG功能。例如，为了让VoIP流量穿过，您需要选择支持SIP协议或H.323的VoIP设备/应用程序协议。从打开所需的VoIP流量端口。点击储存以套用您的新设置。 \n FTP ALG仅做动在FTP主动模式，以使用其中FTP客户端使用发送命令到FTP服务器提供IP地址和端口号。 FTP服务器将使用地址讯息创建FTP客户端的数据信道。"
+  },
+  "menu-10-3" :
+  {
+    "label" : "VPN隧道",
+    "tab" : "vpn_passthrough",
+    "description" : "使用此页面可开启VPN 隧道功能， 这将可使得VPN串流能 够通过进行传输。 您还可依需求选择不同的VPN传输类型(L2TP, PPTP or IPSec)。点击储存以套用您的新设置。"
+  },
+  "menu-10-4" :
+  {
+    "label" : "超时设置",
+    "tab" : "session_settings",
+    "description" : "可允许同一时间最多可有1350000 个会话数。当达到限制时，任何新联机都将被排除。使用此页面可以指定删除没有活动的联机。",
+    "content" :
+    [
+      {
+        "label" : "TCP 超时",
+        "tab" : "tcp_timeout",
+        "description" : "您可输入一个超时参数值（单位：秒），用以指定闲置的TCP联机多久会被关闭。"
+      },
+      {
+        "label" : "UDP 超时",
+        "tab" : "udp_timeout",
+        "description" : "您可输入一个超时参数值（单位：秒），用以指定闲置的UDP联机多久会被关闭。"
+      },
+      {
+        "label" : "其他超时",
+        "tab" : "other_timeout",
+        "description" : "您可输入一个超时参数值（单位：秒），用以指定其他闲置的联机（TCP或UDP）多久会被关闭。"
+      }
+    ]
+  },
+  "menu-10-5" :
+  {
+    "label" : "攻击防护",
+    "tab" : "attack_protection",
+    "description" : "使用此页面功能能保护您的和网络免受攻击，例如端口扫描，网络阻断攻击，等等。",
+    "content" :
+    [
+      {
+        "label" : "阻止到WAN口的Ping",
+        "tab" : "block_ping",
+        "description" : "选定该复选框以拒绝向WAN端口接收Ping封包。这可以防止攻击者使用ICMP Echo（PING）要求发现您的网络。建议您允许ping响应命令的时机，仅在用于诊断目的时。"
+      },
+      {
+        "label" : "启用端口扫描防护",
+        "tab" : "enable_port_scan_protection",
+        "description" : "选定复选框，将会拒绝来自外部探测WAN开放端口的行为。"
+      },
+      {
+        "label" : "启用 TCP Flood攻击防护",
+        "tab" : "enable_tcp_flooding_protection",
+        "description" : "您的可以处理高达每秒200个TCP封包同时进行。选定复选框将会拒绝在WAN端口上接收的TCP封包。这有助于防止TCP阻断攻击。 SYN 阻断攻击是一种DoS类型的攻击。这是一种利用TCP协议缺陷，发送大量伪造的TCP连接请求，从而使得被攻击方资源耗尽的攻击方式。"
+      },
+      {
+        "label" : "启用 UDP Flood攻击防护",
+        "tab" : "enable_udp_flooding_protection",
+        "description" : "您的可以处理高达每秒200个UDP封包同时进行。选定复选框将会拒绝在WAN端口上接收的UDP封包。这有助于防止UDP阻断攻击。 "
+      },
+      {
+        "label" : "阻止ICMP返回消息",
+        "tab" : "block_icmp_notification",
+        "description" : "选定复选框将会拒绝匹配防火墙规则的封包，而不发送ICMP通知给寄件人。某些协议，例如MTU路径搜寻，将需要ICMP通知。"
+      },
+      {
+        "label" : "阻止碎片数据包",
+        "tab" : "block_fragmented_packets",
+        "description" : "选定复选框来拒绝区域间传送任何的碎片封包。"
+      },
+      {
+        "label" : "阻止组播数据包",
+        "tab" : "block_multicast_packets",
+        "description" : "选定复选框来拒绝区域之间传输任何的多点传输封包。在这里您设置的优先层级高于允许区域之间任何账号定义的多点传输封包规则。"
+      },
+      {
+        "label" : "SYN Flood攻击阈值",
+        "tab" : "syn_flood_threshold",
+        "description" : "输入SYN封包被允许的每秒最大数量。当达到临界值时，将认为已经发生SYN攻击入侵并拒绝任何新的SYN封包。 输入0以停用此功能。"
+      },
+      {
+        "label" : "Echo风暴攻击阈值",
+        "tab" : "echo_storm_threshold",
+        "description" : "输入ping请求 被允许的每秒最大数量。当达到临界值时，将认为已经发生Echo风暴攻击入侵并拒绝任何新的ping请求。输入0以停用此功能。"
+      },
+      {
+        "label" : "ICMP Flood攻击阈值",
+        "tab" : "icmp_flood_threshold",
+        "description" : "输入ICMP封包 被允许的每秒最大数量。当达到临界值时，将认为已经发生ICMP攻击入侵并拒绝任何新的ICMP封包。输入0以停用此功能。"
+      }
+    ]
+  },
+  "menu-10-6" :
+  {
+    "label" : "MAC地址绑定",
+    "tab" : "ip_mac_binding",
+    "description" : "",
+    "content" :
+    [
+      {
+        "label" : "启用",
+        "tab" : "enable",
+        "description" : "启用MAC地址绑定"
+      },
+      {
+        "label" : "模式",
+        "tab" : "mode",
+        "description" : "仅允许: 仅允许列表中的IP/MAC地址流量通过，阻止其它不再列表中的流量，\n 仅阻止：仅阻止列表中的IP/MAC地址流量，其他流量均允许其通过。"
+      }
+    ],
+    "editor" :
+    [
+      {
+        "label" : "描述",
+        "tab" : "dsrcpt",
+        "description" : "输入IP的描述"
+      },
+      {
+        "label" : "IP",
+        "tab" : "ip",
+        "description" : "设置绑定所用的IP地址"
+      },
+      {
+        "label" : "MAC",
+        "tab" : "mac",
+        "description" : "设置MAC地址. MAC地址格式 11:22:33:44:55:66"
+      },
+      {
+        "label" : "确定",
+        "tab" : "ok",
+        "description" : "点此按钮来保存您的更改，并关闭页面"
+      },
+      {
+        "label" : "取消",
+        "tab" : "cancel",
+        "description" : "点此按钮将不会对配置做任何更改并关闭页面"
+      }
+    ]
+  },
+  "menu-11-0" :
+  {
+    "label" : "用户和组",
+    "tab" : "users_and_groups",
+    "description" : "点击用户 > 用户 & 组可查看及设置的用户列表及组列表。 ",
+    "tabs" :
+    {
+      "group" :
+      {
+        "label" : "组",
+        "tab" : "group_table",
+        "description" : "使用此页面可以查阅和管理（创建，修改，删除）所有设置。您可以使用用户组在同一时间对同一服务的策略套用相应的用户成员。请注意，一个用户只能加入一个用户组。",
+        "content" :
+        [
+          {
+            "label" : "组名",
+            "tab" : "name",
+            "description" : "用户组名。"
+          },
+          {
+            "label" : "组成员",
+            "tab" : "user_membership",
+            "description" : "显示组中用户的名称。"
+          },
+          {
+            "label" : "权限",
+            "tab" : "services",
+            "description" : "显示套用到该组的服务策略。\n 停用：将不允许所有用户登入到操作设置页面。\n 只读：用户可登入到操作设置页面，进行查阅但无法变更设置。\n 管理员：此权限的用户可登入到操作设置页面，进行查阅与变更设置。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击编辑图示以变更组设置。 \n 点击 删除 图标，可删除该组。您无法删除预设组。"
+          }
+        ],
+        "editors" :
+        [
+          {
+            "label" : "组设置",
+            "tab" : "group_settings",
+            "description" : "点击用户> 用户 & 组 >组列表旁边的创建图标或编辑图标来打开下面的用户组。点击确定按钮以储存设置。 点击取消按钮将不会储存您的设置并且关闭页面。 ",
+            "content" :
+            [
+              {
+                "label" : "名称",
+                "tab" : "name",
+                "description" : "用户组名。"
+              },
+              {
+                "label" : "权限",
+                "tab" : "services",
+                "description" : "被选定在禁用 组的用户将无法存取操作设置接口。 被选定在只读 组的用户将可存取操作设置页面，但该组的用户无法变更页面的相关设置。 被选定在管理 组的用户将可存取设置页面与变更设置。"
+              }
+            ]
+          },
+          {
+            "label" : "成员",
+            "tab" : "group_membership",
+            "description" : "点击成员页签中的用户 > 用户 & 组 > 组列表 > 创建/编辑页面来开启以下页面。使用此页面可以创建或编辑该组的用户成员。点击确定按钮以储存设置。点击取消按钮将不会储存您的设置并且关闭页面。",
+            "content" :
+            [
+              {
+                "label" : "用户列表",
+                "tab" : "user_list",
+                "description" : "此列表框中列出所有可用的用户。 点击一个或多个用户，然后点击向右箭头按钮，将其创建到加入用户列表中。"
+              },
+              {
+                "label" : "包含的用户列表",
+                "tab" : "joined_user",
+                "description" : "此列表框中列出所有被分配组的用户。若要从组中删除一个或多个用户，请从登入列表中选择用户，然后点击左箭头。"
+              }
+            ]
+          }
+        ]
+      },
+      "user" :
+      {
+        "label" : "用户",
+        "tab" : "user_table",
+        "description" : "点击用户页签中的用户 > 用户 & 组页面来开启以下页面。使用此页面可以查看与编辑的用户账号。",
+        "content" :
+        [
+          {
+            "label" : "用户名",
+            "tab" : "user_name",
+            "description" : "用户账号名称。"
+          },
+          {
+            "label" : "所属组",
+            "tab" : "user_group",
+            "description" : "列出用户所属的组。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "user_action",
+            "description" : "点击编辑图示以变更用户设置。点击删除图标，可删除该用户。"
+          }
+        ],
+        "editors" :
+        [
+          {
+            "label" : "用户",
+            "tab" : "account",
+            "description" : "点击用户> 用户 & 组 >用户列表旁边的创建图标或编辑图标来打开下面的用户组。 使用此页面可以查阅与编辑的用户账号。",
+            "content" :
+            [
+              {
+                "label" : "用户名",
+                "tab" : "user",
+                "description" : "用户账号名称。"
+              },
+              {
+                "label" : "密码",
+                "tab" : "password",
+                "description" : "输入用户账号密码。"
+              },
+              {
+                "label" : "新密码确认",
+                "tab" : "new_password_confirm",
+                "description" : "再次输入用户账号密码。"
+              }
+            ]
+          },
+          {
+            "label" : "所属组",
+            "tab" : "membership",
+            "description" : "点击所属组页签中的用户 > 用户 & 组 > 组列表 > 创建/编辑页面来开启以下页面。可从用户组中选择组的下拉选单来选定对应的组。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-12-0" :
+  {
+    "label" : "地址",
+    "tab" : "addressObj",
+    "description" : "地址项目可以是单个IP地址或是一个IP地址范围。 地址组将会包括一些对象地址。 它也可以包含其它的地址组。",
+    "tabs" :
+    {
+      "group_address" :
+      {
+        "label" : "地址组列表",
+        "tab" : "group_address",
+        "description" : "一 个地址组是由多个地址项目和其他组地址组成。支持64个地址组。一个地址组最多可包含64个地址成员。本组页签提供所有地址组的概要信息。您可以在此页面中新增，编辑或删除组地址。地址类型可以是主机名、范围、网络、或MAC。\n 在地址组列表中，点击组地址项目的名称，可显示对应的详细信息。",
+        "content" :
+        [
+          {
+            "label" : "#",
+            "tab" : "index",
+            "description" : "这是列表中组 地址的索引编号。"
+          },
+          {
+            "label" : "名称",
+            "tab" : "name",
+            "description" : "这是每个地址组的名称。点击组地址项目的名称，可显示对应的详细地址信息及类型。"
+          },
+          {
+            "label" : "地址详情",
+            "tab" : "address_detail",
+            "description" : "可显示地址组的详细信息，包括类型和IP地址，范围和网络屏蔽。"
+          },
+          {
+            "label" : "类型",
+            "tab" : "type",
+            "description" : "一个地址组可以包括不同类型的地址：\n 如果对象是独立的IP地址将会显示主机名。\n 如果对象是一组连续性的IP地址将会显示IP范围。\n 如果对象是定义为IP地址和网络屏蔽将会显示为网络地址。\n 如果对象定义为MAC地址将会显示对应的MAC地址。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击编辑图标可以变更地址组的设置。点击删除图示可以进行删除。"
+          },
+          {
+            "label" : "创建",
+            "tab" : "create",
+            "description" : "点击创建按钮可新增地址组。"
+          },
+          {
+            "label" : "删除",
+            "tab" : "delete",
+            "description" : "您可选取单一或多个地址组并点击删除按钮即可同时删除多个组。"
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "组名",
+            "tab" : "group_name",
+            "description" : "输入的组名。"
+          },
+          {
+            "label" : "地址列表/已选定地址",
+            "tab" : "address_list",
+            "description" : "如果您想 将一个地址项目新增到组中，请从地址列表中选定它，然后点击向右箭头。移动项目到选定列表中。若要从组中删除一个地址项目，请从选定地址列表中选择地址项目，然后点击左箭头。选定地址的详细信息、名称、类型和设置将显示在该页面的下半部分。"
+          },
+          {
+            "label" : "确定",
+            "tab" : "ok",
+            "description" : "点击此按钮将会储存您的设置并且关闭页面。"
+          },
+          {
+            "label" : "取消",
+            "tab" : "cancel",
+            "description" : "点击此按钮将不会储存您的设置并且关闭页面。"
+          }
+        ]
+      },
+      "address" :
+      {
+        "label" : "地址类型",
+        "tab" : "address",
+        "description" : "地址项目可以是单个IP地址或是一个IP地址范围。的地址列表配置了常用的地址列表，以便您可以使用它来配置防火墙规则，端口转址规则，或其他功能。您也可以设置一个自定义的地址项目。",
+        "content" :
+        [
+          {
+            "label" : "#",
+            "tab" : "index",
+            "description" : "这是列表中地址的索引编号。"
+          },
+          {
+            "label" : "名称",
+            "tab" : "name",
+            "description" : "这是每个地址的名称。"
+          },
+          {
+            "label" : "地址详情",
+            "tab" : "address_detail",
+            "description" : "可显示地址的详细信息，包括类型和IP地址，范围和网络屏蔽。"
+          },
+          {
+            "label" : "类型",
+            "tab" : "type",
+            "description" : "如果对象是独立的IP地址将会显示主机名。\n 如果对象是一组连续性的IP地址将会显示IP范围。\n 如果对象是定义为IP地址和网络屏蔽将会显示为网络地址。\n 如果对象定义为MAC地址将会显示对应的MAC地址。"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "点击编辑图标可以变更地址的设置。 \n 点击删除图示可以进行删除。如果对象没有 删除图标您将无法删除它。"
+          },
+          {
+            "label" : "创建",
+            "tab" : "create",
+            "description" : "点击创建按钮可新增地址。"
+          },
+          {
+            "label" : "删除",
+            "tab" : "delete",
+            "description" : "您可选取单一或多个地址并点击删除按钮即可同时删除多个地址。 "
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "名称",
+            "tab" : "name",
+            "description" : "输入的地址名称。"
+          },
+          {
+            "label" : "类型",
+            "tab" : "type",
+            "description" : "如果选择主机类型，您可以设置使用独立IP地址的主机名。主机地址项目的网络屏蔽将被自动设置为255.255.255.255， 以确定它是一个独立的主机。\n 如果您选择网络做为地址类型，请在网络屏蔽字段中输入在地址字段中的子网IP地址和网络屏蔽。网络地址项目包括多个主机，但范围是由一个有效的子网屏蔽来定义，而不是IP地址。网络地址项目必须由网络地址和相应的屏蔽来定义。 不能使用在网络中（网络地址）的启始地址，和最后一个地址（广播地址）。\n 如果您选择范围做为地址类型，请在对应的字段中输入起始IP地址和结束IP地址。地址范围项目定义了一系列连续的IP地址。\n 如果您选择MAC地址类型，请在MAC栏中输入主机的MAC地址。MAC地址项目是透过其硬件地址或MAC（媒体访问控制）地址来识别的主机。"
+          },
+          {
+            "label" : "确定",
+            "tab" : "ok",
+            "description" : "点击此按钮将会储存您的设置并且关闭页面。"
+          },
+          {
+            "label" : "取消",
+            "tab" : "cancel",
+            "description" : "点击此按钮将不会储存您的设置并且关闭页面。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-12-1" :
+  {
+    "label" : "服务",
+    "tab" : "serviceObj",
+    "description" : "服务项目可以被用来定义ICMP讯息，并应用在TCP和UDP上。可以建立服务组项目，使相同的规则可以应用于其他功能。",
+    "tabs" :
+    {
+      "group_service" :
+      {
+        "label" : "服务组列表",
+        "tab" : "group_service",
+        "description" : "当需要建立多个服务相同的规则，您可以使用组服务，而不用为每个服务单独建立规则。服务组可以由多个服务和其他服务组组成，但它将被视为一个单一的服务。 支持多达64个服务组。服务组最多可以包括64名成员。 \n 在服务组页面中，点击组地址的名称，可显示对应的详细信息。",
+        "content" :
+        [
+          {
+            "label" : "#",
+            "tab" : "index",
+            "description" : "这是列表中服务组的索引编号。"
+          },
+          {
+            "label" : "名称",
+            "tab" : "name",
+            "description" : "这是每个组的服务名称。\n 点击该组的服务名称，以显示其协议和起始/结束端口的信息。"
+          },
+          {
+            "label" : "协议",
+            "tab" : "protocol",
+            "description" : "显示协议和服务组的端口范围。"
+          },
+          {
+            "label" : "起始端口/IP/ICMP类型",
+            "tab" : "port_start",
+            "description" : "可显示以端口范围、IP或ICMP类型为服务组的起始端口号。"
+          },
+          {
+            "label" : "结束端口",
+            "tab" : "port_end",
+            "description" : "显示服务端口范围的结束端口。"
+          },
+          {
+            "label" : "编辑",
+            "tab" : "action",
+            "description" : "点击编辑图示可以变更服务组的设置。点击删除图示可以进行删除。"
+          },
+          {
+            "label" : "创建",
+            "tab" : "create",
+            "description" : "点击创建按钮可新增服务组。"
+          },
+          {
+            "label" : "删除",
+            "tab" : "delete",
+            "description" : "您可选取单一或多个服务组并点击删除按钮即可同时删除多个服务组。"
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "组名",
+            "tab" : "group_name",
+            "description" : "输入服务组的名称。"
+          },
+          {
+            "label" : "服务列表/已选择",
+            "tab" : "service_list",
+            "description" : "如果您想将一个服务组新增到组中，请从地址列表中选定它，然后点击向右箭头。它将会被新增至已选定的服务列表中。若要从组中删除一个服务项目，请从服务选择列表中选择地址项目，然后点击左箭头。所选服务的详细信息、名称、类型和设置将显示在该页面的下半部分。"
+          },
+          {
+            "label" : "确定",
+            "tab" : "ok",
+            "description" : "点击此按钮将会储存您的设置并且关闭页面。"
+          },
+          {
+            "label" : "取消",
+            "tab" : "cancel",
+            "description" : "点击此按钮将不会储存您的设置并且关闭页面。"
+          }
+        ]
+      },
+      "service" :
+      {
+        "label" : "服务列表",
+        "tab" : "service",
+        "description" : "可使用此服务页面，以维护服务项目。它们被用来定义ICMP讯息并应用在TCP和UDP。 的地址列表配置了常用的地址列表，以便您可以使用它来配置防火墙规则，端口转址规则，或其他功能。如果您想自定义配置服务功能，并不是直接在标准列表中进行，而是您首要必须先定义服务项目。",
+        "content" :
+        [
+          {
+            "label" : "#",
+            "tab" : "index",
+            "description" : "这是服务列表中的索引编号。"
+          },
+          {
+            "label" : "名称",
+            "tab" : "name",
+            "description" : "这是每一个服务的名称。"
+          },
+          {
+            "label" : "协议",
+            "tab" : "protocol",
+            "description" : "显示协议和服务的端口范围。"
+          },
+          {
+            "label" : "起始端口/IP/ICMP类型",
+            "tab" : "port_start",
+            "description" : "可显示以端口范围、IP或ICMP类型为服务组的起始端口号。"
+          },
+          {
+            "label" : "结束端口",
+            "tab" : "port_end",
+            "description" : "显示服务端口范围的结束端口。"
+          },
+          {
+            "label" : "编辑",
+            "tab" : "action",
+            "description" : "点击编辑图示可以变更服务组的设置。点击删除图示可以进行删除。"
+          },
+          {
+            "label" : "创建",
+            "tab" : "create",
+            "description" : "点击创建按钮可新增服务组。"
+          },
+          {
+            "label" : "删除",
+            "tab" : "delete",
+            "description" : "您可选取单一或多个服务并点击删除按钮即可同时删除多个服务组。"
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "名称",
+            "tab" : "name",
+            "description" : "输入服务的名称。"
+          },
+          {
+            "label" : "协议",
+            "tab" : "protocol",
+            "description" : "指定协议和服务的端口范围。\n 您可以让服务同时使用TCP和UDP协议 。在端口范围的开始和结束字段输入对应的端口。\n 如果您想确保讯息能正确发送请选择TCP （传输控制协议（TCP））。如果您选择此项目做为服务的协议，请在端口范围的开始和结束字段输入对应的端口。\n 当不需要可靠传递时您可选择UDP（用户数据报协议（UDP）），来代替TCP协议使用。如果您选择此项目做为服务的协议，请在端口范围的开始和结束字段输入对应的端口。\n 选择ICMP（网络控制消息协议（ICMP））可发送错误和控制消息。如果您选择此项目做为服务的协议，请在ICMP类型字段中输入ICMP类型。\n 如果您要使用预定义的IP类型请选择IP项目。如果您选择了这个做为服务的协议，请在IP 区域中输入IP。"
+          },
+          {
+            "label" : "确定",
+            "tab" : "ok",
+            "description" : "点击此按钮将会储存您的设置并且关闭页面。"
+          },
+          {
+            "label" : "取消",
+            "tab" : "cancel",
+            "description" : "点击此按钮将不会储存您的设置并且关闭页面。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-12-2" :
+  {
+    "label" : "时间表",
+    "tab" : "scheduleObj",
+    "description" : "您可以设置周期性或是一次性的工作时间表。支持一次性和周期性的时间表。 一次性的工作时间表只在指定的时间和日期是有效的。周期性的工作时间表可重复在一个星期特定的时间和天数，例如，如果您想有一个防火墙规则只在周末运行，可以建立一个名为“周末”的时间表，它将只做动在每个星期六和星期日。",
+    "content" :
+    [
+      {
+        "label" : "#",
+        "tab" : "index",
+        "description" : "这是时间表列表中的索引编号。"
+      },
+      {
+        "label" : "名称",
+        "tab" : "name",
+        "description" : "名称：这是每个时间表的名称。"
+      },
+      {
+        "label" : "天",
+        "tab" : "days",
+        "description" : "显示指定时间表被启动的日期。"
+      },
+      {
+        "label" : "起始时间",
+        "tab" : "start_time",
+        "description" : "显示时间表的开始时间。"
+      },
+      {
+        "label" : "结束时间",
+        "tab" : "end_time",
+        "description" : "显示时间表的结束时间。"
+      },
+      {
+        "label" : "编辑",
+        "tab" : "action",
+        "description" : "点击编辑图示可以变更服务组的设置。点击删除图示可以进行删除。"
+      },
+      {
+        "label" : "创建",
+        "tab" : "create",
+        "description" : "点击创建按钮可新增服务组。"
+      },
+      {
+        "label" : "删除",
+        "tab" : "delete",
+        "description" : "您可选取单一或多个时间表并点击删除按钮即可同时删除多个服务组。"
+      }
+    ],
+    "editor" :
+    [
+      {
+        "label" : "时间表名称",
+        "tab" : "name",
+        "description" : "输入时间表的名称。"
+      },
+      {
+        "label" : "日期",
+        "tab" : "days",
+        "description" : "您可以设置启用防火墙规则在每天或一星期的特定日期。可选择每天或特定日期。选择每天表示防火墙规则将会一直都处于启动状态。选择特定日期，防火墙规则将会在每星期被指定日期进行启动。"
+      },
+      {
+        "label" : "时间",
+        "tab" : "times",
+        "description" : "您可以设置启用防火墙规则在每24小时或特定的时间。可从时间字段中选择所有时间或特定时间。选择所有时间表示将会全时启用防火墙规则。 "
+      },
+      {
+        "label" : "确定",
+        "tab" : "ok",
+        "description" : "点击此按钮将会储存您的设置并且关闭页面。"
+      },
+      {
+        "label" : "取消",
+        "tab" : "cancel",
+        "description" : "点击此按钮将不会储存您的设置并且关闭页面。"
+      }
+    ]
+  },
+  "menu-13-0-0" :
+  {
+    "label" : "管理员设置",
+    "tab" : "administrator_settings",
+    "description" : "使用此页面可配置的用户名称、密码和联机设置。",
+    "content" :
+    [
+      {
+        "label" : "用户名称",
+        "tab" : "user_name",
+        "description" : "此字段显示目前默认管理员账号的用户名称。您可以输入一个新的用户名称来变更它。"
+      },
+      {
+        "label" : "当前密码",
+        "tab" : "current_password",
+        "description" : "请输入目前的管理员密码。"
+      },
+      {
+        "label" : "新密码",
+        "tab" : "new_password",
+        "description" : "请输入新的管理员密码。您输入的密码需考虑安全强度。"
+      },
+      {
+        "label" : "确认新密码",
+        "tab" : "confirm_new_password",
+        "description" : "请再次输入新的管理员密码。"
+      },
+      {
+        "label" : "空闲超时",
+        "tab" : "inactive_timeout",
+        "description" : "如果空闲时间超过指定时间（输入时间以秒为单位）将会自动注销该账号。"
+      },
+      {
+        "label" : "启用限制Web登录",
+        "tab" : "login_web",
+        "description" : "选定复选框来限制用户可以透过Web浏览器登录到的时间。"
+      },
+      {
+        "label" : "限制登陆会话时间",
+        "tab" : "login_session_limit",
+        "description" : "如果您选择上述复选框，请输入登录限制时间（以秒为单位）。"
+      },
+      {
+        "label" : "最高尝试次数",
+        "tab" : "max_attempts",
+        "description" : "输入允许用户去猜测登录密码的最大尝试次数。如果用户没有在可尝试次数中输入正确的密码登入，用户的IP地址将会被 拒绝。"
+      },
+      {
+        "label" : "阻止访问时间",
+        "tab" : "logins_web",
+        "description" : "在输入的指定时间内（以秒为单位）， 如果用户没有输入正确的密码登入，用户的IP地址将会被拒绝。 "
+      }
+    ]
+  },
+  "menu-13-0-1" :
+  {
+    "label" : "管理设置",
+    "tab" : "management_settings",
+    "description" : "使用管理设置页面来允许或设置条件，让来自不同的端口联机。您可以允许使用Ping（ICMP响应请求），HTTPS（SSL上的HTTP）和SSH。当此功能启用时，从其他端口用户可以使用Web浏览器或者命令界面工具存取，然后存取该端口的IP地址（请使用正确的端口号）。",
+    "content" :
+    [
+      {
+        "label" : "HTTPS 监听端口号",
+        "tab" : "https_port",
+        "description" : "输入用于联机到的HTTPS端口号。当用户尝试存取的web接口时， 必须输入此端口。举例来说如果端口是1234则便需在网址列输入 https://192.168.1.1:1234"
+      },
+      {
+        "label" : "SSH 监听端口号",
+        "tab" : "ssh_port",
+        "description" : "输入用于联机到的SSH端口号。当用户尝试使用SSH存取的web界面时，必须输入此端口。"
+      },
+      {
+        "label" : "Interface",
+        "tab" : "interface",
+        "description" : "显示用户可以存取的端口。 端口类型包含Ping（ICMP回应请求），HTTPS（SSL上的HTTP）和SSH。"
+      },
+      {
+        "label" : "Ping",
+        "tab" : "ping",
+        "description" : "显示端口上的Ping协议是否已启用。"
+      },
+      {
+        "label" : "HTTPS",
+        "tab" : "https",
+        "description" : "显示端口上的HTTPS协议是否已启用。"
+      },
+      {
+        "label" : "SSH",
+        "tab" : "ssh",
+        "description" : "显示端口上的SSH协议是否已启用。"
+      },
+      {
+        "label" : "允许访问",
+        "tab" : "allow_access",
+        "description" : "显示可从一个特定的IP地址或组地址存取设备的端口。任何来源设备都可被允许存取。"
+      },
+      {
+        "label" : "编辑",
+        "tab" : "action",
+        "description" : "点击编辑图标可以变更接口的设置。"
+      }
+    ],
+    "editor" :
+    [
+      {
+        "label" : "接口",
+        "tab" : "interface",
+        "description" : "显示您正在编辑的端口名称。"
+      },
+      {
+        "label" : "Ping",
+        "tab" : "ping",
+        "description" : "如果您要启用此端口上的Ping协议请选定此复选框。"
+      },
+      {
+        "label" : "HTTPS",
+        "tab" : "https",
+        "description" : "如果您要启用此端口上的HTTPS协议请选定此复选框。"
+      },
+      {
+        "label" : "SSH",
+        "tab" : "ssh",
+        "description" : "如果您要启用此端口上的SSH协议请选定此复选框。"
+      },
+      {
+        "label" : "允许访问",
+        "tab" : "allow_access",
+        "description" : "指定可以透过端口存取的设备。您可以从现有的地址， 组地址选择或建立一个新的。如果您想让所有来源设备都可存取请选择所有。"
+      }
+    ]
+  },
+  "menu-13-0-2" :
+  {
+    "label" : "电子邮件通知",
+    "tab" : "email_alert",
+    "description" : "使用电子邮件警示通知可以配置如何将电子邮件警报发送给用户的相关操作、安全事件或除错。",
+    "tabs" :
+    {
+      "settings" :
+      {
+        "label" : "设置",
+        "tab" : "settings",
+        "description" : "您可以在设置页面布局SMTP服务器设置。",
+        "content" :
+        [
+          {
+            "label" : "SMTP 服务器",
+            "tab" : "smtp_server",
+            "description" : "请输入SMTP服务器的IP地址或名称。"
+          },
+          {
+            "label" : "端口",
+            "tab" : "port",
+            "description" : "选择要用于SMTP通讯的端口。"
+          },
+          {
+            "label" : "安全链接类型",
+            "tab" : "secure_method",
+            "description" : "可选择TLS或SSL做为SMTP的安全联机。若选择无则为不使用。"
+          },
+          {
+            "label" : "启用SMTP认证",
+            "tab" : "smtp_auth",
+            "description" : "如果SMTP服务器需要身份验证请选定该复选框。之后您便需要输入SMTP和密码进行验证。"
+          },
+          {
+            "label" : "账号",
+            "tab" : "account",
+            "description" : "如果已启用SMTP验证即需输入SMTP账号。"
+          },
+          {
+            "label" : "密码",
+            "tab" : "password",
+            "description" : "输入SMTP账号的密码。"
+          },
+          {
+            "label" : "发送电子邮件地址",
+            "tab" : "from_email",
+            "description" : "输入发送电子邮件警示通知的邮件地址。"
+          },
+          {
+            "label" : "接收电子邮件地址",
+            "tab" : "to_email",
+            "description" : "输入接收电子邮件警示通知的邮件地址。"
+          }
+        ]
+      },
+      "alerts" :
+      {
+        "label" : "警报/通知",
+        "tab" : "alerts",
+        "description" : "可使用警示页面布局电子邮件警示设置每个事件。 当检测到对应事件时，系统会自动发送电子邮件警示通知到指定的邮件地址。\n 选择您希望接收警示通知的事件。",
+        "content" :
+        [
+          {
+            "label" : "CPU 超载警示",
+            "tab" : "cpu_overload",
+            "description" : "如果CPU使用率高于临界值超过一分钟将会发送电子邮件警示通知，并当CPU使用率降回正常值一分钟后发送另一个通知。您可以在CPU临界值设置中设置CPU临界值的百分比。"
+          },
+          {
+            "label" : "新固件警示",
+            "tab" : "new_firmware",
+            "description" : "如果检测到新固件将会发送邮件警示通知。"
+          },
+          {
+            "label" : "系统重启警示",
+            "tab" : "system_restart",
+            "description" : "如果系统发生重启将会发送邮件警示通知。"
+          },
+          {
+            "label" : "管理员登入失败警示",
+            "tab" : "failed_admin_login",
+            "description" : "如果检测到管理员登入失败将会发送邮件警示通知。"
+          },
+          {
+            "label" : "硬盘空间警示",
+            "tab" : "disk_filling_up",
+            "description" : "如果硬盘空间即将届满将会发送邮件警示通知。您可以定义硬盘额满的设置值。如果这个警示功能被启用，系统会自动检测硬盘的状态，每天一次，如果硬盘使用率超过设置值时将会在00:00发送提醒邮件。"
+          },
+          {
+            "label" : "站点对站点 VPN 断/联机警示",
+            "tab" : "site2site",
+            "description" : "如果VPN联机发生断线或失败将会发送邮件警示通知。."
+          },
+          {
+            "label" : "WAN断/联机警示",
+            "tab" : "wan",
+            "description" : "如果WAN发生断线或失败将会发送邮件警示通知。您可以在警示间隔字段中指定间隔时间。"
+          },
+          {
+            "label" : "病毒防护警示",
+            "tab" : "antivirus",
+            "description" : "如果侦测到病毒将会发送邮件警示通知。您可以在警示间隔字段中指定间隔时间。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-13-0-3" :
+  {
+    "label" : "备份/还原",
+    "tab" : "backup_restore",
+    "description" : "使用此页面可以备份 设置 或还原设置到。您可以将目前设置备份到本机PC或连接到 USB端口的USB设备。选定设置并点击备份按钮。\n 您可以从PC指定路径，点击文件将配置文件上传到来还原设置。您也可使用连接到 USB端口的USB设备来恢复设置。请选择从USB还原设置并从下拉选单中选取配置文件，然后点击还原。 "
+  },
+  "menu-13-0-4" :
+  {
+    "label" : "固件",
+    "tab" : "firmware",
+    "description" : "最多可储存两个固件版本，并执行其中之一版本。其它固件不能做为前次固件使用。 您可以使用此固件页面执行以下操作：\n 查看目前固件信息。\n 将目前固件切换 到前次固件。\n 从网络检查最新的固件版本并进行升级。\n 您也可使用本机PC或是 USB端口来进行更新。\n 当无法开机三次或切换固件时发生CRC（循环冗余校验）错误，\n 注意：在固件升级过程中必须持续开启升级页面。不要关闭、关闭 PC、断开网络联机，或做任何可能会中断这个过程的事情，直到固件更新完成。整个过程只需几分钟时间，包含重新启动系统。中断固件上传过程可能会破坏您的内存和 导致 无法操作。",
+    "content" :
+    [
+      {
+        "label" : "目前固件版本",
+        "tab" : "primary",
+        "description" : "目前执行的固件版本。"
+      },
+      {
+        "label" : "前次固件版本",
+        "tab" : "secondary",
+        "description" : "存放没有执行的固件版本。"
+      },
+      {
+        "label" : "服务器版本",
+        "tab" : "server",
+        "description" : "由服务器上提供最新的固件版本。如果您目前的固件已是 最新版本将不会有变更。 会每隔24小时自动检查服务器是否有更新的固件版本。请确认您的可以存取因特网以获取固件版本更新。"
+      },
+      {
+        "label" : "最后检查时间",
+        "tab" : "last_check",
+        "description" : "检查服务器最新固件版本的日期和时间。检查服务器最新固件版本的日期和时间。"
+      },
+      {
+        "label" : "固件切换",
+        "tab" : "switch",
+        "description" : "点击此按钮来变更使用其他固件。建议您在切换固件之前先备份设置。"
+      },
+      {
+        "label" : "检查服务器版本",
+        "tab" : "check",
+        "description" : "点击此按钮将检查服务器是否有固件更新并更新此页面上的固件版本。"
+      },
+      {
+        "label" : "从本机更新固件",
+        "tab" : "upgrade_local",
+        "description" : "选择此选项可从本机PC端更新固件到。点击选择文件按钮 指定文件路径。"
+      },
+      {
+        "label" : "从服务器更新固件",
+        "tab" : "upgrade_server",
+        "description" : "选择此选项可从服务器取得固件更新。"
+      },
+      {
+        "label" : "从USB更新固件",
+        "tab" : "upgrade_usb",
+        "description" : "选择此选项可从USB端口更新固件到。"
+      },
+      {
+        "label" : "固件更新",
+        "tab" : "upgrade",
+        "description" : "点击此按钮可上传指定固件到。"
+      },
+      {
+        "label" : "更新并还原出厂默认值",
+        "tab" : "reset",
+        "description" : "点击此按钮可上传指定固件到。当固件上传完成 时，设置将会重置为出厂默认值。"
+      }
+    ]
+  },
+  "menu-13-0-5" :
+  {
+    "label" : "重启/重置/关闭",
+    "tab" : "reboot_reset_shutdown",
+    "description" : "此页面允许您透过点击重新启动按钮重新启动，点击重置按钮重置所有设置恢复到出厂默认值，并透过点击关机按钮关闭此。"
+  },
+  "menu-13-0-6" :
+  {
+    "label" : "属性",
+    "tab" : "properties",
+    "description" : "使用此页面可以设置主机及域名。"
+  },
+  "menu-13-1" :
+  {
+    "label" : "日期和时间",
+    "tab" : "date_and_time",
+    "description" : "使用日期和时间页面可手动设置的系统时间，或根据您当地时区和日期的网络时间协议服务器（NTP） 系统进行时间同步。",
+    "content" :
+    [
+      {
+        "label" : "时区",
+        "tab" : "time_zone",
+        "description" : "指定您当地的时区。"
+      },
+      {
+        "label" : "手动设置系统时间",
+        "tab" : "manual_systime",
+        "description" : "选择此选项您必须手动输入时间和日期。请在 日期 和 时间 的字段输入设置值。"
+      },
+      {
+        "label" : "自动设置系统时间",
+        "tab" : "auto_systime",
+        "description" : "如果您希望系统自动与指定的NTP服务器同步日期和时间，请选择此选项：\n 调整夏令时：选择此选项可自动调整夏令时。 \n 预设的NTP服务器：选择此选项可以使用默认的NTP服务器。\n 自定义的NTP服务器：选择此选项可使用自定义的NTP服务器。 输入自定义的NTP服务器IP地址与域名，在服务器1/服务器2的名称和IP字段中。服务器1为主要NTP服务器服务器2为备用的NTP服务器。"
+      }
+    ]
+  },
+  "menu-13-2" :
+  {
+    "label" : "事件日志",
+    "tab" : "loggins",
+    "description" : "使用事件日志可查看与管理记录信息与警示通知。",
+    "tabs" :
+    {
+      "view_logs" :
+      {
+        "label" : "查看日志",
+        "tab" : "view_logs",
+        "description" : "在查看日志页面中您可使用筛选查阅特定的严重等级事件或者来源/目标IP地址的日志。 ",
+        "content" :
+        [
+          {
+            "label" : "严重性",
+            "tab" : "serverity_f",
+            "description" : "选择严重等级来筛选日志。"
+          },
+          {
+            "label" : "设施",
+            "tab" : "facility_f",
+            "description" : "选择设施项目来筛选日志。属于选定设施的所有日志将会显示在以下列表中。 "
+          },
+          {
+            "label" : "源IP",
+            "tab" : "src_ip_f",
+            "description" : "输入来源IP地址进行防火墙日志的筛选。此筛选将会显示符合指定来源IP地址的所有防火墙日志。"
+          },
+          {
+            "label" : "目的IP",
+            "tab" : "dst_ip_f",
+            "description" : "输入目标IP地址进行防火墙日志的筛选。此筛选将会显示符合指定目标IP地址的所有防火墙日志。"
+          },
+          {
+            "label" : "起始/结束日期",
+            "tab" : "start_end_f",
+            "description" : "如果您想设置一段时间来筛选日志，请选择开始和结束日期。\n 请点击（查询）图标，开始搜寻匹配筛选的日志。搜寻结果将显示在以下的表格。您可以指定在每页表格中会显示多少笔日志。您也可以使用在页面底部的功能按钮来浏览日志页面。"
+          },
+          {
+            "label" : "日期",
+            "tab" : "date",
+            "description" : "此为日期的事件日志。"
+          },
+          {
+            "label" : "严重性",
+            "tab" : "severity",
+            "description" : "此为严重性的事件日志。"
+          },
+          {
+            "label" : "设备",
+            "tab" : "facility",
+            "description" : "此为设备的事件日志。"
+          },
+          {
+            "label" : "源IP",
+            "tab" : "src_ip",
+            "description" : "此为来源IP地址的事件日志。"
+          },
+          {
+            "label" : "目的IP",
+            "tab" : "dst_ip",
+            "description" : "此为目标IP地址的事件日志。"
+          },
+          {
+            "label" : "日志数据",
+            "tab" : "log_data",
+            "description" : "显示事件的描述概要。"
+          },
+          {
+            "label" : "导出",
+            "tab" : "export",
+            "description" : "点击此按钮导出日志"
+          }
+        ]
+      },
+      "log_settings" :
+      {
+        "label" : "日志设置",
+        "tab" : "log_settings",
+        "description" : "使用日志设置页面可配置日志设置，比如储存日志到远程的事件日志服务器并依时间表发送指定日志的电子邮件通知。",
+        "content" :
+        [
+          {
+            "label" : "启用",
+            "tab" : "enable",
+            "description" : "选定此复选框以启用的日志功能。"
+          },
+          {
+            "label" : "本地日志",
+            "tab" : "local",
+            "description" : "选定启用复选框，启用日志写入硬盘，并在严重列表中指定事件的严重性等级。"
+          },
+          {
+            "label" : "远程日志",
+            "tab" : "remote",
+            "description" : "选定启用复选框，将日志储存到远程服务器。并可在严重性列表中指定日志的严重性等级。"
+          },
+          {
+            "label" : "邮件警告",
+            "tab" : "email_alert",
+            "description" : "选择启用时间表复选框将会依时间表发送指定日志的电子邮件通知。选择您要发送日志的时间频率：\n 每小时：每隔一小时即发送日志通知。\n 每天：可指定在每天的特定时间发送日志通知。可在 时间 字段指定发送日志通知的时间。\n 每周：可指定固定每周发送日志通知。可在 日期 字段指定发送日志通知的时间。\n 严重性：可选择您发送日志通知的严重性等级。"
+          }
+        ]
+      },
+      "logs_facility" :
+      {
+        "label" : "日志设置",
+        "tab" : "logs_facility",
+        "description" : "使用日志设置页面设置被日志的消息。您可以透过该设施储存日志，以及是否将日志按照时间表发送到指定的电子邮件地址。",
+        "content" :
+        [
+          {
+            "label" : "名称",
+            "tab" : "name",
+            "description" : "设施名称。"
+          },
+          {
+            "label" : "本机日志",
+            "tab" : "local_log",
+            "description" : "选择设施复选框来启用其本机日志设置。"
+          },
+          {
+            "label" : "远程日志",
+            "tab" : "remote_log",
+            "description" : "选择设施复选框来启用其远程日志设置。"
+          },
+          {
+            "label" : "邮件警告",
+            "tab" : "email_alert",
+            "description" : "选择设施复选框来启用邮件警示通知设置。"
+          }
+        ]
+      }
+    }
+  },
+  "menu-13-3-0" :
+  {
+    "label" : "DNS Lookup",
+    "tab" : "dns_lookup",
+    "description" : "DNS Lookup工具用来查询IP和域名之间的对应关系。 要正确查询IP地址和域名的对应关系，您必须填写正确的DNS服务器地址。"
+  },
+  "menu-13-3-1" :
+  {
+    "label" : "Ping",
+    "tab" : "ping",
+    "description" : "ping 命令用来测试您的和网络上其他计算机之间的连通性和延迟。"
+  },
+  "menu-13-3-2" :
+  {
+    "label" : "路由跟踪",
+    "tab" : "traceroute",
+    "description" : "路由跟踪工具用来记录到达互联网上指定地址所经过的路由（每个跃点的特定网关）。"
+  },
+  "menu-13-3-3" :
+  {
+    "label" : "数据包捕获",
+    "tab" : "packet_capture",
+    "description" : "使用数据包捕获工具来捕获通过选定接口的所有数据包。",
+    "content" :
+    [
+      {
+        "label" : "文件",
+        "tab" : "file",
+        "description" : "文件名根据时间自动生成。"
+      },
+      {
+        "label" : "描述",
+        "tab" : "description",
+        "description" : "此处是捕获数据包文件的说明。"
+      },
+      {
+        "label" : "瞎子",
+        "tab" : "btnDownload",
+        "description" : "点击\"下载\"保存捕获的数据包文件。"
+      },
+      {
+        "label" : "删除",
+        "tab" : "btnDelete",
+        "description" : "点击\"删除\"将移除捕获的数据包文件。"
+      },
+      {
+        "label" : "新的",
+        "tab" : "btnNew",
+        "description" : "点击\"新的\"按钮来打开一个新的数据包捕获进程。输入以下信息 \n  描述: 输入捕获数据包文件的描述 \n  网络接口: 从下拉列表选择一个你想捕获数据包的接口. \n 自动停止: 当单个文件大小超过上限 ( 100MB ), 自动停止记录，此功能默认关闭。当\"自动停止\"处于关闭状态时，捕获的数据包文件大小将持续增长，知道您手动停止或者达到1GB的大小上限。\n  端口组:定义一个起始端口号和一个结束端口号，捕获所有到主机的通信。 \n  主机: 通过IP地址或者域名定义一个主机。\n  网络: 通过网络地址和子网掩码定义一个网络。 捕获所有此网络的通信。\n  MAC: 定义一个MAC地址。 MAC地址使用6字节48-bit的十六进制数值表示。捕获所有指定MAC地址的通信。\n 在一个新的捕获数据包窗口中，点击\"开始\"来启动数据捕获，点击\"停止\" 来停止捕获数据包。 \n 当数据包的捕获速率比磁盘的写入速率大时,一部分数据包将无法被记录。 \n 如果磁盘的空闲空间不够 (磁盘空闲空间 < 10% ), 此功能将不可用 \n 最多可保存50个数据包捕获文件. \n 注意: 在同一时间，您只能启动一个捕获进程，\"数据包捕获\" 或 \"高级数据包捕获\" 。"
+      }
+    ]
+  },
+  "menu-13-3-4" :
+  {
+    "label" : "Debug",
+    "tab" : "advanced_debug",
+    "description" : "当设备不稳定，通过Console和数据包捕获无法确定问题时，可以使用开启设备的调试模式 \n 注意：注意: 在同一时间，您只能启动一个捕获进程，\"数据包捕获\" 或 \"高级数据包捕获\" 。",
+    "tabs" :
+    {
+      "log" :
+      {
+        "label" : "日志",
+        "tab" : "log",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "启用日志",
+            "tab" : "enable_log",
+            "description" : "启用日志收集."
+          },
+          {
+            "label" : "描述",
+            "tab" : "descriptions",
+            "description" : "此日志的描述."
+          },
+          {
+            "label" : "序号",
+            "tab" : "index",
+            "description" : "日志的序号."
+          },
+          {
+            "label" : "文件",
+            "tab" : "file",
+            "description" : "日志文件名."
+          },
+          {
+            "label" : "描述",
+            "tab" : "description",
+            "description" : "描述日志文件"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "下载或删除日志文件"
+          }
+        ]
+      },
+      "packet_capture" :
+      {
+        "label" : "高级数据包捕获",
+        "tab" : "packet_capture",
+        "description" : "",
+        "content" :
+        [
+          {
+            "label" : "描述",
+            "tab" : "descriptions",
+            "description" : "数据包捕获的名称."
+          },
+          {
+            "label" : "网络接口",
+            "tab" : "network_interface",
+            "description" : "选择数据包捕获的接口."
+          },
+          {
+            "label" : "端口组",
+            "tab" : "port_range",
+            "description" : "起始:捕获数据包的起始端口. \n 结束: 捕获数据包的结束端口."
+          },
+          {
+            "label" : "主机",
+            "tab" : "host",
+            "description" : "设置要捕获数据包的主机地址."
+          },
+          {
+            "label" : "N网络",
+            "tab" : "net",
+            "description" : "要捕获数据包的网段"
+          },
+          {
+            "label" : "网络掩码",
+            "tab" : "netmask",
+            "description" : "网络掩码."
+          },
+          {
+            "label" : "MAC",
+            "tab" : "mac",
+            "description" : "设置要捕获数据包的MAC地址。"
+          },
+          {
+            "label" : "启用日志",
+            "tab" : "enable_log",
+            "description" : "启用日志收集"
+          },
+          {
+            "label" : "描述",
+            "tab" : "description",
+            "description" : "日志文件的描述"
+          },
+          {
+            "label" : "序号",
+            "tab" : "index",
+            "description" : "日志文件的序号"
+          },
+          {
+            "label" : "操作",
+            "tab" : "action",
+            "description" : "下载或删除日志文件"
+          }
+        ]
+      }
+    }
+  },
+  "menu-13-4" :
+  {
+    "label" : "授权许可",
+    "tab" : "license",
+    "description" : "用户许可证页面来启用试用授权并注册支持服务。",
+    "tabs" :
+    {
+      "registration" :
+      {
+        "label" : "注册信息",
+        "tab" : "registration",
+        "description" : "用户许可证页面可查看授权信息和启用试用授权。 安全防护功能只可被试用授权启用一次。页面信息将会显示目前的授权信息。",
+        "content" :
+        [
+          {
+            "label" : "试用版激活码",
+            "tab" : "trial",
+            "description" : "选定此复选框，然后点击储存图标来启动试用授权。试用授权仅可使用30天。在这30天内您可免费更新病毒样本。"
+          }
+        ]
+      },
+      "services" :
+      {
+        "label" : "服务",
+        "tab" : "services",
+        "description" : "在您完成的注册之后您将可看到此服务页面。您可以点击\"手动更新\"按钮从服务器进行更新。如果您想注册授权，请从授权中心进入升级启动码字段输入启动码，然后点击 注册按钮。"
+      }
+    }
+  }
+}

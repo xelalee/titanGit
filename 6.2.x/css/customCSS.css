@@ -1,0 +1,2674 @@
+/* html */
+html {
+    background: url('images/bg_plain.jpg')
+}
+
+/* layout outline */
+#outline {
+    min-width: 1024px;
+}
+
+/* main layout */
+#layout {
+    position: relative;
+    margin: 0 auto; /* center in viewport */
+    width: 1024px; /* fix page width */
+    height: 768px;
+    letter-spacing: 0;
+    word-spacing: 0;
+}
+
+/* arbitrary content styling */
+/* header */
+#hd {
+    position: absolute;
+    width: 1024px;
+    height: 123px;
+    color: black;
+}
+
+#hd_timer {
+    position: absolute;
+    left: 680px;
+    top: 25px;
+}
+
+#hd_timeout {
+    position: absolute;
+    left: 680px;
+    top: 55px;
+}
+
+#hd_config {
+    position: absolute;
+    left: 680px;
+    top: 70px;
+}
+
+#hd_user {
+    position: absolute;
+    left: 680px;
+    top: 10px;
+}
+
+#hd_ip {
+    position: absolute;
+    left: 680px;
+    top: 40px;
+}
+
+#hd_help {
+    position: absolute;
+    cursor: pointer;
+    left: 530px;
+    top: 86px;
+    width: 130px;
+    height: 32px;
+}
+
+.en_help {
+    background: url('images/button_manual_0.png') top left no-repeat;
+}
+
+.cn_help {
+    background: url('images/button_manual_0.png') top left no-repeat;
+}
+
+.tw_help {
+    background: url('images/button_manual_0.png') top left no-repeat;
+}
+
+#hd_help:hover {
+    opacity: 0.5;
+}
+
+#hd_debug {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    top: 100px;
+    left: 697px;
+    background-color: transparent;
+}
+
+#hd_debug.isLog {
+    background-color: #efefef;
+}
+
+#hd_debug.isPcap {
+    background-color: #cc0000;
+}
+
+#hd_debug.isDebug {
+    background-color: #007260;
+}
+
+#hd_home {
+    position: absolute;
+    cursor: pointer;
+    left: 675px;
+    top: 85px;
+    width: 108px;
+    height: 32px;
+}
+
+.en_home {
+    background: url('images/button_home_00_0.png') top left no-repeat;
+}
+
+.en_home:hover {
+    background: url('images/button_home_00_r.png') top left no-repeat;
+}
+
+.cn_home {
+    background: url('images/button_home_00_0.png') top left no-repeat;
+}
+
+.cn_home:hover {
+    background: url('images/button_home_00_r.png') top left no-repeat;
+}
+
+.tw_home {
+    background: url('images/button_home_00_0.png') top left no-repeat;
+}
+
+.tw_home:hover {
+    background: url('images/button_home_00_r.png') top left no-repeat;
+}
+
+#hd_refresh {
+    position: absolute;
+    cursor: pointer;
+    left: 788px;
+    top: 85px;
+    width: 112px;
+    height: 32px;
+}
+
+.en_refresh {
+    background: url('images/button_refresh_00_0.png') top left no-repeat;
+}
+
+.en_refresh:hover {
+    background: url('images/button_refresh_00_r.png') top left no-repeat;
+}
+
+.cn_refresh {
+    background: url('images/button_refresh_00_0.png') top left no-repeat;
+}
+
+.cn_refresh:hover {
+    background: url('images/button_refresh_00_r.png') top left no-repeat;
+}
+
+.tw_refresh {
+    background: url('images/button_refresh_00_0.png') top left no-repeat;
+}
+
+.tw_refresh:hover {
+    background: url('images/button_refresh_00_r.png') top left no-repeat;
+}
+
+#hd_logout {
+    position: absolute;
+    cursor: pointer;
+    left: 905px;
+    top: 85px;
+    width: 104px;
+    height: 32px;
+}
+
+.en_logout {
+    background: url('images/button_logout_00_0.png') top left no-repeat;
+}
+
+.en_logout:hover {
+    background: url('images/button_logout_00_r.png') top left no-repeat;
+}
+
+.cn_logout {
+    background: url('images/button_logout_00_0.png') top left no-repeat;
+}
+
+.cn_logout:hover {
+    background: url('images/button_logout_00_r.png') top left no-repeat;
+}
+
+.tw_logout {
+    background: url('images/button_logout_00_0.png') top left no-repeat;
+}
+
+.tw_logout:hover {
+    background: url('images/button_logout_00_r.png') top left no-repeat;
+}
+
+/* content */
+#bd {
+    position: absolute;
+    top: 123px;
+    width: 1024px;
+    height: 645px;
+}
+
+#menu {
+    position: absolute;
+    width: 180px;
+    height: 667px;
+    padding: 0;
+    top: -2px;
+}
+
+#main {
+    position: absolute;
+    background-color: white;
+    left: 180px;
+    width: 844px;
+    height: 645px;
+}
+
+#main_hd {
+    position: relative;
+}
+
+#main_bd {
+    position: relative;
+    width: 844px;
+    height: 581px;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+#main_hp {
+    position: absolute;
+    width: 844px;
+    height: 645px;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background-color: white;
+    z-index: 9999;
+    display: none;
+}
+
+#main_ft {
+    position: relative;
+    width: 844px;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+/* footer */
+#ft {
+    position: absolute;
+    top: 768px;
+    left: 180px;
+    width: 844px;
+    height: 20px;
+    padding: 0;
+}
+
+#ft div {
+    font-size:80%;
+    width: 842px;
+    padding: 1px;
+    letter-spacing: normal;
+    text-align: center;
+    color: white;
+}
+
+/* nomalize */
+ul { list-style-type: none; }
+ul { margin: 0; padding: 0; }
+ul li { margin: 0; padding: 0}
+a:link { text-decoration: none;}
+
+/* login, redirect */
+#loginDiv {
+    width: 400px;
+    height: 230px;
+    margin: 150px auto;
+    border: 1px solid gray;
+    letter-spacing: normal;
+    word-spacing: normal;
+    color: black;
+}
+
+#redirectDiv {
+    position: relative;
+    width: 400px;
+    height: 230px;
+    margin: 150px auto;
+    background-size: 75%, 400%;
+    border: 1px solid gray;
+    letter-spacing: normal;
+    word-spacing: normal;
+    color: black;
+    overflow: hidden;
+}
+
+#loginDiv table {
+    margin: 70px 0 0 70px;
+}
+
+#loginDiv table tr {
+    height: 30px;
+}
+
+#loginDiv table th {
+    width: 80px;
+    text-align: right;
+    padding: 0 10px 0 0;
+    border: none;
+}
+
+#loginDiv table td {
+    text-align: left;
+    padding: 0 0 0 10px;
+    border: none;
+}
+
+#loginButton {
+    cursor: pointer;
+}
+
+#loginButton:hover {
+
+}
+
+#loginError {
+    display: none;
+}
+
+#loginRegister {
+    width: 800px;
+    margin: 100px auto;
+}
+
+#loginRegister .tabber div {
+    background-color: #efefef;
+    margin: 0;
+}
+
+/* menu */
+#menu h3, #menu h4, #menu h5 {
+    position:relative;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+}
+
+#menu li {
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+#menu a {
+    color: white;
+    letter-spacing: normal;
+    word-spacing: normal;
+    position: absolute;
+    top: 7px;
+    left: 30px;
+}
+
+#menu ul {
+    background: transparent;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+#menu ul.ui-corner-bottom {
+    border-radius: 0;
+}
+
+.accordion-ul.ui-accordion-content, .accordion-ul-ul.ui-accordion-content, .accordion-ul-ul-ul.ui-accordion-content {
+    width: 180px;
+    background: transparent;
+    border: none;
+}
+
+.accordion-ul-li.ui-accordion-li-fix, .accordion-ul-ul-li.ui-accordion-li-fix, .accordion-ul-ul-ul-li.ui-accordion-li-fix {
+    width: 180px;
+    height: 100%;
+    background: transparent;
+    border: none;
+}
+
+#menu .accordion-ul-li h3.ui-state-default {
+    background: url('images/m0.jpg');
+    border: none;
+    width: 180px;
+    height: 26px;
+}
+
+#menu .accordion-ul-li h3.ui-state-default a {
+    color: black;
+}
+
+#menu .accordion-ul-li h3.ui-state-default:hover a {
+    top: 10px;
+}
+
+#menu .accordion-ul-li h3.ui-state-default span.ui-icon {
+    background-image: url('images/icon_switch_m_1.png');
+    background-position: 0 0;
+    position: absolute;
+    top: 9px;
+    left: 2px;
+}
+
+#menu .accordion-ul-li h3.ui-state-active {
+    border: none;
+    height: 34px;
+}
+
+#menu .accordion-ul-li h3:hover {
+    border: none;
+    height: 34px;
+}
+
+#menu .accordion-ul-li h3.ui-state-default:hover span.ui-icon {
+    top: 12px;
+}
+
+#menu .accordion-ul-li h3.ui-state-active a {
+    top: 10px;
+}
+
+#menu .accordion-ul-li h3.ui-state-active span.ui-icon {
+    background-image: url('images/icon_switch_m_0.png');
+    background-position: 0 0;
+    position: absolute;
+    top: 12px;
+    left: 3px;
+}
+
+#menu .accordion-ul-ul-li h4, #menu .accordion-ul-ul-ul-li h4.ui-state-default {
+    border: none;
+    width: 180px;
+    height: 26px;
+}
+
+#menu .accordion-ul-ul-ul-li h4.ui-state-default span.ui-icon {
+    background-image: url('images/icon_switch_s_1.png');
+    background-size: 20px 20px;
+    background-position: 0 0;
+    position: absolute;
+}
+
+#menu .accordion-ul-ul-ul-li h4.ui-state-active {
+    border: none;
+}
+
+#menu .accordion-ul-ul-ul-li h4.ui-state-active span.ui-icon {
+    background-image: url('images/icon_switch_s_0.png');
+    background-size: 20px 20px;
+    background-position: 0 0;
+    position: absolute;
+}
+
+#menu .accordion-ul-ul-ul-ul-li h5 {
+    border: none;
+    width: 180px;
+    height: 26px;
+}
+
+#menu .accordion-ul-ul-li h4 a {
+
+}
+
+#menu .accordion-ul-ul-ul-ul-li h5 a {
+
+}
+
+#menu .accordion-ul-ul-li h4.ui-actived {
+
+}
+
+#menu .accordion-ul-ul-ul-ul-li h5.ui-actived {
+
+}
+
+#menu h3 .ui-icon {
+    width: 26px;
+    height: 26px;
+}
+
+#activedMenu {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+}
+
+h3 #activedMenu {
+    top: 8px;
+}
+
+#manaul h4 {
+    position:relative;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+}
+
+#manual ul {
+    background: transparent;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+#manual li {
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+#manual a {
+    color: white;
+    letter-spacing: normal;
+    word-spacing: normal;
+    position: absolute;
+    top: 7px;
+    left: 30px;
+}
+
+/* navgator bar  */
+#main_hd h3 {
+    padding: 9px 0 0 0;
+    margin: 0 0 0 25px;
+}
+
+#main_hd h3 b {
+    position: relative;
+    color: white;
+    height: 20px;
+    margin: 0 10px;
+    border: none;
+}
+
+/* page controller */
+#pgColumns {
+    position: absolute;
+    top: 3px;
+    right: 13px;
+}
+
+#pgColumns span.ui-icon {
+    background-position: -112px -112px;
+}
+
+.columnShow {
+    display: table-cell;
+}
+
+.columnHide {
+    display: none;
+}
+
+#pgSave {
+    position: absolute;
+    top: 5px;
+    right: 45px;
+}
+
+#pgSave span.ui-icon {
+    background-position: -96px -112px;
+}
+
+#pgCancel {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+#pgCancel span.ui-icon {
+    background-position: 0 -64px;
+}
+
+#pgCheck {
+    position: absolute;
+    top: 5px;
+    right: 85px;
+}
+
+#pgCheck span.ui-icon {
+    background-position: -80px -96px;
+}
+
+#pgExtend {
+    position: absolute;
+    top: 5px;
+    right: 45px;
+}
+
+#pgClear {
+    position: absolute;
+    top: 5px;
+    right: 85px;
+}
+
+#pgRun {
+    position: absolute;
+    top: 5px;
+    right: 45px;
+}
+
+#pgRun span.ui-icon {
+    background-position: 0 -160px;
+}
+
+#pgClean {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+#pgClean span.ui-icon {
+    background-position: -176px -96px;
+}
+
+#pgStart {
+    position: absolute;
+    top: 5px;
+    right: 45px;
+}
+
+#pgStop {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+#pgExport {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+#pgExport2 {
+    position: absolute;
+    top: 5px;
+    right: 85px;
+}
+
+#pgImport {
+    position: absolute;
+    top: 5px;
+    right: 125px;
+}
+
+#pgExtend span.ui-icon {
+    background-position: -208px -48px;
+}
+
+#pgExtend.Expand span.ui-icon {
+    background-position: -240px -48px;
+}
+
+#newFirmware {
+    position: absolute;
+    top: 0;
+    right: 5px;
+}
+
+#newFirmware span.ui-icon {
+    background-position: -16px -144px;
+}
+
+/* dashboard controller */
+#dashmenu {
+    background: url('images/button_detail_00_r.png');
+    position: absolute;
+    right: 0;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+
+#dashmenu.isFocus {
+    background: url('images/button_detail_00_0.png');
+}
+
+.dashboardM {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    top: -1px;
+    left: 0px;
+    border: none;
+    background-image: url('images/ui-icons_cccccc_256x240.png');
+    background-position: -64px -128px;
+}
+
+.minned .dashboardM {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    top: -1px;
+    left: 0px;
+    border: none;
+    background-image: url('images/ui-icons_cccccc_256x240.png');
+    background-position: -32px -128px;
+}
+
+.dashboardL {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    top: -1px;
+    left: 0px;
+    border: none;
+    background-image: url('images/ui-icons_cccccc_256x240.png');
+    background-position: -160px -112px;
+}
+
+.dashboardX {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    top: -1px;
+    left: 0px;
+    border: none;
+    background-image: url('images/ui-icons_cccccc_256x240.png');
+    background-position: -96px -128px;
+}
+
+/* template style  */
+.modals {
+    display:    none;
+    position:   fixed;
+    z-index:    99999;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 105, 105, 105, .5 )
+                url('images/progress.gif')
+                50% 50%
+                no-repeat;
+}
+
+.numbers {
+    position: absolute;
+    top: 37px;
+    left: 26px;
+    border-style: none;
+    padding: 0px;
+    width: 62px;
+    height: 42px;
+    text-align: center;
+    font-family: Arial;
+    font-size: 34px;
+    font-weight: normal;    /* options are normal, bold, bolder, lighter */
+    color: red;
+}
+
+.titleA {    /* the styles below will affect the title under the numbers, i.e., “Days”, “Hours”, etc. */
+    position: absolute;
+    top: 7px;
+    left: 23px;
+    border: none;
+    padding: 0px;
+    width: 62px;
+    text-align: center;
+    font-family: Arial;
+    font-size: 10px;
+    font-weight: normal;    /* options are normal, bold, bolder, lighter */
+    color: #999999;    /* change color using the hexadecimal color codes for HTML */
+}
+
+.titleB {    /* the styles below will affect the title under the numbers, i.e., “Days”, “Hours”, etc. */
+    position: absolute;
+    bottom: 7px;
+    left: 25px;
+    border: none;
+    padding: 0px;
+    width: 62px;
+    text-align: center;
+    font-family: Arial;
+    font-size: 10px;
+    font-weight: normal;    /* options are normal, bold, bolder, lighter */
+    color: #999999;    /* change color using the hexadecimal color codes for HTML */
+}
+
+#divSec {
+    position: relative;
+    top: 40%;
+    width: 100px;
+    height: 100px;
+    border: none;
+    background: black url('images/bkgdimage.gif') no-repeat center center;
+    padding: 5px;
+    margin: auto;
+    -mos-border-radius: 40px;
+    border-radius: 40px;
+}
+
+.lineH {
+    border-style: none;
+    position: relative;
+    top: 50px;
+    left: 19px;
+    background: url('images/line.jpg') no-repeat center center;
+    width: 62px;
+    height: 2px;
+    z-index: 15;
+}
+
+span.pageHelp {
+    position: absolute;
+    top: 7px;
+    left: 10px;
+    width: 16px;
+    height: 16px;
+    background-image: url('images/ui-icons_ffffff_256x240.png');
+    background-position: -16px -144px;
+}
+
+span.popHelp {
+    position: absolute;
+    top: 4px;
+    left: 5px;
+    width: 16px;
+    height: 16px;
+    background-image: url('images/ui-icons_222222_256x240.png');
+    background-position: -16px -144px;
+}
+
+span.pageHelp:hover, span.popHelp:hover {
+    cursor: pointer;
+    background-image: url('images/ui-icons_4ca300_256x240.png');
+}
+
+span.abss {
+    position: absolute;
+    background: #555555 url('images/ui-bg_highlight-hard_55_555555_1x100.png') 50% 50% repeat-x;
+    color: white;
+}
+
+#popHelp iframe {
+    width: 780px;
+    height: 580px;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+li.rell {
+    position: relative;
+}
+
+.refreshPage {
+    position: absolute;
+    top : 6px;
+    right: 60px;
+}
+
+/* When the body has the loading class, we turn the scrollbar off with overflow:hidden  */
+body.loadingClass {
+    overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our modal element will be visible */
+body.loadingClass .modals {
+    display: block;
+}
+
+/* accordion  */
+.accordions {
+    width: 780px;
+    display: -moz-inline-stack ;
+    display:inline-block ;
+    *display:inline ;
+    zoom:1 ;
+    vertical-align:top
+}
+
+.tooltipAccordion .ui-accordion-header .ui-icon {
+    background-image: url('images/ui-icons_ffffff_256x240.png');
+}
+
+.tooltipAccordion .ui-accordion-header.ui-state-active .ui-icon {
+    background-image: url('images/ui-icons_cc0000_256x240.png');
+}
+
+.tooltipAccordion .ui-accordion-header {
+    margin: 0;
+}
+
+.tooltipAccordion .ui-accordion-header a {
+    color: white;
+}
+
+.tooltipAccordion .ui-widget-content {
+    border: none;
+    margin: 0;
+}
+
+/* datepicker */
+.ui-datepicker-calendar .ui-state-active {
+    border: 1px solid red;
+    background: grey;
+}
+
+/* dialog */
+.ui-dialog-title {
+    color: black;
+}
+
+/* table */
+table {
+    width: 100%;
+    color: black;
+}
+
+label {
+    color: black;
+}
+
+#main_bd table {
+    /* border: 1px solid silver; */
+    /* border-style: none none solid none; */
+}
+
+table caption {
+    font-weight: bold;
+    font-size: 105%;
+    text-align: left;
+}
+
+table tr {
+    height: 24px;
+    padding: 1px;
+}
+
+table td.odd {
+    background-color: #C0C0C0;
+}
+
+table tr.odd {
+    background-color: #C0C0C0;
+}
+
+table td.even {
+    background-color: #E8E8E8;
+}
+
+table tr.even {
+    background-color: #E8E8E8;
+}
+
+table tr th, table tr td {
+    position: relative;
+    vertical-align: middle;
+    text-align: center;
+    word-break:break-all;
+}
+
+div.sortable {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+span.sortable {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: -2px;
+    right: -3px;
+    background-image: url('images/ui-icons_cccccc_256x240.png');
+    background-position: -128px 0;
+}
+
+span.sortable.ascending {
+    background-image: url('images/ui-icons_ffffff_256x240.png');
+    background-position: 0 -16px;
+}
+
+span.sortable.descending {
+    background-image: url('images/ui-icons_ffffff_256x240.png');
+    background-position: -64px -16px;
+}
+
+.accordions table {
+    margin: 0;
+    width: 100%;
+}
+
+/* column width class */
+
+.BTB {
+    width: 1px;
+    border: 1px solid grey;
+}
+.BT1 {
+    width: 40px;
+}
+
+.BT2 {
+    width: 80px;
+}
+
+.BT3 {
+    width: 120px;
+}
+
+.BT4 {
+    width: 160px;
+}
+
+.BT10 {
+    width: 10px;
+}
+
+.BT20 {
+    width: 20px;
+}
+
+.BT30 {
+    width: 30px;
+}
+
+.BT40 {
+    width: 40px;
+}
+
+.BT50 {
+    width: 50px;
+}
+
+.BT60 {
+    width: 60px;
+}
+
+.BT80 {
+    width: 80px;
+}
+
+.BT90 {
+    width: 90px;
+}
+
+.BT100 {
+    width: 100px;
+}
+
+.BT110 {
+    width: 110px;
+}
+
+.BT120 {
+    width: 120px;
+}
+
+.BT125 {
+    width: 125px;
+}
+
+.BT140 {
+    width: 140px;
+}
+
+.BT150 {
+    width: 150px;
+}
+
+.BT160 {
+    width: 160px;
+}
+
+.BT180 {
+    width: 180px;
+}
+
+.BT200 {
+    width: 200px;
+}
+
+.BT220 {
+    width: 220px;
+}
+
+.BT225 {
+    width: 225px;
+}
+
+.BT250 {
+    width: 250px;
+}
+
+.BT240 {
+    width: 240px;
+}
+
+.BT300 {
+    width: 300px;
+}
+
+.BT320 {
+    width: 320px;
+}
+
+.BT350 {
+    width: 350px;
+}
+
+.BT400 {
+    width: 400px;
+}
+
+.BT450 {
+    width: 450px;
+}
+
+/* column align class */
+.alignCenter {
+    text-align: center;
+    padding: 0 3px;
+}
+
+.alignLeft {
+    text-align: left;
+    padding: 0 3px;
+}
+
+.alignRight {
+    text-align: right;
+    padding: 0 3px ;
+}
+
+.alignJustify {
+    text-align: justify;
+    padding: 0 3px;
+}
+/* position class */
+.relativeClass {
+    position: relative;
+}
+
+.absoluteClass {
+    position: absolute;
+}
+
+/* table styling */
+.Bolds {
+    font-weight: bold;
+    font-size: 105%;
+    text-align: left;
+}
+
+table.DualList th {
+    width: 40%;
+    text-align: left;
+    padding: 0 5px;
+}
+
+table.DualList td {
+    text-align: left;
+}
+
+table.DataChart tr {
+    height: 32px;
+}
+
+table.DataChart th {
+    text-align: left;
+    padding: 0 5px;
+}
+
+table.DataChart td {
+    text-align: left;
+}
+
+#table-query {
+    width: 780px;
+}
+
+
+/* docs */
+#docDiv {
+    padding: 0 5px;
+    color: black;
+}
+
+#docH2 {
+    margin: 5px;
+    padding: 5px;
+    color: black;
+}
+
+#docDiv.ui-widget-content {
+    border: none;
+}
+
+#docDiv div.ui-widget-content {
+    border: none;
+}
+
+#docDiv h3 {
+    padding: 5px;
+}
+
+#docDiv > ul {
+    border: none;
+}
+
+#docDiv dl {
+    padding: 5px;
+}
+
+#docDiv dt {
+    font-weight: bold;
+    margin: 3px 0 0 3px;
+}
+
+#docDiv dd {
+    padding: 2px 5px 2px 15px;
+}
+
+#docDiv .docsTable {
+    margin: 5px;
+    padding: 5px;
+}
+
+table.docsTable tr th, table.docsTable tr td {
+    word-break: break-word;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    background: #555555 url('images/ui-bg_highlight-hard_55_555555_1x100.png') 50% 50% repeat-x;
+    color: white;
+}
+
+/* tabs */
+
+.tabber {
+    border: none;
+}
+
+.tabs {
+    border: none;
+}
+
+.ui-tabs {
+    padding: 0;
+}
+
+.ui-tabs .ui-tabs-panel {
+    padding: 0;
+}
+
+/* vertical tabs */
+.ui-tabs-vertical { width: 55em; }
+.ui-tabs-vertical .ui-tabs-nav { padding: .2em .1em .2em .2em; float: left; width: 12em; }
+.ui-tabs-vertical .ui-tabs-nav li { clear: left; width: 100%; border-bottom-width: 1px !important; border-right-width: 0 !important; margin: 0 -1px .2em 0; }
+.ui-tabs-vertical .ui-tabs-nav li a { display:block; }
+.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active { padding-bottom: 0; padding-right: .1em; border-right-width: 1px; border-right-width: 1px; }
+.ui-tabs-vertical .ui-tabs-panel { padding: 1em; float: right; width: 40em;}
+.ui-tabs-vertical .ui-widget-header { border: none; }
+.ui-tabs-vertical .ui-tabs-nav li { border: 1px solid grey; }
+
+/* progress bar */
+.progressDiv {
+    position: relative;
+    background-image: url('images/skill_bar_00.png');
+    width: 155px;
+    height: 20px;
+    border: none;
+}
+
+.progressDiv .ui-progressbar-value {
+    position: absolute;
+    background: url('images/skill_bar_01b.png') top left no-repeat;
+    left: 1px;
+    top: 1px;
+    border: none;
+}
+
+.progressMsg {
+    z-index: 99;
+    position: absolute;
+    top: 5px;
+    left: 40%;
+}
+
+.processDiv {
+    position: relative;
+    width: 250px;
+    height: 20px;
+    border: none;
+    margin: 10px;
+}
+
+.processDiv .ui-progressbar-value {
+    position: absolute;
+    background: url('images/animated-overlay.gif') top left repeat-x;
+    left: 1px;
+    top: 1px;
+    border: none;
+}
+
+/* buttons */
+button {
+    font-family: Verdana, Arial, sans-serif;
+    padding: 2px;
+    margin: 2px;
+}
+
+.yui3-button {
+    background: transparent;
+}
+
+button:hover {
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+button:disabled {
+    opacity: 0.2;
+}
+
+button.Query span.ui-icon {
+    background-position: -160px -112px;
+}
+
+button.Weekly span.ui-icon {
+    background-position: -192px -128px;
+}
+
+button.Save span.ui-icon {
+    background-position: -96px -112px;
+}
+
+button.Cancel span.ui-icon {
+    background-position: -80px -112px;
+}
+
+button.Create span.ui-icon {
+    background-position: -64px -112px;
+}
+
+button.Duplicate span.ui-icon {
+    background-position: -48px -80px;
+}
+
+button.New span.ui-icon {
+    background-position: -64px -112px;
+}
+
+button.Forces span.ui-icon {
+    background-position: 0 -176px;
+}
+
+button.Remove span.ui-icon {
+    background-position: -176px -96px;
+}
+
+button.Disconnects span.ui-icon {
+    background-position: 0 -176px;
+}
+
+button.Refresh span.ui-icon {
+    background-position: -128px -64px;
+}
+
+button.Move span.ui-icon {
+    background-position: -80px -96px;
+}
+
+button.MoveUp span.ui-icon {
+    background-position: 0 -16px;
+}
+
+button.MoveDown span.ui-icon {
+    background-position: -64px -16px;
+}
+
+button.Add span.ui-icon {
+    background-position: -16px -128px;
+}
+
+button.Connect span.ui-icon {
+    background-position: -16px -176px;
+}
+
+button.Disconnect span.ui-icon {
+    background-position: 0 -128px;
+}
+
+button.Delete span.ui-icon {
+    background-position: -64px -128px;
+}
+
+button.Download span.ui-icon {
+    background-position: -160px -96px;
+}
+
+button.Edit span.ui-icon {
+    background-position: -176px -112px;
+}
+
+button.Mod span.ui-icon {
+    background-position: -176px -112px;
+}
+
+button.Force span.ui-icon {
+    background-position: 0 -128px;
+}
+
+button.Clear span.ui-icon {
+    background-position: -176px -96px;
+}
+
+button.Clean span.ui-icon {
+    background-position: -176px -96px;
+}
+
+button.Export span.ui-icon {
+    background-position: -160px -96px;
+}
+
+button.Import span.ui-icon {
+    background-position: -48px -80px;
+}
+
+button.History span.ui-icon {
+    background-position: -16px -144px;
+}
+
+button.Move2White span.ui-icon {
+    background-position: -64px -96px;
+}
+
+button.Move2Whites span.ui-icon {
+    background-position: -240px -128px;
+}
+
+button.Move2Add span.ui-icon {
+    background-position: -112px -192px;
+}
+
+button.Move2Del span.ui-icon {
+    background-position: -144px -192px;
+}
+
+button.Move2First span.ui-icon {
+    background-position: -80px -160px;
+}
+
+button.Move2Prev span.ui-icon {
+    background-position: -48px -160px;
+}
+
+button.Move2Next span.ui-icon {
+    background-position: -32px -160px;
+}
+
+button.Move2Last span.ui-icon {
+    background-position: -64px -160px;
+}
+
+button.Update span.ui-icon {
+    background-position: -80px -80px;
+}
+
+button.LicenseRefresh span.ui-icon {
+    background-position: -80px -80px;
+}
+
+button.Apply span.ui-icon {
+    background-position: -64px -144px;
+}
+
+button.Start span.ui-icon {
+    background-position: 0 -160px;
+}
+
+button.Stop span.ui-icon {
+    background-position: -96px -160px;
+}
+
+button.Check span.ui-icon {
+    background-position: -192px -192px;
+}
+
+button.Check {
+    margin: 0;
+    padding: 0;
+}
+
+button.LicenseUpgrade span.ui-icon {
+    background-position: -112px -80px;
+}
+
+button.registrationMode-0 span.ui-icon {
+    background-position: -192px -192px;
+}
+
+button.Search span.ui-icon {
+    background-position: -160px -112px;
+}
+
+span.newUsername.isOK {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-image: url('images/ui-icons_4ca300_256x240.png');
+    background-position: -208px -192px;
+}
+
+span.newUsername.isKO {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-image: url('images/ui-icons_cc0000_256x240.png');
+    background-position: -32px -192px;
+}
+
+/* multiple select */
+select[multiple] {
+    width: 200px;
+    height: 100px;
+    padding: 5px;
+    margin: 0;
+}
+
+/* chart */
+
+#chart-cpu, #chart-memory {
+    margin:10px;
+    width: 750px;
+    height:480px;
+}
+
+#chart-wan1, #chart-wan2, #chart-wan3, #chart-wan4, #chart-wan5, #chart-wan6 {
+    margin: 10px;
+    width: 750px;
+    height:480px;
+}
+
+#chart-1, #chart-2, #chart-3, #chart-5, #chart-6 {
+    margin: 10px;
+    width: 800px;
+    height:480px;
+    overflow: hidden;
+}
+
+/* for protocol pie chart */
+#chart-4 {
+    position: relative;
+    margin:10px;
+    padding: 0 0 0 200px;
+    min-width: 600px;
+    min-height:480px;
+    overflow: hidden;
+}
+
+#chart-4-legend {
+    position: absolute;
+    background: #efefef;
+    top: 0;
+    left: 0;
+    width: 100px;
+}
+
+#chart-4-legend ul li {
+    position: relative;
+    padding: 3px 0 3px 20px;
+}
+
+#chart-4-legend ul li span {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    left: 5px;
+}
+
+#cpuChart {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    top: 5px;
+    left: 20px;
+}
+
+#memChart {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    top: 5px;
+    left: 20px;
+}
+
+table.DataChart th {
+    text-align: center;
+}
+
+/* widget */
+.ui-widget-header {
+    background: transparent;
+    border: solid 1px silver;
+    border-style: none none solid none;
+    border-radius: 0;
+}
+
+/* overflows */
+#menu {
+    /* overflow: hidden; */
+}
+
+#menu ul {
+    overflow: hidden;
+}
+
+#main_bd {
+    overflow: auto;
+}
+
+.templateDiv {
+    padding: 0 10px;
+}
+
+.tbodyDiv {
+    width: 100%
+    height: 500px;
+    overflow: auto;
+}
+
+input:focus, select:focus {
+    outline: grey solid thin;
+}
+
+/* fix z-index */
+.queryDiv {
+    position: relative;
+    z-index: 999;
+    background: #efefef;
+    -mos-border-radius: 3px;
+    border-radius: 3px;
+    padding: 5px;
+    margin: 3px;
+}
+
+.searchDiv {
+    position: absolute;
+    z-index: 999;
+    background: #efefef;
+    -mos-border-radius: 5px;
+    border-radius: 5px;
+    padding: 5px;
+    right: 10px;
+}
+
+/* div */
+
+#div-columns {
+    position: absolute;
+    width: 200px;
+    top: 25px;
+    right: 10px;
+    z-index: 1999;
+    background: #EEE ;
+    border: 1px solid #D4D8EB;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', 'Helvetica', 'Arial', sans-serif;
+    padding-bottom: 1px;
+}
+
+#div-columns ul li {
+    margin: 2px 0;
+    padding: 1px
+}
+
+#div-ipAlias {
+    position: relative;
+    width: 550px;
+}
+
+.tableDiv {
+}
+
+#pagerDiv {
+    position: absolute;
+    width: 400px;
+    height: 32px;
+    left: 200px;
+    top : 4px;
+}
+
+#pagerDiv table td {
+    color: white;
+}
+
+.tableAction {
+    text-align: left;
+}
+
+.tableAction.alignRight {
+    text-align: right;
+}
+
+div.tblAction {
+    position: relative;
+    height: 26px;
+}
+
+div.tblAction button.Create {
+    position: absolute;
+    right: 45px;
+}
+
+div.tblAction button.New {
+    position: absolute;
+    right: 45px;
+}
+
+div.tblAction button.Start {
+    position: absolute;
+    right: 45px;
+}
+
+div.tblAction button.Move2Whites {
+    position: absolute;
+    right: 45px;
+}
+
+div.tblAction button.Remove {
+    position: absolute;
+    right: 10px;
+}
+
+div.tblAction button.Stop {
+    position: absolute;
+    right: 10px;
+}
+
+div.tblAction button.Forces {
+    position: absolute;
+    right: 10px;
+}
+
+div.tblAction button.Disconnects {
+    position: absolute;
+    right: 10px;
+}
+
+div.tblAction button.LicenseRefresh {
+    position: absolute;
+    right: 10px;
+}
+
+span.linkStatus {
+    position: absolute;
+    left: 125px;
+    width: 16px;
+    height: 16px;
+}
+
+span.linkStatus.linkUp {
+    background-image: url('images/i_form_00_up.png');
+}
+
+span.linkStatus.linkDown {
+    background-image: url('images/i_form_00_down.png');
+}
+
+div {
+    /* font-family: "Lucida Grande", "Times New Roman", Times, serif; */
+}
+
+/* by menu */
+/* main */
+#main_bd table.noBorder {
+    border: none;
+}
+
+#main_bd table.noBorder caption{
+    height: 30px;
+}
+
+div.Expand {
+    width: 1200px;
+}
+
+/* reports */
+#div-statusSummary_wan {
+    width: 1200px;
+}
+
+.noData {
+    width: 250px;
+    height: 40px;
+    margin: 100px auto;
+    background: #efefef;
+    -mos-border-radius: 5px;
+    border-radius: 5px;
+    padding: 25px 0 0 25px;
+}
+
+/* networking */
+#div-dns_forwarder-general_configuration {
+    width: 260px;
+    background: #efefef;
+    -mos-border-radius: 5px;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+}
+
+#div-s2svpnEnable {
+    background: #efefef;
+    -mos-border-radius: 5px;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+#Editor-div-ike_policy, #Editor-div-transform_policy {
+    position: relative;
+    width: 480px;
+    height: 360px;
+    background: #efefef;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.panelDiv {
+    background: #efefef;
+    -mos-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.colspan2 {
+}
+
+#div-multiwan_settings {
+    position: relative;
+    width: 320px;
+    height: 120px;
+    background: #efefef;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    padding: 10px 0 0 10px;
+    margin-top: 3px;
+}
+
+#div-default_dns_settings {
+    position: relative;
+    width: 280px;
+    height: 70px;
+    background: #efefef;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    padding: 10px 0 0 10px;
+    margin-top: 3px;
+}
+
+#div-routing {
+    position: relative;
+}
+
+#div-routing li {
+    color: black;
+    padding: 10px;
+}
+
+#div-routing li span{
+    padding: 0 0 0 20px;
+}
+
+#div-routeMode {
+    position: relative;
+    width: 260px;
+    height: 100px;
+    background: #efefef;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#div-protoType {
+    position: relative;
+    width: 260px;
+    height: 100px;
+    background: #efefef;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+#div-alg {
+    position: relative;
+    width: 160px;
+    height: 100px;
+    background: #efefef;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#div-alg li {
+    color: black;
+    padding: 10px;
+}
+
+#div-vpn_passthrough {
+    position: relative;
+    width: 120px;
+    height: 100px;
+    background: #efefef;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#div-vpn_passthrough li {
+    color: black;
+    padding: 10px;
+}
+
+/* firewall */
+
+#div-session_settings {
+    color: black;
+}
+
+#div-session_settings label {
+    font-weight: bold;
+}
+
+#div-tcp_udp {
+    position: relative;
+    height: 160px;
+    width: 500px;
+    background: #efefef url('images/i_64_tcp_timeout_00.png') center center no-repeat;
+    -mos-border-radius: 5px;
+    border-radius: 5px;
+}
+
+#div-other {
+    position: relative;
+    height: 100px;
+    width: 500px;
+    background: #efefef url('images/i_64_other_sessioin_timeout_duration_00.png') center center no-repeat;
+    -mos-border-radius: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+#label-tcpTimeout {
+    position: absolute;
+    left: 20px;
+    top : 25px;
+}
+
+#input-tcpTimeout {
+    position: absolute;
+    right: 40px;
+    top : 25px;
+}
+
+#label-udpTimeout {
+    position: absolute;
+    left: 20px;
+    top : 110px;
+}
+
+#input-udpTimeout {
+    position: absolute;
+    right: 40px;
+    top : 110px;
+}
+
+#label-otherTimeout {
+    position: absolute;
+    left: 20px;
+    top : 40px;
+}
+
+#input-otherTimeout {
+    position: absolute;
+    right: 40px;
+    top : 40px;
+}
+
+#div-attack_protection {
+    width: 820px;
+    color: black;
+    margin-top: 5px;
+}
+
+#div-wan_security_checks {
+    position: relative;
+    height: 100px;
+    background: #efefef url('images/i_64_wan_security_checks_00.png') center left no-repeat;
+    background-position: 10px 35px;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    padding: 20px 0 0 80px;
+}
+
+#div-lan_security_checks {
+    position: relative;
+    height: 100px;
+    background: #efefef url('images/i_64_lan_security_checks_00.png') center left no-repeat;
+    background-position: 10px 35px;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    padding: 20px 0 0 80px;
+    margin-top: 10px;
+}
+
+#div-firewall_settings {
+    position: relative;
+    height: 100px;
+    background: #efefef url('images/i_64_firewall_settings_00.png') center left no-repeat;
+    background-position: 10px 35px;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    padding: 20px 0 0 80px;
+    margin-top: 10px;
+}
+
+#div-dos_attacks {
+    position: relative;
+    height: 100px;
+    background: #efefef url('images/i_64_dos_attacks_00.png') center left no-repeat;
+    background-position: 10px 35px;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    padding: 20px 0 0 80px;
+    margin-top: 10px;
+}
+
+/* security */
+#div-general_settings {
+    position: relative;
+    background: #efefef ;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+#div-zone_to_scan {
+    position: relative;
+    background: #efefef url('images/i_64_zone_to_scan_00.png') top left no-repeat;
+    margin-top: 10px;
+    padding: 5px 5px 5px 40px;
+}
+
+#div-http {
+    position: relative;
+    background: #efefef url('images/i_64_application_to_scan_00.png') top left no-repeat;
+    padding: 5px 5px 5px 40px;
+}
+
+#div-ftp {
+    position: relative;
+    background: #efefef url('images/i_64_ftp_00.png') top left no-repeat;
+    padding: 5px 5px 5px 40px;
+}
+
+#div-smtp {
+    position: relative;
+    background: #efefef url('images/i_64_smtp_00.png') top left no-repeat;
+    padding: 5px 5px 5px 40px;
+}
+
+#div-pop3 {
+    position: relative;
+    background: #efefef url('images/i_64_pop3_00.png') top left no-repeat;
+    padding: 5px 5px 5px 40px;
+}
+
+#div-cifs {
+    position: relative;
+    background: #efefef url('images/i_64_cifs_00.png') top left no-repeat;
+    background-size: 64px;
+    padding: 5px 5px 5px 40px;
+}
+
+#div-imap {
+    position: relative;
+    background: #efefef url('images/i_64_pop3_00.png') top left no-repeat;
+    padding: 5px 5px 5px 40px;
+}
+
+#div-maximumFile {
+    position: relative;
+    height: 40px;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+#div-expiration_duration {
+    background: #efefef ;
+    width: 520px;
+    -mos-border-radius: 5px;
+    border-radius: 5px;
+    margin: 3px 0;
+    padding: 5px;
+}
+
+#div-signatures {
+    width: 600px;
+    position: relative;
+    background: url('images/i_128_virus_database_00.png') top right no-repeat;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    padding: 80px 0 0 0;
+    background-position: 300px 0;
+}
+
+#div-signatures h2 {
+    font-size: 18px;
+    font-weight: bolder;
+    padding: 0 0 0 10px;
+}
+
+#div-signatures div {
+    width: 450px;
+    background: #efefef;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+#div-ip_mac_binding-global {
+    width: 320px;
+    background: #efefef;
+    -mos-border-radius: 5px;
+    border-radius: 5px;
+    margin: 0 0 3px 0;
+    padding: 5px;
+}
+
+#div-mime, #div-file_extension {
+    min-height: 540px;
+}
+
+/* users */
+
+#div-header-user {
+    width: 100%;
+}
+#div-bodyer-user {
+    overflow: auto;
+    width: 100%;
+    max-height: 499px;
+}
+#div-footer-user {
+    width: 100%;
+}
+
+#div-header-group {
+    width: 100%;
+}
+#div-bodyer-group {
+    overflow: auto;
+    width: 100%;
+    max-height: 480px;
+}
+#div-footer-group {
+    width: 100%;
+}
+
+
+
+/* object */
+#table-group_address th.tooltipCol {
+    width: 200px;
+}
+
+#table-group_address th.checkboxCol {
+    width: 50px;
+}
+
+#table-group_address .ui-accordion .ui-accordion-content {
+    padding: 0;
+}
+
+#table-group_service th.tooltipCol {
+    width: 160px;
+}
+
+#table-group_service th.checkboxCol {
+    width: 50px;
+}
+
+#table-group_service .ui-accordion .ui-accordion-content {
+    padding: 0;
+}
+
+/* device */
+/* device > administrator settings */
+#div-administrator_settings {
+    position: relative;
+    color: black;
+}
+
+#div-admin_manage {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 280px;
+    height: 280px;
+    background: #efefef ;
+    background-position: 20px 16px;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#div-admin_manage caption {
+    margin: 10px 0 0 20px;
+}
+
+#div-control_manage {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 520px;
+    height: 280px;
+    background: #efefef ;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#div-session_manage {
+    background: url('images/i_64_session_00.png') top left no-repeat;
+    background-position: 20px 16px;
+    padding: 20px 0 0 90px;
+}
+
+#div-block_manage {
+    background: url('images/i_64_block_password_guessing_00.png') top left no-repeat;
+    background-position: 20px 16px;
+    padding: 20px 0 0 90px;
+}
+
+/* device > management settings */
+#div-management_settings {
+
+}
+
+#div-listen_port {
+    width: 350px;
+    background: #efefef;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+/* device > email alert */
+#div-email_settings {
+    position: relative;
+    width: 480px;
+    background: #efefef;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+#div-email_alerts {
+    position: relative;
+    width: 580px;
+}
+
+#div-email_systems {
+    background: #efefef;
+    width: 560px;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+#div-email_networks {
+    background: #efefef;
+    width: 560px;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+#div-email_security {
+    background: #efefef;
+    width: 560px;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+/* device > backup/restore */
+#div-backup_restore {
+
+}
+
+#Editor-baseOn-pc button {
+    width: 80px;
+    height: 20px;
+    margin: 0;
+}
+
+#Editor-importFrom-pc button {
+    width: 80px;
+    height: 20px;
+    margin: 0;
+}
+
+/* device > firmware */
+#div-firmware {
+    position: relative;
+    width: 660px;
+    height: 460px;
+    background: #efefef;
+    background-position: 20px 16px;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#div-firmware button {
+    background: transparent;
+}
+
+#div-firmware_version {
+    position: relative;
+    width: 540px;
+    height: 200px;
+    background: url('images/i_128_reset_00.png') center left no-repeat;
+    padding: 50px 0 0 160px;
+}
+
+#div-upgrade_firmware {
+    position: relative;
+    width: 540px;
+    height: 200px;
+    background: url('images/i_128_upgrade_00.png') center left no-repeat;
+    padding: 50px 0 0 160px;
+}
+
+/* device > reboot/reset/shutdown */
+#div-reboot_reset_shutdown {
+    position: relative;
+}
+
+#div-reboot_reset_shutdown button {
+    background: #efefef;
+    position: absolute;
+    width: 100px;
+    left: 34px;
+    bottom: 8px;
+}
+
+#div-reboot_reset_shutdown ul {
+    position: absolute;
+    left: 10px;
+    bottom: 38px;
+}
+
+#div-reboot_reset_shutdown ul li {
+    display: inline;
+}
+
+#div-reboot  {
+    position: relative;
+    width: 168px;
+    height: 168px;
+    background: url('images/i_128_reboot_00.png') top center no-repeat;
+    background-position: 20px 10px;
+    border: 1px solid grey;
+    -mos-border-radius: 5px;
+    border-radius: 5px;
+}
+
+#div-reset  {
+    position: relative;
+    width: 168px;
+    height: 188px;
+    background: url('images/i_128_reset_00.png') top center no-repeat;
+    background-position: 20px 10px;
+    border: 1px solid grey;
+    -mos-border-radius: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+#div-shutdown  {
+    position: relative;
+    width: 168px;
+    height: 168px;
+    background: url('images/shutdown.png') top center no-repeat;
+    background-position: 20px 10px;
+    border: 1px solid grey;
+    -mos-border-radius: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* device > properties */
+#div-properties {
+    position: relative;
+    width: 440px;
+    height: 420px;
+}
+
+#div-hostname {
+    position: relative;
+    width: 420px;
+    height: 160px;
+    background: #efefef url('images/i_128_host_time_00.png') center left no-repeat;
+    background-position: 20px 16px;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#div-domainname {
+    position: relative;
+    width: 420px;
+    height: 160px;
+    background: #efefef url('images/i_128_domain_name_00.png') center left no-repeat;
+    background-position: 20px 16px;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+#input-hostname {
+    position: absolute;
+    left: 180px;
+    top : 80px;
+}
+
+#label-hostname {
+    position: absolute;
+    left: 180px;
+    top : 60px;
+}
+
+#label-domainname {
+    position: absolute;
+    left: 180px;
+    top : 60px;
+}
+
+#input-domainname {
+    position: absolute;
+    left: 180px;
+    top : 80px;
+}
+
+/* device > date and time */
+#div-systime_tzName {
+    position: relative;
+    width: 660px;
+    height: 150px;
+    background: #efefef url('images/i_128_time_zone_00.png') center left no-repeat;
+    background-position: 15px 15px;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    padding: 30px 0 0 0;
+}
+
+#div-system_time {
+    position: relative;
+    width: 660px;
+    height: 360px;
+    background: #efefef;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+#div-mode-0 {
+    position: relative;
+    width: 400px;
+    height: 150px;
+    background: url('images/i_128_manual_set_system_time_00.png') center left no-repeat;
+    background-position: 15px 15px;
+    padding: 20px 0 0 0;
+}
+
+#div-mode-1 {
+    position: relative;
+    width: 480px;
+    height: 150px;
+    background: url('images/i_128_automatically_set_system_time_00.png') center left no-repeat;
+    background-position: 15px 15px;
+    padding: 20px 0 0 0;
+}
+
+#div-date_and_time table {
+    margin-left: 160px;
+}
+
+/* device > loggings */
+#div-log_enable {
+    position: relative;
+    width: 320px;
+    height: 20px;
+    background: #efefef ;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    padding: 5px 95px 5px 5px;
+    margin-top: 10px;
+}
+
+#div-log_local {
+    position: relative;
+    width: 320px;
+    height: 80px;
+    background: #efefef url('images/i_64_local_log_00.png') center left no-repeat;
+    background-position: 15px 15px;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 5px 0 5px 100px;
+}
+
+#div-log_remote {
+    position: relative;
+    width: 320px;
+    height: 100px;
+    background: #efefef url('images/i_64_remote_log_00.png') center left no-repeat;
+    background-position: 15px 15px;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 5px 0 5px 100px;
+}
+
+#div-log_email {
+    position: relative;
+    width: 320px;
+    height: 140px;
+    background: #efefef url('images/i_64_email_alert_00.png') center left no-repeat;
+    background-position: 15px 15px;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 5px 0 5px 100px;
+}
+
+/* device > proxy */
+#div-proxy {
+    width: 380px;
+    background: #efefef;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 10px;
+}
+/* device > diagnostics */
+.resultDiv {
+    width: 500px;
+    height: 400px;
+    padding: 10px;
+    border: 1px solid grey;
+}
+
+#div-log_global {
+    width: 300px;
+    background: #efefef;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    margin: 5px 0;
+    padding: 10px;
+}
+
+#div-log_global button {
+    top: 0;
+}
+
+/* device > diagnostics */
+
+#div-dns_lookup, #div-ping, #div-traceroute {
+    position: relative;
+    width: 700px;
+    background: #efefef;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+
+#div-debug_global {
+    width: 800px;
+    background: #efefef;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    margin: 5px 0;
+    padding: 10px;
+}
+
+#div-debug_global button {
+    top: 0;
+}
+/* device > license */
+#div-registration {
+    position: relative;
+    width: 700px;
+    background: #efefef;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+#div-registration-general {
+    background: #efefef url('images/i_128_base_license_00.png') top left no-repeat;
+    background-position: 30px 20px;
+}
+
+#div-registration-trial {
+
+}
+
+#div-services {
+    position: relative;
+}
+
+#div-services_manage {
+    position: relative;
+    background: #efefef url('images/i_128_antivirus_00.png') center left no-repeat;
+    width: 620px;
+    min-height: 160px;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    padding: 20px 10px 0 160px;
+    margin-top: 10px;
+}
+
+#div-services_active {
+    position: relative;
+    background: #efefef url('images/i_128_support_service_00.png') center left no-repeat;
+    width: 620px;
+    height: 160px;
+    -mos-border-radius: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 20px 10px 0 160px;
+}

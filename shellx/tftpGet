@@ -1,13 +1,73 @@
 #!/bin/bash 
 
 if [ "$#" -eq 1 ]; then
-    date               
-    echo "tftp get $1" 
-    tftp -g -r $1 192.168.99.168
+    fl=$1
+else 
+    fl="index.html"
+fi
+
+IF_IP()
+{
+    while :
+    do
+        read -p "from? 168(1), 119(2), IP(3)? : " server
+        case $server in
+        "1" )
+            addr="192.168.99.168"
+            IF_BRANCH 
+            ;;
+        "2" )
+            addr="192.168.99.119"
+            IF_BRANCH 
+            ;;
+        "3" )
+            GET_IP
+            ;;
+        * ) echo "bye"; exit ;;
+        esac
+    done
+}
+
+GET_IP()
+{
+    read -p "ip? : " ip
+    addr=$ip
+    IF_BRANCH
+}
+
+IF_BRANCH()
+{
+    while : 
+    do 
+        read -p "branch? 6.1.x(1), 6.2.x(2), tftpboot(3) : " branch
+        case $branch in
+        "1" )
+            trunk="6.1.x/" 
+            GET_BRANCH ;;
+        "2" ) 
+            trunk="6.2.x/"
+            GET_BRANCH ;;
+        "3" )
+            trunk="NA"
+            GET_BRANCH ;;
+        * ) echo "bye"; exit ;;
+        esac
+    done
+}
+
+GET_BRANCH()
+{    
+    date
+    echo "tftp get $fl @ $trunk @ $addr" 
+    if [ $trunk == "NA" ]; then
+        tftp -g -r $fl $addr
+    else
+        tftp -g -r "$trunk/$fl" $addr
+    fi
     echo "tftp get done"      
-elif [ -e "index.html" ]; then
-    date                      
-    echo "tftp get index.html"
-    tftp -g -r index.html 192.168.99.168
-    echo "tftp get done"                
-fi 
+    exit 
+}
+
+IF_IP 
+
+
