@@ -47,6 +47,7 @@
     var gConf = {};
     var gObj  = {};
     var gHtml = {};
+    var gTerm = {};
     var gReg  = {};
     var gRef  = {};
     var gIf   = {};
@@ -90,12 +91,11 @@ $(document).ready(function () {
     var gY = YUI({filter:"raw", defaultGraphicEngine: "canvas"}).use('anim', 'charts', 'charts-legend', 'console', 'cookie', 'datasource-io', 'datasource-jsonschema', 'datatable-base', 'datatable-sort', 'datatable-datasource', 'dd', 'dd-plugin', 'io-base', 'io-upload-iframe', 'json', 'json-parse', 'json-stringify', 'panel', 'uploader', 'yui');
 
     function init() {
-        // mark multi lang for UG not ready for all yet
-        //if ( gY.Cookie.getSub( gObj.cooker, 'lang' ) ) {
-        //    gObj.lang = gY.Cookie.getSub( gObj.cooker, 'lang');
-        //} else {
+        if ( gY.Cookie.getSub( gObj.cooker, 'lang' ) ) {
+            gObj.lang = gY.Cookie.getSub( gObj.cooker, 'lang');
+        } else {
             gObj.lang = 'en';
-        //}
+        }
 
         if ( 'en' == gObj.lang ) {
             gObj.mLabel  = 'label';
@@ -131,191 +131,200 @@ $(document).ready(function () {
                 }
             }).done( function() {
                 $.ajax({
-                    url:'lang/' + gObj.lang + '-docs.txt',
-                    //url:'lang/docs.txt',
-                    dataType:'json',
-                    success:function(data) {
-                        // referece by lang
-                        gRef = data;
+                    url: 'lang/' + gObj.lang + '-term.txt',
+                    dataType: 'json',
+                    success: function(data) {
+                        // term by lang
+                        gTerm = data.term;
                     }
                 }).done( function() {
                     $.ajax({
-                        url: 'lang/menu.txt',
-                        dataType : 'json',
-                        scriptCharset: 'utf-8',
-                        contentType: 'application/json; charset=utf-8',
+                        url:'lang/' + gObj.lang + '-docs.txt',
+                        //url:'lang/docs.txt',
+                        dataType:'json',
                         success:function(data) {
-                            gObj.menu = data.menu;
-                            gObj.active = {};
-                            gObj.actived = {};
-                            gObj.active.index  = null;
-                            gObj.active.h3Arr  = [];
-                            gObj.active.h4Arr  = [];
-                            gHtml.html = '<ul class="accordion-ul">';
-    
-                            for (var i=0, len=gObj.menu.length; i<len; i++)
-                            {
-                                gObj.active.h3Arr.push(gObj.menu[i].id);
-    
-                                if  (gObj.menu[i].panel) {
-                                    gHtml.html += '<li id="'+gObj.menu[i].id+'" class="accordion-ul-li"><h3><a href="#">'+gObj.menu[i][ gObj.mLabel ]+'</a></h3>';
-                                    gHtml.html += '<ul class="accordion-ul-ul">';
-                                    for (var j=0, jlen= gObj.menu[i].panel.length; j<jlen; j++)
-                                    {
-                                        switch(typeof(gObj.menu[i].panel[j].panel) == 'object')
-                                        {
-                                        case true:
-                                            // h5
-                                            gObj.active.h4Arr.push(gObj.menu[i].panel[j].id);
-                                            gHtml.html += '<ul class="accordion-ul-ul-ul">';
-                                            gHtml.html += '<li id="'+gObj.menu[i].panel[j].id+'" class="accordion-ul-ul-ul-li"><h4><a href="#">'+gObj.menu[i].panel[j][ gObj.mLabel ]+'</a></h4>';
-                                            gHtml.html += '<ul class="accordion-ul-ul-ul-ul">';
-                                            for (var k=0, klen= gObj.menu[i].panel[j].panel.length; k<klen; k++)
-                                            {
-                                                gHtml.html += '<li id="'+gObj.menu[i].panel[j].panel[k].id+'" class="accordion-ul-ul-ul-ul-li index-'+i+'-'+j+'-'+k+'"><h5><a href="#">'+gObj.menu[i].panel[j].panel[k][ gObj.mLabel ]+'</a></h5></li>';
-                                            }
-                                            gHtml.html += '</ul>';
-                                            gHtml.html += '</li>';
-                                            gHtml.html += '</ul>';
-                                            break;
-                                        case false:
-                                            // h4
-                                            gHtml.html += '<li id="'+gObj.menu[i].panel[j].id+'" class="accordion-ul-ul-li index-'+i+'-'+j+'"><h4><a href="#">'+gObj.menu[i].panel[j][ gObj.mLabel ]+'</a></h4></li>';
-                                            break;
-                                        }
-                                    }
-                                    gHtml.html += '</ul>';
-                                    gHtml.html += '</li>';
-                                } else
-                                    gHtml.html += '<li id="'+gObj.menu[i].id+'" class="accordion-ul-li index-' + i + ' noPanel"><h3><a href="#">'+gObj.menu[i][ gObj.mLabel ]+'</a></h3></li>';
-                            }
-    
-                            gHtml.html += '</ul>';
-    
-                            $('#menu').html(gHtml.html);
-    
-                            gObj.acc3 = $('.accordion-ul').accordion({
-                                collapsible:true,
-                                active: false,
-                                autoHeight: false
-                            });
-    
-                            // remove h3 icon if no panel,,,
-                            $('.noPanel span').remove();
-    
-                            gObj.acc4 = $('.accordion-ul-ul-ul').accordion({
-                                collapsible:true,
-                                active:false,
-                                autoHeight: false
-                            });
-    
-                            $('.accordion-ul-li h3').on('click', function(e) {
-                                if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
-                                    gIf.getSessInfo = true;
-                                    gIf.refresh = true;
-                                    gObj.actived = gObj.active;
-                                    gObj.active = {};
-                                    gObj.active.h3Index = RegExp.$1;
-                                    gObj.active.h4Index = "NA";
-                                    gObj.active.h5Index = "NA";
-                                    gObj.active.icon    = $(this);
-                                    gObj.active.pid     = $(this).parents('li').attr('id');
-                                    gObj.active.target  = $(this);
-                                    gObj.active.menu    = '<h3>';
-                                    gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index][ gObj.mLabel ]+'</b>';
-                                    gObj.active.menu    += '</h3>';
-    
-                                    $('#activedMenu').remove();
-    
-                                    gObj.active.icon.addClass('ui-actived');
-                                    gObj.active.icon.prepend(gHtml.aMenu);
-                                    gNode = gObj.menu[gObj.active.h3Index];
-                                    $('#main_hd').html( gObj.active.menu );
-    
-                                    genMain();
-                                }
-                            });
-    
-    
-                            $('.accordion-ul-ul-li h4').on('click', function(e) {
-                                if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
-                                    gObj.actived = gObj.active;
-                                    gObj.active = {};
-                                    gObj.active.h3Index = RegExp.$1;
-                                    gObj.active.h4Index = RegExp.$3;
-                                    gObj.active.h5Index = "NA";
-                                    gObj.active.icon = $(this);
-                                    gObj.active.pid     = $(this).parents('li').attr('id');
-                                    gObj.active.target  = $(this);
-                                    gObj.active.menu    = '<h3>';
-                                    gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index][ gObj.mLabel ]+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index][ gObj.mLabel ]+'</b>';
-    
-                                    gObj.active.menu    += '</h3>';
-    
-                                    // navbar
-    
-                                    $('#activedMenu').remove();
-    
-                                    gObj.active.icon.addClass('ui-actived');
-                                    gObj.active.icon.prepend(gHtml.aMenu);
-                                    gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index];
-                                    $('#main_hd').html( gObj.active.menu );
-    
-                                    genMain();
-                                }
-                            });
-    
-                            $('.accordion-ul-ul-ul-ul-li h5').on('click', function(e) {
-                                switch(gReg.isIndex.test($(this).parents('li').attr('class')))
-                                {
-                                case true:
-                                    gObj.actived = gObj.active;
-                                    gObj.active = {};
-                                    gObj.active.h3Index = RegExp.$1;
-                                    gObj.active.h4Index = RegExp.$3;
-                                    gObj.active.h5Index = RegExp.$5;
-                                    gObj.active.icon    = $(this);
-                                    gObj.active.pid     = $(this).parents('li').attr('id');
-                                    gObj.active.target  = $(this);
-                                    gObj.active.menu    = '<h3>';
-                                    gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index][ gObj.mLabel ]+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index][ gObj.mLabel ]+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].panel[gObj.active.h5Index][ gObj.mLabel ]+'</b>';
-                                    gObj.active.menu    += '</h3>';
-    
-                                    // navbar
-    
-                                    $('#activedMenu').remove();
-    
-                                    gObj.active.icon.addClass('ui-actived');
-                                    gObj.active.icon.prepend(gHtml.aMenu);
-                                    gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].panel[gObj.active.h5Index];
-                                    $('#main_hd').html( gObj.active.menu );
-    
-                                    genMain();
-                                }
-                            });
-    
-                            $('#ft .content').append('<p>' + gConf.version[ gIndex ].copyright + '</p>');
-    
-                            gObj.ids = gObj.id.split('-');
-                            for (var i=0, len=gObj.ids.length; i<len; i++)
-                            {
-                                switch( i )
-                                {
-                                case 1:
-                                    if (2 == len) {
-                                        gObj.acc3.accordion('activate', gObj.ids[ 1 ]);
-                                    }
-                                    $('#' + gObj.ids[ 0 ] + '-' + gObj.ids[ 1 ] + ' h3').click();
-                                    break;
-                                case 2:
-                                    $('#' + gObj.ids[ 0 ] + '-' + gObj.ids[ 1 ] + '-' + gObj.ids[ 2 ] + ' h4').click();
-                                    break;
-                                case 3:
-                                    $('#' + gObj.ids[ 0 ] + '-' + gObj.ids[ 1 ] + '-' + gObj.ids[ 2 ] + '-' + gObj.ids[ 3 ] + ' h5').click();
-                                    break;
-                                }
-                            }
+                            // referece by lang
+                            gRef = data;
                         }
+                    }).done( function() {
+                        $.ajax({
+                            url: 'lang/menu.txt',
+                            dataType : 'json',
+                            scriptCharset: 'utf-8',
+                            contentType: 'application/json; charset=utf-8',
+                            success:function(data) {
+                                gObj.menu = data.menu;
+                                gObj.active = {};
+                                gObj.actived = {};
+                                gObj.active.index  = null;
+                                gObj.active.h3Arr  = [];
+                                gObj.active.h4Arr  = [];
+                                gHtml.html = '<ul class="accordion-ul">';
+        
+                                for (var i=0, len=gObj.menu.length; i<len; i++)
+                                {
+                                    gObj.active.h3Arr.push(gObj.menu[i].id);
+        
+                                    if  (gObj.menu[i].panel) {
+                                        gHtml.html += '<li id="'+gObj.menu[i].id+'" class="accordion-ul-li"><h3><a href="#">'+gObj.menu[i][ gObj.mLabel ]+'</a></h3>';
+                                        gHtml.html += '<ul class="accordion-ul-ul">';
+                                        for (var j=0, jlen= gObj.menu[i].panel.length; j<jlen; j++)
+                                        {
+                                            switch(typeof(gObj.menu[i].panel[j].panel) == 'object')
+                                            {
+                                            case true:
+                                                // h5
+                                                gObj.active.h4Arr.push(gObj.menu[i].panel[j].id);
+                                                gHtml.html += '<ul class="accordion-ul-ul-ul">';
+                                                gHtml.html += '<li id="'+gObj.menu[i].panel[j].id+'" class="accordion-ul-ul-ul-li"><h4><a href="#">'+gObj.menu[i].panel[j][ gObj.mLabel ]+'</a></h4>';
+                                                gHtml.html += '<ul class="accordion-ul-ul-ul-ul">';
+                                                for (var k=0, klen= gObj.menu[i].panel[j].panel.length; k<klen; k++)
+                                                {
+                                                    gHtml.html += '<li id="'+gObj.menu[i].panel[j].panel[k].id+'" class="accordion-ul-ul-ul-ul-li index-'+i+'-'+j+'-'+k+'"><h5><a href="#">'+gObj.menu[i].panel[j].panel[k][ gObj.mLabel ]+'</a></h5></li>';
+                                                }
+                                                gHtml.html += '</ul>';
+                                                gHtml.html += '</li>';
+                                                gHtml.html += '</ul>';
+                                                break;
+                                            case false:
+                                                // h4
+                                                gHtml.html += '<li id="'+gObj.menu[i].panel[j].id+'" class="accordion-ul-ul-li index-'+i+'-'+j+'"><h4><a href="#">'+gObj.menu[i].panel[j][ gObj.mLabel ]+'</a></h4></li>';
+                                                break;
+                                            }
+                                        }
+                                        gHtml.html += '</ul>';
+                                        gHtml.html += '</li>';
+                                    } else
+                                        gHtml.html += '<li id="'+gObj.menu[i].id+'" class="accordion-ul-li index-' + i + ' noPanel"><h3><a href="#">'+gObj.menu[i][ gObj.mLabel ]+'</a></h3></li>';
+                                }
+        
+                                gHtml.html += '</ul>';
+        
+                                $('#menu').html(gHtml.html);
+        
+                                gObj.acc3 = $('.accordion-ul').accordion({
+                                    collapsible:true,
+                                    active: false,
+                                    autoHeight: false
+                                });
+        
+                                // remove h3 icon if no panel,,,
+                                $('.noPanel span').remove();
+        
+                                gObj.acc4 = $('.accordion-ul-ul-ul').accordion({
+                                    collapsible:true,
+                                    active:false,
+                                    autoHeight: false
+                                });
+        
+                                $('.accordion-ul-li h3').on('click', function(e) {
+                                    if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
+                                        gIf.getSessInfo = true;
+                                        gIf.refresh = true;
+                                        gObj.actived = gObj.active;
+                                        gObj.active = {};
+                                        gObj.active.h3Index = RegExp.$1;
+                                        gObj.active.h4Index = "NA";
+                                        gObj.active.h5Index = "NA";
+                                        gObj.active.icon    = $(this);
+                                        gObj.active.pid     = $(this).parents('li').attr('id');
+                                        gObj.active.target  = $(this);
+                                        gObj.active.menu    = '<h3>';
+                                        gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index][ gObj.mLabel ]+'</b>';
+                                        gObj.active.menu    += '</h3>';
+        
+                                        $('#activedMenu').remove();
+        
+                                        gObj.active.icon.addClass('ui-actived');
+                                        gObj.active.icon.prepend(gHtml.aMenu);
+                                        gNode = gObj.menu[gObj.active.h3Index];
+                                        $('#main_hd').html( gObj.active.menu );
+        
+                                        genMain();
+                                    }
+                                });
+        
+        
+                                $('.accordion-ul-ul-li h4').on('click', function(e) {
+                                    if (gReg.isIndex.test($(this).parents('li').attr('class'))) {
+                                        gObj.actived = gObj.active;
+                                        gObj.active = {};
+                                        gObj.active.h3Index = RegExp.$1;
+                                        gObj.active.h4Index = RegExp.$3;
+                                        gObj.active.h5Index = "NA";
+                                        gObj.active.icon = $(this);
+                                        gObj.active.pid     = $(this).parents('li').attr('id');
+                                        gObj.active.target  = $(this);
+                                        gObj.active.menu    = '<h3>';
+                                        gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index][ gObj.mLabel ]+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index][ gObj.mLabel ]+'</b>';
+        
+                                        gObj.active.menu    += '</h3>';
+        
+                                        // navbar
+        
+                                        $('#activedMenu').remove();
+        
+                                        gObj.active.icon.addClass('ui-actived');
+                                        gObj.active.icon.prepend(gHtml.aMenu);
+                                        gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index];
+                                        $('#main_hd').html( gObj.active.menu );
+        
+                                        genMain();
+                                    }
+                                });
+        
+                                $('.accordion-ul-ul-ul-ul-li h5').on('click', function(e) {
+                                    switch(gReg.isIndex.test($(this).parents('li').attr('class')))
+                                    {
+                                    case true:
+                                        gObj.actived = gObj.active;
+                                        gObj.active = {};
+                                        gObj.active.h3Index = RegExp.$1;
+                                        gObj.active.h4Index = RegExp.$3;
+                                        gObj.active.h5Index = RegExp.$5;
+                                        gObj.active.icon    = $(this);
+                                        gObj.active.pid     = $(this).parents('li').attr('id');
+                                        gObj.active.target  = $(this);
+                                        gObj.active.menu    = '<h3>';
+                                        gObj.active.menu    += '<b>'+gObj.menu[gObj.active.h3Index][ gObj.mLabel ]+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index][ gObj.mLabel ]+'</b> > <b>'+gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].panel[gObj.active.h5Index][ gObj.mLabel ]+'</b>';
+                                        gObj.active.menu    += '</h3>';
+        
+                                        // navbar
+        
+                                        $('#activedMenu').remove();
+        
+                                        gObj.active.icon.addClass('ui-actived');
+                                        gObj.active.icon.prepend(gHtml.aMenu);
+                                        gNode = gObj.menu[gObj.active.h3Index].panel[gObj.active.h4Index].panel[gObj.active.h5Index];
+                                        $('#main_hd').html( gObj.active.menu );
+        
+                                        genMain();
+                                    }
+                                });
+        
+                                $('#ft .content').append('<p>' + gConf.version[ gIndex ].copyright + '</p>');
+        
+                                gObj.ids = gObj.id.split('-');
+                                for (var i=0, len=gObj.ids.length; i<len; i++)
+                                {
+                                    switch( i )
+                                    {
+                                    case 1:
+                                        if (2 == len) {
+                                            gObj.acc3.accordion('activate', gObj.ids[ 1 ]);
+                                        }
+                                        $('#' + gObj.ids[ 0 ] + '-' + gObj.ids[ 1 ] + ' h3').click();
+                                        break;
+                                    case 2:
+                                        $('#' + gObj.ids[ 0 ] + '-' + gObj.ids[ 1 ] + '-' + gObj.ids[ 2 ] + ' h4').click();
+                                        break;
+                                    case 3:
+                                        $('#' + gObj.ids[ 0 ] + '-' + gObj.ids[ 1 ] + '-' + gObj.ids[ 2 ] + '-' + gObj.ids[ 3 ] + ' h5').click();
+                                        break;
+                                    }
+                                }
+                            }
+                        });
                     });
                 });
             });
@@ -345,7 +354,7 @@ $(document).ready(function () {
                 $('#docDiv-panel-div-' + x).html('<hr/>');
                 if ( gRef[ gNode.id ].tabs[ x ].editor ) {
                     // tabs in tabs
-                    $('#docDiv-panel-div-' + x).append( '<ul><li id="docDiv-tab2-' + x + '"><a href="#docDiv-panel2-' + x + '">Table</a></li><li id="docDiv-tab2-editor-' + x + '"><a href="#docDiv-editor2-' + x + '">Editor</a></li></ul>');
+                    $('#docDiv-panel-div-' + x).append( '<ul><li id="docDiv-tab2-' + x + '"><a href="#docDiv-panel2-' + x + '">' + gTerm.Table + '</a></li><li id="docDiv-tab2-editor-' + x + '"><a href="#docDiv-editor2-' + x + '">' + gTerm.Editor + '</a></li></ul>');
                     $('#docDiv-panel-div-' + x).append('<div id="docDiv-panel2-' + x + '"><div id="docDiv-panel2-div-' + x + '"></div></div>');
                     $('#docDiv-panel-div-' + x).append('<div id="docDiv-editor2-' + x + '"><div id="docDiv-editor2-div-' + x + '"></div></div>');
                     tmp = '<dl id="docDiv-panel2-dl-' + x + '">';
@@ -388,7 +397,7 @@ $(document).ready(function () {
                 } else if ( gRef[ gNode.id ].tabs[ x ].editors ) {
 
                     // tabs in tabs
-                    $('#docDiv-panel-div-' + x).append( '<ul><li id="docDiv-tab2-' + x + '"><a href="#docDiv-panel2-' + x + '">Table</a></li><li id="docDiv-tab2-editor-' + x + '"><a href="#docDiv-editor2-' + x + '">Editor</a></li></ul>');
+                    $('#docDiv-panel-div-' + x).append( '<ul><li id="docDiv-tab2-' + x + '"><a href="#docDiv-panel2-' + x + '">' + gTerm.Table + '</a></li><li id="docDiv-tab2-editor-' + x + '"><a href="#docDiv-editor2-' + x + '">' + gTerm.Editor + '</a></li></ul>');
                     $('#docDiv-panel-div-' + x).append('<div id="docDiv-panel2-' + x + '"><div id="docDiv-panel2-div-' + x + '"></div></div>');
                     $('#docDiv-panel-div-' + x).append('<div id="docDiv-editor2-' + x + '"><div id="docDiv-editor2-div-' + x + '"></div></div>');
                     tmp = '<dl id="docDiv-panel2-dl-' + x + '">';
@@ -480,7 +489,7 @@ $(document).ready(function () {
         } else if ( gRef[ gNode.id ].editors ) {
             // use tabs
             $('#docDiv').append('<ul></ul>');
-            $('#docDiv ul').append('<li id="docDiv-tab-' + gNode.id + '"><a href="#docDiv-panel-' + gNode.id + '">' + gRef[ gNode.id ][ gObj.label ] + '</a></li><li id="docDiv-tab-editor"><a href="#docDiv-editor-' + gNode.id + '">Editor</a></li>');
+            $('#docDiv ul').append('<li id="docDiv-tab-' + gNode.id + '"><a href="#docDiv-panel-' + gNode.id + '">' + gRef[ gNode.id ][ gObj.label ] + '</a></li><li id="docDiv-tab-editor"><a href="#docDiv-editor-' + gNode.id + '">' + gTerm.Editor + '</a></li>');
             $('#docDiv').append('<div id="docDiv-panel-' + gNode.id + '"><div id="docDiv-panel-div-' + gNode.id + '"></div></div>');
             $('#docDiv').append('<div id="docDiv-editor-' + gNode.id + '"><div id="docDiv-editor-div-' + gNode.id + '"></div></div>');
             $('#docDiv').tabs();
@@ -534,7 +543,7 @@ $(document).ready(function () {
         } else if ( gRef[ gNode.id ].editor ) {
             // use tabs
             $('#docDiv').append('<ul></ul>');
-            $('#docDiv ul').append('<li id="docDiv-tab-' + gNode.id + '"><a href="#docDiv-panel-' + gNode.id + '">' + gRef[ gNode.id ][ gObj.label ] + '</a></li><li id="docDiv-tab-editor"><a href="#docDiv-editor-' + gNode.id + '">Editor</a></li>');
+            $('#docDiv ul').append('<li id="docDiv-tab-' + gNode.id + '"><a href="#docDiv-panel-' + gNode.id + '">' + gRef[ gNode.id ][ gObj.label ] + '</a></li><li id="docDiv-tab-editor"><a href="#docDiv-editor-' + gNode.id + '">' + gTerm.Editor + '</a></li>');
             $('#docDiv').append('<div id="docDiv-panel-' + gNode.id + '"><div id="docDiv-panel-div-' + gNode.id + '"></div></div>');
             $('#docDiv').append('<div id="docDiv-editor-' + gNode.id + '"><div id="docDiv-editor-div-' + gNode.id + '"></div></div>');
             $('#docDiv').tabs();

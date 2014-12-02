@@ -6575,7 +6575,7 @@
                   {
                     "0" : { "label" : "Disable", "cn-label" : "禁用", "tw-label" : "停用" },
                     "1" : { "label" : "DHCP Server", "cn-label" : "DHCP 服务器", "tw-label" : "DHCP 伺服器" },
-                    "2" : "DHCP 中繼代理"
+                    "2" : { "label" : "DHCP Relay", "cn-label" : "DHCP中继", "tw-label" : "DHCP 中繼代理" }
                   },
                   "align" :
                   [
