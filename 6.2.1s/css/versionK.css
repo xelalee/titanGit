@@ -1,0 +1,152 @@
+/* layout outline */
+#outline {
+    background: url('images/bg_logoK.png') top center no-repeat;
+}
+
+#loginDiv {
+    background: url('images/bg_logoK.png') top center no-repeat;
+}
+
+#loginButton {
+    background-color: rgb(248, 248, 248);
+}
+
+#menu {
+    background-color: #007260;
+}
+
+#menu h3 a {
+    font-weight: 900;
+}
+
+#menu h4.ui-state-active a {
+    color: #ea212d;
+}
+
+#menu h4 a {
+    font-weight: 500;
+}
+
+#menu h5 a {
+    font-weight: 100;
+}
+
+#menu .accordion-ul-li h3.ui-state-default:hover a {
+    color: black;
+    top: 10px;
+}
+
+#menu .accordion-ul-li h3.ui-state-active {
+    background: #007460;
+    background: -moz-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, #007460), color-stop(51%, #f6f6f6), color-stop(100%, #007260));
+    background: -webkit-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
+    background: -o-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
+    background: -ms-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
+    background: linear-gradient(to bottom, #007460 0%, #f6f6f6 51%, #007260 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007460', endColorstr='#007260', GradientType=0 );
+}
+
+#menu .accordion-ul-li h3:hover {
+    background: #007460;
+    background: -moz-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, #007460), color-stop(51%, #f6f6f6), color-stop(100%, #007260));
+    background: -webkit-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
+    background: -o-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
+    background: -ms-linear-gradient(top, #007460 0%, #f6f6f6 51%, #007260 100%);
+    background: linear-gradient(to bottom, #007460 0%, #f6f6f6 51%, #007260 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007460', endColorstr='#007260', GradientType=0 );
+}
+
+#menu .accordion-ul-li h3.ui-state-active a {
+    color: #ea212d;
+}
+
+#menu .accordion-ul-ul-li h4, #menu .accordion-ul-ul-ul-li h4.ui-state-default {
+    background: #007260;
+}
+
+#menu .accordion-ul-ul-ul-li h4.ui-state-active {
+    background: #008270;
+    background: -moz-linear-gradient(top, #008270 0%, #d1d1d1 51%, #008270 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, #008270), color-stop(51%, #d1d1d1), color-stop(100%, #008270));
+    background: -webkit-linear-gradient(top, #008270 0%, #d1d1d1 51%, #008270 100%);
+    background: -o-linear-gradient(top, #008270 0%, #d1d1d1 51%, #008270 100%);
+    background: -ms-linear-gradient(top, #008270 0%, #d1d1d1 51%, #008270 100%);
+    background: linear-gradient(to bottom, #008270 0%, #d1d1d1 51%, #008270 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#008270', endColorstr='#008270', GradientType=0 );
+}
+
+#menu .accordion-ul-ul-ul-ul-li h5 {
+    background: #008270;
+}
+
+#activedMenu {
+    background-position: -208px -192px;
+}
+
+h3 #activedMenu {
+    left: 8px;
+    background-image: url('images/ui-icons_cc0000_256x240.png');
+}
+
+h4 #activedMenu, h5 #activedMenu {
+    top: 6px;
+    left: 8px;
+    background-image: url('images/ui-icons_ffffff_256x240.png');
+}
+
+#main_hd {
+    background: #007260;
+    width: 824px;
+    height: 26px;
+    padding: 0 3px 3px 3px;
+    margin: 3px 10px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+
+/* portal */
+div.mod h2 {
+    background-color: #007260;
+}
+
+#main_ft {
+    background-color: #007260;
+}
+
+#ft {
+    background-color: black;
+}
+
+#onlineHelp {
+    position: relative;
+    margin: 0 auto; /* center in viewport */
+    width: 1024px; /* fix page width */
+    height: 600px;
+    letter-spacing: 0;
+    word-spacing: 0;
+}
+
+#reporter {
+    background: url('images/bg_logoK.png') top center no-repeat;
+}
+
+#reporter #bd_hd {
+    background: #007260;
+}
+
+#reporter .tabber ul {
+    border: 2px solid #007260;
+    border-style: none none solid none;
+}
+
+#reporter #bd_ft {
+    background: #007260;
+}
+
+#reporter .pager span.rows {
+    color: white;
+}
+
