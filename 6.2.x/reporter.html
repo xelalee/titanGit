@@ -573,19 +573,22 @@ $(document).ready(function () {
                         switch( gCache.param )
                         {
                         case 'traffic_direction':
-                            gCache.menu = data.menu[ 7 ].panel[ 1 ].panel[ 0 ];
+                            gCache.menu = data.menu[ 8 ].panel[ 1 ].panel[ 0 ];
                             break;
                         case 'file_extension':
-                            gCache.menu = data.menu[ 7 ].panel[ 0 ].panel[ 0 ];
+                            gCache.menu = data.menu[ 8 ].panel[ 0 ].panel[ 0 ];
                             break;
                         case 'blocked_host':
-                            gCache.menu = data.menu[ 7 ].panel[ 0 ].panel[ 1 ];
+                            gCache.menu = data.menu[ 8 ].panel[ 0 ].panel[ 1 ];
                             break;
                         case 'affected_host':
-                            gCache.menu = data.menu[ 7 ].panel[ 0 ].panel[ 2 ];
+                            gCache.menu = data.menu[ 8 ].panel[ 0 ].panel[ 2 ];
                             break;
                         case 'antivirus_report':
-                            gCache.menu = data.menu[ 7 ].panel[ 0 ].panel[ 3 ];
+                            gCache.menu = data.menu[ 8 ].panel[ 0 ].panel[ 3 ];
+                            break;
+                        case 'ip_mac_binding_report':
+                            gCache.menu = data.menu[ 8 ].panel[ 7 ];
                             break;
                         }
                     }

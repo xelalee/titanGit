@@ -1068,6 +1068,20 @@
               "tag" : "p"
             },
             {
+              "label" : "Email Notification Receiver",
+              "cn-label" : "Email Notification Receiver",
+              "tw-label" : "Email Notification Receiver",
+              "tab" : "receiverStatus",
+              "tag" : "input",
+              "type" : "radio",
+              "option" :
+              {
+                "0" : { "label" : "Sender", "cn-label" : "Sender", "tw-label" : "Sender" },
+                "1" : { "label" : "Receiver", "cn-label" : "Receiver", "tw-label" : "Receiver" },
+                "2" : { "label" : "Both", "cn-label" : "Both", "tw-label" : "Both" }
+              }
+            },
+            {
               "label" : "Mail Tag",
               "cn-label" : "邮件标签",
               "tw-label" : "郵件主旨",
@@ -1627,6 +1641,20 @@
               "tw-label" : "SMTP 認証",
               "tab" : "smtpAuth",
               "tag" : "p"
+            },
+            {
+              "label" : "Email Notification Receiver",
+              "cn-label" : "Email Notification Receiver",
+              "tw-label" : "Email Notification Receiver",
+              "tab" : "receiverStatus",
+              "tag" : "input",
+              "type" : "radio",
+              "option" :
+              {
+                "0" : { "label" : "Sender", "cn-label" : "Sender", "tw-label" : "Sender" },
+                "1" : { "label" : "Receiver", "cn-label" : "Receiver", "tw-label" : "Receiver" },
+                "2" : { "label" : "Both", "cn-label" : "Both", "tw-label" : "Both" }
+              }
             },
             {
               "label" : "Mail Tag",
@@ -2593,51 +2621,50 @@
               "wiz" : "100px"
             },
             {
-
-                  "label" : "CIFS",
-                  "cn-label" : "CIFS",
-                  "tw-label" : "CIFS",
-                  "tab" : "cifs",
-                  "tag" : "table",
-                  "type" : "table",
-                  "col" :
-                  [
-                    {
-                      "label" : "Enable",
-                      "cn-label" : "启用",
-                      "tw-label" : "啟用",
-                      "tab" : "cifsEnable",
-                      "tag" : "input",
-                      "type" : "checkbox",
-                      "val" : 1
-                    },
-                    {
-                      "label" : "Log",
-                      "cn-label" : "日志",
-                      "tw-label" : "記錄",
-                      "tab" : "cifsLog",
-                      "tag" : "input",
-                      "type" : "checkbox",
-                      "val" : 1
-                    },
-                    {
-                      "label" : "Action",
-                      "cn-label" : "操作",
-                      "tw-label" : "動作",
-                      "tab" : "cifsAct",
-                      "tag" : "select",
-                      "type" : "select",
-                      "option" :
-                      {
-                        "0" : { "label" : "None", "cn-label" : "无", "tw-label" : "監視模式" }
-                      },
-                      "optionAll" :
-                      {
-                        "0" : { "label" : "None", "cn-label" : "无", "tw-label" : "監視模式" },
-                        "1" : { "label" : "None", "cn-label" : "通知", "tw-label" : "警告" }
-                      }
-                    }
-                  ]
+              "label" : "CIFS",
+              "cn-label" : "CIFS",
+              "tw-label" : "CIFS",
+              "tab" : "cifs",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "Enable",
+                  "cn-label" : "启用",
+                  "tw-label" : "啟用",
+                  "tab" : "cifsEnable",
+                  "tag" : "input",
+                  "type" : "checkbox",
+                  "val" : 1
+                },
+                {
+                  "label" : "Log",
+                  "cn-label" : "日志",
+                  "tw-label" : "記錄",
+                  "tab" : "cifsLog",
+                  "tag" : "input",
+                  "type" : "checkbox",
+                  "val" : 1
+                },
+                {
+                  "label" : "Action",
+                  "cn-label" : "操作",
+                  "tw-label" : "動作",
+                  "tab" : "cifsAct",
+                  "tag" : "select",
+                  "type" : "select",
+                  "option" :
+                  {
+                    "0" : { "label" : "None", "cn-label" : "无", "tw-label" : "監視模式" }
+                  },
+                  "optionAll" :
+                  {
+                    "0" : { "label" : "None", "cn-label" : "无", "tw-label" : "監視模式" },
+                    "1" : { "label" : "None", "cn-label" : "通知", "tw-label" : "警告" }
+                  }
+                }
+              ]
             },
             {
               "label" : "Maximum File Size to Scan",
@@ -2651,7 +2678,6 @@
               "tw-note" : "(1-10240 byte, 0=不限)"
             }
           ],
-
           "address_exceptions" :
           [
             {
@@ -2886,78 +2912,587 @@
       },
       "editor":
       {
+        "address_exceptions" :
+        [
+          {
+            "label" : "Enable",
+            "cn-label" : "启用",
+            "tw-label" : "啟用",
+            "tab" : "enable",
+            "tag" : "input",
+            "type" : "checkbox"
+          },
+          {
+            "label" : "Source Address",
+            "cn-label" : "源地址",
+            "tw-label" : "來源位址",
+            "tab" : "sAddrId",
+            "tag" : "select",
+            "type" : "select"
+          },
+          {
+            "label" : "Destination Address",
+            "cn-label" : "目的地址",
+            "tw-label" : "目的位址",
+            "tab" : "dAddrId",
+            "tag" : "select",
+            "type" : "select"
+          },
+          {
+            "label" : "Log",
+            "cn-label" : "日志",
+            "tw-label" : "記錄",
+            "tab" : "logEnable",
+            "tag" : "input",
+            "type" : "checkbox"
+          }
+        ],
+        "mime" :
+        [
+          {
+            "label" : "Type",
+            "cn-label" : "类型",
+            "tw-label" : "類型",
+            "tab" : "type",
+            "tag" : "select",
+            "type" : "select"
+          },
+          {
+            "label" : "Sub Type",
+            "cn-label" : "子类型",
+            "tw-label" : "子類型",
+            "tab" : "sub",
+            "tag" : "select",
+            "type" : "select"
+          }
+        ],
+        "file_extension" :
+        [
+          {
+            "label" : "File Extension",
+            "cn-label" : "文件扩展名",
+            "tw-label" : "檔案副檔名",
+            "tab" : "fileExt",
+            "tag" : "input",
+            "type" : "text"
+          }
+        ]
+      }
+    },
+    {
+      "label" : "IMAP",
+      "cn-label" : "IMAP",
+      "tw-label" : "IMAP",
+      "id" : "menu-6",
+      "tab" : "imap",
+      "tag" : "div",
+      "type" : "tabs",
+      "tabs" :
+      {
+        "general_settings" : { "label" : "General Setting", "cn-label" : "一般设置", "tw-label" : "一般設定" },
+        "address_exceptions" : { "label" : "Address Exception", "cn-label" : "地址排除", "tw-label" : "位址例外" },
+        "file_exceptions" : { "label" : "File Exception", "cn-label" : "文件排除", "tw-label" : "檔案例外" },
+        "blacklist" : { "label" : "Blacklist", "cn-label" : "黑名单", "tw-label" : "黑名單" },
+        "whitelist" : { "label" : "Whitelist", "cn-label" : "白名单", "tw-label" : "白名單" }
+      },
+      "url" :
+      {
+        "get" :
+        {
+          "general_settings" : "av_general",
+          "address_exceptions" : "addr_filter",
+          "file_exceptions" : "av_file_exception",
+          "blacklist" : "av_blacklist",
+          "whitelist" : "av_whitelist"
+        },
+        "post" :
+        {
+          "general_settings" : "av_general",
+          "address_exceptions" : "addr_filter",
+          "file_exceptions" : "av_file_exception",
+          "blacklist" : "av_blacklist",
+          "whitelist" : "av_whitelist"
+        }
+      },
+      "ext" : "cgi",
+      "pgAction" :
+      {
+        "general_settings" : "Save Cancel",
+        "address_exceptions" : "Save Cancel",
+        "file_exceptions" : "Save Cancel",
+        "blacklist" : "Save Cancel",
+        "whitelist" : "Save Cancel"
+      },
+      "tblAction" :
+      {
+        "general_settings" : false,
+        "address_exceptions" : "Create",
+        "file_exceptions" : "Create",
+        "blacklist" : "Move2Whites Remove",
+        "whitelist" : "Remove"
+      },
+      "rowAction" :
+      {
+        "general_settings" : false,
+        "address_exceptions" : "Edit Delete",
+        "file_exceptions" : "Edit Delete",
+        "blacklist" : "Delete",
+        "whitelist" : "History Delete"
+      },
+      "guiT" :
+      {
+        "general_settings" : false,
+        "address_exceptions" : "guiAddrFilterT",
+        "file_exceptions" :
+        {
+          "mime" : "mimeExcepT",
+          "file_exception" : "fileExcepT"
+        },
+        "blacklist" : "urlT",
+        "whitelist" : "urlT"
+      },
+      "guiTNum" :
+      {
+        "general_settings" : false,
+        "address_exceptions" : "guiAddrFilterNum",
+        "file_exceptions" :
+        {
+          "mime" : "mimeExcepTNum",
+          "file_exception" : "fileExcepTNum"
+        },
+        "blacklist" : "number",
+        "whitelist" : "number"
+      },
+      "col":
+      {
+          "general_settings" :
+          [
+            {
+              "label" : "Zone to Scan",
+              "cn-label" : "扫描区域",
+              "tw-label" : "區域掃描",
+              "tab" : "selectedZonesT",
+              "tag" : "select",
+              "type" : "multiple",
+              "multiple" :
+              {
+                "pool" :
+                {
+                  "label" : "Available Zones",
+                  "cn-label" : "可选区域",
+                  "tw-label" : "可用區域",
+                  "tab" : "pool",
+                  "wiz" : "40%"
+                },
+                "del" :
+                {
+                  "label" : "Move to Remove",
+                  "cn-label" : "删除",
+                  "tw-label" : "移動到移除",
+                  "tab" : "Move2Del",
+                  "tag" : "button",
+                  "type" : "button",
+                  "wiz" : "10%"
+                },
+                "add" :
+                {
+                  "label" : "Move to Add",
+                  "cn-label" : "添加",
+                  "tw-label" : "移動到新增",
+                  "tab" : "Move2Add",
+                  "tag" : "button",
+                  "type" : "button",
+                  "wiz" : "10%"
+                },
+                "pick" :
+                {
+                  "label" : "Selected Zone",
+                  "cn-label" : "已选区域",
+                  "tw-label" : "已選定區域",
+                  "tab" : "pick",
+                  "wiz" : "40%"
+                }
+              },
+              "align" :
+              [
+                "Left",
+                "Left"
+              ],
+              "wiz" : "100px"
+            },
+            {
+              "label" : "IMAP",
+              "cn-label" : "IMAP",
+              "tw-label" : "IMAP",
+              "tab" : "imap",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "Enable",
+                  "cn-label" : "启用",
+                  "tw-label" : "啟用",
+                  "tab" : "imapEnable",
+                  "tag" : "input",
+                  "type" : "checkbox",
+                  "val" : 1
+                },
+                {
+                  "label" : "Log",
+                  "cn-label" : "日志",
+                  "tw-label" : "記錄",
+                  "tab" : "imapLog",
+                  "tag" : "input",
+                  "type" : "checkbox",
+                  "val" : 1
+                },
+                {
+                  "label" : "Action",
+                  "cn-label" : "操作",
+                  "tw-label" : "動作",
+                  "tab" : "imapAct",
+                  "tag" : "select",
+                  "type" : "select",
+                  "option" :
+                  {
+                    "0" : { "label" : "None", "cn-label" : "无", "tw-label" : "監視模式" }
+                  },
+                  "optionAll" :
+                  {
+                    "0" : { "label" : "None", "cn-label" : "无", "tw-label" : "監視模式" },
+                    "1" : { "label" : "None", "cn-label" : "通知", "tw-label" : "警告" }
+                  }
+                },
+                {
+                  "label" : "Port List",
+                  "cn-label" : "端口列表",
+                  "tw-label" : "連接埠列表",
+                  "tab" : "imapPort",
+                  "tag" : "input",
+                  "type" : "texts",
+                  "texts" : 5
+                }
+              ]
+            },
+            {
+              "label" : "Maximum File Size to Scan",
+              "cn-label" : "扫描档案大小上限",
+              "tw-label" : "掃描檔案大小限制",
+              "tab" : "maxFileSize",
+              "tag" : "input",
+              "type" : "text",
+              "note" : "(1-10240 byte, 0=unlimited)",
+              "cn-note" : "(1-10240 byte, 0=不限)",
+              "tw-note" : "(1-10240 byte, 0=不限)"
+            }
+          ],
           "address_exceptions" :
           [
             {
               "label" : "Enable",
               "cn-label" : "启用",
               "tw-label" : "啟用",
-              "tab" : "enable",
-              "tag" : "input",
-              "type" : "checkbox"
+              "tab" : "enable"
             },
             {
-              "label" : "Source Address",
+              "label" : "Source",
               "cn-label" : "源地址",
               "tw-label" : "來源位址",
-              "tab" : "sAddrId",
-              "tag" : "select",
-              "type" : "select"
+              "tab" : "sAddrId"
             },
             {
-              "label" : "Destination Address",
+              "label" : "Destination",
               "cn-label" : "目的地址",
               "tw-label" : "目的位址",
-              "tab" : "dAddrId",
-              "tag" : "select",
-              "type" : "select"
+              "tab" : "dAddrId"
             },
             {
               "label" : "Log",
               "cn-label" : "日志",
               "tw-label" : "記錄",
-              "tab" : "logEnable",
-              "tag" : "input",
-              "type" : "checkbox"
-            }
-          ],
-          "mime" :
-          [
-            {
-              "label" : "Type",
-              "cn-label" : "类型",
-              "tw-label" : "類型",
-              "tab" : "type",
-              "tag" : "select",
-              "type" : "select"
+              "tab" : "logEnable"
             },
             {
-              "label" : "Sub Type",
-              "cn-label" : "子类型",
-              "tw-label" : "子類型",
-              "tab" : "sub",
-              "tag" : "select",
-              "type" : "select"
+              "label" : "Action",
+              "cn-label" : "操作",
+              "tw-label" : "動作",
+              "tab" : "action"
             }
           ],
-          "file_extension" :
+          "file_exceptions" :
           [
             {
-              "label" : "File Extension",
-              "cn-label" : "文件扩展名",
-              "tw-label" : "檔案副檔名",
-              "tab" : "fileExt",
-              "tag" : "input",
-              "type" : "text"
+              "label" : "MIME Exception List",
+              "cn-label" : "MIME 例外列表",
+              "tw-label" : "MIME 例外清單",
+              "tab" : "mime",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "MIME",
+                  "cn-label" : "MIME",
+                  "tw-label" : "MIME",
+                  "tab" : "mime"
+                },
+                {
+                  "label" : "Action",
+                  "cn-label" : "操作",
+                  "tw-label" : "動作",
+                  "tab" : "action"
+                }
+              ]
+            },
+            {
+              "label" : "File Exception List",
+              "cn-label" : "文件扩展名例外列表",
+              "tw-label" : "檔案例外列表",
+              "tab" : "file_exception",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "File Extension",
+                  "cn-label" : "文件扩展名",
+                  "tw-label" : "檔案副檔名",
+                  "tab" : "fileExt"
+                },
+                {
+                  "label" : "Action",
+                  "cn-label" : "操作",
+                  "tw-label" : "動作",
+                  "tab" : "action"
+                }
+              ]
+            }
+          ],
+          "blacklist" :
+          [
+            {
+              "label" : "Expiration Duration",
+              "cn-label" : "过期时间",
+              "tw-label" : "到期時間",
+              "tab" : "expiration_duration",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "Expiration Duration",
+                  "cn-label" : "过期时间",
+                  "tw-label" : "到期時間",
+                  "tab" : false
+                },
+                {
+                  "label" : "Days",
+                  "cn-label" : "天",
+                  "tw-label" : "天",
+                  "tab" : "expiration_days",
+                  "tag" : "input",
+                  "type" : "text",
+                  "note" : "( 0-300 )",
+                  "cn-note" : "( 0-300 )",
+                  "tw-note" : "( 0-300 )"
+                },
+                {
+                  "label" : "Hours",
+                  "cn-label" : "时",
+                  "tw-label" : "時",
+                  "tab" : "expiration_hours",
+                  "tag" : "input",
+                  "type" : "text",
+                  "note" : " ( 0-23 )",
+                  "cn-note" : " ( 0-23 )",
+                  "tw-note" : " ( 0-23 )"
+                }
+              ]
+            },
+            {
+              "label" : "Blacklist",
+              "cn-label" : "黑名单",
+              "tw-label" : "黑名單",
+              "tab" : "blacklist",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "",
+                  "cn-label" : "",
+                  "tw-label" : "",
+                  "tab" : "blacklist_all",
+                  "tag" : "input",
+                  "type" : "checkbox"
+                },
+                {
+                  "label" : "Index",
+                  "cn-label" : "索引",
+                  "tw-label" : "索引",
+                  "tab" : "blacklist_index"
+                },
+                {
+                  "label" : "Virus ID",
+                  "cn-label" : "病毒 ID",
+                  "tw-label" : "病毒 ID",
+                  "tab" : "virusID"
+                },
+                {
+                  "label" : "Virus Name",
+                  "cn-label" : "病毒名称",
+                  "tw-label" : "病毒名稱",
+                  "tab" : "virusName"
+                },
+                {
+                  "label" : "Type",
+                  "cn-label" : "类型",
+                  "tw-label" : "類型",
+                  "tab" : "type"
+                },
+                {
+                  "label" : "Info",
+                  "cn-label" : "资讯",
+                  "tw-label" : "資訊",
+                  "tab" : "url"
+                },
+                {
+                  "label" : "Expiration Date",
+                  "cn-label" : "过期时间",
+                  "tw-label" : "到期時間",
+                  "tab" : "expiration"
+                },
+                {
+                  "label" : "Action",
+                  "cn-label" : "操作",
+                  "tw-label" : "動作",
+                  "tab" : "action"
+                }
+              ]
+            }
+          ],
+          "whitelist" :
+          [
+            {
+              "label" : "Whitelist",
+              "cn-label" : "白名单",
+              "tw-label" : "白名單",
+              "tab" : "whitelist",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "",
+                  "cn-label" : "",
+                  "tw-label" : "",
+                  "tab" : "whitelist_all",
+                  "tag" : "input",
+                  "type" : "checkbox"
+                },
+                {
+                  "label" : "Index",
+                  "cn-label" : "索引",
+                  "tw-label" : "索引",
+                  "tab" : "whitelist_index"
+                },
+                {
+                  "label" : "Virus ID",
+                  "cn-label" : "病毒 ID",
+                  "tw-label" : "病毒 ID",
+                  "tab" : "virusID"
+                },
+                {
+                  "label" : "Virus Name",
+                  "cn-label" : "病毒名称",
+                  "tw-label" : "病毒名稱",
+                  "tab" : "virusName"
+                },
+                {
+                  "label" : "Action",
+                  "cn-label" : "操作",
+                  "tw-label" : "動作",
+                  "tab" : "action"
+                }
+              ]
             }
           ]
+      },
+      "editor":
+      {
+        "address_exceptions" :
+        [
+          {
+            "label" : "Enable",
+            "cn-label" : "启用",
+            "tw-label" : "啟用",
+            "tab" : "enable",
+            "tag" : "input",
+            "type" : "checkbox"
+          },
+          {
+            "label" : "Source Address",
+            "cn-label" : "源地址",
+            "tw-label" : "來源位址",
+            "tab" : "sAddrId",
+            "tag" : "select",
+            "type" : "select"
+          },
+          {
+            "label" : "Destination Address",
+            "cn-label" : "目的地址",
+            "tw-label" : "目的位址",
+            "tab" : "dAddrId",
+            "tag" : "select",
+            "type" : "select"
+          },
+          {
+            "label" : "Log",
+            "cn-label" : "日志",
+            "tw-label" : "記錄",
+            "tab" : "logEnable",
+            "tag" : "input",
+            "type" : "checkbox"
+          }
+        ],
+        "mime" :
+        [
+          {
+            "label" : "Type",
+            "cn-label" : "类型",
+            "tw-label" : "類型",
+            "tab" : "type",
+            "tag" : "select",
+            "type" : "select"
+          },
+          {
+            "label" : "Sub Type",
+            "cn-label" : "子类型",
+            "tw-label" : "子類型",
+            "tab" : "sub",
+            "tag" : "select",
+            "type" : "select"
+          }
+        ],
+        "file_extension" :
+        [
+          {
+            "label" : "File Extension",
+            "cn-label" : "文件扩展名",
+            "tw-label" : "檔案副檔名",
+            "tab" : "fileExt",
+            "tag" : "input",
+            "type" : "text"
+          }
+        ]
       }
     },
     {
       "label" : "Updates",
       "cn-label" : "更新",
       "tw-label" : "更新",
-      "id" : "menu-6",
+      "id" : "menu-7",
       "tab" : "updates",
       "panel" :
       [
@@ -2965,7 +3500,7 @@
           "label" : "Signature",
           "cn-label" : "病毒数据库",
           "tw-label" : "病毒資料庫",
-          "id" : "menu-6-0",
+          "id" : "menu-7-0",
           "tab" : "signature",
           "tag" : "div",
           "type" : "div",
@@ -3089,7 +3624,7 @@
           "label" : "Proxy",
           "cn-label" : "代理",
           "tw-label" : "代理伺服器",
-          "id" : "menu-6-1",
+          "id" : "menu-7-1",
           "tab" : "proxy",
           "tag" : "div",
           "type" : "form",
@@ -3180,7 +3715,7 @@
       "label" : "Reports",
       "cn-label" : "报告",
       "tw-label" : "統計報表",
-      "id" : "menu-7",
+      "id" : "menu-8",
       "tab" : "reports",
       "panel" :
       [
@@ -3188,7 +3723,7 @@
           "label" : "Security Reports",
           "cn-label" : "安全报告",
           "tw-label" : "安全防護報表",
-          "id" : "menu-7-0",
+          "id" : "menu-8-0",
           "tab" : "security_reports",
           "panel" :
           [
@@ -3196,7 +3731,7 @@
               "label" : "File Extension",
               "cn-label" : "文件扩展名",
               "tw-label" : "檔案副檔名",
-              "id" : "menu-7-0-0",
+              "id" : "menu-8-0-0",
               "tab" : "file_extension",
               "tag" : "div",
               "type" : "tabs",
@@ -3295,7 +3830,7 @@
               "label" : "Blocked Host",
               "cn-label" : "被阻止的主机",
               "tw-label" : "被封鎖的主機",
-              "id" : "menu-7-0-1",
+              "id" : "menu-8-0-1",
               "tab" : "blocked_host",
               "tag" : "div",
               "type" : "tabs",
@@ -3414,7 +3949,7 @@
               "label" : "Affected Host",
               "cn-label" : "受影响的主机",
               "tw-label" : "受感染的主機",
-              "id" : "menu-7-0-2",
+              "id" : "menu-8-0-2",
               "tab" : "affected_host",
               "tag" : "div",
               "type" : "tabs",
@@ -3513,7 +4048,7 @@
               "label" : "Antivirus",
               "cn-label" : "防病毒报告",
               "tw-label" : "病毒防護統計表",
-              "id" : "menu-7-0-3",
+              "id" : "menu-8-0-3",
               "tab" : "antivirus_report",
               "tag" : "div",
               "type" : "tabs",
@@ -3736,7 +4271,7 @@
           "label" : "Network Reports",
           "cn-label" : "网络报告",
           "tw-label" : "流量統計報表",
-          "id" : "menu-7-1",
+          "id" : "menu-8-1",
           "tab" : "network_reports",
           "panel" :
           [
@@ -3744,7 +4279,7 @@
               "label" : "Traffic Direction",
               "cn-label" : "流量统计",
               "tw-label" : "流量統計",
-              "id" : "menu-7-1-0",
+              "id" : "menu-8-1-0",
               "tab" : "traffic_direction",
               "tag" : "div",
               "type" : "tabs",
@@ -4286,7 +4821,7 @@
           "label" : "Network Status",
           "cn-label" : "网络状态",
           "tw-label" : "網路狀態",
-          "id" : "menu-7-2",
+          "id" : "menu-8-2",
           "tab" : "network_status",
           "panel" :
           [
@@ -4294,7 +4829,7 @@
               "label" : "Show ARP Table",
               "cn-label" : "查看ARP表",
               "tw-label" : "顯示ARP表",
-              "id" : "menu-7-2-0",
+              "id" : "menu-8-2-0",
               "tab" : "show_arp_table",
               "tag" : "table",
               "type" : "list",
@@ -4354,7 +4889,7 @@
               "label" : "Show Routing Table",
               "cn-label" : "查看路由表",
               "tw-label" : "顯示路由表",
-              "id" : "menu-7-2-1",
+              "id" : "menu-8-2-1",
               "tab" : "show_routing_table",
               "tag" : "table",
               "columns" : true,
@@ -4435,7 +4970,7 @@
               "label" : "DHCP Bindings",
               "cn-label" : "DHCP 服务",
               "tw-label" : "DHCP 綁定",
-              "id" : "menu-7-2-2",
+              "id" : "menu-8-2-2",
               "tab" : "dhcp_bindings",
               "tag" : "table",
               "type" : "list",
@@ -4497,7 +5032,7 @@
               "label" : "Status Summary",
               "cn-label" : "状态概要",
               "tw-label" : "網路介面狀態",
-              "id" : "menu-7-2-3",
+              "id" : "menu-8-2-3",
               "tab" : "status_summary",
               "tag" : "div",
               "type" : "tabs",
@@ -4912,7 +5447,7 @@
               "label" : "Traffic Statistics",
               "cn-label" : "流量统计",
               "tw-label" : "流量統計",
-              "id" : "menu-7-2-4",
+              "id" : "menu-8-2-4",
               "tab" : "traffic_statistics",
               "tag" : "div",
               "type" : "tabs",
@@ -5253,7 +5788,7 @@
               "label" : "WAN Bandwidth Report",
               "cn-label" : "WAN 带宽报告",
               "tw-label" : "WAN 頻寬統計",
-              "id" : "menu-7-2-5",
+              "id" : "menu-8-2-5",
               "tab" : "wan_bandwidth_report",
               "tag" : "div",
               "type" : "tabsChart",
@@ -5280,7 +5815,7 @@
           "label" : "NAT Status",
           "cn-label" : "NAT 状态",
           "tw-label" : "NAT 狀態",
-          "id" : "menu-7-3",
+          "id" : "menu-8-3",
           "tab" : "nat_status",
           "tag" : "table",
           "type" : "list",
@@ -5428,7 +5963,7 @@
           "label" : "VPN Status",
           "cn-label" : "VPN状态",
           "tw-label" : "虛擬私人網路狀態",
-          "id" : "menu-7-4",
+          "id" : "menu-8-4",
           "tab" : "vpn_status",
           "panel" :
           [
@@ -5436,7 +5971,7 @@
               "label" : "Active Sessions",
               "cn-label" : "活动会话",
               "tw-label" : "連線狀態",
-              "id" : "menu-7-4-0",
+              "id" : "menu-8-4-0",
               "tab" : "active_sessions",
               "tag" : "table",
               "type" : "list",
@@ -5533,7 +6068,7 @@
               "label" : "IPSec VPN Statistics",
               "cn-label" : "IPSec VPN 统计",
               "tw-label" : "IPSec VPN 統計",
-              "id" : "menu-7-4-1",
+              "id" : "menu-8-4-1",
               "tab" : "ipsec_vpn_statistics",
               "tag" : "table",
               "type" : "list",
@@ -5639,6 +6174,233 @@
                   "align" : "Left"
                 }
               ]
+            },
+            {
+              "label" : "OpenVPN Server Status",
+              "cn-label" : "OpenVPN Server Status",
+              "tw-label" : "OpenVPN Server Status",
+              "id" : "menu-8-4-2",
+              "tab" : "openvpn_server_status",
+              "tag" : "table",
+              "type" : "table",
+              "url" :
+              {
+                "get" : "openvpnServerClientList"
+              },
+              "ext" : "cgi",
+              "refresh2" : 30,
+              "guiT" : "guiOvpnCListT",
+              "guiTNum" : "guiT",
+              "tooltipT" : "clientInfoT",
+              "tooltipTNum" : "clientNum",
+              "col" :
+              [
+                {
+                  "label" : "Index",
+                  "cn-label" : "Index",
+                  "tw-label" : "Index",
+                  "tab" : "index",
+                  "wiz" : "50px"
+                },
+                {
+                  "label" : "OpenVPN Server Policy Name",
+                  "cn-label" : "OpenVPN Server Policy Name",
+                  "tw-label" : "OpenVPN Server Policy Name",
+                  "tab" : "name",
+                  "wiz" : "200px"
+                },
+                {
+                  "label" : "Connected Client Number",
+                  "cn-label" : "Connected Client Number",
+                  "tw-label" : "Connected Client Number",
+                  "tab" : "clientNum",
+                  "tag" : "table",
+                  "type" : "tooltip",
+                  "col" :
+                  [
+                    {
+                      "label" : "",
+                      "cn-label" : "",
+                      "tw-label" : "",
+                      "tab" : "commonName",
+                      "wiz" : "125px"
+                    },
+                    {
+                      "label" : "",
+                      "cn-label" : "",
+                      "tw-label" : "",
+                      "tab" : "realAddress",
+                      "wiz" : "125px"
+                    },
+                    {
+                      "label" : "",
+                      "cn-label" : "",
+                      "tw-label" : "",
+                      "tab" : "port",
+                      "wiz" : "40px"
+                    },
+                    {
+                      "label" : "",
+                      "cn-label" : "",
+                      "tw-label" : "",
+                      "tab" : "txBytes",
+                      "wiz" : "60px"
+                    },
+                    {
+                      "label" : "",
+                      "cn-label" : "",
+                      "tw-label" : "",
+                      "tab" : "rxBytes",
+                      "wiz" : "60px"
+                    },
+                    {
+                      "label" : "",
+                      "cn-label" : "",
+                      "tw-label" : "",
+                      "tab" : "time",
+                      "wiz" : "140px"
+                    }
+                  ]
+                },
+                {
+                  "label" : "Common Name",
+                  "cn-label" : "Common Name",
+                  "tw-label" : "Common Name",
+                  "tab" : "tooltip-commonName",
+                  "wiz" : "125px"
+                },
+                {
+                  "label" : "Real Address",
+                  "cn-label" : "Real Address",
+                  "tw-label" : "Real Address",
+                  "tab" : "tooltip-realAddress",
+                  "wiz" : "125px"
+                },
+                {
+                  "label" : "Port",
+                  "cn-label" : "Port",
+                  "tw-label" : "Port",
+                  "tab" : "tooltip-port",
+                  "wiz" : "40px"
+                },
+                {
+                  "label" : "Tx Bytes",
+                  "cn-label" : "Tx Bytes",
+                  "tw-label" : "Tx Bytes",
+                  "tab" : "tooltip-txBytes",
+                  "wiz" : "60px"
+                },
+                {
+                  "label" : "Rx Bytes",
+                  "cn-label" : "Rx Bytes",
+                  "tw-label" : "Rx Bytes",
+                  "tab" : "tooltip-rxBytes",
+                  "wiz" : "60px"
+                },
+                {
+                  "label" : "Last Connection Time",
+                  "cn-label" : "Last Connection Time",
+                  "tw-label" : "Last Connection Time",
+                  "tab" : "tooltip-time",
+                  "wiz" : "140px"
+                }
+              ]
+            },
+            {
+              "label" : "OpenVPN Client Status",
+              "cn-label" : "OpenVPN Client Status",
+              "tw-label" : "OpenVPN Client Status",
+              "id" : "menu-8-4-3",
+              "tab" : "openvpn_client_status",
+              "tag" : "table",
+              "type" : "table",
+              "url" :
+              {
+                "get" : "openvpnClientStatus",
+                "check" : "openvpnClient"
+              },
+              "ext" : "cgi",
+              "refresh2" : 30,
+              "col" :
+              [
+                {
+                  "label" : "Server IP/Name",
+                  "cn-label" : "Server IP/Name",
+                  "tw-label" : "Server IP/Name",
+                  "tab" : "remote",
+                  "wiz" : "150px"
+                },
+                {
+                  "label" : "Port",
+                  "cn-label" : "Port",
+                  "tw-label" : "Port",
+                  "tab" : "port",
+                  "wiz" : "40px"
+                },
+                {
+                  "label" : "TUN/TAP Rx",
+                  "cn-label" : "TUN/TAP Rx",
+                  "tw-label" : "TUN/TAP Rx",
+                  "tab" : "interfaceRx",
+                  "wiz" : "70px"
+                },
+                {
+                  "label" : "TUN/TAP Tx",
+                  "cn-label" : "TUN/TAP Tx",
+                  "tw-label" : "TUN/TAP Tx",
+                  "tab" : "interfaceTx",
+                  "wiz" : "70px"
+                },
+                {
+                  "label" : "TCP/UDP Rx",
+                  "cn-label" : "TCP/UDP Rx",
+                  "tw-label" : "TCP/UDP Rx",
+                  "tab" : "protoRx",
+                  "wiz" : "70px"
+                },
+                {
+                  "label" : "TCP/UDP Tx",
+                  "cn-label" : "TCP/UDP Tx",
+                  "tw-label" : "TCP/UDP Tx",
+                  "tab" : "protoTx",
+                  "wiz" : "70px"
+                },
+                {
+                  "label" : "Auth Rx",
+                  "cn-label" : "Auth Rx",
+                  "tw-label" : "Auth Rx",
+                  "tab" : "authRx",
+                  "wiz" : "50px"
+                },
+                {
+                  "label" : "Pre Comp.",
+                  "cn-label" : "Pre Comp.",
+                  "tw-label" : "Pre Comp.",
+                  "tab" : "preComp",
+                  "wiz" : "70px"
+                },
+                {
+                  "label" : "Post Comp.",
+                  "cn-label" : "Post Comp.",
+                  "tw-label" : "Post Comp.",
+                  "tab" : "postComp",
+                  "wiz" : "70px"
+                },
+                {
+                  "label" : "Pre Decomp.",
+                  "cn-label" : "Pre Decomp.",
+                  "tw-label" : "Pre Decomp.",
+                  "tab" : "preDeComp",
+                  "wiz" : "70px"
+                },
+                {
+                  "label" : "Post Decomp.",
+                  "cn-label" : "Post Decomp.",
+                  "tw-label" : "Post Decomp.",
+                  "tab" : "postDeComp",
+                  "wiz" : "70px"
+                }
+              ]
             }
           ]
         },
@@ -5646,7 +6408,7 @@
           "label" : "System Status",
           "cn-label" : "系统状态",
           "tw-label" : "系統狀態",
-          "id" : "menu-7-5",
+          "id" : "menu-8-5",
           "tab" : "system_status",
           "panel" :
           [
@@ -5654,7 +6416,7 @@
               "label" : "Resource Utilization",
               "cn-label" : "资源使用率",
               "tw-label" : "系統資源統計",
-              "id" : "menu-7-5-0",
+              "id" : "menu-8-5-0",
               "tab" : "resource_utilization",
               "tag" : "div",
               "type" : "tabsChart",
@@ -5677,7 +6439,7 @@
           "label" : "Active Users",
           "cn-label" : "活动用户",
           "tw-label" : "使用者狀態",
-          "id" : "menu-7-6",
+          "id" : "menu-8-6",
           "tab" : "active_users",
           "tag" : "table",
           "type" : "list",
@@ -5759,6 +6521,184 @@
               "align" : "Center"
             }
           ]
+        },
+        {
+          "label" : "IP MAC Binding",
+          "cn-label" : "IP MAC 绑定",
+          "tw-label" : "IP MAC 綁定",
+          "id" : "menu-8-7",
+          "tab" : "ip_mac_binding_report",
+          "tag" : "div",
+          "type" : "tabs",
+          "tabs" :
+          {
+            "0" : { "label" : "IP MAC Binding Log", "cn-label" : "IP MAC 绑定日志排序", "tw-label" : "IP MAC 綁定記錄" },
+            "1" : { "label" : "By IP", "cn-label" : "按IP", "tw-label" : "依IP" },
+            "2" : { "label" : "By MAC", "cn-label" : "按MAC", "tw-label" : "依MAC" },
+            "3" : { "label" : "By Action", "cn-label" : "按目的", "tw-label" : "依目的" }
+          },
+          "url" : "reportQuery",
+          "ext" : "php",
+          "weekly" : true,
+          "query" : true,
+          "pager" : true,
+          "perPage" : 20,
+          "refresh" : 10,
+          "col" :
+          {
+            "0" :
+            [
+              {
+                "label" : "ID",
+                "cn-label" : "ID",
+                "tw-label" : "索引",
+                "tab" : "id",
+                "wiz" : "20px" ,
+                "display" : true,
+                "sortable" : false,
+                "align" : "Center"
+              },
+              {
+                "label" : "IP",
+                "cn-label" : "IP",
+                "tw-label" : "IP",
+                "tab" : "ip",
+                "wiz" : "200px" ,
+                "display" : true,
+                "sortable" : false,
+                "align" : "Center"
+              },
+              {
+                "label" : "MAC",
+                "cn-label" : "MAC",
+                "tw-label" : "MAC",
+                "tab" : "mac",
+                "wiz" : "auto" ,
+                "display" : true,
+                "sortable" : false,
+                "align" : "Center"
+              },
+              {
+                "label" : "Action",
+                "cn-label" : "Action",
+                "tw-label" : "Action",
+                "tab" : "action",
+                "wiz" : "100px" ,
+                "display" : true,
+                "sortable" : false,
+                "align" : "Center"
+              },
+              {
+                "label" : "Datetime",
+                "cn-label" : "Datetime",
+                "tw-label" : "Datetime",
+                "tab" : "datetime",
+                "wiz" : "200px" ,
+                "display" : true,
+                "sortable" : false,
+                "align" : "Center"
+              }
+            ],
+            "1" :
+            [
+              {
+                "label" : "ID",
+                "cn-label" : "ID",
+                "tw-label" : "索引",
+                "tab" : "id",
+                "wiz" : "20px" ,
+                "display" : true,
+                "sortable" : false,
+                "align" : "Center"
+              },
+              {
+                "label" : "IP",
+                "cn-label" : "IP",
+                "tw-label" : "IP",
+                "tab" : "ip",
+                "wiz" : "auto" ,
+                "display" : true,
+                "sortable" : false,
+                "align" : "Center"
+              },
+              {
+                "label" : "Count",
+                "cn-label" : "Count",
+                "tw-label" : "Count",
+                "tab" : "count",
+                "wiz" : "100px" ,
+                "display" : true,
+                "sortable" : false,
+                "align" : "Center"
+              }
+            ],
+            "2" :
+            [
+              {
+                "label" : "ID",
+                "cn-label" : "ID",
+                "tw-label" : "索引",
+                "tab" : "id",
+                "wiz" : "20px" ,
+                "display" : true,
+                "sortable" : false,
+                "align" : "Center"
+              },
+              {
+                "label" : "MAC",
+                "cn-label" : "MAC",
+                "tw-label" : "MAC",
+                "tab" : "mac",
+                "wiz" : "auto" ,
+                "display" : true,
+                "sortable" : false,
+                "align" : "Center"
+              },
+              {
+                "label" : "Count",
+                "cn-label" : "Count",
+                "tw-label" : "Count",
+                "tab" : "count",
+                "wiz" : "100px" ,
+                "display" : true,
+                "sortable" : false,
+                "align" : "Center"
+              }
+            ],
+            "3" :
+            [
+              {
+                "label" : "ID",
+                "cn-label" : "ID",
+                "tw-label" : "索引",
+                "tab" : "id",
+                "wiz" : "20px" ,
+                "display" : true,
+                "sortable" : false,
+                "align" : "Center"
+              },
+              {
+                "label" : "Action",
+                "cn-label" : "Action",
+                "tw-label" : "Action",
+                "tab" : "action",
+                "wiz" : "auto" ,
+                "display" : true,
+                "sortable" : false,
+                "align" : "Center"
+              },
+              {
+                "label" : "Count",
+                "cn-label" : "Count",
+                "tw-label" : "Count",
+                "tab" : "count",
+                "wiz" : "100px" ,
+                "display" : true,
+                "sortable" : false,
+                "align" : "Center"
+              }
+            ]
+          }
         }
       ]
     },
@@ -5766,7 +6706,7 @@
       "label" : "Interface",
       "cn-label" : "接口",
       "tw-label" : "網路介面",
-      "id" : "menu-8",
+      "id" : "menu-9",
       "tab" : "interface",
       "panel" :
       [
@@ -5774,7 +6714,7 @@
           "label" : "Port",
           "cn-label" : "端口",
           "tw-label" : "實體網路介面",
-          "id" : "menu-8-0",
+          "id" : "menu-9-0",
           "tab" : "ports",
           "tag" : "table",
           "type" : "table",
@@ -6297,7 +7237,7 @@
           "label" : "VLAN Interfaces",
           "cn-label" : "VLAN接口",
           "tw-label" : "虛擬區網介面",
-          "id" : "menu-8-1",
+          "id" : "menu-9-1",
           "tab" : "vlan_interfaces",
           "tag" : "table",
           "type" : "table",
@@ -6575,7 +7515,7 @@
                   {
                     "0" : { "label" : "Disable", "cn-label" : "禁用", "tw-label" : "停用" },
                     "1" : { "label" : "DHCP Server", "cn-label" : "DHCP 服务器", "tw-label" : "DHCP 伺服器" },
-                    "2" : "DHCP 中繼代理"
+                    "2" : { "label" : "DHCP Relay", "cn-label" : "DHCP中继", "tw-label" : "DHCP 中繼代理" }
                   },
                   "align" :
                   [
@@ -6828,7 +7768,7 @@
           "label" : "LAN",
           "cn-label" : "LAN",
           "tw-label" : "區域網路",
-          "id" : "menu-8-2",
+          "id" : "menu-9-2",
           "tab" : "lan",
           "tag" : "table",
           "type" : "table",
@@ -7331,7 +8271,7 @@
           "label" : "WAN",
           "cn-label" : "WAN",
           "tw-label" : "廣域網路",
-          "id" : "menu-8-3",
+          "id" : "menu-9-3",
           "tab" : "wan",
           "tag" : "div",
           "type" : "tabs",
@@ -8586,7 +9526,7 @@
           "label" : "Zone",
           "cn-label" : "区域",
           "tw-label" : "區域",
-          "id" : "menu-8-4",
+          "id" : "menu-9-4",
           "tab" : "zone",
           "tag" : "table",
           "type" : "table",
@@ -8746,7 +9686,7 @@
       "label" : "Networking",
       "cn-label" : "联网",
       "tw-label" : "網路連線",
-      "id" : "menu-9",
+      "id" : "menu-10",
       "tab" : "networking",
       "panel" :
       [
@@ -8754,7 +9694,7 @@
           "label" : "Routing",
           "cn-label" : "路由",
           "tw-label" : "路由設定",
-          "id" : "menu-9-0",
+          "id" : "menu-10-0",
           "tab" : "routings",
           "panel" :
           [
@@ -8762,7 +9702,7 @@
               "label" : "Routing",
               "cn-label" : "路由模式",
               "tw-label" : "路由模式",
-              "id" : "menu-9-0-0",
+              "id" : "menu-10-0-0",
               "tab" : "routing",
               "tag" : "div",
               "type" : "form",
@@ -8819,7 +9759,7 @@
               "label" : "Static Routing",
               "cn-label" : "静态路由",
               "tw-label" : "靜態路由",
-              "id" : "menu-9-0-1",
+              "id" : "menu-10-0-1",
               "tab" : "static_routing",
               "tag" : "table",
               "type" : "table",
@@ -8998,7 +9938,7 @@
           "label" : "Site-to-Site VPN",
           "cn-label" : "站点到站点 VPN",
           "tw-label" : "點對點私人虛擬網路",
-          "id" : "menu-9-1",
+          "id" : "menu-10-1",
           "tab" : "site_to_site_vpn",
           "panel" :
           [
@@ -9006,7 +9946,7 @@
               "label" : "IPSec Policies",
               "cn-label" : "IPSec 策略",
               "tw-label" : "IPSec 政策",
-              "id" : "menu-9-1-0",
+              "id" : "menu-10-1-0",
               "tab" : "ipsec_policies",
               "tag" : "table",
               "type" : "tables",
@@ -9624,7 +10564,7 @@
               "label" : "IKE Policy",
               "cn-label" : "IKE策略",
               "tw-label" : "IKE 政策",
-              "id" : "menu-9-1-1",
+              "id" : "menu-10-1-1",
               "tab" : "ike_policy",
               "tag" : "table",
               "type" : "table",
@@ -9831,7 +10771,7 @@
               "label" : "Transform Policy",
               "cn-label" : "转换策略",
               "tw-label" : "轉換政策",
-              "id" : "menu-9-1-2",
+              "id" : "menu-10-1-2",
               "tab" : "transform_policy",
               "tag" : "table",
               "type" : "table",
@@ -10036,10 +10976,813 @@
           ]
         },
         {
+          "label" : "SSL VPN",
+          "cn-label" : "SSL VPN",
+          "tw-label" : "SSL VPN",
+          "id" : "menu-10-2",
+          "tab" : "ssl_vpn",
+          "panel" :
+          [
+            {
+              "label" : "OpenVPN Server",
+              "cn-label" : "OpenVPN Server",
+              "tw-label" : "OpenVPN Server",
+              "id" : "menu-10-2-0",
+              "tab" : "openvpn_server",
+              "tag" : "table",
+              "type" : "tables",
+              "url" :
+              {
+                "get" : "openvpnServer",
+                "post" : "openvpnServer",
+                "export" : "openvpnServerExport"
+              },
+              "ext" : "cgi",
+              "guiT" : "guiOvpnServerT",
+              "guiTNum" : "guiOvpnServerNum",
+              "pgAction" : "Save Cancel",
+              "tblAction" : "Create Remove",
+              "rowAction" : "Export Edit Delete",
+              "col" :
+              [
+                {
+                  "label" : "Enable OpenVPN Server",
+                  "cn-label" : "Enable OpenVPN Server",
+                  "tw-label" : "Enable OpenVPN Server",
+                  "tab" : "openVpnServerEnable",
+                  "tag" : "input",
+                  "type" : "checkbox",
+                  "wiz" : "200px"
+                },
+                {
+                  "label" : "",
+                  "cn-label" : "",
+                  "tw-label" : "",
+                  "tab" : "openVpnServerTable",
+                  "tag" : "table",
+                  "type" : "table",
+                  "col" :
+                  [
+                    {
+                      "label" : "",
+                      "cn-label" : "",
+                      "tw-label" : "",
+                      "tab" : "checkbox",
+                      "tag" : "input",
+                      "type" : "checkbox"
+                    },
+                    {
+                      "label" : "Enable",
+                      "cn-label" : "Enable",
+                      "tw-label" : "Enable",
+                      "tab" : "enable"
+                    },
+                    {
+                      "label" : "Interface Type",
+                      "cn-label" : "Interface Type",
+                      "tw-label" : "Interface Type",
+                      "tab" : "interfaceType"
+                    },
+                    {
+                      "label" : "Tunnel Protocol",
+                      "cn-label" : "Tunnel Protocol",
+                      "tw-label" : "Tunnel Protocol",
+                      "tab" : "tunnelProto"
+                    },
+                    {
+                      "label" : "Port",
+                      "cn-label" : "Port",
+                      "tw-label" : "Port",
+                      "tab" : "port"
+                    },
+                    {
+                      "label" : "Network",
+                      "cn-label" : "Network",
+                      "tw-label" : "Network",
+                      "tab" : "network"
+                    },
+                    {
+                      "label" : "Netmask",
+                      "cn-label" : "Netmask",
+                      "tw-label" : "Netmask",
+                      "tab" : "netmask"
+                    },
+                    {
+                      "label" : "Action",
+                      "cn-label" : "Action",
+                      "tw-label" : "Action",
+                      "tab" : "action"
+                    }
+                  ]
+                }
+              ],
+              "editor" :
+              [
+                {
+                  "label" : "Basic Settings",
+                  "cn-label" : "基本设置",
+                  "tw-label" : "基本設定",
+                  "tab" : "basic_settings",
+                  "tag" : "div",
+                  "type" : "tabs",
+                  "col" :
+                  [
+                    {
+                      "label" : "Name",
+                      "cn-label" : "Name",
+                      "tw-label" : "Name",
+                      "tab" : "name",
+                      "tag" : "input",
+                      "type" : "text",
+                      "wiz" : "150px"
+                    },
+                    {
+                      "label" : "Enable",
+                      "cn-label" : "Enable",
+                      "tw-label" : "Enable",
+                      "tab" : "enable",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : 1,
+                      "wiz" : "150px"
+                    },
+                    {
+                      "label" : "Interface Type",
+                      "cn-label" : "Interface Type",
+                      "tw-label" : "Interface Type",
+                      "tab" : "interfaceType",
+                      "tag" : "select",
+                      "type" : "select",
+                      "option" :
+                      {
+                        "0" : { "label" : "TUN", "cn-label" : "TUN", "tw-label" : "TUN" },
+                        "1" : { "label" : "TAP", "cn-label" : "TAP", "tw-label" : "TAP" }
+                      },
+                      "wiz" : "150px"
+                    },
+                    {
+                      "label" : "Tunnel Protocol",
+                      "cn-label" : "Tunnel Protocol",
+                      "tw-label" : "Tunnel Protocol",
+                      "tab" : "tunnelProto",
+                      "tag" : "select",
+                      "type" : "select",
+                      "option" :
+                      {
+                        "0" : { "label" : "UDP", "cn-label" : "UDP", "tw-label" : "UDP" },
+                        "1" : { "label" : "TCP", "cn-label" : "TCP", "tw-label" : "TCP" }
+                      },
+                      "wiz" : "150px"
+                    },
+                    {
+                      "label" : "Port",
+                      "cn-label" : "Port",
+                      "tw-label" : "Port",
+                      "tab" : "port",
+                      "tag" : "input",
+                      "type" : "text",
+                      "size" : 8,
+                      "wiz" : "150px"
+                    },
+                    {
+                      "label" : "Network",
+                      "cn-label" : "Network",
+                      "tw-label" : "Network",
+                      "tab" : "network",
+                      "tag" : "input",
+                      "type" : "text",
+                      "wiz" : "150px"
+                    },
+                    {
+                      "label" : "Netmask",
+                      "cn-label" : "Netmask",
+                      "tw-label" : "Netmask",
+                      "tab" : "netmask",
+                      "tag" : "input",
+                      "type" : "text",
+                      "wiz" : "150px"
+                    },
+                    {
+                      "label" : "Server Certificate",
+                      "cn-label" : "Server Certificate",
+                      "tw-label" : "Server Certificate",
+                      "tab" : "certificateId",
+                      "tag" : "select",
+                      "type" : "select",
+                      "option" : "cgi"
+                    },
+                    {
+                      "label" : "Username/Password Authentication",
+                      "cn-label" : "Username/Password Authentication",
+                      "tw-label" : "Username/Password Authentication",
+                      "tab" : "authMethod-0",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : 1,
+                      "wiz" : "150px"
+                    },
+                    {
+                      "label" : "Username/Password Auth, Only",
+                      "cn-label" : "Username/Password Auth, Only",
+                      "tw-label" : "Username/Password Auth, Only",
+                      "tab" : "authMethod-1",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : 1,
+                      "wiz" : "150px"
+                    }
+                  ]
+                },
+                {
+                  "label" : "Advanced Settings",
+                  "cn-label" : "高级设置",
+                  "tw-label" : "進階設定",
+                  "tab" : "advanced_settings",
+                  "tag" : "div",
+                  "type" : "tabs",
+                  "col" :
+                  [
+                    {
+                      "label" : "Encryption Cipher",
+                      "cn-label" : "Encryption Cipher",
+                      "tw-label" : "Encryption Cipher",
+                      "tab" : "encryptCipher",
+                      "tag" : "select",
+                      "type" : "select",
+                      "option" :
+                      {
+                        "0" : { "label" : "BF-CBC", "cn-label" : "BF-CBC", "tw-label" : "BF-CBC" },
+                        "1" : { "label" : "AES-128", "cn-label" : "AES-128", "tw-label" : "AES-128" },
+                        "2" : { "label" : "AES-192", "cn-label" : "AES-192", "tw-label" : "AES-192" },
+                        "3" : { "label" : "AES-256", "cn-label" : "AES-256", "tw-label" : "AES-256" }
+                      },
+                      "wiz" : "150px"
+                    },
+                    {
+                      "label" : "Hash Algorithm",
+                      "cn-label" : "Hash Algorithm",
+                      "tw-label" : "Hash Algorithm",
+                      "tab" : "hashAlg",
+                      "tag" : "select",
+                      "type" : "select",
+                      "option" :
+                      {
+                        "0" : { "label" : "SHA1", "cn-label" : "SHA1", "tw-label" : "SHA1" },
+                        "1" : { "label" : "SHA256", "cn-label" : "SHA256", "tw-label" : "SHA256" },
+                        "2" : { "label" : "SHA512", "cn-label" : "SHA512", "tw-label" : "SHA512" },
+                        "3" : { "label" : "MD5", "cn-label" : "MD5", "tw-label" : "MD5" }
+                      },
+                      "wiz" : "150px"
+                    },
+                    {
+                      "label" : "Use LZO Compression",
+                      "cn-label" : "Use LZO Compression",
+                      "tw-label" : "Use LZO Compression",
+                      "tab" : "lzoComp",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : 1,
+                      "wiz" : "150px"
+                    },
+                    {
+                      "label" : "Allow Client to Client",
+                      "cn-label" : "Allow Client to Client",
+                      "tw-label" : "Allow Client to Client",
+                      "tab" : "clientToClient",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : 1,
+                      "wiz" : "150px"
+                    },
+                    {
+                      "label" : "Redirect Gateway",
+                      "cn-label" : "Redirect Gateway",
+                      "tw-label" : "Redirect Gateway",
+                      "tab" : "redirectGateway",
+                      "tag" : "input",
+                      "type" : "checkbox",
+                      "val" : 1,
+                      "wiz" : "150px"
+                    },
+                    {
+                      "label" : "Custom Configuration",
+                      "cn-label" : "Custom Configuration",
+                      "tw-label" : "Custom Configuration",
+                      "tab" : "customConf",
+                      "tag" : "textarea",
+                      "type" : "textarea",
+                      "val" : 1,
+                      "wiz" : "150px"
+                    }
+                  ]
+                }
+              ],
+              "export" :
+              {
+                "label" : "Password",
+                "cn-label" : "Password",
+                "tw-label" : "Passowrd",
+                "tab" : "type",
+                "tag" : "input",
+                "type" : "radio",
+                "option" :
+                {
+                  "0" :
+                  {
+                    "label" : "No",
+                    "cn-label" : "NoPC",
+                    "tw-label" : "No",
+                    "tab" : "type-0"
+                  },
+                  "1" :
+                  {
+                    "label" : "Yes",
+                    "cn-label" : "Yes",
+                    "tw-label" : "Yes",
+                    "tab" : "type-1",
+                    "col" :
+                    [
+                      {
+                        "label" : "",
+                        "cn-label" : "",
+                        "tw-label" : "",
+                        "tab" : "password",
+                        "tag" : "input",
+                        "type" : "password"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "label" : "OpenVPN Client",
+              "cn-label" : "OpenVPN Client",
+              "tw-label" : "OpenVPN Client",
+              "id" : "menu-10-2-1",
+              "tab" : "openvpn_client",
+              "tag" : "div",
+              "type" : "form",
+              "url" :
+              {
+                "get" : "openvpnClient",
+                "post" : "openvpnClient",
+                "import" : "openvpnClientImport"
+              },
+              "ext" : "cgi",
+              "pgAction" : "Import Save Cancel",
+              "col" :
+              [
+                {
+                  "label" : "Enable OpenVPN Client",
+                  "cn-label" : "Enable OpenVPN Client",
+                  "tw-label" : "Enable OpenVPN Client",
+                  "tab" : "openVpnClientEnable",
+                  "tag" : "input",
+                  "type" : "checkbox"
+                },
+                {
+                  "label" : "Server IP/Name",
+                  "cn-label" : "Server IP/Name",
+                  "tw-label" : "Server IP/Name",
+                  "tab" : "remote",
+                  "tag" : "input",
+                  "type" : "text"
+                },
+                {
+                  "label" : "Interface Type",
+                  "cn-label" : "Interface Type",
+                  "tw-label" : "Interface Type",
+                  "tab" : "interfaceType",
+                  "tag" : "select",
+                  "type" : "select",
+                  "option" :
+                  {
+                    "0" : { "label" : "TUN", "cn-label" : "TUN", "tw-label" : "TUN" },
+                    "1" : { "label" : "TAP", "cn-label" : "TAP", "tw-label" : "TAP" }
+                  }
+                },
+                {
+                  "label" : "Tunnel Protocol",
+                  "cn-label" : "Tunnel Protocol",
+                  "tw-label" : "Tunnel Protocol",
+                  "tab" : "tunnelProto",
+                  "tag" : "select",
+                  "type" : "select",
+                  "option" :
+                  {
+                    "0" : { "label" : "UDP", "cn-label" : "UDP", "tw-label" : "UDP" },
+                    "1" : { "label" : "TCP", "cn-label" : "TCP", "tw-label" : "TCP" }
+                  }
+                },
+                {
+                  "label" : "Port",
+                  "cn-label" : "Port",
+                  "tw-label" : "Port",
+                  "tab" : "port",
+                  "tag" : "input",
+                  "type" : "text",
+                  "size" : 8
+                },
+                {
+                  "label" : "Authentication Certificate",
+                  "cn-label" : "Authentication Certificate",
+                  "tw-label" : "Authentication Certificate",
+                  "tab" : "certificateId",
+                  "tag" : "select",
+                  "type" : "select",
+                  "option" :
+                  {
+                    "0" :
+                    {
+                      "label" : "CA",
+                      "cn-label" : "CA",
+                      "tw-label" : "CA",
+                      "tab" : "certificateId-0",
+                      "tag" : "select",
+                      "type" : "select",
+                      "option" : "cgi"
+                    },
+                    "1" :
+                    {
+                      "label" : "Client",
+                      "cn-label" : "Client",
+                      "tw-label" : "Client",
+                      "tab" : "certificateId-1",
+                      "tag" : "select",
+                      "type" : "select",
+                      "option" : "cgi"
+                    }
+                  }
+                },
+                { 
+                  "label" : "Username/Password Authentication",
+                  "cn-label" : "Username/Password Authentication",
+                  "tw-label" : "Username/Password Authentication",
+                  "tab" : "authMethod",
+                  "tag" : "select",
+                  "type" : "select",
+                  "option" :
+                  {   
+                    "0" :
+                    { 
+                      "label" : "Enable",
+                      "cn-label" : "Enable",
+                      "tw-label" : "Enable",
+                      "tab" : "authMethod-0",
+                      "col" :
+                      [
+                        {
+                          "label" : "Username",
+                          "cn-label" : "Username",
+                          "tw-label" : "Username",
+                          "tab" : "username",
+                          "tag" : "input",
+                          "type" : "text"
+                        },
+                        {
+                          "label" : "Password",
+                          "cn-label" : "Password",
+                          "tw-label" : "Password",
+                          "tab" : "password",
+                          "tag" : "input",
+                          "type" : "password"
+                        }
+                      ]
+                    },
+                    "1" :
+                    { 
+                      "label" : "Disable",
+                      "cn-label" : "Disable",
+                      "tw-label" : "Disable",
+                      "tab" : "authMethod-1"
+                    }
+                  }
+                },
+                {
+                  "label" : "Encryption Cipher",
+                  "cn-label" : "Encryption Cipher",
+                  "tw-label" : "Encryption Cipher",
+                  "tab" : "encryptCipher",
+                  "tag" : "select",
+                  "type" : "select",
+                  "option" :
+                  {
+                    "0" : { "label" : "BF-CBC", "cn-label" : "BF-CBC", "tw-label" : "BF-CBC" },
+                    "1" : { "label" : "AES-128", "cn-label" : "AES-128", "tw-label" : "AES-128" },
+                    "2" : { "label" : "AES-192", "cn-label" : "AES-192", "tw-label" : "AES-192" },
+                    "3" : { "label" : "AES-256", "cn-label" : "AES-256", "tw-label" : "AES-256" }
+                  }
+                },
+                {
+                  "label" : "Hash Algorithm",
+                  "cn-label" : "Hash Algorithm",
+                  "tw-label" : "Hash Algorithm",
+                  "tab" : "hashAlg",
+                  "tag" : "select",
+                  "type" : "select",
+                  "option" :
+                  {
+                    "0" : { "label" : "SHA1", "cn-label" : "SHA1", "tw-label" : "SHA1" },
+                    "1" : { "label" : "SHA256", "cn-label" : "SHA256", "tw-label" : "SHA256" },
+                    "2" : { "label" : "SHA512", "cn-label" : "SHA512", "tw-label" : "SHA512" },
+                    "3" : { "label" : "MD5", "cn-label" : "MD5", "tw-label" : "MD5" }
+                  }
+                },
+                {
+                  "label" : "Use LZO Compression",
+                  "cn-label" : "Use LZO Compression",
+                  "tw-label" : "Use LZO Compression",
+                  "tab" : "lzoComp",
+                  "tag" : "input",
+                  "type" : "checkbox"
+                },
+                {
+                  "label" : "Custom Configuration",
+                  "cn-label" : "Custom Configuration",
+                  "tw-label" : "Custom Configuration",
+                  "tab" : "customConf",
+                  "tag" : "textarea",
+                  "type" : "textarea"
+                }
+              ],
+              "import" :
+              [
+                {
+                  "label" : "Type",
+                  "cn-label" : "Type",
+                  "tw-label" : "Type",
+                  "tab" : "type",
+                  "tag" : "input",
+                  "type" : "radio",
+                  "option" :
+                  {
+                    "0" :
+                    {
+                      "label" : "No Password",
+                      "cn-label" : "No Password",
+                      "tw-label" : "No Password",
+                      "tab" : "type-0"
+                    },
+                    "1" :
+                    {
+                      "label" : "Has Password",
+                      "cn-label" : "Has Password",
+                      "tw-label" : "Has Password",
+                      "tab" : "type-1"
+                    }
+                  }
+                },
+                {
+                  "label" : "Name",
+                  "cn-label" : "Name",
+                  "tw-label" : "Name",
+                  "tab" : "name",
+                  "tag" : "input",
+                  "type" : "text"
+                },
+                {
+                  "label" : "Password",
+                  "cn-label" : "Password",
+                  "tw-label" : "Password",
+                  "tab" : "password",
+                  "tag" : "input",
+                  "type" : "password"
+                },
+                {
+                  "label" : "",
+                  "cn-label" : "",
+                  "tw-label" : "",
+                  "tab" : "binary",
+                  "tag" : "input",
+                  "type" : "file"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label" : "DNS",
+          "cn-label" : "DNS",
+          "tw-label" : "DNS",
+          "id" : "menu-10-3",
+          "tab" : "dns",
+          "tag" : "div",
+          "type" : "tabs",
+          "tabs" : 
+          {
+            "ddns" : { "label" : "DDNS", "cn-label" : "DDNS", "tw-label" : "DDNS" }
+          },
+          "url" :
+          {
+            "get" : 
+            {
+              "ddns" : "ddns"
+            },
+            "post" : 
+            {
+              "ddns" : "ddns"
+            }
+          },
+          "ext" : "cgi",
+          "guiT" :
+          {
+            "ddns" : "ddnsT"
+          },
+          "guiTNum" :
+          {
+            "ddns" : "guiT"
+          },
+          "pgAction" : 
+          {
+            "ddns" : "Save Cancel"
+          },
+          "tblAction" : 
+          {
+            "ddns" : "Create Remove"
+          },
+          "rowAction" : 
+          {
+            "ddns" : "Edit Delete"
+          },
+          "col" :
+          {
+            "ddns" :
+            [
+              {
+                "label" : "",
+                "cn-label" : "",
+                "tw-label" : "",
+                "tab" : "checkbox",
+                "tag" : "input",
+                "type" : "checkbox",
+                "wiz" : "20px"
+              },
+              {
+                "label" : "Enable",
+                "cn-label" : "Enable",
+                "tw-label" : "Enable",
+                "tab" : "enable",
+                "wiz" : "50px"
+              },
+              {
+                "label" : "Service",
+                "cn-label" : "Service",
+                "tw-label" : "Service",
+                "tab" : "type",
+                "wiz" : "100px"
+              },
+              {
+                "label" : "Domain Name",
+                "cn-label" : "Domain Name",
+                "tw-label" : "Domain Name",
+                "tab" : "hostname",
+                "wiz" : "auto"
+              },
+              {
+                "label" : "IP Server",
+                "cn-label" : "IP Server",
+                "tw-label" : "IP Server",
+                "tab" : "ipServeType",
+                "wiz" : "100px"
+              },
+              {
+                "label" : "Action",
+                "cn-label" : "Action",
+                "tw-label" : "Action",
+                "tab" : "action",
+                "wiz" : "100px"
+              }
+            ]
+          },
+          "editor" :
+          {
+            "ddns" :
+            [
+              {
+                "label" : "Enable",
+                "cn-label" : "Enable",
+                "tw-label" : "Enable",
+                "tab" : "enable",
+                "tag" : "input",
+                "type" : "checkbox",
+                "wiz" : "100px"
+              },
+              {
+                "label" : "Host Name",
+                "cn-label" : "Host Name",
+                "tw-label" : "Host Name",
+                "tab" : "hostname",
+                "tag" : "input",
+                "type" : "text",
+                "wiz" : "100px"
+              },
+              {
+                "label" : "Service",
+                "cn-label" : "Service",
+                "tw-label" : "Service",
+                "tab" : "type",
+                "tag" : "select",
+                "type" : "select",
+                "option" :
+                {
+                  "0" :
+                  {
+                    "label" : "FreeDNS",
+                    "cn-label" : "FreeDNS",
+                    "tw-label" : "FreeDNS",
+                    "tab" : "type-0",
+                    "col" : 
+                    [
+                      {
+                        "label" : "Hash",
+                        "cn-label" : "Hash",
+                        "tw-label" : "Hash",
+                        "tab" : "hash",
+                        "tag" : "input",
+                        "type" : "text",
+                        "wiz" : "100px"
+                      }
+                    ]
+                  },
+                  "1" :
+                  {
+                    "label" : "No-IP",
+                    "cn-label" : "No-IP",
+                    "tw-label" : "No-IP",
+                    "tab" : "type-1",
+                    "col" : 
+                    [
+                      {
+                        "label" : "Username",
+                        "cn-label" : "Username",
+                        "tw-label" : "username",
+                        "tab" : "username",
+                        "tag" : "input",
+                        "type" : "text",
+                        "wiz" : "100px"
+                      },
+                      {
+                        "label" : "Password",
+                        "cn-label" : "Password",
+                        "tw-label" : "Password",
+                        "tab" : "password",
+                        "tag" : "input",
+                        "type" : "password",
+                        "wiz" : "100px"
+                      }
+                    ]
+                  }
+                },
+                "wiz" : "100px"
+              },
+              {
+                "label" : "IP Server",
+                "cn-label" : "IP Server",
+                "tw-label" : "IP Server",
+                "tab" : "ipServeType",
+                "tag" : "select",
+                "type" : "select",
+                "option" :
+                {
+                  "0" :
+                  {
+                    "label" : "Auto",
+                    "cn-label" : "Auto",
+                    "tw-label" : "Auto",
+                    "tab" : "ipServeType-0"
+                  },
+                  "1" :
+                  {
+                    "label" : "Local Bind",
+                    "cn-label" : "Local Bind",
+                    "tw-label" : "Local Bind",
+                    "tab" : "ipServeType-1",
+                    "col" :
+                    [
+                      {
+                        "label" : "WAN Interface",
+                        "cn-label" : "WAN Interface",
+                        "tw-label" : "WAN Interface",
+                        "tab" : "bindWanId",
+                        "tag" : "select",
+                        "type" : "select",
+                        "option" : "cgi",
+                        "wiz" : "100px"
+                      }
+                    ]
+                  }
+                },
+                "wiz" : "100px"
+              }
+            ]
+          }
+        },
+        {
           "label" : "DNS Forwarder",
           "cn-label" : "DNS 转发",
           "tw-label" : "DNS 轉送",
-          "id" : "menu-9-2",
+          "id" : "menu-10-4",
           "tab" : "dns_forwarder",
           "tag" : "table",
           "type" : "tables",
@@ -10168,6 +11911,297 @@
               "type" : "text"
             }
           ]
+        },
+        {
+          "label" : "High Availability",
+          "cn-label" : "High Availability",
+          "tw0label" : "High Availability",
+          "id" : "menu-10-5",
+          "tab" : "high_availability",
+          "tag" : "div",
+          "type" : "form",
+          "url" :
+          {
+            "get" : "vrrpd",
+            "post" : "vrrpd"
+          },
+          "ext" : "cgi",
+          "pgAction" : "Save Cancel",
+          "col" :
+          [
+            {
+              "label" : "Enable",
+              "cn-label" : "Enable",
+              "tw-label" : "Enable",
+              "tab" : "enable",
+              "tag" : "input",
+              "type" : "checkbox"
+            },
+            {
+              "label" : "Interface",
+              "cn-label" : "Interface",
+              "tw-label" : "Interface",
+              "tab" : "ifName",
+              "tag" : "p",
+              "type" : "readonly"
+            },
+            {
+              "label" : "Source IP",
+              "cn-label" : "Source IP",
+              "tw-label" : "Source IP",
+              "tab" : "ifIp",
+              "tag" : "p",
+              "type" : "readonly"
+            },
+            {
+              "label" : "VRID",
+              "cn-label" : "VRID",
+              "tw-label" : "VRID",
+              "tab" : "VRID",
+              "tag" : "input",
+              "type" : "text",
+              "size" : 8
+            },
+            {
+              "label" : "Priority",
+              "cn-label" : "Priority",
+              "tw-label" : "Priority",
+              "tab" : "priority",
+              "tag" : "input",
+              "type" : "text",
+              "size" : 8
+            },
+            {
+              "label" : "Advertisement Interval",
+              "cn-label" : "Advertisement Interval",
+              "tw-label" : "Advertisement Interval",
+              "tab" : "advertInterval",
+              "tag" : "input",
+              "type" : "text",
+              "size" : 8
+            },
+            {
+              "label" : "Authentication",
+              "cn-label" : "Authentication",
+              "tw-label" : "Authentication",
+              "tab" : "authType",
+              "tag" : "input",
+              "type" : "radio",
+              "option" :
+              {
+                "0" :
+                {
+                  "label" : "Off",
+                  "cn-label" : "Off",
+                  "tw-label" : "Off" ,
+                  "tab" : "authType-0"
+                },
+                "1" :
+                {
+                  "label" : "On",
+                  "cn-label" : "On",
+                  "tw-label" : "On",
+                  "tab" : "authType-1",
+                  "col" :
+                  [
+                    {
+                      "label" : "",
+                      "cn-label" : "",
+                      "tw-label" : "",
+                      "tab" : "ahOpass",
+                      "tag" : "select",
+                      "type" : "select",
+                      "option" :
+                      {
+                        "0":
+                        {
+                          "label" : "Text",
+                          "cn-label" : "Text",
+                          "tw-label" : "Text",
+                          "tab" : "pass",
+                          "tag" : "input",
+                          "type" : "password"
+                        },
+                        "1":
+                        {
+                          "label" : "AH",
+                          "cn-label" : "AH",
+                          "tw-label" : "AH",
+                          "tab" : "ahKey",
+                          "tag" : "input",
+                          "type" : "password"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "label" : "Virtual IP Address",
+              "cn-label" : "Virtual IP Address",
+              "tw-label" : "Virtual IP Address",
+              "tab" : "virtualIp",
+              "tag" : "input",
+              "type" : "text"
+            },
+            {
+              "label" : "State",
+              "cn-label" : "State",
+              "tw-label" : "State",
+              "tab" : "status",
+              "tag" : "p",
+              "type" : "readonly"
+            }
+          ]
+        },
+        {
+          "label" : "PPTP Server",
+          "cn-label" : "PPTP Server",
+          "tw0label" : "PPTP Server",
+          "id" : "menu-10-6",
+          "tab" : "pptp_server",
+          "tag" : "div",
+          "type" : "form",
+          "url" :
+          {
+            "get" : "pptps",
+            "post" : "pptps"
+          },
+          "ext" : "cgi",
+          "pgAction" : "Save Cancel",
+          "col" :
+          [
+            {
+              "label" : "Enable",
+              "cn-label" : "Enable",
+              "tw-label" : "Enable",
+              "tab" : "enable",
+              "tag" : "input",
+              "type" : "checkbox",
+              "val" : 1
+            },
+            {
+              "label" : "Address Pool",
+              "cn-label" : "Address Pool",
+              "tw-label" : "Address Pool",
+              "tab" : "address_pool",
+              "tag" : "table",
+              "type" : "table",
+              "col" :
+              [
+                {
+                  "label" : "Start IP Address",
+                  "cn-label" : "Start IP Address",
+                  "tw-label" : "Start IP Address",
+                  "tab" : "startIp",
+                  "tag" : "input",
+                  "type" : "text"
+                },
+                {
+                  "label" : "End IP Address",
+                  "cn-label" : "End IP Address",
+                  "tw-label" : "End IP Address",
+                  "tab" : "endIp",
+                  "tag" : "input",
+                  "type" : "text"
+                }
+              ]
+            },
+            {
+              "label" : "Authentication",
+              "cn-label" : "Authentication",
+              "tw-label" : "Authentication",
+              "tab" : "authType",
+              "tag" : "selelct",
+              "type" : "select",
+              "option" : 
+              {
+                "0" : 
+                {
+                  "label" : "PAP",
+                  "cn-label" : "PAP",
+                  "tw-label" : "PAP"
+                },
+                "1" : 
+                {
+                  "label" : "MS-CHAP v2",
+                  "cn-label" : "MS-CHAP v2",
+                  "tw-label" : "MS-CHAP v2"
+                }
+              }
+            },
+            {
+              "label" : "Encryption",
+              "cn-label" : "Encryption",
+              "tw-label" : "Encryption",
+              "tab" : "encryptionType",
+              "tag" : "select",
+              "type" : "select",
+              "option" : 
+              {
+                "0" : 
+                {
+                  "label" : "No MPPE",
+                  "cn-label" : "No MPPE",
+                  "tw-label" : "No MPPE"
+                },
+                "1" : 
+                {
+                  "label" : "Require MPPE (40/128 bit)",
+                  "cn-label" : "Require MPPE (40/128 bit)",
+                  "tw-label" : "Require MPPE (40/128 bit)"
+                },
+                "2" : 
+                {
+                  "label" : "Maximum MPPE (128 bit)",
+                  "cn-label" : "Maximum MPPE (128 bit)",
+                  "tw-label" : "Maximum MPPE (128 bit)"
+                }
+              }
+            },
+            {
+              "label" : "MTU",
+              "cn-label" : "MTU",
+              "tw-label" : "MTU",
+              "tab" : "mtu",
+              "tag" : "input",
+              "type" : "text",
+              "size" : 8
+            },
+            {
+              "label" : "Primary DNS Server",
+              "cn-label" : "Primary DNS Server",
+              "tw-label" : "Primary DNS Server",
+              "tab" : "dns1",
+              "tag" : "input",
+              "type" : "text"
+            },
+            {
+              "label" : "Secondary DNS Server",
+              "cn-label" : "Secondary DNS Server",
+              "tw-label" : "Secondary DNS Server",
+              "tab" : "dns2",
+              "tag" : "input",
+              "type" : "text"
+            },
+            {
+              "label" : "Primary WINS Server",
+              "cn-label" : "Primary WINS Server",
+              "tw-label" : "Primary WINS Server",
+              "tab" : "wins1",
+              "tag" : "input",
+              "type" : "text"
+            },
+            {
+              "label" : "Secondary WINS  Server",
+              "cn-label" : "Secondary WINS Server",
+              "tw-label" : "Secondary WINS Server",
+              "tab" : "wins2",
+              "tag" : "input",
+              "type" : "text"
+            }
+          ]
         }
       ]
     },
@@ -10175,7 +12209,7 @@
       "label" : "Connectivity Policy",
       "cn-label" : "协议过滤",
       "tw-label" : "連線控制",
-      "id" : "menu-10",
+      "id" : "menu-11",
       "tab" : "firewall",
       "panel" :
       [
@@ -10183,7 +12217,7 @@
           "label" : "Rules",
           "cn-label" : "规则",
           "tw-label" : "規則",
-          "id" : "menu-10-0",
+          "id" : "menu-11-0",
           "tab" : "rules",
           "tag" : "div",
           "type" : "tabs",
@@ -10627,7 +12661,7 @@
           "label" : "NAT",
           "cn-label" : "NAT",
           "tw-label" : "NAT",
-          "id" : "menu-10-1",
+          "id" : "menu-11-1",
           "tab" : "nat",
           "panel" :
           [
@@ -10635,7 +12669,7 @@
               "label" : "Dynamic PAT",
               "cn-label" : "动态PAT",
               "tw-label" : "動態 PAT",
-              "id" : "menu-10-1-0",
+              "id" : "menu-11-1-0",
               "tab" : "dynamic_pat",
               "tag" : "div",
               "type" : "tabs",
@@ -10891,7 +12925,7 @@
               "label" : "Static NAT",
               "cn-label" : "静态NAT",
               "tw-label" : "靜態 NAT",
-              "id" : "menu-10-1-1",
+              "id" : "menu-11-1-1",
               "tab" : "static_nat",
               "tag" : "table",
               "type" : "table",
@@ -11025,7 +13059,7 @@
               "label" : "Port Forwarding",
               "cn-label" : "端口转发",
               "tw-label" : "連接埠轉送",
-              "id" : "menu-10-1-2",
+              "id" : "menu-11-1-2",
               "tab" : "port_forwarding",
               "tag" : "table",
               "type" : "table",
@@ -11290,7 +13324,7 @@
               "label" : "Port Trigger",
               "cn-label" : "端口触发",
               "tw-label" : "連接埠觸發",
-              "id" : "menu-10-1-3",
+              "id" : "menu-11-1-3",
               "tab" : "port_trigger",
               "tag" : "table",
               "type" : "table",
@@ -11423,7 +13457,7 @@
               "label" : "Advanced NAT",
               "cn-label" : "高级NAT",
               "tw-label" : "進階 NAT",
-              "id" : "menu-10-1-4",
+              "id" : "menu-11-1-4",
               "tab" : "advanced_nat",
               "tag" : "table",
               "type" : "table",
@@ -11710,7 +13744,7 @@
           "label" : "ALG",
           "cn-label" : "ALG",
           "tw-label" : "ALG",
-          "id" : "menu-10-2",
+          "id" : "menu-11-2",
           "tab" : "alg",
           "tag" : "div",
           "type" : "form",
@@ -11774,7 +13808,7 @@
           "label" : "VPN Passthrough",
           "cn-label" : "VPN 隧道",
           "tw-label" : "VPN 透通",
-          "id" : "menu-10-3",
+          "id" : "menu-11-3",
           "tab" : "vpn_passthrough",
           "tag" : "div",
           "type" : "form",
@@ -11838,7 +13872,7 @@
           "label" : "Session Settings",
           "cn-label" : "超时设置",
           "tw-label" : "連線設定",
-          "id" : "menu-10-4",
+          "id" : "menu-11-4",
           "tab" : "session_settings",
           "tag" : "div",
           "type" : "form",
@@ -11914,7 +13948,7 @@
           "label" : "Attack Protection",
           "cn-label" : "攻击防护",
           "tw-label" : "攻擊防護",
-          "id" : "menu-10-5",
+          "id" : "menu-11-5",
           "tab" : "attack_protection",
           "tag" : "div",
           "type" : "form",
@@ -12151,7 +14185,7 @@
           "label" : "IP MAC Binding",
           "cn-label" : "IP MAC 绑定",
           "tw-label" : "IP MAC 綁定",
-          "id" : "menu-10-6",
+          "id" : "menu-11-6",
           "tab" : "ip_mac_binding",
           "tag" : "div",
           "type" : "tables",
@@ -12312,7 +14346,7 @@
       "label" : "Users",
       "cn-label" : "用户",
       "tw-label" : "使用者管理",
-      "id" : "menu-11",
+      "id" : "menu-12",
       "tab" : "users",
       "panel" :
       [
@@ -12320,9 +14354,8 @@
           "label" : "Users & Groups",
           "cn-label" : "用户 & 组",
           "tw-label" : "使用者與群組",
-          "id" : "menu-11-0",
+          "id" : "menu-12-0",
           "tab" : "users_and_groups",
-          "doc" : "Users.1.1",
           "tag" : "div",
           "type" : "tabs",
           "tabs" :
@@ -12671,6 +14704,170 @@
               }
             ]
           }
+        },
+        {
+          "label" : "Captive Portal",
+          "cn-label" : "Captive Portal",
+          "tw-label" : "Captive Portal",
+          "id" : "menu-12-1",
+          "tab" : "captive_portals",
+          "tag" : "div",
+          "type" : "tabs",
+          "tabs" :
+          {
+            "captive_portal" : { "label" : "Captive Portal", "cn-label" : "Captive Portal", "tw-label" : "Captive Portal" },
+            "configuration" : { "label" : "Configuration", "cn-label" : "Configuration", "tw-label" : "Configuration" },
+            "advanced_settings" : { "label" : "Advanced Settings", "cn-label" : "Advanced Settings", "tw-label" : "Advanced Settings" }
+          },
+          "url" :
+          {
+            "get" : "captivePortal",
+            "post" : "captivePortal",
+            "domain" : "captivePortalOpenDomain"
+          },
+          "guiT" : "domainT",
+          "guiTNum" : "guiT",
+          "ext" : "cgi",
+          "pgAction" : "Save Cancel",
+          "tblAction" : "Create Remove",
+          "rowAction" : "Edit Delete",
+          "col" :
+          {
+            "captive_portal" : 
+            [
+              {
+                "label" : "Enable",
+                "cn-label" : "Enable",
+                "tw-label" : "Enable",
+                "tab" : "enable",
+                "tag" : "input",
+                "type" : "checkbox",
+                "val" : 1
+              },
+              {
+                "label" : "Apply On Interfaces",
+                "cn-label" : "Apply On Interfaces",
+                "tw-label" : "Apply On Interfaces",
+                "tab" : "listenIfList",
+                "tag" : "select",
+                "type" : "multi",
+                "val" : 1
+              },
+              {
+                "label" : "Redirect URL After Login",
+                "cn-label" : "Redirect URL After Login",
+                "tw-label" : "Redirect URL After Login",
+                "tab" : "redirectTo",
+                "tag" : "input",
+                "type" : "radio",
+                "option" :
+                {
+                  "0" :
+                  {
+                    "label" : "Redirect Client to Original URL",
+                    "cn-label" : "Redirect Client to Original URL",
+                    "tw-label" : "Redirect Client to Original URL",
+                    "tab" : "redirectTo-0",
+                    "val" : 0
+                  },
+                  "1" : 
+                  {
+                    "label" : "Redirect Client to Customer URL",
+                    "cn-label" : "Redirect Client to Customer URL",
+                    "tw-label" : "Redirect Client to Customer URL",
+                    "tab" : "redirectTo-1",
+                    "val" : 1,
+                    "col" :
+                    [
+                      {
+                        "label" : "URL",
+                        "cn-label" : "URL",
+                        "tw-label" : "URL",
+                        "tab" : "redirectURL",
+                        "tag" : "input",
+                        "type" : "text"
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "label" : "Session Timeout",
+                "cn-label" : "Session Timeout",
+                "tw-label" : "Session Timeout",
+                "tab" : "enable",
+                "tag" : "input",
+                "type" : "text",
+                "size" : 8
+              },
+              {
+                "label" : "Idle Timeout",
+                "cn-label" : "Idle Timeout",
+                "tw-label" : "Idle Timeout",
+                "tab" : "enable",
+                "tag" : "input",
+                "type" : "text",
+                "size" : 8
+              }
+            ],
+            "configuration" :
+            [
+              {
+                "label" : "Notification Content",
+                "cn-label" : "Notification Content",
+                "tw-label" : "Notification Content",
+                "tab" : "notification",
+                "tag" : "textarea",
+                "type" : "textarea"
+              }
+            ],
+            "advanced_settings" : 
+            [
+              {
+                "label" : "Monitor HTTP Ports",
+                "cn-label" : "Monitor HTTP Ports",
+                "tw-label" : "Monitor HTTP Ports",
+                "tab" : "httpPortList",
+                "tag" : "input",
+                "type" : "texts",
+                "texts" : 5
+              },
+              {
+                "label" : "Open Domains",
+                "cn-label" : "Open Domains",
+                "tw-label" : "Open Domains",
+                "tab" : "domains",
+                "tag" : "table",
+                "type" : "table",
+                "col" :
+                [
+                  {
+                    "label" : "Domain",
+                    "cn-label" : "Domain",
+                    "tw-label" : "Domain",
+                    "tab" : "domain"
+                  },
+                  {
+                    "label" : "Action",
+                    "cn-label" : "Action",
+                    "tw-label" : "Action",
+                    "tab" : "action"
+                  }
+                ]
+              }
+            ]
+          },
+          "editor" :
+          [
+            {
+              "label" : "Domain",
+              "cn-label" : "Domain",
+              "tw-label" : "Domain",
+              "tab" : "domain",
+              "tag" : "input",
+              "type" : "text"
+            }
+          ]
         }
       ]
     },
@@ -12678,7 +14875,7 @@
       "label" : "Objects",
       "cn-label" : "对象",
       "tw-label" : "物件",
-      "id" : "menu-12",
+      "id" : "menu-13",
       "tab" : "objects",
       "panel" :
       [
@@ -12686,7 +14883,7 @@
           "label" : "Address",
           "cn-label" : "地址",
           "tw-label" : "位址",
-          "id" : "menu-12-0",
+          "id" : "menu-13-0",
           "tab" : "addressObj",
           "tag" : "div",
           "type" : "tabs",
@@ -13256,7 +15453,7 @@
           "label" : "Service",
           "cn-label" : "服务",
           "tw-label" : "服務",
-          "id" : "menu-12-1",
+          "id" : "menu-13-1",
           "tab" : "serviceObj",
           "tag" : "div",
           "type" : "tabs",
@@ -13880,7 +16077,7 @@
           "label" : "Schedule",
           "cn-label" : "时间表",
           "tw-label" : "排程",
-          "id" : "menu-12-2",
+          "id" : "menu-13-2",
           "tab" : "scheduleObj",
           "tag" : "table",
           "type" : "table",
@@ -14220,7 +16417,7 @@
       "label" : "Device",
       "cn-label" : "设备",
       "tw-label" : "系統管理",
-      "id" : "menu-13",
+      "id" : "menu-14",
       "tab" : "device",
       "panel" :
       [
@@ -14228,7 +16425,7 @@
           "label" : "Administration",
           "cn-label" : "管理",
           "tw-label" : "管理設定",
-          "id" : "menu-13-0",
+          "id" : "menu-14-0",
           "tab" : "administration",
           "panel" :
           [
@@ -14236,7 +16433,7 @@
               "label" : "Administrator Settings",
               "cn-label" : "管理员设置",
               "tw-label" : "管理者設定",
-              "id" : "menu-13-0-0",
+              "id" : "menu-14-0-0",
               "tab" : "administrator_settings",
               "tag" : "div",
               "type" : "form",
@@ -14437,7 +16634,7 @@
               "label" : "Management Settings",
               "cn-label" : "管理设置",
               "tw-label" : "設備連線設定",
-              "id" : "menu-13-0-1",
+              "id" : "menu-14-0-1",
               "tab" : "management_settings",
               "tag" : "div",
               "type" : "tables",
@@ -14523,7 +16720,17 @@
                       "cn-label" : "HTTPS",
                       "tw-label" : "HTTPS",
                       "tab" : "httpsEnabled",
-                      "wiz" : "15%",
+                      "wiz" : "10%",
+                      "display" : true,
+                      "sortable" : true,
+                      "align" : "Left"
+                    },
+                    {
+                      "label" : "SNMP",
+                      "cn-label" : "SNMP",
+                      "tw-label" : "SNMP",
+                      "tab" : "snmpEnabled",
+                      "wiz" : "10%",
                       "display" : true,
                       "sortable" : true,
                       "align" : "Left"
@@ -14533,7 +16740,7 @@
                       "cn-label" : "SSH",
                       "tw-label" : "SSH",
                       "tab" : "sshEnabled",
-                      "wiz" : "15%",
+                      "wiz" : "10%",
                       "display" : true,
                       "sortable" : true,
                       "align" : "Left"
@@ -14591,6 +16798,15 @@
                   "val" : "1"
                 },
                 {
+                  "label" : "SNMP",
+                  "cn-label" : "SNMP",
+                  "tw-label" : "SNMP",
+                  "tab" : "snmpEnabled",
+                  "tag" : "input",
+                  "type" : "checkbox",
+                  "val" : "1"
+                },
+                {
                   "label" : "SSH",
                   "cn-label" : "SSH",
                   "tw-label" : "SSH",
@@ -14614,7 +16830,7 @@
               "label" : "Email Alert",
               "cn-label" : "电子邮件通知",
               "tw-label" : "電子郵件警示通知",
-              "id" : "menu-13-0-2",
+              "id" : "menu-14-0-2",
               "tab" : "email_alert",
               "tag" : "div",
               "type" : "tabsForm",
@@ -14867,15 +17083,34 @@
                           "col" :
                           [
                             {
-                              "label" : "Alert Interval",
-                              "cn-label" : "警报间隔",
-                              "tw-label" : "通知排程",
+                              "label" : "Alert",
+                              "cn-label" : "警报",
+                              "tw-label" : "通知",
                               "tab" : "virusAlertInterval",
                               "tag" : "input",
-                              "type" : "text",
-                              "note" : "( 3-1440 minutes )",
-                              "cn-note" : "( 3-1440 分 )",
-                              "tw-note" : "( 3-1440 分 )"
+                              "type" : "radio",
+                              "option" :
+                              {
+                                "0" :
+                                {
+                                  "label" : "In Time",
+                                  "cn-label" : "In Time",
+                                  "tw-label" : "In Time",
+                                  "tab" : "virusAlertInterval-0"
+                                },
+                                "1" :
+                                {
+                                  "label" : "Interval",
+                                  "cn-label" : "间隔",
+                                  "tw-label" : "排程",
+                                  "tab" : "virusAlertInterval-1",
+                                  "tag" : "input",
+                                  "type" : "text",
+                                  "note" : "( 3-1440 minutes )",
+                                  "cn-note" : "( 3-1440 分 )",
+                                  "tw-note" : "( 3-1440 分 )"
+                                }
+                              }
                             }
                           ]
                         },
@@ -14923,10 +17158,108 @@
               ]
             },
             {
+              "label" : "SNMP",
+              "cn-label" : "SNMP",
+              "tw-label" : "SNMP",
+              "id" : "menu-14-0-3",
+              "tab" : "snmp",
+              "tag" : "div",
+              "type" : "tabsForm",
+              "tabs" :
+              {
+                "settings" : { "label" : "Settings", "cn-label" : "Settings", "tw-label" : "Settings" },
+                "v1v2c" : { "label" : "V1/V2C", "cn-label" : "V1/V2C", "tw-label" : "V1/V2C" }
+              },
+              "url" :
+              {
+                "get" : 
+                {
+                  "settings" : "snmp_setting",
+                  "v1v2c" : "snmp_v1v2c"
+                },
+                "post" : 
+                {
+                  "settings" : "snmp_setting",
+                  "v1v2c" : "snmp_v1v2c"
+                }
+              },
+              "ext" : "cgi",
+              "pgAction" : "Save Cancel",
+              "col" :
+              {
+                "settings" :
+                [
+                  {
+                    "label" : "General",
+                    "cn-label" : "General",
+                    "tw-label" : "General",
+                    "tab" : "general",
+                    "col" :
+                    [
+                      {
+                        "label" : "System Contact",
+                        "cn-label" : "System Contact",
+                        "tw-label" : "System Contact",
+                        "tab" : "sysContact"
+                      },
+                      {
+                        "label" : "System Location",
+                        "cn-label" : "System Location",
+                        "tw-label" : "System Location",
+                        "tab" : "sysLocation"
+                      },
+                      {
+                        "label" : "System Description",
+                        "cn-label" : "System Description",
+                        "tw-label" : "System Description",
+                        "tab" : "sysDescr"
+                      }
+                    ]
+                  }
+                ],
+                "v1v2c" : 
+                [
+                  {
+                    "label" : "SNMP Agent",
+                    "cn-label" : "SNMP Agent",
+                    "tw-label" : "SNMP Agent",
+                    "tab" : "snmp_agent",
+                    "col" :
+                    [
+                      {
+                        "label" : "Enable SNMP Agent",
+                        "cn-label" : "Enable SNMP Agent",
+                        "tw-label" : "Enable SNMP Agent",
+                        "tab" : "agentEnable"
+                      },
+                      {
+                        "label" : "UDP",
+                        "cn-label" : "UDP",
+                        "tw-label" : "UDP",
+                        "tab" : "agentUdpPort"
+                      },
+                      {
+                        "label" : "Read/Write Community",
+                        "cn-label" : "Read/Write Community",
+                        "tw-label" : "Read/Write Community",
+                        "tab" : "rwCommunity"
+                      },
+                      {
+                        "label" : "Read Only Community",
+                        "cn-label" : "Read Only Community",
+                        "tw-label" : "Read Only Community",
+                        "tab" : "roCommunity"
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
               "label" : "Backup/Restore",
               "cn-label" : "备份/恢复",
               "tw-label" : "設定檔維護",
-              "id" : "menu-13-0-3",
+              "id" : "menu-14-0-4",
               "tab" : "backup_restore",
               "tag" : "table",
               "type" : "table",
@@ -14945,7 +17278,7 @@
               },
               "ext" : "cgi",
               "tblAction" : "Create Remove",
-              "rowAction" : "Apply Export Import Delete",
+              "rowAction" : "Apply Reset Export Import Delete",
               "guiT" : "guiProfileT",
               "guiTNum" : "guiProfileTNum",
               "col" :
@@ -15135,7 +17468,7 @@
               "label" : "Firmware",
               "cn-label" : "固件",
               "tw-label" : "韌體維護",
-              "id" : "menu-13-0-4",
+              "id" : "menu-14-0-5",
               "tab" : "firmware",
               "tag" : "div",
               "type" : "submit",
@@ -15327,7 +17660,7 @@
               "label" : "Reboot/Reset/Shutdown",
               "cn-label" : "重启/重置/关机",
               "tw-label" : "開關機設定",
-              "id" : "menu-13-0-5",
+              "id" : "menu-14-0-6",
               "tab" : "reboot_reset_shutdown",
               "tag" : "div",
               "type" : "buttons",
@@ -15397,7 +17730,7 @@
               "label" : "Properties",
               "cn-label" : "属性",
               "tw-label" : "設備內容",
-              "id" : "menu-13-0-6",
+              "id" : "menu-14-0-7",
               "tab" : "properties",
               "tag" : "div",
               "type" : "form",
@@ -15427,10 +17760,270 @@
           ]
         },
         {
+          "label" : "Certification Management",
+          "cn-label" : "Certification Management",
+          "tw-label" : "Certification Management",
+          "id" : "menu-14-1",
+          "tab" : "certification_management",
+          "tag" : "table",
+          "type" : "table",
+          "url" :
+          {
+            "get" : "certmngReadList",
+            "delete" : "certmngDelete",
+            "detail" : "certmngDetail",
+            "import" : "certmngImport",
+            "download" : "certmngDownloadURL",
+            "generate" : "certmngGenerateCSR"
+          },
+          "ext" : "cgi",
+          "guiT" : "guiCertT",
+          "guiTNum" : "guiCertNum",
+          "tblAction" : "Import Signing Remove",
+          "rowAction" : "Download Delete",
+          "col" :
+          [
+            {
+              "label" : "",
+              "cn-label" : "",
+              "tw-label" : "",
+              "tab" : "checkbox",
+              "tag" : "input",
+              "type" : "checkbox",
+              "wiz" : "20px"
+            },
+            {
+              "label" : "Seq#",
+              "cn-label" : "Seq#",
+              "tw-label" : "Seq#",
+              "tab" : "index",
+              "wiz" : "50px"
+            },
+            {
+              "label" : "Certificate",
+              "cn-label" : "Certificate",
+              "tw-label" : "Certificate",
+              "tab" : "name",
+              "wiz" : "auto"
+            },
+            {
+              "label" : "Type",
+              "cn-label" : "Type",
+              "tw-label" : "Type",
+              "tab" : "type",
+              "wiz" : "100px"
+            },
+            {
+              "label" : "Action",
+              "cn-label" : "Action",
+              "tw-label" : "Action",
+              "tab" : "action",
+              "wiz" : "100px"
+            }
+          ],
+          "import" :
+          [
+            {
+              "label" : "Certificate",
+              "cn-label" : "Certificate",
+              "tw-label" : "Certificate",
+              "tab" : "type",
+              "tag" : "input",
+              "type" : "radio",
+              "option" :
+              {
+                "0" :
+                {
+                  "label" : "CA",
+                  "cn-label" : "CA",
+                  "tw-label" : "CA",
+                  "tab" : "type-0"
+                },
+                "1" :
+                {
+                  "label" : "Local",
+                  "cn-label" : "Local",
+                  "tw-label" : "Local",
+                  "tab" : "type-1"
+                }
+              }
+            },
+            {
+              "label" : "Name",
+              "cn-label" : "Name",
+              "tw-label" : "Name",
+              "tab" : "name",
+              "tag" : "input",
+              "type" : "text"
+            },
+            {
+              "label" : "Password",
+              "cn-label" : "Password",
+              "tw-label" : "Password",
+              "tab" : "password",
+              "tag" : "input",
+              "type" : "password"
+            },
+            {
+              "label" : "",
+              "cn-label" : "",
+              "tw-label" : "",
+              "tab" : "binary",
+              "tag" : "input",
+              "type" : "file"
+            }
+          ],
+          "signing" :
+          [
+            {
+              "label" : "Certificate Alias",
+              "cn-label" : "Certificate Alias",
+              "tw-label" : "Certificate Alias",
+              "tab" : "name",
+              "tag" : "input",
+              "type" : "text"
+            },
+            {
+              "label" : "Country Name",
+              "cn-label" : "Country Name",
+              "tw-label" : "Country Name",
+              "tab" : "country",
+              "tag" : "select",
+              "type" : "select",
+              "option" : "cgi"
+            },
+            {
+              "label" : "State of Province Name",
+              "cn-label" : "State of Province Name",
+              "tw-label" : "State of Province Name",
+              "tab" : "province",
+              "tag" : "input",
+              "type" : "text"
+            },
+            {
+              "label" : "Locality Name",
+              "cn-label" : "Locality Name",
+              "tw-label" : "Locality Name",
+              "tab" : "locality",
+              "tag" : "input",
+              "type" : "text"
+            },
+            {
+              "label" : "Organization Name",
+              "cn-label" : "Organization Name",
+              "tw-label" : "Organization Name",
+              "tab" : "organization",
+              "tag" : "input",
+              "type" : "text"
+            },
+            {
+              "label" : "Organization Unit Name",
+              "cn-label" : "Organization Unit Name",
+              "tw-label" : "Organization Unit Name",
+              "tab" : "unit",
+              "tag" : "input",
+              "type" : "text"
+            },
+            {
+              "label" : "Common Name",
+              "cn-label" : "Common Name",
+              "tw-label" : "Comman Name",
+              "tab" : "commonName",
+              "tag" : "input",
+              "type" : "text"
+            },
+            {
+              "label" : "E-mail Address",
+              "cn-label" : "E-mail Address",
+              "tw-label" : "E-mail Address",
+              "tab" : "email",
+              "tag" : "input",
+              "type" : "text"
+            },
+            {
+              "label" : "Subject Key Type",
+              "cn-label" : "Subject Key Type",
+              "tw-label" : "Subject Key Type",
+              "tab" : "keyType",
+              "tag" : "p",
+              "type" : "readonly"
+            },
+            {
+              "label" : "Subject Key Size",
+              "cn-label" : "Subject Key Size",
+              "tw-label" : "Subject Key Size",
+              "tab" : "keySize",
+              "tag" : "select",
+              "type" : "select",
+              "option" :
+              {
+                "512" : { "label": "512", "cn-label" : "512", "tw-label" : "512" },
+                "1024" : { "label" : "1024", "cn-label" : "1024", "tw-label" : "1024" },
+                "2048" : { "label" : "2048", "cn-label" : "2048", "tw-label" : "2048" }
+              }
+            },
+            {
+              "label" : "Subject Distinguished Name",
+              "cn-label" : "Subject Distinguished Name",
+              "tw-label" : "Subject Distinguished Name",
+              "tab" : "keyName",
+              "tag" : "p",
+              "type" : "readonly"
+            }
+          ],
+          "download" :
+          [
+            {
+              "label" : "Certificate",
+              "cn-label" : "Certificate",
+              "tw-label" : "Certificate",
+              "tab" : "name"
+            },
+            {
+              "label" : "Issuer",
+              "cn-label" : "Issuer",
+              "tw-label" : "Issuer",
+              "tab" : "issuer"
+            },
+            {
+              "label" : "Subject",
+              "cn-label" : "Subject",
+              "tw-label" : "Subject",
+              "tab" : "subject"
+            },
+            {
+              "label" : "Valid from",
+              "cn-label" : "Valid from",
+              "tw-label" : "Valid from",
+              "tab" : "validFrom"
+            },
+            {
+              "label" : "Expires on",
+              "cn-label" : "Expires on",
+              "tw-label" : "Expires on",
+              "tab" : "expiresOn"
+            },
+            {
+              "label" : "Serial Number",
+              "cn-label" : "Serial Number",
+              "tw-label" : "Serial Number",
+              "tab" : "serial"
+            },
+            {
+              "label" : "Enter Export Password",
+              "cn-label" : "Enter Export Password",
+              "tw-label" : "Enter Export Password",
+              "tab" : "password",
+              "tag" : "input",
+              "type" : "password"
+            }
+          ]
+        },
+        {
           "label" : "Date and Time",
           "cn-label" : "日期和时间",
           "tw-label" : "系統時間",
-          "id" : "menu-13-1",
+          "id" : "menu-14-2",
           "tab" : "date_and_time",
           "tag" : "div",
           "type" : "form",
@@ -15611,7 +18204,7 @@
           "label" : "Loggings",
           "cn-label" : "日志",
           "tw-label" : "事件記錄",
-          "id" : "menu-13-2",
+          "id" : "menu-14-3",
           "tab" : "loggings",
           "tag" : "div",
           "type" : "tabs",
@@ -15937,7 +18530,7 @@
           "label" : "Diagnostics",
           "cn-label" : "诊断",
           "tw-label" : "診斷工具",
-          "id" : "menu-13-3",
+          "id" : "menu-14-4",
           "tab" : "diagnostics",
           "panel" :
           [
@@ -15945,7 +18538,7 @@
               "label" : "DNS Lookup",
               "cn-label" : "DNS查找",
               "tw-label" : "網域名稱查詢",
-              "id" : "menu-13-3-0",
+              "id" : "menu-14-4-0",
               "tab" : "dns_lookup",
               "tag" : "div",
               "type" : "submit",
@@ -15980,7 +18573,7 @@
               "label" : "Ping",
               "cn-label" : "Ping",
               "tw-label" : "Ping",
-              "id" : "menu-13-3-1",
+              "id" : "menu-14-4-1",
               "tab" : "ping",
               "tag" : "div",
               "type" : "submit",
@@ -16038,7 +18631,7 @@
               "label" : "Traceroute",
               "cn-label" : "Tracert",
               "tw-label" : "路由追蹤",
-              "id" : "menu-13-3-2",
+              "id" : "menu-14-4-2",
               "tab" : "traceroute",
               "tag" : "div",
               "type" : "submit",
@@ -16088,7 +18681,7 @@
               "label" : "Packet Capture",
               "cn-label" : "数据包捕获",
               "tw-label" : "封包錄製",
-              "id" : "menu-13-3-3",
+              "id" : "menu-14-3-3",
               "tab" : "packet_capture",
               "tag" : "table",
               "type" : "table",
@@ -16137,6 +18730,13 @@
                   "cn-label" : "描述",
                   "tw-label" : "描述",
                   "tab" : "desc",
+                  "wiz" : "auto"
+                },
+                {
+                  "label" : "Size",
+                  "cn-label" : "大小",
+                  "tw-label" : "大小",
+                  "tab" : "size",
                   "wiz" : "auto"
                 },
                 {
@@ -16277,7 +18877,7 @@
               "label" : "Advanced Debug",
               "cn-label" : "调试",
               "tw-label" : "進階工具",
-              "id" : "menu-13-3-4",
+              "id" : "menu-14-3-4",
               "tab" : "advanced_debug",
               "tag" : "div",
               "type" : "tabsForm",
@@ -16587,7 +19187,7 @@
           "label" : "License",
           "cn-label" : "授权许可",
           "tw-label" : "授權管理",
-          "id" : "menu-13-4",
+          "id" : "menu-14-4",
           "tab" : "license",
           "tag" : "div",
           "type" : "tabsForm",

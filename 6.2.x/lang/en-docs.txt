@@ -1486,7 +1486,258 @@
       }
     }
   },
-  "menu-6-0" :
+  "menu-6" :
+  {
+    "label" : "IMAP",
+    "tab" : "imap",
+    "description" : "Use this screen to enable IMAP anti-virus and configure the related general settings.",
+    "tabs" :
+    {
+      "general" :
+      {
+        "label" : "General Setting",
+        "tab" : "general",
+        "description" : "Use this screen to enable anti-virus and configure the related general settings.",
+        "content" :
+        [
+          {
+            "label" : "Zone to Scan",
+            "tab" : "zone_to_scan",
+            "description" : "Select the zones to which you want to apply the anti-virus settings and scan the traffic for viruses.\n Select the zone(s) from the Available Zones text box and click the right arrow to add the zone(s) to the Selected Zones text box in order to check the incoming/outgoing packets content of the selected zones. Otherwise, select the zones(s) from the Selected Zones and click the left arrow to move the zones(s) to the Available Zones text box."
+          },
+          {
+            "label" : "Enable",
+            "tab" : "app_enable",
+            "description" : "Select the check box to have the TitanWALL check the traffic of the corresponding type."
+          },
+          {
+            "label" : "Log",
+            "tab" : "app_logging",
+            "description" : "elect the check box to have the TitanWALL create a log when viruses are detected. You also need to configure the log settings in the Device > Loggings screens."
+          },
+          {
+            "label" : "Action",
+            "tab" : "app_action",
+            "description" : "Select the action the TitanWALL takes when viruses are detected.\n none - The TitanWALL takes no action.\n drop connection – The TitanWALL FTP terminates the connections when a virus is detected."
+          },
+          {
+            "label" : "Port List",
+            "tab" : "app_port",
+            "description" : "Specify the server port that is used to identify an application (service). You can configure multiple ports."
+          },
+          {
+            "label" : "Maximum File Size to Scan",
+            "tab" : "max_file_size",
+            "description" : "TitanWALL won't scan the file size over this value, \"0\" means disable."
+          }
+        ]
+      },
+      "address_except" :
+      {
+        "label" : "Address Exception",
+        "tab" : "address_except",
+        "description" : "Use this screen to configure a white list of IP addresses. Packets with the specified IP address will not be scanned for virus.",
+        "content" :
+        [
+          {
+            "label" : "Enable",
+            "tab" : "enable",
+            "description" : "This shows whether the rule is activated or not."
+          },
+          {
+            "label" : "Source",
+            "tab" : "source",
+            "description" : "This shows the source IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Destination",
+            "tab" : "destination",
+            "description" : "This shows the destination IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Log",
+            "tab" : "log",
+            "description" : "This shows whether a log will be generated when the TitanWALL receives a packet that has the specified source or destination IP address."
+          },
+          {
+            "label" : "Action",
+            "tab" : "action",
+            "description" : "Click Edit to modify the rule’s settings.\n Click Delete to remove the rule."
+          }
+        ],
+        "editor" :
+        [
+          {
+            "label" : "Enable",
+            "tab" : "enable",
+            "description" : "Select the check box to turn on the rule."
+          },
+          {
+            "label" : "Source",
+            "tab" : "source",
+            "description" : "Select an address object to specify the source IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Destination",
+            "tab" : "destination",
+            "description" : "Select an address object to specify the destination IP address of the packets which would not be scanned by the TitanWALL anti-virus engine."
+          },
+          {
+            "label" : "Log",
+            "tab" : "log",
+            "description" : "Select the check to generate a log when the TitanWALL receives a packet that matches this rule."
+          },
+          {
+            "label" : "OK",
+            "tab" : "ok",
+            "description" : "Click this button to save your changes and close this screen."
+          },
+          {
+            "label" : "Cancel",
+            "tab" : "cancel",
+            "description" : "Click this button to close this screen without saving any changes."
+          }
+        ]
+      },
+      "file_ext" :
+      {
+        "label" : "File Extension",
+        "tab" : "file_ext",
+        "description" : "Use this screen to configure a white list of files which will not be scanned for virus. You can set the rules according the MIME ((Multipurpose Internet Mail Extensions) type or file extension.",
+        "content" :
+        [
+          {
+            "label" : "MIME",
+            "tab" : "mime",
+            "description" : "This shows the MIME type/sub-type (audio/mpeg or image/jpeg for example) of the file."
+          },
+          {
+            "label" : "File Extension",
+            "tab" : "file_ext",
+            "description" : "s shows the file name extension (doc or mp3 for example) of the file."
+          },
+          {
+            "label" : "Action",
+            "tab" : "action",
+            "description" : "Click Edit to modify the rule’s settings.\n Click Delete to remove the rule."
+          }
+        ],
+        "editors" :
+        [
+          {
+            "label" : "MIME Editor",
+            "tab" : "mime",
+            "description" : "Use this screen to create a new file exception rule based on the MIME type or edit an existing one.",
+            "content" :
+            [
+              {
+                "label" : "Type",
+                "tab" : "type",
+                "description" : "Select the MIME type of the file that will not be scanned"
+              },
+              {
+                "label" : "Subtype",
+                "tab" : "subtype",
+                "description" : "Select the MIME sub-type of the file that will not be scanned"
+              },
+              {
+                "label" : "OK",
+                "tab" : "ok",
+                "description" : "Click this button to save your changes and close this screen."
+              },
+              {
+                "label" : "Cancel",
+                "tab" : "cancel",
+                "description" : "Click this button to close this screen without saving any changes."
+              }
+            ]
+          },
+          {
+            "label" : "File Extension Editor",
+            "tab" : "file_ext",
+            "description" : "Use this screen to create a new file exception rule based on the file name extension or edit an existing one.",
+            "content" :
+            [
+              {
+                "label" : "File Extension",
+                "tab" : "file_ext",
+                "description" : "Enter the file name extension of the file that will not be scanned."
+              },
+              {
+                "label" : "OK",
+                "tab" : "ok",
+                "description" : "Click this button to save your changes and close this screen."
+              },
+              {
+                "label" : "Cancel",
+                "tab" : "cancel",
+                "description" : "Click this button to close this screen without saving any changes."
+              }
+            ]
+          }
+        ]
+      },
+      "blacklist" :
+      {
+        "label" : "Blacklist",
+        "tab" : "blacklist",
+        "description" : "When a virus is detected by the TitanWALL’s anti-virus, the TitanWALL records the infected site’s URL into its blacklist database and blocks users from accessing it. Each blacklist entry has its own lifetime in this database.\n Use this screen to specify the lifetime for all blacklist entries. The TitanWALL removes a blacklist entry from this database once the entry expires, the system is restarted, or anti-virus signatures are updated. The TitanWALL can record up to 4096 blacklist entries. You can manually move blacklist entries to the whitelist database if you find they are false positives.",
+        "content" :
+        [
+          {
+            "label" : "Expiration Duration",
+            "tab" : "expire_duration",
+            "description" : "Specify how many days and hours for the lifetime of every blacklist entry in this database."
+          },
+          {
+            "label" : "Index",
+            "tab" : "index",
+            "description" : "This is the index number of the entry."
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "This is the URL (Uniform Resource Locator) where a virus is detected by the TitanWALL’s anti-virus. For example, http://www.eicar.org/download/eicar.com.txt and ftp://1.1.1.1/aaa.com."
+          },
+          {
+            "label" : "Expiration Date",
+            "tab" : "expire_date",
+            "description" : "This is the remaining time the TitanWALL keeps the URL in the blacklist before the entry expires and is being removed from this database. "
+          },
+          {
+            "label" : "Action",
+            "tab" : "actiove",
+            "description" : "Click the Move to Whitelist icon to delete the entry from this blacklist database and add it to the whitelist database. Click the Delete icon to remove the entry."
+          }
+        ]
+      },
+      "whitelist" :
+      {
+        "label" : "Whitelist",
+        "tab" : "whitelist",
+        "description" : "If you find a URL in the blacklist database is actually a non-virus web or FTP site, you can manually move it to the whitelist database. The anti-virus function does not take any action on connections accessing URLs in the whitelist database but just records them in the system log. The TitanWALL can store up to 4096 whitelist entries.\n Use this screen to the view and remove whitelist entries.",
+        "content" :
+        [
+          {
+            "label" : "Index",
+            "tab" : "index",
+            "description" : "This shows the index number of an entry."
+          },
+          {
+            "label" : "URL",
+            "tab" : "url",
+            "description" : "This is a URL that you trusted."
+          },
+          {
+            "label" : "Action",
+            "tab" : "action",
+            "description" : "Click Delete to remove the rule."
+          }
+        ]
+      }
+    }
+  },
+  "menu-7-0" :
   {
     "label" : "Signature",
     "tab" : "sig",
@@ -1545,7 +1796,7 @@
       }
     ]
   },
-  "menu-6-1" :
+  "menu-7-1" :
   {
     "label" : "Proxy",
     "tab" : "proxy",
@@ -1584,7 +1835,7 @@
       }
     ]
   },
-  "menu-7-0-0" :
+  "menu-8-0-0" :
   {
     "label" : "File Extension",
     "tab" : "file_extension",
@@ -1613,7 +1864,7 @@
       }
     ]
   },
-  "menu-7-0-1" :
+  "menu-8-0-1" :
   {
     "label" : "Blocked Host",
     "tab" : "blocked_host",
@@ -1647,7 +1898,7 @@
       }
     ]
   },
-  "menu-7-0-2" :
+  "menu-8-0-2" :
   {
     "label" : "Affected Host",
     "tab" : "affected_host",
@@ -1676,7 +1927,7 @@
       }
     ]
   },
-  "menu-7-0-3" :
+  "menu-8-0-3" :
   {
     "label" : "Antivirus",
     "tab" : "antivurs_report",
@@ -1720,7 +1971,7 @@
       }
     ]
   },
-  "menu-7-1-0" :
+  "menu-8-1-0" :
   {
     "label" : "Traffic Direction",
     "tab" : "traffic_direction",
@@ -1759,7 +2010,7 @@
       }
     ]
   },
-  "menu-7-2-0" :
+  "menu-8-2-0" :
   {
     "label" : "Show ARP Table",
     "tab" : "show_arp_table",
@@ -1788,7 +2039,7 @@
       }
     ]
   },
-  "menu-7-2-1" :
+  "menu-8-2-1" :
   {
     "label" : "Show Routing Table",
     "tab" : "show_routing_table",
@@ -1827,7 +2078,7 @@
       }
     ]
   },
-  "menu-7-2-2" :
+  "menu-8-2-2" :
   {
     "label" : "DHCP Bindings",
     "tab" : "dhcp_bindings",
@@ -1856,7 +2107,7 @@
       }
     ]
   },
-  "menu-7-2-3" :
+  "menu-8-2-3" :
   {
     "label" : "Status Summary",
     "tab" : "status_summary",
@@ -2076,7 +2327,7 @@
       }
     }
   },
-  "menu-7-2-4" :
+  "menu-8-2-4" :
   {
     "label" : "Traffic Statistics",
     "tab" : "traffic_statistics",
@@ -2266,13 +2517,13 @@
       }
     }
   },
-  "menu-7-2-5" :
+  "menu-8-2-5" :
   {
     "label" : "WAN Bandwidth Report",
     "tab" : "wan_bandwidth report",
     "description" : "Use this screen to view the bandwidth usage for the WAN interface(s) over the past 24 hours. You can also enter a start\/end date and time, and then click the search button to display the bandwidth usage within the specified time period.\n The y-axis shows the number of bytes that have been transmitted or received on the WAN interface.\n The x-axis shows the time period over which the bandwidth usage occurred.\n The information in this table is updated automatically at the refresh time interval you set in the Refresh Page field in the upper right corner. Click the Refresh button to update the table information immediately."
   },
-  "menu-7-3" :
+  "menu-8-3" :
   {
     "label" : "NAT Status",
     "tab" : "nat_status",
@@ -2346,7 +2597,7 @@
       }
     ]
   },
-  "menu-7-4-0" :
+  "menu-8-4-0" :
   {
     "label" : "Active Sessions",
     "tab" : "active_sessions",
@@ -2385,7 +2636,7 @@
       }
     ]
   },
-  "menu-7-4-1" :
+  "menu-8-4-1" :
   {
     "label" : "IPSec VPN Statistics",
     "tab" : "ipsec_vpn_statistics",
@@ -2439,7 +2690,7 @@
       }
     ]
   },
-  "menu-7-5-0" :
+  "menu-8-5-0" :
   {
     "label" : "Resource Utilization",
     "tab" : "resource_utilization",
@@ -2460,7 +2711,7 @@
       }
     }
   },
-  "menu-7-6" :
+  "menu-8-6" :
   {
     "label" : "Active Users",
     "tab" : "active_users",
@@ -2494,7 +2745,7 @@
       }
     ]
   },
-  "menu-8-0" :
+  "menu-9-0" :
   {
     "label" : "Port",
     "tab" : "ports",
@@ -2688,7 +2939,7 @@
       }
     ]
   },
-  "menu-8-1" :
+  "menu-9-1" :
   {
     "label" : "VLAN Interfaces",
     "tab" : "vlan_interfaces",
@@ -2882,7 +3133,7 @@
       }
     ]
   },
-  "menu-8-2" :
+  "menu-9-2" :
   {
     "label" : "LAN",
     "tab" : "lan",
@@ -3071,7 +3322,7 @@
       }
     ]
   },
-  "menu-8-3" :
+  "menu-9-3" :
   {
     "label" : "WAN",
     "tab" : "wan",
@@ -3319,7 +3570,7 @@
       }
     }
   },
-  "menu-8-4" :
+  "menu-9-4" :
   {
     "label" : "Zone",
     "tab" : "zone",
@@ -3376,13 +3627,13 @@
       }
     ]
   },
-  "menu-9-0-0" :
+  "menu-10-0-0" :
   {
     "label" : "Routing",
     "tab" : "routing",
     "description" : "Use this screen to select the routing mode for traffic between the WAN and the LAN.\n Select NAT if your ISP assigns you one IP address only and more than one host in your LAN needs to share it.\n Select Classical Routing mode if each host in your network can get an individual IP address from the ISP.\n You can also use this screen to set the TitanWALL to transmit the IPv4 packets only or allow the TitanWALL to connect to either IPv4 or IPv6 networks. \n IPv6 (Internet Protocol version 6) increases the IP address size from 32 bits to 128 bits and provides larger IP address space than IPv4. But the TitanWALL does not support the firewall, VPN, and other security services for IPv6 in the current firmware release.\n Click Save to apply your new settings"
   },
-  "menu-9-0-1" :
+  "menu-10-0-1" :
   {
     "label" : "Static Routing",
     "tab" : "static_routing",
@@ -3442,7 +3693,7 @@
       }
     ]
   },
-  "menu-9-1-0" :
+  "menu-10-1-0" :
   {
     "label" : "IPSec Policies",
     "tab" : "ipsec_policies",
@@ -3641,7 +3892,7 @@
       }
     ]
   },
-  "menu-9-1-1" :
+  "menu-10-1-1" :
   {
     "label" : "IKE Policy",
     "tab" : "ike_policy",
@@ -3716,7 +3967,7 @@
       }
     ]
   },
-  "menu-9-1-2" :
+  "menu-10-1-2" :
   {
     "label" : "Transform Policy",
     "tab" : "transform_policy",
@@ -3791,7 +4042,7 @@
       }
     ]
   },
-  "menu-10-0" :
+  "menu-11-0" :
   {
     "label" : "Rules",
     "tab" : "rules",
@@ -3946,7 +4197,7 @@
       }
     }
   },
-  "menu-10-1-0" :
+  "menu-11-1-0" :
   {
     "label" : "Dynamic PAT",
     "tab" : "dynamic_pat",
@@ -4021,7 +4272,7 @@
       }
     }
   },
-  "menu-10-1-1" :
+  "menu-11-1-1" :
   {
     "label" : "Static NAT",
     "tab" : "static_nat",
@@ -4073,7 +4324,7 @@
       }
     ]
   },
-  "menu-10-1-2" :
+  "menu-11-1-2" :
   {
     "label" : "Port Forwarding",
     "tab" : "port_forwarding",
@@ -4150,7 +4401,7 @@
       }
     ]
   },
-  "menu-10-1-3" :
+  "menu-11-1-3" :
   {
     "label" : "Port Trigger",
     "tab" : "port_trigger",
@@ -4207,7 +4458,7 @@
       }
     ]
   },
-  "menu-10-1-4" :
+  "menu-11-1-4" :
   {
     "label" : "Advanced NAT",
     "tab" : "advanced_nat",
@@ -4319,19 +4570,19 @@
       }
     ]
   },
-  "menu-10-2" :
+  "menu-11-2" :
   {
     "label" : "ALG",
     "tab" : "alg",
     "description" : "An Application Level Gateway (ALG) allows NAT incompatible applications, such as SIP or H.323, to go through NAT. The TitanWALL supports the SIP, H.323 and FTP ALGs.\n Use this screen to enable an ALG on the TitanWALL. For example, to allow VoIP traffic to pass through the TitanWALL, you need to select either SIP Protocol Support or H.323 Support depending on the protocol used by the VoIP devices/applications. The TitanWALL then opens the ports necessary for VoIP traffic. Click Save to apply your new settings.\n FTP ALG works only in FTP active mode, in which the FTP client sends a command to the FTP server to provide its IP address and port number. The FTP server then uses the address information to establish a data channel with the FTP client."
   },
-  "menu-10-3" :
+  "menu-11-3" :
   {
     "label" : "VPN Passthrough",
     "tab" : "vpn_passthrough",
     "description" : "Use this screen to turn on the VPN passthrough function, which allows VPN traffic to pass through the TitanWALL, especially when a host behind the TitanWALL wants to set up a VPN tunnel with a remote security router on the WAN. Select the type of VPN traffic (L2TP, PPTP or IPSec) you want to allow. Click Save to apply your new settings."
   },
-  "menu-10-4" :
+  "menu-11-4" :
   {
     "label" : "Session Settings",
     "tab" : "session_settings",
@@ -4355,7 +4606,7 @@
       }
     ]
   },
-  "menu-10-5" :
+  "menu-11-5" :
   {
     "label" : "Attack Protection",
     "tab" : "attack_protection",
@@ -4414,7 +4665,7 @@
       }
     ]
   },
-  "menu-10-6" :
+  "menu-11-6" :
   {
     "label" : "IP MAC Binding",
     "tab" : "ip_mac_binding",
@@ -4461,7 +4712,7 @@
       }
     ]
   },
-  "menu-11-0" :
+  "menu-12-0" :
   {
     "label" : "Users & Groups",
     "tab" : "users_and_groups",
@@ -4593,7 +4844,7 @@
       }
     }
   },
-  "menu-12-0" :
+  "menu-13-0" :
   {
     "label" : "Address",
     "tab" : "addressObj",
@@ -4736,7 +4987,7 @@
       }
     }
   },
-  "menu-12-1" :
+  "menu-13-1" :
   {
     "label" : "Service",
     "tab" : "serviceObj",
@@ -4889,7 +5140,7 @@
       }
     }
   },
-  "menu-12-2" :
+  "menu-13-2" :
   {
     "label" : "Schedule",
     "tab" : "scheduleObj",
@@ -4966,7 +5217,7 @@
       }
     ]
   },
-  "menu-13-0-0" :
+  "menu-14-0-0" :
   {
     "label" : "Administrator Settings",
     "tab" : "administrator_settings",
@@ -5020,7 +5271,7 @@
       }
     ]
   },
-  "menu-13-0-1" :
+  "menu-14-0-1" :
   {
     "label" : "Management Settings",
     "tab" : "management_settings",
@@ -5097,7 +5348,7 @@
       }
     ]
   },
-  "menu-13-0-2" :
+  "menu-14-0-2" :
   {
     "label" : "Email Alert",
     "tab" : "email_alert",
@@ -5204,13 +5455,13 @@
       }
     }
   },
-  "menu-13-0-3" :
+  "menu-14-0-3" :
   {
     "label" : "Backup/Restore",
     "tab" : "backup_restore",
     "description" : "Use this screen to back up the configuration or restore a configuration file to the TitanWALL. You can back up the current configuration to a local PC or to a USB device connected to the TitanWALL’s USB port. Select an option and click the Backup button.\n To upload a configuration file to the TitanWALL, you can select Restore Configuration From PC Path and click Select Files to locate the file. You can also restore a configuration file from a USB device connected to the TitanWALL’s USB port. Select Restore Configuration From USB and a file from the drop-down list box, then click Restore. "
   },
-  "menu-13-0-4" :
+  "menu-14-0-4" :
   {
     "label" : "Firmware",
     "tab" : "firmware",
@@ -5274,19 +5525,19 @@
       }
     ]
   },
-  "menu-13-0-5" :
+  "menu-14-0-5" :
   {
     "label" : "Reboot/Reset/Shutdown",
     "tab" : "reboot_reset_shutdown",
     "description" : "This screen allows you to restart the TitanWALL by clicking the Reboot button, reset all settings to the factory defaults by clicking the Reset button, and turn this TitanWALL off by clicking the Shutdown button."
   },
-  "menu-13-0-6" :
+  "menu-14-0-6" :
   {
     "label" : "Properties",
     "tab" : "properties",
     "description" : "Use this screen to configure the host name and domain name for this TitanWALL."
   },
-  "menu-13-1" :
+  "menu-14-1" :
   {
     "label" : "Date and Time",
     "tab" : "date_and_time",
@@ -5310,7 +5561,7 @@
       }
     ]
   },
-  "menu-13-2" :
+  "menu-14-2" :
   {
     "label" : "Loggings",
     "tab" : "loggins",
@@ -5446,25 +5697,25 @@
       }
     }
   },
-  "menu-13-3-0" :
+  "menu-14-3-0" :
   {
     "label" : "DNS Lookup",
     "tab" : "dns_lookup",
     "description" : "A DNS Lookup is when a device that supports IP asks a DNS server for the IP address associated with a domain name. The DNS Server must \"look up\" the IP associated with that domain"
   },
-  "menu-13-3-1" :
+  "menu-14-3-1" :
   {
     "label" : "Ping",
     "tab" : "ping",
     "description" : "A ping tool test determines the latency (communication delay) between your computer and another computer on a network."
   },
-  "menu-13-3-2" :
+  "menu-14-3-2" :
   {
     "label" : "Traceroute",
     "tab" : "traceroute",
     "description" : "Traceroute is a utility that records the route (the specific gateway computers at each hop) through the Internet between your computer and a specified destination."
   },
-  "menu-13-3-3" :
+  "menu-14-3-3" :
   {
     "label" : "Packet Capture",
     "tab" : "packet_capture",
@@ -5498,7 +5749,7 @@
       }
     ]
   },
-  "menu-13-3-4" :
+  "menu-14-3-4" :
   {
     "label" : "Advanced Debug",
     "tab" : "advanced_debug",
@@ -5610,7 +5861,7 @@
       }
     }
   },
-  "menu-13-4" :
+  "menu-14-4" :
   {
     "label" : "License",
     "tab" : "license",

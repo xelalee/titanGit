@@ -208,7 +208,6 @@
     "shutdownDone" : "Shutdown Done",
     "fromZone" : "From Zone",
     "toZone" : "To Zone",
-    "openVpnServerEnable" : "This will turn off Open VPN Client, is it ok?",
     "openVpnClientEnable" : "This will turn off Open VPN Server, is it ok?"
   }
 }

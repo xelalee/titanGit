@@ -568,9 +568,9 @@
   },
   "openvpnServer" :
   {
-    "openVpnServerEnable":1,
     "openVpnClientEnable":0,
-    "guiOvpnServerNum":1,
+    "openVpnServerEnable":0,
+    "guiOvpnServerNum":0,
     "guiOvpnServerT":
     [
       {
@@ -581,7 +581,7 @@
         "tunnelProto":0,
         "port":0,
         "network":"",
-        "netmask":"0",
+        "netmask":"",
         "authMethod":0,
         "certificateId":0,
         "encryptCipher":0,
@@ -589,26 +589,7 @@
         "lzoComp":0,
         "clientToClient":0,
         "redirectGateway":0,
-        "customConf":"",
-       "cgiAction":0
-      }
-    ]
-  },
-  "ddns" :
-  {
-    "ddnsT": 
-    [
-      {
-        "gid": 0,
-        "type": 0,
-        "enable": 0,
-        "hostname": "",
-        "username": "",
-        "password": "",
-        "hash": "",
-        "ipServeType": 0,
-        "bindWanId": 0,
-        "cgiAction": 0
+        "cgiAction":0
       }
     ]
   },

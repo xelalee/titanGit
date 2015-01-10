@@ -91,6 +91,10 @@
   {
     "rows" : 100
   },
+  "openvpnServer" :
+  {
+    "rows" : 6
+  },
   "ipsecike" :
   {
     "rows" : 16
@@ -132,18 +136,6 @@
     "members" : 100,
     "rows" : 50
   }, 
-  "config_profile_list_v2" :
-  {
-    "rows" : 16
-  },
-  "openvpnServer" :
-  {
-    "rows" : 6
-  },
-  "ddns" :
-  {
-    "rows" : 8
-  },
   "certmngReadList" :
   {
     "rows" : 128

@@ -15,7 +15,6 @@
     "reset" : 100,
     "shutdown" : 20,
     "restoreConf" : 100,
-    "resetConf" : 100,
     "backup_restore" : 100,
     "applyProfile" : 100
   },
@@ -251,11 +250,7 @@
     "free" :
     {
       "WAN1" : true,
-      "WAN2" : true,
-      "WAN3" : true,
-      "WAN4" : true,
-      "WAN5" : true,
-      "WAN6" : true
+      "WAN2" : true
     },
     "weightVal" :
     {
@@ -283,11 +278,7 @@
     {
       "0": "All",
       "1": "WAN1",
-      "2": "WAN2",
-      "3": "WAN3",
-      "4": "WAN4",
-      "5": "WAN5",
-      "6": "WAN6"
+      "2": "WAN2"
     }
   },
   "zone" :
@@ -378,24 +369,6 @@
       "modp8192" : "Group 18 (8192 bits)"
     }
   },
-  "ddns" :
-  {
-    "enable" :
-    {
-      "0": "Disable",
-      "1": "Enable"
-    },
-    "type" :
-    {
-      "0": "FreeDNS",
-      "1": "No-IP"
-    },
-    "ipServeType" :
-    {
-      "0": "Auto",
-      "1": "Local Bind"
-    }
-  },
   "openvpnServer" :
   {
     "enable" :
@@ -471,11 +444,7 @@
     {
       "0": "All",
       "1": "WAN1",
-      "2": "WAN2",
-      "3": "WAN3",
-      "4": "WAN4",
-      "5": "WAN5",
-      "6": "WAN6"
+      "2": "WAN2"
     }
   },
   "staticNat" :
@@ -483,11 +452,7 @@
     "wanInterface" :
     {
       "WAN1": "WAN1",
-      "WAN2": "WAN2",
-      "WAN3": "WAN3",
-      "WAN4": "WAN4",
-      "WAN5": "WAN5",
-      "WAN6": "WAN6"
+      "WAN2": "WAN2"
     }
   },
   "dynamicPat" :

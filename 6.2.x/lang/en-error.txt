@@ -287,6 +287,11 @@
     "restore_fail" : "restore fail",
 
     "_comment" : "--------",
+    "_comment" : "certification management",
+    "certificate_username" : "",    
+    "certificate_password" : "",    
+
+    "_comment" : "--------",
     "_comment" : "packet capture",
     "advancedDebugging": "advanced debug packet capturing",
 

@@ -1368,9 +1368,8 @@ button {
     margin: 2px;
 }
 
-button.yui3-button {
+.yui3-button {
     background: transparent;
-    margin: 0;
 }
 
 button:hover {
@@ -1544,10 +1543,6 @@ button.LicenseRefresh span.ui-icon {
 
 button.Apply span.ui-icon {
     background-position: -64px -144px;
-}
-
-button.Reset span.ui-icon {
-    background-position: -64px -80px;
 }
 
 button.Start span.ui-icon {
@@ -1925,7 +1920,7 @@ div.Expand {
 }
 
 #div-openvpn_client {
-    width: 700px;
+    width: 600px;
     background: #efefef;
     -mos-border-radius: 5px;
     border-radius: 5px;
@@ -2028,15 +2023,6 @@ div.Expand {
 
 #div-vpn_passthrough li {
     color: black;
-    padding: 10px;
-}
-
-#div-pptp_server {
-    position: relative;
-    width: 400px;
-    background: #efefef;
-    -mos-border-radius: 10px;
-    border-radius: 10px;
     padding: 10px;
 }
 
@@ -2288,6 +2274,8 @@ div.Expand {
     width: 100%;
 }
 
+
+
 /* object */
 #table-group_address th.tooltipCol {
     width: 200px;
@@ -2407,25 +2395,6 @@ div.Expand {
     border-radius: 10px;
     padding: 5px;
     margin-bottom: 5px;
-}
-
-/* device > snmp */
-#div-settings {
-    position: relative;
-    width: 300px;
-    background: #efefef;
-    -mos-border-radius: 10px;
-    border-radius: 10px;
-    padding: 10px;
-}
-
-#div-v1v2c {
-    position: relative;
-    width: 300px;
-    background: #efefef;
-    -mos-border-radius: 10px;
-    border-radius: 10px;
-    padding: 10px;
 }
 
 /* device > email alert */

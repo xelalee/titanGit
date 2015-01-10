@@ -15,7 +15,6 @@
     "reset" : 100,
     "shutdown" : 20,
     "restoreConf" : 100,
-    "resetConf" : 100,
     "backup_restore" : 100,
     "applyProfile" : 100
   },
@@ -52,28 +51,28 @@
   {
     "speed" :
     {
-      "0"   : "Auto",
-      "10"  : "10Mb",
-      "100" : "100Mb",
-      "1000": "1000Mb"
+      "0"   : "自動",
+      "10"  : "10",
+      "100" : "100",
+      "1000": "1000"
     },
     "duplex" :
     {
-      "0": "Full",
-      "1": "Half"
+      "0": "全雙工",
+      "1": "半雙工"
     },
     "link" :
     {
-      "0": "Down",
-      "1": "Up"
+      "0": "斷線",
+      "1": "上線"
     }
   },
   "dashboard_lan" :
   {
     "type" :
     {
-      "0": "Disable",
-      "1": "DHCP Server",
+      "0": "停用",
+      "1": "DHCP 伺服器",
       "2": "DHCP Relay"
     }
   },
@@ -81,45 +80,45 @@
   {
     "level" :
     {
-      "0": "Emergency",
-      "1": "Alert",
-      "2": "Critical",
-      "3": "Error",
-      "4": "Warning",
-      "5": "Notification",
-      "6": "Information",
-      "7": "Debugging"
+      "0": "緊急",
+      "1": "警示",
+      "2": "嚴重",
+      "3": "錯誤",
+      "4": "警告",
+      "5": "通知",
+      "6": "資訊",
+      "7": "除錯"
     }
   },
   "query" :
   {
     "wan_bandwidth_report" :
     {
-      "0": "Hour",
-      "1": "Day",
-      "2": "Week",
-      "3": "Month",
-      "4": "Year"
+      "0": "小時",
+      "1": "日",
+      "2": "週",
+      "3": "月",
+      "4": "年"
     }
   },
   "refreshPage" :
   {
-    "0" : "No Refresh",
-    "10" : "10 Seconds",
-    "20" : "20 Seconds",
-    "30" : "30 Seconds",
-    "60" : "60 Seconds"
+    "0" : "不刷新",
+    "10" : "10秒後刷新",
+    "20" : "20秒後刷新",
+    "30" : "30秒後刷新",
+    "60" : "60秒後刷新"
   },
   "refreshPage2" :
   {
-    "0" : "No Refresh",
-    "30" : "30 Seconds",
-    "60" : "60 Seconds"
+    "0" : "不刷新",
+    "30" : "30秒後刷新",
+    "60" : "60秒後刷新"
   },
   "privilege" :
   {
-    "1": "Read-Only",
-    "3": "Admin"
+    "1": "唯讀",
+    "3": "管理員"
   },
   "dhcpLeases" :
   {
@@ -135,16 +134,16 @@
   {
     "linkStatus" :
     {
-      "0" : "Down",
-      "1" : "Up"
+      "0" : "斷線",
+      "1" : "連線"
     }
   },
   "dhcpServer" :
   {
     "type" :
     {
-      "0": "Disable",
-      "1": "DHCP Server",
+      "0": "停用",
+      "1": "DHCP 伺服器",
       "2": "DHCP Relay"
     }
   },
@@ -152,31 +151,31 @@
   {
     "speed" :
     {
-      "0": "Auto",
-      "10": "10Mb",
-      "100": "100Mb",
-      "1000": "1000Mb"
+      "0": "自動",
+      "10": "10",
+      "100": "100",
+      "1000": "1000"
     },
     "duplex" :
     {
-      "0": "Full",
-      "1": "Half"
+      "0": "全雙工",
+      "1": "半雙工"
     },
     "type" :
     {
       "0": "LAN",
       "1": "WAN",
-      "2": "Bridged"
+      "2": "橋接"
     },
     "linkStatus" :
     {
-      "0": "Down",
-      "1": "Up"
+      "0": "斷線",
+      "1": "連線"
     },
     "dhcpType" :
     {
-      "0": "Disable",
-      "1": "DHCP Server",
+      "0": "停用",
+      "1": "DHCP 伺服器",
       "2": "DHCP Relay"
     }
   },
@@ -184,29 +183,29 @@
   {
     "type" :
     {
-      "0": "Disable",
-      "1": "DHCP Server",
+      "0": "停用",
+      "1": "DHCP 伺服器",
       "2": "DHCP Relay"
     },
     "stp" :
     {
-      "0": "Disabled",
-      "1": "Enabled"
+      "0": "停用",
+      "1": "啟用"
     }
   },
   "vlan" :
   {
     "dhcpType" :
     {
-      "0": "Disable",
-      "1": "DHCP Server",
+      "0": "停用",
+      "1": "DHCP 伺服器",
       "2": "DHCP Relay"
     },
     "type" :
     {
       "0": "LAN",
       "1": "WAN",
-      "2": "Bridged"
+      "2": "橋接"
     },
     "interface" :
     {
@@ -224,15 +223,15 @@
   {
     "dhcpType" :
     {
-      "0": "Disable",
-      "1": "DHCP Server",
+      "0": "停用",
+      "1": "DHCP 伺服器",
       "2": "DHCP Relay"
     },
     "type" :
     {
       "0": "LAN",
       "1": "WAN",
-      "2": "Bridged"
+      "2": "橋接"
     },
     "interface" :
     {
@@ -251,11 +250,7 @@
     "free" :
     {
       "WAN1" : true,
-      "WAN2" : true,
-      "WAN3" : true,
-      "WAN4" : true,
-      "WAN5" : true,
-      "WAN6" : true
+      "WAN2" : true
     },
     "weightVal" :
     {
@@ -267,27 +262,23 @@
     },
     "weight" :
     {
-      "10" : "Very Low",
-      "30" : "Low",
-      "50" : "Average",
-      "70" : "High",
-      "90" : "Very High"
+      "10" : "很低",
+      "30" : "低",
+      "50" : "一般",
+      "70" : "高",
+      "90" : "很高"
     },
     "wanProto" :
     {
-      "0" : "Static",
+      "0" : "固定",
       "1" : "DHCP",
       "2" : "PPPoE"
     },
     "interfaces" :
     {
-      "0": "All",
+      "0": "所有",
       "1": "WAN1",
-      "2": "WAN2",
-      "3": "WAN3",
-      "4": "WAN4",
-      "5": "WAN5",
-      "6": "WAN6"
+      "2": "WAN2"
     }
   },
   "zone" :
@@ -298,31 +289,31 @@
   {
     "enable" :
     {
-      "0": "Disable",
-      "1": "Enable"
+      "0": "停用",
+      "1": "啟用"
     },
     "infoStatus" :
     {
-      "0": "Down",
-      "1": "Up",
-      "2": "Down"
+      "0": "下",
+      "1": "上",
+      "2": "下"
     },
     "remoteGwType" :
     {
-      "0": "Dynamic IP",
-      "1": "Static IP",
+      "0": "浮動 IP",
+      "1": "固定 IP",
       "2": "FQDN"
     },
     "phase1AuthType" :
     {
-      "0": "Preshare Key",
+      "0": "預設共用金鑰",
       "1": "Certification"
     },
     "dpdaction" :
     {
-      "1": "Hold",
-      "2": "Clear",
-      "3": "Restart"
+      "1": "保持",
+      "2": "清除",
+      "3": "重啟"
     },
     "backupPolicy" : {},
     "freez"        : []
@@ -378,31 +369,8 @@
       "modp8192" : "Group 18 (8192 bits)"
     }
   },
-  "ddns" :
-  {
-    "enable" :
-    {
-      "0": "Disable",
-      "1": "Enable"
-    },
-    "type" :
-    {
-      "0": "FreeDNS",
-      "1": "No-IP"
-    },
-    "ipServeType" :
-    {
-      "0": "Auto",
-      "1": "Local Bind"
-    }
-  },
   "openvpnServer" :
   {
-    "enable" :
-    {
-      "0": "Disabled",
-      "1": "Enabled"
-    },
     "interfaceType" :
     {
       "0": "TUN",
@@ -427,24 +395,24 @@
   {
     "enabled" :
     {
-      "0": "Disabled",
-      "1": "Enabled"
+      "0": "停用",
+      "1": "啟用"
     },
     "log" :
     {
-      "0": "Disabled",
-      "1": "Enabled"
+      "0": "停用",
+      "1": "啟用"
     },
     "matchAction" :
     {
-      "0": "Deny",
-      "1": "Permit",
-      "2": "Accounting"
+      "0": "封鎖",
+      "1": "允許",
+      "2": "計量"
     },
     "policy" :
     {
-      "0" : "Deny",
-      "1" : "Permit"
+      "0" : "封鎖",
+      "1" : "允許"
     },
     "query" : false,
     "move"  : []
@@ -453,29 +421,25 @@
   {
     "mode" :
     {
-      "0": "Auto",
-      "1": "Manual"
+      "0": "自動",
+      "1": "手動"
     }
   },
   "advancedNat" :
   {
     "enabled" :
     {
-      "0": "Disabled",
-      "1": "Enabled"
+      "0": "停用",
+      "1": "啟用"
     }
   },
   "portForwarding" :
   {
     "wan" :
     {
-      "0": "All",
+      "0": "所有",
       "1": "WAN1",
-      "2": "WAN2",
-      "3": "WAN3",
-      "4": "WAN4",
-      "5": "WAN5",
-      "6": "WAN6"
+      "2": "WAN2"
     }
   },
   "staticNat" :
@@ -483,35 +447,31 @@
     "wanInterface" :
     {
       "WAN1": "WAN1",
-      "WAN2": "WAN2",
-      "WAN3": "WAN3",
-      "WAN4": "WAN4",
-      "WAN5": "WAN5",
-      "WAN6": "WAN6"
+      "WAN2": "WAN2"
     }
   },
   "dynamicPat" :
   {
     "mode" :
     {
-      "0": "Auto",
-      "1": "Manual"
+      "0": "自動",
+      "1": "手動"
     }
   },
   "managementInterface" :
   {
     "enabled" :
     {
-      "0": "Disable",
-      "1": "Enable"
+      "0": "停用",
+      "1": "啟用"
     }
   },
   "ipMacBinding" :
   {
     "mode" :
     {
-      "0": "Permit and others drop",
-      "1": "Drop and other permit"
+      "0": "允許清單之內其他阻擋",
+      "1": "阻擋清單之內其他允許"
     }
   },
   "group" :
@@ -520,14 +480,14 @@
     "defaultGroupGid" : 0,
     "webLoginPriv" :
     {
-      "0" : "Disable",
-      "1" : "Read Only",
-      "3" : "Administrator"
+      "0" : "停用",
+      "1" : "唯讀",
+      "3" : "管理員"
     },
     "portalPriv" :
     {
-      "0" : "Disable",
-      "1" : "Enable"
+      "0" : "停用",
+      "1" : "啟用"
     }
   },
   "common_gAddr_list" :
@@ -536,39 +496,39 @@
     "defaultGroupGid" : 0,
     "webLoginPriv" :
     {
-      "0" : "Disable",
-      "1" : "Read Only",
-      "3" : "Administrator"
+      "0" : "停用",
+      "1" : "唯讀",
+      "3" : "管理員"
     },
     "portalPriv" :
     {
-      "0" : "Disable",
-      "1" : "Enable"
+      "0" : "停用",
+      "1" : "啟用"
     }
   },
   "address":
   {
     "type" :
     {
-      "1" : "Host",
-      "2" : "Network",
-      "3" : "Range",
+      "1" : "主機",
+      "2" : "網路",
+      "3" : "範圍",
       "4" : "MAC"
     },
     "type2" :
     {
-      "1" : "Host",
-      "2" : "Network",
-      "3" : "Range"
+      "1" : "主機",
+      "2" : "網路",
+      "3" : "範圍"
     },
     "type3" :
     {
-      "1" : "Host",
-      "2" : "Network"
+      "1" : "主機",
+      "2" : "網路"
     },
     "type4" :
     {
-      "1" : "Host"
+      "1" : "主機"
     },
     "type5" :
     {
@@ -579,25 +539,25 @@
   {
     "type" :
     {
-      "1" : "Host",
-      "2" : "Network",
-      "3" : "Range",
+      "1" : "主機",
+      "2" : "網路",
+      "3" : "範圍",
       "4" : "MAC"
     },
     "type2" :
     {
-      "1" : "Host",
-      "2" : "Network",
-      "3" : "Range"
+      "1" : "主機",
+      "2" : "網路",
+      "3" : "範圍"
     },
     "type3" :
     {
-      "1" : "Host",
-      "2" : "Network"
+      "1" : "主機",
+      "2" : "網路"
     },
     "type4" :
     {
-      "1" : "Host"
+      "1" : "主機"
     },
     "type5" :
     {
@@ -608,25 +568,25 @@
   {
     "type" :
     {
-      "1" : "Host",
-      "2" : "Network",
-      "3" : "Range",
+      "1" : "主機",
+      "2" : "網路",
+      "3" : "範圍",
       "4" : "MAC"
     },
     "type2" :
     {
-      "1" : "Host",
-      "2" : "Network",
-      "3" : "Range"
+      "1" : "主機",
+      "2" : "網路",
+      "3" : "範圍"
     },
     "type3" :
     {
-      "1" : "Host",
-      "2" : "Network"
+      "1" : "主機",
+      "2" : "網路"
     },
     "type4" :
     {
-      "1" : "Host"
+      "1" : "主機"
     },
     "type5" :
     {
@@ -637,7 +597,7 @@
   {
     "type" :
     {
-      "0" : "Both (TCP\/UDP)",
+      "0" : "兩者同時(TCP\/UDP)",
       "1" : "TCP",
       "2" : "UDP",
       "3" : "ICMP",
@@ -645,7 +605,7 @@
     },
     "type2" :
     {
-      "0" : "Both (TCP\/UDP)",
+      "0" : "兩者同時(TCP\/UDP)",
       "1" : "TCP",
       "2" : "UDP"
     }
@@ -654,7 +614,7 @@
   {
     "type" :
     {
-      "0" : "Both (TCP\/UDP)",
+      "0" : "兩者同時(TCP\/UDP)",
       "1" : "TCP",
       "2" : "UDP",
       "3" : "ICMP",
@@ -662,7 +622,7 @@
     },
     "type2" :
     {
-      "0" : "Both (TCP\/UDP)",
+      "0" : "兩者同時(TCP\/UDP)",
       "1" : "TCP",
       "2" : "UDP"
     }
@@ -671,7 +631,7 @@
   {
     "type" :
     {
-      "0" : "Both (TCP\/UDP)",
+      "0" : "兩者同時(TCP\/UDP)",
       "1" : "TCP",
       "2" : "UDP",
       "3" : "ICMP",
@@ -679,7 +639,7 @@
     },
     "type2" :
     {
-      "0" : "Both (TCP\/UDP)",
+      "0" : "兩者同時(TCP\/UDP)",
       "1" : "TCP",
       "2" : "UDP"
     }
@@ -688,21 +648,21 @@
   {
     "type" :
     {
-      "0" : "All Days + All Time",
-      "2" : "All Days + Spec Time",
-      "3" : "Spec Days + All Time",
-      "4" : "Spec Days + Spec Time"
+      "0" : "所有日期 + 所有時間",
+      "2" : "所有日期 + 指定時間",
+      "3" : "指定日期 + 所有時間",
+      "4" : "指定日期 + 指定時間"
     },
     "day" :
     {
-      "0"  : "All days",
-      "1"  : "Monday",
-      "2"  : "Tuesday",
-      "4"  : "Wednesday",
-      "8"  : "Thursday",
-      "16" : "Friday",
-      "32" : "Saturday",
-      "64" : "Sunday"
+      "0"  : "所有日期",
+      "1"  : "星期一",
+      "2"  : "星期二",
+      "4"  : "星期三",
+      "8"  : "星期四",
+      "16" : "星期五",
+      "32" : "星期六",
+      "64" : "星期日"
     },
     "days" :
     [
@@ -719,21 +679,21 @@
   {
     "type" :
     {
-      "0" : "All Days + All Time",
-      "2" : "All Days + Spec Time",
-      "3" : "Spec Days + All Time",
-      "4" : "Spec Days + Spec Time"
+      "0" : "所有日期 + 所有時間",
+      "2" : "所有日期 + 指定時間",
+      "3" : "指定日期 + 所有時間",
+      "4" : "指定日期 + 指定時間"
     },
     "day" :
     {
-      "0"  : "All days",
-      "1"  : "Monday",
-      "2"  : "Tuesday",
-      "4"  : "Wednesday",
-      "8"  : "Thursday",
-      "16" : "Friday",
-      "32" : "Saturday",
-      "64" : "Sunday"
+      "0"  : "所有日期",
+      "1"  : "星期一",
+      "2"  : "星期二",
+      "4"  : "星期三",
+      "8"  : "星期四",
+      "16" : "星期五",
+      "32" : "星期六",
+      "64" : "星期日"
     }
   },
   "antivirus" :
@@ -742,55 +702,55 @@
       "0" : "Any"
     },
     "enable" : {
-      "1" : "Enable",
-      "0" : "Disable"
+      "1" : "啟用",
+      "0" : "停用"
     },
     "logEnable" : {
-      "1" : "Enable",
-      "0" : "Disable"
+      "1" : "啟用",
+      "0" : "停用"
     },
     "httpAct":
     {
-      "0": "None",
-      "1": "Notify",
-      "2": "Notify + Drop connection"
+      "0": "監視模式",
+      "1": "警告",
+      "2": "警告並中斷連線"
     },
     "ftpAct":
     {
-      "0": "None",
-      "1": "Drop connection"
+      "0": "監視模式",
+      "1": "中斷連線"
     },
     "smtpAct":
     {
-      "0": "None",
-      "1": "Notify",
-      "2": "Notify + Destruct file"
+      "0": "監視模式",
+      "1": "警告",
+      "2": "警告並刪除檔案"
     },
     "pop3Act":
     {
-      "0": "None",
-      "1": "Notify",
-      "2": "Notify + Destruct file"
+      "0": "監視模式",
+      "1": "警告",
+      "2": "警告並刪除檔案"
     },
     "cifsAct":
     {
-      "0": "None"
+      "0": "監視模式"
     },
     "imapAct":
     {
-      "0": "None",
-      "1": "Notify",
-      "2": "Notify + Destruct file"
+      "0": "監視模式",
+      "1": "警告",
+      "2": "警告並刪除檔案"
     },
     "features" : {
-      "1" : "AV",
+      "1" : "病毒防護",
       "2" : "IPS",
-      "4" : "AntiSpam"
+      "4" : "垃圾郵件防護"
     },
     "type" : {
-      "0" : "Hourly",
-      "1" : "Daily",
-      "2" : "Weekly"
+      "0" : "每小時",
+      "1" : "每天",
+      "2" : "每週"
     },
     "number" : {
       "min" :
@@ -808,8 +768,8 @@
     },
     "licensed":
     {
-      "0" : "Not licensed",
-      "1" : "Licensed"
+      "0" : "未授權",
+      "1" : "已授權"
     }
   },
   "emailAlert" :
@@ -822,33 +782,33 @@
     },
     "secureMethod" :
     {
-      "0" : "None",
+      "0" : "無",
       "1" : "TLS",
       "2" : "SSL"
     },
     "enabled" :
     {
-      "0" : "Disabled",
-      "1" : "Enabled"
+      "0" : "停用",
+      "1" : "啟用"
     }
   },
   "loggings" :
   {
     "frequency" :
     {
-      "0" : "Hourly",
-      "1" : "Daily",
-      "2" : "Weekly"
+      "0" : "每小時",
+      "1" : "每天",
+      "2" : "每週"
     },
     "day" :
     {
-      "1" : "Monday",
-      "2" : "Tuesday",
-      "3" : "Wednesday",
-      "4" : "Thursday",
-      "5" : "Friday",
-      "6" : "Saturday",
-      "7" : "Sunday"
+      "1" : "星期一",
+      "2" : "星期二",
+      "3" : "星期三",
+      "4" : "星期四",
+      "5" : "星期五",
+      "6" : "星期六",
+      "7" : "星期日"
     },
     "time":
     {
@@ -857,25 +817,25 @@
     },
     "severity" :
     {
-      "0" : "Emergency",
-      "1" : "Alert",
-      "2" : "Critical",
-      "3" : "Error",
-      "4" : "Warning",
-      "5" : "Notification",
-      "6" : "Information",
-      "7" : "Debugging"
+      "0" : "緊急",
+      "1" : "警報",
+      "2" : "嚴重",
+      "3" : "錯誤",
+      "4" : "警告",
+      "5" : "通知",
+      "6" : "資訊",
+      "7" : "除錯"
     },
     "facility" :
     {
-      "Kernel"   : "Kernel",
-      "System"   : "System",
-      "Firewall" : "Firewall",
-      "NAT"      : "NAT",
-      "Network"  : "Network",
-      "VPN"      : "VPN",
-      "User"     : "User",
-      "Antivirus": "Antivirus"
+      "Kernel"   : "核心",
+      "System"   : "系統",
+      "Firewall" : "防火牆",
+      "NAT"      : "位址轉換",
+      "Network"  : "網路",
+      "VPN"      : "虛擬私人網路",
+      "User"     : "使用者",
+      "Antivirus": "防毒"
     }
   }
 }

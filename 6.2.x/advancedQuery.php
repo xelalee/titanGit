@@ -76,6 +76,22 @@ case 'traffic_direction':
         advQTD();
     }
     break;
+case 'ip_mac_binding_report':
+    switch( $_GET[ 'q' ] )
+    {
+    case 1:
+        advAIM( "ipMacBindingFilter", 'ip', 'count', 'ip, SUM( count ) as count');
+        break;
+    case 2:
+        advAIM( "ipMacBindingFilter", 'mac', 'count', 'mac, SUM( count ) as count');
+        break;
+    case 3:
+        advAIM( "ipMacBindingFilter", 'action', 'count', 'action, SUM( count ) as count');
+        break;
+    default:
+        advQIM();
+    }
+    break;
 case 'file_extension':
     switch( $_GET[ 'q' ] )
     {
@@ -487,6 +503,21 @@ function advQTD() {
         }
     }
     echo json_encode( $GLOBALS[ 'json' ] );
+}
+
+function advAIM( $table, $gby, $oby, $state ) {
+    if ( $GLOBALS[ 'ehStamp' ] > $GLOBALS[ 'shStamp' ] ) {
+        // prepare temp table
+        $tmpTable = $GLOBALS[ 'db' ] .'.`daily_'. $table .'-'. $GLOBALS[ 'nowStamp' ] .'`';
+        $createTmp = "CREATE TEMPORARY TABLE IF NOT EXISTS ". $tmpTable ." (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `ip` varchar(16) NOT NULL DEFAULT '',
+            `mac` varchar(16) NOT NULL DEFAULT '',
+            `action` int(11) DEFAULT NULL,
+            `count` bigint(20) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+        )";
+    }
 }
 
 function advAFE( $table, $gby, $oby, $state ) {
