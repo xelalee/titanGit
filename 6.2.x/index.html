@@ -3729,14 +3729,15 @@ $(document).ready(function () {
             }).eq( 0 ).trigger('click');
             break;
         case 'certification_management':
-            tar.w = 360;
-            tar.h = 240;
+            tar.w = 480;
+            tar.h = 320;
             tar.btn.push( 
                 { 
                     text: gObj.btnYes, 
                     click: function() { 
                         gObj.form = {};
                         gObj.form.type = parseInt( $('input[name=Editor-type]:checked').val() );
+                        gObj.form.importType = parseInt( $('input[name=Editor-importType]:checked').val() );
 
                         if (gReg.userOut63.test( $('#Editor-name').val() ))
                             gObj.form.name = $('#Editor-name').val();
@@ -3754,13 +3755,35 @@ $(document).ready(function () {
                             }
                         }
 
-                        if (!gIf.uploaded && (gObj.uploader.get("fileList").length > 0) && tar.pass) {
-                            if (gIf.invalid) {
-                                errorAlert( gError[ gObj.lang ].please_check_file );
-                            } else {
-                                loadingToggle( true );
-                                gObj.uploader.upload(gObj.uploaderFile, gObj.uploader.uploadURL, gObj.form);
+                        switch( gObj.form.importType )
+                        {
+                        case 0:
+                            if (!gIf.uploaded && (gObj.uploader.get("fileList").length > 0) && tar.pass) {
+                                if (gIf.invalid) {
+                                    errorAlert( gError[ gObj.lang ].please_check_file );
+                                } else {
+                                    loadingToggle( true );
+                                    gObj.uploader.upload(gObj.uploaderFile, gObj.uploader.uploadURL, gObj.form);
+                                }
                             }
+                            break;
+                        case 1:
+                            if (('NA' != $('#Editor-usbPath').val()) && tar.pass ) {
+                                gObj.form.usbPath = $('#Editor-usbPath').val();
+                                $.ajax({
+                                    type: "POST",
+                                    url: 'cgi-bin/' + gNode.url.import + '.cgi',
+                                    data: gObj.form,
+                                    dataType: 'json',
+                                    success: function(data) {
+                                        if (0 === parseInt( data.status ) ) {
+                                            genDevice( gNode.tab );
+                                        } else
+                                            errorAlert('<p>' + data.msg + '</p>');
+                                    }
+                                });
+                            }
+                            break;
                         }
                     }
                 },
@@ -3787,6 +3810,16 @@ $(document).ready(function () {
                         tar.tmp += '<th class="alignLeft BT100"><label for="Editor-' + gNode.import[ i ].option[ x ].tab + '">' + gNode.import[ i ].option[ x ][ gObj.label ] + '</label></th>';
                     }
                     break;
+                case 'importType':
+                    tar.tmp += '<tr>';
+                    tar.tmp += '<th colspan="4" class="alignLeft">' + gNode.import[ i ][ gObj.label ] + '</th>';
+                    tar.tmp += '</tr>';
+                    tar.tmp += '<tr>';
+                    for (var x in gNode.import[ i ].option) {
+                        tar.tmp += '<td class="alignCenter BT10"><input type="radio" name="Editor-' + gNode.import[ i ].tab + '" id="Editor-' + gNode.import[ i ].option[ x ].tab + '" value="' + x + '" /></td>';
+                        tar.tmp += '<th class="alignLeft BT100"><label for="Editor-' + gNode.import[ i ].option[ x ].tab + '">' + gNode.import[ i ].option[ x ][ gObj.label ] + '</label></th>';
+                    }
+                    break;
                 case 'name':
                     tar.tmp += '<tr>';
                     tar.tmp += '<td></td>';
@@ -3795,11 +3828,16 @@ $(document).ready(function () {
                     tar.tmp += '<td class="alignLeft"><input type="' + gNode.import[ i ].type + '" id="Editor-' + gNode.import[ i ].tab + '" /></td>';
                     break;
                 case 'binary':
-                    tar.tmp += '<tr>';
+                    tar.tmp += '<tr class="Editor-importType-0">';
                     tar.tmp += '<td></td>';
                     tar.tmp += '<td class="alignLeft"><div id="Editor-' + gNode.import[ i ].tab + '"></div></td>';
                     tar.tmp += '<td></td>';
                     tar.tmp += '<td class="alignLeft"><div id="Editor-' + gNode.import[ i ].tab + '-status"></div></td>';
+                    break;
+                case 'usbPath':
+                    tar.tmp += '<tr class="Editor-importType-1">';
+                    tar.tmp += '<td></td>';
+                    tar.tmp += '<td colspan="3" class="alignLeft"><select id="Editor-' + gNode.import[ i ].tab + '" ></select></td>';
                     break;
                 case 'password':
                     tar.tmp += '<tr class="Editor-type-1">';
@@ -3828,6 +3866,33 @@ $(document).ready(function () {
                     break;
                 }
             }).eq( 0 ).trigger('click');
+
+            $('input[name=Editor-importType]').change( function() {
+                switch( parseInt( $(this).val() ) )
+                {
+                case 0:
+                    $('.Editor-importType-1').hide();
+                    break;
+                case 1:
+                    $('.Editor-importType-0').hide();
+                    break;
+                }
+                $('.Editor-importType-' + $(this).val()).show();
+            }).eq( 0 ).trigger('click');
+
+            $.ajax({
+                url: 'cgi-bin/common_usbFile_list.cgi',
+                dataType: 'json',
+                success: function(data) {
+                    gData[ 'common_usbFile_list' ] = data;
+                    $('#Editor-usbPath').html('<option value="NA">' + gTerm[ gObj.lang ].selectFromUSB + '</option>');
+                    if (1 === parseInt(data.status)) {
+                        for (var i=0, len=data.guiUsbFileT.length; i<len; i++) 
+                            $('#Editor-usbPath').append('<option value="' + data.guiUsbFileT[ i ].path + '">' + data.guiUsbFileT[ i ].name + '</option>');
+                    } else 
+                        $('#Editor-importType-1').prop('disabled', true);
+                }
+            });
 
             break;
         case 'ip_mac_binding' :
@@ -4594,8 +4659,13 @@ $(document).ready(function () {
                
                             if ( 1 === parseInt( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].type ) )  
                                 tar.ref += '&password=' + $('#Editor-password').val();
-
-                            window.open('cgi-bin/' + gNode.url.download + '.cgi?' + tar.ref, "_blank");
+                            tar.ref += '&exportType=' + $('input[name=Editor-exportType]:checked').val();
+                            if ( 1 === parseInt( $('input[name=Editor-exportType]:checked').val() ) ) {
+                                $.get('cgi-bin/' + gNode.url.download + '.cgi?' + tar.ref, function() {
+                                    successAlert('<p>' + gTerm[ gObj.lang ].exportDone + '</p>');
+                                });
+                            } else
+                                window.open('cgi-bin/' + gNode.url.download + '.cgi?' + tar.ref, "_blank");
                             $( this ).dialog( "close" );
                         }
                     },
@@ -4622,7 +4692,12 @@ $(document).ready(function () {
                                 case 'password':
                                     if ( 1 === parseInt( gData[ tar.pid ][ gNode.guiT ][ tar.thisNo ].type ) )
                                         tmp += '<tr><th class="alignLeft BT125">' + gNode.download[ i ][ gObj.label ] + '</th><td class="alignLeft"><input type="password" id="Editor-' + gNode.download[ i ].tab + '" /></td></tr>';
-
+                                    break;
+                                case 'radio':
+                                    tmp += '<tr><th class="alignLeft BT125">' + gNode.download[ i ][ gObj.label ] + '</th><td class="alignLeft">';
+                                    for (var x in gNode.download[ i ].option)
+                                        tmp += '<input type="radio" name="Editor-' + gNode.download[ i ].tab + '" id="Editor-' + gNode.download[ i ].option[ x ].tab + '" value="' + x + '" /><label for="Editor-' + gNode.download[ i ].option[ x ].tab + '">&nbsp;' + gNode.download[ i ].option[ x ][ gObj.label ] + '&nbsp;</label>';
+                                    tmp += '</td></tr>';
                                     break;
                                 default:
                                     tmp += '<tr><th class="alignLeft BT125">' + gNode.download[ i ][ gObj.label ]  + '</th><td class="alignLeft">' + poster[ gNode.download[ i ].tab ] + '</td></tr>';
@@ -4630,6 +4705,15 @@ $(document).ready(function () {
                             }
 
                             $('#popForm').html( tmp );
+                            $('#Editor-exportType-0').click();
+                            $.ajax({
+                                url: 'cgi-bin/common_usbFile_list.cgi',
+                                dataType: 'json',
+                                success: function(data) {
+                                    if ( 0 === parseInt( data.status ) )
+                                        $('#Editor-exportType-1').prop('disabled', true);
+                                }
+                            });
                         }
                     });
                 },
@@ -14511,6 +14595,12 @@ $(document).ready(function () {
                                         tmp += '<td class="alignLeft" colspan="3"><p id="' + pid + '-' + gNode.col[ i ].tab + '"></p></td>';
                                         tmp += '</tr>';
                                         break;
+                                    case 'select':
+                                        tmp += '<tr>';
+                                        tmp += '<th colspan="2" class="alignLeft">' + gNode.col[ i ][ gObj.label ] + '</th>';
+                                        tmp += '<td class="alignLeft" colspan="3"><select id="' + pid + '-' + gNode.col[ i ].tab + '"></select></td>';
+                                        tmp += '</tr>';
+                                        break;
                                     default:
                                         tmp += '<tr>';
                                         tmp += '<th colspan="2" class="alignLeft">' + gNode.col[ i ][ gObj.label ] + '</th>';
@@ -14556,8 +14646,14 @@ $(document).ready(function () {
                                             break;
                                         }
                                         break;
-                                    case 'ifName':
-                                    case 'ifIp':
+                                    case 'ifId':
+                                        $('#' + pid + '-' + x).change( function() {
+                                            $('#' + pid + '-ifIp').html( gCache.ip[ parseInt( $(this).val() ) ] );
+
+                                        });
+                                        cgiSelectOption( pid + '-' + x, gCache.name[ parseInt( data[ x ] ) ] );
+                                        //$('#' + pid + '-ifIp').html( gCache.ip[ parseInt( data.ifId ) ] );
+                                        break;
                                     case 'status':
                                         $('#' + pid + '-' + x).html( data[ x ] );
                                         break;
@@ -17738,10 +17834,10 @@ $(document).ready(function () {
             break;
         case 'high_availability':
             gData[ pid ].enable = ($('#' + pid + '-enable').is(':checked'))? 1 : 0;
-            gData[ pid ].VRID = $('#' + pid + '-VRID' ).val();
-            gData[ pid ].priority = $('#' + pid + '-priority' ).val();
-            gData[ pid ].advertInterval = $('#' + pid + '-advertInterval' ).val();
-            gData[ pid ].priority = $('#' + pid + '-priority' ).val();
+            gData[ pid ].ifId = parseInt( $('#' + pid + '-ifId' ).val() );
+            gData[ pid ].VRID = parseInt( $('#' + pid + '-VRID' ).val() );
+            gData[ pid ].advertInterval = parseInt( $('#' + pid + '-advertInterval' ).val() );
+            gData[ pid ].priority = parseInt( $('#' + pid + '-priority' ).val() );
 
             gData[ pid ].authType = parseInt( $('input[name=authType]:checked').val() );
             if ( 0 === parseInt( $('input[name=authType]:checked').val() ) )
@@ -17756,8 +17852,6 @@ $(document).ready(function () {
                 gData[ pid ].pass = "";
             }
             gData[ pid ].virtualIp = $('#' + pid + '-virtualIp' ).val();
-            gData[ pid ].status = $('#' + pid + '-status' ).val();
-            
             break;
         case 'pptp_server':
             gData[ pid ].enable = ($('#' + pid + '-enable').is(':checked'))? 1 : 0;
@@ -20770,8 +20864,7 @@ $(document).ready(function () {
                                     if (typeof data.selectedZonesT != 'undefined') {
                                         y = 'general_settings';
                                         gCache.uniq[ y ] = {};
-                                        gCache.uniq[ y ].portListT = {};
-                                        gCache.uniq[ y ].portList = {};
+                                        gCache.uniq[ y ].port = {};
 
                                         $('#table-' + y).empty();
 
@@ -20978,12 +21071,15 @@ $(document).ready(function () {
                                             case 'smtpPortListT':
                                             case 'pop3PortListT':
                                             case 'imapPortListT':
+                                                var tar = node.replace('PortListT', '');
                                                 for (var i=0, len=parseInt( data[ node.replace('ListT', 'Num') ]); i<len; i++)
                                                 {
-                                                    $('#' + node.replace('T', '-') + i).val( data[ node ][ i ].port );
-                                                    gCache.uniq[ y ].portListT[ parseInt( data[ node ][ i ].port ) ] = node.replace('PortListT', '');
-                                                    gCache.uniq[ y ].portList[ parseInt( data[ node ][ i ].port ) ] = true;
+                                                    if ( tar == pid ) 
+                                                        $('#' + node.replace('T', '-') + i).val( data[ node ][ i ].port );
+                                                    else
+                                                        gCache.uniq[ y ].port[ parseInt( data[ node ][ i ].port ) ] = tar;
                                                 }
+gY.log( gCache.uniq[ y ] );
                                                 break;
                                             case 'selectedZonesT':
                                                 for (var i=0, len=parseInt(gCache.list.common_zoneIf_list.guiZoneIfTNum); i < len; i++)
@@ -21976,6 +22072,9 @@ $(document).ready(function () {
     function securityChecker( pid, e ) {
         var pass = true;
         var flag = true;
+        var uniq = true;
+        var port;
+        var ports = [];
         var msg  = '';
         var cnt  = 0;
         switch( pid )
@@ -21985,21 +22084,30 @@ $(document).ready(function () {
         case 'pop3':
         case 'ftp':
         case 'imap':
+
             for (var i=0; i<5; i++)
             {
                 if ( $('#' + pid + 'PortList-' + i).val().length > 0 ) {
                     cnt++;
-                    if (!gReg.portList.test($('#' + pid + 'PortList-' + i).val()))
+                    port = parseInt( $('#' + pid + 'PortList-' + i).val() );
+                    if (!gReg.portList.test( port ))
                         flag = false;
+                    else if (gCache.uniq.general_settings.port[ port ]) {
+                        pass = false;
+                        msg += '<p>' + gError[ gObj.lang ][ gCache.uniq.general_settings.port[ port ] + 'PortConflict' ] + '</p>';
+                    } else if ( ports.indexOf( port ) != -1 ) {
+                        pass = false;
+                        msg += '<p>' + gError[ gObj.lang ][ pid + 'PortConflict' ] + '</p>';
+                    } else 
+                        ports.push( port );
                 }
             }
 
             if ( !flag || ( 0 == cnt ) ) {
                 pass = false;
-                msg += '<p>' + gError[ gObj.lang ][ pid + 'PortNeed'] + '</p>';
+                msg += '<p>' + gError[ gObj.lang ][ pid + 'PortNeed' ] + '</p>';
             }
         case 'cifs':
-
             flag = false;
             $('#selectedZonesT option').each(function() {
                 flag = true;
@@ -32460,6 +32568,11 @@ $(document).ready(function () {
             cgiTNum = 'guiAddrTNum';
             reg    = new RegExp( $('#Editor-wanName').html() );
             break;
+        case 'high_availability-ifId':
+            cgiID   = 'common_lanIf_list';
+            cgiT    = 'guiLanIfT';
+            cgiTNum = 'guiLanIfTNum';
+            break;
         case 'Editor-fromIf':
         case 'Editor-toIf':
         case 'Editor-interfaceId':
@@ -33806,6 +33919,7 @@ $(document).ready(function () {
         gCache.ports     = {};
         gCache.zone      = {};
         gCache.if        = {};
+        gCache.ip        = {};
         gCache.wanAlias  = {};
         gData            = {};
         gCache.ipAlias   = {};
@@ -33844,12 +33958,18 @@ $(document).ready(function () {
             gCache.uniq[ id ] = {};
             gCache.loadline.push('common_wanIf_list', 'common_addr_list', 'common_gAddr_list', 'common_zoneIf_list', 'ipsecike', 'ipsectransform', 'arpTable');
             break;
+        case 'remote_access_client':
+            gCache.loadline.push('ipsecike', 'ipsectransform', 'vpncStatus', 'certmngReadList');
+            break;
         case 'openvpn_client':
         case 'openvpn_server':
             gCache.loadline.push('certmngReadList');
             break;
         case 'dns':
             gCache.loadline.push('common_wanIf_list');
+            break;
+        case 'high_availability':
+            gCache.loadline.push('common_lanIf_list');
             break;
         case 'rules':
             gCache.uniq[ id ] = {};
@@ -33934,7 +34054,6 @@ $(document).ready(function () {
             case 'transform_policy':
             case 'routing':
             case 'dns_forwarder':
-            case 'high_availability':
             case 'pptp_server':
                 genNetworking(id);
                 break;
@@ -34094,6 +34213,7 @@ $(document).ready(function () {
                     case 'common_zoneIf_list':
                     case 'common_lanIf_list':
                         gCache.name[ gCache.list[ cgiID ][ cgiT ][ i ].gid ] = gCache.list[ cgiID ][ cgiT ][ i ].name;
+                        gCache.ip[ gCache.list[ cgiID ][ cgiT ][ i ].gid ] = gCache.list[ cgiID ][ cgiT ][ i ].ip;
                         if (gCache.list[ cgiID ][ cgiT ][ i ].name == 'WAN') {
                             gCache.wanId = gCache.list[ cgiID ][ cgiT ][ i ].gid;
                         }
@@ -34124,9 +34244,11 @@ $(document).ready(function () {
                         genSecurity(id);
                         break;
                     case 'ipsec_policies':
+                    case 'remote_access_client':
                     case 'static_routing':
                     case 'openvpn_client':
                     case 'openvpn_server':
+                    case 'high_availability':
                     case 'dns':
                         genNetworking(id);
                         break;
