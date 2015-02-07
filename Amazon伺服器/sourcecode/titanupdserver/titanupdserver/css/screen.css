@@ -1,0 +1,203 @@
+table.its {
+	border: 1px solid #666;
+	width: 80%;
+	margin: 20px 0 20px 0;
+}
+table.its th{
+	padding: 2px 4px 2px 4px;
+	text-align: center;
+	vertical-align: top;
+}
+table.its td {
+	padding: 2px 4px 2px 4px;
+	text-align: center;
+	vertical-align: top;
+}
+table.its th.sorted {
+    background-color: orange;
+}
+table.its th a, th a:visited {
+  color: black;
+}
+table.its th a:hover {
+  text-decoration: underline;
+  color: black;
+}
+table.its th.sorted a, th.sortable a {
+	background-position: right;
+	display: block;
+	width: 100%;
+}
+
+table.its tr.odd {
+  background-color: #fff
+}
+table.its tr.tableRowEven, tr.even {
+    background-color: #def;
+}
+
+table.its thead tr {
+  background-color: #69c;
+}
+
+
+table.its_sig {
+	border: 1px solid #666;
+	width: 100%;
+	margin: 20px 0 20px 0;
+}
+table.its_sig th{
+	padding: 2px 4px 2px 4px;
+	text-align: center;
+	vertical-align: top;
+}
+table.its_sig td {
+	padding: 2px 4px 2px 4px;
+	text-align: center;
+	vertical-align: top;
+}
+table.its_sig th.sorted {
+    background-color: orange;
+}
+table.its_sig th a, th a:visited {
+  color: black;
+}
+table.its_sig th a:hover {
+  text-decoration: underline;
+  color: black;
+}
+table.its_sig th.sorted a, th.sortable a {
+	background-position: right;
+	display: block;
+	width: 100%;
+}
+
+table.its_sig tr.odd {
+  background-color: #fff
+}
+table.its_sig tr.tableRowEven, tr.even {
+    background-color: #def;
+}
+
+table.its_sig thead tr {
+  background-color: #69c;
+}
+
+
+table.mars thead tr {
+  background-color: #9c9;
+}
+table.mars tr.even {
+  background-color: #ccb;
+}
+table.mars tr.odd {
+  background-color: #eec;
+}
+
+
+table.simple thead tr {
+  background-color: #eee;
+}
+table.simple tr.even {
+  background-color: #fff;
+}
+table.simple {
+	border: 1px solid #ccc;
+	border-collapse: collapse;
+}
+table.simple td,table.simple th{
+	border: 1px solid #ccc;
+}
+
+table.nocol tbody td,table.nocol tbody th{
+	border-left: none;
+	border-right: none;
+}
+
+
+
+
+table.report td, table.report th{
+	font:         menu;
+}
+table.report th{
+	background:   buttonface;
+	border-width: 1px;
+	border-style: solid;
+	border-color: threedhighlight threedshadow threedshadow threedhighlight;
+	cursor:       hand;
+}
+table.report idcol {
+	background: buttonface;
+}
+
+table.report tr.even{
+	background-color: #399;
+}
+table.report tbody {
+	height: 100px;
+	overflow: auto;
+}
+
+table.report {
+	height: 120px;
+	overflow: auto;
+}
+
+table.report tbody tr{
+	height: 10px;
+}
+
+
+
+
+
+table.mark td.tableCellError {
+	background-color: #d00;
+	color: #fff;
+}
+
+table.sublist {
+	margin: 0 0 0 0;
+	width: 100%;
+}
+table.sublist td, table.sublist th {
+	width: 50%;
+}
+
+div.exportlinks {
+	background-color: #eee;
+	border: 1px dotted #999;
+	padding: 2px 4px 2px 4px;
+	margin: -10px 0 10px 0;
+	width: 79%;
+}
+
+span.export {
+	padding: 0 4px 1px 20px;
+	display:inline; display:inline-block;
+	cursor: pointer;
+}
+
+
+span.pagebanner {
+	background-color: #eee;
+	border: 1px dotted #999;
+	padding: 2px 4px 2px 4px;
+	width: 79%;
+	margin-top: 10px;
+	display:block;
+	border-bottom: none;
+}
+
+span.pagelinks {
+	background-color: #eee;
+	border: 1px dotted #999;
+	padding: 2px 4px 2px 4px;
+	width: 79%;
+	display:block;
+	border-top: none;
+	margin-bottom: -5px;
+}
+
+table.simple td.textRed {color: #b11;}

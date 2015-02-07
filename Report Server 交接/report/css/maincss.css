@@ -1,0 +1,110 @@
+body
+{
+	margin-top:0px;
+	background:#B5B5B5;
+}
+
+#main
+{
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 90%;
+	background:url(../css/images/reportbackground.png) no-repeat center top;
+}
+
+#title
+{
+	width: 100%;
+	text-align:center;
+	padding-bottom: 150px;
+}
+
+#container
+{
+	width: 100%;
+}
+
+#container table
+{
+	border: none 0px;
+	width: 100%;
+	height: 300px;
+}
+
+#container table td
+{
+	border: none 0px;
+}
+
+#device
+{
+	width:10%;
+	vertical-align:top;
+}
+
+#format
+{
+	margin-top:2em;
+}
+
+#menu
+{
+	width:20%;
+	vertical-align:top;
+	height:600px;
+}
+
+#gotoindex
+{
+	position:relative;
+	padding-bottom: 80px;
+	padding-right:300px;
+	right: 330px;
+	top: 10px;
+}
+
+#titalinformation
+{
+	position: relative;
+	top:10px;
+	left: 100px;
+}
+
+#table{
+    background-color: #dddddd;
+}
+
+/*以下是拖拉式視窗CSS*/
+.column {
+    width: 33%;
+    float: left;
+    padding-bottom: 100px;
+}
+
+.portlet {
+    margin: 0 1em 1em 0;
+    padding: 0.3em;
+}
+
+.portlet-header {
+    padding: 0.1em 0.3em;
+    margin-bottom: 0.5em;
+    position: relative;
+}
+
+.portlet-toggle {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    margin-top: -8px;
+}
+
+.portlet-content {
+	padding-bottom:5em;
+}
+
+.portlet-placeholder {
+    border: 1px dotted black;
+    margin: 0 1em 1em 0;
+    height: 50px;
+}

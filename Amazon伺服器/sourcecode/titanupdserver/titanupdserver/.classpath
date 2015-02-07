@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/c3p0-0.9.0.4.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/commons-digester.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/commons-validator.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/cos.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/cryptix32.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/gnujaxp.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/javaActivation.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/jcommon-1.0.0.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/jxl.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/quartz-all-1.5.2.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/struts.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/servlet.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/mysql-connector-java-5.1.18-bin.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/httpclient-4.1.2.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/commons-httpclient-3.0.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/httpcore-4.1.2.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/commons-codec-1.4.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/commons-io-2.1.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/commons-beanutils-1.7.0.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/commons-lang-2.3.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/displaytag-1.2.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/mail-1.4.5.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/commons-fileupload-1.2.2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/jsornorg.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/imgscalr-lib-4.2.jar"/>
+	<classpathentry kind="output" path="WEB-INF/classes"/>
+</classpath>

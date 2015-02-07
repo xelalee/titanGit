@@ -1,0 +1,26 @@
+Get WAN Bandwidth Report data from DB
+
+每時 圖表 (每 10 秒鐘的平均) => 3600/10   = 360 個資料點 ==> SELECT (datetime DIV 10)*10 FROM hour_wanbandwith ;
+每日 圖表 (每 5  分鐘的平均) => 1440/5    = 288 個資料點 ==> SELECT (datetime DIV 500)*500 FROM day_wanbandwith ;
+每週 圖表 (每 30 分鐘的平均) => 1440*7/30 = 336 個資料點 ==> SELECT (datetime DIV 3000)*3000 FROM week_wanbandwith ;
+每月 圖表 (每 2  小時的平均) => 24*30/2  ~= 360 個資料點 ==> SELECT (datetime DIV 20000)*20000 FROM month_wanbandwith ;
+每年 圖表 (每 1  天  的平均) => 365/1    ~= 365 個資料點 ==> SELECT date FROM year_wanbandwith ;
+
+hour_wanbandwidth Table { datetime, wanname, txRate, rxRate }
+day_wanbandwidth Table { datetime, wanname, txRate, rxRate, MaxTxRate, MaxRxRate }
+week_wanbandwidth Table { datetime, wanname, txRate, rxRate, MaxTxRate, MaxRxRate }
+month_wanbandwidth Table { datetime, wanname, txRate, rxRate, MaxTxRate, MaxRxRate }
+year_wanbandwidth Table { date, wanname, txRate, rxRate, MaxTxRate, MaxRxRate }
+
+
+(http://192.168.150.110/redmine/issues/606#note-5)
+Hi Alex,
+
+Please follow the requirement to implement WAN Bandwidth Report.
+User should be able to choose "Start"(datetime), "End"(datetime) and the "interval" for query
+"interval" options should depend on the time range of Start/End
+
+For example, if user choose "2012/01/01 00:00:00" ~ "2012/12/31 23:59:59", the options for "interval" should be week/month/quarter
+
+Thanks,
+Wilson

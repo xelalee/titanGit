@@ -1,0 +1,44 @@
+error-mailto=jacky.gu@titan-arc.com
+error-mailfrom=jacky.gu@titan-arc.com
+error-mailhost=smtp.gmail.com
+
+log_root=logs
+
+log4j.rootLogger=INFO, FILE
+
+log4j.logger.com.titan=DEBUG, mail
+
+log4j.logger.com.titan.controller=INFO
+
+# Appender mail, configuration for receiving e-mails when ERROR messages occur.
+log4j.appender.mail=org.apache.log4j.net.SMTPAppender
+log4j.appender.mail.To=${error-mailto}
+log4j.appender.mail.From=${error-mailfrom}
+log4j.appender.mail.SMTPHost=${error-mailhost}
+log4j.appender.mail.Threshold=FATAL
+log4j.appender.mail.BufferSize=128
+log4j.appender.mail.SMTPUsername=jacky.gu@titan-arc.com
+log4j.appender.mail.SMTPPassword=monkey2004
+log4j.appender.mail.Subject=Update Server ERROR
+log4j.appender.mail.layout=org.apache.log4j.PatternLayout
+log4j.appender.mail.layout.ConversionPattern=%d  %-5p - %n%m%n
+
+
+# Control logging for other open source packages
+log4j.logger.org.apache.commons=INFO
+log4j.logger.org.apache.struts=WARN
+log4j.logger.org.displaytag=ERROR
+log4j.logger.com.mchange=ERROR
+log4j.logger.org.quartz=INFO
+
+log4j.appender.FILE=org.apache.log4j.RollingFileAppender
+log4j.appender.FILE.File=${log_root}/upd.log
+
+log4j.appender.FILE.MaxFileSize=500KB
+#log4j.appender.FILE.MaxFileSize=10KB
+
+log4j.appender.FILE.MaxBackupIndex=20
+log4j.appender.FILE.layout=org.apache.log4j.PatternLayout
+log4j.appender.FILE.layout.ConversionPattern=[%-5p] %d{MM-dd HH:mm:ss} (%F:%L) - %m%n
+
+

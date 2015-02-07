@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE faces-config PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
+                              "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+<faces-config>
+ <render-kit>
+  <renderer>
+   <display-name>Rollover Button</display-name>
+   <component-family>javax.faces.Command</component-family>
+   <renderer-type>jia.RolloverButton</renderer-type>
+   <renderer-class>org.jia.components.RolloverButtonRenderer</renderer-class>
+  </renderer>
+ </render-kit>
+ <validator>
+  <validator-id>mytitan.EmailFacesValidator</validator-id>
+  <validator-class>com.titan.mytitan.app.validator.EmailFacesValidator</validator-class>
+ </validator>
+ <validator>
+  <validator-id>mytitan.UsernameValidator</validator-id>
+  <validator-class>com.titan.mytitan.app.validator.UsernameValidator</validator-class>
+ </validator>
+ <validator>
+  <validator-id>mytitan.PasswordValidator</validator-id>
+  <validator-class>com.titan.mytitan.app.validator.PasswordValidator</validator-class>
+ </validator>
+ <validator>
+  <validator-id>mytitan.PhoneValidator</validator-id>
+  <validator-class>com.titan.mytitan.app.validator.PhoneValidator</validator-class>
+ </validator>
+ <validator>
+  <validator-id>mytitan.PostalCodeValidator</validator-id>
+  <validator-class>com.titan.mytitan.app.validator.PostalCodeValidator</validator-class>
+ </validator>
+  <validator>
+  <validator-id>mytitan.ValidationCodeValidator</validator-id>
+  <validator-class>com.titan.mytitan.app.validator.ValidationCodeValidator</validator-class>
+ </validator>
+  <validator>
+  <validator-id>mytitan.CharValidator</validator-id>
+  <validator-class>com.titan.mytitan.app.validator.CharValidator</validator-class>
+ </validator>
+ <application>
+  <locale-config>
+   <default-locale>en</default-locale>
+   <supported-locale>zh_CN</supported-locale>
+   <supported-locale>zh_TW</supported-locale>
+  </locale-config>
+  <message-bundle>com.titan.mytitan.app.bundles.Messages</message-bundle>
+ </application>
+</faces-config>

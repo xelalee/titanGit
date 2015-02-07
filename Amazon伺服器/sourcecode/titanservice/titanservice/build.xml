@@ -1,0 +1,63 @@
+<project name="base" default="war" basedir=".">
+	
+	<property name="src.dir" value="./src"/>
+	<property name="webroot" value="./WebContent"/>
+	<property name="webinf" value="${webroot}/WEB-INF"/>
+
+	<property name="lib.dir" value="${webinf}/lib"/>	
+	
+	<property name="build.dir" value="./build"/>
+	
+	<property name="output_dir" value="./output_tmp"/>
+	
+	<property name="classes.dir" value="${output_dir}/classes"/>
+	
+	<path id="classpath">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+	
+	<patternset id="jar.files">
+		<include name="**/*.dtd"/>
+		<include name="**/*.xml"/>
+		<include name="**/*.xslt"/>
+		<include name="**/*.properties"/>
+		<exclude name="**/build.xml"/>
+	</patternset>
+	
+	<target name="init" description="Initialize the build">
+		<echo>Initialing...</echo>
+		
+		<delete dir="${build.dir}"/>
+		<delete dir="${dist.dir}"/>
+
+		<mkdir dir="${classes.dir}"/>
+		<mkdir dir="${dist.dir}"/>
+
+		<echo message="Your JDK version: ${ant.java.version}"/>
+	</target>
+	
+	<target name="prepare">
+		<delete dir="${webinf}/classes" />
+		<mkdir dir="${webinf}/classes" />
+		<native2ascii encoding="GBK" src="src" 
+			dest="${webinf}/classes" 
+			includes="**/*.properties" />
+	</target>
+	
+	<target name="compile" depends="prepare">
+		<javac srcdir="${src.dir}" destdir="${webinf}/classes" debug="true" optimize="true" deprecation="true">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+	
+	<target name="war" depends="compile">
+		<mkdir dir="${output_dir}" />
+		<war basedir="${webroot}" warfile="${build.dir}/register.war" webxml="${webinf}/web.xml">
+			<exclude name="WEB-INF/web.xml" />
+			<exclude name="WEB-INF/lib/servlet.jar" />
+		</war>
+	</target>	
+	
+</project>

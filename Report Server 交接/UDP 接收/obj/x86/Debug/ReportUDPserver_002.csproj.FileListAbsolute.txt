@@ -1,0 +1,33 @@
+C:\Users\Hugo\documents\visual studio 2010\Projects\ReportUDPserver_001\ReportUDPserver_002\bin\Debug\ReportUDPserver_002.exe
+C:\Users\Hugo\documents\visual studio 2010\Projects\ReportUDPserver_001\ReportUDPserver_002\bin\Debug\ReportUDPserver_002.pdb
+C:\Users\Hugo\documents\visual studio 2010\Projects\ReportUDPserver_001\ReportUDPserver_002\obj\x86\Debug\ReportUDPserver_002.Form1.resources
+C:\Users\Hugo\documents\visual studio 2010\Projects\ReportUDPserver_001\ReportUDPserver_002\obj\x86\Debug\ReportUDPserver_002.Properties.Resources.resources
+C:\Users\Hugo\documents\visual studio 2010\Projects\ReportUDPserver_001\ReportUDPserver_002\obj\x86\Debug\ReportUDPserver_002.csproj.GenerateResource.Cache
+C:\Users\Hugo\documents\visual studio 2010\Projects\ReportUDPserver_001\ReportUDPserver_002\obj\x86\Debug\ReportUDPserver_002.exe
+C:\Users\Hugo\documents\visual studio 2010\Projects\ReportUDPserver_001\ReportUDPserver_002\obj\x86\Debug\ReportUDPserver_002.pdb
+Z:\Google 雲端硬碟\ProgramCode\VisualStudio 2010\ReportUDPserver_001\ReportUDPserver_002\obj\x86\Debug\ReportUDPserver_002.exe
+Z:\Google 雲端硬碟\ProgramCode\VisualStudio 2010\ReportUDPserver_001\ReportUDPserver_002\obj\x86\Debug\ReportUDPserver_002.pdb
+Z:\Google 雲端硬碟\ProgramCode\VisualStudio 2010\ReportUDPserver_001\ReportUDPserver_002\obj\x86\Debug\ReportUDPserver_002.Form1.resources
+Z:\Google 雲端硬碟\ProgramCode\VisualStudio 2010\ReportUDPserver_001\ReportUDPserver_002\obj\x86\Debug\ReportUDPserver_002.Properties.Resources.resources
+Z:\Google 雲端硬碟\ProgramCode\VisualStudio 2010\ReportUDPserver_001\ReportUDPserver_002\obj\x86\Debug\ReportUDPserver_002.csproj.GenerateResource.Cache
+Z:\Google 雲端硬碟\ProgramCode\VisualStudio 2010\ReportUDPserver_001\ReportUDPserver_002\bin\Debug\ReportUDPserver_002.exe
+Z:\Google 雲端硬碟\ProgramCode\VisualStudio 2010\ReportUDPserver_001\ReportUDPserver_002\bin\Debug\ReportUDPserver_002.pdb
+Z:\Google 雲端硬碟\ProgramCode\VisualStudio 2010\ReportUDPserver_001\ReportUDPserver_002\obj\x86\Debug\ReportUDPserver_002.csprojResolveAssemblyReference.cache
+C:\Users\Hugo\Google 雲端硬碟\ProgramCode\VisualStudio 2010\ReportUDPserver_001\ReportUDPserver_002\obj\x86\Debug\ReportUDPserver_002.exe
+C:\Users\Hugo\Google 雲端硬碟\ProgramCode\VisualStudio 2010\ReportUDPserver_001\ReportUDPserver_002\obj\x86\Debug\ReportUDPserver_002.pdb
+C:\Users\Hugo\Google 雲端硬碟\ProgramCode\VisualStudio 2010\ReportUDPserver_001\ReportUDPserver_002\bin\Debug\ReportUDPserver_002.exe
+C:\Users\Hugo\Google 雲端硬碟\ProgramCode\VisualStudio 2010\ReportUDPserver_001\ReportUDPserver_002\bin\Debug\ReportUDPserver_002.pdb
+C:\Users\Hugo\Google 雲端硬碟\ProgramCode\VisualStudio 2010\ReportUDPserver_001\ReportUDPserver_002\obj\x86\Debug\ReportUDPserver_002.csprojResolveAssemblyReference.cache
+C:\Users\Hugo\Google 雲端硬碟\ProgramCode\VisualStudio 2010\ReportUDPserver_001\ReportUDPserver_002\obj\x86\Debug\ReportUDPserver_002.Form1.resources
+C:\Users\Hugo\Google 雲端硬碟\ProgramCode\VisualStudio 2010\ReportUDPserver_001\ReportUDPserver_002\obj\x86\Debug\ReportUDPserver_002.Properties.Resources.resources
+C:\Users\Hugo\Google 雲端硬碟\ProgramCode\VisualStudio 2010\ReportUDPserver_001\ReportUDPserver_002\obj\x86\Debug\ReportUDPserver_002.csproj.GenerateResource.Cache
+H:\Dropbox\ProgramCode\VisualStudio 2010\ReportUDPserver_001\ReportUDPserver_002\obj\x86\Debug\ReportUDPserver_002.exe
+H:\Dropbox\ProgramCode\VisualStudio 2010\ReportUDPserver_001\ReportUDPserver_002\obj\x86\Debug\ReportUDPserver_002.pdb
+D:\ReportUDPserver_001\ReportUDPserver_001\reportudpserver_002\obj\x86\Debug\ReportUDPserver_002.exe
+D:\ReportUDPserver_001\ReportUDPserver_001\reportudpserver_002\obj\x86\Debug\ReportUDPserver_002.pdb
+D:\UDP交接\reportudpserver_002\obj\x86\Debug\ReportUDPserver_002.exe
+D:\UDP交接\reportudpserver_002\obj\x86\Debug\ReportUDPserver_002.pdb
+D:\UDP交接\reportudpserver_002\obj\x86\Debug\ReportUDPserver_002.csprojResolveAssemblyReference.cache
+D:\UDP交接\reportudpserver_002\obj\x86\Debug\ReportUDPserver_002.Form1.resources
+D:\UDP交接\reportudpserver_002\obj\x86\Debug\ReportUDPserver_002.Properties.Resources.resources
+D:\UDP交接\reportudpserver_002\obj\x86\Debug\ReportUDPserver_002.csproj.GenerateResource.Cache

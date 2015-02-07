@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+	
+  <servlet>
+    <servlet-name>controllerservlet</servlet-name>
+    <servlet-class>com.titan.controller.ControllerServlet</servlet-class>
+	<init-param>
+      <param-name>log4j_properties</param-name>
+      <param-value>/WEB-INF/conf/log4j.properties</param-value>
+    </init-param>      
+    <load-on-startup>1</load-on-startup>
+  </servlet> 
+  
+  <servlet>
+    <servlet-name>UpdateServlet</servlet-name>
+    <servlet-class>com.titan.updserver.common.servlet.UpdateServlet</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>DownloadServlet</servlet-name>
+    <servlet-class>com.titan.updserver.common.servlet.DownloadServlet</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>FirmwareUploadServlet</servlet-name>
+    <servlet-class>com.titan.updserver.firmware.UploadServlet</servlet-class>
+  </servlet>  
+  
+  <servlet>
+    <servlet-name>object_list_interface</servlet-name>
+    <servlet-class>com.titan.updserver.common.interf.GetObjectListInterface</servlet-class>
+  </servlet>  
+  
+  <servlet>
+	<servlet-name>DisplayChart</servlet-name>
+	<servlet-class>org.jfree.chart.servlet.DisplayChart</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>MyController</servlet-name>
+    <servlet-class>com.titan.common.Controller</servlet-class>
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>UpdateServlet</servlet-name>
+    <url-pattern>/update</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>DownloadServlet</servlet-name>
+    <url-pattern>/dl</url-pattern>
+  </servlet-mapping>    
+    
+  <servlet-mapping>
+    <servlet-name>controllerservlet</servlet-name>
+    <url-pattern>/controller</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>controllerservlet</servlet-name>
+    <url-pattern>/login</url-pattern>
+  </servlet-mapping>   
+  <servlet-mapping>
+    <servlet-name>controllerservlet</servlet-name>
+    <url-pattern>/logout</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+	<servlet-name>DisplayChart</servlet-name>
+	<url-pattern>/servlet/DisplayChart</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>MyController</servlet-name>
+    <url-pattern>/mycontroller</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>object_list_interface</servlet-name>
+    <url-pattern>/signature_list_interface</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>FirmwareUploadServlet</servlet-name>
+    <url-pattern>/UploadServlet</url-pattern>
+  </servlet-mapping>
+    
+  <filter>
+    <filter-name>ResponseOverrideFilter</filter-name>
+    <filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
+  </filter>
+  <filter-mapping>
+	<filter-name>ResponseOverrideFilter</filter-name>
+	<url-pattern>*.jsp</url-pattern>
+  </filter-mapping>    
+
+  <listener>
+    <listener-class>com.titan.schedulejob.ScheduleJobLoader</listener-class>
+  </listener>    
+     
+  <session-config>
+    <session-timeout>40</session-timeout>
+  </session-config>
+  <mime-mapping>
+    <extension>csv</extension>
+    <mime-type>application/msexcel</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+    <extension>doc</extension>
+    <mime-type>application/msword</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+    <extension>eml</extension>
+    <mime-type>application/eml</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+    <extension>mpp</extension>
+    <mime-type>application/vnd.ms-project</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+    <extension>msg</extension>
+    <mime-type>application/msg</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+    <extension>pot</extension>
+    <mime-type>application/pot</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+    <extension>pps</extension>
+    <mime-type>application/pps</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+    <extension>ppt</extension>
+    <mime-type>application/ppt</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+    <extension>rtf,txt</extension>
+    <mime-type>application/rtf</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+    <extension>tif</extension>
+    <mime-type>application/tif</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+    <extension>xls</extension>
+    <mime-type>application/vnd.ms-excel</mime-type>
+  </mime-mapping>
+  <welcome-file-list>
+    <welcome-file>jsp/login/login.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <taglib>
+    <taglib-uri>/WEB-INF/app.tld</taglib-uri>
+    <taglib-location>/WEB-INF/app.tld</taglib-location>
+  </taglib>
+  <taglib>
+	<taglib-uri>http://displaytag.sf.net</taglib-uri>
+	<taglib-location>/WEB-INF/displaytag.tld</taglib-location>
+  </taglib>  
+  
+  <error-page>
+    <error-code>404</error-code>
+    <location>/jsp/common/message.jsp?errorcode=404</location>
+  </error-page>
+  <error-page>
+    <error-code>500</error-code>
+    <location>/jsp/common/message.jsp?errorcode=500</location>
+  </error-page>
+  <error-page>
+    <exception-type>java.lang.Exception</exception-type>
+    <location>/jsp/common/message.jsp</location>
+  </error-page>
+  <error-page>
+    <exception-type>java.sql.SQLException</exception-type>
+    <location>/jsp/common/message.jsp</location>
+  </error-page>
+  
+</web-app>
+
+

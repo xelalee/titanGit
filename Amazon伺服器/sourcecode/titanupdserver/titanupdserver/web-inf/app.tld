@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib
+  PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
+  "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+<taglib>
+  <tlibversion>1.0</tlibversion>
+  <jspversion>1.1</jspversion>
+  <shortname>Application Tag Library</shortname>
+  <uri>http://jakarta.apache.org/taglibs/struts-example-1.0</uri>
+  <info>
+    This tag library contains functionality for the Addressbook Struts
+    Sample Application. With small modifications, they can be used
+    as generic tags.
+  </info>
+
+  <tag>
+    <name>validateSession</name>
+    <tagclass>addressbook.tags.ValidateSessionTag</tagclass>
+    <bodycontent>empty</bodycontent>
+    <info>
+      Validate that there is a currently logged on user, by checking for
+      the existence of a session-scope bean under the specified name.
+      If there is no such bean, forward control to the specified page,
+      which will typically be a logon form.
+
+      Attributes:
+      name - Name of the session-scope bean to check for
+      page - Context-relative path to the logon page
+    </info>
+    <attribute>
+      <name>name</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>page</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+</taglib>
+

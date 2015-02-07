@@ -1,0 +1,77 @@
+Get data from DB
+The unit is "byte"(s) for Upstream/Downstream/Traffic Amount 
+
+| top_ZtoZ            | 
+| top_srcIpTraffic    | 
+| top_dstIpTraffic    |  
+
+top_ZtoZ Table { id, fromZone, toZone, trafficAmount, sessions } => SELECT top 10 "trafficAmount"
+top_srcIpTraffic Table { id, srcIp, tx, rx, sessions } => SELECT top 10 "tx+rx" (tx = Upstream, rx = Downstream)
+top_dstIpTraffic Table { id, dstp, tx, rx, sessions } => SELECT top 10 "tx+rx" (tx = Upstream, rx = Downstream)
+
+-- --------------------------------------------------------
+-- 
+-- Table structure for table `top_ZtoZ` { id, fromZone, toZone, trafficAmount, sessions }
+-- 
+CREATE TABLE IF NOT EXISTS `top_ZtoZ` (
+  `id` int(11) NOT NULL auto_increment,
+  `fromZone` varchar(64) NOT NULL default '',
+  `toZone` varchar(64) NOT NULL default '',
+  `trafficAmount` INT,
+  `sessions` INT,
+  UNIQUE KEY `top_ZtoZ_ukey` (`fromZone`,`toZone`),
+  PRIMARY KEY  (`id`)
+);
+
+-- --------------------------------------------------------
+-- 
+-- Table structure for table `top_srcIpTraffic` Table { id, srcIp, tx, rx, sessions }
+-- 
+CREATE TABLE IF NOT EXISTS `top_srcIpTraffic` (
+  `id` int(11) NOT NULL auto_increment,
+  `srcIP` varchar(64) NOT NULL default '',
+  `tx` INT,
+  `rx` INT,
+  `sessions` INT,
+  UNIQUE KEY `top_srcIpTraffic_ukey` (`srcIP`),
+  PRIMARY KEY  (`id`)
+);
+
+-- --------------------------------------------------------
+-- 
+-- Table structure for table `top_dstIpTraffic` Table { id, dstIp, tx, rx, sessions }
+-- 
+CREATE TABLE IF NOT EXISTS `top_dstIpTraffic` (
+  `id` int(11) NOT NULL auto_increment,
+  `dstIp` varchar(64) NOT NULL default '',
+  `tx` INT,
+  `rx` INT,
+  `sessions` INT,
+  UNIQUE KEY `top_dstIpTraffic_ukey` (`dstIp`),
+  PRIMARY KEY  (`id`)
+);
+
+
+
+##########################################
+Testing data 
+##########################################
+# Insert into `raw_sessions` will automatically update the following Network related tables: 
+| daily_ZtoZ          | 
+| daily_dstIpTraffic  | 
+| daily_srcIpTraffic  | 
+| raw_ZtoZ            | 
+| raw_ipTraffic       | 
+| raw_sessions        | 
+| top_ZtoZ            | 
+| top_dstIpTraffic    | 
+| top_srcIpTraffic    | 
+
+INSERT INTO raw_sessions (srcIP, srcPort, srcZone, dstIP, dstPort, dstZone, txBytes, rxBytes, startDatetime, endDatetime) VALUES 
+('192.168.1.100', 15325, 'LAN', '66.94.173.194', 80, 'WAN', 111, 0, '2012-11-08 11:43:28','2012-11-08 11:43:28'), 
+('192.168.1.100', 32155, 'LAN', '173.194.72.94', 80, 'WAN', 124, 24562, '2012-11-08 13:58:14', '2012-11-08 14:59:25'), 
+('192.168.1.101', 15325, 'LAN', '173.194.72.94', 80, 'WAN', 421, 88888, '2012-11-08 13:59:41', '2012-11-08 14:12:35'), 
+('192.168.2.113', 15125, 'GUEST', '173.194.72.96', 80, 'WAN', 5000, 321, '2012-11-08 13:03:17', '2012-11-08 13:01:51'), 
+('192.168.1.100', 5123, 'LAN', '192.168.2.100', 80, 'LAN', 128, 6666, '2012-11-08 14:02:27', '2012-11-08 14:04:11')
+;
+

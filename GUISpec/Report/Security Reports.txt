@@ -1,0 +1,172 @@
+Get Security Reports data from DB
+
+For Network Reports and Security Reports, raw_XXXX (ex. raw_ZtoZ) and daily_XXXX (ex. daily_ZtoZ) tables are provided.
+
+raw_XXXX records individual events. 
+daily_XXXX provides aggregated records (counts, trafficAmount.. are aggregated).
+
+If a user queries a date range, please use raw_XXXX table to show the individual events.
+If a user queries a date range with "Aggregate By", please use daily_XXXX table to speed up the aggregation query.
+
+
+| raw_file_access     | 
+| raw_blocked_host    | 
+| raw_affected_host   | 
+| raw_antivirus       | 
+
+| daily_file_access   | 
+| daily_blocked_host  | 
+| daily_affected_host | 
+| daily_antivirus     | 
+
+-- --------------------------------------------------------
+-- 
+-- raw_file_access Table { id, extension, accessCount , date }
+-- 
+CREATE TABLE IF NOT EXISTS `raw_file_access` (
+  `id` int(11) NOT NULL auto_increment,
+  `extension` varchar(64) NOT NULL default '',
+  `accessCount` INT default 1,
+  `datetime` DATETIME NOT NULL,
+  PRIMARY KEY  (`id`)
+);
+-- ---------------------------------------------------------- 
+--
+-- raw_blocked_host Table { id, ip, virusCount, firewallCount, date }
+-- 
+CREATE TABLE IF NOT EXISTS `raw_blocked_host` (
+  `id` int(11) NOT NULL auto_increment,
+  `ip` varchar(32) NOT NULL default '',
+  `virusCount` INT,
+  `firewallCount` INT,
+  `datetime` DATETIME NOT NULL,
+  PRIMARY KEY  (`id`)
+);
+-- ---------------------------------------------------------- 
+--
+-- raw_affected_host Table { id, ip, virusHitCount, sigHitCount, date }
+-- 
+CREATE TABLE IF NOT EXISTS `raw_affected_host` (
+  `id` int(11) NOT NULL auto_increment,
+  `ip` varchar(32) NOT NULL default '',
+  `virusHitCount` INT,
+  `sigHitCount` INT,
+  `datetime` DATETIME NOT NULL,
+  PRIMARY KEY  (`id`)
+);
+-- ---------------------------------------------------------- 
+-- 
+-- raw_antivirus Table { id, srcIp, dstIp, protocol, virusName, datetime }
+-- 
+CREATE TABLE IF NOT EXISTS `raw_antivirus` (
+  `id` int(11) NOT NULL auto_increment,
+  `srcIp` varchar(32) NOT NULL default '',
+  `dstIp` varchar(32) NOT NULL default '',
+  `protocol` varchar(32) NOT NULL default '',
+  `virusName` varchar(64) NOT NULL default '',
+  `datetime` DATETIME NOT NULL,
+  PRIMARY KEY  (`id`)
+);
+
+
+-- --------------------------------------------------------
+-- 
+-- daily_file_access Table { id, extension, accessCount, date }
+-- 
+CREATE TABLE IF NOT EXISTS `daily_file_access` (
+  `id` int(11) NOT NULL auto_increment,
+  `extension` varchar(64) NOT NULL default '',
+  `accessCount` INT,
+  `date` DATETIME NOT NULL,
+  UNIQUE KEY `daily_file_access_ukey` (`date`,`extension`),
+  PRIMARY KEY  (`id`)
+);
+-- ---------------------------------------------------------- 
+--
+-- daily_blocked_host Table { id, ip, virusCount, firewallCount, date }
+-- 
+CREATE TABLE IF NOT EXISTS `daily_blocked_host` (
+  `id` int(11) NOT NULL auto_increment,
+  `ip` varchar(32) NOT NULL default '',
+  `virusCount` INT,
+  `firewallCount` INT,
+  `date` DATETIME NOT NULL,
+  UNIQUE KEY `daily_blocked_host_ukey` (`date`,`ip`),
+  PRIMARY KEY  (`id`)
+);
+-- ---------------------------------------------------------- 
+--
+-- daily_affected_host Table { id, ip, virusHitCount, sigHitCount, date }
+-- 
+CREATE TABLE IF NOT EXISTS `daily_affected_host` (
+  `id` int(11) NOT NULL auto_increment,
+  `ip` varchar(32) NOT NULL default '',
+  `virusHitCount` INT,
+  `sigHitCount` INT,
+  `date` DATETIME NOT NULL,
+  UNIQUE KEY `daily_affected_host_ukey` (`date`,`ip`),
+  PRIMARY KEY  (`id`)
+);
+-- ---------------------------------------------------------- 
+-- 
+-- daily_antivirus Table { id, srcIp, dstIp, protocol, virusName, date, hitCount } 
+-- 
+CREATE TABLE IF NOT EXISTS `daily_antivirus` (
+  `id` int(11) NOT NULL auto_increment,
+  `srcIp` varchar(32) NOT NULL default '',
+  `dstIp` varchar(32) NOT NULL default '',
+  `protocol` varchar(32) NOT NULL default '',
+  `virusName` varchar(64) NOT NULL default '',
+  `date` DATETIME NOT NULL,
+  `hitCount` INT,
+  UNIQUE KEY `daily_antivirus_ukey` (`srcIp`, `dstIp`, `protocol`, `virusName`, `date`),
+  PRIMARY KEY  (`id`)
+);
+
+
+
+##########################################
+Testing data 
+##########################################
+# Insert into `raw_XXX` will automatically update `daily_XXX` and `top_XXX` : 
+ 
+-- | raw_file_access     => daily_file_access , top_file_access  |  
+INSERT INTO raw_file_access (`extension`, `accessCount`, `datetime`) VALUES 
+('jpg', 1,'2012-11-08 11:43:28'), 
+('doc', 1, '2012-11-08 13:01:51'), 
+('jpg', 1, '2012-11-08 14:04:11'),
+('jpg', 1, '2012-11-08 14:12:35'), 
+('doc', 1, '2012-11-08 14:31:03'), 
+('xml', 1, '2012-11-08 14:59:25')
+;
+
+-- | raw_blocked_host    => daily_blocked_host , top_blocked_host  | 
+INSERT INTO raw_blocked_host (`ip`,`virusCount`,`firewallCount`,`datetime`) VALUES 
+('192.168.1.100', 1, 0,'2012-11-08 11:43:28'), 
+('192.168.1.103', 1, 0,'2012-11-08 13:01:51'), 
+('192.168.1.100', 0, 1,'2012-11-08 14:04:11'),
+('192.168.2.101', 1, 0,'2012-11-08 14:12:35'), 
+('192.168.2.101', 0, 1,'2012-11-08 14:31:03'), 
+('192.168.2.100', 1, 1,'2012-11-08 14:59:25')
+;
+ 
+-- | raw_affected_host   => daily_affected_host , top_affected_host |
+INSERT INTO raw_affected_host (`ip`,`virusHitCount`,`sigHitCount`,`datetime`) VALUES 
+('192.168.1.100', 1, 0,'2012-11-08 11:43:28'), 
+('192.168.1.103', 1, 0,'2012-11-08 13:01:51'), 
+('192.168.1.100', 0, 1,'2012-11-08 14:04:11'),
+('192.168.2.101', 1, 0,'2012-11-08 14:12:35'), 
+('192.168.2.101', 0, 1,'2012-11-08 14:31:03'), 
+('192.168.2.100', 1, 1,'2012-11-08 14:59:25')
+;
+
+| raw_antivirus       => daily_antivirus , top_antivirus  | 
+INSERT INTO raw_antivirus (`srcIp`,`dstIp`,`protocol`,`virusName`,`datetime`) VALUES 
+('192.168.1.100', '173.194.72.94', 'http', 'viRuss', '2012-11-08 11:43:28'), 
+('192.168.1.103', '173.194.72.94', 'ftp', 'viRuss', '2012-11-08 13:01:51'), 
+('192.168.1.100', '173.194.72.94', 'http', 'viRuss', '2012-11-08 14:04:11'),
+('192.168.2.101', '66.94.173.194', 'http', 'vIruSx', '2012-11-08 14:12:35'), 
+('192.168.2.101', '192.168.1.100', 'smtp', 'vIruSx', '2012-11-08 14:31:03'), 
+('192.168.2.100', '192.168.1.103', 'smtp', 'vIruSx', '2012-11-08 14:59:25')
+;
+

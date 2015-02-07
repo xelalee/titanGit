@@ -1,0 +1,212 @@
+.index {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #999999; 
+}
+.menu {
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+	font-size: 10px;
+
+}
+.title_bar1{
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+	font-size: 10px;
+	color: #ffffff;
+	font-weight: bold;
+	background-color: 16AC89;
+	height: 20px;
+}
+.title_bar2{
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+	font-size: 10px;
+	color: #ffffff;
+	font-weight: bold;
+	background-color: 16AC89;
+	height: 20px;
+
+}
+.table_0{
+        bordercolor: #FFFFFF;
+        bgcolor: #F8FCFC;
+    	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+    	font-size: 10px;
+        line-height: 16pt;
+
+}
+
+.table_1{
+	background-color: #CCCCCC;
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+	font-size: 10px;
+	color: #000000;
+	font-weight: normal;
+	text-align: center;
+
+
+
+}
+
+.table_2{
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+	font-size: 10px;
+	color: #666666;
+	font-weight: normal;
+	background-color: #F8FCFC;
+
+}
+
+.table_3{
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+	font-size: 10px;
+	color: #666666;
+	font-weight: normal;
+	background-color: #E9F3F3;
+
+}
+
+.content1 {
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+	font-size: 10px;
+	font-weight: bold;
+	color: #666666;
+
+}
+.content2 {
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+	font-size: 10px;
+	color: #66666;
+	font-weight: normal;
+
+
+}
+.content3 {
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+	font-size: 10px;
+	color: #4C4C4C;
+	font-weight: normal;
+
+
+}
+.content4 {
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+	font-size: 10px;
+	color: #FF0000;
+	font-weight: normal;
+
+
+}
+.title {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	color: #006699;
+}
+.largefont {
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+	font-size: 12px;
+	color: #333333;
+
+}
+.titleblue {
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+	font-size: 10px;
+	font-weight: bold;
+	color: #FFFFFF;
+
+}
+.title2 {
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+	font-size: 10px;
+	color: #003399;
+}
+.title3 {
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+	font-size: 10px;
+	font-weight: bold;
+	color: #5C93C9;
+}
+.title4 {
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+	font-size: 10px;
+	font-weight: bold;
+	color: #666666;
+}
+.largefontB {
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+	font-size: 12px;
+	font-weight: bold;
+	color: #000000;
+}
+
+.title0 {
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif";
+	font-size: 10px;
+	font-weight: bold;
+	color: #666666;
+}
+.title1 {
+	font-family: "Arial", "Helvetica", "sans-serif";
+	font-size: 16px;
+	color: #006699;
+	font-weight: bolder;
+
+}
+select {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+.TabTitle {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+td {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+}
+input {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+.secTitle {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #990000;
+}
+.botton1 {
+	font-family:  "Arial", "Helvetica", "sans-serif";
+	font-size: 10px;
+	color: #FFFFFF;
+
+}
+.text {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	color: #575757;
+}
+a:link {
+	color: #0000FF;
+	text-decoration: underline;
+}
+a:visited {
+	color: #0000FF;
+	text-decoration: underline;
+}
+a:hover {
+	color: #990000;
+	text-decoration: none;
+}
+textarea {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+
+.cellcolor1 {
+	background-color: #FFFFFF;
+}
+.cellcolor2 {
+	background-color: #F7F7F7;
+}

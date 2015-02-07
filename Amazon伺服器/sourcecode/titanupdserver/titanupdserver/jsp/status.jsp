@@ -1,0 +1,1 @@
+<%=com.titan.updserver.common.ServerBase.LocalServerStatus()%>

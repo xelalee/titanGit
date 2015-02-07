@@ -1,0 +1,68 @@
+<project name="upd" default="war" basedir=".">
+
+<property name="web-info.dir" value="WEB-INF"/>
+<property name="lib.dir" value="${web-info.dir}\lib"/>
+<property name="src.dir" value="src"/>
+<property name="build.dir" value="build"/>
+<property name="war.basedir" value="."/>
+
+<property name="build.classes" value="${web-info.dir}\classes"/>
+<property name="app.war" value="upd.war"/>
+
+<path id="compile.classpath">
+	<pathelement path="${lib.dir}"/>
+	<fileset dir="${lib.dir}">
+	<include name="**/*.jar"/>
+	</fileset>
+</path>
+
+<!--clean the building folder-->
+<target name="clean" description="Removes all generated files.">
+	<delete dir="${build.dir}"/>
+	<delete dir="${build.classes}"/>
+</target>
+
+<!--Compile source files-->
+<target name="compile" depends="clean" description="Create the building directory, compile the source file">
+  <mkdir dir="${build.dir}"/>
+  <mkdir dir="${build.classes}"/>
+
+  <copy todir="${web-info.dir}/classes" includeEmptyDirs="no">
+      <fileset dir="src" includes="**/*.properties"/>
+  	  <fileset dir="src" includes="**/*.dat"/>
+  </copy>	
+	
+  <echo message="Compile ..."/>
+  <javac srcdir="${src.dir}"
+      destdir="${build.classes}"
+      debug="true"
+      optimize="true"
+      deprecation="true">
+    <classpath refid="compile.classpath"/>
+  </javac>
+</target>
+
+
+<!--Create .war file into "deploy" folder-->
+<target name="war" depends="compile" description="Create web application archive file">
+  <echo    message="Processing webapp ..."/>
+  <war destfile="${build.dir}/${app.war}"
+       webxml="${web-info.dir}/web.xml">
+     <fileset dir="${war.basedir}"
+              includes="**/*.*"
+              excludes="WEB-INF/web.xml,
+     	            WEB-INF/lib/servlet.jar,
+              		src/**/*.*,
+              		deploy/**/*.*,
+              		doc/**/*.*,
+              		${build.dir}/**/*.*,
+              		CVS/*.*,
+     	            build.xml,
+     	            .classpath,
+     	            .project"/>
+     <classes dir="${build.classes}"
+              includes="com/*.class"
+              excludes=".jsps/*.class"/>
+  </war>
+</target>
+</project>
